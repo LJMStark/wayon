@@ -15,25 +15,25 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.wayon.com"),
-  title: "China Quartz Stone Manufacturers | Engineered Stone Factory - Wayon",
+  metadataBase: new URL("https://www.zylstone.com"),
+  title: "China Sintered Stone Manufacturers | Engineered Stone Factory - ZYL",
   description:
-    "With over 40 years of expertise, WAYON offers premium quartz, marble, terrazzo, flexible stone, zero-silica quartz, and other engineered stone solutions for global commercial projects.",
+    "With decades of expertise, ZYL offers premium sintered stone, porcelain slab, quartz, marble, terrazzo, flexible stone, and other engineered stone solutions for global commercial projects.",
   icons: {
     icon: "/assets/brand/favicon-wayon.jpg",
   },
   openGraph: {
-    title: "China Quartz Stone Manufacturers | Engineered Stone Factory - Wayon",
+    title: "China Sintered Stone Manufacturers | Engineered Stone Factory - ZYL",
     description:
-      "With over 40 years of expertise, WAYON offers premium quartz, marble, terrazzo, flexible stone, zero-silica quartz, and other engineered stone solutions for global commercial projects.",
-    url: "https://www.wayon.com/",
-    siteName: "Wayon",
+      "With decades of expertise, ZYL offers premium sintered stone, porcelain slab, quartz, marble, terrazzo, flexible stone, and other engineered stone solutions for global commercial projects.",
+    url: "https://www.zylstone.com/",
+    siteName: "ZYL",
     images: [
       {
         url: "/assets/hero/home-hero-slide-2.png",
         width: 1920,
         height: 1080,
-        alt: "Wayon Stone hero",
+        alt: "ZYL Stone hero",
       },
     ],
   },

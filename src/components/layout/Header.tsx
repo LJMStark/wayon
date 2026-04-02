@@ -45,7 +45,7 @@ export default function Header() {
           <Link href="/" className="relative block h-[40px] w-[78px] shrink-0 md:h-[46px] md:w-[90px]">
             <Image
               src="/assets/brand/logo-wayon-stone-group.png"
-              alt="WAYON STONE GROUP"
+                    alt="ZYL STONE ENGINEERING"
               fill
               sizes="(max-width: 768px) 78px, 90px"
               className="object-contain"
@@ -317,7 +317,7 @@ export default function Header() {
                 <div className="relative h-10 w-[78px]">
                   <Image
                     src="/assets/brand/logo-wayon-stone-group.png"
-                    alt="WAYON STONE GROUP"
+                          alt="ZYL STONE ENGINEERING"
                     fill
                     sizes="78px"
                     className="object-contain brightness-[10]"

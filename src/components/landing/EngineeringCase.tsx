@@ -1,23 +1,26 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
-import { ENGINEERING_CASES } from "@/data/home";
+import { getEngineeringCases } from "@/data/home";
 
 export function EngineeringCase() {
+  const t = useTranslations();
+  const cases = getEngineeringCases(t);
+
   return (
     <section id="case" className="wayon-section">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
           <h2 className="wayon-title text-[color:var(--primary)]">
-            ENGINEERING CASE
+            {t("Navigation.case") || "ENGINEERING CASE"}
           </h2>
           <p className="wayon-copy mt-5 max-w-[780px]">
-            Showcasing WAYON&apos;s successful applications in global projects, including residential,
-            commercial, and public spaces.
+            {t("Hero.subtitle") || "Showcasing ZYL's successful applications in global projects, including residential, commercial, and public spaces."}
           </p>
         </header>
 
         <div className="grid gap-[5px] md:grid-cols-2">
-          {ENGINEERING_CASES.map((item) => (
+          {cases.map((item) => (
             <a
               key={item.title}
               href={item.href}

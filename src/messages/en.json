@@ -26,7 +26,7 @@
     "flexibleVeinFlow": "Vein Flow",
     "flexibleArtisanCraft": "Artisan Craft",
     "marble": "Marble",
-    "marbleDesc": "Wayon Marble features unique natural textures and elegant luxury, ideal for hotel lobbies, luxury mansions and high-end commercial interiors.",
+    "marbleDesc": "ZYL Marble features unique natural textures and elegant luxury, ideal for hotel lobbies, luxury mansions and high-end commercial interiors.",
     "marbleBeige": "BEIGE",
     "marbleGrayBrown": "GRAY & BROWN",
     "marbleBlackWhite": "BLACK & WHITE",
@@ -85,15 +85,15 @@
     "emailPlaceholder": "Your Email/WhatsApp/Phone/Wechat",
     "subscribe": "Subscribe",
     "followUs": "Follow Us",
-    "rights": "© 2026 WAYON STONE CO., LTD. ALL RIGHTS RESERVED.",
+    "rights": "© 2026 ZYL STONE CO., LTD. ALL RIGHTS RESERVED.",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
     "icp": "粤ICP备13028888号"
   },
   "Hero": {
-    "titleLine1": "ENGINEERED STONE FACTORY",
-    "titleLine2": "PREMIUM QUARTZ",
-    "subtitle": "Creating exceptional spaces with high-quality, durable, and beautiful engineered stone surfaces.",
+    "titleLine1": "PREMIUM SINTERED STONE",
+    "titleLine2": "GLOBAL SUPPLY CHAIN",
+    "subtitle": "Providing comprehensive solutions including spot wholesale, OEM engineering, and flexible custom fabrication for residential and commercial projects.",
     "exploreProducts": "EXPLORE PRODUCTS",
     "getFreeSample": "GET FREE SAMPLE"
   },
@@ -102,7 +102,7 @@
     "title2": "A MORE",
     "title3": "BEAUTIFUL",
     "title4": "WORLD",
-    "description": "Since 1982, WAYON has been an industry leader in architectural surfacing materials. With 4 major production bases across China, we specialize in high-performance Quartz Stone, Terrazzo, Granite, and innovative Silica-Free surfaces. Our commitment to sustainable manufacturing and cutting-edge technology ensures that every slab meets the highest global standards.",
+    "description": "ZYL Stone & Slab Engineering is a premium supply chain platform dedicated to sintered stone and porcelain slab products. Our core business encompasses spot wholesale, OEM production for engineering projects, and flexible home fabrication. With multiple large-scale showrooms and processing bases across China, we provide one-stop full-process services—from slab sales to custom background walls, islands, and high-end furniture. ZYL consistently supports multidimensional flexible customization to deliver excellence for our global clients.",
     "ourStory": "Our Story",
     "projectsGlobally": "Projects Globally",
     "countriesServed": "Countries Served",
@@ -162,7 +162,7 @@
     "news1Title": "The Future of Sustainable Stone: Silica-Free Innovations",
     "news1Desc": "Discover how our new generation of engineered stone is transforming the industry standard for environmental safety.",
     "news1Date": "Mar 15, 2026",
-    "news2Title": "Wayon Unveils New Terrazzo Collection for Commercial Spaces",
+    "news2Title": "ZYL Unveils New Terrazzo Collection for Commercial Spaces",
     "news2Desc": "Our latest terrazzo lines blend traditional craftsmanship with modern eco-friendly materials.",
     "news2Date": "Feb 28, 2026",
     "news3Title": "Global Expansion: New Showroom Opens in Dubai",
@@ -179,38 +179,38 @@
     "viewOnInsta": "VIEW ON INSTAGRAM",
     "openFacebook": "OPEN FACEBOOK",
     "watchVideo": "WATCH VIDEO",
-    "followUs": "FOLLOW US @WAYONSTONE"
+    "followUs": "FOLLOW US @ZYLSTONE"
   },
   "HomeData": {
     "AboutIntro": {
-      "title": "ABOUT\nWAYON STONE",
-      "p1": "Wayon Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. Wayon Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
-      "p2": "Wayon specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
+      "title": "ABOUT\nZYL STONE",
+      "p1": "ZYL Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. ZYL Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
+      "p2": "ZYL specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
       "cta": "Learn More About Us"
     },
     "AboutAlbum": {
       "item0": {
-        "title": "Wayon Stone Group",
-        "text": "Wayon has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
+        "title": "ZYL Stone Group",
+        "text": "ZYL has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
       },
       "item1": {
-        "title": "Yunfu Wayon",
-        "text": "Yunfu Wayon covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
+        "title": "Yunfu ZYL",
+        "text": "Yunfu ZYL covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
       },
       "item2": {
         "title": "Foshan Showroom",
-        "text": "The Hallmark Brand Showroom, meticulously created by Wayon Stone, spans an area of 1,400 square meters..."
+        "text": "The Hallmark Brand Showroom, meticulously created by ZYL Stone, spans an area of 1,400 square meters..."
       },
       "item3": {
-        "title": "Guangdong Wayon",
-        "text": "The Heyuan Production Base of Wayon Stone covers a total area of 60,000 square meters..."
+        "title": "Guangdong ZYL",
+        "text": "The Heyuan Production Base of ZYL Stone covers a total area of 60,000 square meters..."
       },
       "item4": {
-        "title": "Shanghai Wayon",
-        "text": "Shanghai Wayon, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
+        "title": "Shanghai ZYL",
+        "text": "Shanghai ZYL, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
       },
       "item5": {
-        "title": "Guangzhou Wayon",
+        "title": "Guangzhou ZYL",
         "text": "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble..."
       }
     },
@@ -229,7 +229,7 @@
       },
       "item3": {
         "title": "Marble",
-        "description": "Wayon Marble features unique natural textures and elegant luxury..."
+        "description": "ZYL Marble features unique natural textures and elegant luxury..."
       },
       "item4": {
         "title": "Gem stone",
@@ -252,53 +252,91 @@
       "item0": {
         "label": "Kitchen Countertops",
         "title": "Kitchen Countertops",
-        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
       },
       "item1": {
         "label": "Bathroom Spaces",
         "title": "Bathroom Spaces",
-        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item2": {
         "label": "Furniture Tops",
         "title": "Furniture Tops",
-        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item3": {
         "label": "Wall & Floor",
         "title": "Wall & Floor",
-        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item4": {
         "label": "Cabinet Countertops",
         "title": "Cabinet Countertops",
-        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
       }
     },
     "Partners": {
       "item0": {
         "title": "Contractor",
-        "description": "Wayon Stone delivers reliable quality, precise engineering support..."
+        "description": "ZYL Stone delivers reliable quality, precise engineering support..."
       },
       "item1": {
         "title": "Designer",
-        "description": "Designers value Wayon Stone for its diverse material selection..."
+        "description": "Designers value ZYL Stone for its diverse material selection..."
       },
       "item2": {
         "title": "Wholesaler",
-        "description": "Wholesalers trust Wayon Stone for its high-quality materials..."
+        "description": "Wholesalers trust ZYL Stone for its high-quality materials..."
       },
       "item3": {
         "title": "Kitchen & Bathroom Company",
-        "description": "Wayon Stone provides consistent quality, accurate fabrication..."
+        "description": "ZYL Stone provides consistent quality, accurate fabrication..."
       },
       "item4": {
         "title": "Furniture Designer",
-        "description": "Furniture designers rely on Wayon Stone for its premium stone surfaces..."
+        "description": "Furniture designers rely on ZYL Stone for its premium stone surfaces..."
       },
       "item5": {
         "title": "Developer",
-        "description": "Developers choose Wayon Stone for its consistent quality, large-scale..."
+        "description": "Developers choose ZYL Stone for its consistent quality, large-scale..."
+      }
+    },
+    "EngineeringCases": {
+      "item0": {
+        "title": "Dominica Hotel"
+      },
+      "item1": {
+        "title": "Congo Hilton"
+      },
+      "item2": {
+        "title": "Canadian Chain Restaurant"
+      },
+      "item3": {
+        "title": "Finland Apartment Case"
+      },
+      "item4": {
+        "title": "Qatar Vendome Mall"
+      },
+      "item5": {
+        "title": "US Seaside Vacation Villa"
+      }
+    },
+    "NewsFeature": {
+      "title": "Why Inorganic Terrazzo Flooring Is Ideal for High-Traffic Commercial Spaces",
+      "excerpt": "Nowadays, modern commercial projects place far higher expectations on flooring materials than before. Whether it's a mall with nonstop foot traffic, a hospital that requires strict air-quality control, or a transport hub facing constant abrasion, the wrong material choice quickly becomes a maintenance problem."
+    },
+    "NewsItems": {
+      "item0": {
+        "title": "From Flooring to Facades: How Flexible Stone is Changing Construction Trends"
+      },
+      "item1": {
+        "title": "How to Source Premium Marble Solutions for Commercial Projects"
+      },
+      "item2": {
+        "title": "Custom Quartz Countertops: Key Trends to Follow in 2026"
+      },
+      "item3": {
+        "title": "White Quartz Countertops for Minimalist Kitchens in Commercial Projects"
       }
     }
   }

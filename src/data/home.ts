@@ -208,34 +208,34 @@ export const getSolutions = (t: any /* eslint-disable-line @typescript-eslint/no
   }
 ];
 
-export const ENGINEERING_CASES: CaseItem[] = [
+export const getEngineeringCases = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): CaseItem[] => [
   {
-    title: "Dominica Hotel",
+    title: t("HomeData.EngineeringCases.item0.title"),
     image: "/assets/cases/case-1-dominica-hotel.png",
     href: "/assets/cases/case-1-dominica-hotel.png",
   },
   {
-    title: "Congo Hilton",
+    title: t("HomeData.EngineeringCases.item1.title"),
     image: "/assets/cases/case-2-congo-hilton.png",
     href: "/assets/cases/case-2-congo-hilton.png",
   },
   {
-    title: "Canadian Chain Restaurant",
+    title: t("HomeData.EngineeringCases.item2.title"),
     image: "/assets/cases/case-3-canadian-restaurant.png",
     href: "/assets/cases/case-3-canadian-restaurant.png",
   },
   {
-    title: "Finland Apartment Case",
+    title: t("HomeData.EngineeringCases.item3.title"),
     image: "/assets/cases/case-4-finland-apartment.png",
     href: "/assets/cases/case-4-finland-apartment.png",
   },
   {
-    title: "Qatar Vendome Mall",
+    title: t("HomeData.EngineeringCases.item4.title"),
     image: "/assets/cases/case-5-qatar-vendome.png",
     href: "/assets/cases/case-5-qatar-vendome.png",
   },
   {
-    title: "US Seaside Vacation Villa",
+    title: t("HomeData.EngineeringCases.item5.title"),
     image: "/assets/cases/case-6-us-vacation-villa.png",
     href: "/assets/cases/case-6-us-vacation-villa.png",
   },
@@ -274,35 +274,34 @@ export const getPartners = (t: any /* eslint-disable-line @typescript-eslint/no-
   }
 ];
 
-export const NEWS_FEATURE = {
-  title: "Why Inorganic Terrazzo Flooring Is Ideal for High-Traffic Commercial Spaces",
-  excerpt:
-    "Nowadays, modern commercial projects place far higher expectations on flooring materials than before. Whether it's a mall with nonstop foot traffic, a hospital that requires strict air-quality control, or a transport hub facing constant abrasion, the wrong material choice quickly becomes a maintenance problem.",
+export const getNewsFeature = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => ({
+  title: t("HomeData.NewsFeature.title"),
+  excerpt: t("HomeData.NewsFeature.excerpt"),
   href: "/news",
   image: "/assets/news/terrazzo-flooring-cover.jpg",
-};
+});
 
-export const NEWS_ITEMS: NewsItem[] = [
+export const getNewsItems = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): NewsItem[] => [
   {
-    title: "From Flooring to Facades: How Flexible Stone is Changing Construction Trends",
+    title: t("HomeData.NewsItems.item0.title"),
     href: "/news",
     day: "24",
     yearMonth: "2025-11",
   },
   {
-    title: "How to Source Premium Marble Solutions for Commercial Projects",
+    title: t("HomeData.NewsItems.item1.title"),
     href: "/news",
     day: "17",
     yearMonth: "2025-11",
   },
   {
-    title: "Custom Quartz Countertops: Key Trends to Follow in 2026",
+    title: t("HomeData.NewsItems.item2.title"),
     href: "/news",
     day: "10",
     yearMonth: "2025-11",
   },
   {
-    title: "White Quartz Countertops for Minimalist Kitchens in Commercial Projects",
+    title: t("HomeData.NewsItems.item3.title"),
     href: "/news",
     day: "31",
     yearMonth: "2025-10",

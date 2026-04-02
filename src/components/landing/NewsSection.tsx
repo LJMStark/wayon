@@ -1,14 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
-import { NEWS_FEATURE, NEWS_ITEMS } from "@/data/home";
+import { getNewsFeature, getNewsItems } from "@/data/home";
 
 export function NewsSection() {
+  const t = useTranslations();
+  const NEWS_FEATURE = getNewsFeature(t);
+  const NEWS_ITEMS = getNewsItems(t);
+
   return (
     <section className="wayon-section pb-16">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
-          <h2 className="wayon-title">NEWS</h2>
+          <h2 className="wayon-title">{t("Navigation.news") || "NEWS"}</h2>
         </header>
 
         <div className="grid gap-10 lg:grid-cols-[0.46fr_0.54fr] lg:gap-16">
