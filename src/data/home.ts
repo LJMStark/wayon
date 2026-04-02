@@ -61,12 +61,12 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     type: "video",
     src: "/assets/hero/home-hero.mp4",
-    alt: "Wayon Quartz",
+    alt: "ZYL Quartz",
   },
   {
     type: "image",
     src: "/assets/hero/home-hero-slide-2.png",
-    alt: "Wayon Stone hero slide",
+    alt: "ZYL Stone hero slide",
   },
 ];
 
@@ -314,17 +314,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     icon: "/assets/icons/social/facebook.png",
     posts: [
       {
-        title: "Wayon Stone I The Big5 Global Dubai 2025",
+        title: "ZYL Stone I The Big5 Global Dubai 2025",
         href: "https://www.facebook.com/share/p/19ZPWnwB73/",
         image: "/assets/social/facebook-big5.jpg",
       },
       {
-        title: "Wayon Stone I Quartz Countertops",
+        title: "ZYL Stone I Quartz Countertops",
         href: "https://www.facebook.com/share/p/1Jwao87VRA/",
         image: "/assets/social/facebook-quartz-countertops.png",
       },
       {
-        title: "Wayon Stone I Quartz Countertop Project for Tap & Barrel Restaurant, Canada",
+        title: "ZYL Stone I Quartz Countertop Project for Tap & Barrel Restaurant, Canada",
         href: "https://www.facebook.com/share/p/1C4uhz48ES/",
         image: "/assets/social/facebook-tap-barrel.jpg",
       },
@@ -335,12 +335,12 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     icon: "/assets/icons/social/linkedin.png",
     posts: [
       {
-        title: "Wayon Stone I Milan Hotel Furniture Project",
+        title: "ZYL Stone I Milan Hotel Furniture Project",
         href: "https://www.linkedin.com/feed/update/urn:li:activity:7400081930316206080",
         image: "/assets/social/linkedin-milan-hotel.png",
       },
       {
-        title: "Wayon Stone I Qatar Vendome Plaza Shopping Mall Project",
+        title: "ZYL Stone I Qatar Vendome Plaza Shopping Mall Project",
         href: "https://www.linkedin.com/pulse/wayon-stone-qatar-vend%C3%B4me-plaza-shopping-mall-high-end-commercial-broyc",
         image: "/assets/social/linkedin-qatar-vendome.png",
       },
@@ -387,7 +387,7 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
         image: "/assets/social/youtube-project-cases.png",
       },
       {
-        title: "Wayon",
+        title: "ZYL",
         href: "https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw",
         image: "/assets/social/youtube-wayon-base.png",
       },
@@ -398,17 +398,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     icon: "/assets/icons/social/instagram.png",
     posts: [
       {
-        title: "Wayon Stone I GEM stone slabs",
+        title: "ZYL Stone I GEM stone slabs",
         href: "https://www.instagram.com/wayonstone/",
         image: "/assets/social/instagram-gem.png",
       },
       {
-        title: "Wayon Stone I High-Performance Inorganic lerrazzo",
+        title: "ZYL Stone I High-Performance Inorganic lerrazzo",
         href: "https://www.instagram.com/wayonstone/",
         image: "/assets/social/instagram-terrazzo.png",
       },
       {
-        title: "Wayon Stone Marble I Eternal Beauty Space Choice",
+        title: "ZYL Stone Marble I Eternal Beauty Space Choice",
         href: "https://www.instagram.com/wayonstone/",
         image: "/assets/social/instagram-marble.png",
       },
@@ -440,12 +440,12 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     icon: "/assets/icons/social/vk.png",
     posts: [
       {
-        title: "Wayon Stone I Granite EngineeringProject-School",
+        title: "ZYL Stone I Granite EngineeringProject-School",
         href: "https://vk.com/wall-232552225_112",
         image: "/assets/social/vk-engineered-stone.png",
       },
       {
-        title: "Wayon Stone I Zero-Silica Quartz Stone",
+        title: "ZYL Stone I Zero-Silica Quartz Stone",
         href: "https://vk.com/wall-232552225_60",
         image: "/assets/social/vk-zero-silica-quartz.png",
       },

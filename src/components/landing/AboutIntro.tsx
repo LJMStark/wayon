@@ -14,7 +14,7 @@ export function AboutIntro() {
           <h2 className="wayon-title whitespace-pre-line">
             ABOUT
             <br />
-            <strong>WAYON STONE</strong>
+            <strong>ZYL STONE</strong>
           </h2>
         </div>
 

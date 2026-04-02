@@ -40,7 +40,7 @@ const CASE_LINKS = [
 const SOCIAL_LINKS = [
   {
     label: "Facebook",
-    href: "https://www.facebook.com/WayonStoneGroup",
+    href: "https://www.facebook.com/ZYLStoneGroup",
     icon: "/assets/icons/social/facebook.png",
   },
   {
@@ -173,12 +173,12 @@ export default function Footer() {
             <div className="flex flex-wrap gap-3">
               {SOCIAL_LINKS.map((link) => (
                 <a
-                  key={tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                  key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
                   className="relative flex size-10 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-colors hover:border-white/60"
-                  aria-label={tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                  aria-label={link.label}
                 >
                   <Image src={link.icon} alt="" fill sizes="40px" className="object-contain p-2.5" />
                 </a>

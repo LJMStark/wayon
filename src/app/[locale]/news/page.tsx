@@ -6,7 +6,7 @@ const newsItems = [
   {
     date: '2023-11-15',
     category: 'Company Update',
-    title: 'WAYON Showcases Zero-Silica Quartz at Verona Marmomac',
+    title: 'ZYL Showcases Zero-Silica Quartz at Verona Marmomac',
     excerpt: 'Our completely silica-free engineered stone variations received widespread acclaim from global architects emphasizing sustainable and safe interior cladding materials.',
     img: 'https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80',
     slug: 'marmomac-zero-silica-showcase'
@@ -31,7 +31,7 @@ const newsItems = [
     date: '2023-03-30',
     category: 'Design Award',
     title: 'Architectural Design Excellence Award 2023',
-    excerpt: 'WAYON Flexible Stone recognized for its hyper-realistic textures and bendable substrate allowing curved wall application without joint limitations.',
+    excerpt: 'ZYL Flexible Stone recognized for its hyper-realistic textures and bendable substrate allowing curved wall application without joint limitations.',
     img: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&q=80',
     slug: 'design-award-2023'
   }
@@ -47,7 +47,7 @@ export default function NewsPage() {
             Company News & Updates
           </h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
-            Stay informed with the latest organizational milestones, product innovations, and global exhibition announcements from WAYON Stone.
+            Stay informed with the latest organizational milestones, product innovations, and global exhibition announcements from ZYL Stone.
           </p>
         </div>
       </section>

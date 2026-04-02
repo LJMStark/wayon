@@ -19,10 +19,10 @@ export function SolutionTabs() {
       <div className="wayon-container">
         <header className="mb-6 text-center md:mb-10">
           <h2 className="wayon-title">
-            <strong>WAYON</strong> PRE-FABRICATED
+            <strong>ZYL</strong> PRE-FABRICATED
           </h2>
           <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
-            WAYON&apos;s pre-fabricated series offers efficient construction solutions, ensuring quick
+            ZYL&apos;s pre-fabricated series offers efficient construction solutions, ensuring quick
             installation and exceptional durability.
           </p>
         </header>

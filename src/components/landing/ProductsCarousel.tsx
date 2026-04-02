@@ -32,10 +32,10 @@ export function ProductsCarousel() {
         <header className="mb-12 text-center md:mb-14">
           <div className="mx-auto max-w-[760px]">
             <h2 className="wayon-title">
-              <strong>WAYON</strong> PRODUCT
+              <strong>ZYL</strong> PRODUCT
             </h2>
             <p className="wayon-copy mx-auto mt-5 max-w-[680px]">
-              Wayon Stone&apos;s main product portfolio includes quartz stone, zero-silica stone,
+              ZYL Stone&apos;s main product portfolio includes quartz stone, zero-silica stone,
               terrazzo, flexible stone, marble, artificial marble, gem stone, porcelain slabs,
               cement stone, and other natural and engineered stone materials.
             </p>

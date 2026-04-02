@@ -6,21 +6,21 @@ import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 
 export default function ContactPage() {
-  const [activeAccordion, setActiveAccordion] = useState("Foshan Wayon Showroom");
+  const [activeAccordion, setActiveAccordion] = useState("Foshan ZYL Showroom");
 
   const locations = [
     {
-      name: "Foshan Wayon Showroom",
+      name: "Foshan ZYL Showroom",
       add: "F02, Central Zone, CCIH, No.68, Jihua West Road, Chancheng District, Foshan, Guangdong, China",
       tel: "+86 757-8256 8296",
       fax: "+86 757-8256 8296",
       pc: "528000"
     },
-    { name: "Guangdong Wayon Industry" },
-    { name: "Yunfu Wayon Stone" },
-    { name: "Shanghai Wayon Stone" },
-    { name: "Jiangsu Wayon Stone" },
-    { name: "Guangzhou Wayon Stone" },
+    { name: "Guangdong ZYL Industry" },
+    { name: "Yunfu ZYL Stone" },
+    { name: "Shanghai ZYL Stone" },
+    { name: "Jiangsu ZYL Stone" },
+    { name: "Guangzhou ZYL Stone" },
     { name: "C-Stone" }
   ];
 

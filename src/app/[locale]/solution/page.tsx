@@ -135,9 +135,9 @@ export default function SolutionPage() {
                   />
                   {/* Subtle hover overlay watermark mimicking original style */}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                     {/* Using the Wayon strict white logo SVG or text on hover - simulating here */}
+                     {/* Using the ZYL strict white logo SVG or text on hover - simulating here */}
                      <span className="text-white text-3xl font-light tracking-[0.2em] transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                       WAYON
+                       ZYL
                      </span>
                   </div>
                 </div>

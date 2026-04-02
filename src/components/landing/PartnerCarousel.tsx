@@ -42,7 +42,7 @@ export function PartnerCarousel() {
               COOPERATIVE PARTNER
             </h2>
             <p className="wayon-copy mt-5">
-              WAYON collaborates with leading global companies and designers to drive innovation
+              ZYL collaborates with leading global companies and designers to drive innovation
               in high-end construction and design projects.
             </p>
           </div>
