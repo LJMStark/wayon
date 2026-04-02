@@ -14,7 +14,7 @@ export default function Header() {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
-  const currentLanguageCode = LANGUAGES.find(l => l.locale === locale)?.code || "EN";
+  const currentLanguage = LANGUAGES.find(l => l.locale === locale) || LANGUAGES[0];
   const collectionItem = useMemo(
     () => NAV_ITEMS.find((item) => item.label === "collection"),
     []
@@ -251,7 +251,7 @@ export default function Header() {
                 className="inline-flex items-center gap-2 text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]"
               >
                 <Globe className="size-4" />
-                {currentLanguageCode}
+                <span>{currentLanguage.label}</span>
                 <ChevronDown className={`size-4 transition-transform ${langOpen ? "rotate-180" : ""}`} />
               </button>
 
@@ -269,12 +269,12 @@ export default function Header() {
                         key={language.label}
                         href={pathname}
                         locale={language.locale}
-                        className="flex items-center gap-3 px-4 py-3 text-[14px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
+                        className="flex items-center gap-3 px-4 py-3 text-[15px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                       >
-                        <span className="inline-flex w-6 justify-center text-[11px] font-semibold text-[#999999]">
-                          {language.code}
+                        <span className="text-[18px]">
+                          {language.icon}
                         </span>
-                        {language.label}
+                        <span>{language.label}</span>
                       </Link>
                     ))}
                   </motion.div>
@@ -411,9 +411,10 @@ export default function Header() {
                       href={pathname}
                       locale={language.locale}
                       onClick={() => setIsMobileOpen(false)}
-                      className="text-[14px] text-white/80"
+                      className="flex items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
                     >
-                      {language.label}
+                      <span className="text-[18px]">{language.icon}</span>
+                      <span>{language.label}</span>
                     </Link>
                   ))}
                 </div>

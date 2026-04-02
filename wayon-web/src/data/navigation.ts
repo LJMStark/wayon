@@ -155,9 +155,9 @@ export const NAV_ITEMS: NavItem[] = [
 ];
 
 export const LANGUAGES = [
-  { code: "EN", label: "English", locale: "en" },
-  { code: "简", label: "简体中文", locale: "zh" },
-  { code: "ES", label: "Español", locale: "es" },
-  { code: "عر", label: "اللغة العربية", locale: "ar" },
-  { code: "RU", label: "Pусский", locale: "ru" },
+  { code: "ZH", label: "中文", locale: "zh", icon: "🇨🇳" },
+  { code: "EN", label: "English", locale: "en", icon: "🇬🇧" },
+  { code: "ES", label: "Española", locale: "es", icon: "🇪🇸" },
+  { code: "AR", label: "العربية", locale: "ar", icon: "🇦🇪" },
+  { code: "RU", label: "Русский", locale: "ru", icon: "🇷🇺" },
 ];
