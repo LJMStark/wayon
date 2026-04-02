@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSidebar from "@/components/layout/FloatingSidebar";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -37,20 +39,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const messages = await getMessages();
+
   return (
-    <html lang="en" className={`${montserrat.variable} h-full`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col relative">
-        <Header />
-        <main className="grow flex flex-col">
-          {children}
-        </main>
-        <Footer />
-        <FloatingSidebar />
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${montserrat.variable} h-full`} suppressHydrationWarning>
+      <body className="min-h-full flex flex-col relative text-left rtl:text-right">
+        <NextIntlClientProvider messages={messages}>
+          <Header />
+          <main className="grow flex flex-col">
+            {children}
+          </main>
+          <Footer />
+          <FloatingSidebar />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

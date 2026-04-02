@@ -1,0 +1,305 @@
+{
+  "Navigation": {
+    "home": "首页",
+    "aboutUs": "关于我们",
+    "whoAreWe": "我们是谁",
+    "factory": "工厂实力",
+    "certificate": "荣誉证书",
+    "download": "下载中心",
+    "collection": "产品系列",
+    "quartzStone": "石英石",
+    "quartzDesc": "石英石 (90% 石英砂) 及零硅石，高端制造。耐磨、防污；非常适合厨房台面、浴室台面和墙面。",
+    "quartzNatural": "自然系列",
+    "quartzPure": "纯色系列",
+    "quartzCrystal": "水晶系列",
+    "quartzMultiColor": "多色系列",
+    "quartzPlatinum": "铂金系列",
+    "terrazzo": "无机水磨石",
+    "terrazzoDesc": "天然骨料 + 环保粘合剂，高压成型。大规格板材易于安装；坚硬耐磨、防火不燃，适用于室内外墙面与地面。",
+    "terrazzoColourful": "炫彩系列",
+    "terrazzoWhite": "白色系列",
+    "terrazzoGreyBlack": "灰黑系列",
+    "terrazzoNanoTech": "纳米科技系列",
+    "flexibleStone": "柔性石材",
+    "flexibleDesc": "石材质感配合极佳柔韧度。轻质材料，能够轻易适应墙面、地面及不规则表面。无毒无害、生态环保，完美匹配现代空间。",
+    "flexibleStoneMimic": "仿石系列",
+    "flexibleVeinFlow": "纹理流动系列",
+    "flexibleArtisanCraft": "工匠艺术系列",
+    "marble": "天然大理石",
+    "marbleDesc": "威洋天然大理石具有独特的天然纹理和优雅质感，是星级酒店大堂、豪华别墅和高端商业室内的理想之选。",
+    "marbleBeige": "米黄",
+    "marbleGrayBrown": "灰咖色系",
+    "marbleBlackWhite": "黑白色系",
+    "marbleTravertine": "洞石",
+    "marbleLuxury": "奢石",
+    "gemStone": "半宝石",
+    "gemDesc": "精密拼接宝石切片，表面施釉增添无上光泽。奢华闪耀且透光，非常适合用作背景墙及高端家具桌面。",
+    "gemAgate": "玛瑙系列",
+    "gemOther": "其他半宝石系列",
+    "gemCrystal": "水晶系列",
+    "cementStone": "水泥石",
+    "cementDesc": "高强度水泥高压打造。色彩丰富，结构稳定，适用于室内外墙地。",
+    "cementPure": "纯净系列",
+    "cementSandstone": "岩砂系列",
+    "cementLine": "线条系列",
+    "artificialMarble": "人造大理石",
+    "artificialDesc": "天然矿石粉末 + 环保树脂粘合，高温高压成型。耐磨百搭，广泛应用于浴室梳妆台、墙面及外立面。",
+    "artificialWhite": "白色系列",
+    "artificialGrey": "灰色系列",
+    "artificialYellow": "黄色系列",
+    "artificialBlack": "黑色系列",
+    "porcelainSlab": "岩板/陶瓷薄板",
+    "porcelainDesc": "耐磨耐高温安全的生态级矿物板材。广泛应用于墙地面、购物中心、酒店、以及各种台面定制。",
+    "porcelainClassic": "经典纹理",
+    "porcelainCalacatta": "烧结鱼肚白",
+    "porcelainLuxury": "烧结奢石",
+    "porcelain12mm": "12mm级",
+    "porcelain20mm": "20mm级",
+    "silicaFree": "零硅石材",
+    "silicaDesc": "在保有石英石超强耐用性的同时，从配方中去除了结晶二氧化硅的新一代安全人造石材。",
+    "solution": "场景解决方案",
+    "finishedProducts": "成品展示",
+    "applicationField": "应用领域",
+    "project": "工程应用",
+    "view360": "360°全景看样",
+    "case": "工程案例",
+    "news": "新闻动态",
+    "contactUs": "联系我们"
+  },
+  "Header": {
+    "searchPlaceholder": "搜索产品...",
+    "back": "返回",
+    "language": "语言切换"
+  },
+  "Footer": {
+    "address": "联系地址",
+    "addressLines": [
+      "展厅：中国 广东 佛山",
+      "第一/二工厂：中国 广东 云浮",
+      "第三工厂：中国 广东 河源"
+    ],
+    "aboutUs": "关于我们",
+    "collection": "产品系列",
+    "case": "工程案例",
+    "getFreeSample": "获取免费样品",
+    "emailPlaceholder": "您的 Email/WhatsApp/电话/微信",
+    "subscribe": "马上订阅",
+    "followUs": "关注我们",
+    "rights": "© 2026 威洋石材（广东）有限公司。保留所有权利。",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "icp": "粤ICP备13028888号"
+  },
+  "Hero": {
+    "titleLine1": "专注高端人造石材及",
+    "titleLine2": "顶尖石英石制造中心",
+    "subtitle": "提供经久耐用、美轮美奂的顶级石材饰面材料，打造卓越空间艺术。",
+    "exploreProducts": "探索我们的产品",
+    "getFreeSample": "获取免费样品"
+  },
+  "AboutIntro": {
+    "title1": "让",
+    "title2": "世",
+    "title3": "界",
+    "title4": "更美好",
+    "description": "自1982年以来，威洋(WAYON)一直处于全球建筑表面材料行业的领先地位。我们在中国拥有四大生产基地，专业研发与生产高性能石英石、无机水磨石、花岗岩以及创新的零硅无毒系列产品。威洋始终秉持可持续发展制造理念并采用尖端科技工艺，以保证出厂的每一块板材都达到全球最高质量标准。",
+    "ourStory": "我们的故事",
+    "projectsGlobally": "全球工程落地",
+    "countriesServed": "已覆盖国家及地区",
+    "yearsOfExcellence": "年匠心深耕"
+  },
+  "AboutAlbum": {
+    "viewMore": "查看更多相册"
+  },
+  "ProductsCarousel": {
+    "ourProducts": "我们的核心产品",
+    "premiumSurfaces": "尊享饰面",
+    "exploreCollection": "探索所有类目",
+    "quartzStone": "高硬度石英石",
+    "quartzDesc": "极其坚固耐用、防划痕的优质工程表面材料，它是现代化厨房系统与高端商业综合体空间装饰的完美选材，结合了天然石的纯美意境与现代科技无与伦比的性能。",
+    "terrazzo": "无机水磨石系列",
+    "terrazzoDesc": "将丰富环保骨料多元融合的新一代生态复合材料。提供不受限制的设计自由度与超强的耐久性能，非常适合需要应对庞大人流量的大型地坪表面。",
+    "flexibleStone": "柔性石材",
+    "flexibleDesc": "极具创新思维的轻量化饰面材料。它突破石材极限可自然弯折，让您的想象力彻底释放，成为柔性弧面墙、装饰圆柱以及许多充满创意巧思的建筑设计的完美搭档。",
+    "viewAll": "查看所有产品",
+    "swipe": "滑动探索"
+  },
+  "SolutionTabs": {
+    "whatWeDo": "场景方案大全",
+    "applicationSolutions": "全场景应用解决",
+    "tabKitchen": "厨房系统",
+    "tabBathroom": "卫浴区域",
+    "tabCommercial": "商业地产",
+    "tabExterior": "室外幕墙",
+    "kitchenTitle": "顶级厨房台面材质",
+    "kitchenDesc": "使用我们抗沾污、防污防渗的石英石表面来提升您的烹饪空间体验。特别为高频使用特性的厨房空间倾心打造，既能展现让人惊艳的视觉美学，又具有极佳的基础实用功能。",
+    "bathroomTitle": "奢华浴室台面与装饰",
+    "bathroomDesc": "使用我们拥有出色防潮性且极易清洁打理的石材系列来进行浴室台面、淋浴防水墙和典雅地坪的打造，将卫浴变为水疗中心般的奢美秘境。",
+    "commercialTitle": "高客流商业解决方案",
+    "commercialDesc": "为百货零售空间、高端星级酒店乃至写字楼入户大堂定制的坚固水磨石和人造石。不但经受得起巨大客流的踩踏摩擦，而且永远在风格展现上引领潮流。",
+    "exteriorTitle": "具有耐候性的极致外墙包覆",
+    "exteriorDesc": "无论是创新型的柔性石材还是各种户外专门材料，都能为您提供抵御严酷天气元素的极高耐用性及建筑外立面非凡美感展示，从而诠释个性多变的建筑语言。"
+  },
+  "EngineeringCase": {
+    "engineeringProject": "优质工程展示",
+    "ourWork": "大美案例鉴赏",
+    "project1Title": "KIMS 瓷砖旗舰销售中心",
+    "project1Desc": "采用定制级无机水磨石铺就的主通道及石英石高端陈列展台。",
+    "project2Title": "广州某高端连锁酒店工程",
+    "project2Desc": "甄选天然大理石纹石英石系列用于大堂装饰与洗漱台面定制。",
+    "project3Title": "深圳科创园区办公大厦",
+    "project3Desc": "园区级员工餐厅就餐区操作台采用威洋新型零硅安全石材。",
+    "viewAll": "浏览所有工程图库",
+    "explore": "了解详情"
+  },
+  "PartnerCarousel": {
+    "industryPartners": "深度产业合作伙伴",
+    "trustedGlobal": "获得全球主流客户信任"
+  },
+  "NewsSection": {
+    "latestNews": "最新消息",
+    "industryUpdates": "把握行业前沿动态",
+    "news1Title": "可持续材质石材的未来发展脉络：全面揭晓“零硅”材质的核心创新",
+    "news1Desc": "深入探索我们的新一代创新型环保石材，它在如何打破产业陈旧的安全性环保基石并且实现标准级的变革。",
+    "news1Date": "2026年3月15日",
+    "news2Title": "威洋(WAYON)重磅发布专为商业应用打造的全新无机水磨石惊艳系列",
+    "news2Desc": "领略传统制石匠心工艺与现代化生态材料跨越时空融合带来的非凡视觉之旅及触感。",
+    "news2Date": "2026年2月28日",
+    "news3Title": "海外业务重要突破：迪拜最新智能互动石材体验展厅日前正式启用",
+    "news3Desc": "以更具体验与感知的实体互动展厅进一步增强且巩固威洋对于整个中东市场区域的影响力深耕。",
+    "news3Date": "2026年1月12日",
+    "discoverMore": "发掘更多资讯"
+  },
+  "SocialTabs": {
+    "socialMedia": "社交生态圈",
+    "connectWithUs": "与我们在世界各处连通",
+    "tabInstagram": "Instagram",
+    "tabFacebook": "Facebook",
+    "tabYoutube": "Youtube",
+    "viewOnInsta": "查阅 Instagram 即时动态",
+    "openFacebook": "与我们在 Facebook 上互动",
+    "watchVideo": "观看最新官方微电影",
+    "followUs": "追踪官方社交账号 @WAYONSTONE"
+  },
+  "HomeData": {
+    "AboutIntro": {
+      "title": "关于\n万峰石材",
+      "p1": "万峰石材成立于1982年，是一家全球领先的先进石材材料制造商，拥有四大生产加工基地。万峰石材年产量超过300万平方米，涵盖高品质的石英石、水磨石、柔性石材、大理石、人造大理石、半宝石、岩板、水泥石以及其他天然和人造石建筑材料。",
+      "p2": "万峰石材专业生产和加工各类石材产品，包括厨房台面、浴室台面、高端家具桌面、墙地砖以及各种定制的工程石材产品。",
+      "cta": "了解更多"
+    },
+    "AboutAlbum": {
+      "item0": {
+        "title": "万峰石材集团",
+        "text": "万峰已发展成为一家集矿山资源、研发创新、制造及工程解决方案于一体的综合性石材企业..."
+      },
+      "item1": {
+        "title": "云浮万峰",
+        "text": "云浮万峰占地总面积20,000平方米，其中包括18,000平方米的厂房和2,000平方米的办公楼..."
+      },
+      "item2": {
+        "title": "佛山展厅",
+        "text": "由万峰石材精心打造的品牌展厅占地1,400平方米..."
+      },
+      "item3": {
+        "title": "广东万峰",
+        "text": "万峰石材河源生产基地总面积达60,000平方米..."
+      },
+      "item4": {
+        "title": "上海万峰",
+        "text": "上海万峰成立于1998年，位于上海市嘉定区曹安公路4589号..."
+      },
+      "item5": {
+        "title": "广州万峰",
+        "text": "成立于1990年，前身为广州力信石材工艺有限公司，专营石英石、水磨石、天然大理石..."
+      }
+    },
+    "HomeProducts": {
+      "item0": {
+        "title": "石英石与无硅石英石",
+        "description": "石英石(含有90%石英砂)及无硅石英石，采用先进工艺打造。耐磨防污，适合厨卫、商场等多样化工程。"
+      },
+      "item1": {
+        "title": "水磨石",
+        "description": "天然骨料加环保粘合剂，高压成型无机水磨石。大板易于安装，防火环保，耐磨硬度高。适合室内外墙地面。"
+      },
+      "item2": {
+        "title": "软瓷/柔性石材",
+        "description": "呈现石材肌理兼具柔性。极轻便，易于贴合任意曲面或不规则表面，安全环保无毒。点亮现代奢华空间设计。"
+      },
+      "item3": {
+        "title": "大理石",
+        "description": "万峰大理石拥有独特天然纹理，诠释低调奢华。非常适合酒店大堂、高端商业及豪华别墅。"
+      },
+      "item4": {
+        "title": "半宝石",
+        "description": "精密无缝拼接的半宝石切片，表面施釉呈现极致光泽。支持全定制异形切割。展现高端剔透感。"
+      },
+      "item5": {
+        "title": "水泥石",
+        "description": "超高强度的水泥基产品，采用高压一体成型。色彩丰富，表面独具工业孔洞感，坚固且防火。"
+      },
+      "item6": {
+        "title": "人造大理石",
+        "description": "天然矿石粉混合环保树脂高温高压真空成型。防污防刮抗褪色。极具设计多样性。"
+      },
+      "item7": {
+        "title": "岩板",
+        "description": "选用高品质矿石粉及环保胶粘剂，经万吨级压机与千度高温煅烧制成，极度耐磨耐热。"
+      }
+    },
+    "Solutions": {
+      "item0": {
+        "label": "厨房台面",
+        "title": "高端厨房台面解决方案",
+        "description": "拥有 6500 平方米的重型加工中心，配备意大利最新的五轴桥切机及自动化流水线，确保每一个倒角与边缘处理绝对完美..."
+      },
+      "item1": {
+        "label": "卫浴空间",
+        "title": "整体卫浴解决之道",
+        "description": "利用岩板与无硅石英石的出色防潮斥水性能，打造现代高奢的一体化卫浴体验..."
+      },
+      "item2": {
+        "label": "高奢家具台面",
+        "title": "家具大板配套",
+        "description": "半宝石与岩板的完美结合，由万峰石材精密加工，适配于轻奢餐桌、会议长桌及各类定制柜台面..."
+      },
+      "item3": {
+        "label": "墙地铺贴整体方案",
+        "title": "墙地一体建筑方案",
+        "description": "借助无机水磨石和水泥石的大规模铺装特性，适用于商场、航站楼等极高人流量场景..."
+      },
+      "item4": {
+        "label": "商业展柜台面",
+        "title": "品牌商业展柜",
+        "description": "结合柔性石材与发光半宝石定制曲线异形商装空间。突破常规建筑结构边界..."
+      }
+    },
+    "Partners": {
+      "item0": {
+        "title": "工程建设方",
+        "description": "万峰石材提供可靠的产品质量、精确的工程开单支持及快速交付响应，确保工程如期优质落地。"
+      },
+      "item1": {
+        "title": "建筑设计师",
+        "description": "丰富多样的花色，从硬核水磨石到极具创意的软瓷，为设计师带来无限灵感和表现力。"
+      },
+      "item2": {
+        "title": "大型批发商",
+        "description": "极强的自有矿山资源优势与 300 万平方的惊人产能，保障分销合作伙伴的价格与供应稳定性。"
+      },
+      "item3": {
+        "title": "全屋高定 / 厨卫品牌",
+        "description": "我们是全球顶级厨卫品牌的金牌代工伙伴。精准加工，无缝衔接高端产品供应链。"
+      },
+      "item4": {
+        "title": "家居设计师",
+        "description": "选用顶级的高透半宝石与石英石面板切合人体工学打造别具一格的奢华家居艺术品。"
+      },
+      "item5": {
+        "title": "房地产开发商",
+        "description": "作为数百个大型工程的首推集采供应商，我们的品控标准是开发企业安心的基石。"
+      }
+    }
+  }
+}

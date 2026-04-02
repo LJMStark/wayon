@@ -1,0 +1,305 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "aboutUs": "About Us",
+    "whoAreWe": "Who Are We",
+    "factory": "Factory",
+    "certificate": "Certificate",
+    "download": "Download",
+    "collection": "Collection",
+    "quartzStone": "Quartz Stone",
+    "quartzDesc": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made. Wear/stain-resistant; Ideal for kitchen countertops, bathroom vanity tops and wall surfaces.",
+    "quartzNatural": "Natural",
+    "quartzPure": "Pure",
+    "quartzCrystal": "Crystal",
+    "quartzMultiColor": "Multi-color",
+    "quartzPlatinum": "Platinum",
+    "terrazzo": "Terrazzo",
+    "terrazzoDesc": "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install; hard, wear-resistant, non-flammable for indoor and outdoor floors and walls.",
+    "terrazzoColourful": "Colourful",
+    "terrazzoWhite": "White",
+    "terrazzoGreyBlack": "Grey & Black",
+    "terrazzoNanoTech": "Nano Tech",
+    "flexibleStone": "Flexible Stone",
+    "flexibleDesc": "Stone texture + flexibility. Lightweight, easy to install on walls, floors and irregular surfaces. Toxic-free, eco-safe and suitable for modern spaces.",
+    "flexibleStoneMimic": "Stone Mimic",
+    "flexibleVeinFlow": "Vein Flow",
+    "flexibleArtisanCraft": "Artisan Craft",
+    "marble": "Marble",
+    "marbleDesc": "Wayon Marble features unique natural textures and elegant luxury, ideal for hotel lobbies, luxury mansions and high-end commercial interiors.",
+    "marbleBeige": "BEIGE",
+    "marbleGrayBrown": "GRAY & BROWN",
+    "marbleBlackWhite": "BLACK & WHITE",
+    "marbleTravertine": "Travertine",
+    "marbleLuxury": "Luxury",
+    "gemStone": "Gem Stone",
+    "gemDesc": "Precision-spliced gem slices, glazed for luster. Luxurious shine and translucency for accent walls and high-end furniture tops.",
+    "gemAgate": "Agate Series",
+    "gemOther": "Other Semi Precious Stone Series",
+    "gemCrystal": "Crystal Series",
+    "cementStone": "Cement Stone",
+    "cementDesc": "High-strength cement, high-pressure-made. Rich colors, stable structure and indoor or outdoor wall suitability.",
+    "cementPure": "Pure",
+    "cementSandstone": "Sandstone",
+    "cementLine": "Line",
+    "artificialMarble": "Artifical Marble",
+    "artificialDesc": "Natural mineral powder + eco-friendly binders, high-temp and high-pressure formed. Wear-resistant and versatile for vanity tops, walls and facades.",
+    "artificialWhite": "White Series",
+    "artificialGrey": "Grey Series",
+    "artificialYellow": "Yellow Series",
+    "artificialBlack": "Black Series",
+    "porcelainSlab": "Porcelain Slab",
+    "porcelainDesc": "Wear-resistant, heat-resistant and eco-safe mineral slabs for walls, malls, hotels and furniture tops.",
+    "porcelainClassic": "Classic Texture",
+    "porcelainCalacatta": "Sintered Calacatta",
+    "porcelainLuxury": "Sintered Luxury Stone",
+    "porcelain12mm": "12mm",
+    "porcelain20mm": "20mm",
+    "silicaFree": "Silica-Free Stone",
+    "silicaDesc": "Silica-free engineered stone that preserves quartz durability while eliminating crystalline silica from the formula.",
+    "solution": "Solution",
+    "finishedProducts": "Finished Products",
+    "applicationField": "Application field",
+    "project": "Project",
+    "view360": "360°View",
+    "case": "Case",
+    "news": "News",
+    "contactUs": "Contact Us"
+  },
+  "Header": {
+    "searchPlaceholder": "Search products...",
+    "back": "Back",
+    "language": "Language"
+  },
+  "Footer": {
+    "address": "Address",
+    "addressLines": [
+      "Showroom: Foshan, Guangdong, China",
+      "Factory 1&2 :Yunfu, Guangdong, China",
+      "Factory 3 :Heyuan, Guangdong, China"
+    ],
+    "aboutUs": "About Us",
+    "collection": "Collection",
+    "case": "Case",
+    "getFreeSample": "Get Free Sample",
+    "emailPlaceholder": "Your Email/WhatsApp/Phone/Wechat",
+    "subscribe": "Subscribe",
+    "followUs": "Follow Us",
+    "rights": "© 2026 WAYON STONE CO., LTD. ALL RIGHTS RESERVED.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "icp": "粤ICP备13028888号"
+  },
+  "Hero": {
+    "titleLine1": "ENGINEERED STONE FACTORY",
+    "titleLine2": "PREMIUM QUARTZ",
+    "subtitle": "Creating exceptional spaces with high-quality, durable, and beautiful engineered stone surfaces.",
+    "exploreProducts": "EXPLORE PRODUCTS",
+    "getFreeSample": "GET FREE SAMPLE"
+  },
+  "AboutIntro": {
+    "title1": "BUILDING",
+    "title2": "A MORE",
+    "title3": "BEAUTIFUL",
+    "title4": "WORLD",
+    "description": "Since 1982, WAYON has been an industry leader in architectural surfacing materials. With 4 major production bases across China, we specialize in high-performance Quartz Stone, Terrazzo, Granite, and innovative Silica-Free surfaces. Our commitment to sustainable manufacturing and cutting-edge technology ensures that every slab meets the highest global standards.",
+    "ourStory": "Our Story",
+    "projectsGlobally": "Projects Globally",
+    "countriesServed": "Countries Served",
+    "yearsOfExcellence": "Years of Excellence"
+  },
+  "AboutAlbum": {
+    "viewMore": "VIEW MORE"
+  },
+  "ProductsCarousel": {
+    "ourProducts": "OUR PRODUCTS",
+    "premiumSurfaces": "Premium Surfaces",
+    "exploreCollection": "EXPLORE COLLECTION",
+    "quartzStone": "QUARTZ STONE",
+    "quartzDesc": "Highly durable, scratch-resistant engineered surfaces perfect for modern kitchens and commercial spaces, combining natural beauty with advanced performance.",
+    "terrazzo": "TERRAZZO",
+    "terrazzoDesc": "Eco-friendly composite material blending diverse aggregates, offering unlimited design possibilities with exceptional durability for high-traffic areas.",
+    "flexibleStone": "FLEXIBLE STONE",
+    "flexibleDesc": "Innovative lightweight surfacing material that bends to your imagination, perfect for curved walls, columns, and creative architectural features.",
+    "viewAll": "VIEW ALL PRODUCTS",
+    "swipe": "SWIPE"
+  },
+  "SolutionTabs": {
+    "whatWeDo": "WHAT WE DO",
+    "applicationSolutions": "Application Solutions",
+    "tabKitchen": "Kitchen Space",
+    "tabBathroom": "Bathroom Area",
+    "tabCommercial": "Commercial",
+    "tabExterior": "Exterior Wall",
+    "kitchenTitle": "Premium Kitchen Countertops",
+    "kitchenDesc": "Elevate your culinary space with our stain-resistant, durable quartz surfaces. Perfect for high-traffic kitchens, offering both stunning aesthetics and practical functionality.",
+    "bathroomTitle": "Luxurious Bathroom Vanities",
+    "bathroomDesc": "Create a spa-like retreat with our moisture-resistant, easy-to-clean stone surfaces. Ideal for vanity tops, shower walls, and elegant flooring.",
+    "commercialTitle": "High-Traffic Commercial Solutions",
+    "commercialDesc": "Robust terrazzo and engineered stone designed to withstand the demands of retail spaces, hotels, and office building lobbies without compromising on style.",
+    "exteriorTitle": "Weather-Resistant Exterior Cladding",
+    "exteriorDesc": "Our innovative flexible stone and specialized exterior materials provide durable, beautiful facades that endure the elements while offering unique architectural expressions."
+  },
+  "EngineeringCase": {
+    "engineeringProject": "ENGINEERING PROJECT",
+    "ourWork": "Our Work",
+    "project1Title": "KIMS Tile Showroom",
+    "project1Desc": "Custom terrazzo flooring and quartz displays",
+    "project2Title": "Guangzhou Luxury Hotel",
+    "project2Desc": "Marble-effect quartz lobby and bathroom vanities",
+    "project3Title": "Shenzhen Tech Hub",
+    "project3Desc": "Silica-free engineered stone cafeteria counters",
+    "viewAll": "VIEW ALL PROJECTS",
+    "explore": "LEARN MORE"
+  },
+  "PartnerCarousel": {
+    "industryPartners": "INDUSTRY PARTNERS",
+    "trustedGlobal": "Trusted Globally"
+  },
+  "NewsSection": {
+    "latestNews": "LATEST NEWS",
+    "industryUpdates": "Industry Updates",
+    "news1Title": "The Future of Sustainable Stone: Silica-Free Innovations",
+    "news1Desc": "Discover how our new generation of engineered stone is transforming the industry standard for environmental safety.",
+    "news1Date": "Mar 15, 2026",
+    "news2Title": "Wayon Unveils New Terrazzo Collection for Commercial Spaces",
+    "news2Desc": "Our latest terrazzo lines blend traditional craftsmanship with modern eco-friendly materials.",
+    "news2Date": "Feb 28, 2026",
+    "news3Title": "Global Expansion: New Showroom Opens in Dubai",
+    "news3Desc": "Strengthening our presence in the Middle East with a state-of-the-art interactive showroom.",
+    "news3Date": "Jan 12, 2026",
+    "discoverMore": "DISCOVER MORE"
+  },
+  "SocialTabs": {
+    "socialMedia": "SOCIAL MEDIA",
+    "connectWithUs": "Connect With Us",
+    "tabInstagram": "Instagram",
+    "tabFacebook": "Facebook",
+    "tabYoutube": "Youtube",
+    "viewOnInsta": "VIEW ON INSTAGRAM",
+    "openFacebook": "OPEN FACEBOOK",
+    "watchVideo": "WATCH VIDEO",
+    "followUs": "FOLLOW US @WAYONSTONE"
+  },
+  "HomeData": {
+    "AboutIntro": {
+      "title": "ABOUT\nWAYON STONE",
+      "p1": "Wayon Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. Wayon Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
+      "p2": "Wayon specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
+      "cta": "Learn More About Us"
+    },
+    "AboutAlbum": {
+      "item0": {
+        "title": "Wayon Stone Group",
+        "text": "Wayon has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
+      },
+      "item1": {
+        "title": "Yunfu Wayon",
+        "text": "Yunfu Wayon covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
+      },
+      "item2": {
+        "title": "Foshan Showroom",
+        "text": "The Hallmark Brand Showroom, meticulously created by Wayon Stone, spans an area of 1,400 square meters..."
+      },
+      "item3": {
+        "title": "Guangdong Wayon",
+        "text": "The Heyuan Production Base of Wayon Stone covers a total area of 60,000 square meters..."
+      },
+      "item4": {
+        "title": "Shanghai Wayon",
+        "text": "Shanghai Wayon, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
+      },
+      "item5": {
+        "title": "Guangzhou Wayon",
+        "text": "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble..."
+      }
+    },
+    "HomeProducts": {
+      "item0": {
+        "title": "Quart Stone & Zero Silica Stone",
+        "description": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made..."
+      },
+      "item1": {
+        "title": "Terrazzo",
+        "description": "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install..."
+      },
+      "item2": {
+        "title": "Flexible Stone",
+        "description": "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces..."
+      },
+      "item3": {
+        "title": "Marble",
+        "description": "Wayon Marble features unique natural textures and elegant luxury..."
+      },
+      "item4": {
+        "title": "Gem stone",
+        "description": "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine..."
+      },
+      "item5": {
+        "title": "Cement Stone",
+        "description": "High-strength cement, high-pressure-made. Rich colors, surface holes; stable..."
+      },
+      "item6": {
+        "title": "Artifical Marble",
+        "description": "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed..."
+      },
+      "item7": {
+        "title": "Porcelain Slab",
+        "description": "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes..."
+      }
+    },
+    "Solutions": {
+      "item0": {
+        "label": "Kitchen Countertops",
+        "title": "Kitchen Countertops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+      },
+      "item1": {
+        "label": "Bathroom Spaces",
+        "title": "Bathroom Spaces",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item2": {
+        "label": "Furniture Tops",
+        "title": "Furniture Tops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item3": {
+        "label": "Wall & Floor",
+        "title": "Wall & Floor",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item4": {
+        "label": "Cabinet Countertops",
+        "title": "Cabinet Countertops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      }
+    },
+    "Partners": {
+      "item0": {
+        "title": "Contractor",
+        "description": "Wayon Stone delivers reliable quality, precise engineering support..."
+      },
+      "item1": {
+        "title": "Designer",
+        "description": "Designers value Wayon Stone for its diverse material selection..."
+      },
+      "item2": {
+        "title": "Wholesaler",
+        "description": "Wholesalers trust Wayon Stone for its high-quality materials..."
+      },
+      "item3": {
+        "title": "Kitchen & Bathroom Company",
+        "description": "Wayon Stone provides consistent quality, accurate fabrication..."
+      },
+      "item4": {
+        "title": "Furniture Designer",
+        "description": "Furniture designers rely on Wayon Stone for its premium stone surfaces..."
+      },
+      "item5": {
+        "title": "Developer",
+        "description": "Developers choose Wayon Stone for its consistent quality, large-scale..."
+      }
+    }
+  }
+}

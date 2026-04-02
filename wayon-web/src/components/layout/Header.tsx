@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/routing";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
 
@@ -11,8 +11,12 @@ import { LANGUAGES, NAV_ITEMS, type SubItem } from "@/data/navigation";
 
 export default function Header() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const tNav = useTranslations("Navigation");
+  const tHeader = useTranslations("Header");
+  const currentLanguageCode = LANGUAGES.find(l => l.locale === locale)?.code || "EN";
   const collectionItem = useMemo(
-    () => NAV_ITEMS.find((item) => item.label === "Collection"),
+    () => NAV_ITEMS.find((item) => item.label === "collection"),
     []
   );
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -57,7 +61,7 @@ export default function Header() {
 
                 return (
                   <li
-                    key={item.label}
+                    key={tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                     className="group relative flex h-[var(--header-height)] items-center px-3 xl:px-5"
                     onMouseEnter={() => {
                       setActiveMenu(item.label);
@@ -75,7 +79,7 @@ export default function Header() {
                           : "text-[#333333] hover:text-[color:var(--primary)]"
                       }`}
                     >
-                      {item.label}
+                      {tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                     </Link>
                     <span
                       className={`pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 transition-colors ${
@@ -112,7 +116,7 @@ export default function Header() {
                                     const isActive = activeCollection?.label === subItem.label;
 
                                     return (
-                                      <li key={subItem.label}>
+                                      <li key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
                                         <Link
                                           href={subItem.href}
                                           className={`block border-b border-[color:var(--border)] px-4 py-3 text-[15px] leading-6 transition-colors ${
@@ -122,7 +126,7 @@ export default function Header() {
                                           }`}
                                           onMouseEnter={() => setActiveCollection(subItem)}
                                         >
-                                          {subItem.label}
+                                          {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                         </Link>
                                       </li>
                                     );
@@ -132,22 +136,22 @@ export default function Header() {
 
                               <div className="min-w-0">
                                 <h3 className="mb-4 text-[24px] font-medium text-[#1e1e1e]">
-                                  {activeCollection?.label}
+                                  {activeCollection?.label ? tNav(activeCollection.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ ) : ""}
                                 </h3>
                                 {activeCollection?.description ? (
                                   <p className="mb-6 text-[15px] leading-[1.7] text-[#666666]">
-                                    {activeCollection.description}
+                                    {tNav(activeCollection.description as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                   </p>
                                 ) : null}
                                 {activeCollection?.children?.length ? (
                                   <ul className="grid gap-3 sm:grid-cols-2">
                                     {activeCollection.children.map((child) => (
-                                      <li key={child.label}>
+                                      <li key={tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
                                         <Link
                                           href={child.href}
                                           className="block text-[14px] leading-6 text-[#404040] transition-colors hover:text-[color:var(--primary)]"
                                         >
-                                          {child.label}
+                                          {tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                         </Link>
                                       </li>
                                     ))}
@@ -156,9 +160,7 @@ export default function Header() {
                                   <Link
                                     href={activeCollection?.href ?? "/products"}
                                     className="text-[15px] font-medium text-[color:var(--primary)]"
-                                  >
-                                    Explore this collection
-                                  </Link>
+                                  >{tNav("collection")}</Link>
                                 )}
                               </div>
                             </div>
@@ -178,11 +180,11 @@ export default function Header() {
                             <div className="border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow">
                               {item.subItems.map((subItem) => (
                                 <Link
-                                  key={subItem.label}
+                                  key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                   href={subItem.href}
                                   className="block px-5 py-3 text-[14px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                                 >
-                                  {subItem.label}
+                                  {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                 </Link>
                               ))}
                             </div>
@@ -224,15 +226,13 @@ export default function Header() {
                         id="desktop-search"
                         name="keyword"
                         type="text"
-                        placeholder="Search..."
+                        placeholder={tHeader("searchPlaceholder")}
                         className="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-2 text-[14px] text-[#333333] focus:border-[color:var(--primary)] focus:outline-none"
                       />
                       <button
                         type="submit"
                         className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-medium text-white"
-                      >
-                        Search
-                      </button>
+                      >{tHeader("searchPlaceholder").replace("...", "")}</button>
                     </form>
                   </motion.div>
                 ) : null}
@@ -251,7 +251,7 @@ export default function Header() {
                 className="inline-flex items-center gap-2 text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]"
               >
                 <Globe className="size-4" />
-                EN
+                {currentLanguageCode}
                 <ChevronDown className={`size-4 transition-transform ${langOpen ? "rotate-180" : ""}`} />
               </button>
 
@@ -265,16 +265,17 @@ export default function Header() {
                     className="absolute right-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
                   >
                     {LANGUAGES.map((language) => (
-                      <a
+                      <Link
                         key={language.label}
-                        href={language.href}
+                        href={pathname}
+                        locale={language.locale}
                         className="flex items-center gap-3 px-4 py-3 text-[14px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                       >
                         <span className="inline-flex w-6 justify-center text-[11px] font-semibold text-[#999999]">
                           {language.code}
                         </span>
                         {language.label}
-                      </a>
+                      </Link>
                     ))}
                   </motion.div>
                 ) : null}
@@ -335,12 +336,10 @@ export default function Header() {
                   id="mobile-search"
                   name="keyword"
                   type="text"
-                  placeholder="Search..."
+                  placeholder={tHeader("searchPlaceholder")}
                   className="min-w-0 flex-1 bg-white px-4 py-3 text-[14px] text-black focus:outline-none"
                 />
-                <button type="submit" className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-medium">
-                  Go
-                </button>
+                <button type="submit" className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-medium">{tHeader("searchPlaceholder").replace("...", "")}</button>
               </form>
 
               <ul className="space-y-2">
@@ -348,20 +347,20 @@ export default function Header() {
                   const expanded = mobileOpenSections.includes(item.label);
 
                   return (
-                    <li key={item.label} className="border-b border-white/10 pb-3">
+                    <li key={tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )} className="border-b border-white/10 pb-3">
                       <div className="flex items-center justify-between gap-3 pt-3">
                         <Link
                           href={item.href}
                           onClick={() => setIsMobileOpen(false)}
                           className="text-[16px] font-light"
                         >
-                          {item.label}
+                          {tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                         </Link>
                         {item.subItems?.length ? (
                           <button
                             type="button"
                             onClick={() => toggleMobileSection(item.label)}
-                            aria-label={`Toggle ${item.label}`}
+                            aria-label={`Toggle ${tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}`}
                           >
                             <ChevronDown className={`size-5 transition-transform ${expanded ? "rotate-180" : ""}`} />
                           </button>
@@ -371,24 +370,24 @@ export default function Header() {
                       {item.subItems?.length && expanded ? (
                         <div className="mt-4 space-y-4 pl-4">
                           {item.subItems.map((subItem) => (
-                            <div key={subItem.label}>
+                            <div key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
                               <Link
                                 href={subItem.href}
                                 onClick={() => setIsMobileOpen(false)}
                                 className="block text-[15px] text-white/90"
                               >
-                                {subItem.label}
+                                {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                               </Link>
                               {subItem.children?.length ? (
                                 <ul className="mt-3 space-y-2 border-l border-white/10 pl-3">
                                   {subItem.children.map((child) => (
-                                    <li key={child.label}>
+                                    <li key={tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
                                       <Link
                                         href={child.href}
                                         onClick={() => setIsMobileOpen(false)}
                                         className="text-[13px] text-white/65"
                                       >
-                                        {child.label}
+                                        {tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                                       </Link>
                                     </li>
                                   ))}
@@ -404,18 +403,18 @@ export default function Header() {
               </ul>
 
               <div className="mt-8 border-t border-white/10 pt-6">
-                <h3 className="mb-3 text-[13px] uppercase tracking-[0.18em] text-white/50">
-                  Language
-                </h3>
+                <h3 className="mb-3 text-[13px] uppercase tracking-[0.18em] text-white/50">{tHeader("language")}</h3>
                 <div className="grid gap-2">
                   {LANGUAGES.map((language) => (
-                    <a
+                    <Link
                       key={language.label}
-                      href={language.href}
+                      href={pathname}
+                      locale={language.locale}
+                      onClick={() => setIsMobileOpen(false)}
                       className="text-[14px] text-white/80"
                     >
                       {language.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

@@ -1,10 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 interface CategoryShowcase {
   category: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   imageSrc: string;
   bgType: 'gray' | 'white';
 }
@@ -12,70 +13,62 @@ interface CategoryShowcase {
 const mainCategories: CategoryShowcase[] = [
   {
     category: "quartz",
-    title: "Quart Stone & Zero Silica Stone",
-    description: "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made. Wear/stain-resistant; Ideal for kitchen countertops/bathroom vanity tops, wall surfaces—durable, versatile for global projects.",
+    titleKey: "quartzStone", descriptionKey: "quartzDesc",
     imageSrc: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg",
     bgType: 'gray'
   },
   {
     category: "silica-free",
-    title: "Silica-Free Stone",
-    description: "Traditional engineered quartz has long been favored for its hardness and durability, yet its high crystalline silica content poses serious health risks during fabrication and installation, including silicosis. In contrast, silica-free quartz, also known as zero silica quartz or non-silica quartz, eliminates crystalline silica entirely, ensuring silica dust-free fabrication and safe handling for both professionals and homeowners.",
+    titleKey: "silicaFree", descriptionKey: "silicaDesc",
     imageSrc: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg",
     bgType: 'white'
   },
   {
     category: "terrazzo",
-    title: "Terrazzo",
-    description: "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install; hard, wear-resistant, non-flammable (green building). Indoor and outdoor floors and walls.",
+    titleKey: "terrazzo", descriptionKey: "terrazzoDesc",
     imageSrc: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg",
     bgType: 'gray'
   },
   {
     category: "flexible-stone",
-    title: "Flexible Stone",
-    description: "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces. Toxic-free, eco-safe; rich textures elevate modern/luxury spaces.",
+    titleKey: "flexibleStone", descriptionKey: "flexibleDesc",
     imageSrc: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg",
     bgType: 'white'
   },
   {
     category: "marble",
-    title: "Marble",
-    description: "Wayon Marble features unique natural textures and elegant luxury—ideal for hotel lobbies, fitting interior walls/floors of high-end malls, luxury mansions, etc.",
+    titleKey: "marble", descriptionKey: "marbleDesc",
     imageSrc: "/assets/products/4114a4ac18610909eb9728c75328bcff.jpg",
     bgType: 'gray'
   },
   {
     category: "gem-stone",
-    title: "Gem stone",
-    description: "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine & translucency. Fits accent walls, high-end furniture tops.",
+    titleKey: "gemStone", descriptionKey: "gemDesc",
     imageSrc: "/assets/products/7037b74ccb409b9cca57110044283d96.jpg",
     bgType: 'white'
   },
   {
     category: "cement-stone",
-    title: "Cement Stone",
-    description: "High-strength cement, high-pressure-made. Rich colors, surface holes; stable, non-flammable, insulating. Ideal for indoor/outdoor walls.",
+    titleKey: "cementStone", descriptionKey: "cementDesc",
     imageSrc: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg",
     bgType: 'gray'
   },
   {
     category: "artificial-marble",
-    title: "Artifical Marble",
-    description: "Artifical Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed. Wear/scratch-resistant, non-toxic. Ideal for kitchen/bath vanities, walls, facades. Green building compliant, sleek versatile aesthetics.",
+    titleKey: "artificialMarble", descriptionKey: "artificialDesc",
     imageSrc: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", // placeholder
     bgType: 'white'
   },
   {
     category: "porcelain-slab",
-    title: "Porcelain Slab",
-    description: "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes. Wear-resistant, heat-resistant and eco-safe, it fits indoor/outdoor walls, mall panels, hotel, kitchen/bath/furniture tops.",
+    titleKey: "porcelainSlab", descriptionKey: "porcelainDesc",
     imageSrc: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", // placeholder
     bgType: 'gray'
   }
 ];
 
 export default function CollectionsPage() {
+  const tNav = useTranslations("Navigation");
   return (
     <main className="min-h-screen bg-white">
       {/* 1. Hero Banner */}
@@ -83,29 +76,24 @@ export default function CollectionsPage() {
         {/* We use a static background block to emulate the original banner banner */}
         <div className="absolute inset-0 bg-[#e5e5e5] opacity-50" />
         <div className="relative z-10 text-center flex flex-col items-center">
-          <h1 className="text-3xl md:text-5xl font-light text-[#1a1a1a] mb-2 tracking-wide">
-            Quality | Design
-          </h1>
-          <p className="text-sm text-gray-600 tracking-wider">
-            Wayon stone, quality all the way.
-          </p>
+          <h1 className="text-3xl md:text-5xl font-light text-[#1a1a1a] mb-2 tracking-wide">{tNav("home")} | {tNav("collection")}</h1>
+          <p className="text-sm text-gray-600 tracking-wider">{tNav("quartzDesc").substring(0,40)}...</p>
         </div>
       </section>
 
       {/* 2. Breadcrumb */}
       <div className="max-w-[1400px] mx-auto px-6 py-4 border-b border-gray-100 text-[13px] text-gray-500 mb-8">
-        <span className="text-gray-400">◆</span> You are here: <Link href="/" className="hover:text-black">Home</Link> &gt; <span className="text-black">Collection</span>
+        <span className="text-gray-400">◆</span> You are here: <Link href="/" className="hover:text-black">{tNav("home")}</Link> &gt; <span className="text-black">{tNav("collection")}</span>
       </div>
 
       {/* 3. Intro Text */}
       <div className="max-w-[1400px] mx-auto px-6 mb-16">
-        <h2 className="text-2xl font-bold mb-2">Quartz Stone:</h2>
+        <h2 className="text-2xl font-bold mb-2">{tNav("quartzStone")}:</h2>
         <p className="text-gray-500 text-[15px] leading-relaxed">
-          Wayon Quartz Stone contains over 90% high-quality quartz sand powder, along with premium resins, specialized pigments, and eco-friendly binders. It is formed through advanced vacuum pressure technology...
+          {tNav("quartzDesc")}...
         </p>
         <div className="mt-4 text-center">
-             <button className="text-sm text-gray-600 hover:text-black hover:underline flex items-center justify-center gap-1 mx-auto">
-                Learn More <span className="text-xs">▼</span>
+             <button className="text-sm text-gray-600 hover:text-black hover:underline flex items-center justify-center gap-1 mx-auto"> {tNav("collection")} <span className="text-xs">▼</span>
              </button>
         </div>
       </div>
@@ -131,10 +119,10 @@ export default function CollectionsPage() {
               >
                 <div className="max-w-md w-full">
                   <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-6">
-                    {cat.title}
+                    {tNav(cat.titleKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                   </h2>
                   <p className="text-gray-600 text-[15px] leading-relaxed mb-10 w-[95%]">
-                    {cat.description}
+                    {tNav(cat.descriptionKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                   </p>
                   {/* Note: The button in the screenshot has full rounded corners */}
                   <Link 
@@ -155,7 +143,7 @@ export default function CollectionsPage() {
                 <div className="absolute inset-0 max-w-[85%] max-h-[85%] m-auto scale-[0.9] hover:scale-95 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
                   <Image
                     src={cat.imageSrc}
-                    alt={cat.title}
+                    alt={tNav(cat.titleKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
                     fill
                     className="object-cover shadow-sm bg-neutral-200"
                   />

@@ -5,18 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-import { ABOUT_ALBUM } from "@/data/home";
+import { getAboutAlbum } from "@/data/home";
+import { useTranslations } from "next-intl";
 
 export function AboutAlbum() {
+  const t = useTranslations();
+  const aboutAlbumData = getAboutAlbum(t);
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = ABOUT_ALBUM[activeIndex];
+  const activeItem = aboutAlbumData[activeIndex];
 
   const goToPrevious = () => {
-    setActiveIndex((current) => (current - 1 + ABOUT_ALBUM.length) % ABOUT_ALBUM.length);
+    setActiveIndex((current) => (current - 1 + aboutAlbumData.length) % aboutAlbumData.length);
   };
 
   const goToNext = () => {
-    setActiveIndex((current) => (current + 1) % ABOUT_ALBUM.length);
+    setActiveIndex((current) => (current + 1) % aboutAlbumData.length);
   };
 
   return (
@@ -68,7 +71,7 @@ export function AboutAlbum() {
         </div>
 
         <div className="mt-4 grid gap-3 px-[15px] sm:grid-cols-2 md:absolute md:bottom-10 md:left-1/2 md:w-[71.875%] md:-translate-x-1/2 md:grid-cols-6 md:px-0">
-          {ABOUT_ALBUM.map((item, index) => (
+          {aboutAlbumData.map((item, index) => (
             <button
               key={item.title}
               type="button"

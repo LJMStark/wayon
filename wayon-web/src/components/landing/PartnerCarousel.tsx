@@ -4,9 +4,12 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { PARTNERS } from "@/data/home";
+import { getPartners } from "@/data/home";
+import { useTranslations } from "next-intl";
 
 export function PartnerCarousel() {
+  const t = useTranslations();
+  const partnersData = getPartners(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scrollByAmount = (direction: "next" | "prev") => {
@@ -68,7 +71,7 @@ export function PartnerCarousel() {
           ref={scrollerRef}
           className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {PARTNERS.map((partner) => (
+          {partnersData.map((partner) => (
             <article
               key={partner.title}
               className="relative flex w-[min(76rem,92vw)] shrink-0 snap-start items-center gap-6 bg-white px-8 py-10 shadow-[0.636rem_0.636rem_1rem_0.1rem_rgba(0,0,0,0.1)] md:px-10 md:py-12"

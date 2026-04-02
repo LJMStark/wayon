@@ -5,11 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-import { SOLUTIONS } from "@/data/home";
+import { getSolutions } from "@/data/home";
+import { useTranslations } from "next-intl";
 
 export function SolutionTabs() {
+  const t = useTranslations();
+  const solutionsData = getSolutions(t);
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = SOLUTIONS[activeIndex];
+  const activeItem = solutionsData[activeIndex];
 
   return (
     <section className="wayon-section">
@@ -51,7 +54,7 @@ export function SolutionTabs() {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setActiveIndex((current) => (current - 1 + SOLUTIONS.length) % SOLUTIONS.length)}
+                    onClick={() => setActiveIndex((current) => (current - 1 + solutionsData.length) % solutionsData.length)}
                     className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
                     aria-label="Previous solution"
                   >
@@ -59,7 +62,7 @@ export function SolutionTabs() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActiveIndex((current) => (current + 1) % SOLUTIONS.length)}
+                    onClick={() => setActiveIndex((current) => (current + 1) % solutionsData.length)}
                     className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
                     aria-label="Next solution"
                   >
@@ -71,7 +74,7 @@ export function SolutionTabs() {
           </div>
 
           <div className="mt-5 grid gap-[5px] md:grid-cols-5">
-            {SOLUTIONS.map((solution, index) => (
+            {solutionsData.map((solution, index) => (
               <button
                 key={solution.label}
                 type="button"

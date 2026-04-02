@@ -1,0 +1,305 @@
+{
+  "Navigation": {
+    "home": "الرئيسية",
+    "aboutUs": "من نحن",
+    "whoAreWe": "من نحن",
+    "factory": "المصنع",
+    "certificate": "الشهادات",
+    "download": "تنزيل",
+    "collection": "المنتجات",
+    "quartzStone": "حجر الكوارتز",
+    "quartzDesc": "حجر الكوارتز (90% رمل الكوارتز) وحجر خالي من السيليكا. مقاوم للتآكل والبقع؛ مثالي لأسطح المطابخ والحمامات.",
+    "quartzNatural": "الطبيعي",
+    "quartzPure": "النقي",
+    "quartzCrystal": "الكريستال",
+    "quartzMultiColor": "متعدد الألوان",
+    "quartzPlatinum": "البلاتيني",
+    "terrazzo": "تيرازو",
+    "terrazzoDesc": "ركام طبيعي + لاصق صديق للبيئة، مشكل بضغط عالٍ. ألواح كبيرة متينة، مقاومة للاحتراق.",
+    "terrazzoColourful": "ملون",
+    "terrazzoWhite": "أبيض",
+    "terrazzoGreyBlack": "رمادي وأسود",
+    "terrazzoNanoTech": "تقنية النانو",
+    "flexibleStone": "حجر مرن",
+    "flexibleDesc": "نسيج حجري + مرونة عالية. خفيف الوزن وسهل التركيب على الحوائط المنحنية آمن بيئيًا وخال من السموم.",
+    "flexibleStoneMimic": "مقلد للحجر",
+    "flexibleVeinFlow": "عروق انسيابية",
+    "flexibleArtisanCraft": "حرفي فني",
+    "marble": "الرخام",
+    "marbleDesc": "يتميز رخام وايون بأنسجة طبيعية فريدة وفخامة أنيقة، ومثالي لبهو الفنادق والقصور الفاخرة.",
+    "marbleBeige": "بيج",
+    "marbleGrayBrown": "رمادي وبني",
+    "marbleBlackWhite": "أبيض وأسود",
+    "marbleTravertine": "ترافرتين",
+    "marbleLuxury": "فخم",
+    "gemStone": "الاحجار الكريمة",
+    "gemDesc": "شرائح أحجار كريمة مفصلة بدقة مع طلاء لامع. مثالية للزينة والجدران البارزة وللأثاث الفاخر.",
+    "gemAgate": "سلسلة العقيق",
+    "gemOther": "سلسلة أحجار شبه كريمة",
+    "gemCrystal": "سلسلة الكريستال",
+    "cementStone": "حجر أسمنتي",
+    "cementDesc": "أسمنت عالي القوة، مُشكل بضغط عالٍ. ألوان غنية وهيكل مستقر للجدران الداخلية والخارجية.",
+    "cementPure": "نقي",
+    "cementSandstone": "حجر رملي",
+    "cementLine": "خطوط",
+    "artificialMarble": "رخام صناعي",
+    "artificialDesc": "مسحوق معادن طبيعي + روابط صديقة للبيئة. مقاوم للتآكل للجدران والمغاسل.",
+    "artificialWhite": "أبيض",
+    "artificialGrey": "رمادي",
+    "artificialYellow": "أصفر",
+    "artificialBlack": "أسود",
+    "porcelainSlab": "ألواح بورسلين",
+    "porcelainDesc": "ألواح معدنية آمنة بيئيًا تقاوم التآكل والحرارة مثالية للجدران والمولات والتطبيقات المتعددة.",
+    "porcelainClassic": "نسيج كلاسيكي",
+    "porcelainCalacatta": "كلكتا متكلسة",
+    "porcelainLuxury": "حجر متكلس فخم",
+    "porcelain12mm": "12 ملم",
+    "porcelain20mm": "20 ملم",
+    "silicaFree": "حجر خالي من السيليكا",
+    "silicaDesc": "حجر هندسي يحتفظ بصلابة الكوارتز ولكن يزيل السيليكا المتبلورة من تركيبته.",
+    "solution": "الحلول",
+    "finishedProducts": "منتجات نهائية",
+    "applicationField": "مجال التطبيق",
+    "project": "المشاريع",
+    "view360": "رؤية 360",
+    "case": "حالات ومشاريع",
+    "news": "الأخبار",
+    "contactUs": "اتصل بنا"
+  },
+  "Header": {
+    "searchPlaceholder": "ابحث عن المنتجات...",
+    "back": "رجوع",
+    "language": "تغيير اللغة"
+  },
+  "Footer": {
+    "address": "العنوان",
+    "addressLines": [
+      "صالة العرض: فوشان، قوانغدونغ، الصين",
+      "المصنع 1 و 2: يونفو، قوانغدونغ، الصين",
+      "المصنع 3: هيوان، قوانغدونغ، الصين"
+    ],
+    "aboutUs": "حول الشركة",
+    "collection": "التشكيلة",
+    "case": "المشاريع",
+    "getFreeSample": "احصل على عينة مجانية",
+    "emailPlaceholder": "بريدك الإلكتروني / واتس آب",
+    "subscribe": "اشترك الآن",
+    "followUs": "تابعنا",
+    "rights": "© 2026 شركة وايون للرخام والحجارة المحدودة. جميع الحقوق محفوظة.",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfService": "شروط الخدمة",
+    "icp": "粤ICP备13028888号"
+  },
+  "Hero": {
+    "titleLine1": "مصنع الأحجار الهندسية",
+    "titleLine2": "كوارتز ممتاز",
+    "subtitle": "نصنع مساحات استثنائية من أسطح حجرية عالية الجودة ومتينة وجميلة.",
+    "exploreProducts": "استكشف المنتجات",
+    "getFreeSample": "احصل على عينة"
+  },
+  "AboutIntro": {
+    "title1": "بناء",
+    "title2": "عالم",
+    "title3": "أكثر",
+    "title4": "جمالاً",
+    "description": "منذ عام 1982، كانت شركة وايون رائدة في مواد الأسطح المعمارية. نصنع أسس مواد مستدامة عالية الجودة.",
+    "ourStory": "قصتنا",
+    "projectsGlobally": "مشاريع عالمية",
+    "countriesServed": "دول تم خدمتها",
+    "yearsOfExcellence": "سنوات التميز"
+  },
+  "AboutAlbum": {
+    "viewMore": "عرض المزيد"
+  },
+  "ProductsCarousel": {
+    "ourProducts": "منتجاتنا",
+    "premiumSurfaces": "أسطح فائقة الجودة",
+    "exploreCollection": "اكتشف التشكيلة",
+    "quartzStone": "حجر الكوارتز",
+    "quartzDesc": "أسطح كوارتز هندسية متينة تقاوم الخدوش للمطابخ الحديثة والمساحات التجارية.",
+    "terrazzo": "تيرازو",
+    "terrazzoDesc": "مواد مركبة بيئية بتصميم رائع، مع متانة للمناطق ذات الازدحام المروري.",
+    "flexibleStone": "حجر مرن",
+    "flexibleDesc": "مادة جديدة مرنة تنحني لخيالك وتناسب الأعمدة والأشكال المنحنية المعمارية.",
+    "viewAll": "جميع المنتجات",
+    "swipe": "مرر"
+  },
+  "SolutionTabs": {
+    "whatWeDo": "خدماتنا",
+    "applicationSolutions": "حلول استثنائية",
+    "tabKitchen": "المطبخ",
+    "tabBathroom": "الحمام",
+    "tabCommercial": "القطاع التجاري",
+    "tabExterior": "الجدران الخارجية",
+    "kitchenTitle": "أسطح مطبخ فاخرة",
+    "kitchenDesc": "أسطح تلطيخ مقاوِمة للمساحات المنزلية والعملية.",
+    "bathroomTitle": "أحواض ومغاسل الاستحمام",
+    "bathroomDesc": "مواد قوية مضادة للمياه ورطوبة الحمام اليومية.",
+    "commercialTitle": "الاستخدام التجاري الكثيف",
+    "commercialDesc": "تركيب متين لا يخضع لمرور الزمن والأقدام.",
+    "exteriorTitle": "تكسيات خارجية وواجهات مقاوِمة",
+    "exteriorDesc": "واجهات حجريّة مرنة وخلاّبة تقف ضد أقوى عوامل الطقس بشموخ."
+  },
+  "EngineeringCase": {
+    "engineeringProject": "المشاريع الهندسية",
+    "ourWork": "أعمالنا",
+    "project1Title": "معرض السيراميك KIMS",
+    "project1Desc": "أرضيات تيرازو مصممة وعرض كوارتز فاخر",
+    "project2Title": "فندق غوانغتشو الفخم",
+    "project2Desc": "رخام صناعي لكامل حمامات وردهات الفندق",
+    "project3Title": "مجمع شنجن التقني",
+    "project3Desc": "أسطح آمنة خالية من السيليكا للكافيتريا",
+    "viewAll": "جميع المشاريع",
+    "explore": "اكتشف المزيد"
+  },
+  "PartnerCarousel": {
+    "industryPartners": "الشركاء التجاريون",
+    "trustedGlobal": "منتجات موثوقة عالمياً"
+  },
+  "NewsSection": {
+    "latestNews": "أحدث الأخبار",
+    "industryUpdates": "تحديثات الصناعة والتطوير",
+    "news1Title": "نحو عالم بلا سيليكا في مواد البناء الحجري",
+    "news1Desc": "كيف نساعد الكوكب وأطفالك في الابتكارات الصفرية السيليكا.",
+    "news1Date": "مارس 15، 2026",
+    "news2Title": "تشكيلة تيرازو جديدة كليًا للفنادق والفلل المشمسة",
+    "news2Desc": "جمال كلاسيكي ينبض بالتصاميم والأنماط المعاصرة المبهرة.",
+    "news2Date": "فبراير 28، 2026",
+    "news3Title": "افتتاح كبير لأضخم صالات العرض الهندسية في دبي",
+    "news3Desc": "نعزز تواجدنا في قلب الشرق الأوسط ونتيح لكم المس المنتجات مباشرةً.",
+    "news3Date": "يناير 12، 2026",
+    "discoverMore": "المزيد من الأخبار"
+  },
+  "SocialTabs": {
+    "socialMedia": "حساباتنا الاجتماعية",
+    "connectWithUs": "تواصل معنا مباشرةً",
+    "tabInstagram": "إنستغرام",
+    "tabFacebook": "فيسبوك",
+    "tabYoutube": "يوتيوب",
+    "viewOnInsta": "شاهد على إنستغرام",
+    "openFacebook": "اذهب لفيسبوك",
+    "watchVideo": "شاهد مقاطعنا المصورة",
+    "followUs": "تابعونا على WAYONSTONE@"
+  },
+  "HomeData": {
+    "AboutIntro": {
+      "title": "ABOUT\nWAYON STONE",
+      "p1": "Wayon Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. Wayon Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
+      "p2": "Wayon specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
+      "cta": "Learn More About Us"
+    },
+    "AboutAlbum": {
+      "item0": {
+        "title": "Wayon Stone Group",
+        "text": "Wayon has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
+      },
+      "item1": {
+        "title": "Yunfu Wayon",
+        "text": "Yunfu Wayon covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
+      },
+      "item2": {
+        "title": "Foshan Showroom",
+        "text": "The Hallmark Brand Showroom, meticulously created by Wayon Stone, spans an area of 1,400 square meters..."
+      },
+      "item3": {
+        "title": "Guangdong Wayon",
+        "text": "The Heyuan Production Base of Wayon Stone covers a total area of 60,000 square meters..."
+      },
+      "item4": {
+        "title": "Shanghai Wayon",
+        "text": "Shanghai Wayon, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
+      },
+      "item5": {
+        "title": "Guangzhou Wayon",
+        "text": "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble..."
+      }
+    },
+    "HomeProducts": {
+      "item0": {
+        "title": "Quart Stone & Zero Silica Stone",
+        "description": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made..."
+      },
+      "item1": {
+        "title": "Terrazzo",
+        "description": "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install..."
+      },
+      "item2": {
+        "title": "Flexible Stone",
+        "description": "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces..."
+      },
+      "item3": {
+        "title": "Marble",
+        "description": "Wayon Marble features unique natural textures and elegant luxury..."
+      },
+      "item4": {
+        "title": "Gem stone",
+        "description": "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine..."
+      },
+      "item5": {
+        "title": "Cement Stone",
+        "description": "High-strength cement, high-pressure-made. Rich colors, surface holes; stable..."
+      },
+      "item6": {
+        "title": "Artifical Marble",
+        "description": "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed..."
+      },
+      "item7": {
+        "title": "Porcelain Slab",
+        "description": "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes..."
+      }
+    },
+    "Solutions": {
+      "item0": {
+        "label": "Kitchen Countertops",
+        "title": "Kitchen Countertops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+      },
+      "item1": {
+        "label": "Bathroom Spaces",
+        "title": "Bathroom Spaces",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item2": {
+        "label": "Furniture Tops",
+        "title": "Furniture Tops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item3": {
+        "label": "Wall & Floor",
+        "title": "Wall & Floor",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      },
+      "item4": {
+        "label": "Cabinet Countertops",
+        "title": "Cabinet Countertops",
+        "description": "The Wayon Stone Processing Center boasts a 6,500-square-meter..."
+      }
+    },
+    "Partners": {
+      "item0": {
+        "title": "Contractor",
+        "description": "Wayon Stone delivers reliable quality, precise engineering support..."
+      },
+      "item1": {
+        "title": "Designer",
+        "description": "Designers value Wayon Stone for its diverse material selection..."
+      },
+      "item2": {
+        "title": "Wholesaler",
+        "description": "Wholesalers trust Wayon Stone for its high-quality materials..."
+      },
+      "item3": {
+        "title": "Kitchen & Bathroom Company",
+        "description": "Wayon Stone provides consistent quality, accurate fabrication..."
+      },
+      "item4": {
+        "title": "Furniture Designer",
+        "description": "Furniture designers rely on Wayon Stone for its premium stone surfaces..."
+      },
+      "item5": {
+        "title": "Developer",
+        "description": "Developers choose Wayon Stone for its consistent quality, large-scale..."
+      }
+    }
+  }
+}

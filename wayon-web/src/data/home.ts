@@ -70,155 +70,142 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-export const ABOUT_INTRO = {
-  title: "ABOUT\nWAYON STONE",
+export const getAboutIntro = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => ({
+  title: t("HomeData.AboutIntro.title"),
   paragraphs: [
-    "Wayon Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. Wayon Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
-    "Wayon specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
+    t("HomeData.AboutIntro.p1"),
+    t("HomeData.AboutIntro.p2")
   ],
   href: "/about",
-  cta: "Learn More About Us",
-};
+  cta: t("HomeData.AboutIntro.cta"),
+});
 
-export const ABOUT_ALBUM: AboutAlbumItem[] = [
+export const getAboutAlbum = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): AboutAlbumItem[] => [
   {
-    title: "Wayon Stone Group",
-    text: "Wayon has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions. The company operates an extensive network of subsidiaries and branches, including Yunfu Wayon, the Foshan Showroom, Guangdong Wayon Industrial, Shanghai Wayon, Guangzhou Wayon, as well as the C-Stone Professional Engineering Solutions Center. Together, these entities form a complete and well-structured industrial value chain.",
+    title: t("HomeData.AboutAlbum.item0.title"),
+    text: t("HomeData.AboutAlbum.item0.text"),
     image: "/assets/about/about-album-wayon-group.jpg",
-    href: "/about",
+    href: "/about"
   },
   {
-    title: "Yunfu Wayon",
-    text: "Yunfu Wayon (the Yunfu production base of Wayon Stone) covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building. The base is equipped with 4 automated slab pressing lines, 1 independently developed and upgraded block-type production line, and 2 Italian polishing lines.",
+    title: t("HomeData.AboutAlbum.item1.title"),
+    text: t("HomeData.AboutAlbum.item1.text"),
     image: "/assets/about/yunfu-wayon.webp",
-    href: "/about",
+    href: "/about"
   },
   {
-    title: "Foshan Showroom",
-    text: "The Hallmark Brand Showroom, meticulously created by Wayon Stone, spans an area of 1,400 square meters. Through a series of thoughtfully designed themed spaces, the showroom presents a comprehensive showcase of Wayon's overall strength as a leading global stone supplier.",
+    title: t("HomeData.AboutAlbum.item2.title"),
+    text: t("HomeData.AboutAlbum.item2.text"),
     image: "/assets/about/foshan-showroom.jpg",
-    href: "/about",
+    href: "/about"
   },
   {
-    title: "Guangdong Wayon",
-    text: "The Heyuan Production Base of Wayon Stone covers a total area of 60,000 square meters, including 40,000 square meters of manufacturing facilities and a 1,200-square-meter R&D center. The base fully leverages high-quality quartz mining resources and the advantages of an integrated, full-industry-chain operation encompassing quartz sand processing and slab production.",
+    title: t("HomeData.AboutAlbum.item3.title"),
+    text: t("HomeData.AboutAlbum.item3.text"),
     image: "/assets/about/guangdong-wayon.jpg",
-    href: "/about",
+    href: "/about"
   },
   {
-    title: "Shanghai Wayon",
-    text: "Shanghai Wayon, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai, with an office and exhibition area of 1,600 square meters. After decades of development, Shanghai Wayon has supplied countless high-quality stone products to projects across East China, earning widespread customer recognition and building a strong and reputable presence in the market.",
+    title: t("HomeData.AboutAlbum.item4.title"),
+    text: t("HomeData.AboutAlbum.item4.text"),
     image: "/assets/about/shanghai-wayon.jpg",
-    href: "/about",
+    href: "/about"
   },
   {
-    title: "Guangzhou Wayon",
-    text: "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble, sintered stone slabs, granite, and other stone products. For nearly three decades, it has supplied an extensive volume of stone materials to major construction and development projects in South China and across the country during China's period of rapid economic reform and urban development. Guangzhou Wayon has been recognized as a Famous Trademark of Guangzhou and honored as one of the Top Ten Stone Enterprises in Guangdong Province.",
+    title: t("HomeData.AboutAlbum.item5.title"),
+    text: t("HomeData.AboutAlbum.item5.text"),
     image: "/assets/about/guangzhou-wayon.png",
-    href: "/about",
-  },
+    href: "/about"
+  }
 ];
 
-export const HOME_PRODUCTS: ProductItem[] = [
+export const getHomeProducts = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): ProductItem[] => [
   {
-    title: "Quart Stone & Zero Silica Stone",
-    description:
-      "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made. Wear/stain-resistant; Ideal for kitchen countertopsbathroom vanity tops, mall surfaces—durable, versatile for global projects.",
+    title: t("HomeData.HomeProducts.item0.title"),
+    description: t("HomeData.HomeProducts.item0.description"),
     href: "/products?category=quartz",
-    image: "/assets/solutions/quartz-zero-silica.jpg",
+    image: "/assets/solutions/quartz-zero-silica.jpg"
   },
   {
-    title: "Terrazzo",
-    description:
-      "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install; hard, wear-resistant, non-flammable (green building). Indoor and outdoor floors and walls.",
+    title: t("HomeData.HomeProducts.item1.title"),
+    description: t("HomeData.HomeProducts.item1.description"),
     href: "/products?category=terrazzo",
-    image: "/assets/solutions/terrazzo.jpg",
+    image: "/assets/solutions/terrazzo.jpg"
   },
   {
-    title: "Flexible Stone",
-    description:
-      "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces. Toxic-free, eco-safe; rich textures elevate modern/luxury spaces.",
+    title: t("HomeData.HomeProducts.item2.title"),
+    description: t("HomeData.HomeProducts.item2.description"),
     href: "/products?category=flexible-stone",
-    image: "/assets/solutions/flexible-stone.jpg",
+    image: "/assets/solutions/flexible-stone.jpg"
   },
   {
-    title: "Marble",
-    description:
-      "Wayon Marble features unique natural textures and elegant luxury—ideal for hotel lobbies, fitting interior walls/floors of high-end malls, luxury mansions, etc.",
+    title: t("HomeData.HomeProducts.item3.title"),
+    description: t("HomeData.HomeProducts.item3.description"),
     href: "/products?category=marble",
-    image: "/assets/solutions/marble.jpg",
+    image: "/assets/solutions/marble.jpg"
   },
   {
-    title: "Gem stone",
-    description:
-      "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine & translucency. Fits accent walls, high-end furniture tops.",
+    title: t("HomeData.HomeProducts.item4.title"),
+    description: t("HomeData.HomeProducts.item4.description"),
     href: "/products?category=gem-stone",
-    image: "/assets/solutions/gem-stone.jpg",
+    image: "/assets/solutions/gem-stone.jpg"
   },
   {
-    title: "Cement Stone",
-    description:
-      "High-strength cement, high-pressure-made. Rich colors, surface holes; stable, non-flammable, insulating. Ideal for indoor/outdoor walls.",
+    title: t("HomeData.HomeProducts.item5.title"),
+    description: t("HomeData.HomeProducts.item5.description"),
     href: "/products?category=cement-stone",
-    image: "/assets/solutions/cement-stone.jpg",
+    image: "/assets/solutions/cement-stone.jpg"
   },
   {
-    title: "Artifical Marble",
-    description:
-      "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed. Wear/scratch-resistant, non-toxic. Ideal for kitchen/bath vanities, walls, facades. Green building compliant, sleek versatile aesthetics.",
+    title: t("HomeData.HomeProducts.item6.title"),
+    description: t("HomeData.HomeProducts.item6.description"),
     href: "/products?category=artificial-marble",
-    image: "/assets/solutions/artificial-marble.webp",
+    image: "/assets/solutions/artificial-marble.webp"
   },
   {
-    title: "Porcelain Slab",
-    description:
-      "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes. Wear-resistant, heat-resistant and eco-safe, it fits indoor/outdoor walls, mall panels, hotel, kitchen/bath/furniture tops.",
+    title: t("HomeData.HomeProducts.item7.title"),
+    description: t("HomeData.HomeProducts.item7.description"),
     href: "/products?category=porcelain-slab",
-    image: "/assets/solutions/porcelain-slab.webp",
-  },
+    image: "/assets/solutions/porcelain-slab.webp"
+  }
 ];
 
-export const SOLUTIONS: SolutionItem[] = [
+export const getSolutions = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): SolutionItem[] => [
   {
-    label: "Kitchen Countertops",
-    title: "Kitchen Countertops",
-    description:
-      "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines, an Italian five-axis phototypesetting automatic suction cup bridge cutting machine, an Italian automatic edge grinding machine, two Taiwanese automatic edge grinding machines, a cabinet countertop assembly line, three CNC drilling machines, five high-quality sample machines, and a 4+8-head molding system.\nThe center specializes in processing natural stone rough block slabs, as well as quartz, terrazzo, cement stone, and rock slabs.",
+    label: t("HomeData.Solutions.item0.label"),
+    title: t("HomeData.Solutions.item0.title"),
+    description: t("HomeData.Solutions.item0.description"),
     href: "/solution",
-    image: "/assets/solutions/kitchen-countertops.webp",
+    image: "/assets/solutions/kitchen-countertops.webp"
   },
   {
-    label: "Bathroom Spaces",
-    title: "Bathroom Spaces",
-    description:
-      "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines, an Italian five-axis phototypesetting automatic suction cup bridge cutting machine, an Italian automatic edge grinding machine, two Taiwanese automatic edge grinding machines, a cabinet countertop assembly line, three CNC drilling machines, five high-quality sample machines, and a 4+8-head molding system.\nThe center specializes in processing natural stone rough block slabs, as well as quartz, terrazzo, cement stone, and rock slabs.",
+    label: t("HomeData.Solutions.item1.label"),
+    title: t("HomeData.Solutions.item1.title"),
+    description: t("HomeData.Solutions.item1.description"),
     href: "/solution",
-    image: "/assets/solutions/bathroom-spaces.webp",
+    image: "/assets/solutions/bathroom-spaces.webp"
   },
   {
-    label: "Furniture Tops",
-    title: "Furniture Tops",
-    description:
-      "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines, an Italian five-axis phototypesetting automatic suction cup bridge cutting machine, an Italian automatic edge grinding machine, two Taiwanese automatic edge grinding machines, a cabinet countertop assembly line, three CNC drilling machines, five high-quality sample machines, and a 4+8-head molding system.\nThe center specializes in processing natural stone rough block slabs, as well as quartz, terrazzo, cement stone, and rock slabs.",
+    label: t("HomeData.Solutions.item2.label"),
+    title: t("HomeData.Solutions.item2.title"),
+    description: t("HomeData.Solutions.item2.description"),
     href: "/solution",
-    image: "/assets/solutions/furniture-tops.webp",
+    image: "/assets/solutions/furniture-tops.webp"
   },
   {
-    label: "Wall & Floor",
-    title: "Wall & Floor",
-    description:
-      "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines, an Italian five-axis phototypesetting automatic suction cup bridge cutting machine, an Italian automatic edge grinding machine, two Taiwanese automatic edge grinding machines, a cabinet countertop assembly line, three CNC drilling machines, five high-quality sample machines, and a 4+8-head molding system.\nThe center specializes in processing natural stone rough block slabs, as well as quartz, terrazzo, cement stone, and rock slabs.",
+    label: t("HomeData.Solutions.item3.label"),
+    title: t("HomeData.Solutions.item3.title"),
+    description: t("HomeData.Solutions.item3.description"),
     href: "/solution",
-    image: "/assets/solutions/wall-floor.jpg",
+    image: "/assets/solutions/wall-floor.jpg"
   },
   {
-    label: "Cabinet Countertops",
-    title: "Cabinet Countertops",
-    description:
-      "The Wayon Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines, an Italian five-axis phototypesetting automatic suction cup bridge cutting machine, an Italian automatic edge grinding machine, two Taiwanese automatic edge grinding machines, a cabinet countertop assembly line, three CNC drilling machines, five high-quality sample machines, and a 4+8-head molding system.\nThe center specializes in processing natural stone rough block slabs, as well as quartz, terrazzo, cement stone, and rock slabs.",
+    label: t("HomeData.Solutions.item4.label"),
+    title: t("HomeData.Solutions.item4.title"),
+    description: t("HomeData.Solutions.item4.description"),
     href: "/solution",
-    image: "/assets/solutions/cabinet-countertops.webp",
-  },
+    image: "/assets/solutions/cabinet-countertops.webp"
+  }
 ];
 
 export const ENGINEERING_CASES: CaseItem[] = [
@@ -254,43 +241,37 @@ export const ENGINEERING_CASES: CaseItem[] = [
   },
 ];
 
-export const PARTNERS: PartnerItem[] = [
+export const getPartners = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): PartnerItem[] => [
   {
-    title: "Contractor",
-    description:
-      "Wayon Stone delivers reliable quality, precise engineering support, and responsive service. Their materials consistently meet project requirements and timelines, making them a trusted long-term partner for contractors.",
-    image: "/assets/partner/contractor.png",
+    title: t("HomeData.Partners.item0.title"),
+    description: t("HomeData.Partners.item0.description"),
+    image: "/assets/partner/contractor.png"
   },
   {
-    title: "Designer",
-    description:
-      "Designers value Wayon Stone for its diverse material selection, refined aesthetics, and technical reliability, which enable creative freedom while ensuring performance in high-end residential and commercial projects.",
-    image: "/assets/partner/designer.png",
+    title: t("HomeData.Partners.item1.title"),
+    description: t("HomeData.Partners.item1.description"),
+    image: "/assets/partner/designer.png"
   },
   {
-    title: "Wholesaler",
-    description:
-      "Wholesalers trust Wayon Stone for its high-quality materials, reliable supply chain, and competitive pricing, ensuring consistent product availability and strong support for large-volume orders.",
-    image: "/assets/partner/wholesaler.png",
+    title: t("HomeData.Partners.item2.title"),
+    description: t("HomeData.Partners.item2.description"),
+    image: "/assets/partner/wholesaler.png"
   },
   {
-    title: "Kitchen & Bathroom Company",
-    description:
-      "Wayon Stone provides consistent quality, accurate fabrication, and dependable delivery. Their quartz and engineered stone surfaces integrate seamlessly into kitchen and bathroom projects with excellent results.",
-    image: "/assets/partner/kitchen-bathroom-company.png",
+    title: t("HomeData.Partners.item3.title"),
+    description: t("HomeData.Partners.item3.description"),
+    image: "/assets/partner/kitchen-bathroom-company.png"
   },
   {
-    title: "Furniture Designer",
-    description:
-      "Furniture designers rely on Wayon Stone for its premium stone surfaces, precision cutting, and versatile finishes, enabling the creation of stylish, durable, and functional furniture pieces.",
-    image: "/assets/partner/furniture-designer.png",
+    title: t("HomeData.Partners.item4.title"),
+    description: t("HomeData.Partners.item4.description"),
+    image: "/assets/partner/furniture-designer.png"
   },
   {
-    title: "Developer",
-    description:
-      "Developers choose Wayon Stone for its consistent quality, large-scale supply capacity, and professional project support, ensuring timely delivery and superior stone solutions for residential and commercial developments.",
-    image: "/assets/partner/developer.png",
-  },
+    title: t("HomeData.Partners.item5.title"),
+    description: t("HomeData.Partners.item5.description"),
+    image: "/assets/partner/developer.png"
+  }
 ];
 
 export const NEWS_FEATURE = {

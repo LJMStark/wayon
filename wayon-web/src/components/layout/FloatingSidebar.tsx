@@ -39,13 +39,7 @@ export default function FloatingSidebar() {
         <AnimateQr show={showQr} />
       </div>
 
-      <a
-        href="https://wayonstone.com"
-        className={`${BUTTON_CLASS} text-[13px] font-medium`}
-        aria-label="Switch to Chinese"
-      >
-        简
-      </a>
+
 
       <Link
         href="/contact"

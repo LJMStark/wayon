@@ -5,9 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { HOME_PRODUCTS } from "@/data/home";
+import { getHomeProducts } from "@/data/home";
+import { useTranslations } from "next-intl";
 
 export function ProductsCarousel() {
+  const t = useTranslations();
+  const homeProductsData = getHomeProducts(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scrollByAmount = (direction: "next" | "prev") => {
@@ -66,7 +69,7 @@ export function ProductsCarousel() {
             ref={scrollerRef}
             className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-6"
           >
-            {HOME_PRODUCTS.map((product) => (
+            {homeProductsData.map((product) => (
               <Link
                 key={product.title}
                 href={product.href}
