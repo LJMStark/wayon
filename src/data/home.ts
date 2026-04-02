@@ -1,3 +1,6 @@
+import type { _Translator } from "use-intl";
+import type { AppMessages } from "@/i18n/types";
+
 export type HeroSlide = {
   type: "video" | "image";
   src: string;
@@ -57,6 +60,9 @@ export type SocialPlatform = {
   posts: SocialPost[];
 };
 
+type AppTranslator = _Translator<AppMessages>;
+type AppMessageKey = Parameters<AppTranslator>[0];
+
 export const HERO_SLIDES: HeroSlide[] = [
   {
     type: "video",
@@ -70,243 +76,350 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
-export const getAboutIntro = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => ({
-  title: t("HomeData.AboutIntro.title"),
-  paragraphs: [
-    t("HomeData.AboutIntro.p1"),
-    t("HomeData.AboutIntro.p2")
-  ],
+const ABOUT_INTRO_CONFIG = {
+  titleKey: "HomeData.AboutIntro.title",
+  paragraphKeys: ["HomeData.AboutIntro.p1", "HomeData.AboutIntro.p2"],
   href: "/about",
-  cta: t("HomeData.AboutIntro.cta"),
-});
+  ctaKey: "HomeData.AboutIntro.cta",
+} as const satisfies {
+  titleKey: AppMessageKey;
+  paragraphKeys: readonly AppMessageKey[];
+  href: string;
+  ctaKey: AppMessageKey;
+};
 
-export const getAboutAlbum = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): AboutAlbumItem[] => [
+const ABOUT_ALBUM_CONFIG = [
   {
-    title: t("HomeData.AboutAlbum.item0.title"),
-    text: t("HomeData.AboutAlbum.item0.text"),
+    titleKey: "HomeData.AboutAlbum.item0.title",
+    textKey: "HomeData.AboutAlbum.item0.text",
     image: "/assets/about/about-album-wayon-group.jpg",
-    href: "/about"
+    href: "/about",
   },
   {
-    title: t("HomeData.AboutAlbum.item1.title"),
-    text: t("HomeData.AboutAlbum.item1.text"),
+    titleKey: "HomeData.AboutAlbum.item1.title",
+    textKey: "HomeData.AboutAlbum.item1.text",
     image: "/assets/about/yunfu-wayon.webp",
-    href: "/about"
+    href: "/about",
   },
   {
-    title: t("HomeData.AboutAlbum.item2.title"),
-    text: t("HomeData.AboutAlbum.item2.text"),
+    titleKey: "HomeData.AboutAlbum.item2.title",
+    textKey: "HomeData.AboutAlbum.item2.text",
     image: "/assets/about/foshan-showroom.jpg",
-    href: "/about"
+    href: "/about",
   },
   {
-    title: t("HomeData.AboutAlbum.item3.title"),
-    text: t("HomeData.AboutAlbum.item3.text"),
+    titleKey: "HomeData.AboutAlbum.item3.title",
+    textKey: "HomeData.AboutAlbum.item3.text",
     image: "/assets/about/guangdong-wayon.jpg",
-    href: "/about"
+    href: "/about",
   },
   {
-    title: t("HomeData.AboutAlbum.item4.title"),
-    text: t("HomeData.AboutAlbum.item4.text"),
+    titleKey: "HomeData.AboutAlbum.item4.title",
+    textKey: "HomeData.AboutAlbum.item4.text",
     image: "/assets/about/shanghai-wayon.jpg",
-    href: "/about"
+    href: "/about",
   },
   {
-    title: t("HomeData.AboutAlbum.item5.title"),
-    text: t("HomeData.AboutAlbum.item5.text"),
+    titleKey: "HomeData.AboutAlbum.item5.title",
+    textKey: "HomeData.AboutAlbum.item5.text",
     image: "/assets/about/guangzhou-wayon.png",
-    href: "/about"
-  }
-];
+    href: "/about",
+  },
+] as const satisfies ReadonlyArray<{
+  titleKey: AppMessageKey;
+  textKey: AppMessageKey;
+  image: string;
+  href: string;
+}>;
 
-export const getHomeProducts = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): ProductItem[] => [
+const HOME_PRODUCT_CONFIG = [
   {
-    title: t("HomeData.HomeProducts.item0.title"),
-    description: t("HomeData.HomeProducts.item0.description"),
+    titleKey: "HomeData.HomeProducts.item0.title",
+    descriptionKey: "HomeData.HomeProducts.item0.description",
     href: "/products?category=quartz",
-    image: "/assets/solutions/quartz-zero-silica.jpg"
+    image: "/assets/solutions/quartz-zero-silica.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item1.title"),
-    description: t("HomeData.HomeProducts.item1.description"),
+    titleKey: "HomeData.HomeProducts.item1.title",
+    descriptionKey: "HomeData.HomeProducts.item1.description",
     href: "/products?category=terrazzo",
-    image: "/assets/solutions/terrazzo.jpg"
+    image: "/assets/solutions/terrazzo.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item2.title"),
-    description: t("HomeData.HomeProducts.item2.description"),
+    titleKey: "HomeData.HomeProducts.item2.title",
+    descriptionKey: "HomeData.HomeProducts.item2.description",
     href: "/products?category=flexible-stone",
-    image: "/assets/solutions/flexible-stone.jpg"
+    image: "/assets/solutions/flexible-stone.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item3.title"),
-    description: t("HomeData.HomeProducts.item3.description"),
+    titleKey: "HomeData.HomeProducts.item3.title",
+    descriptionKey: "HomeData.HomeProducts.item3.description",
     href: "/products?category=marble",
-    image: "/assets/solutions/marble.jpg"
+    image: "/assets/solutions/marble.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item4.title"),
-    description: t("HomeData.HomeProducts.item4.description"),
+    titleKey: "HomeData.HomeProducts.item4.title",
+    descriptionKey: "HomeData.HomeProducts.item4.description",
     href: "/products?category=gem-stone",
-    image: "/assets/solutions/gem-stone.jpg"
+    image: "/assets/solutions/gem-stone.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item5.title"),
-    description: t("HomeData.HomeProducts.item5.description"),
+    titleKey: "HomeData.HomeProducts.item5.title",
+    descriptionKey: "HomeData.HomeProducts.item5.description",
     href: "/products?category=cement-stone",
-    image: "/assets/solutions/cement-stone.jpg"
+    image: "/assets/solutions/cement-stone.jpg",
   },
   {
-    title: t("HomeData.HomeProducts.item6.title"),
-    description: t("HomeData.HomeProducts.item6.description"),
+    titleKey: "HomeData.HomeProducts.item6.title",
+    descriptionKey: "HomeData.HomeProducts.item6.description",
     href: "/products?category=artificial-marble",
-    image: "/assets/solutions/artificial-marble.webp"
+    image: "/assets/solutions/artificial-marble.webp",
   },
   {
-    title: t("HomeData.HomeProducts.item7.title"),
-    description: t("HomeData.HomeProducts.item7.description"),
+    titleKey: "HomeData.HomeProducts.item7.title",
+    descriptionKey: "HomeData.HomeProducts.item7.description",
     href: "/products?category=porcelain-slab",
-    image: "/assets/solutions/porcelain-slab.webp"
-  }
-];
+    image: "/assets/solutions/porcelain-slab.webp",
+  },
+] as const satisfies ReadonlyArray<{
+  titleKey: AppMessageKey;
+  descriptionKey: AppMessageKey;
+  href: string;
+  image: string;
+}>;
 
-export const getSolutions = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): SolutionItem[] => [
+const SOLUTION_CONFIG = [
   {
-    label: t("HomeData.Solutions.item0.label"),
-    title: t("HomeData.Solutions.item0.title"),
-    description: t("HomeData.Solutions.item0.description"),
+    labelKey: "HomeData.Solutions.item0.label",
+    titleKey: "HomeData.Solutions.item0.title",
+    descriptionKey: "HomeData.Solutions.item0.description",
     href: "/solution",
-    image: "/assets/solutions/kitchen-countertops.webp"
+    image: "/assets/solutions/kitchen-countertops.webp",
   },
   {
-    label: t("HomeData.Solutions.item1.label"),
-    title: t("HomeData.Solutions.item1.title"),
-    description: t("HomeData.Solutions.item1.description"),
+    labelKey: "HomeData.Solutions.item1.label",
+    titleKey: "HomeData.Solutions.item1.title",
+    descriptionKey: "HomeData.Solutions.item1.description",
     href: "/solution",
-    image: "/assets/solutions/bathroom-spaces.webp"
+    image: "/assets/solutions/bathroom-spaces.webp",
   },
   {
-    label: t("HomeData.Solutions.item2.label"),
-    title: t("HomeData.Solutions.item2.title"),
-    description: t("HomeData.Solutions.item2.description"),
+    labelKey: "HomeData.Solutions.item2.label",
+    titleKey: "HomeData.Solutions.item2.title",
+    descriptionKey: "HomeData.Solutions.item2.description",
     href: "/solution",
-    image: "/assets/solutions/furniture-tops.webp"
+    image: "/assets/solutions/furniture-tops.webp",
   },
   {
-    label: t("HomeData.Solutions.item3.label"),
-    title: t("HomeData.Solutions.item3.title"),
-    description: t("HomeData.Solutions.item3.description"),
+    labelKey: "HomeData.Solutions.item3.label",
+    titleKey: "HomeData.Solutions.item3.title",
+    descriptionKey: "HomeData.Solutions.item3.description",
     href: "/solution",
-    image: "/assets/solutions/wall-floor.jpg"
+    image: "/assets/solutions/wall-floor.jpg",
   },
   {
-    label: t("HomeData.Solutions.item4.label"),
-    title: t("HomeData.Solutions.item4.title"),
-    description: t("HomeData.Solutions.item4.description"),
+    labelKey: "HomeData.Solutions.item4.label",
+    titleKey: "HomeData.Solutions.item4.title",
+    descriptionKey: "HomeData.Solutions.item4.description",
     href: "/solution",
-    image: "/assets/solutions/cabinet-countertops.webp"
-  }
-];
+    image: "/assets/solutions/cabinet-countertops.webp",
+  },
+] as const satisfies ReadonlyArray<{
+  labelKey: AppMessageKey;
+  titleKey: AppMessageKey;
+  descriptionKey: AppMessageKey;
+  href: string;
+  image: string;
+}>;
 
-export const getEngineeringCases = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): CaseItem[] => [
+const ENGINEERING_CASE_CONFIG = [
   {
-    title: t("HomeData.EngineeringCases.item0.title"),
+    titleKey: "HomeData.EngineeringCases.item0.title",
     image: "/assets/cases/case-1-dominica-hotel.png",
     href: "/assets/cases/case-1-dominica-hotel.png",
   },
   {
-    title: t("HomeData.EngineeringCases.item1.title"),
+    titleKey: "HomeData.EngineeringCases.item1.title",
     image: "/assets/cases/case-2-congo-hilton.png",
     href: "/assets/cases/case-2-congo-hilton.png",
   },
   {
-    title: t("HomeData.EngineeringCases.item2.title"),
+    titleKey: "HomeData.EngineeringCases.item2.title",
     image: "/assets/cases/case-3-canadian-restaurant.png",
     href: "/assets/cases/case-3-canadian-restaurant.png",
   },
   {
-    title: t("HomeData.EngineeringCases.item3.title"),
+    titleKey: "HomeData.EngineeringCases.item3.title",
     image: "/assets/cases/case-4-finland-apartment.png",
     href: "/assets/cases/case-4-finland-apartment.png",
   },
   {
-    title: t("HomeData.EngineeringCases.item4.title"),
+    titleKey: "HomeData.EngineeringCases.item4.title",
     image: "/assets/cases/case-5-qatar-vendome.png",
     href: "/assets/cases/case-5-qatar-vendome.png",
   },
   {
-    title: t("HomeData.EngineeringCases.item5.title"),
+    titleKey: "HomeData.EngineeringCases.item5.title",
     image: "/assets/cases/case-6-us-vacation-villa.png",
     href: "/assets/cases/case-6-us-vacation-villa.png",
   },
-];
+] as const satisfies ReadonlyArray<{
+  titleKey: AppMessageKey;
+  image: string;
+  href: string;
+}>;
 
-export const getPartners = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): PartnerItem[] => [
+const PARTNER_CONFIG = [
   {
-    title: t("HomeData.Partners.item0.title"),
-    description: t("HomeData.Partners.item0.description"),
-    image: "/assets/partner/contractor.png"
+    titleKey: "HomeData.Partners.item0.title",
+    descriptionKey: "HomeData.Partners.item0.description",
+    image: "/assets/partner/contractor.png",
   },
   {
-    title: t("HomeData.Partners.item1.title"),
-    description: t("HomeData.Partners.item1.description"),
-    image: "/assets/partner/designer.png"
+    titleKey: "HomeData.Partners.item1.title",
+    descriptionKey: "HomeData.Partners.item1.description",
+    image: "/assets/partner/designer.png",
   },
   {
-    title: t("HomeData.Partners.item2.title"),
-    description: t("HomeData.Partners.item2.description"),
-    image: "/assets/partner/wholesaler.png"
+    titleKey: "HomeData.Partners.item2.title",
+    descriptionKey: "HomeData.Partners.item2.description",
+    image: "/assets/partner/wholesaler.png",
   },
   {
-    title: t("HomeData.Partners.item3.title"),
-    description: t("HomeData.Partners.item3.description"),
-    image: "/assets/partner/kitchen-bathroom-company.png"
+    titleKey: "HomeData.Partners.item3.title",
+    descriptionKey: "HomeData.Partners.item3.description",
+    image: "/assets/partner/kitchen-bathroom-company.png",
   },
   {
-    title: t("HomeData.Partners.item4.title"),
-    description: t("HomeData.Partners.item4.description"),
-    image: "/assets/partner/furniture-designer.png"
+    titleKey: "HomeData.Partners.item4.title",
+    descriptionKey: "HomeData.Partners.item4.description",
+    image: "/assets/partner/furniture-designer.png",
   },
   {
-    title: t("HomeData.Partners.item5.title"),
-    description: t("HomeData.Partners.item5.description"),
-    image: "/assets/partner/developer.png"
-  }
-];
+    titleKey: "HomeData.Partners.item5.title",
+    descriptionKey: "HomeData.Partners.item5.description",
+    image: "/assets/partner/developer.png",
+  },
+] as const satisfies ReadonlyArray<{
+  titleKey: AppMessageKey;
+  descriptionKey: AppMessageKey;
+  image: string;
+}>;
 
-export const getNewsFeature = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => ({
-  title: t("HomeData.NewsFeature.title"),
-  excerpt: t("HomeData.NewsFeature.excerpt"),
+const NEWS_FEATURE_CONFIG = {
+  titleKey: "HomeData.NewsFeature.title",
+  excerptKey: "HomeData.NewsFeature.excerpt",
   href: "/news",
   image: "/assets/news/terrazzo-flooring-cover.jpg",
-});
+} as const satisfies {
+  titleKey: AppMessageKey;
+  excerptKey: AppMessageKey;
+  href: string;
+  image: string;
+};
 
-export const getNewsItems = (t: any /* eslint-disable-line @typescript-eslint/no-explicit-any */): NewsItem[] => [
+const NEWS_ITEM_CONFIG = [
   {
-    title: t("HomeData.NewsItems.item0.title"),
+    titleKey: "HomeData.NewsItems.item0.title",
     href: "/news",
     day: "24",
     yearMonth: "2025-11",
   },
   {
-    title: t("HomeData.NewsItems.item1.title"),
+    titleKey: "HomeData.NewsItems.item1.title",
     href: "/news",
     day: "17",
     yearMonth: "2025-11",
   },
   {
-    title: t("HomeData.NewsItems.item2.title"),
+    titleKey: "HomeData.NewsItems.item2.title",
     href: "/news",
     day: "10",
     yearMonth: "2025-11",
   },
   {
-    title: t("HomeData.NewsItems.item3.title"),
+    titleKey: "HomeData.NewsItems.item3.title",
     href: "/news",
     day: "31",
     yearMonth: "2025-10",
   },
-];
+] as const satisfies ReadonlyArray<{
+  titleKey: AppMessageKey;
+  href: string;
+  day: string;
+  yearMonth: string;
+}>;
+
+export function getAboutIntro(t: AppTranslator) {
+  return {
+    title: t(ABOUT_INTRO_CONFIG.titleKey),
+    paragraphs: ABOUT_INTRO_CONFIG.paragraphKeys.map((key) => t(key)),
+    href: ABOUT_INTRO_CONFIG.href,
+    cta: t(ABOUT_INTRO_CONFIG.ctaKey),
+  };
+}
+
+export function getAboutAlbum(t: AppTranslator): AboutAlbumItem[] {
+  return ABOUT_ALBUM_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    text: t(item.textKey),
+    image: item.image,
+    href: item.href,
+  }));
+}
+
+export function getHomeProducts(t: AppTranslator): ProductItem[] {
+  return HOME_PRODUCT_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    description: t(item.descriptionKey),
+    href: item.href,
+    image: item.image,
+  }));
+}
+
+export function getSolutions(t: AppTranslator): SolutionItem[] {
+  return SOLUTION_CONFIG.map((item) => ({
+    label: t(item.labelKey),
+    title: t(item.titleKey),
+    description: t(item.descriptionKey),
+    href: item.href,
+    image: item.image,
+  }));
+}
+
+export function getEngineeringCases(t: AppTranslator): CaseItem[] {
+  return ENGINEERING_CASE_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    image: item.image,
+    href: item.href,
+  }));
+}
+
+export function getPartners(t: AppTranslator): PartnerItem[] {
+  return PARTNER_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    description: t(item.descriptionKey),
+    image: item.image,
+  }));
+}
+
+export function getNewsFeature(t: AppTranslator) {
+  return {
+    title: t(NEWS_FEATURE_CONFIG.titleKey),
+    excerpt: t(NEWS_FEATURE_CONFIG.excerptKey),
+    href: NEWS_FEATURE_CONFIG.href,
+    image: NEWS_FEATURE_CONFIG.image,
+  };
+}
+
+export function getNewsItems(t: AppTranslator): NewsItem[] {
+  return NEWS_ITEM_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    href: item.href,
+    day: item.day,
+    yearMonth: item.yearMonth,
+  }));
+}
 
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {

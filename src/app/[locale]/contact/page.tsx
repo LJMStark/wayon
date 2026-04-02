@@ -5,24 +5,41 @@ import Link from "next/link";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 
+type ContactLocation = {
+  name: string;
+  add?: string;
+  tel?: string;
+  fax?: string;
+  pc?: string;
+};
+
+const CONTACT_LOCATIONS: ContactLocation[] = [
+  {
+    name: "Foshan ZYL Showroom",
+    add: "F02, Central Zone, CCIH, No.68, Jihua West Road, Chancheng District, Foshan, Guangdong, China",
+    tel: "+86 757-8256 8296",
+    fax: "+86 757-8256 8296",
+    pc: "528000",
+  },
+  { name: "Guangdong ZYL Industry" },
+  { name: "Yunfu ZYL Stone" },
+  { name: "Shanghai ZYL Stone" },
+  { name: "Jiangsu ZYL Stone" },
+  { name: "Guangzhou ZYL Stone" },
+  { name: "C-Stone" },
+];
+
+const SOCIAL_LINKS = [
+  { label: "Facebook", href: "https://facebook.com", content: "f" },
+  { label: "Instagram", href: "https://instagram.com", content: "ig" },
+  { label: "YouTube", href: "https://youtube.com", content: "▶" },
+];
+
+const FORM_CONTROL_CLASS =
+  "w-full border border-gray-300 px-4 py-3 text-sm transition-colors focus:border-[#0f2858] focus:outline-none bg-white rounded-none";
+
 export default function ContactPage() {
   const [activeAccordion, setActiveAccordion] = useState("Foshan ZYL Showroom");
-
-  const locations = [
-    {
-      name: "Foshan ZYL Showroom",
-      add: "F02, Central Zone, CCIH, No.68, Jihua West Road, Chancheng District, Foshan, Guangdong, China",
-      tel: "+86 757-8256 8296",
-      fax: "+86 757-8256 8296",
-      pc: "528000"
-    },
-    { name: "Guangdong ZYL Industry" },
-    { name: "Yunfu ZYL Stone" },
-    { name: "Shanghai ZYL Stone" },
-    { name: "Jiangsu ZYL Stone" },
-    { name: "Guangzhou ZYL Stone" },
-    { name: "C-Stone" }
-  ];
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
@@ -64,7 +81,7 @@ export default function ContactPage() {
 
           {/* Right Accordion */}
           <div className="flex flex-col gap-2">
-            {locations.map((loc) => {
+            {CONTACT_LOCATIONS.map((loc) => {
               const isActive = activeAccordion === loc.name;
               return (
                 <div key={loc.name} className="border border-gray-200 overflow-hidden">
@@ -90,15 +107,17 @@ export default function ContactPage() {
                       <div className="mb-8"><span className="text-gray-400">PC：</span> {loc.pc}</div>
                       
                       <div className="flex gap-2">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                           <span className="text-xs font-bold shrink-0">f</span>
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                           <span className="text-xs font-bold shrink-0">ig</span>
-                        </a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors">
-                           <span className="text-xs font-bold shrink-0">▶</span>
-                        </a>
+                        {SOCIAL_LINKS.map((link) => (
+                          <a
+                            key={link.label}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
+                          >
+                            <span className="text-xs font-bold shrink-0">{link.content}</span>
+                          </a>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -120,13 +139,13 @@ export default function ContactPage() {
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>Your Name:
               </label>
-              <input type="text" placeholder="Enter Your Name *" className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none" />
+              <input type="text" placeholder="Enter Your Name *" className={FORM_CONTROL_CLASS} />
             </div>
             <div className="space-y-2">
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>Your Name:
               </label>
-              <select className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none appearance-none text-gray-500">
+              <select className={`${FORM_CONTROL_CLASS} appearance-none text-gray-500`}>
                 <option>You are a *</option>
                 <option>Builder</option>
                 <option>Designer</option>
@@ -140,13 +159,13 @@ export default function ContactPage() {
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>E-mail:
               </label>
-              <input type="email" placeholder="Enter Your E-mail *" className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none" />
+              <input type="email" placeholder="Enter Your E-mail *" className={FORM_CONTROL_CLASS} />
             </div>
             <div className="space-y-2">
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>Company:
               </label>
-              <input type="text" placeholder="Enter Your Company *" className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none" />
+              <input type="text" placeholder="Enter Your Company *" className={FORM_CONTROL_CLASS} />
             </div>
           </div>
 
@@ -155,13 +174,13 @@ export default function ContactPage() {
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>Website/Whatsapp/Phone/Wechat:
               </label>
-              <input type="text" placeholder="Enter Your Whatsapp/Phone/Wechat" className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none" />
+              <input type="text" placeholder="Enter Your Whatsapp/Phone/Wechat" className={FORM_CONTROL_CLASS} />
             </div>
             <div className="space-y-2">
               <label className="text-[15px] font-medium block">
                 <span className="text-red-500 mr-1">*</span>Country/Region:
               </label>
-              <input type="text" placeholder="Enter Your Country/Region" className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none" />
+              <input type="text" placeholder="Enter Your Country/Region" className={FORM_CONTROL_CLASS} />
             </div>
           </div>
 
@@ -172,7 +191,7 @@ export default function ContactPage() {
             <textarea 
               rows={6}
               placeholder="Enter Your Message" 
-              className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#0f2858] transition-colors bg-white rounded-none resize-none" 
+              className={`${FORM_CONTROL_CLASS} resize-none`} 
             />
           </div>
 

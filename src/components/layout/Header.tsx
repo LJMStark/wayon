@@ -1,24 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/routing";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
 
-import { LANGUAGES, NAV_ITEMS, type SubItem } from "@/data/navigation";
+import {
+  LANGUAGES,
+  NAV_ITEMS,
+  type NavigationKey,
+  type SubItem,
+} from "@/data/navigation";
+
+function resolveBaseHref(href: string): string {
+  return href.split(/[?#]/)[0] || "/";
+}
 
 export default function Header() {
   const pathname = usePathname();
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
-  const currentLanguage = LANGUAGES.find(l => l.locale === locale) || LANGUAGES[0];
-  const collectionItem = useMemo(
-    () => NAV_ITEMS.find((item) => item.label === "collection"),
-    []
-  );
+  const translateNav = (key: NavigationKey): string => tNav(key);
+  const currentLanguage =
+    LANGUAGES.find((language) => language.locale === locale) ?? LANGUAGES[0];
+  const collectionItem = NAV_ITEMS.find((item) => item.label === "collection");
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeCollection, setActiveCollection] = useState<SubItem | null>(
     collectionItem?.subItems?.[0] ?? null
@@ -35,8 +43,6 @@ export default function Header() {
         : [...current, label]
     );
   };
-
-  const resolveBaseHref = (href: string) => href.split(/[?#]/)[0] || "/";
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white">
@@ -61,7 +67,7 @@ export default function Header() {
 
                 return (
                   <li
-                    key={tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    key={translateNav(item.label)}
                     className="group relative flex h-[var(--header-height)] items-center px-3 xl:px-5"
                     onMouseEnter={() => {
                       setActiveMenu(item.label);
@@ -79,7 +85,7 @@ export default function Header() {
                           : "text-[#333333] hover:text-[color:var(--primary)]"
                       }`}
                     >
-                      {tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                      {translateNav(item.label)}
                     </Link>
                     <span
                       className={`pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 transition-colors ${
@@ -116,7 +122,7 @@ export default function Header() {
                                     const isActive = activeCollection?.label === subItem.label;
 
                                     return (
-                                      <li key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                                      <li key={translateNav(subItem.label)}>
                                         <Link
                                           href={subItem.href}
                                           className={`block border-b border-[color:var(--border)] px-4 py-3 text-[15px] leading-6 transition-colors ${
@@ -126,7 +132,7 @@ export default function Header() {
                                           }`}
                                           onMouseEnter={() => setActiveCollection(subItem)}
                                         >
-                                          {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                          {translateNav(subItem.label)}
                                         </Link>
                                       </li>
                                     );
@@ -136,22 +142,22 @@ export default function Header() {
 
                               <div className="min-w-0">
                                 <h3 className="mb-4 text-[24px] font-medium text-[#1e1e1e]">
-                                  {activeCollection?.label ? tNav(activeCollection.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ ) : ""}
+                                  {activeCollection?.label ? translateNav(activeCollection.label) : ""}
                                 </h3>
                                 {activeCollection?.description ? (
                                   <p className="mb-6 text-[15px] leading-[1.7] text-[#666666]">
-                                    {tNav(activeCollection.description as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                    {translateNav(activeCollection.description)}
                                   </p>
                                 ) : null}
                                 {activeCollection?.children?.length ? (
                                   <ul className="grid gap-3 sm:grid-cols-2">
                                     {activeCollection.children.map((child) => (
-                                      <li key={tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                                      <li key={translateNav(child.label)}>
                                         <Link
                                           href={child.href}
                                           className="block text-[14px] leading-6 text-[#404040] transition-colors hover:text-[color:var(--primary)]"
                                         >
-                                          {tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                          {translateNav(child.label)}
                                         </Link>
                                       </li>
                                     ))}
@@ -180,11 +186,11 @@ export default function Header() {
                             <div className="border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow">
                               {item.subItems.map((subItem) => (
                                 <Link
-                                  key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                  key={translateNav(subItem.label)}
                                   href={subItem.href}
                                   className="block px-5 py-3 text-[14px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                                 >
-                                  {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                  {translateNav(subItem.label)}
                                 </Link>
                               ))}
                             </div>
@@ -347,20 +353,20 @@ export default function Header() {
                   const expanded = mobileOpenSections.includes(item.label);
 
                   return (
-                    <li key={tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )} className="border-b border-white/10 pb-3">
+                    <li key={translateNav(item.label)} className="border-b border-white/10 pb-3">
                       <div className="flex items-center justify-between gap-3 pt-3">
                         <Link
                           href={item.href}
                           onClick={() => setIsMobileOpen(false)}
                           className="text-[16px] font-light"
                         >
-                          {tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                          {translateNav(item.label)}
                         </Link>
                         {item.subItems?.length ? (
                           <button
                             type="button"
                             onClick={() => toggleMobileSection(item.label)}
-                            aria-label={`Toggle ${tNav(item.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}`}
+                            aria-label={`Toggle ${translateNav(item.label)}`}
                           >
                             <ChevronDown className={`size-5 transition-transform ${expanded ? "rotate-180" : ""}`} />
                           </button>
@@ -370,24 +376,24 @@ export default function Header() {
                       {item.subItems?.length && expanded ? (
                         <div className="mt-4 space-y-4 pl-4">
                           {item.subItems.map((subItem) => (
-                            <div key={tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                            <div key={translateNav(subItem.label)}>
                               <Link
                                 href={subItem.href}
                                 onClick={() => setIsMobileOpen(false)}
                                 className="block text-[15px] text-white/90"
                               >
-                                {tNav(subItem.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                {translateNav(subItem.label)}
                               </Link>
                               {subItem.children?.length ? (
                                 <ul className="mt-3 space-y-2 border-l border-white/10 pl-3">
                                   {subItem.children.map((child) => (
-                                    <li key={tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                                    <li key={translateNav(child.label)}>
                                       <Link
                                         href={child.href}
                                         onClick={() => setIsMobileOpen(false)}
                                         className="text-[13px] text-white/65"
                                       >
-                                        {tNav(child.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                                        {translateNav(child.label)}
                                       </Link>
                                     </li>
                                   ))}

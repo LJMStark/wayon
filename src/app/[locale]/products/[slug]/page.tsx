@@ -1,50 +1,39 @@
-import fs from 'fs';
-import path from 'path';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { getTranslations } from "next-intl/server";
-
-type Product = {
-  url: string;
-  category: string;
-  imageSrc: string;
-  localImage?: string;
-  [key: string]: string | undefined; // Supports title_en, title_zh, etc.
-};
+import {
+  findProductBySlug,
+  getLocalizedProductValue,
+  getProductImage,
+  getProductSlugs,
+} from '@/data/products';
+import { hasLocale } from '@/i18n/types';
 
 export async function generateStaticParams() {
-  const filePath = path.join(process.cwd(), 'src', 'data', 'products.json');
-  if (!fs.existsSync(filePath)) return [];
-  const content = fs.readFileSync(filePath, 'utf8');
-  const products: Product[] = JSON.parse(content);
-  
-  return products.map((p) => {
-    const slug = p.url.split('/').pop()?.replace('.html', '') || '';
-    return { slug };
-  });
+  return getProductSlugs().map((slug) => ({ slug }));
 }
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string, locale: string }> }) {
+export default async function ProductDetailPage({
+  params,
+}: PageProps<'/[locale]/products/[slug]'>) {
   const { slug, locale } = await params;
-  const tHeader = await getTranslations("Header");
-  
-  const filePath = path.join(process.cwd(), 'src', 'data', 'products.json');
-  if (!fs.existsSync(filePath)) return notFound();
-  
-  const products: Product[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  const originalUrlPart = `/products/${slug}.html`;
-  
-  const product = products.find((p) => p.url.endsWith(originalUrlPart) || p.url.includes(slug));
-  
-  if (!product) {
-    return notFound();
+
+  if (!hasLocale(locale)) {
+    notFound();
   }
 
-  // Get localized title and category
-  const localizedTitle = product[`title_${locale}`] || product.title_en || product.title || "";
-  const localizedCategory = product[`category_${locale}`] || product.category_en || product.category || "";
+  const tHeader = await getTranslations("Header");
+
+  const product = findProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  const localizedTitle = getLocalizedProductValue(product, locale, "title");
+  const localizedCategory = getLocalizedProductValue(product, locale, "category");
 
   return (
     <div className="bg-white min-h-screen pt-24">
@@ -56,7 +45,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="relative aspect-square bg-[#f8f8f8] overflow-hidden animate-fade-in group">
             <Image
-               src={product.localImage ? product.localImage : product.imageSrc}
+               src={getProductImage(product)}
                alt={localizedTitle}
                fill
                className="object-cover transition-transform duration-700 group-hover:scale-105"

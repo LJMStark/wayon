@@ -1,18 +1,24 @@
+import type { AppLocale, AppMessages } from "@/i18n/types";
+
+type NavigationMessages = AppMessages["Navigation"];
+
+export type NavigationKey = keyof NavigationMessages;
+
 export type ChildLink = {
-  label: string;
+  label: NavigationKey;
   href: string;
 };
 
 export type SubItem = {
-  label: string;
+  label: NavigationKey;
   href: string;
-  description?: string;
+  description?: NavigationKey;
   previewImage?: string;
   children?: ChildLink[];
 };
 
 export type NavItem = {
-  label: string;
+  label: NavigationKey;
   href: string;
   mega?: boolean;
   subItems?: SubItem[];
@@ -154,7 +160,12 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "contactUs", href: "/contact" },
 ];
 
-export const LANGUAGES = [
+export const LANGUAGES: Array<{
+  code: Uppercase<AppLocale>;
+  label: string;
+  locale: AppLocale;
+  icon: string;
+}> = [
   { code: "ZH", label: "中文", locale: "zh", icon: "🇨🇳" },
   { code: "EN", label: "English", locale: "en", icon: "🇬🇧" },
   { code: "ES", label: "Española", locale: "es", icon: "🇪🇸" },

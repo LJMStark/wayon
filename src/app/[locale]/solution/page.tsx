@@ -4,9 +4,64 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+const PRIMARY_TABS = [
+  "Finished Products",
+  "Application field",
+  "Project",
+  "360° View",
+] as const;
+
+const SECONDARY_TABS = [
+  "Quartz Stone",
+  "Terrazzo Stone",
+  "Cement Stone",
+] as const;
+
+const GALLERY_IMAGES = [
+  { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-square" },
+  { src: "/assets/products/4114a4ac18610909eb9728c75328bcff.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/products/7037b74ccb409b9cca57110044283d96.jpg", aspect: "aspect-[4/5]" },
+  { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-square" },
+  { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[4/5]" },
+];
+
+type PrimaryTab = (typeof PRIMARY_TABS)[number];
+type SecondaryTab = (typeof SECONDARY_TABS)[number];
+
+function getImagesForTab(activeTab: PrimaryTab, activeSubTab: SecondaryTab) {
+  if (activeTab === "Finished Products") {
+    return GALLERY_IMAGES.slice(3).concat(GALLERY_IMAGES.slice(0, 3));
+  }
+
+  if (activeTab === "Project") {
+    return [...GALLERY_IMAGES].reverse();
+  }
+
+  if (activeTab === "360° View") {
+    return GALLERY_IMAGES.slice(0, 6);
+  }
+
+  if (activeSubTab === "Terrazzo Stone") {
+    return GALLERY_IMAGES.slice(2, 10);
+  }
+
+  if (activeSubTab === "Cement Stone") {
+    return GALLERY_IMAGES.slice(4, 12);
+  }
+
+  return GALLERY_IMAGES;
+}
+
 export default function SolutionPage() {
-  const [activeTab, setActiveTab] = useState("Application field");
-  const [activeSubTab, setActiveSubTab] = useState("Quartz Stone");
+  const [activeTab, setActiveTab] = useState<PrimaryTab>("Application field");
+  const [activeSubTab, setActiveSubTab] = useState<SecondaryTab>("Quartz Stone");
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -23,37 +78,7 @@ export default function SolutionPage() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const allImages = [
-    { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[4/3]" },
-    { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[3/4]" },
-    { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-[16/9]" },
-    { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-square" },
-    { src: "/assets/products/4114a4ac18610909eb9728c75328bcff.jpg", aspect: "aspect-[3/4]" },
-    { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[16/9]" },
-    { src: "/assets/products/7037b74ccb409b9cca57110044283d96.jpg", aspect: "aspect-[4/5]" },
-    { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[16/9]" },
-    { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[4/3]" },
-    { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-square" },
-    { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-[3/4]" },
-    { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[4/5]" }
-  ];
-
-  const getImagesForTab = () => {
-    switch (activeTab) {
-      case "Finished Products": 
-        return allImages.slice(3).concat(allImages.slice(0, 3));
-      case "Project": 
-        return [...allImages].reverse();
-      case "360° View": 
-        return allImages.slice(0, 6);
-      default: // Application field
-        if (activeSubTab === "Terrazzo Stone") return allImages.slice(2, 10);
-        if (activeSubTab === "Cement Stone") return allImages.slice(4, 12);
-        return allImages; // Quartz Stone
-    }
-  };
-
-  const masonryImages = getImagesForTab();
+  const masonryImages = getImagesForTab(activeTab, activeSubTab);
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
@@ -84,7 +109,7 @@ export default function SolutionPage() {
       <div className="max-w-[1400px] mx-auto px-6 pb-24">
         {/* 3. Tier 1 Navigation */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-6">
-          {["Finished Products", "Application field", "Project", "360° View"].map((tab) => (
+          {PRIMARY_TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -102,7 +127,7 @@ export default function SolutionPage() {
         {/* 4. Tier 2 Navigation */}
         {activeTab === "Application field" && (
           <div className="flex justify-center gap-8 mb-16 text-[13px] text-[#0f2858]">
-            {["Quartz Stone", "Terrazzo Stone", "Cement Stone"].map((sub) => (
+            {SECONDARY_TABS.map((sub) => (
               <button
                 key={sub}
                 onClick={() => setActiveSubTab(sub)}

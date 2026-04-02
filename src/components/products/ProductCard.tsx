@@ -1,17 +1,15 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 
-interface ProductCardProps {
+import { getProductSlug } from '@/data/products';
+
+type ProductCardProps = {
   title: string;
   image: string;
   url: string;
   category: string;
-}
-
-function slugFromUrl(url: string): string {
-  return url.split('/').pop()?.replace('.html', '') ?? '';
-}
+};
 
 export default function ProductCard({ title, image, url, category }: ProductCardProps) {
   return (
@@ -36,7 +34,7 @@ export default function ProductCard({ title, image, url, category }: ProductCard
         </h3>
         
         <div className="mt-auto pt-4 border-t border-muted">
-          <Link href={`/products/${slugFromUrl(url)}`} className="inline-flex items-center text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+          <Link href={`/products/${getProductSlug(url)}`} className="inline-flex items-center text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
             View Details <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

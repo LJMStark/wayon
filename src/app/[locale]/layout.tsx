@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { notFound } from "next/navigation";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSidebar from "@/components/layout/FloatingSidebar";
+import { getLocaleDirection, hasLocale } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
@@ -42,15 +44,23 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: LayoutProps<"/[locale]">) {
   const { locale } = await params;
+
+  if (!hasLocale(locale)) {
+    notFound();
+  }
+
   const messages = await getMessages();
+  const direction = getLocaleDirection(locale);
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${montserrat.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={direction}
+      className={`${montserrat.variable} h-full`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col relative text-left rtl:text-right">
         <NextIntlClientProvider messages={messages}>
           <Header />

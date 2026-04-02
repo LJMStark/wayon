@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import type { NavigationKey } from "@/data/navigation";
 
 const ADDRESS_LINES = [
   "Showroom: Foshan, Guangdong, China",
@@ -16,7 +17,7 @@ const ABOUT_LINKS = [
   { label: "factory", href: "/about#factory" },
   { label: "certificate", href: "/about#certificate" },
   { label: "download", href: "/download" },
-];
+] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
 
 const COLLECTION_LINKS = [
   { label: "quartzStone", href: "/products?category=quartz" },
@@ -28,14 +29,14 @@ const COLLECTION_LINKS = [
   { label: "artificialMarble", href: "/products?category=artificial-marble" },
   { label: "porcelainSlab", href: "/products?category=porcelain-slab" },
   { label: "silicaFree", href: "/products?category=silica-free" },
-];
+] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
 
 const CASE_LINKS = [
   { label: "finishedProducts", href: "/solution" },
   { label: "applicationField", href: "/solution" },
   { label: "project", href: "/solution#case" },
   { label: "view360", href: "/solution" },
-];
+] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
 
 const SOCIAL_LINKS = [
   {
@@ -68,6 +69,7 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   const tFooter = useTranslations("Footer");
   const tNav = useTranslations("Navigation");
+  const translateNav = (key: NavigationKey): string => tNav(key);
   const [contactValue, setContactValue] = useState("");
 
   return (
@@ -95,9 +97,9 @@ export default function Footer() {
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("aboutUs")}</h3>
             <ul className="space-y-2 text-[14px] font-light leading-7 text-white/70">
               {ABOUT_LINKS.map((link) => (
-                <li key={tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                <li key={translateNav(link.label)}>
                   <Link href={link.href} className="transition-colors hover:text-white">
-                    {tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    {translateNav(link.label)}
                   </Link>
                 </li>
               ))}
@@ -108,9 +110,9 @@ export default function Footer() {
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("collection")}</h3>
             <ul className="grid gap-x-8 gap-y-2 text-[14px] font-light leading-7 text-white/70 sm:grid-cols-2">
               {COLLECTION_LINKS.map((link) => (
-                <li key={tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                <li key={translateNav(link.label)}>
                   <Link href={link.href} className="transition-colors hover:text-white">
-                    {tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    {translateNav(link.label)}
                   </Link>
                 </li>
               ))}
@@ -121,9 +123,9 @@ export default function Footer() {
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("case")}</h3>
             <ul className="space-y-2 text-[14px] font-light leading-7 text-white/70">
               {CASE_LINKS.map((link) => (
-                <li key={tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}>
+                <li key={translateNav(link.label)}>
                   <Link href={link.href} className="transition-colors hover:text-white">
-                    {tNav(link.label as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    {translateNav(link.label)}
                   </Link>
                 </li>
               ))}

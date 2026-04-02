@@ -3,21 +3,23 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { getProductImage, type Product } from "@/data/products";
 
-type Product = {
-  url: string;
-  title: string;
-  category: string;
-  imageSrc: string;
-  localImage?: string;
-};
+const ALL_COLLECTIONS = "All Collections";
 
-export default function ProductGrid({ products, initialCategories }: { products: Product[]; initialCategories: string[] }) {
-  const [activeCategory, setActiveCategory] = useState<string>("All Collections");
+export default function ProductGrid({
+  products,
+  initialCategories,
+}: {
+  products: Product[];
+  initialCategories: string[];
+}) {
+  const [activeCategory, setActiveCategory] = useState<string>(ALL_COLLECTIONS);
 
-  const filteredProducts = activeCategory === "All Collections" 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  const filteredProducts =
+    activeCategory === ALL_COLLECTIONS
+      ? products
+      : products.filter((product) => product.category === activeCategory);
 
   const getFilterBtnClass = (isActive: boolean) => {
     const base = "px-6 py-2 rounded-full border text-sm font-medium transition-all";
@@ -32,10 +34,10 @@ export default function ProductGrid({ products, initialCategories }: { products:
       {/* Filters */}
       <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
         <button 
-          onClick={() => setActiveCategory("All Collections")}
-          className={getFilterBtnClass(activeCategory === "All Collections")}
+          onClick={() => setActiveCategory(ALL_COLLECTIONS)}
+          className={getFilterBtnClass(activeCategory === ALL_COLLECTIONS)}
         >
-          All Collections
+          {ALL_COLLECTIONS}
         </button>
         {initialCategories.map((cat, idx) => (
            <button 
@@ -68,7 +70,7 @@ export default function ProductGrid({ products, initialCategories }: { products:
                 <ProductCard 
                   title={product.title}
                   url={product.url}
-                  image={product.localImage ? product.localImage : product.imageSrc}
+                  image={getProductImage(product)}
                   category={product.category}
                 />
               </motion.div>

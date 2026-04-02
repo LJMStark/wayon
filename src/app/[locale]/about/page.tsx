@@ -5,6 +5,36 @@ import Link from "next/link";
 import { useState } from "react";
 import { MoveRight } from "lucide-react";
 
+const ABOUT_STATS = [
+  { value: "41", suffix: " Years", label: "Established" },
+  { value: "130,000", suffix: " m²", label: "Factory Size" },
+  { value: "3,000,000", suffix: " m²", label: "Annual Production" },
+  { value: "100,000", suffix: " m²", label: "Regular Stock" },
+];
+
+const PHILOSOPHY_TABS = ["Philosophy", "Mission", "Vision", "Values"] as const;
+
+const EXHIBITION_TABS = [
+  "Canton Fair",
+  "Xiamen Exhibition",
+  "Other exhibitions",
+] as const;
+
+const DEVELOPMENT_HISTORY = [
+  {
+    year: "2024",
+    text: "ZYL Stone was officially recommended by the Canton Fair and promoted its brand on the central stage of the Canton Fair Complex. It has participated in the fair for 18 consecutive years and 36 sessions without ever missing a session.",
+  },
+  {
+    year: "2022",
+    text: "In 2022, ZYL Stone was awarded the title of 'Top Ten Preferred Material Suppliers in Shenzhen's Decoration Industry' for its outstanding product quality and engineering service capabilities, fully demonstrating the brand's leading position.",
+  },
+  {
+    year: "2020",
+    text: "Awarded the 'China Design and Material Selection Gold Medal Service Provider' and the 'S+D Product and Design Award', ZYL Stone has earned recognition from a wide range of customers.",
+  },
+];
+
 export default function AboutPage() {
   const [activePhilosophyTab, setActivePhilosophyTab] = useState("Philosophy");
   const [activeExhibitionTab, setActiveExhibitionTab] = useState("Canton Fair");
@@ -56,22 +86,15 @@ export default function AboutPage() {
       {/* 3. Stat Grid */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center divide-x divide-gray-100">
-          <div className="flex flex-col items-center">
-            <div className="text-5xl font-light text-[#0f2858] mb-2">41<span className="text-2xl"> Years</span></div>
-            <div className="text-sm text-gray-500">Established</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="text-5xl font-light text-[#0f2858] mb-2">130,000<span className="text-2xl"> m²</span></div>
-            <div className="text-sm text-gray-500">Factory Size</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="text-5xl font-light text-[#0f2858] mb-2">3,000,000<span className="text-2xl"> m²</span></div>
-            <div className="text-sm text-gray-500">Annual Production</div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="text-5xl font-light text-[#0f2858] mb-2">100,000<span className="text-2xl"> m²</span></div>
-            <div className="text-sm text-gray-500">Regular Stock</div>
-          </div>
+          {ABOUT_STATS.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center">
+              <div className="text-5xl font-light text-[#0f2858] mb-2">
+                {stat.value}
+                <span className="text-2xl">{stat.suffix}</span>
+              </div>
+              <div className="text-sm text-gray-500">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -109,7 +132,7 @@ export default function AboutPage() {
           </div>
           
           <div className="flex justify-center border-b border-white/20">
-            {["Philosophy", "Mission", "Vision", "Values"].map((tab) => (
+            {PHILOSOPHY_TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActivePhilosophyTab(tab)}
@@ -166,7 +189,7 @@ export default function AboutPage() {
         </p>
 
         <div className="flex justify-center border-b border-gray-200 mb-12">
-          {["Canton Fair", "Xiamen Exhibition", "Other exhibitions"].map((tab) => (
+          {EXHIBITION_TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveExhibitionTab(tab)}
@@ -206,11 +229,7 @@ export default function AboutPage() {
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 transform -translate-x-1/2" />
 
             {/* Timelines items - we do just a few to match design aesthetic 1:1 visually */}
-            {[
-              { year: "2024", text: "ZYL Stone was officially recommended by the Canton Fair and promoted its brand on the central stage of the Canton Fair Complex. It has participated in the fair for 18 consecutive years and 36 sessions without ever missing a session." },
-              { year: "2022", text: "In 2022, ZYL Stone was awarded the title of 'Top Ten Preferred Material Suppliers in Shenzhen's Decoration Industry' for its outstanding product quality and engineering service capabilities, fully demonstrating the brand's leading position." },
-              { year: "2020", text: "Awarded the 'China Design and Material Selection Gold Medal Service Provider' and the 'S+D Product and Design Award', ZYL Stone has earned recognition from a wide range of customers." }
-            ].map((item, index) => (
+            {DEVELOPMENT_HISTORY.map((item, index) => (
               <div key={item.year} className={`relative mb-24 md:flex items-center justify-between w-full ${index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"}`}>
                 
                 {/* Center marker */}

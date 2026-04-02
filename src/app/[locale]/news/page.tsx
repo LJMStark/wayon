@@ -38,6 +38,8 @@ const newsItems = [
 ];
 
 export default function NewsPage() {
+  const [featuredNews, ...recentNews] = newsItems;
+
   return (
     <div className="bg-background min-h-screen pb-24">
       <section className="bg-primary pt-32 pb-20 px-4 text-center">
@@ -57,25 +59,25 @@ export default function NewsPage() {
            
            {/* Featured News (Left col) */}
            <div className="lg:col-span-7">
-             <Link href={`/news/${newsItems[0].slug}`} className="group block relative rounded-2xl overflow-hidden shadow-2xl">
+             <Link href={`/news/${featuredNews.slug}`} className="group block relative rounded-2xl overflow-hidden shadow-2xl">
                 <div className="relative aspect-4/3 w-full">
-                  <Image src={newsItems[0].img} alt={newsItems[0].title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized/>
+                  <Image src={featuredNews.img} alt={featuredNews.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized/>
                   <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                   <div className="flex items-center space-x-4 mb-3">
                      <span className="px-3 py-1 bg-gold text-primary text-xs font-bold uppercase tracking-wider rounded-full">
-                       {newsItems[0].category}
+                       {featuredNews.category}
                      </span>
                      <span className="flex items-center text-gray-300 text-sm font-medium">
-                       <Calendar className="w-4 h-4 mr-2" /> {newsItems[0].date}
+                       <Calendar className="w-4 h-4 mr-2" /> {featuredNews.date}
                      </span>
                   </div>
                   <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-3">
-                     {newsItems[0].title}
+                     {featuredNews.title}
                   </h2>
                   <p className="text-gray-300 line-clamp-2">
-                     {newsItems[0].excerpt}
+                     {featuredNews.excerpt}
                   </p>
                 </div>
              </Link>
@@ -86,8 +88,8 @@ export default function NewsPage() {
              <h3 className="text-2xl font-heading font-bold text-primary mb-2">Recent Updates</h3>
              <div className="h-px w-full bg-muted mb-4" />
              
-             {newsItems.slice(1).map((news, idx) => (
-                <Link key={idx} href={`/news/${news.slug}`} className="group flex space-x-4 pb-6 border-b border-muted/50 last:border-0 last:pb-0">
+             {recentNews.map((news) => (
+                <Link key={news.slug} href={`/news/${news.slug}`} className="group flex space-x-4 pb-6 border-b border-muted/50 last:border-0 last:pb-0">
                    <div className="relative w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-lg overflow-hidden">
                       <Image src={news.img} alt={news.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" unoptimized/>
                    </div>

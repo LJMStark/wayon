@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
+import type { NavigationKey } from "@/data/navigation";
 
 interface CategoryShowcase {
   category: string;
-  titleKey: string;
-  descriptionKey: string;
+  titleKey: NavigationKey;
+  descriptionKey: NavigationKey;
   imageSrc: string;
   bgType: 'gray' | 'white';
 }
@@ -69,6 +70,8 @@ const mainCategories: CategoryShowcase[] = [
 
 export default function CollectionsPage() {
   const tNav = useTranslations("Navigation");
+  const translateNav = (key: NavigationKey): string => tNav(key);
+
   return (
     <main className="min-h-screen bg-white">
       {/* 1. Hero Banner */}
@@ -119,10 +122,10 @@ export default function CollectionsPage() {
               >
                 <div className="max-w-md w-full">
                   <h2 className="text-3xl lg:text-4xl font-bold text-[#1a1a1a] mb-6">
-                    {tNav(cat.titleKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    {translateNav(cat.titleKey)}
                   </h2>
                   <p className="text-gray-600 text-[15px] leading-relaxed mb-10 w-[95%]">
-                    {tNav(cat.descriptionKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    {translateNav(cat.descriptionKey)}
                   </p>
                   {/* Note: The button in the screenshot has full rounded corners */}
                   <Link 
@@ -143,7 +146,7 @@ export default function CollectionsPage() {
                 <div className="absolute inset-0 max-w-[85%] max-h-[85%] m-auto scale-[0.9] hover:scale-95 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]">
                   <Image
                     src={cat.imageSrc}
-                    alt={tNav(cat.titleKey as any /* eslint-disable-line @typescript-eslint/no-explicit-any */ )}
+                    alt={translateNav(cat.titleKey)}
                     fill
                     className="object-cover shadow-sm bg-neutral-200"
                   />
