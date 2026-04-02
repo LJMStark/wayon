@@ -23,7 +23,6 @@ export default function ProductCard({ title, image, url, category }: ProductCard
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
-          unoptimized // To allow direct raw local proxy images or external without full processing on local
         />
         <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors duration-300 z-10" />
       </div>
