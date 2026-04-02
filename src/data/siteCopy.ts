@@ -1,6 +1,13 @@
 import type { AppLocale } from "@/i18n/types";
 
 type LocalizedValue<T> = Record<AppLocale, T>;
+type ResolvedCopy<T> = T extends readonly (infer U)[]
+  ? ResolvedCopy<U>[]
+  : T extends LocalizedValue<infer V>
+    ? V
+    : T extends object
+      ? { [K in keyof T]: ResolvedCopy<T[K]> }
+      : T;
 
 const LOCALES = ["en", "zh", "es", "ar", "ru"] as const satisfies readonly AppLocale[];
 
@@ -14,13 +21,13 @@ function isLocalizedValue(value: unknown): value is LocalizedValue<unknown> {
   return LOCALES.every((locale) => locale in record);
 }
 
-function resolveLocale<T>(value: T, locale: AppLocale): T {
+function resolveLocale<T>(value: T, locale: AppLocale): ResolvedCopy<T> {
   if (Array.isArray(value)) {
-    return value.map((item) => resolveLocale(item, locale)) as T;
+    return value.map((item) => resolveLocale(item, locale)) as ResolvedCopy<T>;
   }
 
   if (isLocalizedValue(value)) {
-    return value[locale] as T;
+    return value[locale] as ResolvedCopy<T>;
   }
 
   if (value && typeof value === "object") {
@@ -29,10 +36,10 @@ function resolveLocale<T>(value: T, locale: AppLocale): T {
         key,
         resolveLocale(nestedValue, locale),
       ])
-    ) as T;
+    ) as ResolvedCopy<T>;
   }
 
-  return value;
+  return value as ResolvedCopy<T>;
 }
 
 export function formatCopy(
@@ -971,6 +978,13 @@ const SITE_COPY = {
       ar: "احصل على كتالوجات المنتجات والمواصفات الفنية ومواد التركيب المخصصة للموزعين والمصممين وفرق المشاريع.",
       ru: "Получайте продуктовые каталоги, технические спецификации и монтажные материалы для дистрибьюторов, дизайнеров и проектных команд.",
     },
+    requestCatalog: {
+      en: "Request file",
+      zh: "索取资料",
+      es: "Solicitar archivo",
+      ar: "اطلب الملف",
+      ru: "Запросить файл",
+    },
     catalogs: [
       {
         title: {
@@ -1500,49 +1514,49 @@ const SITE_COPY = {
 } as const;
 
 export function getCommonCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.common, locale) as any;
+  return resolveLocale(SITE_COPY.common, locale);
 }
 
 export function getHeaderCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.header, locale) as any;
+  return resolveLocale(SITE_COPY.header, locale);
 }
 
 export function getFloatingSidebarCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.floatingSidebar, locale) as any;
+  return resolveLocale(SITE_COPY.floatingSidebar, locale);
 }
 
 export function getLandingCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.landing, locale) as any;
+  return resolveLocale(SITE_COPY.landing, locale);
 }
 
 export function getAboutPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.aboutPage, locale) as any;
+  return resolveLocale(SITE_COPY.aboutPage, locale);
 }
 
 export function getContactPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.contactPage, locale) as any;
+  return resolveLocale(SITE_COPY.contactPage, locale);
 }
 
 export function getSolutionPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.solutionPage, locale) as any;
+  return resolveLocale(SITE_COPY.solutionPage, locale);
 }
 
 export function getDownloadPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.downloadPage, locale) as any;
+  return resolveLocale(SITE_COPY.downloadPage, locale);
 }
 
 export function getNewsPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.newsPage, locale) as any;
+  return resolveLocale(SITE_COPY.newsPage, locale);
 }
 
 export function getProductsPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.productsPage, locale) as any;
+  return resolveLocale(SITE_COPY.productsPage, locale);
 }
 
 export function getProductDetailPageCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.productDetailPage, locale) as any;
+  return resolveLocale(SITE_COPY.productDetailPage, locale);
 }
 
 export function getMetadataCopy(locale: AppLocale) {
-  return resolveLocale(SITE_COPY.metadata, locale) as any;
+  return resolveLocale(SITE_COPY.metadata, locale);
 }

@@ -1,4 +1,4 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { Link } from "@/i18n/routing";
@@ -80,9 +80,13 @@ export default async function DownloadPage({
 
               <div className="flex items-center justify-between border-t border-gray-100 pt-4">
                 <span className="text-[11px] text-gray-400">{catalog.size}</span>
-                <button className="inline-flex items-center text-sm font-medium text-[#1a1a1a] transition-colors group-hover:text-gray-600" type="button">
-                  {commonCopy.download} <ArrowDown className="ml-2 h-4 w-4" />
-                </button>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center text-sm font-medium text-[#1a1a1a] transition-colors group-hover:text-gray-600"
+                >
+                  {downloadCopy.requestCatalog}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </div>
             </div>
           ))}

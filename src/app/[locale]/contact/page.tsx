@@ -22,7 +22,7 @@ export default function ContactPage() {
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
   const contactCopy = getContactPageCopy(locale);
-  const [activeAccordion, setActiveAccordion] = useState(
+  const [activeAccordion, setActiveAccordion] = useState<string>(
     contactCopy.locations[0].name
   );
 

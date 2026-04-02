@@ -42,7 +42,7 @@
     "cementPure": "Pure",
     "cementSandstone": "Sandstone",
     "cementLine": "Line",
-    "artificialMarble": "Artifical Marble",
+    "artificialMarble": "Artificial Marble",
     "artificialDesc": "Natural mineral powder + eco-friendly binders, high-temp and high-pressure formed. Wear-resistant and versatile for vanity tops, walls and facades.",
     "artificialWhite": "White Series",
     "artificialGrey": "Grey Series",
@@ -216,7 +216,7 @@
     },
     "HomeProducts": {
       "item0": {
-        "title": "Quart Stone & Zero Silica Stone",
+        "title": "Quartz Stone & Zero Silica Stone",
         "description": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made..."
       },
       "item1": {
@@ -240,7 +240,7 @@
         "description": "High-strength cement, high-pressure-made. Rich colors, surface holes; stable..."
       },
       "item6": {
-        "title": "Artifical Marble",
+        "title": "Artificial Marble",
         "description": "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed..."
       },
       "item7": {

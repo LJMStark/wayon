@@ -13,10 +13,10 @@ export default function AboutPage() {
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
   const aboutCopy = getAboutPageCopy(locale);
-  const [activePhilosophyTab, setActivePhilosophyTab] = useState(
+  const [activePhilosophyTab, setActivePhilosophyTab] = useState<string>(
     aboutCopy.philosophyTabs[0]
   );
-  const [activeExhibitionTab, setActiveExhibitionTab] = useState(
+  const [activeExhibitionTab, setActiveExhibitionTab] = useState<string>(
     aboutCopy.exhibitionTabs[0]
   );
 

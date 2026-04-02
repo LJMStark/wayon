@@ -183,160 +183,160 @@
   },
   "HomeData": {
     "AboutIntro": {
-      "title": "ABOUT\nZYL STONE",
-      "p1": "ZYL Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. ZYL Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
-      "p2": "ZYL specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
-      "cta": "Learn More About Us"
+      "title": "حول\nZYL Stone",
+      "p1": "تأسست ZYL Stone في الصين عام 1982، وهي شركة عالمية لتصنيع مواد الحجر المتقدمة مع أربع قواعد رئيسية للإنتاج والمعالجة. ويتجاوز إنتاجها السنوي 3 ملايين متر مربع من الكوارتز والتيرازو والحجر المرن والرخام والرخام الصناعي والأحجار الكريمة وغيرها من المواد الحجرية الطبيعية والهندسية.",
+      "p2": "تتخصص ZYL Stone في إنتاج ومعالجة مجموعة واسعة من المنتجات الحجرية، بما في ذلك أسطح المطابخ وأسطح الحمامات وطاولات الأثاث وبلاط الجدران والأرضيات ومنتجات الحجر الهندسي المخصصة.",
+      "cta": "اعرف المزيد عنا"
     },
     "AboutAlbum": {
       "item0": {
-        "title": "ZYL Stone Group",
-        "text": "ZYL has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
+        "title": "مجموعة ZYL Stone",
+        "text": "تطورت ZYL لتصبح مؤسسة حجرية متكاملة تجمع بين موارد المحاجر والبحث والتطوير والابتكار والتصنيع والحلول الهندسية..."
       },
       "item1": {
-        "title": "Yunfu ZYL",
-        "text": "Yunfu ZYL covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
+        "title": "يونفو ZYL",
+        "text": "تمتد منشأة ZYL في يونفو على مساحة إجمالية تبلغ 20,000 متر مربع، منها 18,000 متر مربع للمصنع و2,000 متر مربع للمكاتب..."
       },
       "item2": {
-        "title": "Foshan Showroom",
-        "text": "The Hallmark Brand Showroom, meticulously created by ZYL Stone, spans an area of 1,400 square meters..."
+        "title": "صالة عرض فوشان",
+        "text": "تغطي صالة العلامة التجارية التي أنشأتها ZYL Stone بعناية مساحة 1,400 متر مربع..."
       },
       "item3": {
-        "title": "Guangdong ZYL",
-        "text": "The Heyuan Production Base of ZYL Stone covers a total area of 60,000 square meters..."
+        "title": "قوانغدونغ ZYL",
+        "text": "تغطي قاعدة إنتاج ZYL Stone في هيوان مساحة إجمالية تبلغ 60,000 متر مربع..."
       },
       "item4": {
-        "title": "Shanghai ZYL",
-        "text": "Shanghai ZYL, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
+        "title": "شنغهاي ZYL",
+        "text": "تأسست Shanghai ZYL عام 1998 وتقع في رقم 4589 طريق تساوآن، حي جيادينغ، شنغهاي..."
       },
       "item5": {
-        "title": "Guangzhou ZYL",
-        "text": "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble..."
+        "title": "قوانغتشو ZYL",
+        "text": "تأسست عام 1990 وكانت تُعرف سابقًا باسم Guangzhou Lixin Stone Craft Co., Ltd. وتتخصص في الكوارتز والتيرازو والرخام الطبيعي..."
       }
     },
     "HomeProducts": {
       "item0": {
-        "title": "Quart Stone & Zero Silica Stone",
-        "description": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made..."
+        "title": "حجر الكوارتز والحجر الخالي من السيليكا",
+        "description": "حجر الكوارتز (90% رمل كوارتز) والحجر الخالي من السيليكا، بتصنيع متقدم يناسب المشاريع المعمارية..."
       },
       "item1": {
-        "title": "Terrazzo",
-        "description": "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install..."
+        "title": "تيرازو",
+        "description": "ركام طبيعي مع مادة رابطة صديقة للبيئة بتشكيل عالي الضغط. ألواح كبيرة تسهّل التركيب..."
       },
       "item2": {
-        "title": "Flexible Stone",
-        "description": "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces..."
+        "title": "حجر مرن",
+        "description": "ملمس حجري مع مرونة عالية. خفيف وسهل التركيب على الجدران والأرضيات والأسطح غير المنتظمة..."
       },
       "item3": {
-        "title": "Marble",
-        "description": "ZYL Marble features unique natural textures and elegant luxury..."
+        "title": "رخام",
+        "description": "رخام ZYL يتميز بملامس طبيعية فريدة وأناقة فاخرة..."
       },
       "item4": {
-        "title": "Gem stone",
-        "description": "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine..."
+        "title": "حجر كريم",
+        "description": "شرائح أحجار كريمة ملصقة بدقة ومزججة لسطوع فاخر. قابلة للتخصيص حسب الطلب..."
       },
       "item5": {
-        "title": "Cement Stone",
-        "description": "High-strength cement, high-pressure-made. Rich colors, surface holes; stable..."
+        "title": "حجر أسمنتي",
+        "description": "حجر أسمنتي عالي القوة ومصنوع بالضغط العالي. ألوان غنية وثبات قوي..."
       },
       "item6": {
-        "title": "Artifical Marble",
-        "description": "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed..."
+        "title": "رخام صناعي",
+        "description": "رخام صناعي من مسحوق معدني طبيعي وروابط صديقة للبيئة بتشكيل حراري وضغط عالٍ..."
       },
       "item7": {
-        "title": "Porcelain Slab",
-        "description": "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes..."
+        "title": "ألواح بورسلان",
+        "description": "ألواح من مسحوق معدني وروابط صديقة للبيئة مع تشكيل بدرجات حرارة وضغط مرتفعين..."
       }
     },
     "Solutions": {
       "item0": {
-        "label": "Kitchen Countertops",
-        "title": "Kitchen Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+        "label": "أسطح المطابخ",
+        "title": "أسطح المطابخ",
+        "description": "يضم مركز معالجة ZYL Stone مصنعًا بمساحة 6,500 متر مربع ومجهزًا بمعدات متقدمة لإنجاز أسطح مطابخ دقيقة..."
       },
       "item1": {
-        "label": "Bathroom Spaces",
-        "title": "Bathroom Spaces",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "مساحات الحمام",
+        "title": "مساحات الحمام",
+        "description": "حلول متكاملة لأسطح وجدران الحمامات تعتمد على مواد مقاومة للرطوبة وسهلة الصيانة..."
       },
       "item2": {
-        "label": "Furniture Tops",
-        "title": "Furniture Tops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "أسطح الأثاث",
+        "title": "أسطح الأثاث",
+        "description": "أسطح حجرية مخصصة للطاولات والأثاث تجمع بين الدقة والمتانة واللمسة الفاخرة..."
       },
       "item3": {
-        "label": "Wall & Floor",
-        "title": "Wall & Floor",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "الجدران والأرضيات",
+        "title": "الجدران والأرضيات",
+        "description": "مواد مناسبة للجدران والأرضيات الداخلية والخارجية مع ثبات لوني وأداء طويل الأمد..."
       },
       "item4": {
-        "label": "Cabinet Countertops",
-        "title": "Cabinet Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "أسطح الخزائن",
+        "title": "أسطح الخزائن",
+        "description": "تصنيع مخصص لأسطح الخزائن وواجهات العرض للمشاريع السكنية والتجارية..."
       }
     },
     "Partners": {
       "item0": {
-        "title": "Contractor",
-        "description": "ZYL Stone delivers reliable quality, precise engineering support..."
+        "title": "المقاول",
+        "description": "تعتمد شركات المقاولات على ZYL Stone لجودة مستقرة ودعم هندسي دقيق..."
       },
       "item1": {
-        "title": "Designer",
-        "description": "Designers value ZYL Stone for its diverse material selection..."
+        "title": "المصمم",
+        "description": "يقدّر المصممون ZYL Stone لتنوع المواد وقدرتها على تحقيق الأفكار الإبداعية..."
       },
       "item2": {
-        "title": "Wholesaler",
-        "description": "Wholesalers trust ZYL Stone for its high-quality materials..."
+        "title": "تاجر الجملة",
+        "description": "يثق تجار الجملة في ZYL Stone بفضل الجودة الثابتة وقدرة التوريد..."
       },
       "item3": {
-        "title": "Kitchen & Bathroom Company",
-        "description": "ZYL Stone provides consistent quality, accurate fabrication..."
+        "title": "شركة المطابخ والحمامات",
+        "description": "توفر ZYL Stone جودة مستقرة وتصنيعًا دقيقًا لشركات المطابخ والحمامات..."
       },
       "item4": {
-        "title": "Furniture Designer",
-        "description": "Furniture designers rely on ZYL Stone for its premium stone surfaces..."
+        "title": "مصمم الأثاث",
+        "description": "يعتمد مصممو الأثاث على ZYL Stone لأسطحها الحجرية الراقية وخيارات التخصيص..."
       },
       "item5": {
-        "title": "Developer",
-        "description": "Developers choose ZYL Stone for its consistent quality, large-scale..."
+        "title": "المطور العقاري",
+        "description": "يختار المطورون ZYL Stone لجودتها المستقرة وقدرتها على خدمة المشاريع واسعة النطاق..."
       }
     },
     "EngineeringCases": {
       "item0": {
-        "title": "Dominica Hotel"
+        "title": "فندق دومينيكا"
       },
       "item1": {
-        "title": "Congo Hilton"
+        "title": "فندق هيلتون الكونغو"
       },
       "item2": {
-        "title": "Canadian Chain Restaurant"
+        "title": "مطعم سلسلة كندي"
       },
       "item3": {
-        "title": "Finland Apartment Case"
+        "title": "شقة في فنلندا"
       },
       "item4": {
-        "title": "Qatar Vendome Mall"
+        "title": "مول فندوم قطر"
       },
       "item5": {
-        "title": "US Seaside Vacation Villa"
+        "title": "فيلا شاطئية في الولايات المتحدة"
       }
     },
     "NewsFeature": {
-      "title": "Why Inorganic Terrazzo Flooring Is Ideal for High-Traffic Commercial Spaces",
-      "excerpt": "Nowadays, modern commercial projects place far higher expectations on flooring materials than before. Whether it's a mall with nonstop foot traffic, a hospital that requires strict air-quality control, or a transport hub facing constant abrasion, the wrong material choice quickly becomes a maintenance problem."
+      "title": "لماذا تُعد أرضيات التيرازو غير العضوي مثالية للمساحات التجارية عالية الحركة",
+      "excerpt": "تفرض المشاريع التجارية الحديثة اليوم معايير أعلى بكثير على مواد الأرضيات. سواء كان مركزًا تجاريًا مزدحمًا أو مستشفى يتطلب جودة هواء صارمة أو محور نقل يتعرض لاستهلاك مستمر، فإن الاختيار الخاطئ للمادة يتحول سريعًا إلى مشكلة صيانة."
     },
     "NewsItems": {
       "item0": {
-        "title": "From Flooring to Facades: How Flexible Stone is Changing Construction Trends"
+        "title": "من الأرضيات إلى الواجهات: كيف يغيّر الحجر المرن اتجاهات البناء"
       },
       "item1": {
-        "title": "How to Source Premium Marble Solutions for Commercial Projects"
+        "title": "كيف تختار حلول رخام متميزة للمشاريع التجارية"
       },
       "item2": {
-        "title": "Custom Quartz Countertops: Key Trends to Follow in 2026"
+        "title": "اتجاهات أساسية لأسطح الكوارتز المخصصة في 2026"
       },
       "item3": {
-        "title": "White Quartz Countertops for Minimalist Kitchens in Commercial Projects"
+        "title": "أسطح كوارتز بيضاء لمطابخ تجارية بطابع بسيط"
       }
     }
   }

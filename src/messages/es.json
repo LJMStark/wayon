@@ -183,160 +183,160 @@
   },
   "HomeData": {
     "AboutIntro": {
-      "title": "ABOUT\nZYL STONE",
-      "p1": "ZYL Stone, Established in China in 1982, is a global manufacturer of advanced stone materials with 4 major productions and processing bases. ZYL Stone has an annual output exceeding 3 million m² of high-quality quartz, terrazzo, flexible stone, marble, artificial marble, gemstone, sintered stone, cement stone and other natural and artificial stone materials.",
-      "p2": "ZYL specializes in producing and processing various types of stone products, including kitchen countertops, bathroom vanity tops, furniture table tops, wall and floor tiles, and custom-engineered stone products.",
-      "cta": "Learn More About Us"
+      "title": "SOBRE\nZYL STONE",
+      "p1": "ZYL Stone, fundada en China en 1982, es un fabricante global de materiales pétreos avanzados con cuatro grandes bases de producción y procesamiento. Su producción anual supera los 3 millones de m² de cuarzo, terrazo, piedra flexible, mármol, mármol artificial, piedra semipreciosa y otros materiales naturales e industriales.",
+      "p2": "ZYL se especializa en producir y procesar distintos tipos de productos de piedra, incluidas encimeras de cocina, cubiertas de baño, tableros de mobiliario, revestimientos de pared y suelo, y soluciones a medida para ingeniería.",
+      "cta": "Conozca más sobre nosotros"
     },
     "AboutAlbum": {
       "item0": {
-        "title": "ZYL Stone Group",
-        "text": "ZYL has developed into a comprehensive stone enterprise integrating quarry resources, R&D and innovation, manufacturing, and engineering solutions..."
+        "title": "Grupo ZYL Stone",
+        "text": "ZYL se ha convertido en una empresa integral de piedra que integra recursos de cantera, I+D e innovación, fabricación y soluciones de ingeniería..."
       },
       "item1": {
         "title": "Yunfu ZYL",
-        "text": "Yunfu ZYL covers a total area of 20,000 m², including 18,000 m² of factory facilities and a 2,000 m² office building..."
+        "text": "Yunfu ZYL ocupa una superficie total de 20.000 m², incluidos 18.000 m² de planta y 2.000 m² de oficinas..."
       },
       "item2": {
-        "title": "Foshan Showroom",
-        "text": "The Hallmark Brand Showroom, meticulously created by ZYL Stone, spans an area of 1,400 square meters..."
+        "title": "Showroom de Foshan",
+        "text": "El showroom insignia de la marca, creado meticulosamente por ZYL Stone, ocupa una superficie de 1.400 metros cuadrados..."
       },
       "item3": {
         "title": "Guangdong ZYL",
-        "text": "The Heyuan Production Base of ZYL Stone covers a total area of 60,000 square meters..."
+        "text": "La base de producción de Heyuan de ZYL Stone cubre una superficie total de 60.000 metros cuadrados..."
       },
       "item4": {
         "title": "Shanghai ZYL",
-        "text": "Shanghai ZYL, established in 1998, is located at No. 4589 Cao'an Highway, Jiading District, Shanghai..."
+        "text": "Shanghai ZYL, fundada en 1998, está ubicada en el n.º 4589 de Cao'an Highway, distrito de Jiading, Shanghái..."
       },
       "item5": {
         "title": "Guangzhou ZYL",
-        "text": "Established in 1990 as the former Guangzhou Lixin Stone Craft Co., Ltd., specializes in quartz, terrazzo, natural marble..."
+        "text": "Fundada en 1990 como la antigua Guangzhou Lixin Stone Craft Co., Ltd., especializada en cuarzo, terrazo y mármol natural..."
       }
     },
     "HomeProducts": {
       "item0": {
-        "title": "Quart Stone & Zero Silica Stone",
-        "description": "Quartz Stone (90% quartz sand) & Zero Silica Stone (no silica), advanced-made..."
+        "title": "Piedra de cuarzo y piedra sin sílice",
+        "description": "Piedra de cuarzo (90% arena de cuarzo) y piedra sin sílice, fabricadas con procesos avanzados..."
       },
       "item1": {
-        "title": "Terrazzo",
-        "description": "Natural aggregates + eco-adhesive, high-pressure-formed. Large slabs ease install..."
+        "title": "Terrazo",
+        "description": "Áridos naturales con adhesivo ecológico, moldeados a alta presión. Grandes placas que facilitan la instalación..."
       },
       "item2": {
-        "title": "Flexible Stone",
-        "description": "Stone texture + flexibility. Lightweight, easy to install on walls/floors/irregular surfaces..."
+        "title": "Piedra flexible",
+        "description": "Textura de piedra con flexibilidad. Ligera y fácil de instalar en paredes, pisos y superficies irregulares..."
       },
       "item3": {
-        "title": "Marble",
-        "description": "ZYL Marble features unique natural textures and elegant luxury..."
+        "title": "Mármol",
+        "description": "El mármol de ZYL ofrece vetas naturales únicas y una elegancia de alto nivel..."
       },
       "item4": {
-        "title": "Gem stone",
-        "description": "Precision-spliced gem slices, glazed for luster. Custom-shapable; luxurious shine..."
+        "title": "Piedra semipreciosa",
+        "description": "Láminas de piedra semipreciosa ensambladas con precisión y esmaltadas para un brillo lujoso..."
       },
       "item5": {
-        "title": "Cement Stone",
-        "description": "High-strength cement, high-pressure-made. Rich colors, surface holes; stable..."
+        "title": "Piedra de cemento",
+        "description": "Piedra de cemento de alta resistencia fabricada a alta presión. Colores ricos y estructura estable..."
       },
       "item6": {
-        "title": "Artifical Marble",
-        "description": "Artificial Marble: natural mineral powder + eco-friendly binders, high-temp & high-pressure formed..."
+        "title": "Mármol artificial",
+        "description": "Mármol artificial con polvo mineral natural y aglutinantes ecológicos, conformado a alta temperatura y presión..."
       },
       "item7": {
-        "title": "Porcelain Slab",
-        "description": "Uses mineral powder and eco-friendly binders, formed by high-temperature & high-pressure processes..."
+        "title": "Porcelánico",
+        "description": "Placas de polvo mineral y aglutinantes ecológicos conformadas a alta temperatura y presión..."
       }
     },
     "Solutions": {
       "item0": {
-        "label": "Kitchen Countertops",
-        "title": "Kitchen Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+        "label": "Encimeras de cocina",
+        "title": "Encimeras de cocina",
+        "description": "El centro de procesamiento de ZYL Stone cuenta con una planta de 6.500 m² y equipos avanzados para acabados precisos..."
       },
       "item1": {
-        "label": "Bathroom Spaces",
-        "title": "Bathroom Spaces",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "Espacios de baño",
+        "title": "Espacios de baño",
+        "description": "Soluciones integrales para baños con superficies resistentes a la humedad y fáciles de mantener..."
       },
       "item2": {
-        "label": "Furniture Tops",
-        "title": "Furniture Tops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "Superficies de mobiliario",
+        "title": "Superficies de mobiliario",
+        "description": "Superficies de piedra para mesas y mobiliario que combinan precisión, durabilidad y presencia premium..."
       },
       "item3": {
-        "label": "Wall & Floor",
-        "title": "Wall & Floor",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "Pared y suelo",
+        "title": "Pared y suelo",
+        "description": "Materiales para paredes y suelos interiores o exteriores con estabilidad de color y rendimiento duradero..."
       },
       "item4": {
-        "label": "Cabinet Countertops",
-        "title": "Cabinet Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "label": "Encimeras de gabinete",
+        "title": "Encimeras de gabinete",
+        "description": "Fabricación a medida para encimeras de gabinete y mostradores en proyectos residenciales y comerciales..."
       }
     },
     "Partners": {
       "item0": {
-        "title": "Contractor",
-        "description": "ZYL Stone delivers reliable quality, precise engineering support..."
+        "title": "Contratista",
+        "description": "Los contratistas confían en ZYL Stone por su calidad constante y soporte técnico preciso..."
       },
       "item1": {
-        "title": "Designer",
-        "description": "Designers value ZYL Stone for its diverse material selection..."
+        "title": "Diseñador",
+        "description": "Los diseñadores valoran ZYL Stone por su variedad de materiales y capacidad para expresar ideas creativas..."
       },
       "item2": {
-        "title": "Wholesaler",
-        "description": "Wholesalers trust ZYL Stone for its high-quality materials..."
+        "title": "Mayorista",
+        "description": "Los mayoristas confían en ZYL Stone por la calidad estable de sus materiales y su capacidad de suministro..."
       },
       "item3": {
-        "title": "Kitchen & Bathroom Company",
-        "description": "ZYL Stone provides consistent quality, accurate fabrication..."
+        "title": "Empresa de cocinas y baños",
+        "description": "ZYL Stone ofrece calidad constante y fabricación precisa para marcas de cocinas y baños..."
       },
       "item4": {
-        "title": "Furniture Designer",
-        "description": "Furniture designers rely on ZYL Stone for its premium stone surfaces..."
+        "title": "Diseñador de mobiliario",
+        "description": "Los diseñadores de mobiliario recurren a ZYL Stone por sus superficies premium y sus opciones de personalización..."
       },
       "item5": {
-        "title": "Developer",
-        "description": "Developers choose ZYL Stone for its consistent quality, large-scale..."
+        "title": "Promotor",
+        "description": "Los promotores eligen ZYL Stone por su calidad constante y su capacidad para proyectos a gran escala..."
       }
     },
     "EngineeringCases": {
       "item0": {
-        "title": "Dominica Hotel"
+        "title": "Hotel en Dominica"
       },
       "item1": {
-        "title": "Congo Hilton"
+        "title": "Hilton del Congo"
       },
       "item2": {
-        "title": "Canadian Chain Restaurant"
+        "title": "Cadena de restaurantes canadiense"
       },
       "item3": {
-        "title": "Finland Apartment Case"
+        "title": "Apartamento en Finlandia"
       },
       "item4": {
-        "title": "Qatar Vendome Mall"
+        "title": "Centro comercial Vendome Qatar"
       },
       "item5": {
-        "title": "US Seaside Vacation Villa"
+        "title": "Villa vacacional costera en Estados Unidos"
       }
     },
     "NewsFeature": {
-      "title": "Why Inorganic Terrazzo Flooring Is Ideal for High-Traffic Commercial Spaces",
-      "excerpt": "Nowadays, modern commercial projects place far higher expectations on flooring materials than before. Whether it's a mall with nonstop foot traffic, a hospital that requires strict air-quality control, or a transport hub facing constant abrasion, the wrong material choice quickly becomes a maintenance problem."
+      "title": "Por qué el terrazo inorgánico es ideal para espacios comerciales de alto tránsito",
+      "excerpt": "Los proyectos comerciales modernos exigen mucho más a los materiales de pavimento que antes. Ya sea un centro comercial con tráfico constante, un hospital con requisitos estrictos de calidad del aire o un nodo de transporte sometido a desgaste continuo, una mala elección termina pronto en un problema de mantenimiento."
     },
     "NewsItems": {
       "item0": {
-        "title": "From Flooring to Facades: How Flexible Stone is Changing Construction Trends"
+        "title": "De los suelos a las fachadas: cómo la piedra flexible está cambiando la construcción"
       },
       "item1": {
-        "title": "How to Source Premium Marble Solutions for Commercial Projects"
+        "title": "Cómo elegir soluciones de mármol premium para proyectos comerciales"
       },
       "item2": {
-        "title": "Custom Quartz Countertops: Key Trends to Follow in 2026"
+        "title": "Encimeras de cuarzo a medida: tendencias clave para 2026"
       },
       "item3": {
-        "title": "White Quartz Countertops for Minimalist Kitchens in Commercial Projects"
+        "title": "Encimeras blancas de cuarzo para cocinas minimalistas en proyectos comerciales"
       }
     }
   }

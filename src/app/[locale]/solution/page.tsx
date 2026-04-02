@@ -168,6 +168,7 @@ export default function SolutionPage() {
                     src={image.src}
                     alt={formatCopy(solutionCopy.galleryAlt, { index: index + 1 })}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/10 group-hover:opacity-100">
@@ -178,13 +179,6 @@ export default function SolutionPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mb-12 mt-12 flex justify-center">
-            <div className="text-center">
-              <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-r-2 border-t-2 border-r-[#0f2858] border-t-[#0f2858] border-transparent opacity-50" />
-              <span className="text-xs text-gray-400">{commonCopy.loading}</span>
-            </div>
           </div>
         </div>
       </div>
