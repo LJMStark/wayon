@@ -1,13 +1,18 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowUp, MessageCircleMore, QrCode } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
+
+import { getFloatingSidebarCopy } from "@/data/siteCopy";
 
 const BUTTON_CLASS =
   "flex size-11 items-center justify-center border border-[#dddddd] bg-white text-[#333333] transition-colors hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]";
 
 export default function FloatingSidebar() {
+  const locale = useLocale();
+  const copy = getFloatingSidebarCopy(locale);
   const [showQr, setShowQr] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -33,10 +38,10 @@ export default function FloatingSidebar() {
         onMouseEnter={() => setShowQr(true)}
         onMouseLeave={() => setShowQr(false)}
       >
-        <button type="button" className={BUTTON_CLASS} aria-label="Show QR">
+        <button type="button" className={BUTTON_CLASS} aria-label={copy.showQr}>
           <QrCode className="size-5" />
         </button>
-        <AnimateQr show={showQr} />
+        <AnimateQr show={showQr} title={copy.qrTitle} hint={copy.qrHint} />
       </div>
 
 
@@ -44,7 +49,7 @@ export default function FloatingSidebar() {
       <Link
         href="/contact"
         className={BUTTON_CLASS}
-        aria-label="Contact us"
+        aria-label={copy.contactUs}
       >
         <MessageCircleMore className="size-5" />
       </Link>
@@ -53,7 +58,7 @@ export default function FloatingSidebar() {
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className={BUTTON_CLASS}
-        aria-label="Back to top"
+        aria-label={copy.backToTop}
       >
         <ArrowUp className="size-5" />
       </button>
@@ -61,14 +66,22 @@ export default function FloatingSidebar() {
   );
 }
 
-function AnimateQr({ show }: { show: boolean }) {
+function AnimateQr({
+  show,
+  title,
+  hint,
+}: {
+  show: boolean;
+  title: string;
+  hint: string;
+}) {
   return show ? (
     <div className="absolute right-[calc(100%+12px)] top-1/2 w-44 -translate-y-1/2 border border-[color:var(--border)] bg-white p-4 text-center shadow-[0_0_1rem_rgba(0,0,0,0.08)]">
       <div className="flex aspect-square items-center justify-center bg-[color:var(--surface)] px-4 text-[12px] leading-5 text-[#666666]">
-        WeChat QR Code
+        {title}
       </div>
       <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-[#666666]">
-        Scan to connect
+        {hint}
       </p>
     </div>
   ) : null;

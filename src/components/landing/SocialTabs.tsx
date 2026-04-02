@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { SOCIAL_PLATFORMS } from "@/data/home";
 
 export function SocialTabs() {
+  const t = useTranslations("SocialTabs");
   const [activeIndex, setActiveIndex] = useState(0);
   const activePlatform = SOCIAL_PLATFORMS[activeIndex];
 
@@ -13,8 +15,8 @@ export function SocialTabs() {
     <section className="wayon-section pb-20">
       <div className="wayon-container">
         <header className="mb-8">
-          <h2 className="wayon-title">SOCIAL MEDIA</h2>
-          <h3 className="mt-4 text-[24px] font-light text-[#333333]">Follow our updates</h3>
+          <h2 className="wayon-title">{t("socialMedia")}</h2>
+          <h3 className="mt-4 text-[24px] font-light text-[#333333]">{t("connectWithUs")}</h3>
         </header>
 
         <div className="flex flex-col overflow-hidden md:h-[49rem] md:flex-row">

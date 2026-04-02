@@ -2,10 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useLocale } from "next-intl";
 
 import { HERO_SLIDES } from "@/data/home";
+import { formatCopy, getLandingCopy } from "@/data/siteCopy";
 
 export function Hero() {
+  const locale = useLocale();
+  const copy = getLandingCopy(locale);
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
@@ -55,7 +59,7 @@ export function Hero() {
             type="button"
             onClick={() => setActiveSlide(index)}
             className={`h-[6px] rounded-full transition-all ${index === activeSlide ? "w-10 bg-white" : "w-10 bg-white/35"}`}
-            aria-label={`Go to hero slide ${index + 1}`}
+            aria-label={formatCopy(copy.hero.slideLabel, { index: index + 1 })}
           />
         ))}
       </div>

@@ -1,45 +1,46 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 import { getNewsFeature, getNewsItems } from "@/data/home";
 
 export function NewsSection() {
   const t = useTranslations();
-  const NEWS_FEATURE = getNewsFeature(t);
-  const NEWS_ITEMS = getNewsItems(t);
+  const tNews = useTranslations("NewsSection");
+  const newsFeature = getNewsFeature(t);
+  const newsItems = getNewsItems(t);
 
   return (
     <section className="wayon-section pb-16">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
-          <h2 className="wayon-title">{t("Navigation.news") || "NEWS"}</h2>
+          <h2 className="wayon-title">{tNews("latestNews")}</h2>
         </header>
 
         <div className="grid gap-10 lg:grid-cols-[0.46fr_0.54fr] lg:gap-16">
           <article>
-            <Link href={NEWS_FEATURE.href} className="group block">
+            <Link href={newsFeature.href} className="group block">
               <div className="relative mb-5 aspect-[129/76] overflow-hidden bg-[color:var(--surface)]">
                 <Image
-                  src={NEWS_FEATURE.image}
-                  alt={NEWS_FEATURE.title}
+                  src={newsFeature.image}
+                  alt={newsFeature.title}
                   fill
                   sizes="(max-width: 1024px) 100vw, 46vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <h3 className="text-[20px] font-medium leading-[1.6] text-[#262626]">
-                {NEWS_FEATURE.title}
+                {newsFeature.title}
               </h3>
               <p className="mt-4 text-[16px] font-light leading-[1.7] text-[#737373]">
-                {NEWS_FEATURE.excerpt}
+                {newsFeature.excerpt}
               </p>
             </Link>
           </article>
 
           <div>
             <ul>
-              {NEWS_ITEMS.map((item) => (
+              {newsItems.map((item) => (
                 <li key={item.title}>
                   <Link
                     href={item.href}

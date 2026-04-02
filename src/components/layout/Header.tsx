@@ -13,6 +13,7 @@ import {
   type NavigationKey,
   type SubItem,
 } from "@/data/navigation";
+import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
@@ -23,6 +24,7 @@ export default function Header() {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
+  const headerCopy = getHeaderCopy(locale);
   const translateNav = (key: NavigationKey): string => tNav(key);
   const currentLanguage =
     LANGUAGES.find((language) => language.locale === locale) ?? LANGUAGES[0];
@@ -210,7 +212,7 @@ export default function Header() {
                 type="button"
                 onClick={() => setSearchOpen((value) => !value)}
                 className="text-[#333333] transition-colors hover:text-[color:var(--primary)]"
-                aria-label="Toggle search"
+                aria-label={headerCopy.toggleSearch}
               >
                 <Search className="size-5" />
               </button>
@@ -238,7 +240,9 @@ export default function Header() {
                       <button
                         type="submit"
                         className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-medium text-white"
-                      >{tHeader("searchPlaceholder").replace("...", "")}</button>
+                      >
+                        {headerCopy.searchAction}
+                      </button>
                     </form>
                   </motion.div>
                 ) : null}
@@ -293,7 +297,7 @@ export default function Header() {
             type="button"
             className="relative z-10 inline-flex size-10 items-center justify-center border border-[color:var(--border)] bg-white text-[#111111] lg:hidden"
             onClick={() => setIsMobileOpen(true)}
-            aria-label="Open navigation"
+            aria-label={headerCopy.openNavigation}
           >
             <Menu className="size-6" />
           </button>
@@ -310,7 +314,7 @@ export default function Header() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-black/40 lg:hidden"
               onClick={() => setIsMobileOpen(false)}
-              aria-label="Close navigation overlay"
+              aria-label={headerCopy.closeNavigationOverlay}
             />
             <motion.aside
               initial={{ x: "100%" }}
@@ -329,7 +333,11 @@ export default function Header() {
                     className="object-contain brightness-[10]"
                   />
                 </div>
-                <button type="button" onClick={() => setIsMobileOpen(false)} aria-label="Close navigation">
+                <button
+                  type="button"
+                  onClick={() => setIsMobileOpen(false)}
+                  aria-label={headerCopy.closeNavigation}
+                >
                   <X className="size-6" />
                 </button>
               </div>
@@ -345,7 +353,12 @@ export default function Header() {
                   placeholder={tHeader("searchPlaceholder")}
                   className="min-w-0 flex-1 bg-white px-4 py-3 text-[14px] text-black focus:outline-none"
                 />
-                <button type="submit" className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-medium">{tHeader("searchPlaceholder").replace("...", "")}</button>
+                <button
+                  type="submit"
+                  className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-medium"
+                >
+                  {headerCopy.searchAction}
+                </button>
               </form>
 
               <ul className="space-y-2">
@@ -366,7 +379,9 @@ export default function Header() {
                           <button
                             type="button"
                             onClick={() => toggleMobileSection(item.label)}
-                            aria-label={`Toggle ${translateNav(item.label)}`}
+                            aria-label={formatCopy(headerCopy.toggleSection, {
+                              section: translateNav(item.label),
+                            })}
                           >
                             <ChevronDown className={`size-5 transition-transform ${expanded ? "rotate-180" : ""}`} />
                           </button>

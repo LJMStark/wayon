@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { getSolutions } from "@/data/home";
-import { useTranslations } from "next-intl";
+import { formatCopy, getLandingCopy } from "@/data/siteCopy";
+import { useLocale, useTranslations } from "next-intl";
 
 export function SolutionTabs() {
+  const locale = useLocale();
   const t = useTranslations();
+  const copy = getLandingCopy(locale);
   const solutionsData = getSolutions(t);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = solutionsData[activeIndex];
@@ -18,12 +21,9 @@ export function SolutionTabs() {
     <section className="wayon-section">
       <div className="wayon-container">
         <header className="mb-6 text-center md:mb-10">
-          <h2 className="wayon-title">
-            <strong>ZYL</strong> PRE-FABRICATED
-          </h2>
+          <h2 className="wayon-title">{t("SolutionTabs.whatWeDo")}</h2>
           <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
-            ZYL&apos;s pre-fabricated series offers efficient construction solutions, ensuring quick
-            installation and exceptional durability.
+            {t("SolutionTabs.applicationSolutions")}
           </p>
         </header>
 
@@ -48,7 +48,7 @@ export function SolutionTabs() {
               </p>
               <footer className="mt-6 flex items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  {`Learn More [${activeItem.title}]`}
+                  {formatCopy(copy.solutionTabs.cta, { title: activeItem.title })}
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ export function SolutionTabs() {
                     type="button"
                     onClick={() => setActiveIndex((current) => (current - 1 + solutionsData.length) % solutionsData.length)}
                     className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label="Previous solution"
+                    aria-label={copy.solutionTabs.previous}
                   >
                     <ChevronLeft className="size-4" />
                   </button>
@@ -64,7 +64,7 @@ export function SolutionTabs() {
                     type="button"
                     onClick={() => setActiveIndex((current) => (current + 1) % solutionsData.length)}
                     className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label="Next solution"
+                    aria-label={copy.solutionTabs.next}
                   >
                     <ChevronRight className="size-4" />
                   </button>

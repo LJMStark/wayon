@@ -3,14 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
+import { useMessages, useTranslations } from "next-intl";
 import type { NavigationKey } from "@/data/navigation";
-
-const ADDRESS_LINES = [
-  "Showroom: Foshan, Guangdong, China",
-  "Factory 1&2 :Yunfu, Guangdong, China",
-  "Factory 3 :Heyuan, Guangdong, China",
-];
 
 const ABOUT_LINKS = [
   { label: "whoAreWe", href: "/about#who-are-we" },
@@ -69,6 +63,8 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   const tFooter = useTranslations("Footer");
   const tNav = useTranslations("Navigation");
+  const messages = useMessages();
+  const addressLines = messages.Footer.addressLines;
   const translateNav = (key: NavigationKey): string => tNav(key);
   const [contactValue, setContactValue] = useState("");
 
@@ -87,7 +83,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("address")}</h3>
             <div className="space-y-2 text-[14px] font-light leading-7 text-white/70">
-              {ADDRESS_LINES.map((line) => (
+              {addressLines.map((line) => (
                 <p key={line}>{line}</p>
               ))}
             </div>
@@ -154,7 +150,7 @@ export default function Footer() {
               <Link href="/contact" className="relative aspect-[230/68] overflow-hidden">
                 <Image
                   src="/assets/footer/footer-link-1.png"
-                  alt="footer-link-1"
+                  alt=""
                   fill
                   sizes="(max-width: 768px) 45vw, 230px"
                   className="object-cover"
@@ -163,7 +159,7 @@ export default function Footer() {
               <Link href="/contact" className="relative aspect-[230/68] overflow-hidden">
                 <Image
                   src="/assets/footer/footer-link-2.png"
-                  alt="footer-link-2"
+                  alt=""
                   fill
                   sizes="(max-width: 768px) 45vw, 230px"
                   className="object-cover"

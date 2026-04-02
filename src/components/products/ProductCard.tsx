@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
 import { getProductSlug } from '@/data/products';
+import { getLandingCopy } from '@/data/siteCopy';
 
 type ProductCardProps = {
   title: string;
@@ -12,6 +14,9 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({ title, image, url, category }: ProductCardProps) {
+  const locale = useLocale();
+  const copy = getLandingCopy(locale);
+
   return (
     <div className="group flex flex-col bg-white border border-muted/50 rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
       <div className="relative aspect-square overflow-hidden bg-muted">
@@ -35,7 +40,7 @@ export default function ProductCard({ title, image, url, category }: ProductCard
         
         <div className="mt-auto pt-4 border-t border-muted">
           <Link href={`/products/${getProductSlug(url)}`} className="inline-flex items-center text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
-            View Details <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
+            {copy.productCard.viewDetails} <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

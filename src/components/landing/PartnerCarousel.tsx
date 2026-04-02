@@ -5,10 +5,13 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { getPartners } from "@/data/home";
-import { useTranslations } from "next-intl";
+import { getLandingCopy } from "@/data/siteCopy";
+import { useLocale, useTranslations } from "next-intl";
 
 export function PartnerCarousel() {
+  const locale = useLocale();
   const t = useTranslations();
+  const copy = getLandingCopy(locale);
   const partnersData = getPartners(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -39,11 +42,10 @@ export function PartnerCarousel() {
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div className="max-w-[780px]">
             <h2 className="wayon-title">
-              COOPERATIVE PARTNER
+              {t("PartnerCarousel.industryPartners")}
             </h2>
             <p className="wayon-copy mt-5">
-              ZYL collaborates with leading global companies and designers to drive innovation
-              in high-end construction and design projects.
+              {t("PartnerCarousel.trustedGlobal")}
             </p>
           </div>
 
@@ -52,7 +54,7 @@ export function PartnerCarousel() {
               type="button"
               onClick={() => scrollByAmount("prev")}
               className="flex size-12 items-center justify-center bg-white text-[#333333] shadow-[0_0_1rem_rgba(0,0,0,0.08)] transition-colors hover:bg-[color:var(--primary)] hover:text-white"
-              aria-label="Previous partner"
+              aria-label={copy.partnerCarousel.previous}
             >
               <ChevronLeft className="size-5" />
             </button>
@@ -60,7 +62,7 @@ export function PartnerCarousel() {
               type="button"
               onClick={() => scrollByAmount("next")}
               className="flex size-12 items-center justify-center bg-white text-[#333333] shadow-[0_0_1rem_rgba(0,0,0,0.08)] transition-colors hover:bg-[color:var(--primary)] hover:text-white"
-              aria-label="Next partner"
+              aria-label={copy.partnerCarousel.next}
             >
               <ChevronRight className="size-5" />
             </button>

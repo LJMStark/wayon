@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import { getAboutAlbum } from "@/data/home";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { getLandingCopy } from "@/data/siteCopy";
 
 export function AboutAlbum() {
+  const locale = useLocale();
   const t = useTranslations();
+  const copy = getLandingCopy(locale);
   const aboutAlbumData = getAboutAlbum(t);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = aboutAlbumData[activeIndex];
@@ -44,7 +47,7 @@ export function AboutAlbum() {
               </p>
               <footer className="mt-6 flex flex-wrap items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  Learn More About Us
+                  {copy.aboutAlbum.learnMore}
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
@@ -52,7 +55,7 @@ export function AboutAlbum() {
                     type="button"
                     onClick={goToPrevious}
                     className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label="Previous album item"
+                    aria-label={copy.aboutAlbum.previous}
                   >
                     <ChevronLeft className="size-4" />
                   </button>
@@ -60,7 +63,7 @@ export function AboutAlbum() {
                     type="button"
                     onClick={goToNext}
                     className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label="Next album item"
+                    aria-label={copy.aboutAlbum.next}
                   >
                     <ChevronRight className="size-4" />
                   </button>

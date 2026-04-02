@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/routing";
 
 import { getAboutIntro } from "@/data/home";
 import { useTranslations } from "next-intl";
@@ -12,9 +12,7 @@ export function AboutIntro() {
       <div className="wayon-container grid items-start gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-14">
         <div>
           <h2 className="wayon-title whitespace-pre-line">
-            ABOUT
-            <br />
-            <strong>ZYL STONE</strong>
+            {aboutIntroData.title}
           </h2>
         </div>
 

@@ -2,14 +2,17 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { getHomeProducts } from "@/data/home";
-import { useTranslations } from "next-intl";
+import { getLandingCopy } from "@/data/siteCopy";
+import { useLocale, useTranslations } from "next-intl";
 
 export function ProductsCarousel() {
+  const locale = useLocale();
   const t = useTranslations();
+  const copy = getLandingCopy(locale);
   const homeProductsData = getHomeProducts(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -31,16 +34,12 @@ export function ProductsCarousel() {
       <div className="wayon-container">
         <header className="mb-12 text-center md:mb-14">
           <div className="mx-auto max-w-[760px]">
-            <h2 className="wayon-title">
-              <strong>ZYL</strong> PRODUCT
-            </h2>
+            <h2 className="wayon-title">{copy.productsCarousel.title}</h2>
             <p className="wayon-copy mx-auto mt-5 max-w-[680px]">
-              ZYL Stone&apos;s main product portfolio includes quartz stone, zero-silica stone,
-              terrazzo, flexible stone, marble, artificial marble, gem stone, porcelain slabs,
-              cement stone, and other natural and engineered stone materials.
+              {copy.productsCarousel.description}
             </p>
             <Link href="/products" className="wayon-button-link mt-7 text-[15px]">
-              Detail
+              {copy.productsCarousel.detail}
             </Link>
           </div>
         </header>
@@ -50,7 +49,7 @@ export function ProductsCarousel() {
             type="button"
             onClick={() => scrollByAmount("prev")}
             className="absolute left-0 top-1/2 z-20 hidden size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex"
-            aria-label="Previous products"
+            aria-label={copy.productsCarousel.previous}
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -58,7 +57,7 @@ export function ProductsCarousel() {
             type="button"
             onClick={() => scrollByAmount("next")}
             className="absolute right-0 top-1/2 z-20 hidden size-14 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex"
-            aria-label="Next products"
+            aria-label={copy.productsCarousel.next}
           >
             <ChevronRight className="size-5" />
           </button>
@@ -110,7 +109,7 @@ export function ProductsCarousel() {
             type="button"
             onClick={() => scrollByAmount("prev")}
             className="flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
-            aria-label="Previous products"
+            aria-label={copy.productsCarousel.previous}
           >
             <ChevronLeft className="size-5" />
           </button>
@@ -118,7 +117,7 @@ export function ProductsCarousel() {
             type="button"
             onClick={() => scrollByAmount("next")}
             className="flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
-            aria-label="Next products"
+            aria-label={copy.productsCarousel.next}
           >
             <ChevronRight className="size-5" />
           </button>

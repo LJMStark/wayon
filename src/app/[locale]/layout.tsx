@@ -5,9 +5,12 @@ import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSidebar from "@/components/layout/FloatingSidebar";
+import { buildPageMetadata } from "@/lib/metadata";
 import { getLocaleDirection, hasLocale } from "@/i18n/types";
+import { routing } from "@/i18n/routing";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { getMetadataCopy } from "@/data/siteCopy";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -16,30 +19,21 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.zylstone.com"),
-  title: "China Sintered Stone Manufacturers | Engineered Stone Factory - ZYL",
-  description:
-    "With decades of expertise, ZYL offers premium sintered stone, porcelain slab, quartz, marble, terrazzo, flexible stone, and other engineered stone solutions for global commercial projects.",
-  icons: {
-    icon: "/assets/brand/favicon-wayon.jpg",
-  },
-  openGraph: {
-    title: "China Sintered Stone Manufacturers | Engineered Stone Factory - ZYL",
-    description:
-      "With decades of expertise, ZYL offers premium sintered stone, porcelain slab, quartz, marble, terrazzo, flexible stone, and other engineered stone solutions for global commercial projects.",
-    url: "https://www.zylstone.com/",
-    siteName: "ZYL",
-    images: [
-      {
-        url: "/assets/hero/home-hero-slide-2.png",
-        width: 1920,
-        height: 1080,
-        alt: "ZYL Stone hero",
-      },
-    ],
-  },
-};
+export async function generateMetadata({
+  params,
+}: LayoutProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  const activeLocale = hasLocale(locale) ? locale : routing.defaultLocale;
+  const metadataCopy = getMetadataCopy(activeLocale).root;
+
+  return buildPageMetadata({
+    locale: activeLocale,
+    title: metadataCopy.title,
+    description: metadataCopy.description,
+    imageAlt: metadataCopy.imageAlt,
+    includeIcons: true,
+  });
+}
 
 export default async function RootLayout({
   children,

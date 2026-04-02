@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import ProductCard from "./ProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { getProductImage, type Product } from "@/data/products";
-
-const ALL_COLLECTIONS = "All Collections";
+import { getCommonCopy } from "@/data/siteCopy";
 
 export default function ProductGrid({
   products,
@@ -14,10 +14,12 @@ export default function ProductGrid({
   products: Product[];
   initialCategories: string[];
 }) {
-  const [activeCategory, setActiveCategory] = useState<string>(ALL_COLLECTIONS);
+  const locale = useLocale();
+  const copy = getCommonCopy(locale);
+  const [activeCategory, setActiveCategory] = useState<string>(copy.allCollections);
 
   const filteredProducts =
-    activeCategory === ALL_COLLECTIONS
+    activeCategory === copy.allCollections
       ? products
       : products.filter((product) => product.category === activeCategory);
 
@@ -34,10 +36,10 @@ export default function ProductGrid({
       {/* Filters */}
       <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
         <button 
-          onClick={() => setActiveCategory(ALL_COLLECTIONS)}
-          className={getFilterBtnClass(activeCategory === ALL_COLLECTIONS)}
+          onClick={() => setActiveCategory(copy.allCollections)}
+          className={getFilterBtnClass(activeCategory === copy.allCollections)}
         >
-          {ALL_COLLECTIONS}
+          {copy.allCollections}
         </button>
         {initialCategories.map((cat, idx) => (
            <button 
@@ -53,7 +55,7 @@ export default function ProductGrid({
       {/* Grid */}
       {filteredProducts.length === 0 ? (
         <div className="text-center py-20 text-muted-foreground">
-          No products found for this category.
+          {copy.noProductsFound}
         </div>
       ) : (
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

@@ -168,7 +168,7 @@ export const LANGUAGES: Array<{
 }> = [
   { code: "ZH", label: "中文", locale: "zh", icon: "🇨🇳" },
   { code: "EN", label: "English", locale: "en", icon: "🇬🇧" },
-  { code: "ES", label: "Española", locale: "es", icon: "🇪🇸" },
+  { code: "ES", label: "Español", locale: "es", icon: "🇪🇸" },
   { code: "AR", label: "العربية", locale: "ar", icon: "🇦🇪" },
   { code: "RU", label: "Русский", locale: "ru", icon: "🇷🇺" },
 ];
