@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link
+      rel="shortcut icon"
+      href="https://img.yigetechcms.com/109/source/favicon_60640.jpg"
+      type="image/x-icon"
+    />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <link rel="dns-prefetch" href="https://static.yigetechcms.com/" />
+    <link rel="dns-prefetch" href="https://img.yigetechcms.com" />
+
+        <meta property="og:type" content="website" />
+    <meta property="og:title" content="" />
+    <meta property="og:site_name" content="WAYON STONE GROUP" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="https://www.wayon.com/404.html" />
+    <meta property="og:image" content="https://img.yigetechcms.com/109/source/vwdvwd_79510.png" />
+    <meta name="p:domain_verify" content="fe169c2a5f2ed071f32ff2890b4e1986" />
+        <meta name="google-site-verification" content="YbnZ70M98Wnwc3CDzxw1ZXl5WqcoJmotwnOGXcUOUxk" />
+        <meta name="google-site-verification" content="6LU0eHNn8VkDET2acCMmA0tkQLBvy8wErNPmy9olNYo" />
+    <meta name="google-site-verification" content="y6BTUvt_RmPo-LdYSGn_eDpCZiUUfxUCoHe2BWGhyBo" />
+
+        <link rel="alternate" href="https://www.wayon.com" hreflang="x-default" />
+         <link rel="alternate" href="https://www.wayonstone.com" hreflang="zh-cn" />
+         <link rel="alternate" href="https://es.wayon.com" hreflang="es" />
+         <link rel="alternate" href="https://ar.wayon.com" hreflang="ar" />
+         <link rel="alternate" href="https://ru.wayon.com" hreflang="ru" />
+          <link rel="canonical" href="https://www.wayon.com/404.html" />
+
+    <link rel="stylesheet" href="https://static.yigetechcms.com/project/weiyangnew/css/wy-iconfont.css?v=1" />
+        <link rel="stylesheet" href="https://static.yigetechcms.com/public/css/layout-contents-teamplate.css" />
+    <link rel="stylesheet" href="https://static.yigetechcms.com/project/weiyangnew/css/main.css?v=1.0.1" />
+      <!-- <link rel="stylesheet" href="https://static-test.yigetechcms.com/project/weiyangnew/css/main.css?v=1774922842" />   -->
+    <!-- <link rel="stylesheet" href="//yige-static.com/static/dist/weiyang/css/main.css?v=1774922842" /> -->
+
+        <!-- 头部导入👇 -->
+    <script>
+  !(function () {
+    const e = 620,
+      n = 1024,
+      t = 1350,
+      i = 3840,
+      o = 1024,
+      c = 1920,
+      d = 10;
+    let s;
+    function u(e, n) {
+      return function () {
+        clearTimeout(s), (s = setTimeout(e, n));
+      };
+    }
+    function r() {
+      const s = window.innerWidth,
+        u = document.documentElement;
+      let r = d;
+      if (s >= e && s <= n) {
+        r = d * (s / o);
+      } else if (s >= t && s <= i) {
+        r = d * (s / c);
+      } else r = d;
+      r < 7.11458 && (r = 7.11458), (u.style.fontSize = r + "px");
+    }
+    r(), window.addEventListener("resize", u(r, 100)), window.addEventListener("orientationchange", u(r, 100));
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: Montserrat;
+    src: url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Light.woff2") format("woff2"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Light.woff") format("woff"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-display: swap;
+  }
+    @font-face {
+    font-family: Montserrat;
+    src: url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Regular.woff2") format("woff2"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Regular.woff") format("woff"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+    @font-face {
+    font-family: MyriadPro;
+    src: url("https://static.yigetechcms.com/public/fonts/MyriadPro/MyriadPro-Regular.woff2") format("woff2"),
+      url("https://static.yigetechcms.com/public/fonts/MyriadPro/MyriadPro-Regular.woff") format("woff"),
+      url("https://static.yigetechcms.com/public/fonts/MyriadPro/MyriadPro-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: Montserrat;
+    src: url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Medium.woff2") format("woff2"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Medium.woff") format("woff"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: Montserrat;
+    src: url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Bold.woff2") format("woff2"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Bold.woff") format("woff"),
+      url("https://static.yigetechcms.com/public/fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  body {
+    font: 400 16px / 1.875 Montserrat, "Arial", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    overflow-x: hidden;
+    --pointColor: #ffd908;
+    --bgthemeColor: #f7fafd;
+    --themeColor: #002B50;
+    color: #333333;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    background-color: #fff;
+    --swiper-theme-color: var(--themeColor);
+  }
+</style>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, "script", "dataLayer", "GTM-WL22KDV");
+</script>
+<!-- End Google Tag Manager -->
+ 
+    <!-- 头部导入👆 -->
+  </head>
+
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+        <noscript
+      ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WL22KDV" height="0" width="0" style="display: none; visibility: hidden"></iframe
+    ></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    <noscript>
+      <img height="1" width="1" style="display: none" alt="" src="https://px.ads.linkedin.com/collect/?pid=7452332&fmt=gif" />
+    </noscript>
+
+    <div class="page-wrapper"><!-- header  start -->
+<header class="page__header">
+    <div class="pc-header">
+        <div class="_container_">
+            <div class="_content_">
+                                <div class="header-logo">
+                    <figure class="img-box">
+                        <a href="/" title="WAYON STONE GROUP">
+                            <img yige-src="https://img.yigetechcms.com/109/source/vwdvwd_79510.png" alt="vwdvwd" class="img" />
+                        </a>
+                        <figcaption style="display: none">WAYON STONE GROUP</figcaption>
+                    </figure>
+                </div>
+                                <div class="navbar-nav">
+                    <nav class="page__nav nav-2">
+                        <ul class="list">
+                                                        <li class="">
+                                <a href="/" title="Home" data-text="Home">Home</a>
+                                                            </li>
+                                                        <li class="">
+                                <a href="/page/about-us.html" title="About Us" data-text="About Us">About Us</a>
+                                                                <div class="sub-wrapper">
+                                    <ul class="sub-wrapper_list">
+                                                                                <li>
+                                            <a href="/page/about-us.html" title="Who Are We">Who Are We</a>
+                                                                                    </li>
+                                                                                <li>
+                                            <a href="/page/factory.html" title="Factory">Factory</a>
+                                                                                    </li>
+                                                                                <li>
+                                            <a href="/page/certificate.html" title="Certificate">Certificate</a>
+                                                                                    </li>
+                                                                                <li>
+                                            <a href="/page/download.html" title="Download">Download</a>
+                                                                                    </li>
+                                                                            </ul>
+                                </div>
+                                                                                            </li>
+                                                        <li class="">
+                                <a href="/products/all.html" title="Collection" data-text="Collection">Collection</a>
+                                                                <div class="special-sub-container">
+                                    <div class="special-sub-wrapper">
+                                        <div class="img-list"></div>
+                                        <ul class="link-list">
+                                            <!-- start -->
+                                                                                        <li data-id="2034">
+                                                <figure class="img-box  is-active" data-img-id="img-2034">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/01Quart_Stone__Zero_Silica_Stone_78082.jpg" alt="01Quart Stone & Zero Silica Stone" class="img" />
+                                                </figure>
+                                                <a href="/products/quartz.html" title="Quartz Stone">Quartz Stone</a>
+                                                <div class="des  is-active" data-des-id="des-2034">
+                                                    <p class="p" style="text-indent:0.0000pt; text-align:left">Crafted with 90%+ high-quality quartz sand blended with premium resin and pigments, this material is formed via advanced vacuum-pressing technology. Boasting exceptional hardness, it delivers outstanding wear and stain resistance&mdash;ideal for high-traffic areas. Free from radiation, reusable, and eco-friendly, it&rsquo;s perfectly suited for kitchen/bath countertops in residences, hotels, and malls. We supply this versatile, durable stone globally, meeting diverse engineering and decorative needs with consistent quality.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2035">
+                                                <figure class="img-box " data-img-id="img-2035">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/c_sda_c_75012.jpg" alt="c sda c" class="img" />
+                                                </figure>
+                                                <a href="/products/terrazzo.html" title="Terrazzo">Terrazzo</a>
+                                                <div class="des " data-des-id="des-2035">
+                                                    <p>Made from natural stone aggregates bonded with eco-friendly inorganic adhesive, this material is shaped through high-frequency, high-pressure forming. Its large-slab design minimizes installation joints, streamlining on-site work. Boasting impressive hardness and wear resistance, it&rsquo;s free of organic components and non-flammable, aligning with green building standards. A reliable choice for mall floors, residential walls, and public spaces, it merges durability with sustainable, low-maintenance performance.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2180">
+                                                <figure class="img-box " data-img-id="img-2180">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/03Flexible_Stone__78084.jpg" alt="03Flexible Stone " class="img" />
+                                                </figure>
+                                                <a href="/products/flexible-stone.html" title="Flexible Stone">Flexible Stone</a>
+                                                <div class="des " data-des-id="des-2180">
+                                                    <p>An innovative decorative material that combines natural stone texture with remarkable flexibility. It&rsquo;s ideal for walls, floors, and irregular/complex surfaces&mdash;its lightweight nature simplifies installation, cutting project timelines and labor costs. Free from toxic substances, it&rsquo;s eco-safe for indoor use. Available in rich textures/finishes, it fits modern, minimalist, or luxurious styles, elevating spaces with both aesthetic appeal and practicality.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2037">
+                                                <figure class="img-box " data-img-id="img-2037">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/c_sdac__75014.jpg" alt="c sdac " class="img" />
+                                                </figure>
+                                                <a href="/products/marble.html" title="Marble">Marble</a>
+                                                <div class="des " data-des-id="des-2037">
+                                                    <p>A premium metamorphic rock formed under extreme high temperature and pressure. Composed mainly of calcium carbonate, magnesium carbonate, and calcium oxide, it features unique, irreplicable natural textures and colors. Its elegant, luxurious appearance makes it a top choice for high-end designs&mdash;perfect for hotel lobbies, villa cladding, and luxury residential countertops, infusing spaces with timeless, natural sophistication.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2039">
+                                                <figure class="img-box " data-img-id="img-2039">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/sd_v_75016.jpg" alt="sd v" class="img" />
+                                                </figure>
+                                                <a href="/products/gem.html" title="Gem Stone">Gem Stone</a>
+                                                <div class="des " data-des-id="des-2039">
+                                                    <p class="p" style="text-indent:0.0000pt; text-align:left">Created by manually precision-splicing natural gem slices, then glazed to achieve a smooth, lustrous finish. This material offers customizable shaping, adapting to unique design requirements. It showcases luxurious textured shine paired with translucent depth, adding opulence to any space. Ideal for interior accent walls, high-end furniture countertops, and boutique decor, it elevates styles with exclusive, refined aesthetics.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2036">
+                                                <figure class="img-box " data-img-id="img-2036">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/cascv_75013.jpg" alt="cascv" class="img" />
+                                                </figure>
+                                                <a href="/products/cement-stone.html" title="Cement Stone">Cement Stone</a>
+                                                <div class="des " data-des-id="des-2036">
+                                                    <p class="p" style="text-indent:0.0000pt; text-align:left">A cutting-edge artificial stone crafted from high-strength cement via high-frequency, high-pressure processing. It boasts rich colors and distinctive surface holes for a unique textured look. Stable, non-flammable, and equipped with sound/heat insulation, it suits indoor/outdoor walls. Its malleable nature allows creative shaping, making it a versatile pick for innovative commercial and residential design projects.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2279">
+                                                <figure class="img-box " data-img-id="img-2279">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/AM618_78262.webp" alt="AM618" class="img" />
+                                                </figure>
+                                                <a href="/products/artifical-marble.html" title="Artifical Marble">Artifical Marble</a>
+                                                <div class="des " data-des-id="des-2279">
+                                                    <p class="p" style="text-indent:0.0000pt; text-align:left">Artificial Marble is crafted from high-purity natural mineral powder and eco-friendly binders, shaped through advanced high-temperature and high-pressure forming processes. This precision manufacturing ensures exceptional performance: it&rsquo;s highly wear-resistant, scratch-proof, and heat-tolerant, standing up to daily use in busy spaces. Non-toxic and eco-harmless, it poses no health risks for indoor environments. Ideal for modern architectural facades, residential kitchen countertops, hotel bathroom vanities, and retail space cladding.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2040">
+                                                <figure class="img-box " data-img-id="img-2040">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/banner123_70490.webp" alt="banner123" class="img" />
+                                                </figure>
+                                                <a href="/products/porcelain-slab.html" title="Porcelain Slab">Porcelain Slab</a>
+                                                <div class="des " data-des-id="des-2040">
+                                                    <p class="p" style="text-indent:0.0000pt; text-align:left">Porcelain Slab is produced using premium natural mineral powder blended with specialized high-quality binders, formed via precise high-temperature and high-pressure techniques. Boasting outstanding durability, it resists wear, scratches, and high temperatures&mdash;perfect for high-traffic or heavy-use areas. Eco-friendly and non-hazardous, it&rsquo;s safe for both residential and commercial interiors. It&rsquo;s a top choice for modern architecture: use it for shopping mall wall panels, luxury residential floor tiles, hotel lobby countertops, or office partition surfaces.</p>
+                                                </div>
+                                            </li>
+                                                                                        <li data-id="2189">
+                                                <figure class="img-box " data-img-id="img-2189">
+                                                    <img yige-src="https://img.yigetechcms.com/109/source/0cb5d28a8e1d5ecc6775a0bf1dbf007b_76603.png" alt="0cb5d28a8e1d5ecc6775a0bf1dbf007b" class="img" />
+                                                </figure>
+                                                <a href="/products/silica-free-stone.html" title="Silica-Free Stone">Silica-Free Stone</a>
+                                                <div class="des " data-des-id="des-2189">
+                                                    <p style="text-align:left"><span style="font-size:10.5pt"><span style="font-family:Calibri"><span style="font-size:10.5000pt"><span style="background:#ffffff"><span style="font-family:微软雅黑"><span style="color:#333333"><span style="letter-spacing:0.0000pt"><span style="font-style:normal"><font face="微软雅黑">Traditional engineered quartz is a popular high-quality decorative material, valued for its excellent hardness and durability, reliably serving commercial and residential needs.</font></span></span></span></span></span></span></span></span></p>
+
+<p style="text-align:left"><span style="font-size:10.5pt"><span style="font-family:Calibri"><span style="font-size:10.5000pt"><span style="background:#ffffff"><span style="font-family:微软雅黑"><span style="color:#333333"><span style="letter-spacing:0.0000pt"><span style="font-style:normal"><font face="微软雅黑">In regions like Australia (with strict silica regulations) and high-safety spaces (e.g., hospitals), the crystalline silica in traditional quartz may not meet such standards.</font></span></span></span></span></span></span></span></span></p>
+
+<p style="text-align:left"><span style="font-size:10.5pt"><span style="font-family:Calibri"><span style="font-size:10.5000pt"><span style="background:#ffffff"><span style="font-family:微软雅黑"><span style="color:#333333"><span style="letter-spacing:0.0000pt"><span style="font-style:normal"><font face="微软雅黑">Wayon Silica-Free Stone (zero-silica quartz) inherits traditional quartz&rsquo;s durability and polished look, yet eliminates crystalline silica via formula innovation. It meets silica regulations in target regions and high-safety demands, enabling dust-free processing for on-site teams and end-users. Retaining wide applicability (mall countertops, kitchen/bath vanities), it fits silica-restricted areas and high-safety venues.</font></span></span></span></span></span></span></span></span></p>
+                                                </div>
+                                            </li>
+                                                                                        <!-- end -->
+                                        </ul>
+                                        <div class="des-list"></div>
+                                    </div>
+                                </div>
+                                                                                            </li>
+                                                        <li class="">
+                                <a href="/solutions/Finished-Products.html" title="Solution" data-text="Solution">Solution</a>
+                                                            </li>
+                                                        <li class="">
+                                <a href="/solutions/countertop-4.html" title="Case" data-text="Case">Case</a>
+                                                                <div class="sub-wrapper">
+                                    <ul class="sub-wrapper_list">
+                                                                                <li>
+                                            <a href="/solutions/engineering-case.html" title="Application field">Application field</a>
+                                                                                    </li>
+                                                                                <li>
+                                            <a href="/solutions/countertop-4.html" title="Project">Project</a>
+                                                                                    </li>
+                                                                                <li>
+                                            <a href="/solutions/vr.html" title="360°View">360°View</a>
+                                                                                    </li>
+                                                                            </ul>
+                                </div>
+                                                                                            </li>
+                                                        <li class="">
+                                <a href="/articles/all.html" title="News" data-text="News">News</a>
+                                                            </li>
+                                                        <li class="">
+                                <a href="/page/contact-us.html" title="Contact Us" data-text="Contact Us">Contact Us</a>
+                                                            </li>
+                                                    </ul>
+                    </nav>
+                </div>
+                <div class="header-contorls">
+                    <div class="header-search">
+                        <i class="wy-iconfont wy-search search-trigger"></i>
+                        <div class="header-search_box">
+                            <form action="javaScript:;" method="GET" class="searchForm">
+                                <fieldset>
+                                    <input type="hidden" name="module" value="Product" />
+                                    <input type="search" name="keyword" placeholder="Search..." />
+                                    <button type="submit">
+                                        <i class="wy-iconfont wy-search"></i>
+                                    </button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="header-language">
+                        <span> <i class="wy-iconfont wy-earth1"></i> EN <i class="wy-iconfont wy-bottom-small-copy"></i> </span>
+                        <ul class="list">
+                                                        <li>
+                                <a href="https://www.wayon.com" title="English">English</a>
+                            </li>
+                                                         <li>
+                                <a href="https://www.wayonstone.com" title="简体中文">简体中文</a>
+                            </li>
+                                                         <li>
+                                <a href="https://es.wayon.com" title="Espa&ntilde;ol">Espa&ntilde;ol</a>
+                            </li>
+                                                         <li>
+                                <a href="https://ar.wayon.com" title="اللغة العربية">اللغة العربية</a>
+                            </li>
+                                                         <li>
+                                <a href="https://ru.wayon.com" title="Pусский">Pусский</a>
+                            </li>
+                                                     </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-header">
+        <div class="mobile-header-1 mobile_nav">
+            <div class="mobile_nav_header">
+                <div class="cus-bars"><i></i></div>
+                <a href="/">
+                    <div class="mobile_logo">
+                        <img width="200" height="40" src="https://img.yigetechcms.com/109/source/vwdvwd_79510.png" alt="WAYON STONE GROUP" />
+                    </div>
+                </a>
+            </div>
+            <div class="mobile_nav_content">
+                <div class="nav_bg"></div>
+                <nav class="mobileNav">
+                    <ul class="content_menu_ul">
+                        <form action="javascript:;" method="GET" class="searchForm">
+                            <input type="hidden" name="module" value="product" />
+                            <input type="text" name="keyword" placeholder="Search" />
+                            <button type="submit"><i class="wy-iconfont wy-search"></i></button>
+                        </form>
+
+                                                <li class="">
+                            <a href="/" title="Home" class="m-menu">Home</a>
+                                                    </li>
+                                                <li class="">
+                            <a href="/page/about-us.html" title="About Us" class="m-menu">About Us</a>
+                                                        <div class="i trigger">
+                                <i class="wy-iconfont wy-right"></i>
+                            </div>
+                            <ul class="content_mt_ul">
+                                                                <li>
+                                    <a href="/page/about-us.html" title="Who Are We">Who Are We</a>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/page/factory.html" title="Factory">Factory</a>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/page/certificate.html" title="Certificate">Certificate</a>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/page/download.html" title="Download">Download</a>
+                                                                    </li>
+                                                            </ul>
+                                                    </li>
+                                                <li class="">
+                            <a href="/products/all.html" title="Collection" class="m-menu">Collection</a>
+                                                        <div class="i trigger">
+                                <i class="wy-iconfont wy-right"></i>
+                            </div>
+                            <ul class="content_mt_ul">
+                                                                <li>
+                                    <a href="/products/quartz.html" title="Quartz Stone">Quartz Stone</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/natural.html" title="natural">natural</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/pure.html" title="pure">pure</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/crystal.html" title="crystal">crystal</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/multi-color.html" title="multi-color">multi-color</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/platinum.html" title="platinum">platinum</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/terrazzo.html" title="Terrazzo">Terrazzo</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/colourful.html" title="colourful ">colourful </a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/white.html" title="white">white</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/grey-black.html" title="grey & black">grey & black</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/nano-tech.html" title="nano tech">nano tech</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/flexible-stone.html" title="Flexible Stone">Flexible Stone</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/stonemimic.html" title="Stone Mimic">Stone Mimic</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/veinflow.html" title="Vein Flow">Vein Flow</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/artisan-craft.html" title="Artisan Craft">Artisan Craft</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/marble.html" title="Marble">Marble</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/BEIGE.html" title="BEIGE">BEIGE</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/GRAYBROWN.html" title="GRAY&BROWN">GRAY&BROWN</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/BLACKWHITE.html" title="BLACK&WHITE">BLACK&WHITE</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/Travertine-28.html" title="Travertine">Travertine</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/Luxury.html" title="Luxury">Luxury</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/BEIGE.html" title="BEIGE">BEIGE</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/gem.html" title="Gem Stone">Gem Stone</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/agate-series.html" title="Agate Series">Agate Series</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/other-semi-precious-stone-series.html" title="Other Semi Precious Stone Series">Other Semi Precious Stone Series</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/crystal-series.html" title="Crystal Series">Crystal Series</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/cement-stone.html" title="Cement Stone">Cement Stone</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/travertine.html" title="Pure">Pure</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/sandstone.html" title="Sandstone">Sandstone</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/willow.html" title="Line">Line</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/artifical-marble.html" title="Artifical Marble">Artifical Marble</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/white-series.html" title="White Series">White Series</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/grey-series.html" title="Grey Series">Grey Series</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/yellow-series.html" title="Yellow Series">Yellow Series</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/black-series.html" title="Black Series">Black Series</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/porcelain-slab.html" title="Porcelain Slab">Porcelain Slab</a>
+                                                                        <div class="i trigger">
+                                        <i class="wy-iconfont wy-right"></i>
+                                    </div>
+                                    <ul class="content_mt_ul">
+                                                                                <li>
+                                            <a href="/products/pure-sintered-slab.html" title="Classic Texture">Classic Texture</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/sintered-calacatta.html" title="Sintered Calacatta">Sintered Calacatta</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/sintered-luxury-stone.html" title="Sintered Luxury Stone">Sintered Luxury Stone</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/12mm.html" title="12mm">12mm</a>
+                                        </li>
+                                                                                <li>
+                                            <a href="/products/20mm.html" title="20mm">20mm</a>
+                                        </li>
+                                                                            </ul>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/products/silica-free-stone.html" title="Silica-Free Stone">Silica-Free Stone</a>
+                                                                    </li>
+                                                            </ul>
+                                                    </li>
+                                                <li class="">
+                            <a href="/solutions/Finished-Products.html" title="Solution" class="m-menu">Solution</a>
+                                                    </li>
+                                                <li class="">
+                            <a href="/solutions/countertop-4.html" title="Case" class="m-menu">Case</a>
+                                                        <div class="i trigger">
+                                <i class="wy-iconfont wy-right"></i>
+                            </div>
+                            <ul class="content_mt_ul">
+                                                                <li>
+                                    <a href="/solutions/engineering-case.html" title="Application field">Application field</a>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/solutions/countertop-4.html" title="Project">Project</a>
+                                                                    </li>
+                                                                <li>
+                                    <a href="/solutions/vr.html" title="360°View">360°View</a>
+                                                                    </li>
+                                                            </ul>
+                                                    </li>
+                                                <li class="">
+                            <a href="/articles/all.html" title="News" class="m-menu">News</a>
+                                                    </li>
+                                                <li class="">
+                            <a href="/page/contact-us.html" title="Contact Us" class="m-menu">Contact Us</a>
+                                                    </li>
+                                                <li>
+                            <a href="javascript:;" title="Language">Language</a>
+                            <div class="i trigger">
+                                <i class="wy-iconfont wy-right"></i>
+                            </div>
+                            <ul class="content_mt_ul">
+                                                                <li>
+                                    <a href="https://www.wayon.com" title="English">English</a>
+                                </li>
+                                                                <li>
+                                    <a href="https://www.wayonstone.com" title="简体中文">简体中文</a>
+                                </li>
+                                                                <li>
+                                    <a href="https://es.wayon.com" title="Espa&ntilde;ol">Espa&ntilde;ol</a>
+                                </li>
+                                                                <li>
+                                    <a href="https://ar.wayon.com" title="اللغة العربية">اللغة العربية</a>
+                                </li>
+                                                                <li>
+                                    <a href="https://ru.wayon.com" title="Pусский">Pусский</a>
+                                </li>
+                                                            </ul>
+                        </li>
+                                            </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="header-placeHolder"></div>
+ 
+<section class="inner-banner">
+  <div class="text-wrap">
+     <div class="_container_">
+      <h1 class="inner-banner-title"></h1>
+          </div>
+  </div>
+  <div class="img-wrap">
+    <figure class="img-box">
+      <img
+        src="https://img.yigetechcms.com/109/source/banner_common_60649.jpg"
+        alt="InnerBanner"
+        class="img"
+      />
+    </figure>
+  </div>
+</section>
+
+<div class="page__route">
+  <div class="_container_">
+    <div class="_content_">
+      <span>
+        <div class="i">
+          <i class="fa fa-home"></i>
+        </div>
+        You are here:
+      </span>
+      <ol class="list">
+        <li class="active">
+          <a href="/">Home</a>
+        </li>
+              </ol>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <style>
+@media screen and (max-width:1024px),
+screen and (min-width:1441px) {
+  :root {
+    --fz-12: 12px;
+    --fz-14: 14px;
+    --fz-15: 15px;
+    --fz-16: 1.6rem;
+    --fz-17: 1.7rem;
+    --fz-18: 1.8rem;
+    --fz-20: 2rem;
+    --fz-22: 2.2rem;
+    --fz-24: 2.4rem;
+    --fz-25: 2.5rem;
+    --fz-26: 2.6rem;
+    --fz-27: 2.7rem;
+    --fz-28: 2.8rem;
+    --fz-30: 3rem;
+    --fz-32: 3.2rem;
+    --fz-34: 3.4rem;
+    --fz-36: 3.6rem;
+    --fz-40: 4rem;
+    --fz-41: 4.1rem;
+    --fz-46: 4.6rem;
+    --fz-48: 4.8rem;
+    --fz-52: 5.2rem;
+    --fz-56: 5.6rem;
+    --fz-60: 6rem;
+    --fz-66: 6.6rem
+  }
+}
+
+@media screen and (max-width:1024px) {
+  :root {
+    --block-gap: 6rem;
+    --mini-gap: 3rem;
+  }
+}
+
+@media screen and (max-width:620px) {
+  :root {
+    --block-gap: 3rem;
+    --mini-gap: 15px;
+  }
+}
+
+/*! Common Style Start */
+._container_ {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%
+}
+
+._container_ ._content_,
+.container ._content_ {
+  width: 100%
+}
+
+@media screen and (max-width:1024px) {
+
+  ._container_,
+  .container {
+    width: 100%
+  }
+}
+
+.img-box,
+.swiper-box {
+  position: relative
+}
+
+.img-box {
+  overflow: hidden
+}
+
+.img {
+  display: block
+}
+
+.img,
+.img_cover {
+  height: 100%;
+  object-fit: cover;
+  width: 100%
+}
+
+.flex_center {
+  align-items: center;
+  display: flex;
+  justify-content: center
+}
+
+.flex_wrap {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.main-title {
+  color: #04131f;
+  font-size: 7rem
+}
+
+@media screen and (max-width:620px) {
+  .main-title {
+    font-size: 3rem
+  }
+}
+
+.main-des {
+  color: #04131f;
+  font-size: 2rem;
+  line-height: 3.6rem
+}
+
+@media screen and (max-width:620px) {
+  .main-des {
+    font-size: 14px;
+    line-height: 2.8rem
+  }
+}
+
+.main-btn {
+  align-items: center;
+  background: var(--themeColor, #68a3fd);
+  border: 2px solid transparent;
+  border-radius: .5rem;
+  color: #fff;
+  display: inline-flex;
+  font-size: 14px;
+  height: 3.5rem;
+  line-height: 3.5rem;
+  padding: 0 1.5rem;
+  transition: .5s
+}
+
+.main-btn:hover {
+  box-shadow: 3px 3px 1px #000;
+  color: #fff
+}
+
+._404_ ._content_ {
+  align-items: center;
+  display: flex;
+  justify-content: center
+}
+
+._404_ ._content_ .img-box {
+  width: 53.5rem
+}
+
+._404_ ._content_ .text-box {
+  width: 30.5rem
+}
+
+._404_ ._content_ .text-box .btn {
+  margin-top: var(--mini-gap, 2rem)
+}
+
+@media screen and (max-width:620px) {
+  ._404_ ._container_ {
+    padding: 0 15px
+  }
+
+  ._404_ ._container_ ._content_ {
+    flex-direction: column
+  }
+
+  ._404_ ._container_ ._content_ .img-box,
+  ._404_ ._container_ ._content_ .text-box {
+    width: 100%
+  }
+}
+  </style>
+
+<main class="_404_">
+    <div class="_container_">
+        <div class="_content_">
+            <figure class="img-box">
+                <img src="https://static.yigetechcms.com/public/image/new-template/404.jpg" alt="404">
+            </figure>
+            <div class="text-box">
+                    <h2 class="main-title">404</h2>
+                <div class="main-des">
+                    <p>
+                                                Sorry, the address of the page you are trying to access is incorrect or the page does not exist.
+                                            </p>
+                </div>
+                <div class="btn">
+                    <a href="/" class="main-btn">
+                                                Back Home
+                                            </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+ <footer class="page__footer" yige-background="https://img.yigetechcms.com/109/source/footer-bg_74742.png">
+  <div class="footer-main">
+    <div class="_container_">
+      <div class="_content_">
+        <div class="main_address">
+          <h2 class="footer-title">Address</h2>
+          <ul class="list">
+                        <li><p>Showroom: Foshan, Guangdong, China</p></li>
+                                    <li><p>Factory 1&2 :Yunfu, Guangdong, China</p></li>
+                                    <li><p>Factory 3 :Heyuan, Guangdong, China</p></li>
+                                  </ul>
+        </div>
+        <div class="main_nav">
+          <!-- 1 -->
+          <div class="footer-nav">
+            <h2 class="footer-title">About Us</h2>
+            <nav>
+                            <a href="/page/about-us.html" title="Who Are We">Who Are We</a>
+                            <a href="/page/factory.html" title="Factory">Factory</a>
+                            <a href="/page/certificate.html" title="Certificate">Certificate</a>
+                            <a href="/page/download.html" title="Download">Download</a>
+                          </nav>
+          </div>
+          <!-- 2 -->
+          <div class="footer-nav">
+            <h2 class="footer-title">Collection</h2>
+            <nav>
+                            <a href="/products/quartz.html" title="Quartz Stone">Quartz Stone</a>
+                            <a href="/products/terrazzo.html" title="Terrazzo">Terrazzo</a>
+                            <a href="/products/mcm-stone.html" title="Flexible Stone">Flexible Stone</a>
+                            <a href="/products/marble.html" title="Marble">Marble</a>
+                            <a href="/products/gem.html" title="Gem Stone">Gem Stone</a>
+                            <a href="/products/cement-stone.html" title="Cement Stone">Cement Stone</a>
+                            <a href="/products/artifical-marble.html" title="Artifical Marble">Artifical Marble</a>
+                            <a href="/products/sintered-slab.html" title="Porcelain Slab">Porcelain Slab</a>
+                            <a href="/products/silica-free-stone.html" title="Silica-Free Stone">Silica-Free Stone</a>
+                          </nav>
+          </div>
+          <!-- 3 -->
+          <div class="footer-nav">
+            <h2 class="footer-title">Case</h2>
+            <nav>
+                            <a href="/solutions/Finished-Products.html" title="Finished Products">Finished Products</a>
+                            <a href="/solutions/engineering-case.html" title="Application field">Application field</a>
+                            <a href="/solutions/countertop-4.html" title="Project">Project</a>
+                            <a href="/solutions/vr.html" title="360°View">360°View</a>
+                          </nav>
+          </div>
+        </div>
+        <div class="main_contact">
+          <div class="form-box">
+            <h2 class="footer-title">Get Free Sample</h2>
+            <form action="javascript:;" id="FooterForm">
+              <input type="hidden" name="__token__" value="e4ac0af09679168865d3037e5b221dd6" />              <input name="forward" type="hidden" value="https://www.wayon.com/404.html" />
+              <input type="hidden" name="check_field" value="content" />
+              <div class="formline">
+                <div class="input-box">
+                  <input required type="text" name="content" placeholder="Your Email/WhatsApp/Phone/Wechat" />
+                </div>
+              </div>
+              <button type="submit" id="CommonContactSubmit" class="footer-btn">
+                <p>Subscribe</p>
+              </button>
+            </form>
+          </div>
+
+          <ul class="link-list">
+            <!-- start -->
+                        <li>
+              <div class="img-box">
+                <a href="/page/contact-us.html" target="_blank">
+                  <img yige-src="https://img.yigetechcms.com/109/source/footer-link-1_74740.png" alt="footer-link-1" class="img" />
+                </a>
+              </div>
+            </li>
+                                    <li>
+              <div class="img-box">
+                <a href="/page/contact-us.html" target="_blank">
+                  <img yige-src="https://img.yigetechcms.com/109/source/footer-link-2_74741.png" alt="footer-link-2" class="img" />
+                </a>
+              </div>
+            </li>
+                                    <!-- end -->
+          </ul>
+          <div class="social-box">
+            <h2 class="footer-title">Follow Us</h2>
+            <ul class="list">
+                            <!-- Facebook -->
+              <li>
+                <a href="https://www.facebook.com/WayonStoneGroup" title="Facebook" class="i" target="_blank" rel="nofollow">
+                  <i class="wy-iconfont wy-facebook-fill"></i>
+                </a>
+              </li>
+                            <!-- Instagram -->
+              <li>
+                <a href="https://www.instagram.com/wayonstone/" title="Instagram" class="i" target="_blank" rel="nofollow">
+                  <i class="wy-iconfont wy-instagram"></i>
+                </a>
+              </li>
+                            <!-- Youtube -->
+              <li>
+                <a href=" https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw" title="Youtube" class="i" target="_blank" rel="nofollow">
+                  <i class="wy-iconfont wy-youtube"></i>
+                </a>
+              </li>
+                            <!-- Linkedin -->
+              <li>
+                <a href="https://www.linkedin.com/company/wayonstone/" title="LinkedIn" class="i" target="_blank" rel="nofollow">
+                  <i class="wy-iconfont wy-linkedin"></i>
+                </a>
+              </li>
+                            <!-- Pinterest -->
+              <li>
+                <a href="https://www.pinterest.com" title="Pinterest" class="i" target="_blank" rel="nofollow">
+                  <i class="wy-iconfont wy-pinter"></i>
+                </a>
+              </li>
+                          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copy">
+    <div class="_container_">
+      <div class="_content_">
+        <ul class="list">
+                    <li>
+            <a href="/page/privacy-policy.html" title="Privacy Policy">Privacy Policy</a>
+          </li>
+                   <li>
+            <a href="/page/terms-of-service.html" title="Terms of Service">Terms of Service</a>
+          </li>
+                 </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+    <script src="https://static.yigetechcms.com/public/js/jquery@3.6.0.min.js"></script>
+    <!-- 底部静态资源引入 👇 -->
+        <script src="https://static.yigetechcms.com/project/weiyangnew/js/main.js?v=1.0.1"></script>
+      <!-- <script src="https://static-test.yigetechcms.com/project/weiyangnew/js/main.js?v=1774922842"></script>   -->
+    <!-- <script src="//yige-static.com/static/dist/weiyang/js/main.js?v=1774922842"></script> -->
+    
+    <!-- 底部静态资源引入 👆 -->
+
+    <!-- 底部导入👇 -->
+    <script>
+  window.okkiConfigs = window.okkiConfigs || [];
+  function okkiAdd() {
+    okkiConfigs.push(arguments);
+  }
+  okkiAdd("analytics", { siteId: "55595-16876", gId: "" });
+</script>
+<script async src="//tfile.xiaoman.cn/okki/analyze.js?id=55595-16876-"></script>
+
+
+
+<script>
+  // The new iPhone browser and IE browser does not support the webp image of qiniu cloud, so it needs to be replaced
+
+  /* if ( navigator.userAgent.toLowerCase().indexOf("msie") > -1 || navigator.userAgent.toLowerCase().indexOf("trident") > -1 ) */
+  if (/msie|trident/i.test(navigator.userAgent) || /version\/([\d.]+).*safari/.test(navigator.userAgent) || /mac/i.test(navigator.platform)) {
+    $("img").each(function (index, item) {
+      var src = $(this).attr("src");
+      if (/\/format\/webp/i.test(src)) {
+        $(this).attr("src", src.replace(/\/format\/webp/g, ""));
+      }
+    });
+  }
+
+  if (window.location.toString().indexOf("pref=padindex") != -1) {
+  } else {
+    if (
+      /AppleWebKit.*Mobile/i.test(navigator.userAgent) ||
+      /MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent)
+    ) {
+      if (window.location.href.indexOf("?mobile") < 0) {
+        try {
+          if (/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+            // window.location.assign("m.xxxxx.com");
+          } else if (/iPad/i.test(navigator.userAgent)) {
+          } else {
+          }
+
+          if (/iPhone/i.test(navigator.userAgent)) {
+            $("img").each(function (index, item) {
+              var src = $(this).attr("src");
+              if (/\/format\/webp/i.test(src)) {
+                $(this).attr("src", src.replace(/\/format\/webp/g, ""));
+              }
+            });
+          }
+        } catch (e) {}
+      }
+    }
+  }
+</script>
+
+<script>
+  window.okkiConfigs = window.okkiConfigs || [];
+  function okkiAdd() {
+    okkiConfigs.push(arguments);
+  }
+  okkiAdd("analytics", { siteId: "55595-3827", gId: "UA-187438939-29" });
+</script>
+<script async src="//tfile.xiaoman.cn/okki/analyze.js?id=55595-3827-UA-187438939-29"></script>
+
+<script type="text/javascript">
+  _linkedin_partner_id = "7452332";
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script>
+<script type="text/javascript">
+  (function (l) {
+    if (!l) {
+      window.lintrk = function (a, b) {
+        window.lintrk.q.push([a, b]);
+      };
+      window.lintrk.q = [];
+    }
+    var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";
+    b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+    s.parentNode.insertBefore(b, s);
+  })(window.lintrk);
+</script>
+
+    <!-- 底部导入👆 -->
+  </body>
+</html>
