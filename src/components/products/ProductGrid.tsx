@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useLocale } from "next-intl";
 import ProductCard from "./ProductCard";
 import { motion, AnimatePresence } from "framer-motion";
-import { getProductImage, type Product } from "@/data/products";
+import { getProductImage, getLocalizedProductValue, type Product } from "@/data/products";
+import type { AppLocale } from "@/i18n/types";
 import { getCommonCopy } from "@/data/siteCopy";
 
 export default function ProductGrid({
@@ -62,7 +63,7 @@ export default function ProductGrid({
           <AnimatePresence>
             {filteredProducts.map((product, idx) => (
               <motion.div
-                key={product.url || idx}
+                key={product.slug || idx}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -70,8 +71,8 @@ export default function ProductGrid({
                 transition={{ duration: 0.3 }}
               >
                 <ProductCard 
-                  title={product.title}
-                  url={product.url}
+                  title={getLocalizedProductValue(product, locale as AppLocale, "title")}
+                  slug={product.slug}
                   image={getProductImage(product)}
                   category={product.category}
                 />

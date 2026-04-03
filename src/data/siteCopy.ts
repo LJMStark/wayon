@@ -918,6 +918,27 @@ const SITE_COPY = {
       ar: "إرسال الاستفسار",
       ru: "Отправить запрос",
     },
+    submitting: {
+      en: "Submitting...",
+      zh: "提交中...",
+      es: "Enviando...",
+      ar: "جاري الإرسال...",
+      ru: "Отправка...",
+    },
+    successMessage: {
+      en: "Inquiry submitted successfully! We will get back to you soon.",
+      zh: "咨询提交成功！我们将尽快与您联系。",
+      es: "¡Consulta enviada exitosamente! Nos pondremos en contacto con usted pronto.",
+      ar: "تم إرسال الاستفسار بنجاح! سنرد عليك قريبًا.",
+      ru: "Запрос успешно отправлен! Мы свяжемся с вами в ближайшее время.",
+    },
+    errorMessage: {
+      en: "Failed to submit inquiry. Please try again.",
+      zh: "提交咨询失败，请重试。",
+      es: "No se pudo enviar la consulta. Inténtelo de nuevo.",
+      ar: "فشل إرسال الاستفسار. يرجى المحاولة مرة أخرى.",
+      ru: "Не удалось отправить запрос. Пожалуйста, попробуйте еще раз.",
+    },
     sampleTitleLine1: {
       en: "Contact us",
       zh: "联系众岩联",

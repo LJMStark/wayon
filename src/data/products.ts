@@ -1,36 +1,28 @@
-import rawProducts from "./products.json";
-
+import { client } from '@/sanity/lib/client';
+import { getProductsQuery, getProductBySlugQuery } from '@/sanity/lib/queries';
 import type { AppLocale } from "@/i18n/types";
 
-export type ProductLocalizedField = `title_${AppLocale}` | `category_${AppLocale}`;
-
 export type Product = {
-  title: string;
+  _id: string;
+  title: Record<AppLocale, string>;
+  slug: string;
   category: string;
-  url: string;
-  imageSrc: string;
-  localImage?: string;
-} & Partial<Record<ProductLocalizedField, string>>;
-
-const PRODUCT_LOCALE_FIELDS: Record<
-  AppLocale,
-  { title: ProductLocalizedField; category: ProductLocalizedField }
-> = {
-  en: { title: "title_en", category: "category_en" },
-  zh: { title: "title_zh", category: "category_zh" },
-  es: { title: "title_es", category: "category_es" },
-  ar: { title: "title_ar", category: "category_ar" },
-  ru: { title: "title_ru", category: "category_ru" },
+  imageUrl: string;
 };
 
-export const PRODUCTS: Product[] = rawProducts as Product[];
-
-export function getProductSlug(url: string): string {
-  return url.split("/").pop()?.replace(".html", "") ?? "";
+export async function getProducts(): Promise<Product[]> {
+  const result = await client.fetch(getProductsQuery);
+  return result || [];
 }
 
-export function getProductImage(product: Product): string {
-  return product.localImage ?? product.imageSrc;
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const result = await client.fetch(getProductBySlugQuery, { slug });
+  return result || null;
+}
+
+export async function getProductSlugs(): Promise<string[]> {
+  const products = await getProducts();
+  return products.map(p => p.slug).filter(Boolean);
 }
 
 export function getLocalizedProductValue(
@@ -38,21 +30,16 @@ export function getLocalizedProductValue(
   locale: AppLocale,
   field: "title" | "category"
 ): string {
-  const localizedKey = PRODUCT_LOCALE_FIELDS[locale][field];
-
-  return product[localizedKey] ?? product[field];
+  if (!product) return "";
+  if (field === "category") {
+    // We could localize category names, but for now we just return the string category name
+    return product.category;
+  }
+  // Title mapping
+  return product.title?.[locale] || product.title?.['en'] || product.title?.['zh'] || "";
 }
 
-export function getProductSlugs(): string[] {
-  return PRODUCTS.map((product) => getProductSlug(product.url)).filter(Boolean);
-}
-
-export function findProductBySlug(slug: string): Product | undefined {
-  const normalizedSlug = slug.toLowerCase();
-
-  return PRODUCTS.find((product) => {
-    const productSlug = getProductSlug(product.url).toLowerCase();
-
-    return productSlug === normalizedSlug || product.url.toLowerCase().includes(normalizedSlug);
-  });
+export function getProductImage(product: Product): string {
+  // If we have uploaded images to Sanity, use imageUrl, else fallback to a placeholder
+  return product.imageUrl || '/assets/products/placeholder.jpg';
 }

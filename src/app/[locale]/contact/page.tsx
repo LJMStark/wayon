@@ -8,6 +8,8 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { getCommonCopy, getContactPageCopy } from "@/data/siteCopy";
 
+import { submitInquiry } from "@/app/actions/inquiry";
+
 const SOCIAL_LINKS = [
   { label: "Facebook", href: "https://facebook.com", content: "f" },
   { label: "Instagram", href: "https://instagram.com", content: "ig" },
@@ -15,7 +17,7 @@ const SOCIAL_LINKS = [
 ];
 
 const FORM_CONTROL_CLASS =
-  "w-full rounded-none border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-[#0f2858] focus:outline-none";
+  "w-full rounded-none border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-[#0f2858] focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed";
 
 export default function ContactPage() {
   const locale = useLocale();
@@ -25,6 +27,25 @@ export default function ContactPage() {
   const [activeAccordion, setActiveAccordion] = useState<string>(
     contactCopy.locations[0].name
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    
+    const formData = new FormData(e.currentTarget);
+    const result = await submitInquiry(formData);
+    
+    setIsSubmitting(false);
+    if (result.success) {
+       setSubmitStatus("success");
+       e.currentTarget.reset();
+    } else {
+       setSubmitStatus("error");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
@@ -172,7 +193,7 @@ export default function ContactPage() {
           {contactCopy.formTitle}
         </h2>
 
-        <form className="w-full space-y-6">
+        <form onSubmit={handleSubmit} className="w-full space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label className="block text-[15px] font-medium">
@@ -181,6 +202,9 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
+                name="name"
+                required
+                disabled={isSubmitting}
                 placeholder={contactCopy.fields.name.placeholder}
                 className={FORM_CONTROL_CLASS}
               />
@@ -191,6 +215,9 @@ export default function ContactPage() {
                 {contactCopy.fields.role.label}:
               </label>
               <select
+                name="role"
+                required
+                disabled={isSubmitting}
                 className={`${FORM_CONTROL_CLASS} appearance-none text-gray-500`}
                 defaultValue=""
               >
@@ -207,13 +234,16 @@ export default function ContactPage() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
+             <div className="space-y-2">
               <label className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.email.label}:
               </label>
               <input
                 type="email"
+                name="email"
+                required
+                disabled={isSubmitting}
                 placeholder={contactCopy.fields.email.placeholder}
                 className={FORM_CONTROL_CLASS}
               />
@@ -225,6 +255,9 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
+                name="company"
+                required
+                disabled={isSubmitting}
                 placeholder={contactCopy.fields.company.placeholder}
                 className={FORM_CONTROL_CLASS}
               />
@@ -239,6 +272,9 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
+                name="contact"
+                required
+                disabled={isSubmitting}
                 placeholder={contactCopy.fields.contact.placeholder}
                 className={FORM_CONTROL_CLASS}
               />
@@ -250,6 +286,9 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
+                name="country"
+                required
+                disabled={isSubmitting}
                 placeholder={contactCopy.fields.country.placeholder}
                 className={FORM_CONTROL_CLASS}
               />
@@ -262,17 +301,33 @@ export default function ContactPage() {
               {contactCopy.fields.message.label}:
             </label>
             <textarea
+              name="message"
               rows={6}
+              required
+              disabled={isSubmitting}
               placeholder={contactCopy.fields.message.placeholder}
               className={`${FORM_CONTROL_CLASS} resize-none`}
             />
           </div>
 
+          {submitStatus === "success" && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm">
+              {contactCopy.successMessage}
+            </div>
+          )}
+          
+          {submitStatus === "error" && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+              {contactCopy.errorMessage}
+            </div>
+          )}
+
           <button
-            type="button"
-            className="w-full bg-[#0a1e3f] py-4 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-black"
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-[#0a1e3f] py-4 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-black disabled:bg-gray-400"
           >
-            {contactCopy.submit}
+             {isSubmitting ? contactCopy.submitting : contactCopy.submit}
           </button>
         </form>
       </section>

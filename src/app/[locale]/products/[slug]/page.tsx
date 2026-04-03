@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { getTranslations } from "next-intl/server";
 import {
-  findProductBySlug,
+  getProductBySlug,
   getLocalizedProductValue,
   getProductImage,
   getProductSlugs,
@@ -19,7 +19,8 @@ import {
 import { buildPageMetadata } from '@/lib/metadata';
 
 export async function generateStaticParams() {
-  return getProductSlugs().map((slug) => ({ slug }));
+  const slugs = await getProductSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -31,7 +32,7 @@ export async function generateMetadata({
     notFound();
   }
 
-  const product = findProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -65,7 +66,7 @@ export default async function ProductDetailPage({
   const commonCopy = getCommonCopy(locale);
   const detailCopy = getProductDetailPageCopy(locale);
 
-  const product = findProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
