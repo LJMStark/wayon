@@ -1,15 +1,45 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { getAboutAlbum } from "@/data/home";
-import { useLocale, useTranslations } from "next-intl";
 import { getLandingCopy } from "@/data/siteCopy";
+import { Link } from "@/i18n/routing";
 
-export function AboutAlbum() {
+import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
+
+const NAVIGATION_BUTTONS = [
+  {
+    direction: "prev",
+    ariaLabelKey: "previous",
+    Icon: ChevronLeft,
+  },
+  {
+    direction: "next",
+    ariaLabelKey: "next",
+    Icon: ChevronRight,
+  },
+] as const;
+
+function getThumbnailClassName(isActive: boolean): string {
+  if (isActive) {
+    return "relative overflow-hidden border border-white/80 shadow-[0_0_0_1px_rgba(255,255,255,0.65)] transition-all";
+  }
+
+  return "relative overflow-hidden border border-white/20 transition-all";
+}
+
+function getCarouselActionLabel(
+  copy: ReturnType<typeof getLandingCopy>,
+  key: "previous" | "next"
+): string {
+  return copy.aboutAlbum[key];
+}
+
+export function AboutAlbum(): React.JSX.Element {
   const locale = useLocale();
   const t = useTranslations();
   const copy = getLandingCopy(locale);
@@ -17,12 +47,10 @@ export function AboutAlbum() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = aboutAlbumData[activeIndex];
 
-  const goToPrevious = () => {
-    setActiveIndex((current) => (current - 1 + aboutAlbumData.length) % aboutAlbumData.length);
-  };
-
-  const goToNext = () => {
-    setActiveIndex((current) => (current + 1) % aboutAlbumData.length);
+  const changeActiveIndex = (direction: CarouselDirection): void => {
+    setActiveIndex((current) =>
+      getWrappedIndex(current, aboutAlbumData.length, direction)
+    );
   };
 
   return (
@@ -51,22 +79,17 @@ export function AboutAlbum() {
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={goToPrevious}
-                    className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label={copy.aboutAlbum.previous}
-                  >
-                    <ChevronLeft className="size-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={goToNext}
-                    className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label={copy.aboutAlbum.next}
-                  >
-                    <ChevronRight className="size-4" />
-                  </button>
+                  {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
+                    <button
+                      key={direction}
+                      type="button"
+                      onClick={() => changeActiveIndex(direction)}
+                      className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
+                      aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+                    >
+                      <Icon className="size-4" />
+                    </button>
+                  ))}
                 </div>
               </footer>
             </article>
@@ -79,11 +102,7 @@ export function AboutAlbum() {
               key={item.title}
               type="button"
               onClick={() => setActiveIndex(index)}
-              className={`relative overflow-hidden border transition-all ${
-                index === activeIndex
-                  ? "border-white/80 shadow-[0_0_0_1px_rgba(255,255,255,0.65)]"
-                  : "border-white/20"
-              }`}
+              className={getThumbnailClassName(index === activeIndex)}
             >
               <div className="relative aspect-[3/2]">
                 <Image

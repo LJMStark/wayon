@@ -4,9 +4,10 @@ import { Link } from "@/i18n/routing";
 import { getAboutIntro } from "@/data/home";
 import { useTranslations } from "next-intl";
 
-export function AboutIntro() {
+export function AboutIntro(): React.JSX.Element {
   const t = useTranslations();
   const aboutIntroData = getAboutIntro(t);
+
   return (
     <section className="wayon-section">
       <div className="wayon-container grid items-start gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-14">

@@ -1,32 +1,69 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useRef } from "react";
 
 import { getHomeProducts } from "@/data/home";
 import { getLandingCopy } from "@/data/siteCopy";
-import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
-export function ProductsCarousel() {
+import {
+  scrollContainerByDirection,
+  type CarouselDirection,
+} from "./carouselUtils";
+
+const DESKTOP_NAV_BUTTON_CLASS_NAME =
+  "absolute top-1/2 z-20 hidden size-14 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex";
+
+const MOBILE_NAV_BUTTON_CLASS_NAME =
+  "flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white";
+
+const DESKTOP_NAV_BUTTONS = [
+  {
+    direction: "prev",
+    ariaLabelKey: "previous",
+    className: `left-0 -translate-x-1/2 ${DESKTOP_NAV_BUTTON_CLASS_NAME}`,
+    Icon: ChevronLeft,
+  },
+  {
+    direction: "next",
+    ariaLabelKey: "next",
+    className: `right-0 translate-x-1/2 ${DESKTOP_NAV_BUTTON_CLASS_NAME}`,
+    Icon: ChevronRight,
+  },
+] as const;
+
+const MOBILE_NAV_BUTTONS = [
+  {
+    direction: "prev",
+    ariaLabelKey: "previous",
+    Icon: ChevronLeft,
+  },
+  {
+    direction: "next",
+    ariaLabelKey: "next",
+    Icon: ChevronRight,
+  },
+] as const;
+
+function getCarouselActionLabel(
+  copy: ReturnType<typeof getLandingCopy>,
+  key: "previous" | "next"
+): string {
+  return copy.productsCarousel[key];
+}
+
+export function ProductsCarousel(): React.JSX.Element {
   const locale = useLocale();
   const t = useTranslations();
   const copy = getLandingCopy(locale);
   const homeProductsData = getHomeProducts(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const scrollByAmount = (direction: "next" | "prev") => {
-    const container = scrollerRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    container.scrollBy({
-      left: direction === "next" ? 360 : -360,
-      behavior: "smooth",
-    });
+  const scrollByAmount = (direction: CarouselDirection): void => {
+    scrollContainerByDirection(scrollerRef.current, direction, 360);
   };
 
   return (
@@ -45,22 +82,17 @@ export function ProductsCarousel() {
         </header>
 
         <div className="relative">
-          <button
-            type="button"
-            onClick={() => scrollByAmount("prev")}
-            className="absolute left-0 top-1/2 z-20 hidden size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex"
-            aria-label={copy.productsCarousel.previous}
-          >
-            <ChevronLeft className="size-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByAmount("next")}
-            className="absolute right-0 top-1/2 z-20 hidden size-14 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex"
-            aria-label={copy.productsCarousel.next}
-          >
-            <ChevronRight className="size-5" />
-          </button>
+          {DESKTOP_NAV_BUTTONS.map(({ direction, ariaLabelKey, className, Icon }) => (
+            <button
+              key={direction}
+              type="button"
+              onClick={() => scrollByAmount(direction)}
+              className={className}
+              aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+            >
+              <Icon className="size-5" />
+            </button>
+          ))}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-white to-transparent md:block" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-16 bg-gradient-to-l from-white to-transparent md:block" />
 
@@ -105,22 +137,17 @@ export function ProductsCarousel() {
         </div>
 
         <div className="mt-6 flex items-center justify-center gap-4 md:hidden">
-          <button
-            type="button"
-            onClick={() => scrollByAmount("prev")}
-            className="flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
-            aria-label={copy.productsCarousel.previous}
-          >
-            <ChevronLeft className="size-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByAmount("next")}
-            className="flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
-            aria-label={copy.productsCarousel.next}
-          >
-            <ChevronRight className="size-5" />
-          </button>
+          {MOBILE_NAV_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
+            <button
+              key={direction}
+              type="button"
+              onClick={() => scrollByAmount(direction)}
+              className={MOBILE_NAV_BUTTON_CLASS_NAME}
+              aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+            >
+              <Icon className="size-5" />
+            </button>
+          ))}
         </div>
       </div>
     </section>

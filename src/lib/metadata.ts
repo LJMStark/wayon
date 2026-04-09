@@ -5,6 +5,37 @@ import type { AppLocale } from "@/i18n/types";
 
 const METADATA_BASE = new URL("https://www.zylstone.com");
 
+type BuildPageMetadataOptions = {
+  locale: AppLocale;
+  title: string;
+  description: string;
+  imageAlt?: string;
+  path?: string;
+  includeIcons?: boolean;
+};
+
+function normalizeMetadataPath(locale: AppLocale, path: string): string {
+  if (locale === routing.defaultLocale) {
+    return path;
+  }
+
+  if (path === "/") {
+    return `/${locale}`;
+  }
+
+  return `/${locale}${path}`;
+}
+
+function getMetadataIcons(includeIcons: boolean): Metadata["icons"] | undefined {
+  if (!includeIcons) {
+    return undefined;
+  }
+
+  return {
+    icon: "/assets/brand/favicon-wayon.jpg",
+  };
+}
+
 export function buildPageMetadata({
   locale,
   title,
@@ -12,28 +43,11 @@ export function buildPageMetadata({
   imageAlt,
   path = "/",
   includeIcons = false,
-}: {
-  locale: AppLocale;
-  title: string;
-  description: string;
-  imageAlt?: string;
-  path?: string;
-  includeIcons?: boolean;
-}): Metadata {
-  const normalizedPath =
-    locale === routing.defaultLocale
-      ? path
-      : `/${locale}${path === "/" ? "" : path}`;
-
-  return {
+}: BuildPageMetadataOptions): Metadata {
+  const normalizedPath = normalizeMetadataPath(locale, path);
+  const icons = getMetadataIcons(includeIcons);
+  const metadata: Metadata = {
     metadataBase: METADATA_BASE,
-    ...(includeIcons
-      ? {
-          icons: {
-            icon: "/assets/brand/favicon-wayon.jpg",
-          },
-        }
-      : {}),
     title,
     description,
     openGraph: {
@@ -51,4 +65,10 @@ export function buildPageMetadata({
       ],
     },
   };
+
+  if (icons) {
+    metadata.icons = icons;
+  }
+
+  return metadata;
 }

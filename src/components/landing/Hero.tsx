@@ -1,20 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
+import { useEffect, useState } from "react";
 
 import { HERO_SLIDES } from "@/data/home";
 import { formatCopy, getLandingCopy } from "@/data/siteCopy";
 
-export function Hero() {
+import { getWrappedIndex } from "./carouselUtils";
+
+function getSlideClassName(isActive: boolean): string {
+  if (isActive) {
+    return "absolute inset-0 transition-opacity duration-700 opacity-100";
+  }
+
+  return "absolute inset-0 pointer-events-none transition-opacity duration-700 opacity-0";
+}
+
+function getIndicatorClassName(isActive: boolean): string {
+  if (isActive) {
+    return "h-[6px] w-10 rounded-full bg-white transition-all";
+  }
+
+  return "h-[6px] w-10 rounded-full bg-white/35 transition-all";
+}
+
+export function Hero(): React.JSX.Element {
   const locale = useLocale();
   const copy = getLandingCopy(locale);
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveSlide((current) => (current + 1) % HERO_SLIDES.length);
+      setActiveSlide((current) => getWrappedIndex(current, HERO_SLIDES.length, "next"));
     }, 7000);
 
     return () => window.clearInterval(timer);
@@ -26,7 +44,7 @@ export function Hero() {
         {HERO_SLIDES.map((slide, index) => (
           <div
             key={slide.src}
-            className={`absolute inset-0 transition-opacity duration-700 ${index === activeSlide ? "opacity-100" : "pointer-events-none opacity-0"}`}
+            className={getSlideClassName(index === activeSlide)}
           >
             {slide.type === "video" ? (
               <video
@@ -58,7 +76,7 @@ export function Hero() {
             key={slide.src}
             type="button"
             onClick={() => setActiveSlide(index)}
-            className={`h-[6px] rounded-full transition-all ${index === activeSlide ? "w-10 bg-white" : "w-10 bg-white/35"}`}
+            className={getIndicatorClassName(index === activeSlide)}
             aria-label={formatCopy(copy.hero.slideLabel, { index: index + 1 })}
           />
         ))}

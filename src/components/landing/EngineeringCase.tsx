@@ -3,19 +3,23 @@ import { useTranslations } from "next-intl";
 
 import { getEngineeringCases } from "@/data/home";
 
-export function EngineeringCase() {
+const DEFAULT_CASE_TITLE = "ENGINEERING CASE";
+const DEFAULT_CASE_SUBTITLE =
+  "Showcasing ZYL's successful applications in global projects, including residential, commercial, and public spaces.";
+
+export function EngineeringCase(): React.JSX.Element {
   const t = useTranslations();
   const cases = getEngineeringCases(t);
+  const title = t("Navigation.case") || DEFAULT_CASE_TITLE;
+  const subtitle = t("Hero.subtitle") || DEFAULT_CASE_SUBTITLE;
 
   return (
     <section id="case" className="wayon-section">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
-          <h2 className="wayon-title text-[color:var(--primary)]">
-            {t("Navigation.case") || "ENGINEERING CASE"}
-          </h2>
+          <h2 className="wayon-title text-[color:var(--primary)]">{title}</h2>
           <p className="wayon-copy mt-5 max-w-[780px]">
-            {t("Hero.subtitle") || "Showcasing ZYL's successful applications in global projects, including residential, commercial, and public spaces."}
+            {subtitle}
           </p>
         </header>
 

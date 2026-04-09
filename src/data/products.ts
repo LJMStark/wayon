@@ -1,5 +1,10 @@
 import { client } from '@/sanity/lib/client';
-import { getProductsQuery, getProductBySlugQuery } from '@/sanity/lib/queries';
+import {
+  getProductsQuery,
+  getProductBySlugQuery,
+  getProductsByCategoryQuery,
+  getFeaturedProductsQuery,
+} from '@/sanity/lib/queries';
 import type { AppLocale } from "@/i18n/types";
 
 export type Product = {
@@ -7,7 +12,14 @@ export type Product = {
   title: Record<AppLocale, string>;
   slug: string;
   category: string;
+  categorySlug: string;
   imageUrl: string;
+  description?: Record<AppLocale, string>;
+  thickness?: string;
+  finish?: string;
+  size?: string;
+  featured?: boolean;
+  sortOrder?: number;
 };
 
 export async function getProducts(): Promise<Product[]> {
@@ -20,6 +32,16 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return result || null;
 }
 
+export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
+  const result = await client.fetch(getProductsByCategoryQuery, { categorySlug });
+  return result || [];
+}
+
+export async function getFeaturedProducts(): Promise<Product[]> {
+  const result = await client.fetch(getFeaturedProductsQuery);
+  return result || [];
+}
+
 export async function getProductSlugs(): Promise<string[]> {
   const products = await getProducts();
   return products.map(p => p.slug).filter(Boolean);
@@ -28,18 +50,19 @@ export async function getProductSlugs(): Promise<string[]> {
 export function getLocalizedProductValue(
   product: Product,
   locale: AppLocale,
-  field: "title" | "category"
+  field: "title" | "category" | "description"
 ): string {
   if (!product) return "";
   if (field === "category") {
-    // We could localize category names, but for now we just return the string category name
     return product.category;
   }
-  // Title mapping
+  if (field === "description") {
+    return product.description?.[locale] || product.description?.['en'] || product.description?.['zh'] || "";
+  }
   return product.title?.[locale] || product.title?.['en'] || product.title?.['zh'] || "";
 }
 
 export function getProductImage(product: Product): string {
-  // If we have uploaded images to Sanity, use imageUrl, else fallback to a placeholder
   return product.imageUrl || '/assets/products/placeholder.jpg';
 }
+

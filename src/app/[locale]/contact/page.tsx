@@ -10,14 +10,23 @@ import { getCommonCopy, getContactPageCopy } from "@/data/siteCopy";
 
 import { submitInquiry } from "@/app/actions/inquiry";
 
-const SOCIAL_LINKS = [
-  { label: "Facebook", href: "https://facebook.com", content: "f" },
-  { label: "Instagram", href: "https://instagram.com", content: "ig" },
-  { label: "YouTube", href: "https://youtube.com", content: "▶" },
-];
-
 const FORM_CONTROL_CLASS =
   "w-full rounded-none border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-[#0f2858] focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed";
+
+type ContactLocation = {
+  name: string;
+  address?: string;
+  tel?: string;
+  fax?: string;
+  postalCode?: string;
+  email?: string;
+  businessHours?: string;
+};
+
+type ContactSocialLink = {
+  label: string;
+  href: string;
+};
 
 export default function ContactPage() {
   const locale = useLocale();
@@ -77,21 +86,19 @@ export default function ContactPage() {
 
       <section className="mx-auto mb-24 max-w-[1400px] px-6">
         <div className="grid items-start gap-12 md:grid-cols-2 lg:gap-24">
-          <div className="relative flex aspect-square w-full flex-col items-center justify-center bg-neutral-50 text-gray-400 md:h-[600px] md:aspect-auto">
-            <div className="flex h-full w-full flex-col items-center justify-center border border-dashed border-gray-200 p-8 text-center">
-              <span className="mb-2">{contactCopy.mapTitle}</span>
-              <span className="text-xs">{contactCopy.mapSubtitle}</span>
-            </div>
+          <div className="relative w-full overflow-hidden bg-neutral-50 md:h-[600px] aspect-square md:aspect-auto">
+            <iframe
+              title={contactCopy.mapTitle}
+              src={contactCopy.mapEmbedUrl}
+              className="h-full w-full border-0"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
 
           <div className="flex flex-col gap-2">
-            {contactCopy.locations.map((location: {
-              name: string;
-              address?: string;
-              tel?: string;
-              fax?: string;
-              postalCode?: string;
-            }) => {
+            {contactCopy.locations.map((location: ContactLocation) => {
               const isActive = activeAccordion === location.name;
 
               return (
@@ -147,6 +154,27 @@ export default function ContactPage() {
                           </a>
                         </div>
                       ) : null}
+                      {location.email ? (
+                        <div className="mb-2">
+                          <span className="text-gray-400">
+                            {contactCopy.labels.email}:
+                          </span>{" "}
+                          <a
+                            href={`mailto:${location.email}`}
+                            className="text-[#0ea5e9] hover:underline"
+                          >
+                            {location.email}
+                          </a>
+                        </div>
+                      ) : null}
+                      {location.businessHours ? (
+                        <div className="mb-2">
+                          <span className="text-gray-400">
+                            {contactCopy.labels.businessHours}:
+                          </span>{" "}
+                          {location.businessHours}
+                        </div>
+                      ) : null}
                       {location.fax ? (
                         <div className="mb-2">
                           <span className="text-gray-400">
@@ -164,18 +192,16 @@ export default function ContactPage() {
                         </div>
                       ) : null}
 
-                      <div className="flex gap-2">
-                        {SOCIAL_LINKS.map((link) => (
+                      <div className="flex flex-wrap gap-2">
+                        {contactCopy.socialLinks.map((link: ContactSocialLink) => (
                           <a
                             key={link.label}
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 transition-colors hover:bg-gray-300"
+                            className="inline-flex h-8 items-center rounded-full bg-gray-200 px-3 text-xs font-medium transition-colors hover:bg-gray-300"
                           >
-                            <span className="shrink-0 text-xs font-bold">
-                              {link.content}
-                            </span>
+                            {link.label}
                           </a>
                         ))}
                       </div>

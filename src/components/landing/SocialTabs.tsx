@@ -1,12 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { SOCIAL_PLATFORMS } from "@/data/home";
 
-export function SocialTabs() {
+const SOCIAL_SECTION_STYLE = {
+  backgroundImage: "url('/assets/backgrounds/social-section-bg.png')",
+};
+
+function getPlatformButtonClassName(isActive: boolean): string {
+  if (isActive) {
+    return "flex items-center gap-4 border-b border-[color:var(--border)] bg-[color:var(--surface)] px-5 py-4 text-left transition-colors md:px-8";
+  }
+
+  return "flex items-center gap-4 border-b border-[color:var(--border)] bg-white px-5 py-4 text-left transition-colors hover:bg-[color:var(--surface)] md:px-8";
+}
+
+export function SocialTabs(): React.JSX.Element {
   const t = useTranslations("SocialTabs");
   const [activeIndex, setActiveIndex] = useState(0);
   const activePlatform = SOCIAL_PLATFORMS[activeIndex];
@@ -21,15 +33,13 @@ export function SocialTabs() {
 
         <div className="flex flex-col overflow-hidden md:h-[49rem] md:flex-row">
           <div className="md:w-[22.857%]">
-            <div className="grid md:h-full md:grid-rows-7">
+            <div className="grid gap-px md:h-full md:auto-rows-fr">
               {SOCIAL_PLATFORMS.map((platform, index) => (
                 <button
                   key={platform.name}
                   type="button"
                   onClick={() => setActiveIndex(index)}
-                  className={`flex items-center gap-4 border-b border-[color:var(--border)] bg-white px-5 py-4 text-left transition-colors md:px-8 ${
-                    index === activeIndex ? "bg-[color:var(--surface)]" : "hover:bg-[color:var(--surface)]"
-                  }`}
+                  className={getPlatformButtonClassName(index === activeIndex)}
                 >
                   <div className="relative size-[34px] shrink-0">
                     <Image
@@ -48,7 +58,7 @@ export function SocialTabs() {
 
           <div
             className="flex-1 bg-cover bg-center bg-no-repeat px-5 py-6 md:px-10 md:py-10"
-            style={{ backgroundImage: "url('/assets/backgrounds/social-section-bg.png')" }}
+            style={SOCIAL_SECTION_STYLE}
           >
             <div className="grid gap-6 md:grid-cols-3">
               {activePlatform.posts.map((post) => (

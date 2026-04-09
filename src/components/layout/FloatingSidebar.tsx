@@ -10,14 +10,28 @@ import { getFloatingSidebarCopy } from "@/data/siteCopy";
 const BUTTON_CLASS =
   "flex size-11 items-center justify-center border border-[#dddddd] bg-white text-[#333333] transition-colors hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]";
 
-export default function FloatingSidebar() {
+function getSidebarClassName(isVisible: boolean): string {
+  if (isVisible) {
+    return "fixed bottom-6 right-4 z-40 hidden flex-col gap-2 transition-all duration-300 lg:flex translate-x-0 opacity-100";
+  }
+
+  return "fixed bottom-6 right-4 z-40 hidden flex-col gap-2 transition-all duration-300 lg:flex pointer-events-none translate-x-3 opacity-0";
+}
+
+type AnimateQrProps = {
+  show: boolean;
+  title: string;
+  hint: string;
+};
+
+export default function FloatingSidebar(): React.JSX.Element {
   const locale = useLocale();
   const copy = getFloatingSidebarCopy(locale);
   const [showQr, setShowQr] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
+    const toggleVisibility = (): void => {
       setIsVisible(window.scrollY > 540);
     };
 
@@ -28,11 +42,7 @@ export default function FloatingSidebar() {
   }, []);
 
   return (
-    <div
-      className={`fixed bottom-6 right-4 z-40 hidden flex-col gap-2 transition-all duration-300 lg:flex ${
-        isVisible ? "translate-x-0 opacity-100" : "pointer-events-none translate-x-3 opacity-0"
-      }`}
-    >
+    <div className={getSidebarClassName(isVisible)}>
       <div
         className="relative"
         onMouseEnter={() => setShowQr(true)}
@@ -43,8 +53,6 @@ export default function FloatingSidebar() {
         </button>
         <AnimateQr show={showQr} title={copy.qrTitle} hint={copy.qrHint} />
       </div>
-
-
 
       <Link
         href="/contact"
@@ -70,11 +78,7 @@ function AnimateQr({
   show,
   title,
   hint,
-}: {
-  show: boolean;
-  title: string;
-  hint: string;
-}) {
+}: AnimateQrProps): React.JSX.Element | null {
   return show ? (
     <div className="absolute right-[calc(100%+12px)] top-1/2 w-44 -translate-y-1/2 border border-[color:var(--border)] bg-white p-4 text-center shadow-[0_0_1rem_rgba(0,0,0,0.08)]">
       <div className="flex aspect-square items-center justify-center bg-[color:var(--surface)] px-4 text-[12px] leading-5 text-[#666666]">

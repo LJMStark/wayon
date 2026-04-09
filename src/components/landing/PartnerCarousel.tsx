@@ -1,43 +1,58 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useRef } from "react";
 
 import { getPartners } from "@/data/home";
 import { getLandingCopy } from "@/data/siteCopy";
-import { useLocale, useTranslations } from "next-intl";
 
-export function PartnerCarousel() {
+import {
+  scrollContainerByDirection,
+  type CarouselDirection,
+} from "./carouselUtils";
+
+const PARTNER_SECTION_STYLE = {
+  backgroundImage:
+    "linear-gradient(rgba(247,250,253,0.96), rgba(247,250,253,0.96)), url('/assets/backgrounds/partner-section-bg.png')",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+};
+
+const NAVIGATION_BUTTONS = [
+  {
+    direction: "prev",
+    ariaLabelKey: "previous",
+    Icon: ChevronLeft,
+  },
+  {
+    direction: "next",
+    ariaLabelKey: "next",
+    Icon: ChevronRight,
+  },
+] as const;
+
+function getCarouselActionLabel(
+  copy: ReturnType<typeof getLandingCopy>,
+  key: "previous" | "next"
+): string {
+  return copy.partnerCarousel[key];
+}
+
+export function PartnerCarousel(): React.JSX.Element {
   const locale = useLocale();
   const t = useTranslations();
   const copy = getLandingCopy(locale);
   const partnersData = getPartners(t);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const scrollByAmount = (direction: "next" | "prev") => {
-    const container = scrollerRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    container.scrollBy({
-      left: direction === "next" ? 780 : -780,
-      behavior: "smooth",
-    });
+  const scrollByAmount = (direction: CarouselDirection): void => {
+    scrollContainerByDirection(scrollerRef.current, direction, 780);
   };
 
   return (
-    <section
-      className="wayon-section pb-16"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(247,250,253,0.96), rgba(247,250,253,0.96)), url('/assets/backgrounds/partner-section-bg.png')",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
+    <section className="wayon-section pb-16" style={PARTNER_SECTION_STYLE}>
       <div className="wayon-container">
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div className="max-w-[780px]">
@@ -50,22 +65,17 @@ export function PartnerCarousel() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => scrollByAmount("prev")}
-              className="flex size-12 items-center justify-center bg-white text-[#333333] shadow-[0_0_1rem_rgba(0,0,0,0.08)] transition-colors hover:bg-[color:var(--primary)] hover:text-white"
-              aria-label={copy.partnerCarousel.previous}
-            >
-              <ChevronLeft className="size-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollByAmount("next")}
-              className="flex size-12 items-center justify-center bg-white text-[#333333] shadow-[0_0_1rem_rgba(0,0,0,0.08)] transition-colors hover:bg-[color:var(--primary)] hover:text-white"
-              aria-label={copy.partnerCarousel.next}
-            >
-              <ChevronRight className="size-5" />
-            </button>
+            {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
+              <button
+                key={direction}
+                type="button"
+                onClick={() => scrollByAmount(direction)}
+                className="flex size-12 items-center justify-center bg-white text-[#333333] shadow-[0_0_1rem_rgba(0,0,0,0.08)] transition-colors hover:bg-[color:var(--primary)] hover:text-white"
+                aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+              >
+                <Icon className="size-5" />
+              </button>
+            ))}
           </div>
         </header>
 

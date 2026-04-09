@@ -1,10 +1,9 @@
-import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
-import { useLocale } from 'next-intl';
-import { Link } from '@/i18n/routing';
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useLocale } from "next-intl";
 
-
-import { getLandingCopy } from '@/data/siteCopy';
+import { getLandingCopy } from "@/data/siteCopy";
+import { Link } from "@/i18n/routing";
 
 type ProductCardProps = {
   title: string;
@@ -13,12 +12,24 @@ type ProductCardProps = {
   category: string;
 };
 
-export default function ProductCard({ title, image, slug, category }: ProductCardProps) {
+const CARD_CLASS_NAME =
+  "group flex flex-col overflow-hidden rounded-xl border border-muted/50 bg-white transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5";
+
+const DETAILS_LINK_CLASS_NAME =
+  "inline-flex items-center text-sm font-medium text-muted-foreground transition-colors group-hover:text-primary";
+
+export default function ProductCard({
+  title,
+  image,
+  slug,
+  category,
+}: ProductCardProps): React.JSX.Element {
   const locale = useLocale();
   const copy = getLandingCopy(locale);
+  const detailsHref = `/products/${slug}`;
 
   return (
-    <div className="group flex flex-col bg-white border border-muted/50 rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
+    <div className={CARD_CLASS_NAME}>
       <div className="relative aspect-square overflow-hidden bg-muted">
         <Image
           src={image}
@@ -37,10 +48,11 @@ export default function ProductCard({ title, image, slug, category }: ProductCar
         <h3 className="text-lg font-heading font-semibold text-primary mb-4 grow">
           {title}
         </h3>
-        
+
         <div className="mt-auto pt-4 border-t border-muted">
-          <Link href={`/products/${slug}`} className="inline-flex items-center text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
-            {copy.productCard.viewDetails} <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
+          <Link href={detailsHref} className={DETAILS_LINK_CLASS_NAME}>
+            {copy.productCard.viewDetails}
+            <ArrowRight className="ml-1 h-4 w-4 transform transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

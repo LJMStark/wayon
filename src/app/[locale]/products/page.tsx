@@ -86,9 +86,36 @@ const MAIN_CATEGORIES: CategoryShowcase[] = [
   },
 ];
 
+function getCategoryBackgroundClassName(
+  backgroundType: CategoryShowcase["bgType"]
+): string {
+  if (backgroundType === "gray") {
+    return "bg-[#f8f9fa]";
+  }
+
+  return "bg-white";
+}
+
+function getCategoryOrderClassNames(isImageRight: boolean): {
+  content: string;
+  image: string;
+} {
+  if (isImageRight) {
+    return {
+      content: "order-2 md:order-1",
+      image: "order-1 md:order-2",
+    };
+  }
+
+  return {
+    content: "order-2 md:order-2",
+    image: "order-1 md:order-1",
+  };
+}
+
 export async function generateMetadata({
   params,
-}: PageProps<"/[locale]/products">) {
+}: PageProps<"/[locale]/products">): Promise<import("next").Metadata> {
   const { locale } = await params;
 
   if (!hasLocale(locale)) {
@@ -107,7 +134,7 @@ export async function generateMetadata({
 
 export default async function CollectionsPage({
   params,
-}: PageProps<"/[locale]/products">) {
+}: PageProps<"/[locale]/products">): Promise<React.JSX.Element> {
   const { locale } = await params;
 
   if (!hasLocale(locale)) {
@@ -151,20 +178,16 @@ export default async function CollectionsPage({
       <div className="flex w-full flex-col">
         {MAIN_CATEGORIES.map((category, index) => {
           const isImageRight = index % 2 === 0;
+          const categoryOrderClassNames = getCategoryOrderClassNames(isImageRight);
+          const backgroundClassName = getCategoryBackgroundClassName(category.bgType);
 
           return (
             <div
               key={category.category}
               id={category.category}
-              className={`scroll-mt-24 flex min-h-[500px] w-full flex-col md:flex-row ${
-                category.bgType === "gray" ? "bg-[#f8f9fa]" : "bg-white"
-              }`}
+              className={`scroll-mt-24 flex min-h-[500px] w-full flex-col md:flex-row ${backgroundClassName}`}
             >
-              <div
-                className={`flex w-full items-center justify-center p-12 lg:p-24 md:w-1/2 ${
-                  isImageRight ? "order-2 md:order-1" : "order-2 md:order-2"
-                }`}
-              >
+              <div className={`flex w-full items-center justify-center p-12 md:w-1/2 lg:p-24 ${categoryOrderClassNames.content}`}>
                 <div className="w-full max-w-md">
                   <h2 className="mb-6 text-3xl font-bold text-[#1a1a1a] lg:text-4xl">
                     {translateNav(category.titleKey)}
@@ -181,11 +204,7 @@ export default async function CollectionsPage({
                 </div>
               </div>
 
-              <div
-                className={`relative w-full min-h-[300px] md:w-1/2 md:min-h-full ${
-                  isImageRight ? "order-1 md:order-2" : "order-1 md:order-1"
-                }`}
-              >
+              <div className={`relative min-h-[300px] w-full md:min-h-full md:w-1/2 ${categoryOrderClassNames.image}`}>
                 <div className="absolute inset-0 m-auto max-h-[85%] max-w-[85%] scale-[0.9] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-95">
                   <Image
                     src={category.imageSrc}

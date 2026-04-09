@@ -1,21 +1,65 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { getSolutions } from "@/data/home";
 import { formatCopy, getLandingCopy } from "@/data/siteCopy";
-import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
-export function SolutionTabs() {
+import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
+
+const NAVIGATION_BUTTONS = [
+  {
+    direction: "prev",
+    ariaLabelKey: "previous",
+    Icon: ChevronLeft,
+  },
+  {
+    direction: "next",
+    ariaLabelKey: "next",
+    Icon: ChevronRight,
+  },
+] as const;
+
+function getTabOverlayClassName(isActive: boolean): string {
+  if (isActive) {
+    return "absolute inset-0 bg-[color:var(--primary)]/85 transition-colors";
+  }
+
+  return "absolute inset-0 bg-white/88 transition-colors";
+}
+
+function getTabTextClassName(isActive: boolean): string {
+  if (isActive) {
+    return "text-[18px] font-normal leading-none text-white";
+  }
+
+  return "text-[18px] font-normal leading-none text-[#323232]";
+}
+
+function getCarouselActionLabel(
+  copy: ReturnType<typeof getLandingCopy>,
+  key: "previous" | "next"
+): string {
+  return copy.solutionTabs[key];
+}
+
+export function SolutionTabs(): React.JSX.Element {
   const locale = useLocale();
   const t = useTranslations();
   const copy = getLandingCopy(locale);
   const solutionsData = getSolutions(t);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeItem = solutionsData[activeIndex];
+
+  const changeActiveIndex = (direction: CarouselDirection): void => {
+    setActiveIndex((current) =>
+      getWrappedIndex(current, solutionsData.length, direction)
+    );
+  };
 
   return (
     <section className="wayon-section">
@@ -52,22 +96,17 @@ export function SolutionTabs() {
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveIndex((current) => (current - 1 + solutionsData.length) % solutionsData.length)}
-                    className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label={copy.solutionTabs.previous}
-                  >
-                    <ChevronLeft className="size-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveIndex((current) => (current + 1) % solutionsData.length)}
-                    className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
-                    aria-label={copy.solutionTabs.next}
-                  >
-                    <ChevronRight className="size-4" />
-                  </button>
+                  {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
+                    <button
+                      key={direction}
+                      type="button"
+                      onClick={() => changeActiveIndex(direction)}
+                      className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
+                      aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+                    >
+                      <Icon className="size-4" />
+                    </button>
+                  ))}
                 </div>
               </footer>
             </article>
@@ -80,25 +119,19 @@ export function SolutionTabs() {
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 className="relative min-h-[84px] overflow-hidden"
-              >
-                <div className="absolute inset-0">
-                  <Image
-                    src={solution.image}
+                >
+                  <div className="absolute inset-0">
+                    <Image
+                      src={solution.image}
                     alt={solution.label}
                     fill
-                    sizes="(max-width: 768px) 100vw, 225px"
-                    className="object-cover"
-                  />
-                  <div
-                    className={`absolute inset-0 transition-colors ${
-                      index === activeIndex ? "bg-[color:var(--primary)]/85" : "bg-white/88"
-                    }`}
-                  />
-                </div>
+                      sizes="(max-width: 768px) 100vw, 225px"
+                      className="object-cover"
+                    />
+                    <div className={getTabOverlayClassName(index === activeIndex)} />
+                  </div>
                 <div className="relative z-10 flex items-center justify-between gap-3 px-4 py-5 text-left">
-                  <span
-                    className={`text-[18px] font-normal leading-none ${index === activeIndex ? "text-white" : "text-[#323232]"}`}
-                  >
+                  <span className={getTabTextClassName(index === activeIndex)}>
                     {solution.label}
                   </span>
                   <ChevronRight

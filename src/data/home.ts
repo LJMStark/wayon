@@ -60,6 +60,20 @@ export type SocialPlatform = {
   posts: SocialPost[];
 };
 
+export type AboutIntroData = {
+  title: string;
+  paragraphs: string[];
+  href: string;
+  cta: string;
+};
+
+export type NewsFeature = {
+  title: string;
+  excerpt: string;
+  href: string;
+  image: string;
+};
+
 type AppTranslator = _Translator<AppMessages>;
 type AppMessageKey = Parameters<AppTranslator>[0];
 
@@ -350,7 +364,7 @@ const NEWS_ITEM_CONFIG = [
   yearMonth: string;
 }>;
 
-export function getAboutIntro(t: AppTranslator) {
+export function getAboutIntro(t: AppTranslator): AboutIntroData {
   return {
     title: t(ABOUT_INTRO_CONFIG.titleKey),
     paragraphs: ABOUT_INTRO_CONFIG.paragraphKeys.map((key) => t(key)),
@@ -403,7 +417,7 @@ export function getPartners(t: AppTranslator): PartnerItem[] {
   }));
 }
 
-export function getNewsFeature(t: AppTranslator) {
+export function getNewsFeature(t: AppTranslator): NewsFeature {
   return {
     title: t(NEWS_FEATURE_CONFIG.titleKey),
     excerpt: t(NEWS_FEATURE_CONFIG.excerptKey),
@@ -423,85 +437,22 @@ export function getNewsItems(t: AppTranslator): NewsItem[] {
 
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
-    name: "Facebook",
-    icon: "/assets/icons/social/facebook.png",
-    posts: [
-      {
-        title: "ZYL Stone I The Big5 Global Dubai 2025",
-        href: "https://www.facebook.com/share/p/19ZPWnwB73/",
-        image: "/assets/social/facebook-big5.jpg",
-      },
-      {
-        title: "ZYL Stone I Quartz Countertops",
-        href: "https://www.facebook.com/share/p/1Jwao87VRA/",
-        image: "/assets/social/facebook-quartz-countertops.png",
-      },
-      {
-        title: "ZYL Stone I Quartz Countertop Project for Tap & Barrel Restaurant, Canada",
-        href: "https://www.facebook.com/share/p/1C4uhz48ES/",
-        image: "/assets/social/facebook-tap-barrel.jpg",
-      },
-    ],
-  },
-  {
-    name: "Linkedin",
-    icon: "/assets/icons/social/linkedin.png",
-    posts: [
-      {
-        title: "ZYL Stone I Milan Hotel Furniture Project",
-        href: "https://www.linkedin.com/feed/update/urn:li:activity:7400081930316206080",
-        image: "/assets/social/linkedin-milan-hotel.png",
-      },
-      {
-        title: "ZYL Stone I Qatar Vendome Plaza Shopping Mall Project",
-        href: "https://www.linkedin.com/pulse/wayon-stone-qatar-vend%C3%B4me-plaza-shopping-mall-high-end-commercial-broyc",
-        image: "/assets/social/linkedin-qatar-vendome.png",
-      },
-      {
-        title: "MCM Stone | Ultra-thin; Bendable, Waterproof, Frieproof",
-        href: "https://www.linkedin.com/pulse/new-choices-stone-engineering-procurement-mcm-reshape-benchmark-w6gvc",
-        image: "/assets/social/linkedin-mcm-stone.png",
-      },
-    ],
-  },
-  {
-    name: "Tiktok",
-    icon: "/assets/icons/social/tiktok.png",
-    posts: [
-      {
-        title: "Mcmstone",
-        href: "https://www.tiktok.com/",
-        image: "/assets/social/tiktok-mcm-stone.png",
-      },
-      {
-        title: "Quartz",
-        href: "https://www.tiktok.com/",
-        image: "/assets/social/tiktok-quartz.png",
-      },
-      {
-        title: "Zero silica",
-        href: "https://www.tiktok.com/",
-        image: "/assets/social/tiktok-zero-silica.png",
-      },
-    ],
-  },
-  {
     name: "Youtube",
     icon: "/assets/icons/social/youtube.png",
     posts: [
       {
         title: "Engineering project decryption",
-        href: "https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw",
+        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
         image: "/assets/social/youtube-engineering-project.png",
       },
       {
         title: "Project cases",
-        href: "https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw",
+        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
         image: "/assets/social/youtube-project-cases.png",
       },
       {
         title: "ZYL",
-        href: "https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw",
+        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
         image: "/assets/social/youtube-wayon-base.png",
       },
     ],
@@ -512,17 +463,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     posts: [
       {
         title: "ZYL Stone I GEM stone slabs",
-        href: "https://www.instagram.com/wayonstone/",
+        href: "https://www.instagram.com/zyl.stone.slab/",
         image: "/assets/social/instagram-gem.png",
       },
       {
         title: "ZYL Stone I High-Performance Inorganic lerrazzo",
-        href: "https://www.instagram.com/wayonstone/",
+        href: "https://www.instagram.com/zyl.stone.slab/",
         image: "/assets/social/instagram-terrazzo.png",
       },
       {
         title: "ZYL Stone Marble I Eternal Beauty Space Choice",
-        href: "https://www.instagram.com/wayonstone/",
+        href: "https://www.instagram.com/zyl.stone.slab/",
         image: "/assets/social/instagram-marble.png",
       },
     ],
@@ -533,39 +484,18 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
     posts: [
       {
         title: "Flexible Stone1",
-        href: "https://www.pinterest.com/",
+        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
         image: "/assets/social/pinterest-flexible-stone.jpg",
       },
       {
         title: "nurse station",
-        href: "https://www.pinterest.com/",
+        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
         image: "/assets/social/pinterest-nurse-station.jpg",
       },
       {
         title: "gem",
-        href: "https://www.pinterest.com/",
+        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
         image: "/assets/social/pinterest-gem.jpg",
-      },
-    ],
-  },
-  {
-    name: "VK",
-    icon: "/assets/icons/social/vk.png",
-    posts: [
-      {
-        title: "ZYL Stone I Granite EngineeringProject-School",
-        href: "https://vk.com/wall-232552225_112",
-        image: "/assets/social/vk-engineered-stone.png",
-      },
-      {
-        title: "ZYL Stone I Zero-Silica Quartz Stone",
-        href: "https://vk.com/wall-232552225_60",
-        image: "/assets/social/vk-zero-silica-quartz.png",
-      },
-      {
-        title: "WG135",
-        href: "https://vk.com/wall-232552225_60",
-        image: "/assets/social/vk-wg135.png",
       },
     ],
   },

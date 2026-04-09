@@ -8,7 +8,52 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { getAboutPageCopy, getCommonCopy } from "@/data/siteCopy";
 
-export default function AboutPage() {
+type AboutStat = {
+  value: string;
+  suffix: string;
+  label: string;
+};
+
+type DevelopmentHistoryItem = {
+  year: string;
+  text: string;
+};
+
+const EXHIBITION_PLACEHOLDERS = [1, 2, 3, 4] as const;
+
+function getPhilosophyTabClassName(isActive: boolean): string {
+  if (isActive) {
+    return "border-t-2 border-white bg-[#0b1630] px-12 py-5 text-sm uppercase tracking-wider transition-colors";
+  }
+
+  return "px-12 py-5 text-sm uppercase tracking-wider transition-colors hover:bg-white/5";
+}
+
+function getExhibitionTabClassName(isActive: boolean): string {
+  if (isActive) {
+    return "border-b-2 border-black px-10 py-4 text-sm font-medium tracking-wide text-[#1a1a1a] transition-colors";
+  }
+
+  return "px-10 py-4 text-sm tracking-wide text-gray-500 transition-colors hover:text-black";
+}
+
+function getTimelineRowClassName(isReverse: boolean): string {
+  if (isReverse) {
+    return "relative mb-24 w-full items-center justify-between md:flex md:flex-row-reverse";
+  }
+
+  return "relative mb-24 w-full items-center justify-between md:flex md:flex-row";
+}
+
+function getTimelineContentClassName(isReverse: boolean): string {
+  if (isReverse) {
+    return "ml-8 flex flex-col md:ml-0 md:w-[45%] md:items-start md:text-left";
+  }
+
+  return "ml-8 flex flex-col md:ml-0 md:w-[45%] md:items-end md:text-right";
+}
+
+export default function AboutPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
@@ -65,8 +110,7 @@ export default function AboutPage() {
 
       <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="grid grid-cols-2 gap-12 divide-x divide-gray-100 text-center md:grid-cols-4">
-          {aboutCopy.stats.map(
-            (stat: { value: string; suffix: string; label: string }) => (
+          {aboutCopy.stats.map((stat: AboutStat) => (
             <div key={`${stat.value}-${stat.label}`} className="flex flex-col items-center">
               <div className="mb-2 text-5xl font-light text-[#0f2858]">
                 {stat.value}
@@ -74,8 +118,7 @@ export default function AboutPage() {
               </div>
               <div className="text-sm text-gray-500">{stat.label}</div>
             </div>
-            )
-          )}
+          ))}
         </div>
       </section>
 
@@ -95,7 +138,7 @@ export default function AboutPage() {
               {aboutCopy.whyDescription}
             </p>
             <Link
-              href="/about#factory"
+              href="/contact"
               className="flex items-center gap-2 text-sm tracking-wider transition-opacity hover:opacity-80"
             >
               {aboutCopy.whyCta} <MoveRight className="h-4 w-4" />
@@ -119,13 +162,9 @@ export default function AboutPage() {
             {aboutCopy.philosophyTabs.map((tab: string) => (
               <button
                 key={tab}
-                onClick={() => setActivePhilosophyTab(tab)}
-                className={`px-12 py-5 text-sm uppercase tracking-wider transition-colors ${
-                  activePhilosophyTab === tab
-                    ? "border-t-2 border-white bg-[#0b1630]"
-                    : "hover:bg-white/5"
-                }`}
                 type="button"
+                onClick={() => setActivePhilosophyTab(tab)}
+                className={getPhilosophyTabClassName(activePhilosophyTab === tab)}
               >
                 {tab}
               </button>
@@ -184,13 +223,9 @@ export default function AboutPage() {
           {aboutCopy.exhibitionTabs.map((tab: string) => (
             <button
               key={tab}
-              onClick={() => setActiveExhibitionTab(tab)}
-              className={`px-10 py-4 text-sm tracking-wide transition-colors ${
-                activeExhibitionTab === tab
-                  ? "border-b-2 border-black font-medium text-[#1a1a1a]"
-                  : "text-gray-500 hover:text-black"
-              }`}
               type="button"
+              onClick={() => setActiveExhibitionTab(tab)}
+              className={getExhibitionTabClassName(activeExhibitionTab === tab)}
             >
               {tab}
             </button>
@@ -198,10 +233,10 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {[1, 2, 3, 4].map((index) => (
-            <div key={index} className="flex flex-col">
+          {EXHIBITION_PLACEHOLDERS.map((placeholderIndex) => (
+            <div key={placeholderIndex} className="flex flex-col">
               <div className="mb-4 flex aspect-[4/3] items-center justify-center bg-neutral-100 text-gray-300">
-                a{index}
+                a{placeholderIndex}
               </div>
               <p className="text-sm text-gray-500">
                 {aboutCopy.exhibitionCardCaption}
@@ -226,22 +261,17 @@ export default function AboutPage() {
             <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 transform bg-gray-200 md:block" />
 
             {aboutCopy.developmentHistory.map(
-              (item: { year: string; text: string }, index: number) => (
+              (item: DevelopmentHistoryItem, index: number) => {
+                const isReverse = index % 2 === 0;
+
+                return (
               <div
                 key={item.year}
-                className={`relative mb-24 w-full items-center justify-between md:flex ${
-                  index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"
-                }`}
+                className={getTimelineRowClassName(isReverse)}
               >
                 <div className="absolute left-1/2 hidden h-4 w-4 -translate-x-1/2 transform rounded-full border-[3px] border-white bg-gray-300 shadow-sm md:flex" />
 
-                <div
-                  className={`ml-8 flex flex-col md:ml-0 md:w-[45%] ${
-                    index % 2 === 0
-                      ? "md:items-start md:text-left"
-                      : "md:items-end md:text-right"
-                  }`}
-                >
+                <div className={getTimelineContentClassName(isReverse)}>
                   <h3 className="mb-4 text-3xl font-bold text-[#0f2858]">
                     {item.year}
                   </h3>
@@ -251,10 +281,11 @@ export default function AboutPage() {
                 </div>
 
                 <div className="ml-8 mt-6 flex aspect-video items-center justify-center bg-neutral-100 text-gray-300 md:ml-0 md:mt-0 md:w-[45%]">
-                  {item.year}Y
+                  {item.year}
                 </div>
               </div>
-              )
+                );
+              }
             )}
           </div>
 

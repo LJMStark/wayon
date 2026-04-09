@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+docs/外贸出口资料/
+docs/外贸出口资料_压缩版/
 
 # debug
 npm-debug.log*

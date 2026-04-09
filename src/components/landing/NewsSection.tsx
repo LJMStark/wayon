@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 import { getNewsFeature, getNewsItems } from "@/data/home";
+import { Link } from "@/i18n/routing";
 
-export function NewsSection() {
+export function NewsSection(): React.JSX.Element {
   const t = useTranslations();
   const tNews = useTranslations("NewsSection");
   const newsFeature = getNewsFeature(t);

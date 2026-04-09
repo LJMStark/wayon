@@ -37,8 +37,39 @@ const GALLERY_IMAGES = [
 
 type PrimaryTabKey = (typeof PRIMARY_TABS)[number];
 type SecondaryTabKey = (typeof SECONDARY_TABS)[number];
+type GalleryImage = {
+  src: string;
+  aspect: string;
+};
 
-function getImagesForTab(activeTab: PrimaryTabKey, activeSubTab: SecondaryTabKey) {
+function getPrimaryTabButtonClassName(isActive: boolean): string {
+  if (isActive) {
+    return "border border-[#0f2858] bg-[#0f2858] px-8 py-2.5 text-sm tracking-wide text-white transition-colors";
+  }
+
+  return "border border-gray-200 bg-white px-8 py-2.5 text-sm tracking-wide text-gray-600 transition-colors hover:border-gray-400";
+}
+
+function getSecondaryTabButtonClassName(isActive: boolean): string {
+  if (isActive) {
+    return "font-medium uppercase opacity-100 transition-opacity hover:opacity-100";
+  }
+
+  return "uppercase opacity-60 transition-opacity hover:opacity-100";
+}
+
+function getTabFromHash(hash: string): PrimaryTabKey | null {
+  if (hash === "#case") {
+    return "project";
+  }
+
+  return null;
+}
+
+function getImagesForTab(
+  activeTab: PrimaryTabKey,
+  activeSubTab: SecondaryTabKey
+): GalleryImage[] {
   if (activeTab === "finishedProducts") {
     return GALLERY_IMAGES.slice(3).concat(GALLERY_IMAGES.slice(0, 3));
   }
@@ -62,7 +93,7 @@ function getImagesForTab(activeTab: PrimaryTabKey, activeSubTab: SecondaryTabKey
   return GALLERY_IMAGES;
 }
 
-export default function SolutionPage() {
+export default function SolutionPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
@@ -71,9 +102,11 @@ export default function SolutionPage() {
   const [activeSubTab, setActiveSubTab] = useState<SecondaryTabKey>("quartzStone");
 
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === "#case") {
-        setActiveTab("project");
+    const handleHashChange = (): void => {
+      const nextTab = getTabFromHash(window.location.hash);
+
+      if (nextTab) {
+        setActiveTab(nextTab);
       }
     };
 
@@ -122,13 +155,9 @@ export default function SolutionPage() {
           {PRIMARY_TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`border px-8 py-2.5 text-sm tracking-wide transition-colors ${
-                activeTab === tab
-                  ? "border-[#0f2858] bg-[#0f2858] text-white"
-                  : "border-gray-200 bg-white text-gray-600 hover:border-gray-400"
-              }`}
               type="button"
+              onClick={() => setActiveTab(tab)}
+              className={getPrimaryTabButtonClassName(activeTab === tab)}
             >
               {tNav(tab)}
             </button>
@@ -140,11 +169,9 @@ export default function SolutionPage() {
             {SECONDARY_TABS.map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveSubTab(tab)}
-                className={`uppercase transition-opacity hover:opacity-100 ${
-                  activeSubTab === tab ? "font-medium opacity-100" : "opacity-60"
-                }`}
                 type="button"
+                onClick={() => setActiveSubTab(tab)}
+                className={getSecondaryTabButtonClassName(activeSubTab === tab)}
               >
                 {tNav(tab)}
               </button>

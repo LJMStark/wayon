@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/routing";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
 
 import {
   LANGUAGES,
@@ -14,12 +13,90 @@ import {
   type SubItem,
 } from "@/data/navigation";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
+import { Link, usePathname } from "@/i18n/routing";
+
+const BRAND_ALT = "岩联岩板";
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
 }
 
-export default function Header() {
+type BrandLogoProps = {
+  className: string;
+  imageClassName?: string;
+  preload?: boolean;
+  sizes: string;
+};
+
+function BrandLogo({
+  className,
+  imageClassName = "object-contain",
+  preload = false,
+  sizes,
+}: BrandLogoProps): React.JSX.Element {
+  return (
+    <div className={className}>
+      <Image
+        src="/assets/brand/logo-yanlian-yanban-header.jpg"
+        alt={BRAND_ALT}
+        fill
+        sizes={sizes}
+        className={imageClassName}
+        preload={preload}
+      />
+    </div>
+  );
+}
+
+function toggleStringItem(items: string[], value: string): string[] {
+  if (items.includes(value)) {
+    return items.filter((item) => item !== value);
+  }
+
+  return [...items, value];
+}
+
+function getDesktopNavLinkClassName(isCurrent: boolean): string {
+  if (isCurrent) {
+    return "inline-flex items-center text-[15px] font-light text-[color:var(--primary)] transition-colors";
+  }
+
+  return "inline-flex items-center text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]";
+}
+
+function getDesktopUnderlineClassName(isCurrent: boolean): string {
+  if (isCurrent) {
+    return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-colors";
+  }
+
+  return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-transparent transition-colors group-hover:bg-[color:var(--primary)]/45";
+}
+
+function getMegaSubItemClassName(isActive: boolean): string {
+  if (isActive) {
+    return "block border-b border-[color:var(--border)] bg-[color:var(--primary)] px-4 py-3 text-[15px] leading-6 text-white transition-colors";
+  }
+
+  return "block border-b border-[color:var(--border)] px-4 py-3 text-[15px] leading-6 text-[#404040] transition-colors hover:bg-[color:var(--primary)] hover:text-white";
+}
+
+function getChevronClassName(isOpen: boolean): string {
+  if (isOpen) {
+    return "size-4 rotate-180 transition-transform";
+  }
+
+  return "size-4 transition-transform";
+}
+
+function getMobileSectionChevronClassName(isExpanded: boolean): string {
+  if (isExpanded) {
+    return "size-5 rotate-180 transition-transform";
+  }
+
+  return "size-5 transition-transform";
+}
+
+export default function Header(): React.JSX.Element {
   const pathname = usePathname();
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
@@ -38,26 +115,34 @@ export default function Header() {
   const [langOpen, setLangOpen] = useState(false);
   const [mobileOpenSections, setMobileOpenSections] = useState<string[]>([]);
 
-  const toggleMobileSection = (label: string) => {
-    setMobileOpenSections((current) =>
-      current.includes(label)
-        ? current.filter((item) => item !== label)
-        : [...current, label]
-    );
+  const closeMobileMenu = (): void => {
+    setIsMobileOpen(false);
+  };
+
+  const toggleSearch = (): void => {
+    setSearchOpen((value) => !value);
+  };
+
+  const openMobileMenu = (): void => {
+    setIsMobileOpen(true);
+  };
+
+  const toggleMobileSection = (label: string): void => {
+    setMobileOpenSections((current) => toggleStringItem(current, label));
   };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white">
       <div className="wayon-container">
         <div className="flex h-[var(--header-height)] items-center justify-between gap-6">
-          <Link href="/" className="relative block h-[42px] w-[63px] shrink-0 md:h-[50px] md:w-[75px]">
-            <Image
-              src="/assets/brand/logo-yanlian-yanban-header.jpg"
-                    alt="岩联岩板"
-              fill
-              sizes="(max-width: 768px) 63px, 75px"
-              className="object-contain"
+          <Link
+            href="/"
+            className="block shrink-0"
+          >
+            <BrandLogo
+              className="relative h-[42px] w-[63px] md:h-[50px] md:w-[75px]"
               preload
+              sizes="(max-width: 768px) 63px, 75px"
             />
           </Link>
 
@@ -81,19 +166,11 @@ export default function Header() {
                   >
                     <Link
                       href={item.href}
-                      className={`inline-flex items-center text-[15px] font-light transition-colors ${
-                        isCurrent
-                          ? "text-[color:var(--primary)]"
-                          : "text-[#333333] hover:text-[color:var(--primary)]"
-                      }`}
+                      className={getDesktopNavLinkClassName(isCurrent)}
                     >
                       {translateNav(item.label)}
                     </Link>
-                    <span
-                      className={`pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 transition-colors ${
-                        isCurrent ? "bg-[color:var(--primary)]" : "bg-transparent group-hover:bg-[color:var(--primary)]/45"
-                      }`}
-                    />
+                    <span className={getDesktopUnderlineClassName(isCurrent)} />
 
                     {item.mega && item.subItems ? (
                       <AnimatePresence>
@@ -127,11 +204,7 @@ export default function Header() {
                                       <li key={translateNav(subItem.label)}>
                                         <Link
                                           href={subItem.href}
-                                          className={`block border-b border-[color:var(--border)] px-4 py-3 text-[15px] leading-6 transition-colors ${
-                                            isActive
-                                              ? "bg-[color:var(--primary)] text-white"
-                                              : "text-[#404040] hover:bg-[color:var(--primary)] hover:text-white"
-                                          }`}
+                                          className={getMegaSubItemClassName(isActive)}
                                           onMouseEnter={() => setActiveCollection(subItem)}
                                         >
                                           {translateNav(subItem.label)}
@@ -210,7 +283,7 @@ export default function Header() {
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setSearchOpen((value) => !value)}
+                onClick={toggleSearch}
                 className="text-[#333333] transition-colors hover:text-[color:var(--primary)]"
                 aria-label={headerCopy.toggleSearch}
               >
@@ -262,7 +335,7 @@ export default function Header() {
               >
                 <Globe className="size-4" />
                 <span>{currentLanguage.label}</span>
-                <ChevronDown className={`size-4 transition-transform ${langOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={getChevronClassName(langOpen)} />
               </button>
 
               <AnimatePresence>
@@ -296,7 +369,7 @@ export default function Header() {
           <button
             type="button"
             className="relative z-10 inline-flex size-10 items-center justify-center border border-[color:var(--border)] bg-white text-[#111111] lg:hidden"
-            onClick={() => setIsMobileOpen(true)}
+            onClick={openMobileMenu}
             aria-label={headerCopy.openNavigation}
           >
             <Menu className="size-6" />
@@ -313,7 +386,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-              onClick={() => setIsMobileOpen(false)}
+              onClick={closeMobileMenu}
               aria-label={headerCopy.closeNavigationOverlay}
             />
             <motion.aside
@@ -324,18 +397,14 @@ export default function Header() {
               className="fixed right-0 top-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white lg:hidden"
             >
               <div className="mb-6 flex items-center justify-between">
-                <div className="relative h-[42px] w-[63px]">
-                  <Image
-                    src="/assets/brand/logo-yanlian-yanban-header.jpg"
-                          alt="岩联岩板"
-                    fill
-                    sizes="63px"
-                    className="object-contain brightness-[10]"
-                  />
-                </div>
+                <BrandLogo
+                  className="relative h-[42px] w-[63px]"
+                  imageClassName="object-contain brightness-[10]"
+                  sizes="63px"
+                />
                 <button
                   type="button"
-                  onClick={() => setIsMobileOpen(false)}
+                  onClick={closeMobileMenu}
                   aria-label={headerCopy.closeNavigation}
                 >
                   <X className="size-6" />
@@ -370,7 +439,7 @@ export default function Header() {
                       <div className="flex items-center justify-between gap-3 pt-3">
                         <Link
                           href={item.href}
-                          onClick={() => setIsMobileOpen(false)}
+                          onClick={closeMobileMenu}
                           className="text-[16px] font-light"
                         >
                           {translateNav(item.label)}
@@ -383,7 +452,7 @@ export default function Header() {
                               section: translateNav(item.label),
                             })}
                           >
-                            <ChevronDown className={`size-5 transition-transform ${expanded ? "rotate-180" : ""}`} />
+                            <ChevronDown className={getMobileSectionChevronClassName(expanded)} />
                           </button>
                         ) : null}
                       </div>
@@ -394,7 +463,7 @@ export default function Header() {
                             <div key={translateNav(subItem.label)}>
                               <Link
                                 href={subItem.href}
-                                onClick={() => setIsMobileOpen(false)}
+                                onClick={closeMobileMenu}
                                 className="block text-[15px] text-white/90"
                               >
                                 {translateNav(subItem.label)}
@@ -405,7 +474,7 @@ export default function Header() {
                                     <li key={translateNav(child.label)}>
                                       <Link
                                         href={child.href}
-                                        onClick={() => setIsMobileOpen(false)}
+                                        onClick={closeMobileMenu}
                                         className="text-[13px] text-white/65"
                                       >
                                         {translateNav(child.label)}
@@ -431,7 +500,7 @@ export default function Header() {
                       key={language.label}
                       href={pathname}
                       locale={language.locale}
-                      onClick={() => setIsMobileOpen(false)}
+                      onClick={closeMobileMenu}
                       className="flex items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
                     >
                       <span className="text-[18px]">{language.icon}</span>

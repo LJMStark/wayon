@@ -1,77 +1,97 @@
 "use client";
 
-import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useLocale } from "next-intl";
-import ProductCard from "./ProductCard";
-import { motion, AnimatePresence } from "framer-motion";
-import { getProductImage, getLocalizedProductValue, type Product } from "@/data/products";
-import type { AppLocale } from "@/i18n/types";
+import { useState } from "react";
+
+import {
+  getLocalizedProductValue,
+  getProductImage,
+  type Product,
+} from "@/data/products";
 import { getCommonCopy } from "@/data/siteCopy";
+import type { AppLocale } from "@/i18n/types";
+
+import ProductCard from "./ProductCard";
+
+type ProductGridProps = {
+  products: Product[];
+  initialCategories: string[];
+};
+
+function getFilterButtonClassName(isActive: boolean): string {
+  const base = "rounded-full border px-6 py-2 text-sm font-medium transition-all";
+
+  if (isActive) {
+    return `${base} border-primary bg-primary text-white shadow-lg shadow-black/5`;
+  }
+
+  return `${base} border-muted bg-white text-muted-foreground hover:border-gold hover:text-gold`;
+}
+
+function filterProductsByCategory(
+  products: Product[],
+  activeCategory: string,
+  allCollectionsLabel: string
+): Product[] {
+  if (activeCategory === allCollectionsLabel) {
+    return products;
+  }
+
+  return products.filter((product) => product.category === activeCategory);
+}
 
 export default function ProductGrid({
   products,
   initialCategories,
-}: {
-  products: Product[];
-  initialCategories: string[];
-}) {
-  const locale = useLocale();
+}: ProductGridProps): React.JSX.Element {
+  const locale = useLocale() as AppLocale;
   const copy = getCommonCopy(locale);
   const [activeCategory, setActiveCategory] = useState<string>(copy.allCollections);
-
-  const filteredProducts =
-    activeCategory === copy.allCollections
-      ? products
-      : products.filter((product) => product.category === activeCategory);
-
-  const getFilterBtnClass = (isActive: boolean) => {
-    const base = "px-6 py-2 rounded-full border text-sm font-medium transition-all";
-    if (isActive) {
-      return `${base} border-primary bg-primary text-white shadow-lg shadow-black/5`;
-    }
-    return `${base} border-muted bg-white text-muted-foreground hover:border-gold hover:text-gold`;
-  };
+  const filteredProducts = filterProductsByCategory(
+    products,
+    activeCategory,
+    copy.allCollections
+  );
 
   return (
-    <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-16 pb-24 animate-fade-in">
-      {/* Filters */}
-      <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
-        <button 
+    <section className="mx-auto mt-16 max-w-[1600px] animate-fade-in px-4 pb-24 sm:px-6 lg:px-8">
+      <div className="mb-16 flex flex-wrap items-center justify-center gap-4">
+        <button
+          type="button"
           onClick={() => setActiveCategory(copy.allCollections)}
-          className={getFilterBtnClass(activeCategory === copy.allCollections)}
+          className={getFilterButtonClassName(activeCategory === copy.allCollections)}
         >
           {copy.allCollections}
         </button>
-        {initialCategories.map((cat, idx) => (
-           <button 
-            key={idx} 
-            onClick={() => setActiveCategory(cat)}
-            className={getFilterBtnClass(activeCategory === cat)}
+        {initialCategories.map((category) => (
+          <button
+            key={category}
+            type="button"
+            onClick={() => setActiveCategory(category)}
+            className={getFilterButtonClassName(activeCategory === category)}
           >
-             {cat}
-           </button>
+            {category}
+          </button>
         ))}
       </div>
 
-      {/* Grid */}
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          {copy.noProductsFound}
-        </div>
+        <div className="py-20 text-center text-muted-foreground">{copy.noProductsFound}</div>
       ) : (
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div layout className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <AnimatePresence>
-            {filteredProducts.map((product, idx) => (
+            {filteredProducts.map((product, index) => (
               <motion.div
-                key={product.slug || idx}
+                key={product.slug || index}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
               >
-                <ProductCard 
-                  title={getLocalizedProductValue(product, locale as AppLocale, "title")}
+                <ProductCard
+                  title={getLocalizedProductValue(product, locale, "title")}
                   slug={product.slug}
                   image={getProductImage(product)}
                   category={product.category}

@@ -1,17 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import { useMessages, useTranslations } from "next-intl";
+import { useState } from "react";
+
 import type { NavigationKey } from "@/data/navigation";
+import { Link } from "@/i18n/routing";
+
+type FooterLink = {
+  label: NavigationKey;
+  href: string;
+};
+
+type FooterSection = {
+  title: string;
+  links: readonly FooterLink[];
+  listClassName: string;
+};
+
+type FooterLegalKey = "privacyPolicy" | "termsOfService" | "icp";
+
+type FooterLinkSectionProps = FooterSection & {
+  translateNav: (key: NavigationKey) => string;
+};
 
 const ABOUT_LINKS = [
   { label: "whoAreWe", href: "/about#who-are-we" },
   { label: "factory", href: "/about#factory" },
   { label: "certificate", href: "/about#certificate" },
   { label: "download", href: "/download" },
-] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
+] as const satisfies ReadonlyArray<FooterLink>;
 
 const COLLECTION_LINKS = [
   { label: "quartzStone", href: "/products?category=quartz" },
@@ -23,61 +41,109 @@ const COLLECTION_LINKS = [
   { label: "artificialMarble", href: "/products?category=artificial-marble" },
   { label: "porcelainSlab", href: "/products?category=porcelain-slab" },
   { label: "silicaFree", href: "/products?category=silica-free" },
-] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
+] as const satisfies ReadonlyArray<FooterLink>;
 
 const CASE_LINKS = [
   { label: "finishedProducts", href: "/solution" },
   { label: "applicationField", href: "/solution" },
   { label: "project", href: "/solution#case" },
   { label: "view360", href: "/solution" },
-] as const satisfies ReadonlyArray<{ label: NavigationKey; href: string }>;
+] as const satisfies ReadonlyArray<FooterLink>;
+
+const FOOTER_PROMO_LINKS = [
+  { href: "/contact", image: "/assets/footer/footer-link-1.png" },
+  { href: "/contact", image: "/assets/footer/footer-link-2.png" },
+] as const;
+
+const LEGAL_LINKS = [
+  {
+    label: "privacyPolicy",
+    href: "https://www.wayon.com/page/privacy-policy.html",
+  },
+  {
+    label: "termsOfService",
+    href: "https://www.wayon.com/page/terms-of-service.html",
+  },
+  {
+    label: "icp",
+    href: "https://beian.miit.gov.cn/",
+  },
+] as const satisfies ReadonlyArray<{ label: FooterLegalKey; href: string }>;
 
 const SOCIAL_LINKS = [
   {
-    label: "Facebook",
-    href: "https://www.facebook.com/ZYLStoneGroup",
-    icon: "/assets/icons/social/facebook.png",
-  },
-  {
     label: "Instagram",
-    href: "https://www.instagram.com/wayonstone/",
+    href: "https://www.instagram.com/zyl.stone.slab/",
     icon: "/assets/icons/social/instagram.png",
   },
   {
-    label: "Youtube",
-    href: "https://www.youtube.com/channel/UC_SJpdXv6gQ9nhOzfO9XeLw",
+    label: "YouTube",
+    href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
     icon: "/assets/icons/social/youtube.png",
   },
   {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/wayonstone/",
-    icon: "/assets/icons/social/linkedin.png",
-  },
-  {
     label: "Pinterest",
-    href: "https://www.pinterest.com",
+    href: "https://www.pinterest.com/ZYLstoneslabengineering/",
     icon: "/assets/icons/social/pinterest.png",
   },
-];
+] as const;
 
-export default function Footer() {
+function FooterLinkSection({
+  title,
+  links,
+  listClassName,
+  translateNav,
+}: FooterLinkSectionProps): React.JSX.Element {
+  return (
+    <div>
+      <h3 className="mb-4 text-[20px] font-medium text-white">{title}</h3>
+      <ul className={listClassName}>
+        {links.map((link) => (
+          <li key={translateNav(link.label)}>
+            <Link href={link.href} className="transition-colors hover:text-white">
+              {translateNav(link.label)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default function Footer(): React.JSX.Element {
   const tFooter = useTranslations("Footer");
   const tNav = useTranslations("Navigation");
   const messages = useMessages();
   const addressLines = messages.Footer.addressLines;
   const translateNav = (key: NavigationKey): string => tNav(key);
   const [contactValue, setContactValue] = useState("");
+  const footerSections: FooterSection[] = [
+    {
+      title: tFooter("aboutUs"),
+      links: ABOUT_LINKS,
+      listClassName: "space-y-2 text-[14px] font-light leading-7 text-white/70",
+    },
+    {
+      title: tFooter("collection"),
+      links: COLLECTION_LINKS,
+      listClassName:
+        "grid gap-x-8 gap-y-2 text-[14px] font-light leading-7 text-white/70 sm:grid-cols-2",
+    },
+    {
+      title: tFooter("case"),
+      links: CASE_LINKS,
+      listClassName: "space-y-2 text-[14px] font-light leading-7 text-white/70",
+    },
+  ];
+  const footerBackgroundStyle = {
+    backgroundImage:
+      "linear-gradient(rgba(17,17,17,0.94), rgba(17,17,17,0.97)), url('/assets/backgrounds/footer-bg.png')",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+  };
 
   return (
-    <footer
-      className="relative overflow-hidden bg-[color:var(--footer)] text-white"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(17,17,17,0.94), rgba(17,17,17,0.97)), url('/assets/backgrounds/footer-bg.png')",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
+    <footer className="relative overflow-hidden bg-[color:var(--footer)] text-white" style={footerBackgroundStyle}>
       <div className="wayon-container px-[15px] py-16 md:py-20">
         <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-[1.05fr_0.9fr_1.15fr_0.8fr_1.1fr] md:gap-10">
           <div>
@@ -89,44 +155,15 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("aboutUs")}</h3>
-            <ul className="space-y-2 text-[14px] font-light leading-7 text-white/70">
-              {ABOUT_LINKS.map((link) => (
-                <li key={translateNav(link.label)}>
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {translateNav(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("collection")}</h3>
-            <ul className="grid gap-x-8 gap-y-2 text-[14px] font-light leading-7 text-white/70 sm:grid-cols-2">
-              {COLLECTION_LINKS.map((link) => (
-                <li key={translateNav(link.label)}>
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {translateNav(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("case")}</h3>
-            <ul className="space-y-2 text-[14px] font-light leading-7 text-white/70">
-              {CASE_LINKS.map((link) => (
-                <li key={translateNav(link.label)}>
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {translateNav(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {footerSections.map((section) => (
+            <FooterLinkSection
+              key={section.title}
+              title={section.title}
+              links={section.links}
+              listClassName={section.listClassName}
+              translateNav={translateNav}
+            />
+          ))}
 
           <div>
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("getFreeSample")}</h3>
@@ -143,28 +180,23 @@ export default function Footer() {
               <button
                 type="submit"
                 className="w-full bg-[color:var(--primary)] px-4 py-3 text-[13px] font-medium text-white transition-colors hover:bg-[#0a3e6f]"
-              >{tFooter("subscribe")}</button>
+              >
+                {tFooter("subscribe")}
+              </button>
             </form>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <Link href="/contact" className="relative aspect-[230/68] overflow-hidden">
-                <Image
-                  src="/assets/footer/footer-link-1.png"
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 45vw, 230px"
-                  className="object-cover"
-                />
-              </Link>
-              <Link href="/contact" className="relative aspect-[230/68] overflow-hidden">
-                <Image
-                  src="/assets/footer/footer-link-2.png"
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 45vw, 230px"
-                  className="object-cover"
-                />
-              </Link>
+              {FOOTER_PROMO_LINKS.map((link) => (
+                <Link key={link.image} href={link.href} className="relative aspect-[230/68] overflow-hidden">
+                  <Image
+                    src={link.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 45vw, 230px"
+                    className="object-cover"
+                  />
+                </Link>
+              ))}
             </div>
 
             <h3 className="mb-4 mt-6 text-[20px] font-medium text-white">{tFooter("followUs")}</h3>
@@ -188,24 +220,17 @@ export default function Footer() {
         <div className="flex flex-col items-start justify-between gap-4 py-6 text-[13px] font-light text-white/50 md:flex-row md:items-center">
           <p>{tFooter("rights")}</p>
           <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="https://www.wayon.com/page/privacy-policy.html"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-white"
-            >{tFooter("privacyPolicy")}</a>
-            <a
-              href="https://www.wayon.com/page/terms-of-service.html"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-white"
-            >{tFooter("termsOfService")}</a>
-            <a
-              href="https://beian.miit.gov.cn/"
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-white"
-            >{tFooter("icp")}</a>
+            {LEGAL_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                className="transition-colors hover:text-white"
+              >
+                {tFooter(link.label)}
+              </a>
+            ))}
           </div>
         </div>
       </div>
