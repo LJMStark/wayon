@@ -50,12 +50,12 @@ export default function Header() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white">
       <div className="wayon-container">
         <div className="flex h-[var(--header-height)] items-center justify-between gap-6">
-          <Link href="/" className="relative block h-[40px] w-[78px] shrink-0 md:h-[46px] md:w-[90px]">
+          <Link href="/" className="relative block h-[42px] w-[63px] shrink-0 md:h-[50px] md:w-[75px]">
             <Image
-              src="/assets/brand/logo-wayon-stone-group.png"
-                    alt="ZYL STONE ENGINEERING"
+              src="/assets/brand/logo-yanlian-yanban-header.jpg"
+                    alt="岩联岩板"
               fill
-              sizes="(max-width: 768px) 78px, 90px"
+              sizes="(max-width: 768px) 63px, 75px"
               className="object-contain"
               preload
             />
@@ -324,12 +324,12 @@ export default function Header() {
               className="fixed right-0 top-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white lg:hidden"
             >
               <div className="mb-6 flex items-center justify-between">
-                <div className="relative h-10 w-[78px]">
+                <div className="relative h-[42px] w-[63px]">
                   <Image
-                    src="/assets/brand/logo-wayon-stone-group.png"
-                          alt="ZYL STONE ENGINEERING"
+                    src="/assets/brand/logo-yanlian-yanban-header.jpg"
+                          alt="岩联岩板"
                     fill
-                    sizes="78px"
+                    sizes="63px"
                     className="object-contain brightness-[10]"
                   />
                 </div>
