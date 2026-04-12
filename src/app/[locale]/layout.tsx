@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { notFound } from "next/navigation";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSidebar from "@/components/layout/FloatingSidebar";
 import { buildPageMetadata } from "@/lib/metadata";
-import { getLocaleDirection, hasLocale } from "@/i18n/types";
-import { routing } from "@/i18n/routing";
+import { getLocaleDirection } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { getMetadataCopy } from "@/data/siteCopy";
+import { getLocaleParams } from "@/features/shared/server/locale";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -22,12 +21,11 @@ const montserrat = Montserrat({
 export async function generateMetadata({
   params,
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
-  const { locale } = await params;
-  const activeLocale = hasLocale(locale) ? locale : routing.defaultLocale;
-  const metadataCopy = getMetadataCopy(activeLocale).root;
+  const { locale } = await getLocaleParams(params);
+  const metadataCopy = getMetadataCopy(locale).root;
 
   return buildPageMetadata({
-    locale: activeLocale,
+    locale,
     title: metadataCopy.title,
     description: metadataCopy.description,
     imageAlt: metadataCopy.imageAlt,
@@ -39,13 +37,9 @@ export default async function RootLayout({
   children,
   params,
 }: LayoutProps<"/[locale]">) {
-  const { locale } = await params;
-
-  if (!hasLocale(locale)) {
-    notFound();
-  }
-
-  const messages = await getMessages();
+  const { locale } = await getLocaleParams(params);
+  setRequestLocale(locale);
+  const messages = await getMessages({ locale });
   const direction = getLocaleDirection(locale);
 
   return (

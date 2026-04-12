@@ -1,25 +1,12 @@
-import { AboutAlbum } from "@/components/landing/AboutAlbum";
-import { AboutIntro } from "@/components/landing/AboutIntro";
-import { EngineeringCase } from "@/components/landing/EngineeringCase";
-import { Hero } from "@/components/landing/Hero";
-import { NewsSection } from "@/components/landing/NewsSection";
-import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
-import { ProductsCarousel } from "@/components/landing/ProductsCarousel";
-import { SocialTabs } from "@/components/landing/SocialTabs";
-import { SolutionTabs } from "@/components/landing/SolutionTabs";
+import { HomePageView } from "@/features/home/components/HomePageView";
+import { getHomePageData } from "@/features/home/server/getHomePageData";
+import { getLocaleParams } from "@/features/shared/server/locale";
 
-export default function Home() {
-  return (
-    <>
-      <Hero />
-      <AboutIntro />
-      <AboutAlbum />
-      <ProductsCarousel />
-      <SolutionTabs />
-      <EngineeringCase />
-      <PartnerCarousel />
-      <NewsSection />
-      <SocialTabs />
-    </>
-  );
+export default async function Home({
+  params,
+}: PageProps<"/[locale]">): Promise<React.JSX.Element> {
+  const { locale } = await getLocaleParams(params);
+  const homePageData = await getHomePageData(locale);
+
+  return <HomePageView {...homePageData} />;
 }

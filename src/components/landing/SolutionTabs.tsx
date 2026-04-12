@@ -2,11 +2,11 @@
 
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { getSolutions } from "@/data/home";
-import { formatCopy, getLandingCopy } from "@/data/siteCopy";
+import type { SolutionItem } from "@/data/home";
+import type { SolutionTabsCopy } from "@/features/home/types";
+import { formatCopy } from "@/data/siteCopy";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
@@ -41,33 +41,39 @@ function getTabTextClassName(isActive: boolean): string {
 }
 
 function getCarouselActionLabel(
-  copy: ReturnType<typeof getLandingCopy>,
+  copy: SolutionTabsCopy,
   key: "previous" | "next"
 ): string {
-  return copy.solutionTabs[key];
+  return key === "previous" ? copy.previousLabel : copy.nextLabel;
 }
 
-export function SolutionTabs(): React.JSX.Element {
-  const locale = useLocale();
-  const t = useTranslations();
-  const copy = getLandingCopy(locale);
-  const solutionsData = getSolutions(t);
+type SolutionTabsProps = {
+  title: string;
+  description: string;
+  items: SolutionItem[];
+  copy: SolutionTabsCopy;
+};
+
+export function SolutionTabs({
+  title,
+  description,
+  items,
+  copy,
+}: SolutionTabsProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = solutionsData[activeIndex];
+  const activeItem = items[activeIndex];
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
-    setActiveIndex((current) =>
-      getWrappedIndex(current, solutionsData.length, direction)
-    );
+    setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
   };
 
   return (
     <section className="wayon-section">
       <div className="wayon-container">
         <header className="mb-6 text-center md:mb-10">
-          <h2 className="wayon-title">{t("SolutionTabs.whatWeDo")}</h2>
+          <h2 className="wayon-title">{title}</h2>
           <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
-            {t("SolutionTabs.applicationSolutions")}
+            {description}
           </p>
         </header>
 
@@ -92,7 +98,7 @@ export function SolutionTabs(): React.JSX.Element {
               </p>
               <footer className="mt-6 flex items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  {formatCopy(copy.solutionTabs.cta, { title: activeItem.title })}
+                  {formatCopy(copy.ctaTemplate, { title: activeItem.title })}
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
@@ -113,7 +119,7 @@ export function SolutionTabs(): React.JSX.Element {
           </div>
 
           <div className="mt-5 grid gap-[5px] md:grid-cols-5">
-            {solutionsData.map((solution, index) => (
+            {items.map((solution, index) => (
               <button
                 key={solution.label}
                 type="button"

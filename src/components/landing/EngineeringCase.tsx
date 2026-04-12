@@ -1,18 +1,18 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 
-import { getEngineeringCases } from "@/data/home";
+import type { CaseItem } from "@/data/home";
 
-const DEFAULT_CASE_TITLE = "ENGINEERING CASE";
-const DEFAULT_CASE_SUBTITLE =
-  "Showcasing ZYL's successful applications in global projects, including residential, commercial, and public spaces.";
+type EngineeringCaseProps = {
+  title: string;
+  subtitle: string;
+  items: CaseItem[];
+};
 
-export function EngineeringCase(): React.JSX.Element {
-  const t = useTranslations();
-  const cases = getEngineeringCases(t);
-  const title = t("Navigation.case") || DEFAULT_CASE_TITLE;
-  const subtitle = t("Hero.subtitle") || DEFAULT_CASE_SUBTITLE;
-
+export function EngineeringCase({
+  title,
+  subtitle,
+  items,
+}: EngineeringCaseProps): React.JSX.Element {
   return (
     <section id="case" className="wayon-section">
       <div className="wayon-container">
@@ -24,7 +24,7 @@ export function EngineeringCase(): React.JSX.Element {
         </header>
 
         <div className="grid gap-[5px] md:grid-cols-2">
-          {cases.map((item) => (
+          {items.map((item) => (
             <a
               key={item.title}
               href={item.href}

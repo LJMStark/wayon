@@ -2,11 +2,10 @@
 
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { getAboutAlbum } from "@/data/home";
-import { getLandingCopy } from "@/data/siteCopy";
+import type { AboutAlbumItem } from "@/data/home";
+import type { AboutAlbumCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
@@ -32,25 +31,24 @@ function getThumbnailClassName(isActive: boolean): string {
   return "relative overflow-hidden border border-white/20 transition-all";
 }
 
-function getCarouselActionLabel(
-  copy: ReturnType<typeof getLandingCopy>,
-  key: "previous" | "next"
-): string {
-  return copy.aboutAlbum[key];
+type AboutAlbumProps = {
+  items: AboutAlbumItem[];
+  copy: AboutAlbumCopy;
+};
+
+function getCarouselActionLabel(copy: AboutAlbumCopy, key: "previous" | "next"): string {
+  return key === "previous" ? copy.previousLabel : copy.nextLabel;
 }
 
-export function AboutAlbum(): React.JSX.Element {
-  const locale = useLocale();
-  const t = useTranslations();
-  const copy = getLandingCopy(locale);
-  const aboutAlbumData = getAboutAlbum(t);
+export function AboutAlbum({
+  items,
+  copy,
+}: AboutAlbumProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = aboutAlbumData[activeIndex];
+  const activeItem = items[activeIndex];
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
-    setActiveIndex((current) =>
-      getWrappedIndex(current, aboutAlbumData.length, direction)
-    );
+    setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
   };
 
   return (
@@ -75,7 +73,7 @@ export function AboutAlbum(): React.JSX.Element {
               </p>
               <footer className="mt-6 flex flex-wrap items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  {copy.aboutAlbum.learnMore}
+                  {copy.ctaLabel}
                   <ArrowRight className="size-4" />
                 </Link>
                 <div className="flex items-center gap-2">
@@ -97,7 +95,7 @@ export function AboutAlbum(): React.JSX.Element {
         </div>
 
         <div className="mt-4 grid gap-3 px-[15px] sm:grid-cols-2 md:absolute md:bottom-10 md:left-1/2 md:w-[71.875%] md:-translate-x-1/2 md:grid-cols-6 md:px-0">
-          {aboutAlbumData.map((item, index) => (
+          {items.map((item, index) => (
             <button
               key={item.title}
               type="button"

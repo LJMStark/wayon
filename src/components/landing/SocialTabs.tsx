@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { SOCIAL_PLATFORMS } from "@/data/home";
+import type { SocialPlatform } from "@/data/home";
 
 const SOCIAL_SECTION_STYLE = {
   backgroundImage: "url('/assets/backgrounds/social-section-bg.png')",
@@ -18,23 +17,32 @@ function getPlatformButtonClassName(isActive: boolean): string {
   return "flex items-center gap-4 border-b border-[color:var(--border)] bg-white px-5 py-4 text-left transition-colors hover:bg-[color:var(--surface)] md:px-8";
 }
 
-export function SocialTabs(): React.JSX.Element {
-  const t = useTranslations("SocialTabs");
+type SocialTabsProps = {
+  title: string;
+  subtitle: string;
+  platforms: SocialPlatform[];
+};
+
+export function SocialTabs({
+  title,
+  subtitle,
+  platforms,
+}: SocialTabsProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activePlatform = SOCIAL_PLATFORMS[activeIndex];
+  const activePlatform = platforms[activeIndex];
 
   return (
     <section className="wayon-section pb-20">
       <div className="wayon-container">
         <header className="mb-8">
-          <h2 className="wayon-title">{t("socialMedia")}</h2>
-          <h3 className="mt-4 text-[24px] font-light text-[#333333]">{t("connectWithUs")}</h3>
+          <h2 className="wayon-title">{title}</h2>
+          <h3 className="mt-4 text-[24px] font-light text-[#333333]">{subtitle}</h3>
         </header>
 
         <div className="flex flex-col overflow-hidden md:h-[49rem] md:flex-row">
           <div className="md:w-[22.857%]">
             <div className="grid gap-px md:h-full md:auto-rows-fr">
-              {SOCIAL_PLATFORMS.map((platform, index) => (
+              {platforms.map((platform, index) => (
                 <button
                   key={platform.name}
                   type="button"

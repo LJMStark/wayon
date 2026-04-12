@@ -2,11 +2,10 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
 import { useRef } from "react";
 
-import { getPartners } from "@/data/home";
-import { getLandingCopy } from "@/data/siteCopy";
+import type { PartnerItem } from "@/data/home";
+import type { PartnerCarouselCopy } from "@/features/home/types";
 
 import {
   scrollContainerByDirection,
@@ -34,17 +33,25 @@ const NAVIGATION_BUTTONS = [
 ] as const;
 
 function getCarouselActionLabel(
-  copy: ReturnType<typeof getLandingCopy>,
+  copy: PartnerCarouselCopy,
   key: "previous" | "next"
 ): string {
-  return copy.partnerCarousel[key];
+  return key === "previous" ? copy.previousLabel : copy.nextLabel;
 }
 
-export function PartnerCarousel(): React.JSX.Element {
-  const locale = useLocale();
-  const t = useTranslations();
-  const copy = getLandingCopy(locale);
-  const partnersData = getPartners(t);
+type PartnerCarouselProps = {
+  title: string;
+  description: string;
+  items: PartnerItem[];
+  copy: PartnerCarouselCopy;
+};
+
+export function PartnerCarousel({
+  title,
+  description,
+  items,
+  copy,
+}: PartnerCarouselProps): React.JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scrollByAmount = (direction: CarouselDirection): void => {
@@ -56,12 +63,8 @@ export function PartnerCarousel(): React.JSX.Element {
       <div className="wayon-container">
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div className="max-w-[780px]">
-            <h2 className="wayon-title">
-              {t("PartnerCarousel.industryPartners")}
-            </h2>
-            <p className="wayon-copy mt-5">
-              {t("PartnerCarousel.trustedGlobal")}
-            </p>
+            <h2 className="wayon-title">{title}</h2>
+            <p className="wayon-copy mt-5">{description}</p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -83,7 +86,7 @@ export function PartnerCarousel(): React.JSX.Element {
           ref={scrollerRef}
           className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {partnersData.map((partner) => (
+          {items.map((partner) => (
             <article
               key={partner.title}
               className="relative flex w-[min(76rem,92vw)] shrink-0 snap-start items-center gap-6 bg-white px-8 py-10 shadow-[0.636rem_0.636rem_1rem_0.1rem_rgba(0,0,0,0.1)] md:px-10 md:py-12"

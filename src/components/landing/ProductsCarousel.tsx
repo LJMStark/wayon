@@ -2,11 +2,10 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
 import { useRef } from "react";
 
-import { getHomeProducts } from "@/data/home";
-import { getLandingCopy } from "@/data/siteCopy";
+import type { ProductItem } from "@/data/home";
+import type { ProductsCarouselCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
 
 import {
@@ -49,17 +48,21 @@ const MOBILE_NAV_BUTTONS = [
 ] as const;
 
 function getCarouselActionLabel(
-  copy: ReturnType<typeof getLandingCopy>,
+  copy: ProductsCarouselCopy,
   key: "previous" | "next"
 ): string {
-  return copy.productsCarousel[key];
+  return key === "previous" ? copy.previousLabel : copy.nextLabel;
 }
 
-export function ProductsCarousel(): React.JSX.Element {
-  const locale = useLocale();
-  const t = useTranslations();
-  const copy = getLandingCopy(locale);
-  const homeProductsData = getHomeProducts(t);
+type ProductsCarouselProps = {
+  items: ProductItem[];
+  copy: ProductsCarouselCopy;
+};
+
+export function ProductsCarousel({
+  items,
+  copy,
+}: ProductsCarouselProps): React.JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scrollByAmount = (direction: CarouselDirection): void => {
@@ -71,12 +74,12 @@ export function ProductsCarousel(): React.JSX.Element {
       <div className="wayon-container">
         <header className="mb-12 text-center md:mb-14">
           <div className="mx-auto max-w-[760px]">
-            <h2 className="wayon-title">{copy.productsCarousel.title}</h2>
+            <h2 className="wayon-title">{copy.title}</h2>
             <p className="wayon-copy mx-auto mt-5 max-w-[680px]">
-              {copy.productsCarousel.description}
+              {copy.description}
             </p>
             <Link href="/products" className="wayon-button-link mt-7 text-[15px]">
-              {copy.productsCarousel.detail}
+              {copy.detailLabel}
             </Link>
           </div>
         </header>
@@ -100,7 +103,7 @@ export function ProductsCarousel(): React.JSX.Element {
             ref={scrollerRef}
             className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-6"
           >
-            {homeProductsData.map((product) => (
+            {items.map((product) => (
               <Link
                 key={product.title}
                 href={product.href}

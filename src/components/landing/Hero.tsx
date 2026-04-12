@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 
-import { HERO_SLIDES } from "@/data/home";
-import { formatCopy, getLandingCopy } from "@/data/siteCopy";
+import type { HeroSlide } from "@/data/home";
+import { formatCopy } from "@/data/siteCopy";
 
 import { getWrappedIndex } from "./carouselUtils";
 
@@ -25,23 +24,26 @@ function getIndicatorClassName(isActive: boolean): string {
   return "h-[6px] w-10 rounded-full bg-white/35 transition-all";
 }
 
-export function Hero(): React.JSX.Element {
-  const locale = useLocale();
-  const copy = getLandingCopy(locale);
+type HeroProps = {
+  slides: HeroSlide[];
+  slideLabel: string;
+};
+
+export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
   const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveSlide((current) => getWrappedIndex(current, HERO_SLIDES.length, "next"));
+      setActiveSlide((current) => getWrappedIndex(current, slides.length, "next"));
     }, 7000);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <section className="relative overflow-hidden">
       <div className="relative aspect-[1920/850] min-h-[260px] w-full md:min-h-[420px]">
-        {HERO_SLIDES.map((slide, index) => (
+        {slides.map((slide, index) => (
           <div
             key={slide.src}
             className={getSlideClassName(index === activeSlide)}
@@ -71,13 +73,13 @@ export function Hero(): React.JSX.Element {
       </div>
 
       <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 md:bottom-8">
-        {HERO_SLIDES.map((slide, index) => (
+        {slides.map((slide, index) => (
           <button
             key={slide.src}
             type="button"
             onClick={() => setActiveSlide(index)}
             className={getIndicatorClassName(index === activeSlide)}
-            aria-label={formatCopy(copy.hero.slideLabel, { index: index + 1 })}
+            aria-label={formatCopy(slideLabel, { index: index + 1 })}
           />
         ))}
       </div>
