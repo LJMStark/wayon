@@ -1,5 +1,9 @@
 import type { _Translator } from "use-intl";
 import type { AppMessages } from "@/i18n/types";
+import {
+  HOME_CASE_PLACEHOLDER_HREF,
+  HOME_VISUAL_PLACEHOLDER_IMAGE,
+} from "@/features/home/model/homeVisuals";
 
 export type HeroSlide = {
   type: "video" | "image";
@@ -79,14 +83,14 @@ type AppMessageKey = Parameters<AppTranslator>[0];
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
-    type: "video",
-    src: "/assets/hero/home-hero.mp4",
-    alt: "ZYL Quartz",
+    type: "image",
+    src: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    alt: "ZYL placeholder",
   },
   {
     type: "image",
-    src: "/assets/hero/home-hero-slide-2.png",
-    alt: "ZYL Stone hero slide",
+    src: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    alt: "ZYL placeholder",
   },
 ];
 
@@ -106,37 +110,37 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item0.title",
     textKey: "HomeData.AboutAlbum.item0.text",
-    image: "/assets/about/about-album-wayon-group.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
-    image: "/assets/about/yunfu-wayon.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
-    image: "/assets/about/foshan-showroom.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item3.title",
     textKey: "HomeData.AboutAlbum.item3.text",
-    image: "/assets/about/guangdong-wayon.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
-    image: "/assets/about/shanghai-wayon.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
-    image: "/assets/about/guangzhou-wayon.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{
@@ -151,49 +155,49 @@ const HOME_PRODUCT_CONFIG = [
     titleKey: "HomeData.HomeProducts.item0.title",
     descriptionKey: "HomeData.HomeProducts.item0.description",
     href: "/products?category=quartz",
-    image: "/assets/solutions/quartz-zero-silica.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item1.title",
     descriptionKey: "HomeData.HomeProducts.item1.description",
     href: "/products?category=terrazzo",
-    image: "/assets/solutions/terrazzo.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item2.title",
     descriptionKey: "HomeData.HomeProducts.item2.description",
     href: "/products?category=flexible-stone",
-    image: "/assets/solutions/flexible-stone.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item3.title",
     descriptionKey: "HomeData.HomeProducts.item3.description",
     href: "/products?category=marble",
-    image: "/assets/solutions/marble.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item4.title",
     descriptionKey: "HomeData.HomeProducts.item4.description",
     href: "/products?category=gem-stone",
-    image: "/assets/solutions/gem-stone.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item5.title",
     descriptionKey: "HomeData.HomeProducts.item5.description",
     href: "/products?category=cement-stone",
-    image: "/assets/solutions/cement-stone.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item6.title",
     descriptionKey: "HomeData.HomeProducts.item6.description",
     href: "/products?category=artificial-marble",
-    image: "/assets/solutions/artificial-marble.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.HomeProducts.item7.title",
     descriptionKey: "HomeData.HomeProducts.item7.description",
     href: "/products?category=porcelain-slab",
-    image: "/assets/solutions/porcelain-slab.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -208,35 +212,35 @@ const SOLUTION_CONFIG = [
     titleKey: "HomeData.Solutions.item0.title",
     descriptionKey: "HomeData.Solutions.item0.description",
     href: "/solution",
-    image: "/assets/solutions/kitchen-countertops.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     labelKey: "HomeData.Solutions.item1.label",
     titleKey: "HomeData.Solutions.item1.title",
     descriptionKey: "HomeData.Solutions.item1.description",
     href: "/solution",
-    image: "/assets/solutions/bathroom-spaces.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     labelKey: "HomeData.Solutions.item2.label",
     titleKey: "HomeData.Solutions.item2.title",
     descriptionKey: "HomeData.Solutions.item2.description",
     href: "/solution",
-    image: "/assets/solutions/furniture-tops.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     labelKey: "HomeData.Solutions.item3.label",
     titleKey: "HomeData.Solutions.item3.title",
     descriptionKey: "HomeData.Solutions.item3.description",
     href: "/solution",
-    image: "/assets/solutions/wall-floor.jpg",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     labelKey: "HomeData.Solutions.item4.label",
     titleKey: "HomeData.Solutions.item4.title",
     descriptionKey: "HomeData.Solutions.item4.description",
     href: "/solution",
-    image: "/assets/solutions/cabinet-countertops.webp",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
 ] as const satisfies ReadonlyArray<{
   labelKey: AppMessageKey;
@@ -249,33 +253,33 @@ const SOLUTION_CONFIG = [
 const ENGINEERING_CASE_CONFIG = [
   {
     titleKey: "HomeData.EngineeringCases.item0.title",
-    image: "/assets/cases/case-1-dominica-hotel.png",
-    href: "/assets/cases/case-1-dominica-hotel.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
   {
     titleKey: "HomeData.EngineeringCases.item1.title",
-    image: "/assets/cases/case-2-congo-hilton.png",
-    href: "/assets/cases/case-2-congo-hilton.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
   {
     titleKey: "HomeData.EngineeringCases.item2.title",
-    image: "/assets/cases/case-3-canadian-restaurant.png",
-    href: "/assets/cases/case-3-canadian-restaurant.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
   {
     titleKey: "HomeData.EngineeringCases.item3.title",
-    image: "/assets/cases/case-4-finland-apartment.png",
-    href: "/assets/cases/case-4-finland-apartment.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
-    image: "/assets/cases/case-5-qatar-vendome.png",
-    href: "/assets/cases/case-5-qatar-vendome.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
   {
     titleKey: "HomeData.EngineeringCases.item5.title",
-    image: "/assets/cases/case-6-us-vacation-villa.png",
-    href: "/assets/cases/case-6-us-vacation-villa.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    href: HOME_CASE_PLACEHOLDER_HREF,
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -287,32 +291,32 @@ const PARTNER_CONFIG = [
   {
     titleKey: "HomeData.Partners.item0.title",
     descriptionKey: "HomeData.Partners.item0.description",
-    image: "/assets/partner/contractor.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.Partners.item1.title",
     descriptionKey: "HomeData.Partners.item1.description",
-    image: "/assets/partner/designer.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.Partners.item2.title",
     descriptionKey: "HomeData.Partners.item2.description",
-    image: "/assets/partner/wholesaler.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.Partners.item3.title",
     descriptionKey: "HomeData.Partners.item3.description",
-    image: "/assets/partner/kitchen-bathroom-company.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.Partners.item4.title",
     descriptionKey: "HomeData.Partners.item4.description",
-    image: "/assets/partner/furniture-designer.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
   {
     titleKey: "HomeData.Partners.item5.title",
     descriptionKey: "HomeData.Partners.item5.description",
-    image: "/assets/partner/developer.png",
+    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -324,7 +328,7 @@ const NEWS_FEATURE_CONFIG = {
   titleKey: "HomeData.NewsFeature.title",
   excerptKey: "HomeData.NewsFeature.excerpt",
   href: "/news",
-  image: "/assets/news/terrazzo-flooring-cover.jpg",
+  image: HOME_VISUAL_PLACEHOLDER_IMAGE,
 } as const satisfies {
   titleKey: AppMessageKey;
   excerptKey: AppMessageKey;
@@ -443,17 +447,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
       {
         title: "Engineering project decryption",
         href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: "/assets/social/youtube-engineering-project.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "Project cases",
         href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: "/assets/social/youtube-project-cases.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "ZYL",
         href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: "/assets/social/youtube-wayon-base.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
     ],
   },
@@ -464,17 +468,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
       {
         title: "ZYL Stone I GEM stone slabs",
         href: "https://www.instagram.com/zyl.stone.slab/",
-        image: "/assets/social/instagram-gem.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "ZYL Stone I High-Performance Inorganic lerrazzo",
         href: "https://www.instagram.com/zyl.stone.slab/",
-        image: "/assets/social/instagram-terrazzo.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "ZYL Stone Marble I Eternal Beauty Space Choice",
         href: "https://www.instagram.com/zyl.stone.slab/",
-        image: "/assets/social/instagram-marble.png",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
     ],
   },
@@ -485,17 +489,17 @@ export const SOCIAL_PLATFORMS: SocialPlatform[] = [
       {
         title: "Flexible Stone1",
         href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: "/assets/social/pinterest-flexible-stone.jpg",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "nurse station",
         href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: "/assets/social/pinterest-nurse-station.jpg",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
       {
         title: "gem",
         href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: "/assets/social/pinterest-gem.jpg",
+        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
       },
     ],
   },
