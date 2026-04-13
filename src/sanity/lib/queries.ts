@@ -1,8 +1,47 @@
 import { groq } from 'next-sanity'
 
-export const getProductsQuery = groq`*[_type == "product"] | order(sortOrder asc) {
+const imageMediaProjection = `
+{
+  sourcePath,
+  publicUrl,
+  altZh,
+  sortOrder
+}
+`
+
+const videoMediaProjection = `
+{
+  sourcePath,
+  publicUrl,
+  posterUrl,
+  titleZh,
+  sortOrder
+}
+`
+
+const productVariantProjection = `
+{
+  _id,
+  code,
+  size,
+  thickness,
+  process,
+  colorGroup,
+  faceCount,
+  facePatternNote,
+  sortOrder,
+  "elementImages": coalesce(elementImages, [])[]${imageMediaProjection},
+  "spaceImages": coalesce(spaceImages, [])[]${imageMediaProjection},
+  "realImages": coalesce(realImages, [])[]${imageMediaProjection},
+  "videos": coalesce(videos, [])[]${videoMediaProjection}
+}
+`
+
+const productProjection = `
+{
   _id,
   title,
+  normalizedName,
   "slug": slug.current,
   "category": category->title,
   "categorySlug": category->slug.current,
@@ -12,36 +51,35 @@ export const getProductsQuery = groq`*[_type == "product"] | order(sortOrder asc
   finish,
   size,
   featured,
-  sortOrder
-}`
+  sortOrder,
+  coverImageUrl,
+  coverVideoPosterUrl,
+  "seriesTypes": coalesce(seriesTypes, []),
+  "variants": *[_type == "productVariant" && references(^._id)] | order(coalesce(sortOrder, 999999) asc, code asc) ${productVariantProjection}
+}
+`
 
-export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true] | order(sortOrder asc) {
+export const getProductsQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
+
+export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
+
+export const getProductBySlugQuery = groq`*[_type == "product" && slug.current == $slug][0] ${productProjection}`
+
+export const getProductsByCategoryQuery = groq`*[_type == "product" && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
+
+export const getProductsDirectoryQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   _id,
   title,
-  "slug": slug.current,
-  "category": category->title,
-  "imageUrl": image.asset->url
-}`
-
-export const getProductBySlugQuery = groq`*[_type == "product" && slug.current == $slug][0] {
-  _id,
-  title,
+  normalizedName,
   "slug": slug.current,
   "category": category->title,
   "categorySlug": category->slug.current,
   "imageUrl": image.asset->url,
-  description,
-  thickness,
-  finish,
-  size
-}`
-
-export const getProductsByCategoryQuery = groq`*[_type == "product" && category->slug.current == $categorySlug] | order(sortOrder asc) {
-  _id,
-  title,
-  "slug": slug.current,
-  "category": category->title,
-  "imageUrl": image.asset->url
+  coverImageUrl,
+  coverVideoPosterUrl,
+  "seriesTypes": coalesce(seriesTypes, []),
+  sortOrder,
+  "variants": *[_type == "productVariant" && references(^._id)] | order(coalesce(sortOrder, 999999) asc, code asc) ${productVariantProjection}
 }`
 
 export const getCategoriesQuery = groq`*[_type == "category"] | order(sortOrder asc) {

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "import:trade-catalog": "node scripts/importTradeCatalog.mjs"
   },
   "dependencies": {
     "@sanity/icons": "^3.7.4",

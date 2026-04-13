@@ -5,6 +5,7 @@ export const structure: StructureResolver = (S) =>
     .title('ZYL Stone CMS')
     .items([
       S.documentTypeListItem('product').title('Products'),
+      S.documentTypeListItem('productVariant').title('Product Variants'),
       S.documentTypeListItem('category').title('Categories'),
       S.divider(),
       S.documentTypeListItem('news').title('News'),

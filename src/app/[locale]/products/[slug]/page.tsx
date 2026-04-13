@@ -6,6 +6,7 @@ import {
 } from "@/data/products";
 import {
   formatCopy,
+  getProductDetailPageCopy,
   getMetadataCopy,
 } from "@/data/siteCopy";
 import { ProductDetailPageView } from "@/features/products/components/ProductDetailPageView";
@@ -25,8 +26,11 @@ export async function generateMetadata({
   }
 
   const metadataCopy = getMetadataCopy(locale).productDetail;
+  const detailCopy = getProductDetailPageCopy(locale);
   const localizedTitle = getLocalizedProductValue(product, locale, "title");
-  const localizedCategory = getLocalizedProductValue(product, locale, "category");
+  const localizedCategory =
+    getLocalizedProductValue(product, locale, "category") ||
+    detailCopy.categoryFallback;
 
   return buildPageMetadata({
     locale,
