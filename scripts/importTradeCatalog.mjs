@@ -9,6 +9,7 @@ import {
   extractTradeCode,
   extractTradeDisplayName,
   extractTradeFaceMetadata,
+  inferTradeColorGroup,
   inferTradeSize,
   normalizeTradeProcess,
 } from '../src/features/products/lib/tradeCatalog.ts'
@@ -259,6 +260,9 @@ function buildFamilies(candidates, report) {
     if (!variant.process && candidate.process) {
       variant.process = candidate.process
     }
+    if (!variant.colorGroup && candidate.normalizedName) {
+      variant.colorGroup = inferTradeColorGroup(candidate.normalizedName) || undefined
+    }
     if (!variant.faceCount && candidate.faceCount) {
       variant.faceCount = candidate.faceCount
     }
@@ -324,6 +328,9 @@ function buildFamilies(candidates, report) {
 
     if (!variant.faceCount && candidate.faceCount) {
       variant.faceCount = candidate.faceCount
+    }
+    if (!variant.colorGroup && candidate.normalizedName) {
+      variant.colorGroup = inferTradeColorGroup(candidate.normalizedName) || undefined
     }
     if (!variant.facePatternNote && candidate.facePatternNote) {
       variant.facePatternNote = candidate.facePatternNote

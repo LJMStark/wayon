@@ -5,6 +5,7 @@ import {
   extractTradeCode,
   extractTradeDisplayName,
   extractTradeFaceMetadata,
+  inferTradeColorGroup,
   inferTradeSize,
   normalizeTradeProcess,
 } from "./tradeCatalog.ts";
@@ -78,4 +79,24 @@ test("extractTradeCode extracts the stable product code from common naming style
     "ZL1030L901"
   );
   assert.equal(extractTradeCode("洛可可卡其 ZF120-005一石面.jpg"), "ZF120-005");
+});
+
+test("inferTradeColorGroup maps explicit high-confidence color phrases", () => {
+  assert.equal(inferTradeColorGroup("洛可可奶白"), "米白");
+  assert.equal(inferTradeColorGroup("罗马黄洞石"), "米黄");
+  assert.equal(inferTradeColorGroup("珍珠黑"), "黑色");
+  assert.equal(inferTradeColorGroup("欧米茄灰"), "灰色");
+  assert.equal(inferTradeColorGroup("威尼斯棕"), "棕色");
+  assert.equal(inferTradeColorGroup("碧海珈蓝"), "蓝色");
+  assert.equal(inferTradeColorGroup("冷翡翠"), "绿色");
+  assert.equal(inferTradeColorGroup("皇家宝格丽红"), "红色");
+  assert.equal(inferTradeColorGroup("宝格丽紫"), "紫色");
+  assert.equal(inferTradeColorGroup("纯白"), "白色");
+});
+
+test("inferTradeColorGroup returns null for ambiguous mixed colors", () => {
+  assert.equal(inferTradeColorGroup("黑白根"), null);
+  assert.equal(inferTradeColorGroup("云棕灰"), null);
+  assert.equal(inferTradeColorGroup("蓝翡翠"), null);
+  assert.equal(inferTradeColorGroup("莫奈花园"), null);
 });

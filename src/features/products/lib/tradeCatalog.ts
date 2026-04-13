@@ -116,6 +116,61 @@ export function inferTradeSize(input: string): TradeSize | null {
   return null;
 }
 
+export function inferTradeColorGroup(input: string): TradeColorGroup | null {
+  const normalized = input.replace(/\s+/g, "");
+  const matches = new Set<TradeColorGroup>();
+
+  if (/米白|奶白/.test(normalized)) {
+    matches.add("米白");
+  }
+
+  if (/米黄|奶黄|黄洞石/.test(normalized)) {
+    matches.add("米黄");
+  }
+
+  if (/金黄|黄金/.test(normalized)) {
+    matches.add("金黄色");
+  }
+
+  if (/棕|咖/.test(normalized)) {
+    matches.add("棕色");
+  }
+
+  if (/蓝/.test(normalized)) {
+    matches.add("蓝色");
+  }
+
+  if (/绿|翡翠/.test(normalized)) {
+    matches.add("绿色");
+  }
+
+  if (/紫/.test(normalized)) {
+    matches.add("紫色");
+  }
+
+  if (/红/.test(normalized)) {
+    matches.add("红色");
+  }
+
+  if (/黑/.test(normalized)) {
+    matches.add("黑色");
+  }
+
+  if (/灰|银灰/.test(normalized)) {
+    matches.add("灰色");
+  }
+
+  if (!matches.has("米白") && /白|雪/.test(normalized)) {
+    matches.add("白色");
+  }
+
+  if (matches.size !== 1) {
+    return null;
+  }
+
+  return [...matches][0];
+}
+
 export function normalizeTradeProcess(input: string): TradeProcess | null {
   const normalized = normalizeSource(input);
 
