@@ -7,6 +7,7 @@ import { MoveRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { getAboutPageCopy, getCommonCopy } from "@/data/siteCopy";
+import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 type AboutStat = {
   value: string;
@@ -69,7 +70,7 @@ export default function AboutPage(): React.JSX.Element {
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <section className="relative h-[400px] w-full bg-neutral-200">
         <Image
-          src="/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg"
+          src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
           alt={aboutCopy.heroTitle}
           fill
           className="object-cover"
@@ -126,7 +127,7 @@ export default function AboutPage(): React.JSX.Element {
         <div className="grid h-[400px] grid-cols-2">
           <div className="relative h-full w-full bg-neutral-100">
             <Image
-              src="/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg"
+              src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
               alt={aboutCopy.whyTitle}
               fill
               className="object-cover"

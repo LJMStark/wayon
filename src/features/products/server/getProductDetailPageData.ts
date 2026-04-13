@@ -2,6 +2,7 @@ import { cache } from "react";
 import { getTranslations } from "next-intl/server";
 
 import { getProductBySlug } from "@/data/products";
+import { isImportedProductFamily } from "@/features/products/model/productExposure";
 import { getCommonCopy, getProductDetailPageCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
 
@@ -18,7 +19,7 @@ export const getProductDetailPageData = cache(async function getProductDetailPag
 ): Promise<ProductDetailPageData | null> {
   const product = await getProductRecord(slug);
 
-  if (!product) {
+  if (!product || !isImportedProductFamily(product)) {
     return null;
   }
 

@@ -67,7 +67,7 @@ export const getProductBySlugQuery = groq`*[_type == "product" && slug.current =
 
 export const getProductsByCategoryQuery = groq`*[_type == "product" && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
-export const getProductsDirectoryQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
+export const getProductsDirectoryQuery = groq`*[_type == "product" && defined(normalizedName)] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   _id,
   title,
   normalizedName,

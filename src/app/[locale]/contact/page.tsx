@@ -7,6 +7,7 @@ import { Minus, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { getCommonCopy, getContactPageCopy } from "@/data/siteCopy";
+import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 import { submitInquiry } from "@/app/actions/inquiry";
 
@@ -60,7 +61,7 @@ export default function ContactPage() {
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <section className="relative h-[350px] w-full bg-neutral-200">
         <Image
-          src="/assets/products/4114a4ac18610909eb9728c75328bcff.jpg"
+          src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
           alt={contactCopy.heroTitle}
           fill
           className="object-cover"

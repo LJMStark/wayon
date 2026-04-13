@@ -4,6 +4,7 @@ import {
   getProductBySlug,
   getLocalizedProductValue,
 } from "@/data/products";
+import { isImportedProductFamily } from "@/features/products/model/productExposure";
 import {
   formatCopy,
   getProductDetailPageCopy,
@@ -21,7 +22,7 @@ export async function generateMetadata({
 
   const product = await getProductBySlug(slug);
 
-  if (!product) {
+  if (!product || !isImportedProductFamily(product)) {
     notFound();
   }
 

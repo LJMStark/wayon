@@ -11,6 +11,10 @@ import {
   type DirectoryProduct,
   type DirectoryVariant,
 } from '@/features/products/model/productDirectory'
+import {
+  isImportedProductFamily,
+  TRADE_YELLOW_PLACEHOLDER_IMAGE,
+} from '@/features/products/model/productExposure'
 import type { AppLocale } from '@/i18n/types'
 
 export type ProductMediaImage = {
@@ -91,7 +95,10 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 
 export async function getProductSlugs(): Promise<string[]> {
   const products = await getProducts()
-  return products.map((product) => product.slug).filter(Boolean)
+  return products
+    .filter((product) => isImportedProductFamily(product))
+    .map((product) => product.slug)
+    .filter(Boolean)
 }
 
 export function getLocalizedProductValue(
@@ -190,6 +197,6 @@ export function getProductImage(product: Product): string {
 
   return selectProductCoverUrl(
     directoryProduct,
-    product.imageUrl || '/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg'
+    TRADE_YELLOW_PLACEHOLDER_IMAGE
   )
 }
