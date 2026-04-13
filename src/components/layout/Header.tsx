@@ -15,7 +15,13 @@ import {
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname } from "@/i18n/routing";
 
-const BRAND_ALT = "岩联岩板";
+const BRAND_ALT: Record<string, string> = {
+  en: "ZYL Sintered Stone",
+  zh: "岩联岩板",
+  es: "ZYL Piedra Sinterizada",
+  ar: "ZYL حجر ملبد",
+  ru: "ZYL Спечённый камень",
+};
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
@@ -24,6 +30,7 @@ function resolveBaseHref(href: string): string {
 type BrandLogoProps = {
   className: string;
   imageClassName?: string;
+  locale: string;
   preload?: boolean;
   sizes: string;
 };
@@ -31,6 +38,7 @@ type BrandLogoProps = {
 function BrandLogo({
   className,
   imageClassName = "object-contain",
+  locale,
   preload = false,
   sizes,
 }: BrandLogoProps): React.JSX.Element {
@@ -38,7 +46,7 @@ function BrandLogo({
     <div className={className}>
       <Image
         src="/assets/brand/logo-yanlian-yanban-header.jpg"
-        alt={BRAND_ALT}
+        alt={BRAND_ALT[locale] ?? BRAND_ALT.en}
         fill
         sizes={sizes}
         className={imageClassName}
@@ -141,6 +149,7 @@ export default function Header(): React.JSX.Element {
           >
             <BrandLogo
               className="relative h-[42px] w-[63px] md:h-[50px] md:w-[75px]"
+              locale={locale}
               preload
               sizes="(max-width: 768px) 63px, 75px"
             />
@@ -400,6 +409,7 @@ export default function Header(): React.JSX.Element {
                 <BrandLogo
                   className="relative h-[42px] w-[63px]"
                   imageClassName="object-contain brightness-[10]"
+                  locale={locale}
                   sizes="63px"
                 />
                 <button
