@@ -249,33 +249,33 @@ const SOLUTION_CONFIG = [
 const ENGINEERING_CASE_CONFIG = [
   {
     titleKey: "HomeData.EngineeringCases.item0.title",
-    image: "/assets/cases/case-1-dominica-hotel.png",
-    href: "/assets/cases/case-1-dominica-hotel.png",
+    image: "/assets/cases/case-1-guangzhou-agile-hotel.png",
+    href: "/assets/cases/case-1-guangzhou-agile-hotel.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item1.title",
-    image: "/assets/cases/case-2-congo-hilton.png",
-    href: "/assets/cases/case-2-congo-hilton.png",
+    image: "/assets/cases/case-2-beijing-children-palace.png",
+    href: "/assets/cases/case-2-beijing-children-palace.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item2.title",
-    image: "/assets/cases/case-3-canadian-restaurant.png",
-    href: "/assets/cases/case-3-canadian-restaurant.png",
+    image: "/assets/cases/case-3-sanfu-art-museum.png",
+    href: "/assets/cases/case-3-sanfu-art-museum.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item3.title",
-    image: "/assets/cases/case-4-finland-apartment.png",
-    href: "/assets/cases/case-4-finland-apartment.png",
+    image: "/assets/cases/case-4-huamao-international-hotel.png",
+    href: "/assets/cases/case-4-huamao-international-hotel.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
-    image: "/assets/cases/case-5-qatar-vendome.png",
-    href: "/assets/cases/case-5-qatar-vendome.png",
+    image: "/assets/cases/case-5-guangzhou-baiyun-airport.png",
+    href: "/assets/cases/case-5-guangzhou-baiyun-airport.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item5.title",
-    image: "/assets/cases/case-6-us-vacation-villa.png",
-    href: "/assets/cases/case-6-us-vacation-villa.png",
+    image: "/assets/cases/case-6-nankai-university.png",
+    href: "/assets/cases/case-6-nankai-university.png",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;

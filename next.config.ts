@@ -9,7 +9,14 @@ function redirect(source: string, destination: string): Redirect {
   return { source, destination, permanent: false };
 }
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const nextConfig: NextConfig = {
+  images: {
+    // 开发阶段跳过图片优化缓存，换图即刷新可见
+    // 生产构建仍然启用优化
+    unoptimized: isDev,
+  },
   async redirects() {
     return [
       redirect('/products/quartz', '/products?category=quartz'),
