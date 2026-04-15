@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
@@ -59,7 +60,14 @@ export function PartnerCarousel({
   };
 
   return (
-    <section className="wayon-section pb-16" style={PARTNER_SECTION_STYLE}>
+    <motion.section 
+      className="wayon-section pb-16" 
+      style={PARTNER_SECTION_STYLE}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="wayon-container">
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
           <div className="max-w-[780px]">
@@ -119,6 +127,6 @@ export function PartnerCarousel({
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

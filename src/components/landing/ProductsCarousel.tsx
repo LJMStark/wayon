@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
@@ -70,7 +71,13 @@ export function ProductsCarousel({
   };
 
   return (
-    <section className="wayon-section overflow-hidden bg-[color:var(--background)]">
+    <motion.section 
+      className="wayon-section overflow-hidden bg-[color:var(--background)]"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="wayon-container">
         <header className="mb-12 text-center md:mb-14">
           <div className="mx-auto max-w-[760px]">
@@ -153,6 +160,6 @@ export function ProductsCarousel({
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

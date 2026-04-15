@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import type { NewsFeature, NewsItem } from "@/data/home";
@@ -15,7 +18,13 @@ export function NewsSection({
   items,
 }: NewsSectionProps): React.JSX.Element {
   return (
-    <section className="wayon-section pb-16">
+    <motion.section 
+      className="wayon-section pb-16"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
           <h2 className="wayon-title">{title}</h2>
@@ -66,6 +75,6 @@ export function NewsSection({
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

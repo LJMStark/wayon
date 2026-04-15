@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 import type { CaseItem } from "@/data/home";
@@ -14,7 +17,14 @@ export function EngineeringCase({
   items,
 }: EngineeringCaseProps): React.JSX.Element {
   return (
-    <section id="case" className="wayon-section">
+    <motion.section 
+      id="case" 
+      className="wayon-section"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
           <h2 className="wayon-title text-[color:var(--primary)]">{title}</h2>
@@ -50,6 +60,6 @@ export function EngineeringCase({
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

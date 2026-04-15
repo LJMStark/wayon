@@ -74,10 +74,10 @@ function getDesktopNavLinkClassName(isCurrent: boolean): string {
 
 function getDesktopUnderlineClassName(isCurrent: boolean): string {
   if (isCurrent) {
-    return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-colors";
+    return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-transform duration-300 scale-x-100";
   }
 
-  return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-transparent transition-colors group-hover:bg-[color:var(--primary)]/45";
+  return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100";
 }
 
 function getMegaSubItemClassName(isActive: boolean): string {
@@ -140,7 +140,12 @@ export default function Header(): React.JSX.Element {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white">
+    <motion.header
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white"
+    >
       <div className="wayon-container">
         <div className="flex h-[var(--header-height)] items-center justify-between gap-6">
           <Link
@@ -523,6 +528,6 @@ export default function Header(): React.JSX.Element {
           </>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

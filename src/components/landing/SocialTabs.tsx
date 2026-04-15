@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -32,7 +33,13 @@ export function SocialTabs({
   const activePlatform = platforms[activeIndex];
 
   return (
-    <section className="wayon-section pb-20">
+    <motion.section 
+      className="wayon-section pb-20"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="wayon-container">
         <header className="mb-8">
           <h2 className="wayon-title">{title}</h2>
@@ -95,6 +102,6 @@ export function SocialTabs({
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
