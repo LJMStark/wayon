@@ -10,6 +10,7 @@ import {
   getCommonCopy,
   getSolutionPageCopy,
 } from "@/data/siteCopy";
+import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 const PRIMARY_TABS = [
   "finishedProducts",
@@ -21,18 +22,18 @@ const PRIMARY_TABS = [
 const SECONDARY_TABS = ["quartzStone", "terrazzo", "cementStone"] as const;
 
 const GALLERY_IMAGES = [
-  { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-square" },
-  { src: "/assets/products/4114a4ac18610909eb9728c75328bcff.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/products/7037b74ccb409b9cca57110044283d96.jpg", aspect: "aspect-[4/5]" },
-  { src: "/assets/products/8498fbd0b0355c5a308df93e65b41cbc.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/products/9ac3cb95ac618347328625a26f0f9df5.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/products/4dfad52bc4f8b2c2bceabe1eb954a8de.jpg", aspect: "aspect-square" },
-  { src: "/assets/products/c534a997a58eef6a2aa52b5d5d56c8a5.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg", aspect: "aspect-[4/5]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/3]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-square" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/5]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/3]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-square" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
+  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/5]" },
 ];
 
 type PrimaryTabKey = (typeof PRIMARY_TABS)[number];
@@ -122,7 +123,7 @@ export default function SolutionPage(): React.JSX.Element {
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <section className="relative h-[350px] w-full bg-neutral-200">
         <Image
-          src="/assets/products/b3939f4e7c1209a0d06c922bc717b30a.jpg"
+          src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
           alt={solutionCopy.heroTitle}
           fill
           className="object-cover"

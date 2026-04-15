@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
+import {TRADE_SERIES_TYPES} from '@/features/products/lib/tradeCatalog'
+
 export const productType = defineType({
   name: 'product',
   title: 'Product',
@@ -25,7 +27,12 @@ export const productType = defineType({
       title: 'Category',
       type: 'reference',
       to: [{type: 'category'}],
-      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'normalizedName',
+      title: 'Normalized Name',
+      type: 'string',
+      description: 'Deterministic family name used for imported trade materials.',
     }),
     defineField({
       name: 'image',
@@ -39,6 +46,25 @@ export const productType = defineType({
       name: 'description',
       title: 'Description (Multi-language)',
       type: 'localeString',
+    }),
+    defineField({
+      name: 'seriesTypes',
+      title: 'Series Types',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        list: TRADE_SERIES_TYPES.map((value) => ({title: value, value})),
+      },
+    }),
+    defineField({
+      name: 'coverImageUrl',
+      title: 'Cover Image URL',
+      type: 'string',
+    }),
+    defineField({
+      name: 'coverVideoPosterUrl',
+      title: 'Cover Video Poster URL',
+      type: 'string',
     }),
     defineField({
       name: 'thickness',
@@ -89,9 +115,17 @@ export const productType = defineType({
   ],
   preview: {
     select: {
-      title: 'title.en',
+      title: 'title.zh',
       subtitle: 'category.title',
       media: 'image',
+      normalizedName: 'normalizedName',
+    },
+    prepare({title, subtitle, media, normalizedName}) {
+      return {
+        title: title || normalizedName || 'Untitled product',
+        subtitle: subtitle || normalizedName,
+        media,
+      }
     },
   },
 })

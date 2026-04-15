@@ -9,7 +9,9 @@ import type { AppLocale } from "@/i18n/types";
 
 import type { NewsDetailPageData, NewsPreviewItem } from "../types";
 
-const NEWS_FALLBACK_IMAGE = "/assets/news/terrazzo-flooring-cover.jpg";
+import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
+
+const NEWS_FALLBACK_IMAGE = TRADE_YELLOW_PLACEHOLDER_IMAGE;
 
 export function getNewsHref(slug: string): string {
   return `/news/${slug}`;

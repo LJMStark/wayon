@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import ProductGrid from "@/components/products/ProductGrid";
 import { Link } from "@/i18n/routing";
 
 import type { ProductCategoryShowcase, ProductsPageData } from "../types";
@@ -39,7 +40,12 @@ export function ProductsPageView({
   collectionLabel,
   collectionDescription,
   readMoreLabel,
+  noProductsFoundLabel,
   showcases,
+  directoryTitle,
+  directoryDescription,
+  filterLabels,
+  products,
 }: ProductsPageData): React.JSX.Element {
   return (
     <main className="min-h-screen bg-white">
@@ -93,7 +99,7 @@ export function ProductsPageView({
                     {showcase.description}
                   </p>
                   <Link
-                    href={`/products?category=${showcase.slug}`}
+                    href="/products#directory"
                     className="inline-block rounded-full bg-[#0f2858] px-8 py-3 text-sm tracking-widest text-white shadow-sm transition-colors hover:bg-black"
                   >
                     {readMoreLabel}
@@ -109,6 +115,7 @@ export function ProductsPageView({
                     src={showcase.imageSrc}
                     alt={showcase.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="bg-neutral-200 object-cover shadow-sm"
                   />
                 </div>
@@ -117,6 +124,24 @@ export function ProductsPageView({
           );
         })}
       </div>
+
+      <section id="directory" className="mx-auto max-w-[1400px] px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <h2 className="mb-3 text-3xl font-bold text-[#1a1a1a]">
+            {directoryTitle}
+          </h2>
+          <p className="text-[15px] leading-relaxed text-gray-600">
+            {directoryDescription}
+          </p>
+        </div>
+
+        <ProductGrid
+          products={products}
+          filterLabels={filterLabels}
+          readMoreLabel={readMoreLabel}
+          noProductsFoundLabel={noProductsFoundLabel}
+        />
+      </section>
     </main>
   );
 }
