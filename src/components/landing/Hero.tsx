@@ -24,6 +24,10 @@ function getIndicatorClassName(isActive: boolean): string {
   return "h-[6px] w-10 rounded-full bg-white/35 transition-all";
 }
 
+function getSlideKey(slide: HeroSlide, index: number): string {
+  return `${slide.type}:${slide.src}:${index}`;
+}
+
 type HeroProps = {
   slides: HeroSlide[];
   slideLabel: string;
@@ -45,7 +49,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
       <div className="relative aspect-[1920/850] min-h-[260px] w-full md:min-h-[420px]">
         {slides.map((slide, index) => (
           <div
-            key={slide.src}
+            key={getSlideKey(slide, index)}
             className={getSlideClassName(index === activeSlide)}
           >
             {slide.type === "video" ? (
@@ -79,7 +83,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
       <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 md:bottom-8">
         {slides.map((slide, index) => (
           <button
-            key={slide.src}
+            key={getSlideKey(slide, index)}
             type="button"
             onClick={() => setActiveSlide(index)}
             className={getIndicatorClassName(index === activeSlide)}
