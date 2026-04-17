@@ -8,6 +8,7 @@ import { inquiryType } from './inquiryType'
 import { localeStringType } from './localeStringType'
 import { externalImageMediaType } from './externalImageMediaType'
 import { externalVideoMediaType } from './externalVideoMediaType'
+import { customCapabilityType } from './customCapabilityType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -15,6 +16,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     externalImageMediaType,
     externalVideoMediaType,
     categoryType,
+    customCapabilityType,
     productType,
     productVariantType,
     newsType,

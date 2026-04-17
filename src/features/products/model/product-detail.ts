@@ -63,11 +63,12 @@ function buildMediaVideo(
 
 function buildVariantOptionLabel(
   size: string | undefined,
+  thickness: string | undefined,
   process: string | undefined,
   code: string,
   showCode: boolean
 ): string {
-  const parts = [size, process, showCode ? code : null].filter(Boolean);
+  const parts = [size, thickness, process, showCode ? code : null].filter(Boolean);
 
   return parts.join(" / ");
 }
@@ -84,6 +85,7 @@ function buildVariantData(
     showCode: hasExplicitVariants,
     optionLabel: buildVariantOptionLabel(
       variant.size,
+      variant.thickness,
       variant.process,
       variant.code,
       hasExplicitVariants

@@ -1,9 +1,9 @@
-import { createHash } from 'node:crypto'
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
+import { createHash } from "node:crypto";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 
-import { createClient } from '@sanity/client'
-import * as dotenv from 'dotenv'
+import { createClient } from "@sanity/client";
+import * as dotenv from "dotenv";
 
 import {
   extractTradeCode,
@@ -11,332 +11,416 @@ import {
   extractTradeFaceMetadata,
   inferTradeColorGroup,
   inferTradeSize,
+  inferTradeThickness,
   normalizeTradeProcess,
-} from '../src/features/products/lib/tradeCatalog.ts'
-import { buildTradeMediaPublicUrl } from '../src/features/products/lib/tradeMedia.ts'
-import { selectProductCoverUrl } from '../src/features/products/model/productDirectory.ts'
+} from "../src/features/products/lib/tradeCatalog.ts";
+import { inferTradeSeriesTypes } from "../src/features/products/content/tradeSeriesMappings.ts";
+import { buildTradeMediaPublicUrl } from "../src/features/products/lib/tradeMedia.ts";
+import { selectProductCoverUrl } from "../src/features/products/model/productDirectory.ts";
 
-dotenv.config({ path: '.env.local' })
+dotenv.config({ path: ".env.local" });
 
-const ROOT_DIR = path.join(process.cwd(), 'docs/外贸出口资料')
+const ROOT_DIR = path.join(process.cwd(), "docs/外贸出口资料");
+const CATALOG_ROOT = path.join(ROOT_DIR, "产品/众岩联标准素材集合");
 const DEFAULT_REPORT_PATH = path.join(
   process.cwd(),
-  'docs/trade-import-report.json'
-)
+  "docs/trade-import-report.json"
+);
 const SUPPORTED_IMAGE_EXTENSIONS = new Set([
-  '.jpg',
-  '.jpeg',
-  '.png',
-  '.webp',
-  '.gif',
-])
-const SUPPORTED_VIDEO_EXTENSIONS = new Set(['.mp4', '.mov'])
-const MEDIA_SOURCE_DIRECTORIES = [
-  ['众岩联--元素图整理', 'elementImages'],
-  ['众岩联--产品效果图', 'spaceImages'],
-  ['众岩联--实物图', 'realImages'],
-  ['众岩联--实物视频', 'videos'],
-]
-const SANITY_BATCH_SIZE = 100
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+]);
+const SUPPORTED_VIDEO_EXTENSIONS = new Set([".mp4", ".mov"]);
+const SANITY_BATCH_SIZE = 100;
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2026-04-03',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-03",
   token: process.env.SANITY_API_TOKEN,
   useCdn: false,
-})
+});
 
 function parseArgs(argv) {
   return {
-    apply: argv.includes('--apply'),
+    apply: argv.includes("--apply"),
     reportPath:
-      argv.find((arg) => arg.startsWith('--report='))?.slice('--report='.length) ||
+      argv.find((arg) => arg.startsWith("--report="))?.slice("--report=".length) ||
       DEFAULT_REPORT_PATH,
-  }
+  };
 }
 
 function hashValue(input) {
-  return createHash('sha1').update(input).digest('hex').slice(0, 10)
+  return createHash("sha1").update(input).digest("hex").slice(0, 10);
 }
 
 function sanitizeIdSegment(value) {
-  return value.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/-+/g, '-')
+  return value.toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/-+/g, "-");
 }
 
 function normalizeFamilyName(name) {
-  return name.replace(/\s+/g, ' ').trim()
+  return name.replace(/\s+/g, " ").trim();
 }
 
 function buildFamilySlug(name, firstCode) {
   const asciiSlug = name
-    .normalize('NFKD')
-    .replace(/[^\x00-\x7F]/g, '')
+    .normalize("NFKD")
+    .replace(/[^\x00-\x7F]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   if (asciiSlug) {
-    return asciiSlug
+    return asciiSlug;
   }
 
   if (firstCode) {
-    return `trade-${sanitizeIdSegment(firstCode)}`
+    return `trade-${sanitizeIdSegment(firstCode)}`;
   }
 
-  return `trade-${hashValue(name)}`
+  return `trade-${hashValue(name)}`;
 }
 
 function buildProductId(slug) {
-  return `product-family-${sanitizeIdSegment(slug)}`
+  return `product-family-${sanitizeIdSegment(slug)}`;
 }
 
 function buildVariantId(slug, code) {
-  return `product-variant-${sanitizeIdSegment(slug)}-${sanitizeIdSegment(code)}`
-}
-
-function createEmptyVariant(code) {
-  return {
-    code,
-    size: undefined,
-    thickness: undefined,
-    process: undefined,
-    colorGroup: undefined,
-    faceCount: undefined,
-    facePatternNote: undefined,
-    elementImages: [],
-    spaceImages: [],
-    realImages: [],
-    videos: [],
-  }
+  return `product-variant-${sanitizeIdSegment(slug)}-${sanitizeIdSegment(code)}`;
 }
 
 function mergeMedia(existing = [], imported = []) {
-  const merged = [...existing]
-  const seen = new Set(existing.map((item) => item.sourcePath || item.publicUrl))
+  const merged = [...existing];
+  const seen = new Set(existing.map((item) => item.sourcePath || item.publicUrl));
 
   for (const item of imported) {
-    const key = item.sourcePath || item.publicUrl
+    const key = item.sourcePath || item.publicUrl;
 
     if (seen.has(key)) {
-      continue
+      continue;
     }
 
-    seen.add(key)
-    merged.push(item)
+    seen.add(key);
+    merged.push(item);
   }
 
-  return merged
+  return merged;
 }
 
-function createMediaRecord(sourcePath, basename) {
+function createImageRecord(sourcePath, basename, sortOrder) {
   return {
     sourcePath,
     publicUrl: buildTradeMediaPublicUrl(sourcePath),
     altZh: basename,
-    titleZh: basename,
-    sortOrder: 0,
-  }
+    sortOrder,
+  };
 }
 
-async function walkFiles(dir) {
-  const entries = await fs.readdir(dir, { withFileTypes: true })
-  const files = []
+function createVideoRecord(sourcePath, basename, sortOrder) {
+  return {
+    sourcePath,
+    publicUrl: buildTradeMediaPublicUrl(sourcePath),
+    posterUrl: undefined,
+    titleZh: basename,
+    sortOrder,
+  };
+}
+
+function isSupportedImage(extension) {
+  return SUPPORTED_IMAGE_EXTENSIONS.has(extension.toLowerCase());
+}
+
+function isSupportedVideo(extension) {
+  return SUPPORTED_VIDEO_EXTENSIONS.has(extension.toLowerCase());
+}
+
+function normalizeBasename(input) {
+  return input
+    .replace(/\.[^.]+$/u, "")
+    .replace(/\s+/g, "")
+    .replace(/（/g, "(")
+    .replace(/）/g, ")")
+    .toLowerCase();
+}
+
+function classifyMedia(filePath) {
+  const extension = path.extname(filePath).toLowerCase();
+
+  if (isSupportedVideo(extension)) {
+    return "videos";
+  }
+
+  const normalized = normalizeBasename(path.basename(filePath));
+
+  if (/元素图|素材图/u.test(normalized)) {
+    return "elementImages";
+  }
+
+  if (/空间图|效果图|空图图/u.test(normalized)) {
+    return "spaceImages";
+  }
+
+  if (/实拍图|实物图|实物图|实物/u.test(normalized)) {
+    return "realImages";
+  }
+
+  return isSupportedImage(extension) ? "elementImages" : null;
+}
+
+async function collectProductDirectories(dir, report) {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const childDirectories = entries.filter((entry) => entry.isDirectory());
+  const supportedFiles = entries.filter((entry) => {
+    if (!entry.isFile()) {
+      return false;
+    }
+
+    const extension = path.extname(entry.name).toLowerCase();
+    return isSupportedImage(extension) || isSupportedVideo(extension);
+  });
 
   for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name)
-
-    if (entry.isDirectory()) {
-      files.push(...(await walkFiles(fullPath)))
-      continue
+    if (!entry.isFile()) {
+      continue;
     }
 
-    files.push(fullPath)
+    const extension = path.extname(entry.name).toLowerCase();
+
+    if (!isSupportedImage(extension) && !isSupportedVideo(extension)) {
+      const fullPath = path.join(dir, entry.name);
+      const sourcePath = path.relative(ROOT_DIR, fullPath).split(path.sep).join("/");
+
+      report.skippedFiles.push({
+        sourcePath,
+        reason: `Unsupported extension: ${extension || "unknown"}`,
+      });
+    }
   }
 
-  return files
+  if (supportedFiles.length > 0 && childDirectories.length === 0) {
+    return [dir];
+  }
+
+  const directories = [];
+
+  for (const child of childDirectories) {
+    directories.push(
+      ...(await collectProductDirectories(path.join(dir, child.name), report))
+    );
+  }
+
+  return directories;
 }
 
-async function collectCandidates(report) {
-  const candidates = []
+async function readProductDirectory(productDir, report) {
+  const entries = await fs.readdir(productDir, { withFileTypes: true });
+  const relativeDirectory = path
+    .relative(CATALOG_ROOT, productDir)
+    .split(path.sep)
+    .join("/");
+  const segments = relativeDirectory.split("/").filter(Boolean);
 
-  for (const [directoryName, mediaKind] of MEDIA_SOURCE_DIRECTORIES) {
-    const directoryPath = path.join(ROOT_DIR, directoryName)
-    const files = await walkFiles(directoryPath)
+  if (segments.length < 4) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Unexpected product directory depth",
+    });
+    return null;
+  }
 
-    for (const fullPath of files) {
-      const extension = path.extname(fullPath).toLowerCase()
-      const basename = path.basename(fullPath)
-      const relativePath = path.relative(ROOT_DIR, fullPath).split(path.sep).join('/')
-
-      const isImage = SUPPORTED_IMAGE_EXTENSIONS.has(extension)
-      const isVideo = SUPPORTED_VIDEO_EXTENSIONS.has(extension)
-
-      if (!isImage && !isVideo) {
-        report.skippedFiles.push({
-          sourcePath: relativePath,
-          reason: `Unsupported extension: ${extension || 'unknown'}`,
-        })
-        continue
-      }
-
-      const displayName = extractTradeDisplayName(relativePath)
-      const normalizedName = displayName ? normalizeFamilyName(displayName) : null
-      const code = extractTradeCode(relativePath)
-      const size = inferTradeSize(relativePath)
-      const process = normalizeTradeProcess(relativePath)
-      const { faceCount, facePatternNote } = extractTradeFaceMetadata(relativePath)
-
-      candidates.push({
-        mediaKind,
-        sourcePath: relativePath,
-        displayName,
-        normalizedName,
-        code,
-        size,
+  const sizeSegment = segments[1];
+  const processSegment = segments[2];
+  const productSegment = segments.at(-1);
+  const code = extractTradeCode(productSegment);
+  const displayName =
+    extractTradeDisplayName(productSegment) ||
+    extractTradeDisplayName(relativeDirectory);
+  const normalizedName = displayName ? normalizeFamilyName(displayName) : null;
+  const size = inferTradeSize(sizeSegment || relativeDirectory);
+  const thickness = inferTradeThickness(sizeSegment || relativeDirectory);
+  const process = normalizeTradeProcess(processSegment || relativeDirectory);
+  const { faceCount, facePatternNote } = extractTradeFaceMetadata(productSegment);
+  const colorGroup = normalizedName
+    ? inferTradeColorGroup(normalizedName) || undefined
+    : undefined;
+  const seriesTypes = normalizedName
+    ? inferTradeSeriesTypes({
+        displayName: normalizedName,
         process,
-        faceCount,
         facePatternNote,
-        mediaRecord: createMediaRecord(relativePath, displayName || basename),
       })
-    }
+    : [];
+
+  if (!code) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Missing product code in folder name",
+    });
+    return null;
   }
 
-  return candidates
-}
-
-function attachMedia(variant, candidate) {
-  if (candidate.mediaKind === 'videos') {
-    variant.videos = mergeMedia(variant.videos, [
-      {
-        sourcePath: candidate.mediaRecord.sourcePath,
-        publicUrl: candidate.mediaRecord.publicUrl,
-        posterUrl: undefined,
-        titleZh: candidate.mediaRecord.titleZh,
-        sortOrder: 0,
-      },
-    ])
-    return
+  if (!displayName) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Missing display name in folder name",
+    });
   }
 
-  variant[candidate.mediaKind] = mergeMedia(variant[candidate.mediaKind], [
-    {
-      sourcePath: candidate.mediaRecord.sourcePath,
-      publicUrl: candidate.mediaRecord.publicUrl,
-      altZh: candidate.mediaRecord.altZh,
-      sortOrder: 0,
-    },
-  ])
-}
+  if (!size) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Missing normalized size",
+    });
+  }
 
-function buildFamilies(candidates, report) {
-  const families = new Map()
+  if (!process) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Missing normalized process",
+    });
+  }
 
-  for (const candidate of candidates.filter((item) => item.code)) {
-    const familyName = candidate.normalizedName || candidate.code
+  if (seriesTypes.length === 0) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "Missing series type mapping",
+    });
+  }
 
-    if (!candidate.normalizedName) {
+  const variant = {
+    code,
+    size,
+    thickness,
+    process,
+    colorGroup,
+    faceCount,
+    facePatternNote,
+    seriesTypes,
+    elementImages: [],
+    spaceImages: [],
+    realImages: [],
+    videos: [],
+  };
+
+  const mediaFiles = entries
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((name) => {
+      const extension = path.extname(name).toLowerCase();
+      return isSupportedImage(extension) || isSupportedVideo(extension);
+    })
+    .sort((left, right) => left.localeCompare(right, "zh-Hans-CN"));
+
+  mediaFiles.forEach((fileName, index) => {
+    const fullPath = path.join(productDir, fileName);
+    const sourcePath = path.relative(ROOT_DIR, fullPath).split(path.sep).join("/");
+    const mediaKind = classifyMedia(fullPath);
+
+    if (!mediaKind) {
       report.pendingManualReview.push({
-        sourcePath: candidate.sourcePath,
-        reason: 'Missing display name; family falls back to code',
-      })
+        sourcePath,
+        reason: "Unable to classify media kind",
+      });
+      return;
+    }
+
+    const displayTitle = extractTradeDisplayName(fileName) || displayName || fileName;
+
+    if (mediaKind === "videos") {
+      variant.videos.push(createVideoRecord(sourcePath, displayTitle, index));
+      return;
+    }
+
+    variant[mediaKind].push(createImageRecord(sourcePath, displayTitle, index));
+  });
+
+  const mediaCount =
+    variant.elementImages.length +
+    variant.spaceImages.length +
+    variant.realImages.length +
+    variant.videos.length;
+
+  if (mediaCount === 0) {
+    report.pendingManualReview.push({
+      sourcePath: relativeDirectory,
+      reason: "No supported media found in product folder",
+    });
+    return null;
+  }
+
+  return {
+    sourcePath: relativeDirectory,
+    displayName: displayName || code,
+    normalizedName: normalizedName || code,
+    variant,
+  };
+}
+
+async function collectFamilies(report) {
+  const productDirectories = await collectProductDirectories(CATALOG_ROOT, report);
+  const families = new Map();
+
+  for (const productDir of productDirectories) {
+    const productRecord = await readProductDirectory(productDir, report);
+
+    if (!productRecord) {
+      continue;
     }
 
     const family =
-      families.get(familyName) ||
+      families.get(productRecord.normalizedName) ||
       {
-        normalizedName: familyName,
-        displayName: candidate.displayName || candidate.code,
-        seriesTypes: [],
+        normalizedName: productRecord.normalizedName,
+        displayName: productRecord.displayName,
+        seriesTypes: new Set(),
         variants: new Map(),
-      }
+      };
+    const existingVariant =
+      family.variants.get(productRecord.variant.code) ||
+      {
+        ...productRecord.variant,
+        elementImages: [],
+        spaceImages: [],
+        realImages: [],
+        videos: [],
+      };
 
-    const variant =
-      family.variants.get(candidate.code) || createEmptyVariant(candidate.code)
+    existingVariant.size = existingVariant.size || productRecord.variant.size;
+    existingVariant.thickness =
+      existingVariant.thickness || productRecord.variant.thickness;
+    existingVariant.process = existingVariant.process || productRecord.variant.process;
+    existingVariant.colorGroup =
+      existingVariant.colorGroup || productRecord.variant.colorGroup;
+    existingVariant.faceCount =
+      existingVariant.faceCount || productRecord.variant.faceCount;
+    existingVariant.facePatternNote =
+      existingVariant.facePatternNote || productRecord.variant.facePatternNote;
+    existingVariant.elementImages = mergeMedia(
+      existingVariant.elementImages,
+      productRecord.variant.elementImages
+    );
+    existingVariant.spaceImages = mergeMedia(
+      existingVariant.spaceImages,
+      productRecord.variant.spaceImages
+    );
+    existingVariant.realImages = mergeMedia(
+      existingVariant.realImages,
+      productRecord.variant.realImages
+    );
+    existingVariant.videos = mergeMedia(
+      existingVariant.videos,
+      productRecord.variant.videos
+    );
 
-    if (!variant.size && candidate.size) {
-      variant.size = candidate.size
-    }
-    if (!variant.process && candidate.process) {
-      variant.process = candidate.process
-    }
-    if (!variant.colorGroup && candidate.normalizedName) {
-      variant.colorGroup = inferTradeColorGroup(candidate.normalizedName) || undefined
-    }
-    if (!variant.faceCount && candidate.faceCount) {
-      variant.faceCount = candidate.faceCount
-    }
-    if (!variant.facePatternNote && candidate.facePatternNote) {
-      variant.facePatternNote = candidate.facePatternNote
-    }
-
-    attachMedia(variant, candidate)
-
-    family.variants.set(candidate.code, variant)
-    families.set(familyName, family)
-  }
-
-  for (const candidate of candidates.filter((item) => !item.code)) {
-    if (!candidate.normalizedName) {
-      report.pendingManualReview.push({
-        sourcePath: candidate.sourcePath,
-        reason: 'Missing code and display name',
-      })
-      continue
-    }
-
-    const family = families.get(candidate.normalizedName)
-
-    if (!family) {
-      report.pendingManualReview.push({
-        sourcePath: candidate.sourcePath,
-        reason: 'No family matched this no-code asset',
-      })
-      continue
+    for (const seriesType of productRecord.variant.seriesTypes) {
+      family.seriesTypes.add(seriesType);
     }
 
-    const variantCandidates = [...family.variants.values()].filter((variant) => {
-      if (candidate.size && variant.size && variant.size !== candidate.size) {
-        return false
-      }
-
-      if (
-        candidate.process &&
-        variant.process &&
-        variant.process !== candidate.process
-      ) {
-        return false
-      }
-
-      return true
-    })
-
-    const variant =
-      variantCandidates.length === 1
-        ? variantCandidates[0]
-        : family.variants.size === 1
-          ? [...family.variants.values()][0]
-          : null
-
-    if (!variant) {
-      report.pendingManualReview.push({
-        sourcePath: candidate.sourcePath,
-        reason: 'No unique variant match for no-code asset',
-      })
-      continue
-    }
-
-    if (!variant.faceCount && candidate.faceCount) {
-      variant.faceCount = candidate.faceCount
-    }
-    if (!variant.colorGroup && candidate.normalizedName) {
-      variant.colorGroup = inferTradeColorGroup(candidate.normalizedName) || undefined
-    }
-    if (!variant.facePatternNote && candidate.facePatternNote) {
-      variant.facePatternNote = candidate.facePatternNote
-    }
-
-    attachMedia(variant, candidate)
+    family.variants.set(productRecord.variant.code, existingVariant);
+    families.set(productRecord.normalizedName, family);
   }
 
   return [...families.values()]
@@ -346,26 +430,28 @@ function buildFamilies(candidates, report) {
           variant.elementImages.length +
           variant.spaceImages.length +
           variant.realImages.length +
-          variant.videos.length
+          variant.videos.length;
 
-        return mediaCount > 0
-      })
+        return mediaCount > 0;
+      });
 
       if (variants.length === 0) {
-        return null
+        return null;
       }
 
-      const firstCode = variants[0]?.code
-      const slug = buildFamilySlug(family.normalizedName, firstCode)
+      const firstCode = variants[0]?.code;
+      const slug = buildFamilySlug(family.normalizedName, firstCode);
 
       return {
-        ...family,
+        normalizedName: family.normalizedName,
+        displayName: family.displayName,
+        seriesTypes: [...family.seriesTypes],
         slug,
         productId: buildProductId(slug),
         variants,
-      }
+      };
     })
-    .filter(Boolean)
+    .filter(Boolean);
 }
 
 function buildCoverImageUrl(family) {
@@ -376,8 +462,8 @@ function buildCoverImageUrl(family) {
       coverImageUrl: null,
       variants: family.variants,
     },
-    ''
-  )
+    ""
+  );
 }
 
 function mergeLocalizedTitle(existingTitle, familyName) {
@@ -387,41 +473,41 @@ function mergeLocalizedTitle(existingTitle, familyName) {
     es: existingTitle?.es || existingTitle?.en || familyName,
     ar: existingTitle?.ar || existingTitle?.en || familyName,
     ru: existingTitle?.ru || existingTitle?.en || familyName,
-  }
+  };
 }
 
 function chunkItems(items, size) {
-  const chunks = []
+  const chunks = [];
 
   for (let index = 0; index < items.length; index += size) {
-    chunks.push(items.slice(index, index + size))
+    chunks.push(items.slice(index, index + size));
   }
 
-  return chunks
+  return chunks;
 }
 
 async function fetchDocumentsByIds(ids) {
   if (!client.config().token || ids.length === 0) {
-    return new Map()
+    return new Map();
   }
 
-  const documents = []
+  const documents = [];
 
   for (const chunk of chunkItems(ids, SANITY_BATCH_SIZE)) {
-    const result = await client.fetch('*[_id in $ids]', {ids: chunk})
-    documents.push(...result)
+    const result = await client.fetch("*[_id in $ids]", { ids: chunk });
+    documents.push(...result);
   }
 
-  return new Map(documents.map((document) => [document._id, document]))
+  return new Map(documents.map((document) => [document._id, document]));
 }
 
 function buildProductDocument(family, existingDocuments) {
-  const existing = existingDocuments.get(family.productId)
-  const coverImageUrl = buildCoverImageUrl(family) || existing?.coverImageUrl
+  const existing = existingDocuments.get(family.productId);
+  const coverImageUrl = buildCoverImageUrl(family) || existing?.coverImageUrl;
 
   return {
     _id: family.productId,
-    _type: 'product',
+    _type: "product",
     title: mergeLocalizedTitle(existing?.title, family.displayName),
     normalizedName: family.normalizedName,
     slug: { current: existing?.slug?.current || family.slug },
@@ -431,7 +517,9 @@ function buildProductDocument(family, existingDocuments) {
     seriesTypes:
       existing?.seriesTypes && existing.seriesTypes.length > 0
         ? existing.seriesTypes
-        : [],
+        : family.seriesTypes,
+    catalogMode: existing?.catalogMode || "standard",
+    customCapability: existing?.customCapability,
     coverImageUrl: coverImageUrl || undefined,
     coverVideoPosterUrl: existing?.coverVideoPosterUrl,
     thickness: existing?.thickness,
@@ -439,18 +527,18 @@ function buildProductDocument(family, existingDocuments) {
     size: existing?.size,
     featured: existing?.featured ?? false,
     sortOrder: existing?.sortOrder ?? 0,
-  }
+  };
 }
 
 function buildVariantDocument(family, variant, index, existingDocuments) {
-  const variantId = buildVariantId(family.slug, variant.code)
-  const existing = existingDocuments.get(variantId)
+  const variantId = buildVariantId(family.slug, variant.code);
+  const existing = existingDocuments.get(variantId);
 
   return {
     _id: variantId,
-    _type: 'productVariant',
+    _type: "productVariant",
     productRef: {
-      _type: 'reference',
+      _type: "reference",
       _ref: family.productId,
     },
     code: variant.code,
@@ -465,12 +553,12 @@ function buildVariantDocument(family, variant, index, existingDocuments) {
     spaceImages: mergeMedia(existing?.spaceImages, variant.spaceImages),
     realImages: mergeMedia(existing?.realImages, variant.realImages),
     videos: mergeMedia(existing?.videos, variant.videos),
-  }
+  };
 }
 
 async function writeReport(reportPath, payload) {
-  await fs.mkdir(path.dirname(reportPath), { recursive: true })
-  await fs.writeFile(reportPath, JSON.stringify(payload, null, 2), 'utf8')
+  await fs.mkdir(path.dirname(reportPath), { recursive: true });
+  await fs.writeFile(reportPath, JSON.stringify(payload, null, 2), "utf8");
 }
 
 async function commitInBatches(documents) {
@@ -479,16 +567,16 @@ async function commitInBatches(documents) {
       chunk.map((document) => ({
         createOrReplace: document,
       }))
-    )
+    );
   }
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2))
+  const args = parseArgs(process.argv.slice(2));
 
   if (args.apply && !process.env.SANITY_API_TOKEN) {
-    console.error('Missing SANITY_API_TOKEN in .env.local')
-    process.exit(1)
+    console.error("Missing SANITY_API_TOKEN in .env.local");
+    process.exit(1);
   }
 
   const report = {
@@ -500,16 +588,15 @@ async function main() {
     variants: 0,
     images: 0,
     videos: 0,
-  }
+  };
 
-  const candidates = await collectCandidates(report)
-  const families = buildFamilies(candidates, report)
+  const families = await collectFamilies(report);
 
-  report.families = families.length
+  report.families = families.length;
   report.variants = families.reduce(
     (total, family) => total + family.variants.length,
     0
-  )
+  );
   report.images = families.reduce(
     (total, family) =>
       total +
@@ -522,7 +609,7 @@ async function main() {
         0
       ),
     0
-  )
+  );
   report.videos = families.reduce(
     (total, family) =>
       total +
@@ -531,31 +618,31 @@ async function main() {
         0
       ),
     0
-  )
+  );
 
   if (args.apply) {
-    const productIds = families.map((family) => family.productId)
+    const productIds = families.map((family) => family.productId);
     const variantIds = families.flatMap((family) =>
       family.variants.map((variant) => buildVariantId(family.slug, variant.code))
-    )
+    );
     const [existingProducts, existingVariants] = await Promise.all([
       fetchDocumentsByIds(productIds),
       fetchDocumentsByIds(variantIds),
-    ])
+    ]);
     const productDocuments = families.map((family) =>
       buildProductDocument(family, existingProducts)
-    )
+    );
     const variantDocuments = families.flatMap((family) =>
       family.variants.map((variant, index) =>
         buildVariantDocument(family, variant, index, existingVariants)
       )
-    )
+    );
 
-    await commitInBatches(productDocuments)
-    await commitInBatches(variantDocuments)
+    await commitInBatches(productDocuments);
+    await commitInBatches(variantDocuments);
   }
 
-  await writeReport(args.reportPath, report)
+  await writeReport(args.reportPath, report);
 
   console.log(
     JSON.stringify(
@@ -572,10 +659,10 @@ async function main() {
       null,
       2
     )
-  )
+  );
 }
 
 main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+  console.error(error);
+  process.exit(1);
+});

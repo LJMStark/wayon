@@ -1,35 +1,13 @@
-import Image from "next/image";
-
 import ProductGrid from "@/components/products/ProductGrid";
 import { Link } from "@/i18n/routing";
 
-import type { ProductCategoryShowcase, ProductsPageData } from "../types";
+import type { ProductsPageData, ProductCatalogSectionKey } from "../types";
 
-function getCategoryBackgroundClassName(
-  background: ProductCategoryShowcase["background"]
-): string {
-  if (background === "gray") {
-    return "bg-[#f8f9fa]";
-  }
+function buildProductsHref(section: ProductCatalogSectionKey): string {
+  const params = new URLSearchParams();
+  params.set("section", section);
 
-  return "bg-white";
-}
-
-function getCategoryOrderClassNames(isImageRight: boolean): {
-  content: string;
-  image: string;
-} {
-  if (isImageRight) {
-    return {
-      content: "order-2 md:order-1",
-      image: "order-1 md:order-2",
-    };
-  }
-
-  return {
-    content: "order-2 md:order-2",
-    image: "order-1 md:order-1",
-  };
+  return `/products?${params.toString()}`;
 }
 
 export function ProductsPageView({
@@ -39,23 +17,35 @@ export function ProductsPageView({
   homeLabel,
   collectionLabel,
   collectionDescription,
+  allLabel,
   readMoreLabel,
   noProductsFoundLabel,
-  showcases,
   directoryTitle,
   directoryDescription,
-  filterLabels,
+  navSections,
+  activeSection,
+  activeValue,
+  taxonomyCards,
   products,
 }: ProductsPageData): React.JSX.Element {
+  const activeSectionLabel =
+    navSections.find((section) => section.key === activeSection)?.label ??
+    collectionLabel;
+
   return (
     <main className="min-h-screen bg-white">
-      <section className="relative flex h-[300px] w-full items-center justify-center bg-neutral-100 md:h-[350px]">
-        <div className="absolute inset-0 bg-[#e5e5e5] opacity-50" />
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <h1 className="mb-2 text-3xl font-light tracking-wide text-[#1a1a1a] md:text-5xl">
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#f3efe7_0%,#fbfaf7_48%,#e8eef4_100%)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,40,88,0.08),transparent_42%)]" />
+        <div className="relative mx-auto flex min-h-[320px] max-w-[1400px] flex-col justify-center px-6 py-20">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-[#0f2858]/70">
+            Product Center
+          </p>
+          <h1 className="max-w-4xl text-4xl font-semibold tracking-wide text-[#1a1a1a] md:text-6xl">
             {heroTitle}
           </h1>
-          <p className="text-sm tracking-wider text-gray-600">{heroSubtitle}</p>
+          <p className="mt-5 max-w-3xl text-base leading-8 text-neutral-600 md:text-lg">
+            {heroSubtitle}
+          </p>
         </div>
       </section>
 
@@ -67,80 +57,96 @@ export function ProductsPageView({
         &gt; <span className="text-black">{collectionLabel}</span>
       </div>
 
-      <div className="mx-auto mb-16 max-w-[1400px] px-6">
-        <h2 className="mb-2 text-2xl font-bold">{collectionLabel}</h2>
-        <p className="text-[15px] leading-relaxed text-gray-500">
-          {collectionDescription}
-        </p>
-      </div>
-
-      <div className="flex w-full flex-col">
-        {showcases.map((showcase, index) => {
-          const isImageRight = index % 2 === 0;
-          const orderClassNames = getCategoryOrderClassNames(isImageRight);
-          const backgroundClassName = getCategoryBackgroundClassName(
-            showcase.background
-          );
-
-          return (
-            <div
-              key={showcase.slug}
-              id={showcase.slug}
-              className={`scroll-mt-24 flex min-h-[500px] w-full flex-col md:flex-row ${backgroundClassName}`}
-            >
-              <div
-                className={`flex w-full items-center justify-center p-12 md:w-1/2 lg:p-24 ${orderClassNames.content}`}
-              >
-                <div className="w-full max-w-md">
-                  <h2 className="mb-6 text-3xl font-bold text-[#1a1a1a] lg:text-4xl">
-                    {showcase.title}
-                  </h2>
-                  <p className="mb-10 w-[95%] text-[15px] leading-relaxed text-gray-600">
-                    {showcase.description}
-                  </p>
-                  <Link
-                    href="/products#directory"
-                    className="inline-block rounded-full bg-[#0f2858] px-8 py-3 text-sm tracking-widest text-white shadow-sm transition-colors hover:bg-black"
-                  >
-                    {readMoreLabel}
-                  </Link>
-                </div>
-              </div>
-
-              <div
-                className={`relative min-h-[300px] w-full md:min-h-full md:w-1/2 ${orderClassNames.image}`}
-              >
-                <div className="absolute inset-0 m-auto max-h-[85%] max-w-[85%] scale-[0.9] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-95">
-                  <Image
-                    src={showcase.imageSrc}
-                    alt={showcase.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="bg-neutral-200 object-cover shadow-sm"
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <section id="directory" className="mx-auto max-w-[1400px] px-6 py-20">
-        <div className="mb-10 max-w-3xl">
-          <h2 className="mb-3 text-3xl font-bold text-[#1a1a1a]">
+      <section className="mx-auto max-w-[1400px] px-6 pb-8">
+        <div className="max-w-4xl space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-neutral-400">
+            {collectionLabel}
+          </p>
+          <h2 className="text-3xl font-semibold text-[#1a1a1a]">
             {directoryTitle}
           </h2>
-          <p className="text-[15px] leading-relaxed text-gray-600">
+          <p className="text-[15px] leading-8 text-neutral-600">
+            {collectionDescription}
+          </p>
+          <p className="text-[15px] leading-8 text-neutral-500">
             {directoryDescription}
           </p>
         </div>
+      </section>
 
-        <ProductGrid
-          products={products}
-          filterLabels={filterLabels}
-          readMoreLabel={readMoreLabel}
-          noProductsFoundLabel={noProductsFoundLabel}
-        />
+      <section className="mx-auto max-w-[1400px] px-6 pb-20">
+        <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="overflow-hidden rounded-[32px] border border-neutral-200 bg-[#f7f4ef]">
+              <div className="border-b border-white/80 px-6 py-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-neutral-400">
+                  Catalog
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold text-[#1a1a1a]">
+                  {directoryTitle}
+                </h2>
+              </div>
+              <nav className="flex flex-col">
+                {navSections.map((section) => {
+                  const isActive = section.key === activeSection;
+
+                  return (
+                    <Link
+                      key={section.key}
+                      href={buildProductsHref(section.key)}
+                      className={`flex items-center justify-between border-b border-white/80 px-6 py-6 text-lg transition-colors last:border-b-0 ${
+                        isActive
+                          ? "bg-white text-[#0f2858]"
+                          : "text-[#1a1a1a] hover:bg-white/70"
+                      }`}
+                    >
+                      <span className="font-medium">{section.label}</span>
+                      <span
+                        className={`text-sm ${
+                          isActive ? "text-[#0f2858]" : "text-neutral-400"
+                        }`}
+                      >
+                        {isActive ? "已选" : "进入"}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          </aside>
+
+          <div className="space-y-8">
+            <div className="rounded-[32px] border border-neutral-200 bg-white p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">
+                Active Section
+              </p>
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h2 className="text-3xl font-semibold text-[#1a1a1a]">
+                    {activeSectionLabel}
+                  </h2>
+                  <p className="mt-2 text-sm leading-7 text-neutral-600">
+                    先浏览二级分类，再查看对应产品家族。后台补齐资料后，相关内容会自动显示。
+                  </p>
+                </div>
+                <div className="inline-flex items-center rounded-full bg-[#f3f5f8] px-4 py-2 text-sm text-[#0f2858]">
+                  {activeValue ? `当前筛选：${activeValue}` : `${allLabel}${activeSectionLabel}`}
+                </div>
+              </div>
+            </div>
+
+            <ProductGrid
+              activeSection={activeSection}
+              activeSectionLabel={activeSectionLabel}
+              activeValue={activeValue}
+              allLabel={allLabel}
+              taxonomyCards={taxonomyCards}
+              products={products}
+              readMoreLabel={readMoreLabel}
+              noProductsFoundLabel={noProductsFoundLabel}
+            />
+          </div>
+        </div>
       </section>
     </main>
   );

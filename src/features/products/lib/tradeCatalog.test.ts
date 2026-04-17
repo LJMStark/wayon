@@ -7,6 +7,7 @@ import {
   extractTradeFaceMetadata,
   inferTradeColorGroup,
   inferTradeSize,
+  inferTradeThickness,
   normalizeTradeProcess,
 } from "./tradeCatalog.ts";
 
@@ -31,7 +32,22 @@ test("normalizeTradeProcess maps known aliases to fixed process labels", () => {
   assert.equal(normalizeTradeProcess("复刻时光釉"), "复刻釉");
   assert.equal(normalizeTradeProcess("天鹅绒肌肤釉"), "肌肤釉");
   assert.equal(normalizeTradeProcess("复合柔抛"), "柔抛石材光");
+  assert.equal(normalizeTradeProcess("真石镜面釉-亮光"), "亮光");
+  assert.equal(normalizeTradeProcess("亮面（奢石釉）"), "亮光");
+  assert.equal(normalizeTradeProcess("哑光（超细干粒）"), "哑光");
   assert.equal(normalizeTradeProcess("无法识别工艺"), null);
+});
+
+test("inferTradeThickness extracts thickness from dimension folders", () => {
+  assert.equal(
+    inferTradeThickness("产品/众岩联标准素材集合/新品素材集合/1600X3200X12mm/真石镜面釉-亮光"),
+    "12mm"
+  );
+  assert.equal(
+    inferTradeThickness("产品/众岩联标准素材集合/新品素材集合/800×2600×9mm/亮光"),
+    "9mm"
+  );
+  assert.equal(inferTradeThickness("产品/众岩联标准素材集合/新品素材集合/1200X2400"), null);
 });
 
 test("extractTradeFaceMetadata extracts face count and keeps pattern note", () => {

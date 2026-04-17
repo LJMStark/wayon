@@ -86,15 +86,15 @@ function buildSpecifications(
       ? { label: labels.colorGroup, value: variant.colorGroup }
       : null,
     variant.size ? { label: labels.size, value: variant.size } : null,
-    variant.process ? { label: labels.process, value: variant.process } : null,
     variant.faceCount
       ? { label: labels.faceCount, value: variant.faceCount }
       : null,
-    variant.facePatternNote
-      ? { label: labels.facePatternNote, value: variant.facePatternNote }
-      : null,
+    variant.process ? { label: labels.process, value: variant.process } : null,
     variant.thickness
       ? { label: labels.thickness, value: variant.thickness }
+      : null,
+    variant.facePatternNote
+      ? { label: labels.facePatternNote, value: variant.facePatternNote }
       : null,
   ].filter((item): item is { label: string; value: string } => item !== null);
 }

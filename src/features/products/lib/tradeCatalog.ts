@@ -12,6 +12,10 @@ export const TRADE_SIZES = [
 
 export type TradeSize = (typeof TRADE_SIZES)[number];
 
+export const TRADE_THICKNESSES = ["6mm", "9mm", "12mm", "15mm"] as const;
+
+export type TradeThickness = (typeof TRADE_THICKNESSES)[number];
+
 export const TRADE_PROCESSES = [
   "亮光",
   "哑光",
@@ -36,6 +40,8 @@ export const TRADE_SERIES_TYPES = [
   "连纹岩板",
   "创意网红",
 ] as const;
+
+export type TradeSeriesType = (typeof TRADE_SERIES_TYPES)[number];
 
 export const TRADE_COLOR_GROUPS = [
   "白色",
@@ -74,8 +80,11 @@ const PROCESS_PATTERNS: Array<{ value: TradeProcess; patterns: RegExp[] }> = [
   { value: "下线釉", patterns: [/下线釉/] },
   { value: "复刻釉", patterns: [/复刻时光釉/, /复刻釉/] },
   { value: "肌肤釉", patterns: [/柔光肌肤釉/, /天鹅绒肌肤釉/, /肌肤釉/] },
-  { value: "哑光", patterns: [/细哑面/, /哑光/, /哑面/, /磨砂面/] },
-  { value: "亮光", patterns: [/真石镜面釉/, /亮光/, /亮面/, /镜面/] },
+  { value: "哑光", patterns: [/超细干粒/, /细哑面/, /哑光/, /哑面/, /磨砂面/] },
+  {
+    value: "亮光",
+    patterns: [/干粒抛亮光/, /真石镜面釉/, /真石镜面-亮面/, /亮光/, /亮面/, /镜面/, /奢石釉/],
+  },
 ];
 
 const FACE_PATTERNS = [
@@ -114,6 +123,21 @@ export function inferTradeSize(input: string): TradeSize | null {
   }
 
   return null;
+}
+
+export function inferTradeThickness(input: string): TradeThickness | null {
+  const normalized = normalizeSource(input);
+  const matched = normalized.match(/x(6|9|12|15)mm/u);
+
+  if (!matched) {
+    return null;
+  }
+
+  const thickness = `${matched[1]}mm`;
+
+  return TRADE_THICKNESSES.includes(thickness as TradeThickness)
+    ? (thickness as TradeThickness)
+    : null;
 }
 
 export function inferTradeColorGroup(input: string): TradeColorGroup | null {

@@ -21,9 +21,10 @@ export async function generateMetadata({
 
 export default async function CollectionsPage({
   params,
+  searchParams,
 }: PageProps<"/[locale]/products">): Promise<React.JSX.Element> {
   const { locale } = await getLocaleParams(params);
-  const pageData = await getProductsPageData(locale);
+  const pageData = await getProductsPageData(locale, await searchParams);
 
   return <ProductsPageView {...pageData} />;
 }

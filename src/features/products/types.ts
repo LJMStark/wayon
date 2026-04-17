@@ -6,9 +6,43 @@ export type ProductCategoryShowcase = {
   background: "gray" | "white";
 };
 
+export type ProductCatalogSectionKey =
+  | "size"
+  | "series"
+  | "thickness"
+  | "color"
+  | "process"
+  | "custom";
+
+export type ProductCatalogMode = "standard" | "custom";
+
+export type ProductCatalogNavSection = {
+  key: ProductCatalogSectionKey;
+  label: string;
+};
+
+export type ProductTaxonomyCard = {
+  key: string;
+  value: string;
+  label: string;
+  description?: string;
+  imageSrc?: string;
+  count: number;
+};
+
+export type ProductCustomCapabilitySummary = {
+  key: string;
+  title: string;
+  description?: string;
+  imageSrc?: string;
+  sortOrder: number;
+  count: number;
+};
+
 export type ProductDirectoryVariantSummary = {
   code: string;
   size?: string;
+  thickness?: string;
   process?: string;
   colorGroup?: string;
 };
@@ -18,17 +52,11 @@ export type ProductDirectoryItem = {
   title: string;
   category: string;
   categorySlug?: string;
+  catalogMode: ProductCatalogMode;
+  customCapability?: string;
   seriesTypes: string[];
   coverImageUrl?: string;
   variants: ProductDirectoryVariantSummary[];
-};
-
-export type ProductDirectoryFilterLabels = {
-  all: string;
-  size: string;
-  process: string;
-  seriesType: string;
-  colorGroup: string;
 };
 
 export type ProductsPageData = {
@@ -38,12 +66,16 @@ export type ProductsPageData = {
   homeLabel: string;
   collectionLabel: string;
   collectionDescription: string;
+  allLabel: string;
   readMoreLabel: string;
   noProductsFoundLabel: string;
-  showcases: ProductCategoryShowcase[];
   directoryTitle: string;
   directoryDescription: string;
-  filterLabels: ProductDirectoryFilterLabels;
+  navSections: ProductCatalogNavSection[];
+  activeSection: ProductCatalogSectionKey;
+  activeValue: string | null;
+  taxonomyCards: ProductTaxonomyCard[];
+  customCapabilities: ProductCustomCapabilitySummary[];
   products: ProductDirectoryItem[];
 };
 

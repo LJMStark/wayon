@@ -57,6 +57,25 @@ export const productType = defineType({
       },
     }),
     defineField({
+      name: 'catalogMode',
+      title: 'Catalog Mode',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Standard Product', value: 'standard'},
+          {title: 'Custom Product', value: 'custom'},
+        ],
+      },
+      initialValue: 'standard',
+    }),
+    defineField({
+      name: 'customCapability',
+      title: 'Custom Capability',
+      type: 'reference',
+      to: [{type: 'customCapability'}],
+      hidden: ({document}) => document?.catalogMode !== 'custom',
+    }),
+    defineField({
       name: 'coverImageUrl',
       title: 'Cover Image URL',
       type: 'string',

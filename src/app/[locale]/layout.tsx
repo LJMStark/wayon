@@ -10,6 +10,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { getMetadataCopy } from "@/data/siteCopy";
 import { getLocaleParams } from "@/features/shared/server/locale";
+import { SanityLive } from "@/sanity/lib/live";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -57,6 +58,7 @@ export default async function RootLayout({
           </main>
           <Footer />
           <FloatingSidebar />
+          <SanityLive />
         </NextIntlClientProvider>
       </body>
     </html>

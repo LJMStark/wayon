@@ -54,12 +54,18 @@ const productProjection = `
   sortOrder,
   coverImageUrl,
   coverVideoPosterUrl,
+  "catalogMode": coalesce(catalogMode, "standard"),
+  "customCapability": customCapability->capabilityKey,
   "seriesTypes": coalesce(seriesTypes, []),
   "variants": *[_type == "productVariant" && references(^._id)] | order(coalesce(sortOrder, 999999) asc, code asc) ${productVariantProjection}
 }
 `
 
 export const getProductsQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
+
+export const getProductSlugsQuery = groq`*[_type == "product" && defined(normalizedName)] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
+  "slug": slug.current
+}`
 
 export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
@@ -77,9 +83,20 @@ export const getProductsDirectoryQuery = groq`*[_type == "product" && defined(no
   "imageUrl": image.asset->url,
   coverImageUrl,
   coverVideoPosterUrl,
+  "catalogMode": coalesce(catalogMode, "standard"),
+  "customCapability": customCapability->capabilityKey,
   "seriesTypes": coalesce(seriesTypes, []),
   sortOrder,
   "variants": *[_type == "productVariant" && references(^._id)] | order(coalesce(sortOrder, 999999) asc, code asc) ${productVariantProjection}
+}`
+
+export const getCustomCapabilitiesQuery = groq`*[_type == "customCapability"] | order(coalesce(sortOrder, 999999) asc, capabilityKey asc) {
+  _id,
+  capabilityKey,
+  title,
+  description,
+  "coverImageUrl": coverImage.asset->url,
+  sortOrder
 }`
 
 export const getCategoriesQuery = groq`*[_type == "category"] | order(sortOrder asc) {

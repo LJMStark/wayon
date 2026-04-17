@@ -1,9 +1,11 @@
-import { client } from '@/sanity/lib/client'
+import { sanityFetch } from '@/sanity/lib/live'
 import {
+  getCustomCapabilitiesQuery,
   getFeaturedProductsQuery,
   getProductBySlugQuery,
   getProductsByCategoryQuery,
   getProductsDirectoryQuery,
+  getProductSlugsQuery,
   getProductsQuery,
 } from '@/sanity/lib/queries'
 import {
@@ -12,7 +14,6 @@ import {
   type DirectoryVariant,
 } from '@/features/products/model/productDirectory'
 import {
-  isImportedProductFamily,
   TRADE_YELLOW_PLACEHOLDER_IMAGE,
 } from '@/features/products/model/productExposure'
 import type { AppLocale } from '@/i18n/types'
@@ -48,6 +49,15 @@ export type ProductVariant = {
   videos: ProductMediaVideo[]
 }
 
+export type ProductCustomCapability = {
+  _id: string
+  capabilityKey: string
+  title?: Record<AppLocale, string>
+  description?: Record<AppLocale, string>
+  coverImageUrl?: string
+  sortOrder?: number
+}
+
 export type Product = {
   _id: string
   title: Record<AppLocale, string>
@@ -64,41 +74,84 @@ export type Product = {
   sortOrder?: number
   coverImageUrl?: string
   coverVideoPosterUrl?: string
+  catalogMode?: "standard" | "custom"
+  customCapability?: string
   seriesTypes?: string[]
   variants?: ProductVariant[]
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const result = await client.fetch(getProductsQuery)
-  return result || []
+  const { data } = await sanityFetch({
+    query: getProductsQuery,
+    tags: ["products"],
+    requestTag: "products.all",
+  })
+
+  return data || []
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const result = await client.fetch(getProductBySlugQuery, {slug})
-  return result || null
+  const { data } = await sanityFetch({
+    query: getProductBySlugQuery,
+    params: { slug },
+    tags: ["products"],
+    requestTag: "products.by-slug",
+  })
+
+  return data || null
 }
 
 export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
-  const result = await client.fetch(getProductsByCategoryQuery, {categorySlug})
-  return result || []
+  const { data } = await sanityFetch({
+    query: getProductsByCategoryQuery,
+    params: { categorySlug },
+    tags: ["products"],
+    requestTag: "products.by-category",
+  })
+
+  return data || []
 }
 
 export async function getProductsDirectory(): Promise<Product[]> {
-  const result = await client.fetch(getProductsDirectoryQuery)
-  return result || []
+  const { data } = await sanityFetch({
+    query: getProductsDirectoryQuery,
+    tags: ["products", "products-directory"],
+    requestTag: "products.directory",
+  })
+
+  return data || []
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  const result = await client.fetch(getFeaturedProductsQuery)
-  return result || []
+  const { data } = await sanityFetch({
+    query: getFeaturedProductsQuery,
+    tags: ["products", "products-featured"],
+    requestTag: "products.featured",
+  })
+
+  return data || []
+}
+
+export async function getCustomCapabilities(): Promise<ProductCustomCapability[]> {
+  const { data } = await sanityFetch({
+    query: getCustomCapabilitiesQuery,
+    tags: ["products", "custom-capabilities"],
+    requestTag: "products.custom-capabilities",
+  })
+
+  return data || []
 }
 
 export async function getProductSlugs(): Promise<string[]> {
-  const products = await getProducts()
-  return products
-    .filter((product) => isImportedProductFamily(product))
+  const { data } = await sanityFetch({
+    query: getProductSlugsQuery,
+    tags: ["products", "products-slugs"],
+    requestTag: "products.slugs",
+  })
+
+  return ((data || []) as Array<{ slug?: string | null }>)
     .map((product) => product.slug)
-    .filter(Boolean)
+    .filter((slug): slug is string => Boolean(slug))
 }
 
 export function getLocalizedProductValue(
@@ -182,9 +235,12 @@ export function getProductImage(product: Product): string {
     slug: product.slug,
     seriesTypes: product.seriesTypes ?? [],
     coverImageUrl: product.coverImageUrl ?? product.imageUrl ?? null,
+    catalogMode: product.catalogMode,
+    customCapability: product.customCapability ?? null,
     variants: getProductVariants(product).map<DirectoryVariant>((variant) => ({
       code: variant.code,
       size: variant.size,
+      thickness: variant.thickness,
       process: variant.process,
       colorGroup: variant.colorGroup,
       sortOrder: variant.sortOrder,

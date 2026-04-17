@@ -13,10 +13,13 @@ const baseProduct: DirectoryProduct = {
   slug: "wei-duo-li-ya",
   seriesTypes: ["名石岩板"],
   coverImageUrl: null,
+  catalogMode: "standard",
+  customCapability: null,
   variants: [
     {
       code: "LV930L902",
       size: "900X3000mm",
+      thickness: "9mm",
       process: "亮光",
       colorGroup: "白色",
       sortOrder: 20,
@@ -28,6 +31,7 @@ const baseProduct: DirectoryProduct = {
     {
       code: "LV1224L902",
       size: "1200X2400mm",
+      thickness: "12mm",
       process: "亮光",
       colorGroup: "白色",
       sortOrder: 10,
@@ -62,9 +66,11 @@ test("pickDefaultVariantCode prefers richer media, then sortOrder, then code", (
 test("matchesDirectoryFilters matches when any variant satisfies active filters", () => {
   const filters: DirectoryFilters = {
     size: "1200X2400mm",
+    thickness: "12mm",
     process: "亮光",
     seriesType: "名石岩板",
     colorGroup: "白色",
+    catalogMode: "standard",
   };
 
   assert.equal(matchesDirectoryFilters(baseProduct, filters), true);
@@ -74,6 +80,21 @@ test("matchesDirectoryFilters matches when any variant satisfies active filters"
       colorGroup: "绿色",
     }),
     false
+  );
+
+  assert.equal(
+    matchesDirectoryFilters(
+      {
+        ...baseProduct,
+        catalogMode: "custom",
+        customCapability: "custom-size",
+      },
+      {
+        catalogMode: "custom",
+        customCapability: "custom-size",
+      }
+    ),
+    true
   );
 });
 

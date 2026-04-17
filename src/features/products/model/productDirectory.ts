@@ -7,6 +7,7 @@ type DirectoryMedia = {
 export type DirectoryVariant = {
   code: string;
   size?: string | null;
+  thickness?: string | null;
   process?: string | null;
   colorGroup?: string | null;
   sortOrder?: number | null;
@@ -20,14 +21,19 @@ export type DirectoryProduct = {
   slug: string;
   seriesTypes: string[];
   coverImageUrl?: string | null;
+  catalogMode?: "standard" | "custom" | null;
+  customCapability?: string | null;
   variants: DirectoryVariant[];
 };
 
 export type DirectoryFilters = {
   size?: string | null;
+  thickness?: string | null;
   process?: string | null;
   seriesType?: string | null;
   colorGroup?: string | null;
+  catalogMode?: "standard" | "custom" | null;
+  customCapability?: string | null;
 };
 
 function countVariantMedia(variant: DirectoryVariant): number {
@@ -77,8 +83,23 @@ export function matchesDirectoryFilters(
     return false;
   }
 
+  if (filters.catalogMode && product.catalogMode !== filters.catalogMode) {
+    return false;
+  }
+
+  if (
+    filters.customCapability &&
+    product.customCapability !== filters.customCapability
+  ) {
+    return false;
+  }
+
   return product.variants.some((variant) => {
     if (filters.size && variant.size !== filters.size) {
+      return false;
+    }
+
+    if (filters.thickness && variant.thickness !== filters.thickness) {
       return false;
     }
 
