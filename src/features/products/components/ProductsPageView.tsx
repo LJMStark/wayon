@@ -31,6 +31,8 @@ export function ProductsPageView({
   const activeSectionLabel =
     navSections.find((section) => section.key === activeSection)?.label ??
     collectionLabel;
+  const showDirectoryDescription =
+    directoryDescription.trim() !== collectionDescription.trim();
 
   return (
     <main className="min-h-screen bg-white">
@@ -68,9 +70,11 @@ export function ProductsPageView({
           <p className="text-[15px] leading-8 text-neutral-600">
             {collectionDescription}
           </p>
-          <p className="text-[15px] leading-8 text-neutral-500">
-            {directoryDescription}
-          </p>
+          {showDirectoryDescription ? (
+            <p className="text-[15px] leading-8 text-neutral-500">
+              {directoryDescription}
+            </p>
+          ) : null}
         </div>
       </section>
 

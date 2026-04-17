@@ -64,6 +64,7 @@ const productProjection = `
 export const getProductsQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
 
 export const getProductSlugsQuery = groq`*[_type == "product" && defined(normalizedName)] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
+  normalizedName,
   "slug": slug.current
 }`
 

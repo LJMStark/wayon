@@ -14,6 +14,7 @@ import {
   type DirectoryVariant,
 } from '@/features/products/model/productDirectory'
 import {
+  isImportedProductFamily,
   TRADE_YELLOW_PLACEHOLDER_IMAGE,
 } from '@/features/products/model/productExposure'
 import type { AppLocale } from '@/i18n/types'
@@ -149,7 +150,13 @@ export async function getProductSlugs(): Promise<string[]> {
     requestTag: "products.slugs",
   })
 
-  return ((data || []) as Array<{ slug?: string | null }>)
+  return ((data || []) as Array<{
+    slug?: string | null
+    normalizedName?: string | null
+  }>)
+    .filter((product) =>
+      isImportedProductFamily({ normalizedName: product.normalizedName })
+    )
     .map((product) => product.slug)
     .filter((slug): slug is string => Boolean(slug))
 }

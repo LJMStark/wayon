@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
@@ -14,6 +13,12 @@ import {
   inferTradeThickness,
   normalizeTradeProcess,
 } from "../src/features/products/lib/tradeCatalog.ts";
+import {
+  buildStableTradeFamilyKey,
+  buildStableTradeFamilySlug,
+  buildStableTradeProductId,
+  buildStableTradeVariantId,
+} from "../src/features/products/lib/tradeImportIdentity.ts";
 import { inferTradeSeriesTypes } from "../src/features/products/content/tradeSeriesMappings.ts";
 import { buildTradeMediaPublicUrl } from "../src/features/products/lib/tradeMedia.ts";
 import { selectProductCoverUrl } from "../src/features/products/model/productDirectory.ts";
@@ -53,43 +58,8 @@ function parseArgs(argv) {
   };
 }
 
-function hashValue(input) {
-  return createHash("sha1").update(input).digest("hex").slice(0, 10);
-}
-
-function sanitizeIdSegment(value) {
-  return value.toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/-+/g, "-");
-}
-
 function normalizeFamilyName(name) {
   return name.replace(/\s+/g, " ").trim();
-}
-
-function buildFamilySlug(name, firstCode) {
-  const asciiSlug = name
-    .normalize("NFKD")
-    .replace(/[^\x00-\x7F]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  if (asciiSlug) {
-    return asciiSlug;
-  }
-
-  if (firstCode) {
-    return `trade-${sanitizeIdSegment(firstCode)}`;
-  }
-
-  return `trade-${hashValue(name)}`;
-}
-
-function buildProductId(slug) {
-  return `product-family-${sanitizeIdSegment(slug)}`;
-}
-
-function buildVariantId(slug, code) {
-  return `product-variant-${sanitizeIdSegment(slug)}-${sanitizeIdSegment(code)}`;
 }
 
 function mergeMedia(existing = [], imported = []) {
@@ -202,6 +172,18 @@ async function collectProductDirectories(dir, report) {
 
   if (supportedFiles.length > 0 && childDirectories.length === 0) {
     return [dir];
+  }
+
+  if (supportedFiles.length > 0 && childDirectories.length > 0) {
+    for (const file of supportedFiles) {
+      const fullPath = path.join(dir, file.name);
+      const sourcePath = path.relative(ROOT_DIR, fullPath).split(path.sep).join("/");
+
+      report.pendingManualReview.push({
+        sourcePath,
+        reason: "Media file stored above product-folder level",
+      });
+    }
   }
 
   const directories = [];
@@ -439,15 +421,16 @@ async function collectFamilies(report) {
         return null;
       }
 
-      const firstCode = variants[0]?.code;
-      const slug = buildFamilySlug(family.normalizedName, firstCode);
+      const familyKey = buildStableTradeFamilyKey(family.normalizedName);
+      const slug = buildStableTradeFamilySlug(family.normalizedName);
 
       return {
+        familyKey,
         normalizedName: family.normalizedName,
         displayName: family.displayName,
         seriesTypes: [...family.seriesTypes],
         slug,
-        productId: buildProductId(slug),
+        productId: buildStableTradeProductId(familyKey),
         variants,
       };
     })
@@ -486,27 +469,57 @@ function chunkItems(items, size) {
   return chunks;
 }
 
-async function fetchDocumentsByIds(ids) {
-  if (!client.config().token || ids.length === 0) {
+async function fetchExistingProductsByNormalizedName(normalizedNames) {
+  if (!client.config().token || normalizedNames.length === 0) {
     return new Map();
   }
 
   const documents = [];
 
-  for (const chunk of chunkItems(ids, SANITY_BATCH_SIZE)) {
-    const result = await client.fetch("*[_id in $ids]", { ids: chunk });
+  for (const chunk of chunkItems(normalizedNames, SANITY_BATCH_SIZE)) {
+    const result = await client.fetch(
+      '*[_type == "product" && normalizedName in $normalizedNames]',
+      { normalizedNames: chunk }
+    );
     documents.push(...result);
   }
 
-  return new Map(documents.map((document) => [document._id, document]));
+  return new Map(documents.map((document) => [document.normalizedName, document]));
+}
+
+function buildExistingVariantLookupKey(normalizedName, code) {
+  return `${normalizedName}::${code}`;
+}
+
+async function fetchExistingVariantsByProductIds(productIds) {
+  if (!client.config().token || productIds.length === 0) {
+    return new Map();
+  }
+
+  const documents = [];
+
+  for (const chunk of chunkItems(productIds, SANITY_BATCH_SIZE)) {
+    const result = await client.fetch(
+      '*[_type == "productVariant" && productRef._ref in $productIds]{..., "normalizedName": productRef->normalizedName}',
+      { productIds: chunk }
+    );
+    documents.push(...result);
+  }
+
+  return new Map(
+    documents.map((document) => [
+      buildExistingVariantLookupKey(document.normalizedName, document.code),
+      document,
+    ])
+  );
 }
 
 function buildProductDocument(family, existingDocuments) {
-  const existing = existingDocuments.get(family.productId);
+  const existing = existingDocuments.get(family.normalizedName);
   const coverImageUrl = buildCoverImageUrl(family) || existing?.coverImageUrl;
 
   return {
-    _id: family.productId,
+    _id: existing?._id || family.productId,
     _type: "product",
     title: mergeLocalizedTitle(existing?.title, family.displayName),
     normalizedName: family.normalizedName,
@@ -530,16 +543,25 @@ function buildProductDocument(family, existingDocuments) {
   };
 }
 
-function buildVariantDocument(family, variant, index, existingDocuments) {
-  const variantId = buildVariantId(family.slug, variant.code);
-  const existing = existingDocuments.get(variantId);
+function buildVariantDocument(
+  family,
+  variant,
+  index,
+  productId,
+  existingDocuments
+) {
+  const existing = existingDocuments.get(
+    buildExistingVariantLookupKey(family.normalizedName, variant.code)
+  );
+  const variantId =
+    existing?._id || buildStableTradeVariantId(family.familyKey, variant.code);
 
   return {
     _id: variantId,
     _type: "productVariant",
     productRef: {
       _type: "reference",
-      _ref: family.productId,
+      _ref: productId,
     },
     code: variant.code,
     size: existing?.size || variant.size,
@@ -621,20 +643,27 @@ async function main() {
   );
 
   if (args.apply) {
-    const productIds = families.map((family) => family.productId);
-    const variantIds = families.flatMap((family) =>
-      family.variants.map((variant) => buildVariantId(family.slug, variant.code))
+    const existingProducts = await fetchExistingProductsByNormalizedName(
+      families.map((family) => family.normalizedName)
     );
-    const [existingProducts, existingVariants] = await Promise.all([
-      fetchDocumentsByIds(productIds),
-      fetchDocumentsByIds(variantIds),
-    ]);
+    const existingVariants = await fetchExistingVariantsByProductIds(
+      [...existingProducts.values()].map((document) => document._id)
+    );
     const productDocuments = families.map((family) =>
       buildProductDocument(family, existingProducts)
     );
+    const productIdsByName = new Map(
+      productDocuments.map((document) => [document.normalizedName, document._id])
+    );
     const variantDocuments = families.flatMap((family) =>
       family.variants.map((variant, index) =>
-        buildVariantDocument(family, variant, index, existingVariants)
+        buildVariantDocument(
+          family,
+          variant,
+          index,
+          productIdsByName.get(family.normalizedName) || family.productId,
+          existingVariants
+        )
       )
     );
 

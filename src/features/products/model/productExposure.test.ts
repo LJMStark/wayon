@@ -9,6 +9,7 @@ import {
 test("isImportedProductFamily only exposes imported trade families", () => {
   assert.equal(isImportedProductFamily({ normalizedName: "纯白" }), true);
   assert.equal(isImportedProductFamily({ normalizedName: "" }), false);
+  assert.equal(isImportedProductFamily({ normalizedName: "   " }), false);
   assert.equal(isImportedProductFamily({}), false);
 });
 

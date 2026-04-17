@@ -17,8 +17,8 @@ import {
   resolveProductCatalogSection,
   resolveProductCatalogValue,
 } from "../model/productCatalog";
+import { buildCustomCapabilitySummaries } from "../model/customCapabilitySummary";
 import type {
-  ProductCustomCapabilitySummary,
   ProductDirectoryItem,
   ProductsPageData,
 } from "../types";
@@ -54,30 +54,6 @@ function buildDirectoryItems(
   }));
 }
 
-function buildCustomCapabilities(
-  capabilities: Awaited<ReturnType<typeof getCustomCapabilities>>,
-  products: ProductDirectoryItem[],
-  locale: AppLocale
-): ProductCustomCapabilitySummary[] {
-  return capabilities.map((capability) => ({
-    key: capability.capabilityKey,
-    title:
-      capability.title?.[locale] ||
-      capability.title?.zh ||
-      capability.title?.en ||
-      capability.capabilityKey,
-    description:
-      capability.description?.[locale] ||
-      capability.description?.zh ||
-      capability.description?.en,
-    imageSrc: capability.coverImageUrl,
-    sortOrder: capability.sortOrder ?? 0,
-    count: products.filter(
-      (product) => product.customCapability === capability.capabilityKey
-    ).length,
-  }));
-}
-
 export async function getProductsPageData(
   locale: AppLocale,
   searchParams: ProductsPageSearchParams = {}
@@ -92,7 +68,7 @@ export async function getProductsPageData(
   ]);
 
   const products = buildDirectoryItems(rawProducts, locale);
-  const customCapabilities = buildCustomCapabilities(
+  const customCapabilities = buildCustomCapabilitySummaries(
     rawCustomCapabilities,
     products,
     locale
