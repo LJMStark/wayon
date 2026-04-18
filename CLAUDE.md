@@ -115,9 +115,13 @@ SANITY_API_TOKEN=<token>
 RESEND_API_KEY=<re_...>
 RESEND_FROM_EMAIL=<noreply@verified-domain>
 INQUIRY_NOTIFY_TO=<sales@company.com>     # comma-separated for multiple recipients
+
+# Public deployment origin — used by sitemap.xml, robots.txt, Open Graph
+# Optional: falls back to the production domain in src/lib/env.ts
+NEXT_PUBLIC_SITE_URL=https://www.zylstone.com
 ```
 
-All non-public server env vars (`SANITY_API_TOKEN`, `RESEND_*`, `INQUIRY_NOTIFY_TO`) are validated at import time by `src/lib/env.ts` — missing values throw immediately.
+All non-public server env vars (`SANITY_API_TOKEN`, `RESEND_*`, `INQUIRY_NOTIFY_TO`) are validated at import time by `src/lib/env.ts` — missing values throw immediately. `NEXT_PUBLIC_SITE_URL` is soft-required (has a fallback).
 
 Missing env vars throw at build/runtime — no fallback or stub values exist.
 

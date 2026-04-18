@@ -3,8 +3,9 @@ import type { MetadataRoute } from 'next'
 import { routing } from '@/i18n/routing'
 import { getProductSlugs } from '@/data/products'
 import { getNewsSlugs } from '@/data/news'
+import { siteUrl } from '@/lib/env'
 
-const BASE_URL = 'https://www.zylstone.com'
+const BASE_URL = siteUrl
 
 const STATIC_ROUTES = [
   '',

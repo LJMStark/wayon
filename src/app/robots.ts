@@ -1,16 +1,16 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://www.zylstone.com'
+import { siteUrl } from '@/lib/env'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
-        disallow: ['/studio', '/studio/', '/api/'],
+        allow: ['/', '/api/trade-media/'],
+        disallow: ['/studio', '/api/'],
       },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
   }
 }

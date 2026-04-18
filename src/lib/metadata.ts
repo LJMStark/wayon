@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
+import { siteUrl } from "@/lib/env";
 import { routing } from "@/i18n/routing";
 import type { AppLocale } from "@/i18n/types";
 
-const METADATA_BASE = new URL("https://www.zylstone.com");
+const METADATA_BASE = new URL(siteUrl);
 
 type BuildPageMetadataOptions = {
   locale: AppLocale;
