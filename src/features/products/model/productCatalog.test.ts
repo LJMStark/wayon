@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { expect, test } from "vitest";
 
 import {
   buildProductTaxonomyCards,
@@ -77,15 +76,9 @@ const customCapabilities: ProductCustomCapabilitySummary[] = [
 ];
 
 test("resolveProductCatalogSection falls back to default when section is invalid", () => {
-  assert.equal(resolveProductCatalogSection({}), DEFAULT_PRODUCT_CATALOG_SECTION);
-  assert.equal(
-    resolveProductCatalogSection({ section: "process" }),
-    "process"
-  );
-  assert.equal(
-    resolveProductCatalogSection({ section: "invalid" }),
-    DEFAULT_PRODUCT_CATALOG_SECTION
-  );
+  expect(resolveProductCatalogSection({})).toBe(DEFAULT_PRODUCT_CATALOG_SECTION);
+  expect(resolveProductCatalogSection({ section: "process" })).toBe("process");
+  expect(resolveProductCatalogSection({ section: "invalid" })).toBe(DEFAULT_PRODUCT_CATALOG_SECTION);
 });
 
 test("buildProductTaxonomyCards only returns used cards for standard sections", () => {
@@ -95,31 +88,22 @@ test("buildProductTaxonomyCards only returns used cards for standard sections", 
     customCapabilities
   );
 
-  assert.deepEqual(
-    thicknessCards.map((card) => card.label),
-    ["9 毫米", "12 毫米"]
-  );
-  assert.equal(thicknessCards[0].count, 1);
+  expect(thicknessCards.map((card) => card.label)).toEqual(["9 毫米", "12 毫米"]);
+  expect(thicknessCards[0].count).toBe(1);
 });
 
 test("resolveProductCatalogValue only accepts values present in taxonomy cards", () => {
   const seriesCards = buildProductTaxonomyCards(products, "series", customCapabilities);
 
-  assert.equal(
-    resolveProductCatalogValue({ value: "洞石岩板" }, seriesCards),
-    "洞石岩板"
-  );
-  assert.equal(resolveProductCatalogValue({ value: "木纹岩板" }, seriesCards), null);
+  expect(resolveProductCatalogValue({ value: "洞石岩板" }, seriesCards)).toBe("洞石岩板");
+  expect(resolveProductCatalogValue({ value: "木纹岩板" }, seriesCards)).toBe(null);
 });
 
 test("filterCatalogProducts separates standard and custom sections", () => {
-  assert.equal(filterCatalogProducts(products, "size", null).length, 2);
-  assert.equal(filterCatalogProducts(products, "custom", null).length, 1);
-  assert.equal(
-    filterCatalogProducts(products, "custom", "custom-surface")[0]?.slug,
-    "custom-surface-sample"
-  );
-  assert.equal(filterCatalogProducts(products, "thickness", null).length, 2);
+  expect(filterCatalogProducts(products, "size", null).length).toBe(2);
+  expect(filterCatalogProducts(products, "custom", null).length).toBe(1);
+  expect(filterCatalogProducts(products, "custom", "custom-surface")[0]?.slug).toBe("custom-surface-sample");
+  expect(filterCatalogProducts(products, "thickness", null).length).toBe(2);
 });
 
 test("sections without backing attribute data should not fall back to all standard products", () => {
@@ -131,20 +115,11 @@ test("sections without backing attribute data should not fall back to all standa
     })),
   }));
 
-  assert.equal(
-    filterCatalogProducts(noThicknessProducts, "thickness", null).length,
-    0
-  );
-  assert.equal(
-    buildProductTaxonomyCards(noThicknessProducts, "thickness", customCapabilities)
-      .length,
-    0
-  );
+  expect(filterCatalogProducts(noThicknessProducts, "thickness", null).length).toBe(0);
+  expect(buildProductTaxonomyCards(noThicknessProducts, "thickness", customCapabilities)
+      .length).toBe(0);
 });
 
 test("catalog navigation keeps the fixed six sections", () => {
-  assert.deepEqual(
-    PRODUCT_CATALOG_NAV_SECTIONS.map((section) => section.key),
-    ["size", "series", "thickness", "color", "process", "custom"]
-  );
+  expect(PRODUCT_CATALOG_NAV_SECTIONS.map((section) => section.key)).toEqual(["size", "series", "thickness", "color", "process", "custom"]);
 });

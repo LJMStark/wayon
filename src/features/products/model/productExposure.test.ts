@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { expect, test } from "vitest";
 
 import {
   isImportedProductFamily,
@@ -7,15 +6,12 @@ import {
 } from "./productExposure.ts";
 
 test("isImportedProductFamily only exposes imported trade families", () => {
-  assert.equal(isImportedProductFamily({ normalizedName: "纯白" }), true);
-  assert.equal(isImportedProductFamily({ normalizedName: "" }), false);
-  assert.equal(isImportedProductFamily({ normalizedName: "   " }), false);
-  assert.equal(isImportedProductFamily({}), false);
+  expect(isImportedProductFamily({ normalizedName: "纯白" })).toBe(true);
+  expect(isImportedProductFamily({ normalizedName: "" })).toBe(false);
+  expect(isImportedProductFamily({ normalizedName: "   " })).toBe(false);
+  expect(isImportedProductFamily({})).toBe(false);
 });
 
 test("trade placeholder image path is stable", () => {
-  assert.equal(
-    TRADE_YELLOW_PLACEHOLDER_IMAGE,
-    "/assets/placeholders/trade-yellow-placeholder.svg"
-  );
+  expect(TRADE_YELLOW_PLACEHOLDER_IMAGE).toBe("/assets/placeholders/trade-yellow-placeholder.svg");
 });

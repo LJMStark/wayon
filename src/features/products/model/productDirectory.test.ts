@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { expect, test } from "vitest";
 
 import {
   matchesDirectoryFilters,
@@ -44,10 +43,9 @@ const baseProduct: DirectoryProduct = {
 };
 
 test("pickDefaultVariantCode prefers richer media, then sortOrder, then code", () => {
-  assert.equal(pickDefaultVariantCode(baseProduct.variants), "LV1224L902");
+  expect(pickDefaultVariantCode(baseProduct.variants)).toBe("LV1224L902");
 
-  assert.equal(
-    pickDefaultVariantCode([
+  expect(pickDefaultVariantCode([
       {
         ...baseProduct.variants[0],
         code: "B",
@@ -58,9 +56,7 @@ test("pickDefaultVariantCode prefers richer media, then sortOrder, then code", (
         code: "A",
         sortOrder: 5,
       },
-    ]),
-    "A"
-  );
+    ])).toBe("A");
 });
 
 test("matchesDirectoryFilters matches when any variant satisfies active filters", () => {
@@ -73,17 +69,13 @@ test("matchesDirectoryFilters matches when any variant satisfies active filters"
     catalogMode: "standard",
   };
 
-  assert.equal(matchesDirectoryFilters(baseProduct, filters), true);
-  assert.equal(
-    matchesDirectoryFilters(baseProduct, {
+  expect(matchesDirectoryFilters(baseProduct, filters)).toBe(true);
+  expect(matchesDirectoryFilters(baseProduct, {
       ...filters,
       colorGroup: "绿色",
-    }),
-    false
-  );
+    })).toBe(false);
 
-  assert.equal(
-    matchesDirectoryFilters(
+  expect(matchesDirectoryFilters(
       {
         ...baseProduct,
         catalogMode: "custom",
@@ -93,27 +85,21 @@ test("matchesDirectoryFilters matches when any variant satisfies active filters"
         catalogMode: "custom",
         customCapability: "custom-size",
       }
-    ),
-    true
-  );
+    )).toBe(true);
 });
 
 test("selectProductCoverUrl respects product cover, then space, then element, then real", () => {
-  assert.equal(selectProductCoverUrl(baseProduct, "/placeholder.jpg"), "/space-1.jpg");
+  expect(selectProductCoverUrl(baseProduct, "/placeholder.jpg")).toBe("/space-1.jpg");
 
-  assert.equal(
-    selectProductCoverUrl(
+  expect(selectProductCoverUrl(
       {
         ...baseProduct,
         coverImageUrl: "/family-cover.jpg",
       },
       "/placeholder.jpg"
-    ),
-    "/family-cover.jpg"
-  );
+    )).toBe("/family-cover.jpg");
 
-  assert.equal(
-    selectProductCoverUrl(
+  expect(selectProductCoverUrl(
       {
         ...baseProduct,
         variants: [
@@ -126,7 +112,5 @@ test("selectProductCoverUrl respects product cover, then space, then element, th
         ],
       },
       "/placeholder.jpg"
-    ),
-    "/placeholder.jpg"
-  );
+    )).toBe("/placeholder.jpg");
 });

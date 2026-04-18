@@ -1,5 +1,4 @@
-import assert from "node:assert/strict";
-import test from "node:test";
+import { expect, test } from "vitest";
 
 import { buildCustomCapabilitySummaries } from "./customCapabilitySummary.ts";
 import type { ProductDirectoryItem } from "../types";
@@ -20,8 +19,8 @@ const products: ProductDirectoryItem[] = [
 test("buildCustomCapabilitySummaries falls back to built-in capability copy when cms record is missing", () => {
   const summaries = buildCustomCapabilitySummaries([], products, "zh");
 
-  assert.equal(summaries.length, 1);
-  assert.equal(summaries[0]?.key, "custom-surface");
-  assert.equal(summaries[0]?.title, "定制表面");
-  assert.equal(summaries[0]?.count, 1);
+  expect(summaries.length).toBe(1);
+  expect(summaries[0]?.key).toBe("custom-surface");
+  expect(summaries[0]?.title).toBe("定制表面");
+  expect(summaries[0]?.count).toBe(1);
 });
