@@ -13,10 +13,7 @@ import {
   type DirectoryProduct,
   type DirectoryVariant,
 } from '@/features/products/model/productDirectory'
-import {
-  isImportedProductFamily,
-  TRADE_YELLOW_PLACEHOLDER_IMAGE,
-} from '@/features/products/model/productExposure'
+import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from '@/features/products/model/productExposure'
 import type { AppLocale } from '@/i18n/types'
 
 export type ProductMediaImage = {
@@ -63,6 +60,7 @@ export type Product = {
   _id: string
   title: Record<AppLocale, string>
   normalizedName?: string
+  published?: boolean
   slug: string
   category?: string
   categorySlug?: string
@@ -150,13 +148,10 @@ export async function getProductSlugs(): Promise<string[]> {
     requestTag: "products.slugs",
   })
 
-  return ((data || []) as Array<{
-    slug?: string | null
-    normalizedName?: string | null
-  }>)
-    .filter((product) =>
-      isImportedProductFamily({ normalizedName: product.normalizedName })
-    )
+  // The query already filters by published == true, so every row here is
+  // exposable. The slug filter below just discards rows where slug.current
+  // is missing — a defensive check for incomplete documents.
+  return ((data || []) as Array<{ slug?: string | null }>)
     .map((product) => product.slug)
     .filter((slug): slug is string => Boolean(slug))
 }

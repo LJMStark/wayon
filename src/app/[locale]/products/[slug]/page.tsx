@@ -6,7 +6,7 @@ import {
 } from "@/data/products";
 
 export const revalidate = 3600;
-import { isImportedProductFamily } from "@/features/products/model/productExposure";
+import { isPublishedProduct } from "@/features/products/model/productExposure";
 import {
   formatCopy,
   getProductDetailPageCopy,
@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   const product = await getProductBySlug(slug);
 
-  if (!product || !isImportedProductFamily(product)) {
+  if (!product || !isPublishedProduct(product)) {
     notFound();
   }
 

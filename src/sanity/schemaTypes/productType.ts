@@ -35,6 +35,14 @@ export const productType = defineType({
       description: 'Deterministic family name used for imported trade materials.',
     }),
     defineField({
+      name: 'published',
+      title: 'Published',
+      type: 'boolean',
+      description:
+        'Controls whether the product is visible on the public site. Imported trade products are auto-published. Manually created products default to unpublished — flip this on once content is ready.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

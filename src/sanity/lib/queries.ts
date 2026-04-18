@@ -42,6 +42,7 @@ const productProjection = `
   _id,
   title,
   normalizedName,
+  "published": coalesce(published, false),
   "slug": slug.current,
   "category": category->title,
   "categorySlug": category->slug.current,
@@ -63,7 +64,7 @@ const productProjection = `
 
 export const getProductsQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
 
-export const getProductSlugsQuery = groq`*[_type == "product" && defined(normalizedName)] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
+export const getProductSlugsQuery = groq`*[_type == "product" && published == true] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   normalizedName,
   "slug": slug.current
 }`
@@ -74,10 +75,11 @@ export const getProductBySlugQuery = groq`*[_type == "product" && slug.current =
 
 export const getProductsByCategoryQuery = groq`*[_type == "product" && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
-export const getProductsDirectoryQuery = groq`*[_type == "product" && defined(normalizedName)] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
+export const getProductsDirectoryQuery = groq`*[_type == "product" && published == true] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   _id,
   title,
   normalizedName,
+  "published": coalesce(published, false),
   "slug": slug.current,
   "category": category->title,
   "categorySlug": category->slug.current,

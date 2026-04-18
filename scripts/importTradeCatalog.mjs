@@ -523,6 +523,11 @@ function buildProductDocument(family, existingDocuments) {
     _type: "product",
     title: mergeLocalizedTitle(existing?.title, family.displayName),
     normalizedName: family.normalizedName,
+    // Imported trade products are publish-ready by definition: they carry
+    // canonical names, slugs, and media. Default to true so re-imports never
+    // hide previously-visible products. Editors can flip back to false in
+    // Studio if a specific family needs to be temporarily hidden.
+    published: true,
     slug: { current: existing?.slug?.current || family.slug },
     category: existing?.category,
     image: existing?.image,

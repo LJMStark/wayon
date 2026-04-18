@@ -1,15 +1,15 @@
 import { expect, test } from "vitest";
 
 import {
-  isImportedProductFamily,
+  isPublishedProduct,
   TRADE_YELLOW_PLACEHOLDER_IMAGE,
 } from "./productExposure.ts";
 
-test("isImportedProductFamily only exposes imported trade families", () => {
-  expect(isImportedProductFamily({ normalizedName: "纯白" })).toBe(true);
-  expect(isImportedProductFamily({ normalizedName: "" })).toBe(false);
-  expect(isImportedProductFamily({ normalizedName: "   " })).toBe(false);
-  expect(isImportedProductFamily({})).toBe(false);
+test("isPublishedProduct only exposes products explicitly flagged published", () => {
+  expect(isPublishedProduct({ published: true })).toBe(true);
+  expect(isPublishedProduct({ published: false })).toBe(false);
+  expect(isPublishedProduct({ published: null })).toBe(false);
+  expect(isPublishedProduct({})).toBe(false);
 });
 
 test("trade placeholder image path is stable", () => {
