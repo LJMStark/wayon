@@ -987,6 +987,13 @@ const SITE_COPY = {
       ar: "فشل إرسال الاستفسار. يرجى المحاولة مرة أخرى.",
       ru: "Не удалось отправить запрос. Пожалуйста, попробуйте еще раз.",
     },
+    rateLimitedMessage: {
+      en: "You have submitted several inquiries recently. Please wait a few minutes before trying again.",
+      zh: "您近期已提交多次咨询，请稍后再试。",
+      es: "Ya ha enviado varias consultas recientemente. Espere unos minutos antes de volver a intentarlo.",
+      ar: "لقد قمت بإرسال عدة استفسارات مؤخرًا. يُرجى الانتظار بضع دقائق قبل المحاولة مرة أخرى.",
+      ru: "Вы недавно отправили несколько запросов. Пожалуйста, подождите несколько минут перед повторной попыткой.",
+    },
     sampleTitleLine1: {
       en: "Contact us",
       zh: "联系众岩联",

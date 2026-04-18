@@ -38,7 +38,9 @@ export default function ContactPage() {
     contactCopy.locations[0].name
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error" | "rate_limited"
+  >("idle");
   const renderedAtRef = useRef<number>(0);
 
   useEffect(() => {
@@ -56,11 +58,15 @@ export default function ContactPage() {
     
     setIsSubmitting(false);
     if (result.success) {
-       setSubmitStatus("success");
-       e.currentTarget.reset();
-    } else {
-       setSubmitStatus("error");
+      setSubmitStatus("success");
+      e.currentTarget.reset();
+      return;
     }
+    if (result.error === "rate_limited") {
+      setSubmitStatus("rate_limited");
+      return;
+    }
+    setSubmitStatus("error");
   };
 
   return (
@@ -382,7 +388,13 @@ export default function ContactPage() {
               {contactCopy.successMessage}
             </div>
           )}
-          
+
+          {submitStatus === "rate_limited" && (
+            <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
+              {contactCopy.rateLimitedMessage}
+            </div>
+          )}
+
           {submitStatus === "error" && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
               {contactCopy.errorMessage}

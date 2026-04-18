@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({
   mockCreate: vi.fn(),
   mockSend: vi.fn(),
+  mockFetch: vi.fn(),
 }));
 
 vi.mock("@/lib/env", () => ({
@@ -14,7 +15,10 @@ vi.mock("@/lib/env", () => ({
 
 vi.mock("@/sanity/lib/client", () => ({
   client: {
-    withConfig: () => ({ create: mocks.mockCreate }),
+    withConfig: () => ({
+      create: mocks.mockCreate,
+      fetch: mocks.mockFetch,
+    }),
   },
 }));
 
@@ -47,8 +51,10 @@ describe("submitInquiry", () => {
   beforeEach(() => {
     mocks.mockCreate.mockReset();
     mocks.mockSend.mockReset();
+    mocks.mockFetch.mockReset();
     mocks.mockCreate.mockResolvedValue({ _id: "new-doc" });
     mocks.mockSend.mockResolvedValue({ data: { id: "msg-1" }, error: null });
+    mocks.mockFetch.mockResolvedValue(0);
   });
 
   it("persists to Sanity and sends email on happy path", async () => {
@@ -128,6 +134,32 @@ describe("submitInquiry", () => {
 
   it("still returns success when Resend throws (inquiry already persisted)", async () => {
     mocks.mockSend.mockRejectedValueOnce(new Error("resend down"));
+    const fd = validFormData({}, Date.now() - 5000);
+    const result = await submitInquiry(fd);
+
+    expect(result).toEqual({ success: true });
+    expect(mocks.mockCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns rate_limited when the same email already has 5+ inquiries in the window", async () => {
+    mocks.mockFetch.mockResolvedValueOnce(5);
+    const fd = validFormData({}, Date.now() - 5000);
+    const result = await submitInquiry(fd);
+
+    expect(result).toEqual({ success: false, error: "rate_limited" });
+    expect(mocks.mockCreate).not.toHaveBeenCalled();
+    expect(mocks.mockSend).not.toHaveBeenCalled();
+    // The query keys must be normalized so "Foo@x.com" buckets with "foo@x.com".
+    expect(mocks.mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("count(*[_type =="),
+      expect.objectContaining({ email: "alice@example.com" })
+    );
+    const [, params] = mocks.mockFetch.mock.calls[0];
+    expect(typeof params.since).toBe("string");
+  });
+
+  it("allows the submission when rate-limit query throws (fail-open, no false negatives)", async () => {
+    mocks.mockFetch.mockRejectedValueOnce(new Error("sanity rate-check down"));
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 
