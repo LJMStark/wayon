@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
+
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 type Redirect = { source: string; destination: string; permanent: boolean };
@@ -78,6 +79,14 @@ const nextConfig: NextConfig = {
     unoptimized: isDev,
   },
   async redirects() {
+    // Legacy URLs from the previous CMS keep using the ASCII-only
+    // `?category=<slug>` alias. The new canonical URL is
+    // `?section=series&value=<chinese>`, but Next.js cannot emit a
+    // Location header containing multi-byte UTF-8 (Node's HTTP layer
+    // rejects it). The products page resolves `category=<slug>` via
+    // navigationCategoryMap so the visitor still lands on the right
+    // filter view; navigation menu links use the canonical query
+    // because the browser handles encoding for anchor hrefs.
     return [
       redirect('/products/quartz', '/products?category=quartz'),
       redirect('/products/terrazzo', '/products?category=terrazzo'),

@@ -8,6 +8,7 @@ import {
   getProductsDirectory,
 } from "@/data/products";
 import { getCommonCopy, getProductsPageCopy } from "@/data/siteCopy";
+import { getSeriesForCategory } from "@/data/navigationCategoryMap";
 import type { AppLocale } from "@/i18n/types";
 
 import {
@@ -26,7 +27,42 @@ import type {
 type ProductsPageSearchParams = {
   section?: string | string[];
   value?: string | string[];
+  // Legacy alias: previous CMS used `?category=quartz` to filter by family.
+  // Inbound traffic from search engines and the next.config redirect chain
+  // still arrives with this. We translate it server-side via
+  // navigationCategoryMap so the page always operates on the canonical
+  // section/value pair internally.
+  category?: string | string[];
 };
+
+function readSingleParam(value: string | string[] | undefined): string | undefined {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
+function applyLegacyCategoryAlias(
+  params: ProductsPageSearchParams
+): ProductsPageSearchParams {
+  // Canonical params win — only fall back to the alias when the page
+  // explicitly received neither section nor value.
+  if (params.section || params.value) {
+    return params;
+  }
+
+  const categorySlug = readSingleParam(params.category);
+  if (!categorySlug) {
+    return params;
+  }
+
+  const series = getSeriesForCategory(categorySlug);
+  if (!series) {
+    return params;
+  }
+
+  return { section: "series", value: series };
+}
 
 function buildDirectoryItems(
   products: Awaited<ReturnType<typeof getProductsDirectory>>,
@@ -58,6 +94,7 @@ export async function getProductsPageData(
   locale: AppLocale,
   searchParams: ProductsPageSearchParams = {}
 ): Promise<ProductsPageData> {
+  const resolvedParams = applyLegacyCategoryAlias(searchParams);
   const [tNav, commonCopy, productsCopy, rawProducts, rawCustomCapabilities] =
     await Promise.all([
     getTranslations({ locale, namespace: "Navigation" }),
@@ -73,13 +110,13 @@ export async function getProductsPageData(
     products,
     locale
   );
-  const activeSection = resolveProductCatalogSection(searchParams);
+  const activeSection = resolveProductCatalogSection(resolvedParams);
   const taxonomyCards = buildProductTaxonomyCards(
     products,
     activeSection,
     customCapabilities
   );
-  const activeValue = resolveProductCatalogValue(searchParams, taxonomyCards);
+  const activeValue = resolveProductCatalogValue(resolvedParams, taxonomyCards);
   const filteredProducts = filterCatalogProducts(
     products,
     activeSection,

@@ -1,5 +1,7 @@
 import type { AppLocale, AppMessages } from "@/i18n/types";
 
+import { buildCategoryProductsHref } from "./navigationCategoryMap";
+
 type NavigationMessages = AppMessages["Navigation"];
 
 export type NavigationKey = keyof NavigationMessages;
@@ -43,7 +45,7 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       {
         label: "quartzStone",
-        href: "/products?category=quartz",
+        href: buildCategoryProductsHref("quartz"),
         description: "quartzDesc",
         previewImage: "/assets/solutions/quartz-zero-silica.jpg",
         children: [
@@ -56,7 +58,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "terrazzo",
-        href: "/products?category=terrazzo",
+        href: buildCategoryProductsHref("terrazzo"),
         description: "terrazzoDesc",
         previewImage: "/assets/solutions/terrazzo.jpg",
         children: [
@@ -68,7 +70,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "flexibleStone",
-        href: "/products?category=flexible-stone",
+        href: buildCategoryProductsHref("flexible-stone"),
         description: "flexibleDesc",
         previewImage: "/assets/solutions/flexible-stone.jpg",
         children: [
@@ -79,7 +81,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "marble",
-        href: "/products?category=marble",
+        href: buildCategoryProductsHref("marble"),
         description: "marbleDesc",
         previewImage: "/assets/solutions/marble.jpg",
         children: [
@@ -92,7 +94,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "gemStone",
-        href: "/products?category=gem-stone",
+        href: buildCategoryProductsHref("gem-stone"),
         description: "gemDesc",
         previewImage: "/assets/solutions/gem-stone.jpg",
         children: [
@@ -103,7 +105,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "cementStone",
-        href: "/products?category=cement-stone",
+        href: buildCategoryProductsHref("cement-stone"),
         description: "cementDesc",
         previewImage: "/assets/solutions/cement-stone.jpg",
         children: [
@@ -114,7 +116,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "artificialMarble",
-        href: "/products?category=artificial-marble",
+        href: buildCategoryProductsHref("artificial-marble"),
         description: "artificialDesc",
         previewImage: "/assets/solutions/artificial-marble.webp",
         children: [
@@ -126,7 +128,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "porcelainSlab",
-        href: "/products?category=porcelain-slab",
+        href: buildCategoryProductsHref("porcelain-slab"),
         description: "porcelainDesc",
         previewImage: "/assets/solutions/porcelain-slab.webp",
         children: [
@@ -139,7 +141,7 @@ export const NAV_ITEMS: NavItem[] = [
       },
       {
         label: "silicaFree",
-        href: "/products?category=silica-free",
+        href: buildCategoryProductsHref("silica-free"),
         description: "silicaDesc",
         previewImage: "/assets/categories/silica-free-stone.jpg",
       },
