@@ -33,6 +33,9 @@ type ProductsPageSearchParams = {
   // navigationCategoryMap so the page always operates on the canonical
   // section/value pair internally.
   category?: string | string[];
+  // Free-text keyword from the Header search form. Filters the directory
+  // by substring match against the localized title.
+  q?: string | string[];
 };
 
 function readSingleParam(value: string | string[] | undefined): string | undefined {
@@ -117,11 +120,17 @@ export async function getProductsPageData(
     customCapabilities
   );
   const activeValue = resolveProductCatalogValue(resolvedParams, taxonomyCards);
-  const filteredProducts = filterCatalogProducts(
+  const catalogFiltered = filterCatalogProducts(
     products,
     activeSection,
     activeValue
   );
+  const searchQuery = readSingleParam(searchParams.q)?.trim().toLowerCase() ?? "";
+  const filteredProducts = searchQuery
+    ? catalogFiltered.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery)
+      )
+    : catalogFiltered;
 
   return {
     heroTitle: productsCopy.heroTitle,

@@ -51,7 +51,16 @@ async function getDynamicEntries(
         priority,
       })),
     )
-  } catch {
+  } catch (error) {
+    // Swallowing silently used to hide SEO regressions during Sanity
+    // outages (empty sitemap = de-indexing risk). Emit a structured
+    // error so the Vercel Functions log shows which prefix failed and
+    // why; the sitemap still completes with whatever static routes
+    // were already collected.
+    console.error(
+      `sitemap: failed to fetch dynamic entries for ${pathPrefix}`,
+      error,
+    )
     return []
   }
 }

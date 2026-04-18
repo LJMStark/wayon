@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 
 import type {
   ProductDetailMediaImage,
@@ -102,6 +102,7 @@ function buildSpecifications(
 export function ProductDetailPageView({
   backLabel,
   requestSampleLabel,
+  productSlug,
   title,
   category,
   seriesTypes,
@@ -110,9 +111,18 @@ export function ProductDetailPageView({
   variants,
   labels,
 }: ProductDetailPageData): React.JSX.Element {
+  const router = useRouter();
   const [selectedVariantCode, setSelectedVariantCode] = useState<string>(
     defaultVariantCode ?? variants[0]?.code ?? ""
   );
+
+  // "Request sample" is the primary CTA on every product page. The actual
+  // sample-request pipeline is the inquiry form on /contact, so route the
+  // user there with the product slug prefilled rather than firing a
+  // disconnected modal or — worse — a dead button.
+  const handleRequestSample = (): void => {
+    router.push(`/contact?product=${encodeURIComponent(productSlug)}`);
+  };
 
   const selectedVariant = useMemo(
     () =>
@@ -217,6 +227,7 @@ export function ProductDetailPageView({
             <div className="mt-auto">
               <button
                 type="button"
+                onClick={handleRequestSample}
                 className="inline-flex w-full items-center justify-center rounded-full bg-[#1a1a1a] px-12 py-5 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-gray-800 sm:w-auto"
               >
                 {requestSampleLabel}

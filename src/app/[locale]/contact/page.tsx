@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/routing";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { getCommonCopy, getContactPageCopy } from "@/data/siteCopy";
+import { getCommonCopy, getContactPageCopy, formatCopy } from "@/data/siteCopy";
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 import { submitInquiry } from "@/app/actions/inquiry";
@@ -32,10 +33,28 @@ type ContactSocialLink = {
 export default function ContactPage() {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
+  const searchParams = useSearchParams();
   const commonCopy = getCommonCopy(locale);
   const contactCopy = getContactPageCopy(locale);
   const [activeAccordion, setActiveAccordion] = useState<string>(
     contactCopy.locations[0].name
+  );
+
+  // The Header search → products, Footer newsletter, and Product detail
+  // "request sample" buttons all funnel here with `?email` or `?product`
+  // populated. Prefill the corresponding form fields so the visitor's
+  // intent is preserved; the values live in React state so the user
+  // can still edit before submitting.
+  const prefilledEmail = searchParams.get("email")?.trim() ?? "";
+  const prefilledProductSlug = searchParams.get("product")?.trim() ?? "";
+  const prefilledMessage = useMemo(
+    () =>
+      prefilledProductSlug
+        ? formatCopy(contactCopy.productInquiryPrefill, {
+            slug: prefilledProductSlug,
+          })
+        : "",
+    [prefilledProductSlug, contactCopy.productInquiryPrefill]
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -318,6 +337,8 @@ export default function ContactPage() {
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.email.placeholder}
+                defaultValue={prefilledEmail}
+                key={`email-${prefilledEmail}`}
                 className={FORM_CONTROL_CLASS}
               />
             </div>
@@ -379,6 +400,8 @@ export default function ContactPage() {
               required
               disabled={isSubmitting}
               placeholder={contactCopy.fields.message.placeholder}
+              defaultValue={prefilledMessage}
+              key={`message-${prefilledMessage}`}
               className={`${FORM_CONTROL_CLASS} resize-none`}
             />
           </div>

@@ -994,6 +994,13 @@ const SITE_COPY = {
       ar: "لقد قمت بإرسال عدة استفسارات مؤخرًا. يُرجى الانتظار بضع دقائق قبل المحاولة مرة أخرى.",
       ru: "Вы недавно отправили несколько запросов. Пожалуйста, подождите несколько минут перед повторной попыткой.",
     },
+    productInquiryPrefill: {
+      en: "I'm interested in product {slug} and would like to request a sample.",
+      zh: "我对产品 {slug} 感兴趣，希望索取样品。",
+      es: "Estoy interesado en el producto {slug} y me gustaría solicitar una muestra.",
+      ar: "أنا مهتم بالمنتج {slug} وأود طلب عينة.",
+      ru: "Меня интересует товар {slug}, и я хотел бы запросить образец.",
+    },
     sampleTitleLine1: {
       en: "Contact us",
       zh: "联系众岩联",

@@ -143,6 +143,7 @@ export function buildProductDetailPageData(
   return {
     backLabel: copy.backLabel,
     requestSampleLabel: copy.requestSampleLabel,
+    productSlug: product.slug,
     title,
     category,
     seriesTypes: product.seriesTypes ?? [],

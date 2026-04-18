@@ -5,7 +5,7 @@ import { useMessages, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import type { NavigationKey } from "@/data/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 
 type FooterLink = {
   label: NavigationKey;
@@ -117,6 +117,19 @@ export default function Footer(): React.JSX.Element {
   const addressLines = messages.Footer.addressLines;
   const translateNav = (key: NavigationKey): string => tNav(key);
   const [contactValue, setContactValue] = useState("");
+  const router = useRouter();
+
+  // The newsletter/subscribe affordance does not have its own backend
+  // (no Resend Audience, no dedicated schema). Instead of silently
+  // swallowing the submission, forward the visitor to the contact
+  // page with their email prefilled so the inquiry pipeline handles
+  // the follow-up.
+  const handleSubscribeSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const trimmed = contactValue.trim();
+    const target = trimmed ? `/contact?email=${encodeURIComponent(trimmed)}` : "/contact";
+    router.push(target);
+  };
   const footerSections: FooterSection[] = [
     {
       title: tFooter("aboutUs"),
@@ -167,11 +180,11 @@ export default function Footer(): React.JSX.Element {
 
           <div>
             <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("getFreeSample")}</h3>
-            <form className="space-y-3" onSubmit={(event) => event.preventDefault()}>
+            <form className="space-y-3" onSubmit={handleSubscribeSubmit}>
               <input
                 id="footer-contact"
-                name="content"
-                type="text"
+                name="email"
+                type="email"
                 value={contactValue}
                 onChange={(event) => setContactValue(event.target.value)}
                 placeholder={tFooter("emailPlaceholder")}

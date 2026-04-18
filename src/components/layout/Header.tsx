@@ -13,7 +13,7 @@ import {
   type SubItem,
 } from "@/data/navigation";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
-import { Link, usePathname } from "@/i18n/routing";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 
 import { useDialogInteraction } from "./useDialogInteraction";
 
@@ -108,6 +108,7 @@ function getMobileSectionChevronClassName(isExpanded: boolean): string {
 
 export default function Header(): React.JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
@@ -144,6 +145,21 @@ export default function Header(): React.JSX.Element {
 
   const toggleMobileSection = (label: string): void => {
     setMobileOpenSections((current) => toggleStringItem(current, label));
+  };
+
+  // Search submits route to the products page carrying a `q` param.
+  // getProductsPageData resolves it server-side by filtering the
+  // directory against the query — no additional GROQ round-trip needed.
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const keyword = String(formData.get("keyword") ?? "").trim();
+    const target = keyword
+      ? `/products?q=${encodeURIComponent(keyword)}`
+      : "/products";
+    setSearchOpen(false);
+    closeMobileMenu();
+    router.push(target);
   };
 
   return (
@@ -322,7 +338,7 @@ export default function Header(): React.JSX.Element {
                   >
                     <form
                       className="flex gap-3"
-                      onSubmit={(event) => event.preventDefault()}
+                      onSubmit={handleSearchSubmit}
                     >
                       <input
                         id="desktop-search"
@@ -442,14 +458,14 @@ export default function Header(): React.JSX.Element {
 
               <form
                 className="mb-6 flex gap-3"
-                onSubmit={(event) => event.preventDefault()}
+                onSubmit={handleSearchSubmit}
               >
                 <input
                   id="mobile-search"
                   name="keyword"
                   type="text"
                   placeholder={tHeader("searchPlaceholder")}
-                  className="min-w-0 flex-1 bg-white px-4 py-3 text-[14px] text-black focus:outline-none"
+                  className="min-w-0 flex-1 bg-white px-4 py-3 text-[14px] text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
                 />
                 <button
                   type="submit"

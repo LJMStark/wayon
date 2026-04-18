@@ -128,6 +128,7 @@ export type ProductDetailPageLabels = {
 export type ProductDetailPageData = {
   backLabel: string;
   requestSampleLabel: string;
+  productSlug: string;
   title: string;
   category: string;
   seriesTypes: string[];
