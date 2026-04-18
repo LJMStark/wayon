@@ -15,6 +15,8 @@ import {
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname } from "@/i18n/routing";
 
+import { useDialogInteraction } from "./useDialogInteraction";
+
 const BRAND_ALT: Record<string, string> = {
   en: "ZYL Sintered Stone",
   zh: "岩联岩板",
@@ -126,6 +128,11 @@ export default function Header(): React.JSX.Element {
   const closeMobileMenu = (): void => {
     setIsMobileOpen(false);
   };
+
+  const mobileAsideRef = useDialogInteraction<HTMLElement>({
+    isOpen: isMobileOpen,
+    onClose: closeMobileMenu,
+  });
 
   const toggleSearch = (): void => {
     setSearchOpen((value) => !value);
@@ -385,8 +392,10 @@ export default function Header(): React.JSX.Element {
             className="relative z-10 inline-flex size-10 items-center justify-center border border-[color:var(--border)] bg-white text-[#111111] lg:hidden"
             onClick={openMobileMenu}
             aria-label={headerCopy.openNavigation}
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-navigation"
           >
-            <Menu className="size-6" />
+            <Menu className="size-6" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -404,6 +413,11 @@ export default function Header(): React.JSX.Element {
               aria-label={headerCopy.closeNavigationOverlay}
             />
             <motion.aside
+              ref={mobileAsideRef}
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label={headerCopy.openNavigation}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}

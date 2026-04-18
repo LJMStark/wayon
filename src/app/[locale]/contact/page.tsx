@@ -70,6 +70,8 @@ export default function ContactPage() {
           src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
           alt={contactCopy.heroTitle}
           fill
+          sizes="100vw"
+          priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/40" />
@@ -105,8 +107,10 @@ export default function ContactPage() {
           </div>
 
           <div className="flex flex-col gap-2">
-            {contactCopy.locations.map((location: ContactLocation) => {
+            {contactCopy.locations.map((location: ContactLocation, index: number) => {
               const isActive = activeAccordion === location.name;
+              const triggerId = `contact-location-${index}-trigger`;
+              const panelId = `contact-location-${index}-panel`;
 
               return (
                 <div
@@ -114,6 +118,7 @@ export default function ContactPage() {
                   className="overflow-hidden border border-gray-200"
                 >
                   <button
+                    id={triggerId}
                     onClick={() => setActiveAccordion(location.name)}
                     className={`flex w-full items-center p-0 transition-colors ${
                       isActive
@@ -121,6 +126,8 @@ export default function ContactPage() {
                         : "bg-neutral-50 hover:bg-neutral-100"
                     }`}
                     type="button"
+                    aria-expanded={isActive}
+                    aria-controls={panelId}
                   >
                     <div
                       className={`flex h-12 w-12 items-center justify-center ${
@@ -130,9 +137,9 @@ export default function ContactPage() {
                       }`}
                     >
                       {isActive ? (
-                        <Minus className="h-5 w-5" />
+                        <Minus className="h-5 w-5" aria-hidden="true" />
                       ) : (
-                        <Plus className="h-5 w-5" />
+                        <Plus className="h-5 w-5" aria-hidden="true" />
                       )}
                     </div>
                     <span className="ml-4 flex-1 text-left text-[15px] font-medium text-gray-700">
@@ -141,7 +148,12 @@ export default function ContactPage() {
                   </button>
 
                   {isActive && location.address ? (
-                    <div className="border-t border-gray-200 bg-gray-50/50 p-6 text-sm leading-relaxed text-gray-600">
+                    <div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={triggerId}
+                      className="border-t border-gray-200 bg-gray-50/50 p-6 text-sm leading-relaxed text-gray-600"
+                    >
                       <div className="mb-2">
                         <span className="text-gray-400">
                           {contactCopy.labels.address}:
