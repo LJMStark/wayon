@@ -27,16 +27,6 @@ function normalizeMetadataPath(locale: AppLocale, path: string): string {
   return `/${locale}${path}`;
 }
 
-function getMetadataIcons(includeIcons: boolean): Metadata["icons"] | undefined {
-  if (!includeIcons) {
-    return undefined;
-  }
-
-  return {
-    icon: "/assets/brand/favicon-wayon.jpg",
-  };
-}
-
 export function buildPageMetadata({
   locale,
   title,
@@ -45,16 +35,15 @@ export function buildPageMetadata({
   path = "/",
   includeIcons = false,
 }: BuildPageMetadataOptions): Metadata {
-  const normalizedPath = normalizeMetadataPath(locale, path);
-  const icons = getMetadataIcons(includeIcons);
-  const metadata: Metadata = {
+  return {
     metadataBase: METADATA_BASE,
     title,
     description,
+    icons: includeIcons ? { icon: "/assets/brand/favicon-wayon.jpg" } : undefined,
     openGraph: {
       title,
       description,
-      url: normalizedPath,
+      url: normalizeMetadataPath(locale, path),
       siteName: "ZYL",
       images: [
         {
@@ -66,10 +55,4 @@ export function buildPageMetadata({
       ],
     },
   };
-
-  if (icons) {
-    metadata.icons = icons;
-  }
-
-  return metadata;
 }
