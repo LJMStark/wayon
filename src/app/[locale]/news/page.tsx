@@ -6,6 +6,9 @@ import { getNewsPageData } from "@/features/news/server/getNewsPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata } from "@/lib/metadata";
 
+// News is more time-sensitive than the catalog; refresh every 5 minutes.
+export const revalidate = 300;
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/news">): Promise<import("next").Metadata> {

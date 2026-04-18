@@ -73,7 +73,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                 className={`object-cover transition-transform duration-[7000ms] ease-linear ${
                   index === activeSlide ? "scale-105" : "scale-100"
                 }`}
-                preload={index === 1}
+                priority={index === 0}
               />
             )}
           </div>

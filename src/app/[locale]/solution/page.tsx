@@ -126,6 +126,8 @@ export default function SolutionPage(): React.JSX.Element {
           src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
           alt={solutionCopy.heroTitle}
           fill
+          sizes="100vw"
+          priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/40" />

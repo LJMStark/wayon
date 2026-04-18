@@ -4,6 +4,8 @@ import {
   getProductBySlug,
   getLocalizedProductValue,
 } from "@/data/products";
+
+export const revalidate = 3600;
 import { isImportedProductFamily } from "@/features/products/model/productExposure";
 import {
   formatCopy,

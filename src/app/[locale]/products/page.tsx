@@ -4,6 +4,10 @@ import { getProductsPageData } from "@/features/products/server/getProductsPageD
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata } from "@/lib/metadata";
 
+// Catalog data refreshes out of Sanity hourly. This also mitigates the
+// heavy variant+media projection used by getProductsDirectoryQuery.
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/products">): Promise<import("next").Metadata> {

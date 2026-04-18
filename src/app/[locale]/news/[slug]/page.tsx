@@ -5,6 +5,9 @@ import { getNewsDetailPageData } from "@/features/news/server/getNewsDetailPageD
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata } from "@/lib/metadata";
 
+// Published articles rarely change; hourly refresh is plenty.
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/news/[slug]">): Promise<import("next").Metadata> {

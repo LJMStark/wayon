@@ -52,6 +52,13 @@ export default async function RootLayout({
       className={`${montserrat.variable} h-full`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Warm up the Sanity image CDN early — every page pulls cover and */}
+        {/* variant imagery from cdn.sanity.io, so paying the TCP+TLS cost */}
+        {/* during HTML parsing saves several hundred ms on LCP. */}
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="//cdn.sanity.io" />
+      </head>
       <body className="min-h-full flex flex-col relative text-left rtl:text-right">
         <NextIntlClientProvider messages={messages}>
           <Header />
