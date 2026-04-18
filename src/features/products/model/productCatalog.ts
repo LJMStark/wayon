@@ -84,7 +84,35 @@ function getBaseProducts(
     return products.filter((product) => product.catalogMode === "custom");
   }
 
-  return products.filter((product) => product.catalogMode !== "custom");
+  return products.filter((product) => {
+    if (product.catalogMode === "custom") {
+      return false;
+    }
+
+    if (section === "series") {
+      return product.seriesTypes.length > 0;
+    }
+
+    return product.variants.some((variant) => {
+      if (section === "size") {
+        return Boolean(variant.size);
+      }
+
+      if (section === "thickness") {
+        return Boolean(variant.thickness);
+      }
+
+      if (section === "color") {
+        return Boolean(variant.colorGroup);
+      }
+
+      if (section === "process") {
+        return Boolean(variant.process);
+      }
+
+      return false;
+    });
+  });
 }
 
 function buildOrderedCards(

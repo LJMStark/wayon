@@ -119,6 +119,27 @@ test("filterCatalogProducts separates standard and custom sections", () => {
     filterCatalogProducts(products, "custom", "custom-surface")[0]?.slug,
     "custom-surface-sample"
   );
+  assert.equal(filterCatalogProducts(products, "thickness", null).length, 2);
+});
+
+test("sections without backing attribute data should not fall back to all standard products", () => {
+  const noThicknessProducts = products.map((product) => ({
+    ...product,
+    variants: product.variants.map((variant) => ({
+      ...variant,
+      thickness: undefined,
+    })),
+  }));
+
+  assert.equal(
+    filterCatalogProducts(noThicknessProducts, "thickness", null).length,
+    0
+  );
+  assert.equal(
+    buildProductTaxonomyCards(noThicknessProducts, "thickness", customCapabilities)
+      .length,
+    0
+  );
 });
 
 test("catalog navigation keeps the fixed six sections", () => {
