@@ -16,13 +16,13 @@ export const dynamic = 'force-dynamic'
 const TRADE_MEDIA_ROOT = path.join(process.cwd(), 'docs/外贸出口资料')
 
 function buildHeaders(
-  filePath: string,
+  contentType: string,
   size: number,
   range?: {start: number; end: number}
 ): Headers {
   const headers = new Headers()
 
-  headers.set('Content-Type', getTradeMediaContentType(filePath))
+  headers.set('Content-Type', contentType)
   headers.set('Accept-Ranges', 'bytes')
   headers.set('Cache-Control', 'public, max-age=3600')
 
@@ -76,6 +76,14 @@ export async function GET(
     return notFoundResponse()
   }
 
+  // Extension whitelist enforced before any filesystem access. Hidden files
+  // (.DS_Store, Thumbs.db) and unrelated formats (xlsx, psd, txt) get
+  // rejected here, so the route only ever serves declared image/video types.
+  const contentType = getTradeMediaContentType(resolvedPath)
+  if (!contentType) {
+    return notFoundResponse()
+  }
+
   try {
     const fileStat = await stat(resolvedPath)
 
@@ -88,7 +96,7 @@ export async function GET(
     if (request.headers.get('range') && !range) {
       return new Response('Range Not Satisfiable', {
         status: 416,
-        headers: buildHeaders(resolvedPath, fileStat.size),
+        headers: buildHeaders(contentType, fileStat.size),
       })
     }
 
@@ -96,7 +104,7 @@ export async function GET(
 
     return new Response(Readable.toWeb(stream) as ReadableStream, {
       status: range ? 206 : 200,
-      headers: buildHeaders(resolvedPath, fileStat.size, range ?? undefined),
+      headers: buildHeaders(contentType, fileStat.size, range ?? undefined),
     })
   } catch {
     return notFoundResponse()

@@ -57,7 +57,7 @@ function buildMediaVideo(
     publicUrl: video.publicUrl,
     posterUrl: video.posterUrl,
     title: video.titleZh || fallbackTitle,
-    mimeType: getTradeMediaContentType(video.sourcePath),
+    mimeType: getTradeMediaContentType(video.sourcePath) ?? undefined,
   };
 }
 

@@ -64,26 +64,24 @@ export function resolveTradeMediaPath(
   return resolvedPath;
 }
 
-export function getTradeMediaContentType(filePath: string): string {
-  const extension = path.extname(filePath).toLowerCase();
+// Whitelist of file extensions that the trade-media route is allowed to serve.
+// Anything outside this list returns null — callers MUST treat null as
+// "do not serve". Keep the list as a single source of truth so the HTTP
+// route, the page-side video element, and any future consumer agree on
+// what counts as a "trade media" file. Hidden files (.DS_Store, Thumbs.db)
+// and arbitrary office documents fall through to null and get rejected.
+const TRADE_MEDIA_CONTENT_TYPES: Readonly<Record<string, string>> = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+  ".heic": "image/heic",
+  ".mp4": "video/mp4",
+  ".mov": "video/quicktime",
+};
 
-  switch (extension) {
-    case ".jpg":
-    case ".jpeg":
-      return "image/jpeg";
-    case ".png":
-      return "image/png";
-    case ".webp":
-      return "image/webp";
-    case ".gif":
-      return "image/gif";
-    case ".heic":
-      return "image/heic";
-    case ".mp4":
-      return "video/mp4";
-    case ".mov":
-      return "video/quicktime";
-    default:
-      return "application/octet-stream";
-  }
+export function getTradeMediaContentType(filePath: string): string | null {
+  const extension = path.extname(filePath).toLowerCase();
+  return TRADE_MEDIA_CONTENT_TYPES[extension] ?? null;
 }

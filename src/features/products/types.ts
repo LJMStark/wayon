@@ -88,7 +88,9 @@ export type ProductDetailMediaVideo = {
   publicUrl: string;
   posterUrl?: string;
   title: string;
-  mimeType: string;
+  // Optional: getTradeMediaContentType returns null for unknown extensions.
+  // <source type> is fine being omitted — the browser falls back to sniffing.
+  mimeType?: string;
 };
 
 export type ProductDetailVariantData = {
