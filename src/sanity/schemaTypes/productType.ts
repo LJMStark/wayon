@@ -1,6 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
 import {TRADE_SERIES_TYPES} from '@/features/products/lib/tradeCatalog'
+import {chineseSlugify} from '@/sanity/lib/slugify'
 
 export const productType = defineType({
   name: 'product',
@@ -18,7 +19,20 @@ export const productType = defineType({
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'title.en',
+        // zh is the primary editing locale; fall back to normalizedName
+        // (set on imported trade products) and then title.en only if both
+        // are missing. This matches the content-ops flow where Chinese
+        // content lands first.
+        source: (doc: Record<string, unknown>) => {
+          const title = doc.title as Record<string, string> | undefined;
+          return (
+            title?.zh ||
+            (typeof doc.normalizedName === 'string' ? doc.normalizedName : '') ||
+            title?.en ||
+            ''
+          );
+        },
+        slugify: chineseSlugify,
       },
       validation: (rule) => rule.required(),
     }),

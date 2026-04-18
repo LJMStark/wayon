@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
+import {chineseSlugify} from '@/sanity/lib/slugify'
+
 export const newsType = defineType({
   name: 'news',
   title: 'News',
@@ -16,7 +18,13 @@ export const newsType = defineType({
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'title.en',
+        // zh is the primary editing locale; title.en is only a legacy
+        // fallback for documents that lack a Chinese title.
+        source: (doc: Record<string, unknown>) => {
+          const title = doc.title as Record<string, string> | undefined;
+          return title?.zh || title?.en || '';
+        },
+        slugify: chineseSlugify,
       },
       validation: (rule) => rule.required(),
     }),
