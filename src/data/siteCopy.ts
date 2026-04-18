@@ -128,6 +128,48 @@ const SITE_COPY = {
       ar: "العودة إلى الأخبار",
       ru: "Назад к новостям",
     },
+    errorTitle: {
+      en: "Something went wrong",
+      zh: "出错了",
+      es: "Algo salió mal",
+      ar: "حدث خطأ ما",
+      ru: "Что-то пошло не так",
+    },
+    errorMessage: {
+      en: "We couldn't load this page. Please try again in a moment.",
+      zh: "页面加载失败，请稍后重试。",
+      es: "No pudimos cargar esta página. Inténtelo de nuevo en un momento.",
+      ar: "تعذر تحميل هذه الصفحة. حاول مرة أخرى بعد قليل.",
+      ru: "Не удалось загрузить эту страницу. Попробуйте снова через мгновение.",
+    },
+    tryAgain: {
+      en: "Try again",
+      zh: "重试",
+      es: "Reintentar",
+      ar: "حاول مرة أخرى",
+      ru: "Повторить",
+    },
+    backToHome: {
+      en: "Back to home",
+      zh: "返回首页",
+      es: "Volver al inicio",
+      ar: "العودة إلى الصفحة الرئيسية",
+      ru: "На главную",
+    },
+    notFoundTitle: {
+      en: "Page not found",
+      zh: "页面未找到",
+      es: "Página no encontrada",
+      ar: "الصفحة غير موجودة",
+      ru: "Страница не найдена",
+    },
+    notFoundMessage: {
+      en: "The page you're looking for doesn't exist or has moved.",
+      zh: "您查找的页面不存在或已被移动。",
+      es: "La página que busca no existe o se ha movido.",
+      ar: "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+      ru: "Запрашиваемая страница не существует или была перемещена.",
+    },
   },
   header: {
     toggleSearch: {
