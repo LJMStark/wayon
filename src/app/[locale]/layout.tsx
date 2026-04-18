@@ -8,6 +8,8 @@ import { buildPageMetadata } from "@/lib/metadata";
 import { getLocaleDirection } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getMetadataCopy } from "@/data/siteCopy";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { SanityLive } from "@/sanity/lib/live";
@@ -60,6 +62,8 @@ export default async function RootLayout({
           <FloatingSidebar />
           <SanityLive />
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
