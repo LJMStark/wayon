@@ -13,6 +13,10 @@ npm run dev        # Start development server (http://localhost:3000)
 npm run build      # Production build
 npm run start      # Start production server
 npm run lint       # Run ESLint
+npm run typecheck  # Run TypeScript type-check (tsc --noEmit)
+npm test           # Run unit tests (Vitest)
+npm run test:watch # Vitest in watch mode
+npm run test:e2e   # Playwright E2E tests (needs dev server on :3000)
 npm run import:trade-catalog  # Import trade catalog data into Sanity
 ```
 
@@ -106,7 +110,14 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=ma3m9qb1
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2026-04-03
 SANITY_API_TOKEN=<token>
+
+# Resend — inquiry email notifications (required at runtime when form submits)
+RESEND_API_KEY=<re_...>
+RESEND_FROM_EMAIL=<noreply@verified-domain>
+INQUIRY_NOTIFY_TO=<sales@company.com>     # comma-separated for multiple recipients
 ```
+
+All non-public server env vars (`SANITY_API_TOKEN`, `RESEND_*`, `INQUIRY_NOTIFY_TO`) are validated at import time by `src/lib/env.ts` — missing values throw immediately.
 
 Missing env vars throw at build/runtime — no fallback or stub values exist.
 
