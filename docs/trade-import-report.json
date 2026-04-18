@@ -1,0 +1,1012 @@
+{
+  "generatedAt": "2026-04-18T08:02:04.070Z",
+  "dryRun": false,
+  "skippedFiles": [
+    {
+      "sourcePath": "产品/众岩联标准素材集合/.DS_Store",
+      "reason": "Unsupported extension: unknown"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/.DS_Store",
+      "reason": "Unsupported extension: unknown"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/800×2600×9mm/.DS_Store",
+      "reason": "Unsupported extension: unknown"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/900×1800×9mm/.DS_Store",
+      "reason": "Unsupported extension: unknown"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/900×1800×9mm/亮面（奢石釉）/.DS_Store",
+      "reason": "Unsupported extension: unknown"
+    }
+  ],
+  "pendingManualReview": [
+    {
+      "sourcePath": "产品/众岩联标准素材集合/促销特惠款/900×1800×9mm/亮光/900×1800×9mm亮面亮光汇总.jpg",
+      "reason": "Media file stored above product-folder level"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/促销特惠款/900×2700×9mm/亮光/900×2700×9mm集合图.jpg",
+      "reason": "Media file stored above product-folder level"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/1200×3200×9mm/透光石/1200×3200×9mm透光石集合图.jpg",
+      "reason": "Media file stored above product-folder level"
+    },
+    {
+      "sourcePath": "产品/众岩联标准素材集合/新品素材集合/800×2600×9mm/哑光（超细干粒）/800×2600×9mm超细干粒集合图-1.jpg",
+      "reason": "Media file stored above product-folder level"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS048梦幻金秋",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS046爱登堡灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS030阿玛尼深灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS052碧海蓝湾",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS040诺克灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS044功夫熊猫",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS045山海蓝",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS038丝绸之路",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS042意大利潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS020芬迪公主",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/ZL1632L982佩拉粉玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1362LS049宝格灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS039黄金路",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS037新宝格丽紫",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS047宝格丽金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/亮光/LV1632LS050宝格丽灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632LS014银河白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632LS017鱼肚白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632LS018天山白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632L981波利蓝玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632L970宝格丽紫",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZYL1632L971雅诗兰黛",
+      "reason": "Missing product code in folder name"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632LS015伊莎贝尔白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/干粒抛亮光/ZL1632LS023雪山银狐细花",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/高白/LV1632LS035流云",
+      "reason": "Missing normalized process"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/高白/LV1632LS035流云",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/高白/LV1632LS016黄河白",
+      "reason": "Missing normalized process"
+    },
+    {
+      "sourcePath": "促销特惠款/1600×3200×9mm/高白/LV1632LS016黄河白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/肌肤釉/ZF1224BCZ09031洛可可奶白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/亮面/ZL1224L011金桔",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/亮面/ZL1224L936丝绸白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/亮面/LV1224L973白金沙",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/亮面/LV1224-120珍珠玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/1200×2400×9mm/亮面/ZL1224L042S宝格丽",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L049极品闪电奶咖",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L049极品闪电奶咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/ZL918027罗马洞石",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L079喜玛拉雅灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L079喜玛拉雅灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L048古奇灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L048古奇灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L066路易斯灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L066路易斯灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L068南斯拉夫白",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L068南斯拉夫白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L069香格里拉翡翠绿",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L069香格里拉翡翠绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L071阿拉伯中灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L071阿拉伯中灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L062奥特曼",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L062奥特曼",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L044雪山蓝",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L044雪山蓝",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L084银川灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L084银川灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L039梵高黄",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L039梵高黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L046金玉满堂",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L046金玉满堂",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L064西西里灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L064西西里灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L074细纹熊猫白",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L074细纹熊猫白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L083佩福斯咖",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L083佩福斯咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L065寒江雪",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L065寒江雪",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV918L086爵士白",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV918L086爵士白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L045香格娜",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L045香格娜",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L052羽墨白",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L052羽墨白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L042古罗马灰",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "促销特惠款/900×1800×9mm/亮光/LV-918L042古罗马灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L123银鼎灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L046S细纹白金沙",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L078S意大利银灰洞",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L119墨汁幻影",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L020爱马仕灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L112新冷翡翠",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L027S希腊灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L117贝金米黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L118芬迪公主",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L024S卡拉拉金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L122珍珠蓝玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L065S巴西熊猫白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L089S阿玛施米黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L061S黄河白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L075S维密米黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L057路易斯灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L124梦幻金秋",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/ZL927L079S山居秋瞑",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV927L125碧海蓝湾",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "促销特惠款/900×2700×9mm/亮光/LV-927L042古罗马灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X9mm/真石镜面-亮面/ZS1632L1215梦幻粉玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X9mm/真石镜面-亮面/ZS1632L1208圣托里尼",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X9mm/真石镜面-亮面/ZS1632L1210黄金丝绸",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L079玉泽天石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L043曙光",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L057维多利亚金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L053顶级希腊灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L046春序",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L062卡拉金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L060芬迪白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L039梦幻玉(珍珠)",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L064西奈金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L052塞普洛斯潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L050蝶恋花潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L061伯克利白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/ZL826075S白雪公主",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L055阿玛尼金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L047梦幻玉(榛果)",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L118四季粉绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L031宙斯白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L054西西里灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L006兰蔻白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L032霜喜",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L138莫奈花园",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L068伊斯顿黄玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L136烟雨江南",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L040碧玉玲珑",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L058绿松石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/亮光/LV826L075翡翠白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/哑光（超细干粒）/ZL826XY14玛雅杏",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/哑光（超细干粒）/ZL826XGL34卡尔德拉浅棕",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/哑光（超细干粒）/ZL826XY79米黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/800×2600×9mm/哑光（超细干粒）/ZL826XGL14象牙米",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L118四季粉绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L963绿松石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L921普佩斯白玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L937保加利亚深灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L948阿波罗深咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L936顶级亚马逊绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227126迪奥黑",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L944宝格丽黑金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200X2700X9mm/亮面亮光/LV1227L954轩尼诗深棕",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-177卡塔青玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-153卡拉卡塔金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-167鱼肚金灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-178皇家琥珀",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/270966雪山银狐",
+      "reason": "Missing product code in folder name"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-156阿波罗银",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-150至尊鱼肚白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-173汉妮玉·黄玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-170罗拉印象",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-144意大利金丝白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-172汉妮玉·白玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-163冰玉灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-152米兰白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-165亚特兰蒂斯",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-125麦斯库白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-162格利米黄",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-174云腾四季",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-149新鱼肚金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/ZL1224L943雕刻鱼肚金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-179罗浮魅影",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-169鱼肚花白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-157托木尔金冰玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-148西纳维特白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-175冰雪奇缘",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-180意大利潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-176云锦蓝玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1200×2400×9mm/亮面（亮光）/LV1224-147卡慕白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG130轩尼诗深咖",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG130轩尼诗深咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG146幻月黑玉",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG146幻月黑玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG137宝格丽黑",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG137宝格丽黑",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG144宝格丽黑金",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG144宝格丽黑金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG136汉妮玉·琥珀",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG136汉妮玉·琥珀",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG140帕卡咖",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG140帕卡咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG141巴西黑金",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG141巴西黑金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG139景泰蓝",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG139景泰蓝",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG142普佩斯(棕玉)",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG142普佩斯(棕玉)",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG138纳尔维克黑",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG138纳尔维克黑",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG145海伦咖",
+      "reason": "Missing normalized size"
+    },
+    {
+      "sourcePath": "新品素材集合/900×1800×9mm/亮面（奢石釉）/LV918LG145海伦咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L127云锦蓝玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L128卡塔青玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L119香雪玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L154苏妮斯白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L175翡翠白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L163经典宝格丽",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L133新帕斯高灰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L168镜湖春晓",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L139玲珑玺",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L132琥珀冰晶",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L143塞普洛斯潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L146春序",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L147西纳维特白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L135霜喜",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L169鱼肚花白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L160芬迪白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L157麦斯库白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L129胭粉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L158宙斯白",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L134月影纱",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L120珍珠玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L161轩尼诗深咖",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L171雅特白玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/900×2700×9mm/亮面（亮光）/LV927L170塔斯曼石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1233玛瑙石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1215梦幻粉玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1213绿野仙踪",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1211牛油果绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1234苍松翠柏",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1217星际蓝",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1202马卡四季",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1232烟熏绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1216黄金宝格红",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1206帝煌金潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1201四季粉绿",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1208圣托里尼",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1226枫叶林",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1228顶级蓝宝石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1231尼斯湖印象",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1229莫奈花园",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1212墨韵黑玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1210黄金丝绸",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1225至尊翡翠",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1219雪莲潘多拉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1222古奇红",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1209维克灰玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1218珠光红",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1227顶级伯爵棕",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1220空谷幽兰",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1223孔雀石",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1224烟粉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1221维多利亚金",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1205水墨金玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1207红岩宝玉",
+      "reason": "Missing series type mapping"
+    },
+    {
+      "sourcePath": "新品素材集合/1600X3200X12mm/真石镜面釉-亮光/ZS1632L1203顶级冷翡翠",
+      "reason": "Missing series type mapping"
+    }
+  ],
+  "families": 196,
+  "variants": 223,
+  "images": 729,
+  "videos": 95
+}

@@ -5,7 +5,6 @@ import { Hero } from "@/components/landing/Hero";
 import { NewsSection } from "@/components/landing/NewsSection";
 import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
 import { ProductsCarousel } from "@/components/landing/ProductsCarousel";
-import { SocialTabs } from "@/components/landing/SocialTabs";
 import { SolutionTabs } from "@/components/landing/SolutionTabs";
 
 import type { HomePageData } from "../types";
@@ -19,7 +18,6 @@ export function HomePageView({
   engineeringCase,
   partnerCarousel,
   newsSection,
-  socialTabs,
 }: HomePageData): React.JSX.Element {
   return (
     <>
@@ -51,11 +49,6 @@ export function HomePageView({
         title={newsSection.title}
         feature={newsSection.feature}
         items={newsSection.items}
-      />
-      <SocialTabs
-        title={socialTabs.title}
-        subtitle={socialTabs.subtitle}
-        platforms={socialTabs.platforms}
       />
     </>
   );

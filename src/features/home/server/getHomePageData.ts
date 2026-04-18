@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 
 import {
   HERO_SLIDES,
-  SOCIAL_PLATFORMS,
   getAboutAlbum,
   getAboutIntro,
   getEngineeringCases,
@@ -77,11 +76,6 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
       title: t("NewsSection.latestNews"),
       feature: getNewsFeature(t),
       items: getNewsItems(t),
-    },
-    socialTabs: {
-      title: t("SocialTabs.socialMedia"),
-      subtitle: t("SocialTabs.connectWithUs"),
-      platforms: SOCIAL_PLATFORMS,
     },
   };
 }

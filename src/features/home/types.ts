@@ -7,7 +7,6 @@ import type {
   NewsItem,
   PartnerItem,
   ProductItem,
-  SocialPlatform,
   SolutionItem,
 } from "@/data/home";
 
@@ -77,12 +76,6 @@ export type NewsSectionData = {
   items: NewsItem[];
 };
 
-export type SocialTabsSectionData = {
-  title: string;
-  subtitle: string;
-  platforms: SocialPlatform[];
-};
-
 export type HomePageData = {
   hero: HomeHeroData;
   aboutIntro: AboutIntroData;
@@ -92,5 +85,4 @@ export type HomePageData = {
   engineeringCase: EngineeringCaseSectionData;
   partnerCarousel: PartnerCarouselSectionData;
   newsSection: NewsSectionData;
-  socialTabs: SocialTabsSectionData;
 };

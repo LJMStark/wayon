@@ -55,12 +55,6 @@ export type SocialPost = {
   image: string;
 };
 
-export type SocialPlatform = {
-  name: string;
-  icon: string;
-  posts: SocialPost[];
-};
-
 export type AboutIntroData = {
   title: string;
   paragraphs: string[];
@@ -435,69 +429,3 @@ export function getNewsItems(t: AppTranslator): NewsItem[] {
     yearMonth: item.yearMonth,
   }));
 }
-
-export const SOCIAL_PLATFORMS: SocialPlatform[] = [
-  {
-    name: "Youtube",
-    icon: "/assets/icons/social/youtube.png",
-    posts: [
-      {
-        title: "Engineering project decryption",
-        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "Project cases",
-        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "ZYL",
-        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-    ],
-  },
-  {
-    name: "Instagram",
-    icon: "/assets/icons/social/instagram.png",
-    posts: [
-      {
-        title: "ZYL Stone I GEM stone slabs",
-        href: "https://www.instagram.com/zyl.stone.slab/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "ZYL Stone I High-Performance Inorganic lerrazzo",
-        href: "https://www.instagram.com/zyl.stone.slab/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "ZYL Stone Marble I Eternal Beauty Space Choice",
-        href: "https://www.instagram.com/zyl.stone.slab/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-    ],
-  },
-  {
-    name: "Pinterest",
-    icon: "/assets/icons/social/pinterest.png",
-    posts: [
-      {
-        title: "Flexible Stone1",
-        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "nurse station",
-        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-      {
-        title: "gem",
-        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-        image: HOME_VISUAL_PLACEHOLDER_IMAGE,
-      },
-    ],
-  },
-];
