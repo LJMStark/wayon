@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -39,13 +39,19 @@ export default function ContactPage() {
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const renderedAtRef = useRef<number>(0);
+
+  useEffect(() => {
+    renderedAtRef.current = Date.now();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus("idle");
-    
+
     const formData = new FormData(e.currentTarget);
+    formData.set("renderedAt", String(renderedAtRef.current));
     const result = await submitInquiry(formData);
     
     setIsSubmitting(false);
@@ -221,6 +227,28 @@ export default function ContactPage() {
         </h2>
 
         <form onSubmit={handleSubmit} className="w-full space-y-6">
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-10000px",
+              top: "auto",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+          >
+            <label>
+              Website (leave this field empty)
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                defaultValue=""
+              />
+            </label>
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <label className="block text-[15px] font-medium">
