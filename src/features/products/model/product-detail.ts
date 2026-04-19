@@ -7,7 +7,6 @@ import {
 } from "@/data/products";
 import { formatCopy } from "@/data/siteCopy";
 import { getTradeMediaContentType } from "@/features/products/lib/tradeMedia";
-import { isActiveCatalogSourcePath } from "@/features/products/model/activeCatalog";
 import {
   pickDefaultVariantCode,
   type DirectoryVariant,
@@ -106,13 +105,7 @@ function buildVariantData(
     realImages: variant.realImages.map((image) =>
       buildMediaImage(image, `${title} 实拍图`)
     ),
-    // Only videos that live under the active catalog tree are renderable.
-    // Legacy imports stored sourcePaths under 视频/众岩联--实物视频/... which
-    // is out of scope for the current product page, so drop them rather
-    // than render empty <video> elements pointing at 404s.
-    videos: variant.videos
-      .filter((video) => isActiveCatalogSourcePath(video.sourcePath))
-      .map((video) => buildMediaVideo(video, `${title} 视频`)),
+    videos: variant.videos.map((video) => buildMediaVideo(video, `${title} 视频`)),
   }));
 }
 
