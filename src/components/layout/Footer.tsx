@@ -18,7 +18,7 @@ type FooterSection = {
   listClassName: string;
 };
 
-type FooterLegalKey = "privacyPolicy" | "termsOfService" | "icp";
+type FooterLegalKey = "privacyPolicy" | "termsOfService";
 
 type FooterLinkSectionProps = FooterSection & {
   translateNav: (key: NavigationKey) => string;
@@ -58,15 +58,11 @@ const FOOTER_PROMO_LINKS = [
 const LEGAL_LINKS = [
   {
     label: "privacyPolicy",
-    href: "https://www.wayon.com/page/privacy-policy.html",
+    href: "/privacy",
   },
   {
     label: "termsOfService",
-    href: "https://www.wayon.com/page/terms-of-service.html",
-  },
-  {
-    label: "icp",
-    href: "https://beian.miit.gov.cn/",
+    href: "/terms",
   },
 ] as const satisfies ReadonlyArray<{ label: FooterLegalKey; href: string }>;
 
@@ -234,15 +230,13 @@ export default function Footer(): React.JSX.Element {
           <p>{tFooter("rights")}</p>
           <div className="flex flex-wrap items-center gap-4">
             {LEGAL_LINKS.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
-                target="_blank"
-                rel="noreferrer"
                 className="transition-colors hover:text-white"
               >
                 {tFooter(link.label)}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

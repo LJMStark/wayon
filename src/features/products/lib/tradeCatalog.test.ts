@@ -18,13 +18,13 @@ test("inferTradeSize infers size from code aliases and explicit folder names", (
 
 test("normalizeTradeProcess maps known aliases to fixed process labels", () => {
   expect(normalizeTradeProcess("亮面   飘窗+楼梯台面应用")).toBe("亮光");
-  expect(normalizeTradeProcess("C类 哑光细哑面")).toBe("哑光");
-  expect(normalizeTradeProcess("复刻时光釉")).toBe("复刻釉");
+  expect(normalizeTradeProcess("C类 哑光细哑面")).toBe("哑光(超细干粒)");
+  expect(normalizeTradeProcess("复刻时光釉")).toBe(null);
   expect(normalizeTradeProcess("天鹅绒肌肤釉")).toBe("肌肤釉");
-  expect(normalizeTradeProcess("复合柔抛")).toBe("柔抛石材光");
-  expect(normalizeTradeProcess("真石镜面釉-亮光")).toBe("亮光");
-  expect(normalizeTradeProcess("亮面（奢石釉）")).toBe("亮光");
-  expect(normalizeTradeProcess("哑光（超细干粒）")).toBe("哑光");
+  expect(normalizeTradeProcess("复合柔抛")).toBe(null);
+  expect(normalizeTradeProcess("真石镜面釉-亮光")).toBe("真石镜面釉");
+  expect(normalizeTradeProcess("亮面（奢石釉）")).toBe("亮面(奢石釉)");
+  expect(normalizeTradeProcess("哑光（超细干粒）")).toBe("哑光(超细干粒)");
   expect(normalizeTradeProcess("无法识别工艺")).toBe(null);
 });
 

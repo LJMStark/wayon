@@ -73,6 +73,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  html[dir="rtl"] body {
+    font-family: var(--font-cairo), var(--font-montserrat), sans-serif;
+  }
+
   a {
     color: inherit;
     text-decoration: none;

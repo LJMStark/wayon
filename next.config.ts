@@ -16,35 +16,75 @@ const isDev = process.env.NODE_ENV === 'development';
 // Notes:
 // - 'unsafe-inline' on script-src is required today for Next.js's inline hydration
 //   bootstrap script. Hardening via per-request nonce + middleware is the next step.
-// - 'unsafe-eval' is kept because (a) Sanity Studio's Vision tool and schema
-//   evaluation rely on it, and (b) Next.js HMR uses it in development. A future
-//   pass can scope it to development only once Studio is moved to a subdomain.
+// - 'unsafe-eval' is included ONLY in development because Next.js HMR requires it.
+//   In production this directive is omitted to tighten the attack surface.
+//   (Sanity Studio has its own separate STUDIO_CSP that always keeps unsafe-eval
+//   because the Vision tool and schema evaluation run user expressions at runtime.)
 // - Sanity live queries use an EventSource over HTTPS plus WSS for presence.
 // - Google Maps is embedded as an iframe on the contact page (mapEmbedUrl in
 //   src/data/siteCopy.ts points at https://www.google.com/maps?...&output=embed).
 // - Vercel Analytics + Speed Insights load from va.vercel-scripts.com and report
 //   to vitals.vercel-insights.com; vercel.live is used by the preview toolbar.
-const SITE_CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-scripts.com https://vercel.live https://va.vercel-scripts.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "img-src 'self' data: blob: https://cdn.sanity.io https://*.googleusercontent.com https://*.google.com https://*.gstatic.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
-  "frame-src 'self' https://www.google.com https://*.google.com https://vercel.live",
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://vitals.vercel-insights.com https://va.vercel-scripts.com https://vercel.live",
-  "media-src 'self' https://cdn.sanity.io",
-  "worker-src 'self' blob:",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'self'",
-  "upgrade-insecure-requests",
-].join('; ');
+function buildSiteCsp(dev: boolean): string {
+  const scriptSrc = [
+    "'self'",
+    "'unsafe-inline'",
+    ...(dev ? ["'unsafe-eval'"] : []),
+    "https://*.vercel-scripts.com",
+    "https://vercel.live",
+    "https://va.vercel-scripts.com",
+    "https://www.googletagmanager.com",
+    "https://hm.baidu.com",
+  ].join(' ');
+
+  const connectSrc = [
+    "'self'",
+    "https://*.sanity.io",
+    "wss://*.sanity.io",
+    "https://vitals.vercel-insights.com",
+    "https://va.vercel-scripts.com",
+    "https://vercel.live",
+    "https://www.google-analytics.com",
+    "https://region1.google-analytics.com",
+    "https://hm.baidu.com",
+  ].join(' ');
+
+  const imgSrc = [
+    "'self'",
+    "data:",
+    "blob:",
+    "https://cdn.sanity.io",
+    "https://*.googleusercontent.com",
+    "https://*.google.com",
+    "https://*.gstatic.com",
+    "https://www.google-analytics.com",
+    "https://hm.baidu.com",
+  ].join(' ');
+
+  return [
+    "default-src 'self'",
+    `script-src ${scriptSrc}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    `img-src ${imgSrc}`,
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "frame-src 'self' https://www.google.com https://*.google.com https://vercel.live",
+    `connect-src ${connectSrc}`,
+    "media-src 'self' https://cdn.sanity.io",
+    "worker-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'self'",
+    "upgrade-insecure-requests",
+  ].join('; ');
+}
 
 // Sanity Studio is embedded at /studio. It bundles its own workers (blob:),
 // evaluates user-authored schemas, and talks to multiple Sanity subdomains.
 // A stricter policy breaks the Studio, so we relax script-src / worker-src /
 // connect-src for this path while keeping the baseline hardening headers.
+// 'unsafe-eval' is always required here — Sanity Vision runs user expressions
+// in production as well as in development.
 const STUDIO_CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://*.sanity.io https://*.sanity.studio",
@@ -73,10 +113,15 @@ const SECURITY_HEADERS_BASE = [
 ];
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
+  reactStrictMode: true,
   images: {
     // 开发阶段跳过图片优化缓存，换图即刷新可见
     // 生产构建仍然启用优化
     unoptimized: isDev,
+    remotePatterns: [
+      { protocol: 'https', hostname: 'cdn.sanity.io', pathname: '/**' },
+    ],
   },
   async redirects() {
     // Legacy URLs from the previous CMS keep using the ASCII-only
@@ -109,6 +154,7 @@ const nextConfig: NextConfig = {
     // /studio/* paths. The site rule uses a path-to-regexp negative lookahead
     // that excludes `/studio` (and everything under it) so the two rules never
     // collide on the same request.
+    const SITE_CSP = buildSiteCsp(isDev);
     return [
       {
         source: '/studio/:path*',

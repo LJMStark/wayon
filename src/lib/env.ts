@@ -10,7 +10,7 @@ function assertValue<T>(v: T | undefined, errorMessage: string): T {
 // domain so local dev and preview builds still produce valid absolute URLs.
 // Production deployments SHOULD set this to their serving origin
 // (e.g. https://wayon.vercel.app or https://www.zylsinteredstone.com).
-const DEFAULT_SITE_URL = "https://www.zylstone.com";
+const DEFAULT_SITE_URL = "https://www.zylsinteredstone.com";
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL && process.env.NEXT_PUBLIC_SITE_URL !== ""
     ? process.env.NEXT_PUBLIC_SITE_URL

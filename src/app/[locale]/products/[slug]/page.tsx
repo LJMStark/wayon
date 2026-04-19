@@ -16,6 +16,7 @@ import { ProductDetailPageView } from "@/features/products/components/ProductDet
 import { getProductDetailPageData } from "@/features/products/server/getProductDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata } from "@/lib/metadata";
+import { productJsonLd } from "@/lib/jsonLd";
 
 export async function generateMetadata({
   params,
@@ -56,5 +57,31 @@ export default async function ProductDetailPage({
     notFound();
   }
 
-  return <ProductDetailPageView {...pageData} />;
+  // Collect image URLs from all variants for JSON-LD (deduplicated, up to 10)
+  const variantImages = pageData.variants
+    .flatMap((v) => [
+      ...v.elementImages.map((img) => img.publicUrl),
+      ...v.spaceImages.map((img) => img.publicUrl),
+      ...v.realImages.map((img) => img.publicUrl),
+    ])
+    .filter(Boolean)
+    .slice(0, 10);
+
+  const jsonLd = productJsonLd({
+    name: pageData.title,
+    description: pageData.descriptionParagraphs.join(" "),
+    image: variantImages,
+    category: pageData.category,
+    url: `/products/${slug}`,
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ProductDetailPageView {...pageData} />
+    </>
+  );
 }
