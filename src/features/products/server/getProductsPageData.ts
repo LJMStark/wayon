@@ -125,7 +125,7 @@ export async function getProductsPageData(
     activeSection,
     activeValue
   );
-  const searchQuery = readSingleParam(searchParams.q)?.trim().toLowerCase() ?? "";
+  const searchQuery = readSingleParam(resolvedParams.q)?.trim().toLowerCase() ?? "";
   const filteredProducts = searchQuery
     ? catalogFiltered.filter((product) =>
         product.title.toLowerCase().includes(searchQuery)

@@ -79,7 +79,6 @@ export const getProductsDirectoryQuery = groq`*[_type == "product" && published 
   _id,
   title,
   normalizedName,
-  "published": coalesce(published, false),
   "slug": slug.current,
   "category": category->title,
   "categorySlug": category->slug.current,

@@ -42,9 +42,10 @@ export default function ContactPage() {
 
   // The Header search → products, Footer newsletter, and Product detail
   // "request sample" buttons all funnel here with `?email` or `?product`
-  // populated. Prefill the corresponding form fields so the visitor's
-  // intent is preserved; the values live in React state so the user
-  // can still edit before submitting.
+  // populated. We seed the fields via `defaultValue` (uncontrolled) plus a
+  // `key` keyed on the prefill so a new URL-driven value re-mounts the
+  // input; once mounted, the browser owns the value and the user can
+  // still edit freely before submit.
   const prefilledEmail = searchParams.get("email")?.trim() ?? "";
   const prefilledProductSlug = searchParams.get("product")?.trim() ?? "";
   const prefilledMessage = useMemo(
