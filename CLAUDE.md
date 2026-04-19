@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Next.js 16.2.1 multilingual corporate website** for a stone/building materials company (ZYL Stone), backed by **Sanity CMS 5**. The site has 5 locales (en, zh, es, ar, ru) and features a product catalog, news section, and contact forms.
+This is a **Next.js 16.2.4 multilingual corporate website** for a stone/building materials company (ZYL Stone), backed by **Sanity CMS 5**. The site has 5 locales (en, zh, es, ar, ru) and features a product catalog, news section, and contact forms.
 
 ## Common Commands
 
@@ -20,14 +20,7 @@ npm run test:e2e   # Playwright E2E tests (needs dev server on :3000)
 npm run import:trade-catalog  # Import trade catalog data into Sanity
 ```
 
-**Test files** (Vitest, co-located in `src/features/`):
-- `src/features/home/model/homeVisuals.test.ts`
-- `src/features/products/model/productDirectory.test.ts`
-- `src/features/products/model/productExposure.test.ts`
-- `src/features/products/lib/tradeCatalog.test.ts`
-- `src/features/products/lib/tradeMedia.test.ts`
-
-Run tests with `npm test` or `npx vitest` from the project root.
+**Tests** are Vitest, co-located next to the code they cover (`*.test.ts(x)` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. There is no jsdom setup — tests assume pure-function models; do not import `.tsx` components.
 
 **Sanity Studio** is embedded at `/studio` (requires running dev server).
 
@@ -67,8 +60,9 @@ src/
 
 - **Server Components by default** — use `'use client'` only when needed
 - **Feature-based modules** in `src/features/` — each feature has its own model/lib/components
-- **Sanity as content backend** — all content (products, news) comes from Sanity via GROQ queries
-- **Trade media proxy** at `/api/trade-media/*` — serves local trade catalog files
+- **Sanity as content backend** — product / news / category / capability content comes from Sanity via GROQ
+- **Homepage is 100% static** — `src/app/[locale]/page.tsx` + `src/features/home/` run zero GROQ queries and render only `/public/assets/...`. Do NOT assume Sanity changes affect the homepage; they don't.
+- **Trade media proxy** at `/api/trade-media/*` — serves files from `docs/外贸出口资料/` on disk (see "Trade Media Catalog" below)
 - **Server Actions** — form submissions (inquiry) use Next.js Server Actions
 - **RTL support** — Arabic (`ar`) locale uses `dir="rtl"`; no separate component variants needed
 
@@ -76,9 +70,30 @@ src/
 
 - **Project ID/Dataset**: `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET` in `.env.local`
 - **Sanity client**: `src/sanity/lib/client.ts` — `useCdn: false` (always fetches fresh)
-- **Schemas**: `src/sanity/schemaTypes/` — `product`, `productVariant`, `category`, `news`, `inquiry`
-- **Image URLs**: Use `@sanity/image-url` builder, never construct CDN URLs manually
+- **Schemas**: `src/sanity/schemaTypes/` — `product`, `productVariant`, `category`, `customCapability`, `news`, `inquiry`, plus inline `externalImageMedia` / `externalVideoMedia` (embedded as array items in productVariant)
+- **Image URLs**: use `@sanity/image-url` builder for Sanity-hosted assets, never hand-build CDN URLs
 - **API token**: `SANITY_API_TOKEN` in `.env.local` for write operations
+
+### Trade Media Catalog
+
+Product photos live on disk under `docs/外贸出口资料/` and are served via the `/api/trade-media/*` route (`src/app/api/trade-media/[...path]/route.ts`). The authoritative catalog subtree is `产品/众岩联标准素材集合/` — any file outside this prefix has been retired.
+
+Critical encoding contract:
+- `productVariant.{elementImages,spaceImages,realImages,videos}[].sourcePath` stores the **decoded** relative path (`产品/众岩联标准素材集合/...`).
+- `product.coverImageUrl` / `product.coverVideoPosterUrl` store the **percent-encoded** URL built by `buildTradeMediaPublicUrl()` in `src/features/products/lib/tradeMedia.ts`. When writing GROQ filters against cover URLs, match the percent-encoded prefix (`/api/trade-media/%E4%BA%A7%E5%93%81/%E4%BC%97%E5%B2%A9%E8%81%94%E6%A0%87%E5%87%86%E7%B4%A0%E6%9D%90%E9%9B%86%E5%90%88/`). Mixing decoded and encoded prefixes is the #1 source of audit miscounts.
+- URL-extension whitelist is enforced in the route before any filesystem access — unsupported types always 404.
+
+### Data Migration Scripts (`scripts/*.mjs`)
+
+One-shot scripts run against the production Sanity dataset. Shared pattern (follow for any new migration):
+
+- Load `.env.local` via `dotenv.config({ path: ".env.local" })`
+- Use `@sanity/client` with `useCdn: false` + `SANITY_API_TOKEN`
+- Accept `--dry-run` that reports counts + sample IDs without writing
+- **Idempotent by construction**: GROQ query should pre-filter to documents that still need work (`count(staleField[...]) > 0`), so re-runs return 0 targets
+- Apply via `client.transaction()` in batches of 100 with `visibility: "async"`
+
+Reference implementations: `scripts/pruneStaleTradeMedia.mjs` (patch/unset pattern), `scripts/backfillProductPublished.mjs` (simpler backfill). The `importTradeCatalog.mjs` script (exposed as `npm run import:trade-catalog`) is the primary creator of variant media references.
 
 ### Internationalization
 
