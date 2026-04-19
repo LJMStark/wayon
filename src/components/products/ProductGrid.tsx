@@ -68,11 +68,9 @@ function EmptyTaxonomyState({
 
 function TaxonomyCard({
   activeSection,
-  activeValue,
   card,
 }: {
   activeSection: ProductCatalogSectionKey;
-  activeValue: string | null;
   card: ProductTaxonomyCard;
 }): React.JSX.Element {
   return (
@@ -130,7 +128,6 @@ export default function ProductGrid({
                 <TaxonomyCard
                   key={card.key}
                   activeSection={activeSection}
-                  activeValue={activeValue}
                   card={card}
                 />
               ))}
@@ -151,7 +148,7 @@ export default function ProductGrid({
                 </svg>
               </Link>
               <h3 className="text-2xl font-semibold text-[#1A1A1A]">
-                {selectedCard?.label || `全部${activeSectionLabel}`}
+                {selectedCard?.label || allLabel}
               </h3>
             </div>
             <p className="text-sm text-neutral-500">共 {products.length} 个产品家族</p>

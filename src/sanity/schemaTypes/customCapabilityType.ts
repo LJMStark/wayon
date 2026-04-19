@@ -49,7 +49,7 @@ export const customCapabilityType = defineType({
     }),
   ],
   validation: (rule) =>
-    rule.custom(async (value, context) => {
+    rule.custom(async (value) => {
       const capabilityKey = value?.capabilityKey;
 
       if (

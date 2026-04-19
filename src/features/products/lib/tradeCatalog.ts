@@ -18,14 +18,16 @@ export type TradeThickness = (typeof TRADE_THICKNESSES)[number];
 
 export const TRADE_PROCESSES = [
   "亮光",
-  "哑光",
-  "复刻釉",
-  "下线釉",
+  "哑光(超细干粒)",
+  "亮面(奢石釉)",
+  "真石镜面釉",
   "肌肤釉",
-  "胶水干粒",
-  "定位彩晶",
   "透光石",
-  "柔抛石材光",
+  "高白",
+  "数码磨具面",
+  "火烧面",
+  "定位彩晶",
+  "亮面(下线釉)",
 ] as const;
 
 export type TradeProcess = (typeof TRADE_PROCESSES)[number];
@@ -73,17 +75,19 @@ const EXPLICIT_SIZE_PATTERNS: Array<{ size: TradeSize; patterns: RegExp[] }> = [
 ];
 
 const PROCESS_PATTERNS: Array<{ value: TradeProcess; patterns: RegExp[] }> = [
-  { value: "柔抛石材光", patterns: [/柔抛石材光/, /复合柔抛/] },
+  { value: "亮面(奢石釉)", patterns: [/奢石釉/] },
+  { value: "真石镜面釉", patterns: [/真石镜面釉/, /真石镜面-亮面/, /真石镜面/] },
+  { value: "亮面(下线釉)", patterns: [/下线釉/] },
+  { value: "哑光(超细干粒)", patterns: [/超细干粒/, /细哑面/, /哑光/, /哑面/, /磨砂面/] },
   { value: "透光石", patterns: [/透光石/] },
   { value: "定位彩晶", patterns: [/定位彩晶/] },
-  { value: "胶水干粒", patterns: [/胶水干粒/] },
-  { value: "下线釉", patterns: [/下线釉/] },
-  { value: "复刻釉", patterns: [/复刻时光釉/, /复刻釉/] },
   { value: "肌肤釉", patterns: [/柔光肌肤釉/, /天鹅绒肌肤釉/, /肌肤釉/] },
-  { value: "哑光", patterns: [/超细干粒/, /细哑面/, /哑光/, /哑面/, /磨砂面/] },
+  { value: "高白", patterns: [/高白/] },
+  { value: "数码磨具面", patterns: [/数码磨具面/] },
+  { value: "火烧面", patterns: [/火烧面/] },
   {
     value: "亮光",
-    patterns: [/干粒抛亮光/, /真石镜面釉/, /真石镜面-亮面/, /亮光/, /亮面/, /镜面/, /奢石釉/],
+    patterns: [/干粒抛亮光/, /亮光/, /亮面/, /镜面/],
   },
 ];
 
