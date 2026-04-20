@@ -62,18 +62,18 @@ const productProjection = `
 }
 `
 
-export const getProductsQuery = groq`*[_type == "product"] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
+export const getProductsQuery = groq`*[_type == "product" && published == true] | order(coalesce(sortOrder, 999999) asc, title.zh asc) ${productProjection}`
 
 export const getProductSlugsQuery = groq`*[_type == "product" && published == true] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   normalizedName,
   "slug": slug.current
 }`
 
-export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
+export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true && published == true] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
 export const getProductBySlugQuery = groq`*[_type == "product" && slug.current == $slug][0] ${productProjection}`
 
-export const getProductsByCategoryQuery = groq`*[_type == "product" && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
+export const getProductsByCategoryQuery = groq`*[_type == "product" && published == true && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
 export const getProductsDirectoryQuery = groq`*[_type == "product" && published == true] | order(coalesce(sortOrder, 999999) asc, title.zh asc) {
   _id,

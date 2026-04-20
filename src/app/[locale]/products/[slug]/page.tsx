@@ -4,8 +4,6 @@ import {
   getProductBySlug,
   getLocalizedProductValue,
 } from "@/data/products";
-
-export const revalidate = 3600;
 import { isPublishedProduct } from "@/features/products/model/productExposure";
 import {
   formatCopy,
@@ -13,6 +11,8 @@ import {
   getMetadataCopy,
 } from "@/data/siteCopy";
 import { ProductDetailPageView } from "@/features/products/components/ProductDetailPageView";
+
+export const revalidate = 3600;
 import { getProductDetailPageData } from "@/features/products/server/getProductDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata } from "@/lib/metadata";

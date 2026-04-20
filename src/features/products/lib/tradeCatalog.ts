@@ -2,8 +2,8 @@ export const TRADE_SIZES = [
   "800X2600mm",
   "900X2700mm",
   "900X3000mm",
+  "900X1800mm",
   "1000X3000mm",
-  "1200X1200mm",
   "1200X2400mm",
   "1200X2700mm",
   "1200X3200mm",
@@ -12,22 +12,23 @@ export const TRADE_SIZES = [
 
 export type TradeSize = (typeof TRADE_SIZES)[number];
 
-export const TRADE_THICKNESSES = ["6mm", "9mm", "12mm", "15mm"] as const;
+export const TRADE_THICKNESSES = ["3mm", "6mm", "9mm", "12mm", "15mm"] as const;
 
 export type TradeThickness = (typeof TRADE_THICKNESSES)[number];
 
 export const TRADE_PROCESSES = [
   "亮光",
-  "哑光(超细干粒)",
+  "哑光",
   "亮面(奢石釉)",
   "真石镜面釉",
   "肌肤釉",
   "透光石",
   "高白",
-  "数码磨具面",
+  "数码模具面",
   "火烧面",
+  "精雕",
+  "复刻釉",
   "定位彩晶",
-  "亮面(下线釉)",
 ] as const;
 
 export type TradeProcess = (typeof TRADE_PROCESSES)[number];
@@ -67,24 +68,25 @@ const EXPLICIT_SIZE_PATTERNS: Array<{ size: TradeSize; patterns: RegExp[] }> = [
   { size: "1200X3200mm", patterns: [/1200x3200/, /1232x9/, /1232/] },
   { size: "1200X2700mm", patterns: [/1200x2700/, /1227x(?:9|12)/] },
   { size: "1200X2400mm", patterns: [/1200x2400/, /1224x(?:9|12)/] },
-  { size: "1200X1200mm", patterns: [/1200x1200/, /zf120/, /lv120/] },
   { size: "1000X3000mm", patterns: [/1000x3000/, /1030/] },
   { size: "900X3000mm", patterns: [/900x3000/, /900x300x9/, /930x9/, /930/] },
   { size: "900X2700mm", patterns: [/900x2700/, /900x270x9m/, /927x9/, /927/] },
+  { size: "900X1800mm", patterns: [/900x1800/, /918/] },
   { size: "800X2600mm", patterns: [/800x2600/, /826x(?:9|15)/, /826/] },
 ];
 
 const PROCESS_PATTERNS: Array<{ value: TradeProcess; patterns: RegExp[] }> = [
   { value: "亮面(奢石釉)", patterns: [/奢石釉/] },
   { value: "真石镜面釉", patterns: [/真石镜面釉/, /真石镜面-亮面/, /真石镜面/] },
-  { value: "亮面(下线釉)", patterns: [/下线釉/] },
-  { value: "哑光(超细干粒)", patterns: [/超细干粒/, /细哑面/, /哑光/, /哑面/, /磨砂面/] },
+  { value: "哑光", patterns: [/超细干粒/, /细哑面/, /哑光/, /哑面/, /磨砂面/] },
   { value: "透光石", patterns: [/透光石/] },
   { value: "定位彩晶", patterns: [/定位彩晶/] },
   { value: "肌肤釉", patterns: [/柔光肌肤釉/, /天鹅绒肌肤釉/, /肌肤釉/] },
   { value: "高白", patterns: [/高白/] },
-  { value: "数码磨具面", patterns: [/数码磨具面/] },
+  { value: "数码模具面", patterns: [/数码模具面/, /数码磨具面/] },
   { value: "火烧面", patterns: [/火烧面/] },
+  { value: "精雕", patterns: [/精雕/] },
+  { value: "复刻釉", patterns: [/复刻/] },
   {
     value: "亮光",
     patterns: [/干粒抛亮光/, /亮光/, /亮面/, /镜面/],
@@ -131,7 +133,7 @@ export function inferTradeSize(input: string): TradeSize | null {
 
 export function inferTradeThickness(input: string): TradeThickness | null {
   const normalized = normalizeSource(input);
-  const matched = normalized.match(/x(6|9|12|15)mm/u);
+  const matched = normalized.match(/x(3|6|9|12|15)mm/u);
 
   if (!matched) {
     return null;

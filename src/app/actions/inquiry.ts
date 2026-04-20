@@ -62,6 +62,11 @@ export async function submitInquiry(
   }
 
   const data = parsed.data;
+
+  // Use the token-bearing client for both the rate-limit read and the write.
+  // The anonymous `client` would 401/403 on private datasets or when `inquiry`
+  // read is locked down, and isRateLimited is fail-closed — so every legitimate
+  // submission would be rejected as rate-limited.
   const writeClient = client.withConfig({ token: sanityApiToken });
 
   if (await isRateLimited(writeClient, data.email)) {
@@ -85,7 +90,7 @@ export async function submitInquiry(
 }
 
 async function isRateLimited(
-  sanityClient: ReturnType<typeof client.withConfig>,
+  sanityClient: typeof client,
   email: string
 ): Promise<boolean> {
   const sinceIso = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
@@ -98,10 +103,10 @@ async function isRateLimited(
     );
     return typeof count === "number" && count >= RATE_LIMIT_MAX_PER_EMAIL;
   } catch (error) {
-    // Don't let a transient query failure deny legitimate inquiries —
-    // log and fall through. The honeypot/timestamp gates still apply.
+    // Fail closed: if the rate-limit query itself errors, treat the caller
+    // as rate-limited so a flaky Sanity response can't become an abuse vector.
     console.error("Failed to check inquiry rate limit:", error);
-    return false;
+    return true;
   }
 }
 

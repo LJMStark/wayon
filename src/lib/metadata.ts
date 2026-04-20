@@ -23,7 +23,7 @@ type BuildPageMetadataOptions = {
   includeIcons?: boolean;
 };
 
-function normalizeMetadataPath(locale: AppLocale, path: string): string {
+export function normalizeMetadataPath(locale: AppLocale, path: string): string {
   if (locale === routing.defaultLocale) {
     return path;
   }

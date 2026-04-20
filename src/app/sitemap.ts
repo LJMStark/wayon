@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing'
 import { getProductSlugs } from '@/data/products'
 import { getNewsSlugs } from '@/data/news'
 import { siteUrl } from '@/lib/env'
+import { normalizeMetadataPath } from '@/lib/metadata'
 
 const STATIC_ROUTES = [
   '',
@@ -21,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const route of STATIC_ROUTES) {
     for (const locale of routing.locales) {
       entries.push({
-        url: `${siteUrl}/${locale}${route}`,
+        url: `${siteUrl}${normalizeMetadataPath(locale, route === '' ? '/' : route)}`,
         lastModified: new Date(),
         changeFrequency: route === '' ? 'weekly' : 'monthly',
         priority: route === '' ? 1.0 : 0.8,
@@ -45,7 +46,7 @@ async function getDynamicEntries(
     const slugs = await fetchSlugs()
     return slugs.flatMap((slug) =>
       routing.locales.map((locale) => ({
-        url: `${siteUrl}/${locale}${pathPrefix}/${slug}`,
+        url: `${siteUrl}${normalizeMetadataPath(locale, `${pathPrefix}/${slug}`)}`,
         lastModified: new Date(),
         changeFrequency: 'monthly' as const,
         priority,

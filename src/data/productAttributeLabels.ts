@@ -18,12 +18,12 @@ const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
     ar: "لامع",
     ru: "Полировка",
   },
-  "哑光(超细干粒)": {
-    en: "Matte (Ultra-fine)",
-    zh: "哑光(超细干粒)",
-    es: "Mate (Ultrafino)",
-    ar: "مطفي (فائق الدقة)",
-    ru: "Матовый (сверхмелкий)",
+  "哑光": {
+    en: "Matte",
+    zh: "哑光",
+    es: "Mate",
+    ar: "مطفي",
+    ru: "Матовый",
   },
   "亮面(奢石釉)": {
     en: "Polished (Luxury Glaze)",
@@ -60,12 +60,26 @@ const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
     ar: "أبيض ناصع",
     ru: "Высоко-белый",
   },
-  "数码磨具面": {
+  "数码模具面": {
     en: "Digital Mold Surface",
-    zh: "数码磨具面",
+    zh: "数码模具面",
     es: "Superficie molde digital",
     ar: "سطح قالب رقمي",
     ru: "Цифровая пресс-форма",
+  },
+  "精雕": {
+    en: "Fine Carving",
+    zh: "精雕",
+    es: "Tallado fino",
+    ar: "نحت دقيق",
+    ru: "Тонкая резьба",
+  },
+  "复刻釉": {
+    en: "Replica Glaze",
+    zh: "复刻釉",
+    es: "Esmalte réplica",
+    ar: "طلاء مُقلَّد",
+    ru: "Глазурь-реплика",
   },
   "火烧面": {
     en: "Flamed Surface",
@@ -80,13 +94,6 @@ const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
     es: "Cristal color",
     ar: "كريستال ملون",
     ru: "Цветной кристалл",
-  },
-  "亮面(下线釉)": {
-    en: "Polished (Line Glaze)",
-    zh: "亮面(下线釉)",
-    es: "Pulido (Esmalte de línea)",
-    ar: "لامع (طلاء خطي)",
-    ru: "Полировка (линейная глазурь)",
   },
 };
 

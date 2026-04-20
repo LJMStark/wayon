@@ -45,9 +45,9 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
   }, []);
 
   useEffect(() => {
-    // Log the crash for debugging without importing a full logger.
-    // global-error is an emergency boundary; this is intentional.
-    void error;
+    // Emergency boundary: surface the crash in Vercel function logs so we
+    // have at least one signal before a real error tracker is wired in.
+    console.error("global-error boundary:", error);
   }, [error]);
 
   const msg = MESSAGES[locale];

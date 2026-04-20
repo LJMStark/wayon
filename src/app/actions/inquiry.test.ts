@@ -16,8 +16,8 @@ vi.mock("@/lib/env", () => ({
 vi.mock("@/sanity/lib/client", () => ({
   client: {
     withConfig: () => ({
-      create: mocks.mockCreate,
       fetch: mocks.mockFetch,
+      create: mocks.mockCreate,
     }),
   },
 }));
@@ -158,13 +158,14 @@ describe("submitInquiry", () => {
     expect(typeof params.since).toBe("string");
   });
 
-  it("allows the submission when rate-limit query throws (fail-open, no false negatives)", async () => {
+  it("rejects the submission when the rate-limit query throws (fail-closed, no abuse window)", async () => {
     mocks.mockFetch.mockRejectedValueOnce(new Error("sanity rate-check down"));
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 
-    expect(result).toEqual({ success: true });
-    expect(mocks.mockCreate).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ success: false, error: "rate_limited" });
+    expect(mocks.mockCreate).not.toHaveBeenCalled();
+    expect(mocks.mockSend).not.toHaveBeenCalled();
   });
 
   it("still returns success when Resend resolves with an error field (API-level failure)", async () => {
