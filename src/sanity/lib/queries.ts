@@ -71,7 +71,7 @@ export const getProductSlugsQuery = groq`*[_type == "product" && published == tr
 
 export const getFeaturedProductsQuery = groq`*[_type == "product" && featured == true && published == true] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
-export const getProductBySlugQuery = groq`*[_type == "product" && slug.current == $slug][0] ${productProjection}`
+export const getProductBySlugQuery = groq`*[_type == "product" && slug.current == $slug && published == true][0] ${productProjection}`
 
 export const getProductsByCategoryQuery = groq`*[_type == "product" && published == true && category->slug.current == $categorySlug] | order(coalesce(sortOrder, 999999) asc) ${productProjection}`
 
@@ -112,7 +112,7 @@ export const getCategoriesQuery = groq`*[_type == "category"] | order(sortOrder 
   sortOrder
 }`
 
-export const getNewsQuery = groq`*[_type == "news"] | order(publishedAt desc) {
+export const getNewsQuery = groq`*[_type == "news" && defined(publishedAt) && publishedAt <= now()] | order(publishedAt desc) {
   _id,
   title,
   "slug": slug.current,
@@ -122,7 +122,7 @@ export const getNewsQuery = groq`*[_type == "news"] | order(publishedAt desc) {
   category
 }`
 
-export const getNewsBySlugQuery = groq`*[_type == "news" && slug.current == $slug][0] {
+export const getNewsBySlugQuery = groq`*[_type == "news" && slug.current == $slug && defined(publishedAt) && publishedAt <= now()][0] {
   _id,
   title,
   "slug": slug.current,

@@ -28,6 +28,7 @@
 *.pem
 docs/外贸出口资料/
 docs/外贸出口资料_压缩版/
+docs/需要剪辑/
 
 # debug
 npm-debug.log*
