@@ -1,64 +1,10 @@
 import Image from "next/image";
 import { Calendar, ChevronLeft, Tag } from "lucide-react";
-import { PortableText } from "next-sanity";
-import type { PortableTextComponents } from "next-sanity";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { Link } from "@/i18n/routing";
-import { urlFor } from "@/sanity/lib/image";
 
 import type { NewsDetailPageData } from "../types";
-
-type PortableTextImageValue = {
-  _type: "image";
-  alt?: string;
-  asset?: string | { _ref?: string; _id?: string };
-};
-
-function hasValidImageAsset(asset: PortableTextImageValue["asset"]): boolean {
-  if (!asset) {
-    return false;
-  }
-
-  if (typeof asset === "string") {
-    return asset.trim().length > 0;
-  }
-
-  return Boolean(
-    (typeof asset._ref === "string" && asset._ref.trim().length > 0) ||
-      (typeof asset._id === "string" && asset._id.trim().length > 0)
-  );
-}
-
-const newsBodyComponents: PortableTextComponents = {
-  types: {
-    image: ({ value }) => {
-      const imageValue = value as PortableTextImageValue;
-
-      if (!hasValidImageAsset(imageValue?.asset)) {
-        return null;
-      }
-
-      const imageUrl = urlFor(imageValue).width(1200).auto("format").url();
-
-      if (!imageUrl) {
-        return null;
-      }
-
-      return (
-        <figure className="my-8 overflow-hidden rounded-lg">
-          <Image
-            src={imageUrl}
-            alt={imageValue.alt || ""}
-            width={1200}
-            height={675}
-            className="h-auto w-full object-cover"
-            sizes="(max-width: 1024px) 100vw, 1024px"
-          />
-        </figure>
-      );
-    },
-  },
-};
 
 export function NewsDetailPageView({
   backToNewsLabel,
@@ -70,6 +16,9 @@ export function NewsDetailPageView({
   dateLabel,
   categoryLabel,
 }: NewsDetailPageData): React.JSX.Element {
+  const hasBody =
+    body !== null && Array.isArray(body.root?.children) && body.root.children.length > 0;
+
   return (
     <article className="min-h-screen bg-white">
       <section className="relative h-[350px] w-full bg-neutral-200 md:h-[450px]">
@@ -117,9 +66,9 @@ export function NewsDetailPageView({
           </p>
         ) : null}
 
-        {body.length > 0 ? (
+        {hasBody && body ? (
           <div className="prose prose-lg max-w-none text-gray-700 prose-headings:font-heading prose-headings:text-primary prose-a:text-gold prose-img:rounded-lg">
-            <PortableText value={body} components={newsBodyComponents} />
+            <RichText data={body} />
           </div>
         ) : (
           <div className="flex min-h-[200px] items-center justify-center rounded-lg bg-neutral-50 text-gray-400">

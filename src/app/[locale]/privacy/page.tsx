@@ -34,7 +34,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
       },
       {
         heading: "第三方服务",
-        body: "询价邮件通过 Resend 送达公司邮箱；网站内容由 Sanity CMS 托管；基础设施由 Vercel 提供。上述服务商仅在为本站提供服务所必需的范围内处理数据。",
+        body: "询价邮件通过 Resend 送达公司邮箱；网站内容存储于自托管 Payload CMS（数据库由 Zeabur 托管，媒体文件存储于 Cloudflare R2）；基础设施由 Vercel 提供。上述服务商仅在为本站提供服务所必需的范围内处理数据。",
       },
       {
         heading: "您的权利",
@@ -69,7 +69,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
       },
       {
         heading: "Third-Party Services",
-        body: "Inquiry emails are delivered via Resend; website content is managed in Sanity CMS; infrastructure is hosted on Vercel. These providers process data strictly as needed to operate the site.",
+        body: "Inquiry emails are delivered via Resend; website content is stored in a self-hosted Payload CMS (database on Zeabur, media files on Cloudflare R2); infrastructure is hosted on Vercel. These providers process data strictly as needed to operate the site.",
       },
       {
         heading: "Your Rights",
@@ -104,7 +104,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
       },
       {
         heading: "Servicios de Terceros",
-        body: "Los correos de consulta se entregan vía Resend; el contenido se gestiona en Sanity CMS; la infraestructura se aloja en Vercel. Estos proveedores procesan datos estrictamente en la medida necesaria para operar el sitio.",
+        body: "Los correos de consulta se entregan vía Resend; el contenido se almacena en un Payload CMS autoalojado (base de datos en Zeabur, archivos multimedia en Cloudflare R2); la infraestructura se aloja en Vercel. Estos proveedores procesan datos estrictamente en la medida necesaria para operar el sitio.",
       },
       {
         heading: "Sus Derechos",
@@ -139,7 +139,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
       },
       {
         heading: "خدمات الأطراف الثالثة",
-        body: "تُرسل رسائل الاستفسار عبر Resend؛ ويُدار المحتوى من خلال Sanity CMS؛ والبنية التحتية مُستضافة على Vercel. يعالج هؤلاء المزودون البيانات فقط بالقدر اللازم لتشغيل الموقع.",
+        body: "تُرسل رسائل الاستفسار عبر Resend؛ ويُخزَّن المحتوى في نظام Payload CMS ذاتي الاستضافة (قاعدة البيانات على Zeabur، وملفات الوسائط على Cloudflare R2)؛ والبنية التحتية مُستضافة على Vercel. يعالج هؤلاء المزودون البيانات فقط بالقدر اللازم لتشغيل الموقع.",
       },
       {
         heading: "حقوقك",
@@ -174,7 +174,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
       },
       {
         heading: "Сторонние сервисы",
-        body: "Электронные запросы доставляются через Resend; контент управляется в Sanity CMS; инфраструктура размещена на Vercel. Эти поставщики обрабатывают данные исключительно в объёме, необходимом для работы сайта.",
+        body: "Электронные запросы доставляются через Resend; контент хранится в самостоятельно размещённой Payload CMS (база данных на Zeabur, медиафайлы в Cloudflare R2); инфраструктура размещена на Vercel. Эти поставщики обрабатывают данные исключительно в объёме, необходимом для работы сайта.",
       },
       {
         heading: "Ваши права",

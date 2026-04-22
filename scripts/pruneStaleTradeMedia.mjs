@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
-// One-shot cleanup: scrub every Sanity reference that points outside the
-// active catalog prefix (产品/众岩联标准素材集合/).
+// One-shot cleanup: scrub every productVariant media entry + product cover URL
+// that points outside the active catalog prefix (产品/众岩联标准素材集合/).
 //
 // Background: commit 38b64c9 narrowed the on-disk catalog but left a mass
 // of productVariant media entries and product cover URLs pointing at the
 // legacy subtrees (众岩联--元素图整理/, 众岩联--产品效果图/, 众岩联--实物图/,
 // 视频/众岩联--实物视频/, ...) that now live under docs/外贸出口资料/_removed/.
 // The trade-media proxy 404s for those paths, so the UI is full of broken
-// images. This script brings Sanity back in sync with disk.
+// images. This script keeps the dataset in sync with disk.
 //
 // Scope:
 //   productVariant.{elementImages, spaceImages, realImages, videos}[]
 //     -> drop entries whose sourcePath is not under the active prefix
 //   product.{coverImageUrl, coverVideoPosterUrl}
-//     -> unset when the stored URL is not under the percent-encoded active
+//     -> null-out when the stored URL is not under the percent-encoded active
 //        URL prefix (sourcePaths are stored decoded; cover URLs are stored
 //        percent-encoded because buildTradeMediaPublicUrl runs encodeURIComponent)
 //
@@ -25,8 +25,8 @@
 //   node scripts/pruneStaleTradeMedia.mjs              # apply
 //   node scripts/pruneStaleTradeMedia.mjs --dry-run    # report only
 
-import { createClient } from "@sanity/client";
 import * as dotenv from "dotenv";
+import { getPayload } from "payload";
 
 dotenv.config({ path: ".env.local" });
 
@@ -34,53 +34,9 @@ const ACTIVE_SOURCE_PATH_PREFIX = "产品/众岩联标准素材集合/";
 const ACTIVE_COVER_URL_PREFIX =
   "/api/trade-media/%E4%BA%A7%E5%93%81/%E4%BC%97%E5%B2%A9%E8%81%94%E6%A0%87%E5%87%86%E7%B4%A0%E6%9D%90%E9%9B%86%E5%90%88/";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-03";
-const token = process.env.SANITY_API_TOKEN;
-
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing Sanity environment variables. Required: NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, SANITY_API_TOKEN"
-  );
-  process.exit(1);
-}
-
 const dryRun = process.argv.includes("--dry-run");
 
-const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  token,
-  useCdn: false,
-});
-
 const MEDIA_FIELDS = ["elementImages", "spaceImages", "realImages", "videos"];
-
-const VARIANT_QUERY = `*[_type == "productVariant" && (
-  count(elementImages[!(sourcePath match $prefix + "*")]) > 0 ||
-  count(spaceImages[!(sourcePath match $prefix + "*")])   > 0 ||
-  count(realImages[!(sourcePath match $prefix + "*")])    > 0 ||
-  count(videos[!(sourcePath match $prefix + "*")])        > 0
-)]{
-  _id,
-  code,
-  "elementImages": coalesce(elementImages, []),
-  "spaceImages": coalesce(spaceImages, []),
-  "realImages": coalesce(realImages, []),
-  "videos": coalesce(videos, [])
-}`;
-
-const PRODUCT_QUERY = `*[_type == "product" && (
-  (defined(coverImageUrl) && !(coverImageUrl match $coverPrefix + "*")) ||
-  (defined(coverVideoPosterUrl) && !(coverVideoPosterUrl match $coverPrefix + "*"))
-)]{
-  _id,
-  "slug": slug.current,
-  coverImageUrl,
-  coverVideoPosterUrl
-}`;
 
 function isActiveSourcePath(sourcePath) {
   return (
@@ -93,8 +49,19 @@ function isActiveCoverUrl(url) {
   return typeof url === "string" && url.startsWith(ACTIVE_COVER_URL_PREFIX);
 }
 
-function planVariantPatches(variants) {
-  const plans = [];
+function stripArrayIds(items, keep) {
+  return (items || [])
+    .filter((item) => item && keep(item))
+    .map((item) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { id: _dropped, ...rest } = item;
+      return rest;
+    });
+}
+
+function planVariantPatch(variant) {
+  const next = {};
+  let changed = false;
   const totals = {
     elementImages: { dropped: 0, kept: 0 },
     spaceImages: { dropped: 0, kept: 0 },
@@ -102,86 +69,87 @@ function planVariantPatches(variants) {
     videos: { dropped: 0, kept: 0 },
   };
 
-  for (const variant of variants) {
-    const next = {};
-    let variantChanged = false;
+  for (const field of MEDIA_FIELDS) {
+    const current = variant[field] ?? [];
+    const kept = current.filter((item) => isActiveSourcePath(item?.sourcePath));
+    const dropped = current.length - kept.length;
+    totals[field].dropped = dropped;
+    totals[field].kept = kept.length;
 
-    for (const field of MEDIA_FIELDS) {
-      const current = variant[field] ?? [];
-      const kept = current.filter((item) => isActiveSourcePath(item?.sourcePath));
-      const dropped = current.length - kept.length;
-      totals[field].dropped += dropped;
-      totals[field].kept += kept.length;
-
-      if (dropped > 0) {
-        next[field] = kept;
-        variantChanged = true;
-      }
-    }
-
-    if (variantChanged) {
-      plans.push({ id: variant._id, code: variant.code, next });
+    if (dropped > 0) {
+      next[field] = stripArrayIds(kept, () => true);
+      changed = true;
     }
   }
 
-  return { plans, totals };
+  return changed ? { next, totals } : null;
 }
 
-function planProductPatches(products) {
-  const plans = [];
-  let staleCover = 0;
-  let staleVideoPoster = 0;
+async function findStaleVariants(payload) {
+  // Payload has no "array-of-objects field contains X" filter expressive enough
+  // to match the GROQ query; fetch all variants and filter in JS. Trade catalog
+  // is small enough (< few thousand variants) that this is fine.
+  const { docs } = await payload.find({
+    collection: "productVariants",
+    limit: 10000,
+    depth: 0,
+    overrideAccess: true,
+  });
 
-  for (const product of products) {
-    const toUnset = [];
-
-    if (product.coverImageUrl && !isActiveCoverUrl(product.coverImageUrl)) {
-      toUnset.push("coverImageUrl");
-      staleCover += 1;
-    }
-
-    if (
-      product.coverVideoPosterUrl &&
-      !isActiveCoverUrl(product.coverVideoPosterUrl)
-    ) {
-      toUnset.push("coverVideoPosterUrl");
-      staleVideoPoster += 1;
-    }
-
-    if (toUnset.length > 0) {
-      plans.push({ id: product._id, slug: product.slug, unset: toUnset });
+  const stale = [];
+  for (const doc of docs) {
+    const plan = planVariantPatch(doc);
+    if (plan) {
+      stale.push({ id: doc.id, code: doc.code, ...plan });
     }
   }
-
-  return { plans, staleCover, staleVideoPoster };
+  return stale;
 }
 
-async function commitPatches(plans, applyPatch) {
-  const BATCH = 100;
-  let patched = 0;
+async function findStaleProducts(payload) {
+  const { docs } = await payload.find({
+    collection: "products",
+    limit: 10000,
+    depth: 0,
+    overrideAccess: true,
+  });
 
-  for (let i = 0; i < plans.length; i += BATCH) {
-    const chunk = plans.slice(i, i + BATCH);
-    const tx = client.transaction();
-
-    for (const plan of chunk) {
-      tx.patch(plan.id, (p) => applyPatch(p, plan));
+  const stale = [];
+  for (const doc of docs) {
+    const toClear = [];
+    if (doc.coverImageUrl && !isActiveCoverUrl(doc.coverImageUrl)) {
+      toClear.push("coverImageUrl");
     }
-
-    await tx.commit({ visibility: "async" });
-    patched += chunk.length;
-    console.log(`    patched ${patched}/${plans.length}`);
+    if (doc.coverVideoPosterUrl && !isActiveCoverUrl(doc.coverVideoPosterUrl)) {
+      toClear.push("coverVideoPosterUrl");
+    }
+    if (toClear.length > 0) {
+      stale.push({ id: doc.id, slug: doc.slug, clear: toClear });
+    }
   }
+  return stale;
 }
 
 async function main() {
+  const config = (await import("../src/payload.config.ts")).default;
+  const payload = await getPayload({ config });
+
   // ---------- variants ----------
   console.log("Scanning productVariant documents...");
-  const staleVariants = await client.fetch(VARIANT_QUERY, {
-    prefix: ACTIVE_SOURCE_PATH_PREFIX,
-  });
-  const { plans: variantPlans, totals: variantTotals } =
-    planVariantPatches(staleVariants);
+  const variantPlans = await findStaleVariants(payload);
+
+  const variantTotals = {
+    elementImages: { dropped: 0, kept: 0 },
+    spaceImages: { dropped: 0, kept: 0 },
+    realImages: { dropped: 0, kept: 0 },
+    videos: { dropped: 0, kept: 0 },
+  };
+  for (const plan of variantPlans) {
+    for (const field of MEDIA_FIELDS) {
+      variantTotals[field].dropped += plan.totals[field].dropped;
+      variantTotals[field].kept += plan.totals[field].kept;
+    }
+  }
 
   console.log(`  variants to patch: ${variantPlans.length}`);
   for (const field of MEDIA_FIELDS) {
@@ -192,22 +160,22 @@ async function main() {
 
   // ---------- products ----------
   console.log("Scanning product documents...");
-  const staleProducts = await client.fetch(PRODUCT_QUERY, {
-    coverPrefix: ACTIVE_COVER_URL_PREFIX,
-  });
-  const {
-    plans: productPlans,
-    staleCover,
-    staleVideoPoster,
-  } = planProductPatches(staleProducts);
+  const productPlans = await findStaleProducts(payload);
+
+  const staleCover = productPlans.filter((p) =>
+    p.clear.includes("coverImageUrl")
+  ).length;
+  const staleVideoPoster = productPlans.filter((p) =>
+    p.clear.includes("coverVideoPosterUrl")
+  ).length;
 
   console.log(`  products to patch: ${productPlans.length}`);
-  console.log(`    coverImageUrl to unset: ${staleCover}`);
-  console.log(`    coverVideoPosterUrl to unset: ${staleVideoPoster}`);
+  console.log(`    coverImageUrl to clear: ${staleCover}`);
+  console.log(`    coverVideoPosterUrl to clear: ${staleVideoPoster}`);
 
   if (variantPlans.length === 0 && productPlans.length === 0) {
     console.log("Nothing to do. Dataset is clean.");
-    return;
+    process.exit(0);
   }
 
   if (dryRun) {
@@ -225,26 +193,55 @@ async function main() {
     console.log("\n[dry-run] sample product plans:");
     for (const plan of productPlans.slice(0, 10)) {
       console.log(
-        `  ${plan.id} (${plan.slug}): unset ${plan.unset.join(", ")}`
+        `  ${plan.id} (${plan.slug}): clear ${plan.clear.join(", ")}`
       );
     }
     if (productPlans.length > 10) {
       console.log(`  ...and ${productPlans.length - 10} more`);
     }
-    return;
+    process.exit(0);
   }
 
   if (variantPlans.length > 0) {
     console.log(`\nPatching ${variantPlans.length} variant(s)...`);
-    await commitPatches(variantPlans, (patch, plan) => patch.set(plan.next));
+    let patched = 0;
+    for (const plan of variantPlans) {
+      await payload.update({
+        collection: "productVariants",
+        id: plan.id,
+        data: plan.next,
+        overrideAccess: true,
+      });
+      patched += 1;
+      if (patched % 25 === 0 || patched === variantPlans.length) {
+        console.log(`    patched ${patched}/${variantPlans.length}`);
+      }
+    }
   }
 
   if (productPlans.length > 0) {
     console.log(`\nPatching ${productPlans.length} product(s)...`);
-    await commitPatches(productPlans, (patch, plan) => patch.unset(plan.unset));
+    let patched = 0;
+    for (const plan of productPlans) {
+      const data = {};
+      for (const field of plan.clear) {
+        data[field] = null;
+      }
+      await payload.update({
+        collection: "products",
+        id: plan.id,
+        data,
+        overrideAccess: true,
+      });
+      patched += 1;
+      if (patched % 25 === 0 || patched === productPlans.length) {
+        console.log(`    patched ${patched}/${productPlans.length}`);
+      }
+    }
   }
 
   console.log("\nDone.");
+  process.exit(0);
 }
 
 main().catch((error) => {

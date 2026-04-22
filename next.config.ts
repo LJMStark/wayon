@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -12,15 +13,19 @@ function redirect(source: string, destination: string): Redirect {
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// Media is served from Cloudflare R2 through the configured public hostname.
+// The R2_PUBLIC_URL env var is the source of truth — used both for CSP and
+// next/image remotePatterns so there's no drift between them.
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? 'https://pub-placeholder.r2.dev';
+const R2_HOSTNAME = new URL(R2_PUBLIC_URL).hostname;
+const R2_ORIGIN = `https://${R2_HOSTNAME}`;
+
 // Site-wide Content Security Policy.
 // Notes:
 // - 'unsafe-inline' on script-src is required today for Next.js's inline hydration
 //   bootstrap script. Hardening via per-request nonce + middleware is the next step.
 // - 'unsafe-eval' is included ONLY in development because Next.js HMR requires it.
 //   In production this directive is omitted to tighten the attack surface.
-//   (Sanity Studio has its own separate STUDIO_CSP that always keeps unsafe-eval
-//   because the Vision tool and schema evaluation run user expressions at runtime.)
-// - Sanity live queries use an EventSource over HTTPS plus WSS for presence.
 // - Google Maps is embedded as an iframe on the contact page (mapEmbedUrl in
 //   src/data/siteCopy.ts points at https://www.google.com/maps?...&output=embed).
 // - Vercel Analytics + Speed Insights load from va.vercel-scripts.com and report
@@ -39,8 +44,6 @@ function buildSiteCsp(dev: boolean): string {
 
   const connectSrc = [
     "'self'",
-    "https://*.sanity.io",
-    "wss://*.sanity.io",
     "https://vitals.vercel-insights.com",
     "https://va.vercel-scripts.com",
     "https://vercel.live",
@@ -53,7 +56,7 @@ function buildSiteCsp(dev: boolean): string {
     "'self'",
     "data:",
     "blob:",
-    "https://cdn.sanity.io",
+    R2_ORIGIN,
     "https://*.googleusercontent.com",
     "https://*.google.com",
     "https://*.gstatic.com",
@@ -69,7 +72,7 @@ function buildSiteCsp(dev: boolean): string {
     "font-src 'self' data: https://fonts.gstatic.com",
     "frame-src 'self' https://www.google.com https://*.google.com https://vercel.live",
     `connect-src ${connectSrc}`,
-    "media-src 'self' https://cdn.sanity.io",
+    `media-src 'self' ${R2_ORIGIN}`,
     "worker-src 'self' blob:",
     "object-src 'none'",
     "base-uri 'self'",
@@ -78,28 +81,6 @@ function buildSiteCsp(dev: boolean): string {
     "upgrade-insecure-requests",
   ].join('; ');
 }
-
-// Sanity Studio is embedded at /studio. It bundles its own workers (blob:),
-// evaluates user-authored schemas, and talks to multiple Sanity subdomains.
-// A stricter policy breaks the Studio, so we relax script-src / worker-src /
-// connect-src for this path while keeping the baseline hardening headers.
-// 'unsafe-eval' is always required here — Sanity Vision runs user expressions
-// in production as well as in development.
-const STUDIO_CSP = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://*.sanity.io https://*.sanity.studio",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "img-src 'self' data: blob: https://cdn.sanity.io https://*.sanity.io https://*.googleusercontent.com",
-  "font-src 'self' data: https://fonts.gstatic.com",
-  "frame-src 'self' https://*.sanity.io https://*.sanity.studio",
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.sanity.studio",
-  "media-src 'self' blob: https://cdn.sanity.io",
-  "worker-src 'self' blob:",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'self'",
-].join('; ');
 
 const SECURITY_HEADERS_BASE = [
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
@@ -120,7 +101,7 @@ const nextConfig: NextConfig = {
     // 生产构建仍然启用优化
     unoptimized: isDev,
     remotePatterns: [
-      { protocol: 'https', hostname: 'cdn.sanity.io', pathname: '/**' },
+      { protocol: 'https', hostname: R2_HOSTNAME, pathname: '/**' },
     ],
   },
   async redirects() {
@@ -148,23 +129,10 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
-    // Two disjoint source patterns. Next.js evaluates every matching rule and
-    // later same-key header values overwrite earlier ones, so ordering the
-    // Studio rule first is not enough — the site rule would still win on
-    // /studio/* paths. The site rule uses a path-to-regexp negative lookahead
-    // that excludes `/studio` (and everything under it) so the two rules never
-    // collide on the same request.
     const SITE_CSP = buildSiteCsp(isDev);
     return [
       {
-        source: '/studio/:path*',
-        headers: [
-          ...SECURITY_HEADERS_BASE,
-          { key: 'Content-Security-Policy', value: STUDIO_CSP },
-        ],
-      },
-      {
-        source: '/((?!studio(?:/.*)?$).*)',
+        source: '/:path*',
         headers: [
           ...SECURITY_HEADERS_BASE,
           { key: 'Content-Security-Policy', value: SITE_CSP },
@@ -174,4 +142,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withPayload(withNextIntl(nextConfig));

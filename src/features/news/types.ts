@@ -1,4 +1,4 @@
-import type { PortableTextBlock } from "next-sanity";
+import type { NewsArticleBody } from "@/data/news";
 
 export type NewsPreviewItem = {
   date: string;
@@ -25,7 +25,7 @@ export type NewsDetailPageData = {
   contactLabel: string;
   title: string;
   excerpt: string;
-  body: PortableTextBlock[];
+  body: NewsArticleBody | null;
   imageUrl: string | null;
   dateLabel: string;
   categoryLabel: string;

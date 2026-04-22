@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 // One-shot backfill: every product with a normalizedName (i.e. imported from
-// the trade catalog) is set to published = true, matching the new exposure
-// gate in src/sanity/lib/queries.ts. Manually authored products without a
-// normalizedName are intentionally left alone — they will stay unpublished
-// until an editor flips the toggle in Studio.
+// the trade catalog) is set to published = true, matching the exposure gate in
+// src/data/products.ts. Manually authored products without a normalizedName
+// are intentionally left alone — they stay unpublished until an editor flips
+// the toggle in the admin panel.
 //
 // Idempotent: re-running only patches documents that still need it.
 //
@@ -12,38 +12,30 @@
 //   node scripts/backfillProductPublished.mjs              # apply
 //   node scripts/backfillProductPublished.mjs --dry-run    # report only
 
-import { createClient } from "@sanity/client";
 import * as dotenv from "dotenv";
+import { getPayload } from "payload";
 
 dotenv.config({ path: ".env.local" });
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-// API version mirrors src/sanity/env.ts (which defaults when not set in env).
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-03";
-const token = process.env.SANITY_API_TOKEN;
-
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing Sanity environment variables. Required: NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, SANITY_API_TOKEN"
-  );
-  process.exit(1);
-}
-
 const dryRun = process.argv.includes("--dry-run");
 
-const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  token,
-  useCdn: false,
-});
-
-const QUERY = `*[_type == "product" && defined(normalizedName) && published != true]{ _id, normalizedName }`;
-
 async function main() {
-  const targets = await client.fetch(QUERY);
+  const config = (await import("../src/payload.config.ts")).default;
+  const payload = await getPayload({ config });
+
+  const { docs: targets } = await payload.find({
+    collection: "products",
+    where: {
+      and: [
+        { normalizedName: { exists: true } },
+        { normalizedName: { not_equals: "" } },
+        { published: { not_equals: true } },
+      ],
+    },
+    limit: 5000,
+    depth: 0,
+    overrideAccess: true,
+  });
 
   console.log(
     `Found ${targets.length} imported product(s) without published=true.`
@@ -51,34 +43,36 @@ async function main() {
 
   if (targets.length === 0) {
     console.log("Nothing to do.");
-    return;
+    process.exit(0);
   }
 
   if (dryRun) {
     for (const doc of targets.slice(0, 10)) {
-      console.log(`  [dry-run] would patch ${doc._id} (${doc.normalizedName})`);
+      console.log(`  [dry-run] would patch ${doc.id} (${doc.normalizedName})`);
     }
     if (targets.length > 10) {
       console.log(`  ...and ${targets.length - 10} more`);
     }
-    return;
+    process.exit(0);
   }
 
-  const BATCH = 100;
   let patched = 0;
 
-  for (let i = 0; i < targets.length; i += BATCH) {
-    const chunk = targets.slice(i, i + BATCH);
-    const tx = client.transaction();
-    for (const doc of chunk) {
-      tx.patch(doc._id, (p) => p.set({ published: true }));
+  for (const doc of targets) {
+    await payload.update({
+      collection: "products",
+      id: doc.id,
+      data: { published: true },
+      overrideAccess: true,
+    });
+    patched += 1;
+    if (patched % 25 === 0 || patched === targets.length) {
+      console.log(`  patched ${patched}/${targets.length}`);
     }
-    await tx.commit({ visibility: "async" });
-    patched += chunk.length;
-    console.log(`  patched ${patched}/${targets.length}`);
   }
 
   console.log("Done.");
+  process.exit(0);
 }
 
 main().catch((error) => {

@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Sanity may be unreachable during build -- skip dynamic entries gracefully.
+  // CMS may be unreachable during build -- skip dynamic entries gracefully.
   entries.push(...(await getDynamicEntries('/products', 0.7, getProductSlugs)))
   entries.push(...(await getDynamicEntries('/news', 0.6, getNewsSlugs)))
 
@@ -53,7 +53,7 @@ async function getDynamicEntries(
       })),
     )
   } catch (error) {
-    // Swallowing silently used to hide SEO regressions during Sanity
+    // Swallowing silently used to hide SEO regressions during CMS
     // outages (empty sitemap = de-indexing risk). Emit a structured
     // error so the Vercel Functions log shows which prefix failed and
     // why; the sitemap still completes with whatever static routes

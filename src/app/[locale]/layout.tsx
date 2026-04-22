@@ -12,7 +12,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getMetadataCopy } from "@/data/siteCopy";
 import { getLocaleParams } from "@/features/shared/server/locale";
-import { SanityLive } from "@/sanity/lib/live";
 import { organizationJsonLd } from "@/lib/jsonLd";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
@@ -64,11 +63,6 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Warm up the Sanity image CDN early — every page pulls cover and */}
-        {/* variant imagery from cdn.sanity.io, so paying the TCP+TLS cost */}
-        {/* during HTML parsing saves several hundred ms on LCP. */}
-        <link rel="preconnect" href="https://cdn.sanity.io" />
-        <link rel="dns-prefetch" href="//cdn.sanity.io" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale)) }}
@@ -82,7 +76,6 @@ export default async function RootLayout({
           </main>
           <Footer />
           <FloatingSidebar />
-          <SanityLive />
         </NextIntlClientProvider>
         <Analytics />
         <SpeedInsights />

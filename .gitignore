@@ -30,6 +30,9 @@ docs/外贸出口资料/
 docs/外贸出口资料_压缩版/
 docs/需要剪辑/
 
+# payload migration bundle (local-only; exported Sanity assets + bundle.json)
+/.migration/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

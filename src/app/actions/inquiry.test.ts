@@ -2,24 +2,21 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   mockCreate: vi.fn(),
+  mockCount: vi.fn(),
   mockSend: vi.fn(),
-  mockFetch: vi.fn(),
 }));
 
-vi.mock("@/lib/env", () => ({
-  sanityApiToken: "test-sanity-token",
+vi.mock("@/lib/server-env", () => ({
   resendApiKey: "test-resend-key",
   resendFromEmail: "noreply@test.com",
   inquiryNotifyTo: "sales@test.com",
 }));
 
-vi.mock("@/sanity/lib/client", () => ({
-  client: {
-    withConfig: () => ({
-      fetch: mocks.mockFetch,
-      create: mocks.mockCreate,
-    }),
-  },
+vi.mock("@/data/_payload", () => ({
+  getPayloadClient: async () => ({
+    create: mocks.mockCreate,
+    count: mocks.mockCount,
+  }),
 }));
 
 vi.mock("resend", () => ({
@@ -50,14 +47,14 @@ function validFormData(
 describe("submitInquiry", () => {
   beforeEach(() => {
     mocks.mockCreate.mockReset();
+    mocks.mockCount.mockReset();
     mocks.mockSend.mockReset();
-    mocks.mockFetch.mockReset();
-    mocks.mockCreate.mockResolvedValue({ _id: "new-doc" });
+    mocks.mockCreate.mockResolvedValue({ id: "new-doc" });
     mocks.mockSend.mockResolvedValue({ data: { id: "msg-1" }, error: null });
-    mocks.mockFetch.mockResolvedValue(0);
+    mocks.mockCount.mockResolvedValue({ totalDocs: 0 });
   });
 
-  it("persists to Sanity and sends email on happy path", async () => {
+  it("persists to Payload and sends email on happy path", async () => {
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 
@@ -65,10 +62,13 @@ describe("submitInquiry", () => {
     expect(mocks.mockCreate).toHaveBeenCalledTimes(1);
     expect(mocks.mockCreate).toHaveBeenCalledWith(
       expect.objectContaining({
-        _type: "inquiry",
-        name: "Alice",
-        email: "alice@example.com",
-        status: "pending",
+        collection: "inquiries",
+        data: expect.objectContaining({
+          name: "Alice",
+          email: "alice@example.com",
+          status: "pending",
+        }),
+        overrideAccess: true,
       }),
     );
     expect(mocks.mockSend).toHaveBeenCalledTimes(1);
@@ -80,12 +80,12 @@ describe("submitInquiry", () => {
     );
   });
 
-  it("persists inquiry with status 'pending' (schema initialValue applies in Studio only)", async () => {
+  it("persists inquiry with status 'pending'", async () => {
     const fd = validFormData({}, Date.now() - 5000);
     await submitInquiry(fd);
 
-    const [createdDoc] = mocks.mockCreate.mock.calls[0];
-    expect(createdDoc.status).toBe("pending");
+    const [createArgs] = mocks.mockCreate.mock.calls[0];
+    expect(createArgs.data.status).toBe("pending");
   });
 
   it("silently drops submissions with honeypot filled", async () => {
@@ -123,8 +123,8 @@ describe("submitInquiry", () => {
     expect(mocks.mockSend).not.toHaveBeenCalled();
   });
 
-  it("returns submission_failed when Sanity write throws", async () => {
-    mocks.mockCreate.mockRejectedValueOnce(new Error("sanity unavailable"));
+  it("returns submission_failed when Payload write throws", async () => {
+    mocks.mockCreate.mockRejectedValueOnce(new Error("payload unavailable"));
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 
@@ -142,7 +142,7 @@ describe("submitInquiry", () => {
   });
 
   it("returns rate_limited when the same email already has 5+ inquiries in the window", async () => {
-    mocks.mockFetch.mockResolvedValueOnce(5);
+    mocks.mockCount.mockResolvedValueOnce({ totalDocs: 5 });
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 
@@ -150,16 +150,21 @@ describe("submitInquiry", () => {
     expect(mocks.mockCreate).not.toHaveBeenCalled();
     expect(mocks.mockSend).not.toHaveBeenCalled();
     // The query keys must be normalized so "Foo@x.com" buckets with "foo@x.com".
-    expect(mocks.mockFetch).toHaveBeenCalledWith(
-      expect.stringContaining("count(*[_type =="),
-      expect.objectContaining({ email: "alice@example.com" })
+    expect(mocks.mockCount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        collection: "inquiries",
+        where: expect.objectContaining({
+          and: expect.arrayContaining([
+            { email: { equals: "alice@example.com" } },
+          ]),
+        }),
+        overrideAccess: true,
+      }),
     );
-    const [, params] = mocks.mockFetch.mock.calls[0];
-    expect(typeof params.since).toBe("string");
   });
 
   it("rejects the submission when the rate-limit query throws (fail-closed, no abuse window)", async () => {
-    mocks.mockFetch.mockRejectedValueOnce(new Error("sanity rate-check down"));
+    mocks.mockCount.mockRejectedValueOnce(new Error("payload rate-check down"));
     const fd = validFormData({}, Date.now() - 5000);
     const result = await submitInquiry(fd);
 

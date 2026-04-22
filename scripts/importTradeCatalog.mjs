@@ -1,8 +1,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-import { createClient } from "@sanity/client";
 import * as dotenv from "dotenv";
+import { getPayload } from "payload";
 
 import {
   extractTradeCode,
@@ -16,8 +16,6 @@ import {
 import {
   buildStableTradeFamilyKey,
   buildStableTradeFamilySlug,
-  buildStableTradeProductId,
-  buildStableTradeVariantId,
 } from "../src/features/products/lib/tradeImportIdentity.ts";
 import { inferTradeSeriesTypes } from "../src/features/products/content/tradeSeriesMappings.ts";
 import { buildTradeMediaPublicUrl } from "../src/features/products/lib/tradeMedia.ts";
@@ -39,19 +37,12 @@ const SUPPORTED_IMAGE_EXTENSIONS = new Set([
   ".gif",
 ]);
 const SUPPORTED_VIDEO_EXTENSIONS = new Set([".mp4", ".mov"]);
-const SANITY_BATCH_SIZE = 100;
-
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
-  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-04-03",
-  token: process.env.SANITY_API_TOKEN,
-  useCdn: false,
-});
 
 function parseArgs(argv) {
+  // Dry-run is the default to keep the `npm run import:trade-catalog` entry
+  // point safe for report-only use. Writes require the explicit --apply flag.
   return {
-    apply: argv.includes("--apply"),
+    dryRun: !argv.includes("--apply"),
     reportPath:
       argv.find((arg) => arg.startsWith("--report="))?.slice("--report=".length) ||
       DEFAULT_REPORT_PATH,
@@ -78,6 +69,31 @@ function mergeMedia(existing = [], imported = []) {
   }
 
   return merged;
+}
+
+// Reconstructs each item with only the fields our schema declares, dropping
+// Payload's auto-generated array `id` so update calls don't conflict.
+function cleanImageArray(items) {
+  return (items || [])
+    .filter((item) => item && item.sourcePath && item.publicUrl)
+    .map((item) => ({
+      sourcePath: item.sourcePath,
+      publicUrl: item.publicUrl,
+      altZh: item.altZh || undefined,
+      sortOrder: item.sortOrder ?? 0,
+    }));
+}
+
+function cleanVideoArray(items) {
+  return (items || [])
+    .filter((item) => item && item.sourcePath && item.publicUrl)
+    .map((item) => ({
+      sourcePath: item.sourcePath,
+      publicUrl: item.publicUrl,
+      posterUrl: item.posterUrl || undefined,
+      titleZh: item.titleZh || undefined,
+      sortOrder: item.sortOrder ?? 0,
+    }));
 }
 
 function createImageRecord(sourcePath, basename, sortOrder) {
@@ -111,8 +127,8 @@ function normalizeBasename(input) {
   return input
     .replace(/\.[^.]+$/u, "")
     .replace(/\s+/g, "")
-    .replace(/（/g, "(")
-    .replace(/）/g, ")")
+    .replaceAll("（", "(")
+    .replaceAll("）", ")")
     .toLowerCase();
 }
 
@@ -430,7 +446,6 @@ async function collectFamilies(report) {
         displayName: family.displayName,
         seriesTypes: [...family.seriesTypes],
         slug,
-        productId: buildStableTradeProductId(familyKey),
         variants,
       };
     })
@@ -449,138 +464,190 @@ function buildCoverImageUrl(family) {
   );
 }
 
-function mergeLocalizedTitle(existingTitle, familyName) {
+function buildLocalizedTitle(existingTitle, familyName) {
+  const et =
+    existingTitle && typeof existingTitle === "object" ? existingTitle : {};
   return {
-    en: existingTitle?.en || familyName,
-    zh: existingTitle?.zh || familyName,
-    es: existingTitle?.es || existingTitle?.en || familyName,
-    ar: existingTitle?.ar || existingTitle?.en || familyName,
-    ru: existingTitle?.ru || existingTitle?.en || familyName,
+    zh: et.zh || familyName,
+    en: et.en || familyName,
+    es: et.es || et.en || familyName,
+    ar: et.ar || et.en || familyName,
+    ru: et.ru || et.en || familyName,
   };
 }
 
-function chunkItems(items, size) {
-  const chunks = [];
+async function fetchExistingProductsByNormalizedName(payload, normalizedNames) {
+  if (normalizedNames.length === 0) return new Map();
 
-  for (let index = 0; index < items.length; index += size) {
-    chunks.push(items.slice(index, index + size));
+  const map = new Map();
+  const chunkSize = 100;
+
+  for (let i = 0; i < normalizedNames.length; i += chunkSize) {
+    const chunk = normalizedNames.slice(i, i + chunkSize);
+    const { docs } = await payload.find({
+      collection: "products",
+      where: { normalizedName: { in: chunk } },
+      limit: chunkSize,
+      locale: "all",
+      depth: 0,
+      overrideAccess: true,
+    });
+    for (const doc of docs) {
+      map.set(doc.normalizedName, doc);
+    }
   }
 
-  return chunks;
+  return map;
 }
 
-async function fetchExistingProductsByNormalizedName(normalizedNames) {
-  if (!client.config().token || normalizedNames.length === 0) {
-    return new Map();
+async function fetchExistingVariantsByProductIds(payload, productIds) {
+  if (productIds.length === 0) return new Map();
+
+  const map = new Map();
+  const chunkSize = 100;
+
+  for (let i = 0; i < productIds.length; i += chunkSize) {
+    const chunk = productIds.slice(i, i + chunkSize);
+    const { docs } = await payload.find({
+      collection: "productVariants",
+      where: { productRef: { in: chunk } },
+      limit: 5000,
+      depth: 0,
+      overrideAccess: true,
+    });
+    for (const doc of docs) {
+      const productRef =
+        typeof doc.productRef === "object" ? doc.productRef?.id : doc.productRef;
+      map.set(`${productRef}::${doc.code}`, doc);
+    }
   }
 
-  const documents = [];
-
-  for (const chunk of chunkItems(normalizedNames, SANITY_BATCH_SIZE)) {
-    const result = await client.fetch(
-      '*[_type == "product" && normalizedName in $normalizedNames]',
-      { normalizedNames: chunk }
-    );
-    documents.push(...result);
-  }
-
-  return new Map(documents.map((document) => [document.normalizedName, document]));
+  return map;
 }
 
-function buildExistingVariantLookupKey(normalizedName, code) {
-  return `${normalizedName}::${code}`;
-}
-
-async function fetchExistingVariantsByProductIds(productIds) {
-  if (!client.config().token || productIds.length === 0) {
-    return new Map();
-  }
-
-  const documents = [];
-
-  for (const chunk of chunkItems(productIds, SANITY_BATCH_SIZE)) {
-    const result = await client.fetch(
-      '*[_type == "productVariant" && productRef._ref in $productIds]{..., "normalizedName": productRef->normalizedName}',
-      { productIds: chunk }
-    );
-    documents.push(...result);
-  }
-
-  return new Map(
-    documents.map((document) => [
-      buildExistingVariantLookupKey(document.normalizedName, document.code),
-      document,
-    ])
-  );
-}
-
-function buildProductDocument(family, existingDocuments) {
-  const existing = existingDocuments.get(family.normalizedName);
+function buildProductData(family, existing) {
   const coverImageUrl = buildCoverImageUrl(family) || existing?.coverImageUrl;
+  const existingCategory =
+    existing?.category && typeof existing.category === "object"
+      ? existing.category.id
+      : existing?.category;
+  const existingCapability =
+    existing?.customCapability && typeof existing.customCapability === "object"
+      ? existing.customCapability.id
+      : existing?.customCapability;
+  const existingImage =
+    existing?.image && typeof existing.image === "object"
+      ? existing.image.id
+      : existing?.image;
 
   return {
-    _id: existing?._id || family.productId,
-    _type: "product",
-    title: mergeLocalizedTitle(existing?.title, family.displayName),
+    title: buildLocalizedTitle(existing?.title, family.displayName),
+    slug: existing?.slug || family.slug,
     normalizedName: family.normalizedName,
     // Imported trade products are publish-ready by definition: they carry
     // canonical names, slugs, and media. Default to true so re-imports never
     // hide previously-visible products. Editors can flip back to false in
-    // Studio if a specific family needs to be temporarily hidden.
+    // the admin if a specific family needs to be temporarily hidden.
     published: true,
-    slug: { current: existing?.slug?.current || family.slug },
-    category: existing?.category,
-    image: existing?.image,
-    description: existing?.description,
+    category: existingCategory ?? undefined,
+    image: existingImage ?? undefined,
+    description: existing?.description ?? undefined,
     seriesTypes:
       existing?.seriesTypes && existing.seriesTypes.length > 0
         ? existing.seriesTypes
         : family.seriesTypes,
     catalogMode: existing?.catalogMode || "standard",
-    customCapability: existing?.customCapability,
+    customCapability: existingCapability ?? undefined,
     coverImageUrl: coverImageUrl || undefined,
-    coverVideoPosterUrl: existing?.coverVideoPosterUrl,
-    thickness: existing?.thickness,
-    finish: existing?.finish,
-    size: existing?.size,
+    coverVideoPosterUrl: existing?.coverVideoPosterUrl ?? undefined,
+    thickness: existing?.thickness ?? undefined,
+    finish: existing?.finish ?? undefined,
+    size: existing?.size ?? undefined,
     featured: existing?.featured ?? false,
     sortOrder: existing?.sortOrder ?? 0,
   };
 }
 
-function buildVariantDocument(
+function buildVariantData(family, variant, index, productId, existing) {
+  return {
+    productRef: productId,
+    code: variant.code,
+    size: existing?.size || variant.size || undefined,
+    thickness: existing?.thickness || variant.thickness || undefined,
+    process: existing?.process || variant.process || undefined,
+    colorGroup: existing?.colorGroup || variant.colorGroup || undefined,
+    faceCount: existing?.faceCount ?? variant.faceCount ?? undefined,
+    facePatternNote:
+      existing?.facePatternNote || variant.facePatternNote || undefined,
+    sortOrder: existing?.sortOrder ?? index,
+    elementImages: cleanImageArray(
+      mergeMedia(existing?.elementImages, variant.elementImages)
+    ),
+    spaceImages: cleanImageArray(
+      mergeMedia(existing?.spaceImages, variant.spaceImages)
+    ),
+    realImages: cleanImageArray(
+      mergeMedia(existing?.realImages, variant.realImages)
+    ),
+    videos: cleanVideoArray(mergeMedia(existing?.videos, variant.videos)),
+  };
+}
+
+async function upsertProduct(payload, family, existingProducts, dryRun) {
+  const existing = existingProducts.get(family.normalizedName);
+  const data = buildProductData(family, existing);
+
+  if (existing) {
+    if (dryRun) return existing.id;
+    await payload.update({
+      collection: "products",
+      id: existing.id,
+      data,
+      overrideAccess: true,
+    });
+    return existing.id;
+  }
+
+  if (dryRun) return null;
+  const created = await payload.create({
+    collection: "products",
+    data,
+    overrideAccess: true,
+  });
+  return created.id;
+}
+
+async function upsertVariant(
+  payload,
   family,
   variant,
   index,
   productId,
-  existingDocuments
+  existingVariants,
+  dryRun
 ) {
-  const existing = existingDocuments.get(
-    buildExistingVariantLookupKey(family.normalizedName, variant.code)
-  );
-  const variantId =
-    existing?._id || buildStableTradeVariantId(family.familyKey, variant.code);
+  if (!productId) return;
+  const lookupKey = `${productId}::${variant.code}`;
+  const existing = existingVariants.get(lookupKey);
+  const data = buildVariantData(family, variant, index, productId, existing);
 
-  return {
-    _id: variantId,
-    _type: "productVariant",
-    productRef: {
-      _type: "reference",
-      _ref: productId,
-    },
-    code: variant.code,
-    size: existing?.size || variant.size,
-    thickness: existing?.thickness || variant.thickness,
-    process: existing?.process || variant.process,
-    colorGroup: existing?.colorGroup || variant.colorGroup,
-    faceCount: existing?.faceCount || variant.faceCount,
-    facePatternNote: existing?.facePatternNote || variant.facePatternNote,
-    sortOrder: existing?.sortOrder ?? index,
-    elementImages: mergeMedia(existing?.elementImages, variant.elementImages),
-    spaceImages: mergeMedia(existing?.spaceImages, variant.spaceImages),
-    realImages: mergeMedia(existing?.realImages, variant.realImages),
-    videos: mergeMedia(existing?.videos, variant.videos),
-  };
+  if (existing) {
+    if (dryRun) return;
+    await payload.update({
+      collection: "productVariants",
+      id: existing.id,
+      data,
+      overrideAccess: true,
+    });
+    return;
+  }
+
+  if (dryRun) return;
+  await payload.create({
+    collection: "productVariants",
+    data,
+    overrideAccess: true,
+  });
 }
 
 async function writeReport(reportPath, payload) {
@@ -588,27 +655,12 @@ async function writeReport(reportPath, payload) {
   await fs.writeFile(reportPath, JSON.stringify(payload, null, 2), "utf8");
 }
 
-async function commitInBatches(documents) {
-  for (const chunk of chunkItems(documents, SANITY_BATCH_SIZE)) {
-    await client.mutate(
-      chunk.map((document) => ({
-        createOrReplace: document,
-      }))
-    );
-  }
-}
-
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
-  if (args.apply && !process.env.SANITY_API_TOKEN) {
-    console.error("Missing SANITY_API_TOKEN in .env.local");
-    process.exit(1);
-  }
-
   const report = {
     generatedAt: new Date().toISOString(),
-    dryRun: !args.apply,
+    dryRun: args.dryRun,
     skippedFiles: [],
     pendingManualReview: [],
     families: 0,
@@ -647,34 +699,52 @@ async function main() {
     0
   );
 
-  if (args.apply) {
-    const existingProducts = await fetchExistingProductsByNormalizedName(
-      families.map((family) => family.normalizedName)
-    );
-    const existingVariants = await fetchExistingVariantsByProductIds(
-      [...existingProducts.values()].map((document) => document._id)
-    );
-    const productDocuments = families.map((family) =>
-      buildProductDocument(family, existingProducts)
-    );
-    const productIdsByName = new Map(
-      productDocuments.map((document) => [document.normalizedName, document._id])
-    );
-    const variantDocuments = families.flatMap((family) =>
-      family.variants.map((variant, index) =>
-        buildVariantDocument(
-          family,
-          variant,
-          index,
-          productIdsByName.get(family.normalizedName) || family.productId,
-          existingVariants
-        )
-      )
+  const config = (await import("../src/payload.config.ts")).default;
+  const payload = await getPayload({ config });
+
+  const normalizedNames = families.map((family) => family.normalizedName);
+  const existingProducts = await fetchExistingProductsByNormalizedName(
+    payload,
+    normalizedNames
+  );
+  const existingProductIds = [...existingProducts.values()].map((doc) => doc.id);
+  const existingVariants = await fetchExistingVariantsByProductIds(
+    payload,
+    existingProductIds
+  );
+
+  let productsWritten = 0;
+  let variantsWritten = 0;
+
+  for (const family of families) {
+    const productId = await upsertProduct(
+      payload,
+      family,
+      existingProducts,
+      args.dryRun
     );
 
-    await commitInBatches(productDocuments);
-    await commitInBatches(variantDocuments);
+    if (productId) {
+      productsWritten += 1;
+    }
+
+    for (let i = 0; i < family.variants.length; i += 1) {
+      const variant = family.variants[i];
+      await upsertVariant(
+        payload,
+        family,
+        variant,
+        i,
+        productId,
+        existingVariants,
+        args.dryRun
+      );
+      variantsWritten += 1;
+    }
   }
+
+  report.productsWritten = productsWritten;
+  report.variantsWritten = variantsWritten;
 
   await writeReport(args.reportPath, report);
 
@@ -687,6 +757,8 @@ async function main() {
         variants: report.variants,
         images: report.images,
         videos: report.videos,
+        productsWritten,
+        variantsWritten,
         pendingManualReview: report.pendingManualReview.length,
         skippedFiles: report.skippedFiles.length,
       },
@@ -694,6 +766,8 @@ async function main() {
       2
     )
   );
+
+  process.exit(0);
 }
 
 main().catch((error) => {

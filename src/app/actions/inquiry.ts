@@ -3,13 +3,12 @@
 import { Resend } from "resend";
 import { z } from "zod";
 
-import { client } from "@/sanity/lib/client";
+import { getPayloadClient } from "@/data/_payload";
 import {
   inquiryNotifyTo,
   resendApiKey,
   resendFromEmail,
-  sanityApiToken,
-} from "@/lib/env";
+} from "@/lib/server-env";
 
 const inquirySchema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -63,21 +62,21 @@ export async function submitInquiry(
 
   const data = parsed.data;
 
-  // Use the token-bearing client for both the rate-limit read and the write.
-  // The anonymous `client` would 401/403 on private datasets or when `inquiry`
-  // read is locked down, and isRateLimited is fail-closed — so every legitimate
-  // submission would be rejected as rate-limited.
-  const writeClient = client.withConfig({ token: sanityApiToken });
+  const payload = await getPayloadClient();
 
-  if (await isRateLimited(writeClient, data.email)) {
+  if (await isRateLimited(data.email)) {
     return { success: false, error: "rate_limited" };
   }
 
   try {
-    await writeClient.create({
-      _type: "inquiry",
-      ...data,
-      status: "pending",
+    await payload.create({
+      collection: "inquiries",
+      data: {
+        ...data,
+        email: data.email.toLowerCase(),
+        status: "pending",
+      },
+      overrideAccess: true,
     });
   } catch (error) {
     console.error("Failed to persist inquiry:", error);
@@ -89,22 +88,24 @@ export async function submitInquiry(
   return { success: true };
 }
 
-async function isRateLimited(
-  sanityClient: typeof client,
-  email: string
-): Promise<boolean> {
+async function isRateLimited(email: string): Promise<boolean> {
   const sinceIso = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
   try {
-    // Sanity GROQ does case-sensitive string compare. Lowercase both sides
-    // to keep "Foo@x.com" and "foo@x.com" in the same bucket.
-    const count = await sanityClient.fetch<number>(
-      'count(*[_type == "inquiry" && lower(email) == $email && _createdAt >= $since])',
-      { email: email.toLowerCase(), since: sinceIso }
-    );
-    return typeof count === "number" && count >= RATE_LIMIT_MAX_PER_EMAIL;
+    const payload = await getPayloadClient();
+    const { totalDocs } = await payload.count({
+      collection: "inquiries",
+      where: {
+        and: [
+          { email: { equals: email.toLowerCase() } },
+          { createdAt: { greater_than_equal: sinceIso } },
+        ],
+      },
+      overrideAccess: true,
+    });
+    return totalDocs >= RATE_LIMIT_MAX_PER_EMAIL;
   } catch (error) {
     // Fail closed: if the rate-limit query itself errors, treat the caller
-    // as rate-limited so a flaky Sanity response can't become an abuse vector.
+    // as rate-limited so a flaky backend can't become an abuse vector.
     console.error("Failed to check inquiry rate limit:", error);
     return true;
   }
