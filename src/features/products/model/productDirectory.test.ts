@@ -88,8 +88,8 @@ test("matchesDirectoryFilters matches when any variant satisfies active filters"
     )).toBe(true);
 });
 
-test("selectProductCoverUrl respects product cover, then space, then element, then real", () => {
-  expect(selectProductCoverUrl(baseProduct, "/placeholder.jpg")).toBe("/space-1.jpg");
+test("selectProductCoverUrl respects product cover, then element, then space, then real", () => {
+  expect(selectProductCoverUrl(baseProduct, "/placeholder.jpg")).toBe("/element-1.jpg");
 
   expect(selectProductCoverUrl(
       {

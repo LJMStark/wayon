@@ -341,8 +341,8 @@ async function readProductDirectory(relativeProductDir) {
     slug: buildSlug(code, displayName),
     seriesTypes,
     coverImageUrl:
-      variant.spaceImages[0]?.publicUrl ||
       variant.elementImages[0]?.publicUrl ||
+      variant.spaceImages[0]?.publicUrl ||
       variant.realImages[0]?.publicUrl,
     variant,
   };

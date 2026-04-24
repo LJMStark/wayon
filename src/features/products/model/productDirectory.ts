@@ -45,6 +45,21 @@ function countVariantMedia(variant: DirectoryVariant): number {
   );
 }
 
+function pickFirstMediaUrl(
+  variants: DirectoryVariant[],
+  field: "elementImages" | "spaceImages" | "realImages"
+): string | null {
+  for (const variant of variants) {
+    const url = variant[field][0]?.publicUrl;
+
+    if (url) {
+      return url;
+    }
+  }
+
+  return null;
+}
+
 export function pickDefaultVariantCode(
   variants: DirectoryVariant[]
 ): string | null {
@@ -132,10 +147,15 @@ export function selectProductCoverUrl(
     return placeholderUrl;
   }
 
+  const variantsByPriority = [
+    selectedVariant,
+    ...product.variants.filter((variant) => variant.code !== selectedVariant.code),
+  ];
+
   return (
-    selectedVariant.spaceImages[0]?.publicUrl ??
-    selectedVariant.elementImages[0]?.publicUrl ??
-    selectedVariant.realImages[0]?.publicUrl ??
+    pickFirstMediaUrl(variantsByPriority, "elementImages") ??
+    pickFirstMediaUrl(variantsByPriority, "spaceImages") ??
+    pickFirstMediaUrl(variantsByPriority, "realImages") ??
     placeholderUrl
   );
 }
