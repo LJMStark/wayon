@@ -32,15 +32,12 @@ const ABOUT_LINKS = [
 ] as const satisfies ReadonlyArray<FooterLink>;
 
 const COLLECTION_LINKS = [
-  { label: "quartzStone", href: "/products?category=quartz" },
-  { label: "terrazzo", href: "/products?category=terrazzo" },
-  { label: "flexibleStone", href: "/products?category=flexible-stone" },
-  { label: "marble", href: "/products?category=marble" },
-  { label: "gemStone", href: "/products?category=gem-stone" },
-  { label: "cementStone", href: "/products?category=cement-stone" },
-  { label: "artificialMarble", href: "/products?category=artificial-marble" },
-  { label: "porcelainSlab", href: "/products?category=porcelain-slab" },
-  { label: "silicaFree", href: "/products?category=silica-free" },
+  { label: "catalogSize", href: "/products?section=size" },
+  { label: "catalogSeries", href: "/products?section=series" },
+  { label: "catalogThickness", href: "/products?section=thickness" },
+  { label: "catalogColor", href: "/products?section=color" },
+  { label: "catalogProcess", href: "/products?section=process" },
+  { label: "catalogCustom", href: "/products?section=custom" },
 ] as const satisfies ReadonlyArray<FooterLink>;
 
 const CASE_LINKS = [

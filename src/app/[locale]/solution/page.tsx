@@ -19,7 +19,7 @@ const PRIMARY_TABS = [
   "view360",
 ] as const;
 
-const SECONDARY_TABS = ["quartzStone", "terrazzo", "cementStone"] as const;
+const SECONDARY_TABS = ["catalogSeriesTexture", "catalogSeriesFamous", "catalogSeriesTravertine"] as const;
 
 const GALLERY_IMAGES = [
   { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/3]" },
@@ -83,11 +83,11 @@ function getImagesForTab(
     return GALLERY_IMAGES.slice(0, 6);
   }
 
-  if (activeSubTab === "terrazzo") {
+  if (activeSubTab === "catalogSeriesFamous") {
     return GALLERY_IMAGES.slice(2, 10);
   }
 
-  if (activeSubTab === "cementStone") {
+  if (activeSubTab === "catalogSeriesTravertine") {
     return GALLERY_IMAGES.slice(4, 12);
   }
 
@@ -100,7 +100,7 @@ export default function SolutionPage(): React.JSX.Element {
   const commonCopy = getCommonCopy(locale);
   const solutionCopy = getSolutionPageCopy(locale);
   const [activeTab, setActiveTab] = useState<PrimaryTabKey>("applicationField");
-  const [activeSubTab, setActiveSubTab] = useState<SecondaryTabKey>("quartzStone");
+  const [activeSubTab, setActiveSubTab] = useState<SecondaryTabKey>("catalogSeriesTexture");
 
   useEffect(() => {
     const handleHashChange = (): void => {
