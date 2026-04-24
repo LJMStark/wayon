@@ -16,7 +16,7 @@ type ProductGridProps = {
   allLabel: string;
   taxonomyCards: ProductTaxonomyCard[];
   products: ProductDirectoryItem[];
-  readMoreLabel: string;
+
   noProductsFoundLabel: string;
 };
 
@@ -104,7 +104,7 @@ export default function ProductGrid({
   allLabel,
   taxonomyCards,
   products,
-  readMoreLabel,
+
   noProductsFoundLabel,
 }: ProductGridProps): React.JSX.Element {
   const selectedCard =
@@ -167,7 +167,7 @@ export default function ProductGrid({
                   slug={product.slug}
                   image={product.coverImageUrl}
                   category={product.seriesTypes[0] || product.category}
-                  readMoreLabel={readMoreLabel}
+
                   summaryTags={buildSummaryTags(product)}
                 />
               ))}

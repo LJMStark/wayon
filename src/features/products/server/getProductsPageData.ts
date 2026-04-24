@@ -140,7 +140,6 @@ export async function getProductsPageData(
     collectionLabel: productsCopy.collectionLabel,
     collectionDescription: productsCopy.directoryDescription,
     allLabel: productsCopy.allFilter,
-    readMoreLabel: commonCopy.readMore,
     noProductsFoundLabel: commonCopy.noProductsFound,
     directoryTitle: productsCopy.directoryTitle,
     directoryDescription: productsCopy.directoryDescription,

@@ -67,7 +67,6 @@ export type ProductsPageData = {
   collectionLabel: string;
   collectionDescription: string;
   allLabel: string;
-  readMoreLabel: string;
   noProductsFoundLabel: string;
   directoryTitle: string;
   directoryDescription: string;

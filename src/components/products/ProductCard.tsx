@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 import { Link } from "@/i18n/routing";
@@ -8,7 +7,6 @@ type ProductCardProps = {
   image?: string;
   slug: string;
   category: string;
-  readMoreLabel: string;
   summaryTags: string[];
 };
 
@@ -20,14 +18,16 @@ export default function ProductCard({
   image,
   slug,
   category,
-  readMoreLabel,
   summaryTags,
 }: ProductCardProps): React.JSX.Element {
   const detailsHref = `/products/${slug}`;
 
   return (
     <div className={CARD_CLASS_NAME}>
-      <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+      <Link
+        href={detailsHref}
+        className="relative block aspect-[4/3] cursor-pointer overflow-hidden bg-neutral-100"
+      >
         {image ? (
           <Image
             src={image}
@@ -40,7 +40,7 @@ export default function ProductCard({
         ) : (
           <div className="absolute inset-0 bg-[linear-gradient(135deg,#f4f4f4,#e8eaed)]" />
         )}
-      </div>
+      </Link>
 
       <div className="flex grow flex-col p-6">
         <span className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.25em] text-neutral-400">
@@ -51,7 +51,7 @@ export default function ProductCard({
         </h3>
 
         {summaryTags.length > 0 ? (
-          <div className="mb-6 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
             {summaryTags.map((tag) => (
               <span
                 key={tag}
@@ -62,17 +62,8 @@ export default function ProductCard({
             ))}
           </div>
         ) : null}
-
-        <div className="mt-auto border-t border-neutral-200 pt-4">
-          <Link
-            href={detailsHref}
-            className="inline-flex items-center text-sm font-medium text-[#1a1a1a] transition-colors hover:text-[#0f2858]"
-          >
-            {readMoreLabel}
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
       </div>
     </div>
   );
 }
+

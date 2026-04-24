@@ -18,7 +18,6 @@ export function ProductsPageView({
   collectionLabel,
   collectionDescription,
   allLabel,
-  readMoreLabel,
   noProductsFoundLabel,
   directoryTitle,
   directoryDescription,
@@ -111,7 +110,7 @@ export function ProductsPageView({
               allLabel={allLabel}
               taxonomyCards={taxonomyCards}
               products={products}
-              readMoreLabel={readMoreLabel}
+
               noProductsFoundLabel={noProductsFoundLabel}
             />
           </div>
