@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -71,10 +71,10 @@ export function SolutionTabs({
   return (
     <motion.section 
       className="wayon-section"
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="wayon-container">
         <header className="mb-6 text-center md:mb-10">
@@ -87,22 +87,43 @@ export function SolutionTabs({
         <div className="relative">
           <div className="relative overflow-hidden bg-[color:var(--surface)]">
             <div className="relative aspect-[7/3] min-h-[300px]">
-              <Image
-                src={activeItem.image}
-                alt={activeItem.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 1140px"
-                className="object-cover"
-              />
+              <AnimatePresence mode="sync">
+                <motion.div
+                  key={activeItem.label}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <Image
+                    src={activeItem.image}
+                    alt={activeItem.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 1140px"
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             <article className="relative z-10 w-full bg-black/40 p-6 text-white backdrop-blur-[2px] md:absolute md:left-10 md:top-1/2 md:w-[44.642857%] md:-translate-y-1/2 md:p-10">
-              <header className="mb-4">
-                <h3 className="text-[28px] font-medium md:text-[34px]">{activeItem.title}</h3>
-              </header>
-              <p className="text-[15px] font-light leading-[1.78] text-white/90">
-                {activeItem.description}
-              </p>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeItem.label}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <header className="mb-4">
+                    <h3 className="text-[28px] font-medium md:text-[34px]">{activeItem.title}</h3>
+                  </header>
+                  <p className="text-[15px] font-light leading-[1.78] text-white/90">
+                    {activeItem.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
               <footer className="mt-6 flex items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
                   {formatCopy(copy.ctaTemplate, { title: activeItem.title })}

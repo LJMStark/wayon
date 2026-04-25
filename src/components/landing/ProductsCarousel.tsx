@@ -73,10 +73,10 @@ export function ProductsCarousel({
   return (
     <motion.section 
       className="wayon-section overflow-hidden bg-[color:var(--background)]"
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="wayon-container">
         <header className="mb-12 text-center md:mb-14">
@@ -118,25 +118,25 @@ export function ProductsCarousel({
               >
                 <article className="group flex flex-col-reverse transition-transform duration-500 ease-[cubic-bezier(0.28,0.2,0,1)] hover:-translate-y-6">
                   <header className="mt-6">
-                    <h3 className="truncate text-center text-[18px] font-light leading-[30px] text-[#252525] transition-all duration-500 group-hover:text-[22px] group-hover:font-medium md:group-hover:text-[24px]">
+                    <h3 className="truncate text-center text-[18px] font-light leading-[30px] text-[#252525] transition-colors duration-500 group-hover:text-[color:var(--primary)]">
                       {product.title}
                     </h3>
                   </header>
 
-                  <div className="relative overflow-hidden bg-white shadow-[0_0_1rem_0_rgba(0,0,0,0.1)]">
-                    <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[color:var(--primary)] via-[#114168]/80 to-transparent px-5 py-6 opacity-0 transition-all duration-500 group-hover:opacity-100">
+                  <div className="relative overflow-hidden bg-white shadow-[0_0_1rem_0_rgba(0,0,0,0.1)] transition-shadow duration-500 group-hover:shadow-[0_24px_48px_-20px_rgba(0,43,80,0.28)]">
+                    <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[color:var(--primary)] via-[#114168]/80 to-transparent px-5 py-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                       <p className="text-[14px] leading-[1.55] text-white">
                         {product.description}
                       </p>
                     </div>
 
-                    <div className="relative aspect-[33/42]">
+                    <div className="relative aspect-[33/42] overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.title}
                         fill
                         sizes="(max-width: 768px) 78vw, 332px"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
                       />
                     </div>
                   </div>

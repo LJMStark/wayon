@@ -60,7 +60,7 @@ function EmptyTaxonomyState({
   activeSectionLabel: string;
 }): React.JSX.Element {
   return (
-    <div className="rounded-[28px] border border-dashed border-neutral-300 bg-white px-6 py-12 text-center text-neutral-500">
+    <div className="border border-dashed border-[color:var(--border)] bg-white px-6 py-12 text-center text-[color:var(--muted-foreground)]">
       当前“{activeSectionLabel}”栏目还没有可展示的二级分类。
     </div>
   );
@@ -78,19 +78,23 @@ function TaxonomyCard({
       href={buildProductsHref(activeSection, card.value)}
       className="group flex flex-col gap-4"
     >
-      <div className="relative aspect-[3/2] w-full overflow-hidden bg-[#f5f5f5]">
+      <div className="relative aspect-[3/2] w-full overflow-hidden bg-[color:var(--surface)]">
         {card.imageSrc ? (
           <Image
             src={card.imageSrc}
             alt={card.label}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
             unoptimized
           />
         ) : null}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px scale-x-0 bg-[color:var(--accent)] transition-transform duration-500 ease-out group-hover:scale-x-100 origin-left"
+        />
       </div>
-      <div className="text-center font-medium text-[#1A1A1A]">
+      <div className="text-center text-[15px] font-medium tracking-[0.04em] text-[#242424] transition-colors duration-300 group-hover:text-[color:var(--primary)]">
         {card.label}
       </div>
     </Link>
@@ -113,17 +117,19 @@ export default function ProductGrid({
   return (
     <section>
       {!activeValue ? (
-        <div className="space-y-8">
-          <div className="bg-[#FAF9F7] px-6 py-4">
-            <h3 className="text-lg font-medium text-[#294B3B]">
-              {activeSectionLabel} &gt;&gt;
-            </h3>
+        <div className="space-y-10">
+          <div className="flex items-baseline gap-4 border-b border-[color:var(--border)] pb-5">
+            <span className="wayon-eyebrow">{activeSectionLabel}</span>
+            <span
+              aria-hidden
+              className="h-px flex-1 bg-[color:var(--border)]"
+            />
           </div>
-          
+
           {taxonomyCards.length === 0 ? (
             <EmptyTaxonomyState activeSectionLabel={activeSectionLabel} />
           ) : (
-            <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
               {taxonomyCards.map((card) => (
                 <TaxonomyCard
                   key={card.key}
@@ -135,27 +141,32 @@ export default function ProductGrid({
           )}
         </div>
       ) : (
-        <div className="space-y-6">
-          <div className="flex flex-col gap-3 border-b border-neutral-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <Link 
+        <div className="space-y-8">
+          <div className="flex flex-col gap-3 border-b border-[color:var(--border)] pb-6 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-4">
+              <Link
                 href={buildProductsHref(activeSection)}
-                className="text-neutral-500 hover:text-black transition-colors"
+                className="inline-flex size-10 items-center justify-center border border-[color:var(--border)] text-[color:var(--muted-foreground)] transition-colors duration-200 hover:border-[color:var(--primary)] hover:text-[color:var(--primary)] rtl:rotate-180"
                 aria-label="Back to categories"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                 </svg>
               </Link>
-              <h3 className="text-2xl font-semibold text-[#1A1A1A]">
-                {selectedCard?.label || allLabel}
-              </h3>
+              <div className="flex flex-col gap-1">
+                <span className="wayon-eyebrow">{activeSectionLabel}</span>
+                <h3 className="font-heading text-[1.75rem] font-medium tracking-[-0.01em] text-[#242424]">
+                  {selectedCard?.label || allLabel}
+                </h3>
+              </div>
             </div>
-            <p className="text-sm text-neutral-500">共 {products.length} 个产品家族</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+              {products.length} <span className="opacity-60">/ products</span>
+            </p>
           </div>
 
           {products.length === 0 ? (
-            <div className="rounded-[24px] border border-dashed border-neutral-300 bg-white px-6 py-16 text-center text-neutral-500">
+            <div className="border border-dashed border-[color:var(--border)] bg-white px-6 py-16 text-center text-[color:var(--muted-foreground)]">
               {noProductsFoundLabel}
             </div>
           ) : (

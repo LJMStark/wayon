@@ -1,27 +1,29 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 import type { HeroSlide } from "@/data/home";
 import { formatCopy } from "@/data/siteCopy";
+import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex } from "./carouselUtils";
 
 function getSlideClassName(isActive: boolean): string {
   if (isActive) {
-    return "absolute inset-0 transition-opacity duration-700 opacity-100";
+    return "absolute inset-0 transition-opacity duration-[1200ms] ease-out opacity-100";
   }
 
-  return "absolute inset-0 pointer-events-none transition-opacity duration-700 opacity-0";
+  return "absolute inset-0 pointer-events-none transition-opacity duration-[1200ms] ease-out opacity-0";
 }
 
 function getIndicatorClassName(isActive: boolean): string {
   if (isActive) {
-    return "h-[6px] w-10 rounded-full bg-white transition-all";
+    return "h-[3px] w-10 bg-white transition-[width,background-color] duration-300";
   }
 
-  return "h-[6px] w-10 rounded-full bg-white/35 transition-all";
+  return "h-[3px] w-6 bg-white/35 transition-[width,background-color] duration-300 hover:bg-white/60";
 }
 
 function getSlideKey(slide: HeroSlide, index: number): string {
@@ -34,19 +36,29 @@ type HeroProps = {
 };
 
 export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
+  const t = useTranslations("Hero");
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused || slides.length <= 1) {
+      return;
+    }
+
     const timer = window.setInterval(() => {
       setActiveSlide((current) => getWrappedIndex(current, slides.length, "next"));
     }, 7000);
 
     return () => window.clearInterval(timer);
-  }, [slides.length]);
+  }, [slides.length, isPaused]);
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="relative aspect-[1920/850] min-h-[260px] w-full md:min-h-[420px]">
+    <section
+      className="relative overflow-hidden bg-[color:var(--primary)]"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <div className="relative aspect-[1920/850] min-h-[420px] w-full md:min-h-[520px]">
         {slides.map((slide, index) => (
           <div
             key={getSlideKey(slide, index)}
@@ -61,7 +73,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 src={slide.src}
               />
             ) : (
@@ -78,19 +90,55 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
             )}
           </div>
         ))}
+
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/25 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-transparent rtl:bg-gradient-to-l"
+        />
+
+        <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-20 md:pb-28 lg:pb-32">
+          <div className="wayon-container-wide">
+            <div className="max-w-3xl space-y-6 text-white">
+              <h1 className="wayon-title text-white whitespace-pre-line">
+                <span className="block">{t("titleLine1")}</span>
+                <span className="block">
+                  <strong>{t("titleLine2")}</strong>
+                </span>
+              </h1>
+              <p className="wayon-copy text-white/85 max-w-xl text-base md:text-[17px]">
+                {t("subtitle")}
+              </p>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <Link href="/products" className="wayon-cta-primary">
+                  {t("exploreProducts")}
+                </Link>
+                <Link href="/contact" className="wayon-cta-ghost text-white">
+                  {t("getFreeSample")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 md:bottom-8">
-        {slides.map((slide, index) => (
-          <button
-            key={getSlideKey(slide, index)}
-            type="button"
-            onClick={() => setActiveSlide(index)}
-            className={getIndicatorClassName(index === activeSlide)}
-            aria-label={formatCopy(slideLabel, { index: index + 1 })}
-          />
-        ))}
-      </div>
+      {slides.length > 1 ? (
+        <div className="absolute inset-x-0 bottom-6 z-20 flex items-center justify-center gap-3 md:bottom-10">
+          {slides.map((slide, index) => (
+            <button
+              key={getSlideKey(slide, index)}
+              type="button"
+              onClick={() => setActiveSlide(index)}
+              className={getIndicatorClassName(index === activeSlide)}
+              aria-label={formatCopy(slideLabel, { index: index + 1 })}
+              aria-current={index === activeSlide ? "true" : undefined}
+            />
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 }

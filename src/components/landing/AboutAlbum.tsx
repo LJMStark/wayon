@@ -55,10 +55,10 @@ export function AboutAlbum({
   return (
     <motion.section 
       className="relative pb-12 md:pb-0"
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="wayon-container relative">
         <div className="relative aspect-[12/5] min-h-[420px] overflow-hidden bg-[color:var(--surface)] md:min-h-[540px]">

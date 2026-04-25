@@ -126,28 +126,26 @@ export function ProductDetailPageView({
 
   return (
     <div className="min-h-screen bg-white pt-24 pb-24">
-      <div className="mx-auto max-w-[1400px] px-4 py-12 sm:px-6 lg:px-8">
+      <div className="wayon-container-wide py-12">
         <Link
           href="/products"
-          className="mb-8 inline-flex items-center text-sm font-medium uppercase tracking-wide text-gray-400 transition-colors hover:text-[#1a1a1a]"
+          className="mb-12 inline-flex items-center text-[12px] font-medium uppercase tracking-[0.22em] text-[color:var(--muted-foreground)] transition-colors duration-200 hover:text-[color:var(--primary)]"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" /> {backLabel}
+          <ArrowLeft className="me-2 h-4 w-4 rtl:rotate-180" /> {backLabel}
         </Link>
 
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16">
-          <span className="mb-4 block text-xs font-bold uppercase tracking-widest text-gray-400">
-            {category}
-          </span>
-          <h1 className="mb-6 text-4xl font-heading font-bold tracking-wide text-[#1a1a1a] md:text-5xl">
+        <div className="mx-auto mb-16 flex max-w-4xl flex-col items-center text-center">
+          <span className="wayon-eyebrow mb-5">{category}</span>
+          <h1 className="mb-7 font-heading text-[2.4rem] font-light tracking-[-0.015em] text-[#242424] md:text-[3.2rem]">
             {title}
           </h1>
 
           {seriesTypes.length > 0 ? (
-            <div className="mb-8 flex flex-wrap justify-center gap-2">
+            <div className="mb-9 flex flex-wrap justify-center gap-2">
               {seriesTypes.map((seriesType) => (
                 <span
                   key={seriesType}
-                  className="rounded-full border border-neutral-200 px-4 py-1.5 text-sm text-neutral-600"
+                  className="border border-[color:var(--border)] px-4 py-1.5 text-[12px] uppercase tracking-[0.14em] text-[color:var(--muted-foreground)]"
                 >
                   {seriesType}
                 </span>
@@ -156,7 +154,7 @@ export function ProductDetailPageView({
           ) : null}
 
           {descriptionParagraphs.length > 0 ? (
-            <div className="prose prose-lg mb-10 font-light leading-relaxed text-gray-500">
+            <div className="prose prose-lg mb-10 font-light leading-[1.85] text-[color:var(--muted-foreground)]">
               {descriptionParagraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -164,14 +162,14 @@ export function ProductDetailPageView({
           ) : null}
 
           {variants.length > 1 ? (
-            <div className="mb-10 w-full max-w-md mx-auto text-left">
-              <label className="mb-3 block text-sm font-semibold text-[#1a1a1a]">
+            <div className="mx-auto mb-10 w-full max-w-md text-start">
+              <label className="wayon-eyebrow mb-3 block text-[color:var(--foreground)]">
                 {labels.variantSelector}
               </label>
               <select
                 value={selectedVariantCode}
                 onChange={(event) => setSelectedVariantCode(event.target.value)}
-                className="w-full rounded-2xl border border-neutral-300 bg-white px-4 py-3 text-sm text-[#1a1a1a] outline-none transition-colors focus:border-[#0f2858]"
+                className="w-full border border-[color:var(--border)] bg-white px-4 py-3 text-sm text-[#242424] outline-none transition-colors duration-200 focus:border-[color:var(--primary)]"
               >
                 {variants.map((variant) => (
                   <option key={variant.code} value={variant.code}>
@@ -183,7 +181,7 @@ export function ProductDetailPageView({
           ) : null}
 
           {specifications.length > 0 ? (
-            <div className="mb-12 w-full grid grid-cols-2 gap-px border border-gray-200 bg-gray-200 text-left sm:grid-cols-4">
+            <div className="mb-12 grid w-full grid-cols-2 gap-px border border-[color:var(--border)] bg-[color:var(--border)] text-start sm:grid-cols-4">
               {specifications.map((specification) => (
                 <ProductSpecificationCard
                   key={specification.label}
@@ -194,14 +192,14 @@ export function ProductDetailPageView({
             </div>
           ) : null}
 
-          <div className="mt-4">
+          <div className="mt-2">
             <button
               type="button"
               onClick={handleRequestSample}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#1a1a1a] px-12 py-5 text-sm font-medium uppercase tracking-widest text-white transition-colors hover:bg-gray-800 sm:w-auto"
+              className="wayon-cta-primary group"
             >
               {requestSampleLabel}
-              <ArrowRight className="ml-3 h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </button>
           </div>
         </div>

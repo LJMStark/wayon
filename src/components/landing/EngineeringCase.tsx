@@ -20,10 +20,10 @@ export function EngineeringCase({
     <motion.section 
       id="case" 
       className="wayon-section"
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
