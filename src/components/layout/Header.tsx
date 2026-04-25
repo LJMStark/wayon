@@ -203,105 +203,6 @@ export default function Header(): React.JSX.Element {
     >
       <div className="mx-auto w-full px-4 md:px-8 xl:px-12 2xl:px-16">
         <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-center gap-6 lg:gap-10 xl:gap-16">
-          <div className="hidden h-[40px] items-center gap-5 border-r border-white/35 pr-6 lg:flex xl:gap-8 xl:pr-10">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={toggleSearch}
-                className={`transition-colors ${
-                  isTransparent
-                    ? "text-white hover:text-white"
-                    : "text-white/80 hover:text-white"
-                }`}
-                aria-label={headerCopy.toggleSearch}
-              >
-                <Search className="size-5" />
-              </button>
-
-              <AnimatePresence>
-                {searchOpen ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute end-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 wayon-menu-shadow"
-                  >
-                    <form
-                      className="flex gap-3"
-                      onSubmit={handleSearchSubmit}
-                    >
-                      <input
-                        id="desktop-search"
-                        name="keyword"
-                        type="text"
-                        placeholder={tHeader("searchPlaceholder")}
-                        className="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-2 text-[14px] text-[#333333] focus:border-[color:var(--primary)] focus:outline-none"
-                      />
-                      <button
-                        type="submit"
-                        className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-semibold text-white"
-                      >
-                        {headerCopy.searchAction}
-                      </button>
-                    </form>
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
-            </div>
-
-            <div
-              className={`h-4 w-px transition-colors ${
-                isTransparent ? "bg-white/35" : "bg-white/35"
-              }`}
-            />
-
-            <div
-              className="relative"
-              onMouseEnter={() => setLangOpen(true)}
-              onMouseLeave={() => setLangOpen(false)}
-            >
-              <button
-                type="button"
-                className={`inline-flex items-center gap-2 text-[16px] font-light transition-colors ${
-                  isTransparent
-                    ? "text-white hover:text-white"
-                    : "text-white/80 hover:text-white"
-                }`}
-              >
-                <Globe className="size-4" />
-                <span>{currentLanguage.label}</span>
-                <ChevronDown className={getChevronClassName(langOpen)} />
-              </button>
-
-              <AnimatePresence>
-                {langOpen ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute end-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
-                  >
-                    {LANGUAGES.map((language) => (
-                      <Link
-                        key={language.label}
-                        href={pathname}
-                        locale={language.locale}
-                        className="flex items-center gap-3 px-4 py-3 text-[16px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
-                      >
-                        <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
-                          {language.icon}
-                        </span>
-                        <span>{language.label}</span>
-                      </Link>
-                    ))}
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
-            </div>
-          </div>
-
           <Link
             href="/"
             className="block shrink-0"
@@ -449,6 +350,105 @@ export default function Header(): React.JSX.Element {
               })}
             </ul>
           </nav>
+
+          <div className="hidden h-[40px] items-center gap-5 lg:flex xl:gap-8">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={toggleSearch}
+                className={`transition-colors ${
+                  isTransparent
+                    ? "text-white hover:text-white"
+                    : "text-white hover:text-white"
+                }`}
+                aria-label={headerCopy.toggleSearch}
+              >
+                <Search className="size-5" />
+              </button>
+
+              <AnimatePresence>
+                {searchOpen ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute end-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 wayon-menu-shadow"
+                  >
+                    <form
+                      className="flex gap-3"
+                      onSubmit={handleSearchSubmit}
+                    >
+                      <input
+                        id="desktop-search"
+                        name="keyword"
+                        type="text"
+                        placeholder={tHeader("searchPlaceholder")}
+                        className="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-2 text-[14px] text-[#333333] focus:border-[color:var(--primary)] focus:outline-none"
+                      />
+                      <button
+                        type="submit"
+                        className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-semibold text-white"
+                      >
+                        {headerCopy.searchAction}
+                      </button>
+                    </form>
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+
+            <div
+              className={`h-4 w-px transition-colors ${
+                isTransparent ? "bg-white/35" : "bg-white/35"
+              }`}
+            />
+
+            <div
+              className="relative"
+              onMouseEnter={() => setLangOpen(true)}
+              onMouseLeave={() => setLangOpen(false)}
+            >
+              <button
+                type="button"
+                className={`inline-flex items-center gap-2 text-[16px] font-semibold transition-colors ${
+                  isTransparent
+                    ? "text-white hover:text-white"
+                    : "text-white hover:text-white"
+                }`}
+              >
+                <Globe className="size-4" />
+                <span>{currentLanguage.label}</span>
+                <ChevronDown className={getChevronClassName(langOpen)} />
+              </button>
+
+              <AnimatePresence>
+                {langOpen ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute end-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
+                  >
+                    {LANGUAGES.map((language) => (
+                      <Link
+                        key={language.label}
+                        href={pathname}
+                        locale={language.locale}
+                        className="flex items-center gap-3 px-4 py-3 text-[16px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
+                      >
+                        <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
+                          {language.icon}
+                        </span>
+                        <span>{language.label}</span>
+                      </Link>
+                    ))}
+                  </motion.div>
+                ) : null}
+              </AnimatePresence>
+            </div>
+          </div>
 
           
 
