@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/routing";
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
@@ -121,25 +122,12 @@ export default function SolutionPage(): React.JSX.Element {
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
-      <section className="relative h-[350px] w-full bg-neutral-200">
-        <Image
-          src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
-          alt={solutionCopy.heroTitle}
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center pt-10 text-white">
-          <h1 className="mb-4 text-3xl font-bold uppercase tracking-wider shadow-sm md:text-5xl">
-            {solutionCopy.heroTitle}
-          </h1>
-          <p className="border-b border-transparent text-sm uppercase tracking-[0.05em] md:text-base">
-            {solutionCopy.heroSubtitle}
-          </p>
-        </div>
-      </section>
+      <PageHero
+        imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
+        imageAlt={solutionCopy.heroTitle}
+        title={solutionCopy.heroTitle}
+        subtitle={solutionCopy.heroSubtitle}
+      />
 
       <div className="mx-auto mb-8 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-gray-500">
         <span className="text-gray-400">◆</span> {commonCopy.breadcrumbLabel}:{" "}

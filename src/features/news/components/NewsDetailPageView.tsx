@@ -21,7 +21,7 @@ export function NewsDetailPageView({
 
   return (
     <article className="min-h-screen bg-white">
-      <section className="relative h-[350px] w-full bg-neutral-200 md:h-[450px]">
+      <section className="relative -mt-[var(--header-height)] w-full min-h-[430px] md:min-h-[530px] overflow-hidden bg-neutral-900">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -31,18 +31,21 @@ export function NewsDetailPageView({
             priority
           />
         ) : null}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pt-10 text-center text-white">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/55"
+        />
+        <div className="relative z-10 flex min-h-[430px] md:min-h-[530px] flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
           {categoryLabel ? (
             <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
               <Tag className="me-1.5 h-3 w-3" />
               {categoryLabel}
             </span>
           ) : null}
-          <h1 className="mb-4 max-w-3xl text-3xl font-heading font-bold md:text-4xl lg:text-5xl">
+          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-light drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
             {title}
           </h1>
-          <div className="flex items-center text-sm text-gray-300">
+          <div className="flex items-center text-sm text-white/70">
             <Calendar className="me-2 h-4 w-4" />
             {dateLabel}
           </div>

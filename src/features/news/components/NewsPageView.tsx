@@ -22,7 +22,7 @@ export function NewsPageView({
 }: NewsPageData): React.JSX.Element {
   return (
     <div className="min-h-screen bg-background pb-24">
-      <section className="bg-primary px-4 pb-20 pt-32 text-center">
+      <section className="-mt-[var(--header-height)] bg-primary px-4 pb-20 pt-[calc(var(--header-height)+8rem)] text-center">
         <div className="mx-auto max-w-4xl animate-fade-up">
           <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-gold">
             {eyebrow}

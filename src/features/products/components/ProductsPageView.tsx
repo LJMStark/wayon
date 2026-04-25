@@ -36,12 +36,12 @@ export function ProductsPageView({
 
   return (
     <main className="min-h-screen bg-white">
-      <section className="relative overflow-hidden bg-[color:var(--muted)]">
+      <section className="relative -mt-[var(--header-height)] overflow-hidden bg-[color:var(--muted)]">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-y-0 end-0 w-1/2 bg-gradient-to-l from-[color:var(--surface)] to-transparent rtl:bg-gradient-to-r"
         />
-        <div className="wayon-container-wide relative flex min-h-[340px] flex-col justify-center py-20 md:py-24">
+        <div className="wayon-container-wide relative flex min-h-[340px] flex-col justify-center pb-20 pt-[calc(var(--header-height)+5rem)] md:pb-24 md:pt-[calc(var(--header-height)+6rem)]">
           <span className="wayon-eyebrow mb-5 text-[color:var(--primary)]/70">
             Product Center
           </span>

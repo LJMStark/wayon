@@ -90,7 +90,7 @@ export default async function DownloadPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="bg-[#1a1a1a] py-20">
+      <section className="bg-[#1a1a1a] -mt-[var(--header-height)] pb-20 pt-[calc(var(--header-height)+80px)]">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <h1 className="mb-4 text-4xl font-heading font-bold uppercase tracking-wide text-white md:text-5xl">
             {downloadCopy.heroTitle}

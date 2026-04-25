@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
+import { PageHero } from "@/components/layout/PageHero";
 import { useState } from "react";
 import { MoveRight } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -68,22 +69,11 @@ export default function AboutPage(): React.JSX.Element {
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
-      <section className="relative h-[400px] w-full bg-neutral-200">
-        <Image
-          src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
-          alt={aboutCopy.heroTitle}
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl font-light uppercase tracking-[0.2em] text-white md:text-5xl">
-            {aboutCopy.heroTitle}
-          </h1>
-        </div>
-      </section>
+      <PageHero
+        imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
+        imageAlt={aboutCopy.heroTitle}
+        title={aboutCopy.heroTitle}
+      />
 
       <div className="mx-auto max-w-7xl border-b border-gray-100 px-6 py-4 text-sm text-gray-500">
         <span className="text-gray-400">◆</span> {commonCopy.breadcrumbLabel}:{" "}

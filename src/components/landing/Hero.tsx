@@ -54,7 +54,11 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
 
   return (
     <section
-      className="relative overflow-hidden bg-[color:var(--primary)]"
+      // Negative top margin pulls the hero up behind the fixed header so the
+      // image reads as a true full-bleed cover (continuous with the viewport
+      // top) instead of starting below the 80px header strip. Pairs with the
+      // scroll-aware transparent header in components/layout/Header.tsx.
+      className="relative -mt-[var(--header-height)] overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
