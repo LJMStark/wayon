@@ -22,8 +22,6 @@ export function HomePageView({
   return (
     <>
       <Hero slides={hero.slides} slideLabel={hero.slideLabel} />
-      <AboutIntro data={aboutIntro} />
-      <AboutAlbum items={aboutAlbum.items} copy={aboutAlbum.copy} />
       <ProductsCarousel
         items={productsCarousel.items}
         copy={productsCarousel.copy}
@@ -39,6 +37,8 @@ export function HomePageView({
         subtitle={engineeringCase.subtitle}
         items={engineeringCase.items}
       />
+      <AboutIntro data={aboutIntro} />
+      <AboutAlbum items={aboutAlbum.items} copy={aboutAlbum.copy} />
       <PartnerCarousel
         title={partnerCarousel.title}
         description={partnerCarousel.description}

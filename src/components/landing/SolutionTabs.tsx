@@ -70,13 +70,13 @@ export function SolutionTabs({
 
   return (
     <motion.section 
-      className="wayon-section"
+      className="wayon-section px-0"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="wayon-container">
+      <div className="mx-auto max-w-[1920px] px-4 lg:px-8">
         <header className="mb-6 text-center md:mb-10">
           <h2 className="wayon-title">{title}</h2>
           <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
