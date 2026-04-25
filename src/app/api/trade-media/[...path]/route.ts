@@ -13,7 +13,7 @@ import {
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const TRADE_MEDIA_ROOT = path.join(process.cwd(), 'docs/外贸出口资料')
+const TRADE_MEDIA_ROOT = path.join(process.cwd(), 'docs')
 
 function buildHeaders(
   contentType: string,
