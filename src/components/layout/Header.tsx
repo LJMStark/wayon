@@ -201,9 +201,9 @@ export default function Header(): React.JSX.Element {
           : "border-transparent bg-[color:var(--primary)]"
       }`}
     >
-      <div className="mx-auto flex h-full w-full max-w-[1920px] items-center px-4 md:px-8 xl:px-12 2xl:px-16">
-        <div className="flex h-[var(--header-height)] w-full items-center justify-between gap-6 lg:justify-start lg:gap-10">
-          <div className="hidden h-8 items-center gap-5 border-r border-white/35 pr-6 lg:flex xl:gap-8 xl:pr-10">
+      <div className="mx-auto w-full px-4 md:px-8 xl:px-12 2xl:px-16">
+        <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-start gap-6 lg:gap-10">
+          <div className="hidden h-[40px] items-center gap-5 border-r border-white/35 pr-6 lg:flex xl:gap-8 xl:pr-10">
             <div className="relative">
               <button
                 type="button"
@@ -302,15 +302,12 @@ export default function Header(): React.JSX.Element {
             </div>
           </div>
 
-          
-        </div>
-
           <Link
             href="/"
             className="block shrink-0"
           >
             <BrandLogo
-              className="relative h-[70px] w-[114px] md:h-[100px] md:w-[163px]"
+              className="relative h-[65px] w-[105px] md:h-[90px] md:w-[146px]"
               imageClassName={`object-contain transition-[filter] duration-300 ease-out ${
                 isTransparent ? "" : ""
               }`}
@@ -320,8 +317,8 @@ export default function Header(): React.JSX.Element {
             />
           </Link>
 
-          <nav className="hidden flex-1 items-center justify-start lg:flex">
-            <ul className="flex items-center">
+          <nav className="hidden flex-1 items-center justify-start lg:flex ml-4 xl:ml-8 whitespace-nowrap">
+            <ul className="flex items-center flex-nowrap">
               {NAV_ITEMS.map((item) => {
                 const isOpen = activeMenu === item.label;
                 const isCurrent = pathname === resolveBaseHref(item.href);
@@ -453,6 +450,8 @@ export default function Header(): React.JSX.Element {
             </ul>
           </nav>
 
+          
+
           <button
             type="button"
             className={`relative z-10 inline-flex size-10 items-center justify-center border transition-colors lg:hidden ${
@@ -467,8 +466,7 @@ export default function Header(): React.JSX.Element {
           >
             <Menu className="size-6" aria-hidden="true" />
           </button>
-
-          
+        </div>
       </div>
 
       <AnimatePresence>
