@@ -228,7 +228,12 @@ export function ProductDetailPageView({
   return (
     <div className="min-h-screen bg-white pb-24">
       {heroImage ? (
-        <section className="relative w-full h-[78vh] min-h-[520px] max-h-[860px] overflow-hidden">
+        // Negative margin pulls the hero up behind the fixed header, so the
+        // image reads as a true full-bleed cover (extending to the very top
+        // of the viewport) instead of starting below an 80px white bar.
+        // Height = 100vh keeps the visible area roughly one full screen even
+        // after the header overlays the top strip.
+        <section className="relative -mt-[var(--header-height)] w-full h-screen min-h-[640px] overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroImage.publicUrl}
@@ -238,29 +243,32 @@ export function ProductDetailPageView({
             decoding="async"
             fetchPriority="high"
           />
-          <div className="relative z-10 flex h-full items-center px-6 md:px-16">
-            {/* White translucent panel — keeps text legible on any photo
-                background without needing a dark gradient over the image. */}
-            <div className="mx-auto w-full max-w-md bg-white/55 px-8 py-10 backdrop-blur-[2px] md:px-12 md:py-12">
-              <span className="mb-4 block text-[11px] font-semibold uppercase tracking-[0.36em] text-[#5a5a5a]">
-                {category}
-              </span>
-              <h1 className="font-heading text-[2rem] font-light tracking-[-0.015em] text-[#1a1a1a] md:text-[3rem]">
-                {title}
-              </h1>
-              {seriesTypes.length > 0 ? (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {seriesTypes.map((seriesType) => (
-                    <span
-                      key={seriesType}
-                      className="border border-[#1a1a1a]/25 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-[#1a1a1a]/85"
-                    >
-                      {seriesType}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+          {/* Soft top-and-bottom darkening keeps white text legible across
+              any cover photo (light marble, dark wood, mid-tone real shots)
+              without flattening the image with a heavy uniform overlay. */}
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55"
+          />
+          <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
+            <span className="mb-5 text-[11px] font-semibold uppercase tracking-[0.36em] text-white/85">
+              {category}
+            </span>
+            <h1 className="font-heading text-[2.4rem] font-light tracking-[-0.015em] drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-[3.6rem]">
+              {title}
+            </h1>
+            {seriesTypes.length > 0 ? (
+              <div className="mt-7 flex flex-wrap justify-center gap-2">
+                {seriesTypes.map((seriesType) => (
+                  <span
+                    key={seriesType}
+                    className="border border-white/45 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/90 backdrop-blur-[2px]"
+                  >
+                    {seriesType}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
       ) : null}

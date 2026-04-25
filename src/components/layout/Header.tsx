@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   LANGUAGES,
@@ -65,9 +65,16 @@ function toggleStringItem(items: string[], value: string): string[] {
   return [...items, value];
 }
 
-function getDesktopNavLinkClassName(isCurrent: boolean): string {
+function getDesktopNavLinkClassName(
+  isCurrent: boolean,
+  isTransparent: boolean
+): string {
   if (isCurrent) {
     return "inline-flex items-center text-[15px] font-light text-[color:var(--primary)] transition-colors";
+  }
+
+  if (isTransparent) {
+    return "inline-flex items-center text-[15px] font-light text-white/95 transition-colors hover:text-white";
   }
 
   return "inline-flex items-center text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]";
@@ -127,6 +134,25 @@ export default function Header(): React.JSX.Element {
   const [searchOpen, setSearchOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [mobileOpenSections, setMobileOpenSections] = useState<string[]>([]);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Scroll-aware transparent header: starts transparent over the page hero,
+  // becomes solid white after the user scrolls past the fold so nav text stays
+  // legible against the underlying page content.
+  useEffect(() => {
+    const handleScroll = (): void => {
+      setIsScrolled(window.scrollY > 24);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Treat any open dropdown / mega menu the same as scrolled — those panels
+  // need a solid header background to read against.
+  const isTransparent =
+    !isScrolled && !activeMenu && !searchOpen && !langOpen && !isMobileOpen;
 
   const closeMobileMenu = (): void => {
     setIsMobileOpen(false);
@@ -169,7 +195,11 @@ export default function Header(): React.JSX.Element {
       initial={{ y: "-100%", opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-white"
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ease-out ${
+        isTransparent
+          ? "border-transparent bg-transparent"
+          : "border-[color:var(--border)] bg-white"
+      }`}
     >
       <div className="wayon-container">
         <div className="flex h-[var(--header-height)] items-center justify-between gap-6">
@@ -179,6 +209,14 @@ export default function Header(): React.JSX.Element {
           >
             <BrandLogo
               className="relative h-[42px] w-[63px] md:h-[50px] md:w-[75px]"
+              // The current logo is a JPG with a baked-in white background.
+              // In the transparent header state we'd see that as a white tile
+              // floating over the hero; brightness-[10] crushes it to white
+              // (same trick the dark mobile drawer uses) so the logotype
+              // reads as white-on-image until the header fades to solid.
+              imageClassName={`object-contain transition-[filter] duration-300 ease-out ${
+                isTransparent ? "brightness-[10]" : ""
+              }`}
               locale={locale}
               preload
               sizes="(max-width: 768px) 63px, 75px"
@@ -205,7 +243,7 @@ export default function Header(): React.JSX.Element {
                   >
                     <Link
                       href={item.href}
-                      className={getDesktopNavLinkClassName(isCurrent)}
+                      className={getDesktopNavLinkClassName(isCurrent, isTransparent)}
                     >
                       {translateNav(item.label)}
                     </Link>
@@ -323,7 +361,11 @@ export default function Header(): React.JSX.Element {
               <button
                 type="button"
                 onClick={toggleSearch}
-                className="text-[#333333] transition-colors hover:text-[color:var(--primary)]"
+                className={`transition-colors ${
+                  isTransparent
+                    ? "text-white/95 hover:text-white"
+                    : "text-[#333333] hover:text-[color:var(--primary)]"
+                }`}
                 aria-label={headerCopy.toggleSearch}
               >
                 <Search className="size-5" />
@@ -361,7 +403,11 @@ export default function Header(): React.JSX.Element {
               </AnimatePresence>
             </div>
 
-            <div className="h-4 w-px bg-[color:var(--border)]" />
+            <div
+              className={`h-4 w-px transition-colors ${
+                isTransparent ? "bg-white/35" : "bg-[color:var(--border)]"
+              }`}
+            />
 
             <div
               className="relative"
@@ -370,7 +416,11 @@ export default function Header(): React.JSX.Element {
             >
               <button
                 type="button"
-                className="inline-flex items-center gap-2 text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]"
+                className={`inline-flex items-center gap-2 text-[15px] font-light transition-colors ${
+                  isTransparent
+                    ? "text-white/95 hover:text-white"
+                    : "text-[#333333] hover:text-[color:var(--primary)]"
+                }`}
               >
                 <Globe className="size-4" />
                 <span>{currentLanguage.label}</span>
@@ -407,7 +457,11 @@ export default function Header(): React.JSX.Element {
 
           <button
             type="button"
-            className="relative z-10 inline-flex size-10 items-center justify-center border border-[color:var(--border)] bg-white text-[#111111] lg:hidden"
+            className={`relative z-10 inline-flex size-10 items-center justify-center border transition-colors lg:hidden ${
+              isTransparent
+                ? "border-white/45 bg-white/10 text-white backdrop-blur-[2px]"
+                : "border-[color:var(--border)] bg-white text-[#111111]"
+            }`}
             onClick={openMobileMenu}
             aria-label={headerCopy.openNavigation}
             aria-expanded={isMobileOpen}
