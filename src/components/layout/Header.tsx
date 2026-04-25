@@ -70,14 +70,14 @@ function getDesktopNavLinkClassName(
   isTransparent: boolean
 ): string {
   if (isCurrent) {
-    return "inline-flex items-center text-[15px] font-light text-white transition-colors";
+    return "inline-flex items-center text-[16px] font-semibold text-white transition-colors";
   }
 
   if (isTransparent) {
-    return "inline-flex items-center text-[15px] font-light text-white transition-colors hover:text-white";
+    return "inline-flex items-center text-[16px] font-semibold text-white transition-colors hover:text-white";
   }
 
-  return "inline-flex items-center text-[15px] font-light text-white/80 transition-colors hover:text-white";
+  return "inline-flex items-center text-[16px] font-semibold text-white transition-colors hover:text-white";
 }
 
 const UNDERLINE_BASE =
@@ -93,10 +93,10 @@ function getDesktopUnderlineClassName(isCurrent: boolean): string {
 
 function getMegaSubItemClassName(isActive: boolean): string {
   if (isActive) {
-    return "block border-b border-[color:var(--border)] bg-[color:var(--primary)] px-4 py-3 text-[15px] leading-6 text-white transition-colors";
+    return "block border-b border-[color:var(--border)] bg-[color:var(--primary)] px-4 py-3 text-[16px] leading-6 text-white transition-colors";
   }
 
-  return "block border-b border-[color:var(--border)] px-4 py-3 text-[15px] leading-6 text-[#404040] transition-colors hover:bg-[color:var(--primary)] hover:text-white";
+  return "block border-b border-[color:var(--border)] px-4 py-3 text-[16px] leading-6 text-[#404040] transition-colors hover:bg-[color:var(--primary)] hover:text-white";
 }
 
 function getChevronClassName(isOpen: boolean): string {
@@ -202,7 +202,7 @@ export default function Header(): React.JSX.Element {
       }`}
     >
       <div className="mx-auto w-full px-4 md:px-8 xl:px-12 2xl:px-16">
-        <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-start gap-6 lg:gap-10">
+        <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-center gap-6 lg:gap-10 xl:gap-16">
           <div className="hidden h-[40px] items-center gap-5 border-r border-white/35 pr-6 lg:flex xl:gap-8 xl:pr-10">
             <div className="relative">
               <button
@@ -240,7 +240,7 @@ export default function Header(): React.JSX.Element {
                       />
                       <button
                         type="submit"
-                        className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-medium text-white"
+                        className="bg-[color:var(--primary)] px-4 py-2 text-[13px] font-semibold text-white"
                       >
                         {headerCopy.searchAction}
                       </button>
@@ -263,7 +263,7 @@ export default function Header(): React.JSX.Element {
             >
               <button
                 type="button"
-                className={`inline-flex items-center gap-2 text-[15px] font-light transition-colors ${
+                className={`inline-flex items-center gap-2 text-[16px] font-light transition-colors ${
                   isTransparent
                     ? "text-white hover:text-white"
                     : "text-white/80 hover:text-white"
@@ -288,7 +288,7 @@ export default function Header(): React.JSX.Element {
                         key={language.label}
                         href={pathname}
                         locale={language.locale}
-                        className="flex items-center gap-3 px-4 py-3 text-[15px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
+                        className="flex items-center gap-3 px-4 py-3 text-[16px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                       >
                         <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
                           {language.icon}
@@ -317,7 +317,7 @@ export default function Header(): React.JSX.Element {
             />
           </Link>
 
-          <nav className="hidden flex-1 items-center justify-start lg:flex ml-4 xl:ml-8 whitespace-nowrap">
+          <nav className="hidden items-center lg:flex whitespace-nowrap">
             <ul className="flex items-center flex-nowrap">
               {NAV_ITEMS.map((item) => {
                 const isOpen = activeMenu === item.label;
@@ -387,11 +387,11 @@ export default function Header(): React.JSX.Element {
                               </div>
 
                               <div className="min-w-0">
-                                <h3 className="mb-4 text-[24px] font-medium text-[#1e1e1e]">
+                                <h3 className="mb-4 text-[24px] font-semibold text-[#1e1e1e]">
                                   {activeCollection?.label ? translateNav(activeCollection.label) : ""}
                                 </h3>
                                 {activeCollection?.description ? (
-                                  <p className="mb-6 text-[15px] leading-[1.7] text-[#666666]">
+                                  <p className="mb-6 text-[16px] leading-[1.7] text-[#666666]">
                                     {translateNav(activeCollection.description)}
                                   </p>
                                 ) : null}
@@ -411,7 +411,7 @@ export default function Header(): React.JSX.Element {
                                 ) : (
                                   <Link
                                     href={activeCollection?.href ?? "/products"}
-                                    className="text-[15px] font-medium text-[color:var(--primary)]"
+                                    className="text-[16px] font-semibold text-[color:var(--primary)]"
                                   >{tNav("collection")}</Link>
                                 )}
                               </div>
@@ -522,7 +522,7 @@ export default function Header(): React.JSX.Element {
                 />
                 <button
                   type="submit"
-                  className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-medium"
+                  className="bg-[color:var(--primary)] px-4 py-3 text-[14px] font-semibold"
                 >
                   {headerCopy.searchAction}
                 </button>
@@ -562,7 +562,7 @@ export default function Header(): React.JSX.Element {
                               <Link
                                 href={subItem.href}
                                 onClick={closeMobileMenu}
-                                className="block text-[15px] text-white/90"
+                                className="block text-[16px] text-white/90"
                               >
                                 {translateNav(subItem.label)}
                               </Link>
@@ -599,7 +599,7 @@ export default function Header(): React.JSX.Element {
                       href={pathname}
                       locale={language.locale}
                       onClick={closeMobileMenu}
-                      className="flex items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
+                      className="flex items-center gap-3 text-[16px] font-semibold text-white/80 transition-colors hover:text-white"
                     >
                       <span className="inline-flex h-6 w-7 items-center justify-center bg-white/10 text-[11px] font-semibold tracking-[0.08em] text-white/70">
                         {language.icon}
