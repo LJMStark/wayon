@@ -16,8 +16,8 @@ export function EngineeringCase({
   items,
 }: EngineeringCaseProps): React.JSX.Element {
   return (
-    <RevealSection id="case" className="wayon-section bg-neutral-50/50">
-      <div className="wayon-container">
+    <RevealSection id="case" className="wayon-section bg-neutral-50/50 px-0">
+      <div className="mx-auto max-w-[1920px] px-4 lg:px-8">
         <header className="mb-10 text-center md:mb-14">
           <h2 className="wayon-title text-[color:var(--primary)]">
             {title}
