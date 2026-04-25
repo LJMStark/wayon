@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import type { ProductItem } from "@/data/home";
 import type { ProductsCarouselCopy } from "@/features/home/types";
@@ -11,49 +11,7 @@ import { Link } from "@/i18n/routing";
 
 import {
   scrollContainerByDirection,
-  type CarouselDirection,
 } from "./carouselUtils";
-
-const DESKTOP_NAV_BUTTON_CLASS_NAME =
-  "absolute top-1/2 z-20 hidden size-14 -translate-y-1/2 items-center justify-center rounded-full border border-[#aac0d6] bg-white/90 text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white md:flex";
-
-const MOBILE_NAV_BUTTON_CLASS_NAME =
-  "flex size-12 items-center justify-center rounded-full border border-[#aac0d6] bg-white text-[color:var(--primary)] transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white";
-
-const DESKTOP_NAV_BUTTONS = [
-  {
-    direction: "prev",
-    ariaLabelKey: "previous",
-    className: `left-0 -translate-x-1/2 ${DESKTOP_NAV_BUTTON_CLASS_NAME}`,
-    Icon: ChevronLeft,
-  },
-  {
-    direction: "next",
-    ariaLabelKey: "next",
-    className: `right-0 translate-x-1/2 ${DESKTOP_NAV_BUTTON_CLASS_NAME}`,
-    Icon: ChevronRight,
-  },
-] as const;
-
-const MOBILE_NAV_BUTTONS = [
-  {
-    direction: "prev",
-    ariaLabelKey: "previous",
-    Icon: ChevronLeft,
-  },
-  {
-    direction: "next",
-    ariaLabelKey: "next",
-    Icon: ChevronRight,
-  },
-] as const;
-
-function getCarouselActionLabel(
-  copy: ProductsCarouselCopy,
-  key: "previous" | "next"
-): string {
-  return key === "previous" ? copy.previousLabel : copy.nextLabel;
-}
 
 type ProductsCarouselProps = {
   items: ProductItem[];
@@ -64,102 +22,188 @@ export function ProductsCarousel({
   items,
   copy,
 }: ProductsCarouselProps): React.JSX.Element {
+  const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const scrollByAmount = (direction: CarouselDirection): void => {
-    scrollContainerByDirection(scrollerRef.current, direction, 360);
+  const scrollByAmount = (direction: "prev" | "next"): void => {
+    scrollContainerByDirection(scrollerRef.current, direction, 320);
   };
 
   return (
-    <motion.section 
-      className="wayon-section overflow-hidden bg-[color:var(--background)]"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
-      <div className="wayon-container">
-        <header className="mb-12 text-center md:mb-14">
+    <section className="wayon-section overflow-hidden bg-[color:var(--background)] px-0 py-16 md:py-24">
+      <div className="mx-auto max-w-[1920px]">
+        {/* Header */}
+        <header className="mb-10 px-4 text-center md:mb-16">
           <div className="mx-auto max-w-[760px]">
-            <h2 className="wayon-title">{copy.title}</h2>
-            <p className="wayon-copy mx-auto mt-5 max-w-[680px]">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="wayon-title"
+            >
+              {copy.title}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="wayon-copy mx-auto mt-5 max-w-[680px]"
+            >
               {copy.description}
-            </p>
-            <Link href="/products" className="wayon-button-link mt-7 text-[15px]">
-              {copy.detailLabel}
-            </Link>
+            </motion.p>
           </div>
         </header>
 
-        <div className="relative">
-          {DESKTOP_NAV_BUTTONS.map(({ direction, ariaLabelKey, className, Icon }) => (
-            <button
-              key={direction}
-              type="button"
-              onClick={() => scrollByAmount(direction)}
-              className={className}
-              aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
-            >
-              <Icon className="size-5" />
-            </button>
-          ))}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-white to-transparent md:block" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-16 bg-gradient-to-l from-white to-transparent md:block" />
+        {/* Desktop Expandable Accordion Gallery */}
+        <div className="hidden h-[65vh] min-h-[500px] max-h-[700px] w-full gap-2 px-4 md:flex lg:gap-4 lg:px-8">
+          {items.map((product, index) => {
+            const isActive = activeIndex === index;
 
+            return (
+              <motion.div
+                key={product.title}
+                layout
+                onClick={() => setActiveIndex(index)}
+                onHoverStart={() => setActiveIndex(index)}
+                initial={false}
+                animate={{
+                  flex: isActive ? 6 : 1,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 30,
+                  mass: 1.2,
+                }}
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-neutral-200 transition-shadow duration-500 hover:shadow-2xl ${
+                  isActive ? "shadow-xl" : ""
+                }`}
+              >
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  fill
+                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  sizes={isActive ? "50vw" : "15vw"}
+                  priority={isActive}
+                />
+
+                {/* Gradient Overlay for Text Visibility */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 ${
+                    isActive ? "opacity-100" : "opacity-40 group-hover:opacity-60"
+                  }`}
+                />
+
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
+                  {/* Expanded Content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ${
+                      isActive
+                        ? "translate-y-0 opacity-100"
+                        : "translate-y-8 opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    <h3 className="mb-3 text-2xl font-medium tracking-wide text-white lg:text-3xl">
+                      {product.title}
+                    </h3>
+                    <p className="mb-6 line-clamp-2 max-w-xl text-sm leading-relaxed text-white/80 lg:text-base">
+                      {product.description}
+                    </p>
+                    <Link
+                      href={product.href}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-6 py-2.5 text-sm font-medium text-white backdrop-blur-md transition-all duration-300 hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)]"
+                    >
+                      {copy.detailLabel}
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </div>
+
+                  {/* Vertical Title (when collapsed) */}
+                  <div
+                    className={`absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col justify-end transition-opacity duration-500 ${
+                      isActive ? "pointer-events-none opacity-0" : "delay-200 opacity-100"
+                    }`}
+                  >
+                    <h3
+                      className="whitespace-nowrap text-sm font-medium tracking-wider text-white lg:text-base"
+                      style={{
+                        writingMode: "vertical-rl",
+                        textOrientation: "mixed",
+                        transform: "rotate(180deg)",
+                      }}
+                    >
+                      {product.title}
+                    </h3>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Mobile Carousel (Enhanced Full-width Snap) */}
+        <div className="relative md:hidden">
           <div
             ref={scrollerRef}
-            className="flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-6"
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-8 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {items.map((product) => (
               <Link
                 key={product.title}
                 href={product.href}
-                className="w-[min(20.75rem,78vw)] shrink-0 snap-start"
+                className="relative shrink-0 snap-center w-[85vw] aspect-[4/5] overflow-hidden rounded-2xl shadow-lg"
               >
-                <article className="group flex flex-col-reverse transition-transform duration-500 ease-[cubic-bezier(0.28,0.2,0,1)] hover:-translate-y-6">
-                  <header className="mt-6">
-                    <h3 className="truncate text-center text-[18px] font-light leading-[30px] text-[#252525] transition-colors duration-500 group-hover:text-[color:var(--primary)]">
-                      {product.title}
-                    </h3>
-                  </header>
-
-                  <div className="relative overflow-hidden bg-white shadow-[0_0_1rem_0_rgba(0,0,0,0.1)] transition-shadow duration-500 group-hover:shadow-[0_24px_48px_-20px_rgba(0,43,80,0.28)]">
-                    <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[color:var(--primary)] via-[#114168]/80 to-transparent px-5 py-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                      <p className="text-[14px] leading-[1.55] text-white">
-                        {product.description}
-                      </p>
-                    </div>
-
-                    <div className="relative aspect-[33/42] overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        sizes="(max-width: 768px) 78vw, 332px"
-                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
-                      />
-                    </div>
-                  </div>
-                </article>
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  fill
+                  sizes="85vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6">
+                  <h3 className="mb-2 text-xl font-medium text-white">
+                    {product.title}
+                  </h3>
+                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-white/80">
+                    {product.description}
+                  </p>
+                  <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/20 px-5 py-2 text-sm text-white backdrop-blur-md">
+                    {copy.detailLabel}
+                    <ArrowRight className="size-4" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
+
+          <div className="flex items-center justify-center gap-4 px-4">
+            <button
+              onClick={() => scrollByAmount("prev")}
+              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+              aria-label={copy.previousLabel}
+            >
+              <ChevronLeft className="size-5" />
+            </button>
+            <button
+              onClick={() => scrollByAmount("next")}
+              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+              aria-label={copy.nextLabel}
+            >
+              <ChevronRight className="size-5" />
+            </button>
+          </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-center gap-4 md:hidden">
-          {MOBILE_NAV_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
-            <button
-              key={direction}
-              type="button"
-              onClick={() => scrollByAmount(direction)}
-              className={MOBILE_NAV_BUTTON_CLASS_NAME}
-              aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
-            >
-              <Icon className="size-5" />
-            </button>
-          ))}
+        {/* View All Products Link (Desktop) */}
+        <div className="mt-12 hidden justify-center md:flex">
+          <Link href="/products" className="wayon-button-link text-[15px]">
+            {copy.detailLabel}
+          </Link>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
