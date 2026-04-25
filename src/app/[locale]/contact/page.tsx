@@ -92,7 +92,7 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <PageHero
-        imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
+        imageSrc="/assets/contact/contact-hero.jpg"
         imageAlt={contactCopy.heroTitle}
         title={contactCopy.heroTitle}
         subtitle={contactCopy.heroSubtitle}

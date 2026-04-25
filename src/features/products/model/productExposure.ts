@@ -1,5 +1,5 @@
 export const TRADE_YELLOW_PLACEHOLDER_IMAGE =
-  "/assets/placeholders/trade-yellow-placeholder.svg";
+  "/assets/fallbacks/product-fallback.jpg";
 
 // Public-facing visibility gate. The `published` boolean on the product
 // document is the single source of truth — it is independent of how the

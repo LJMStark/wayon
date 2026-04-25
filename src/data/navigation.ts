@@ -131,7 +131,6 @@ export const NAV_ITEMS: NavItem[] = [
       { label: "finishedProducts", href: "/solution" },
       { label: "applicationField", href: "/solution" },
       { label: "project", href: "/solution#case" },
-      { label: "view360", href: "/solution" },
     ],
   },
   { label: "case", href: "/solution#case" },

@@ -17,24 +17,23 @@ const PRIMARY_TABS = [
   "finishedProducts",
   "applicationField",
   "project",
-  "view360",
 ] as const;
 
 const SECONDARY_TABS = ["catalogSeriesTexture", "catalogSeriesFamous", "catalogSeriesTravertine"] as const;
 
 const GALLERY_IMAGES = [
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/3]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-square" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/5]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[16/9]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/3]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-square" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[3/4]" },
-  { src: TRADE_YELLOW_PLACEHOLDER_IMAGE, aspect: "aspect-[4/5]" },
+  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square" },
+  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]" },
+  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square" },
+  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]" },
 ];
 
 type PrimaryTabKey = (typeof PRIMARY_TABS)[number];
@@ -76,12 +75,9 @@ function getImagesForTab(
     return GALLERY_IMAGES.slice(3).concat(GALLERY_IMAGES.slice(0, 3));
   }
 
+
   if (activeTab === "project") {
     return [...GALLERY_IMAGES].reverse();
-  }
-
-  if (activeTab === "view360") {
-    return GALLERY_IMAGES.slice(0, 6);
   }
 
   if (activeSubTab === "catalogSeriesFamous") {
@@ -123,7 +119,7 @@ export default function SolutionPage(): React.JSX.Element {
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <PageHero
-        imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
+        imageSrc="/assets/hero/hero-2.jpg"
         imageAlt={solutionCopy.heroTitle}
         title={solutionCopy.heroTitle}
         subtitle={solutionCopy.heroSubtitle}

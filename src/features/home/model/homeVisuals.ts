@@ -1,3 +1,3 @@
 export const HOME_VISUAL_PLACEHOLDER_IMAGE =
-  "/assets/placeholders/trade-yellow-placeholder.svg";
+  "/assets/fallbacks/product-fallback.jpg";
 export const HOME_CASE_PLACEHOLDER_HREF = "/solution#case";

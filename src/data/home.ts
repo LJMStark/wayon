@@ -75,12 +75,12 @@ type AppMessageKey = Parameters<AppTranslator>[0];
 export const HERO_SLIDES: HeroSlide[] = [
   {
     type: "image",
-    src: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    src: "/assets/hero/hero-1.jpg",
     alt: "ZYL placeholder",
   },
   {
     type: "image",
-    src: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    src: "/assets/hero/hero-2.jpg",
     alt: "ZYL placeholder",
   },
 ];
@@ -101,37 +101,37 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item0.title",
     textKey: "HomeData.AboutAlbum.item0.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/foshan-showroom.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/guangdong-wayon.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/shanghai-wayon.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item3.title",
     textKey: "HomeData.AboutAlbum.item3.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/yunfu-wayon.webp",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/about-album-wayon-group.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/about/foshan-showroom.jpg",
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{
@@ -146,49 +146,49 @@ const HOME_PRODUCT_CONFIG = [
     titleKey: "HomeData.HomeProducts.item0.title",
     descriptionKey: "HomeData.HomeProducts.item0.description",
     href: `/products?section=series&value=${encodeURIComponent("质感岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-0.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item1.title",
     descriptionKey: "HomeData.HomeProducts.item1.description",
     href: `/products?section=series&value=${encodeURIComponent("名石岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-1.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item2.title",
     descriptionKey: "HomeData.HomeProducts.item2.description",
     href: `/products?section=series&value=${encodeURIComponent("洞石岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-2.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item3.title",
     descriptionKey: "HomeData.HomeProducts.item3.description",
     href: `/products?section=series&value=${encodeURIComponent("木纹岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-3.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item4.title",
     descriptionKey: "HomeData.HomeProducts.item4.description",
     href: `/products?section=series&value=${encodeURIComponent("护墙岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-4.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item5.title",
     descriptionKey: "HomeData.HomeProducts.item5.description",
     href: `/products?section=series&value=${encodeURIComponent("艺术岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-5.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item6.title",
     descriptionKey: "HomeData.HomeProducts.item6.description",
     href: `/products?section=series&value=${encodeURIComponent("连纹岩板")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-6.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item7.title",
     descriptionKey: "HomeData.HomeProducts.item7.description",
     href: `/products?section=series&value=${encodeURIComponent("创意网红")}`,
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/home-products/prod-7.jpg",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -282,32 +282,32 @@ const PARTNER_CONFIG = [
   {
     titleKey: "HomeData.Partners.item0.title",
     descriptionKey: "HomeData.Partners.item0.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-0.jpg",
   },
   {
     titleKey: "HomeData.Partners.item1.title",
     descriptionKey: "HomeData.Partners.item1.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-1.jpg",
   },
   {
     titleKey: "HomeData.Partners.item2.title",
     descriptionKey: "HomeData.Partners.item2.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-2.jpg",
   },
   {
     titleKey: "HomeData.Partners.item3.title",
     descriptionKey: "HomeData.Partners.item3.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-3.jpg",
   },
   {
     titleKey: "HomeData.Partners.item4.title",
     descriptionKey: "HomeData.Partners.item4.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-4.jpg",
   },
   {
     titleKey: "HomeData.Partners.item5.title",
     descriptionKey: "HomeData.Partners.item5.description",
-    image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+    image: "/assets/partners/partner-5.jpg",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -319,7 +319,7 @@ const NEWS_FEATURE_CONFIG = {
   titleKey: "HomeData.NewsFeature.title",
   excerptKey: "HomeData.NewsFeature.excerpt",
   href: "/news",
-  image: HOME_VISUAL_PLACEHOLDER_IMAGE,
+  image: "/assets/news/news-feature.jpg",
 } as const satisfies {
   titleKey: AppMessageKey;
   excerptKey: AppMessageKey;

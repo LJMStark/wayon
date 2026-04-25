@@ -44,7 +44,6 @@ const CASE_LINKS = [
   { label: "finishedProducts", href: "/solution" },
   { label: "applicationField", href: "/solution" },
   { label: "project", href: "/solution#case" },
-  { label: "view360", href: "/solution" },
 ] as const satisfies ReadonlyArray<FooterLink>;
 
 const FOOTER_PROMO_LINKS = [

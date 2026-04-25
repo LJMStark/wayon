@@ -13,5 +13,5 @@ test("isPublishedProduct only exposes products explicitly flagged published", ()
 });
 
 test("trade placeholder image path is stable", () => {
-  expect(TRADE_YELLOW_PLACEHOLDER_IMAGE).toBe("/assets/placeholders/trade-yellow-placeholder.svg");
+  expect(TRADE_YELLOW_PLACEHOLDER_IMAGE).toBe("/assets/fallbacks/product-fallback.jpg");
 });
