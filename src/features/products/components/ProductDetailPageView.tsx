@@ -38,11 +38,11 @@ function MediaSectionHeader({
   label: string;
 }): React.JSX.Element {
   return (
-    <div className="mb-10 flex flex-col items-center text-center">
-      <span className="mb-3 h-px w-10 bg-[color:var(--border)]" aria-hidden />
-      <h2 className="text-[12px] font-semibold uppercase tracking-[0.32em] text-[#242424]">
+    <div className="mb-12 flex items-center gap-8">
+      <h2 className="shrink-0 text-xl font-light tracking-[0.28em] text-[#1a1a1a] md:text-2xl">
         {label}
       </h2>
+      <div className="h-px flex-1 bg-gray-200" aria-hidden />
     </div>
   );
 }
@@ -244,7 +244,7 @@ export function ProductDetailPageView({
             fetchPriority="high"
           />
           <div className="relative z-10 flex h-full flex-col justify-center pt-[var(--header-height)] ps-[32%]">
-            <div className="w-fit max-w-sm bg-white/35 px-10 py-10 backdrop-blur-md md:max-w-md md:px-14 md:py-12">
+            <div className="w-full max-w-lg bg-white/35 px-10 py-10 backdrop-blur-md md:max-w-[700px] md:px-14 md:py-12">
               <span className="mb-4 block text-[11px] font-semibold uppercase tracking-[0.36em] text-black/55">
                 {category}
               </span>
