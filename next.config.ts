@@ -62,6 +62,7 @@ function buildSiteCsp(dev: boolean): string {
     "https://*.gstatic.com",
     "https://www.google-analytics.com",
     "https://hm.baidu.com",
+    "https://www.gravatar.com",
   ].join(' ');
 
   return [
@@ -131,12 +132,18 @@ const nextConfig: NextConfig = {
   async headers() {
     const SITE_CSP = buildSiteCsp(isDev);
     return [
+      // Baseline security headers for every route, including /admin and /api.
       {
         source: '/:path*',
-        headers: [
-          ...SECURITY_HEADERS_BASE,
-          { key: 'Content-Security-Policy', value: SITE_CSP },
-        ],
+        headers: SECURITY_HEADERS_BASE,
+      },
+      // CSP only for public site routes. Payload admin and Payload/trade-media
+      // API routes are excluded via negative lookahead so no CSP header is
+      // emitted at all (browsers intersect multiple CSP headers, so an empty
+      // value would not be equivalent to omission).
+      {
+        source: '/((?!admin(?:/|$)|api(?:/|$)).*)',
+        headers: [{ key: 'Content-Security-Policy', value: SITE_CSP }],
       },
     ];
   },

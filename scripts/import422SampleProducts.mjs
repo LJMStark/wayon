@@ -38,6 +38,29 @@ const SUPPORTED_IMAGE_EXTENSIONS = new Set([
   ".gif",
 ]);
 const SUPPORTED_VIDEO_EXTENSIONS = new Set([".mp4", ".mov"]);
+const ALL_MEDIA_EXTENSIONS = new Set([
+  ...SUPPORTED_IMAGE_EXTENSIONS,
+  ...SUPPORTED_VIDEO_EXTENSIONS,
+]);
+const CUSTOM_PATTERN_DESIGN = {
+  key: "custom-pattern-design",
+  title: "定制图案设计",
+  description: "支持纹理开发、图案深化与连纹方案。",
+};
+// Keep in sync with extractTradeCode in src/features/products/lib/tradeCatalog.ts.
+// Anchored at start so a directory name like "A类" is not misread as code "A".
+const CODE_PATTERN =
+  /^((?:ZL|LV|ZF|ZH|TT|TG|GA|MK|ZS|LD|E\d+SM)[A-Z0-9-]*)([一-鿿].*)$/iu;
+const SUFFIX_PATTERNS = [
+  /[-_\s]?ABCD四面上下左右连$/u,
+  /[-_\s]?ABCD四面$/u,
+  /[-_\s]?上下左右无限连纹$/u,
+  /[-_\s]?无限连纹$/u,
+  /[-_\s]?一石多面$/u,
+  /[-_\s]?一石面$/u,
+  /[-_\s]?单面$/u,
+  /[-_\s]?左右连$/u,
+];
 
 async function loadLocalEnv() {
   const envPath = path.join(process.cwd(), ".env.local");
@@ -132,6 +155,56 @@ function mediaKindFor(fileName) {
   return "elementImages";
 }
 
+function stripExtension(input) {
+  const lastDot = input.lastIndexOf(".");
+
+  if (lastDot < 0) {
+    return input;
+  }
+
+  const ext = input.slice(lastDot).toLowerCase();
+  return ALL_MEDIA_EXTENSIONS.has(ext) ? input.slice(0, lastDot) : input;
+}
+
+function cleanDisplayName(input) {
+  let result = input;
+  let changed = true;
+
+  while (changed) {
+    changed = false;
+    for (const pattern of SUFFIX_PATTERNS) {
+      const next = result.replace(pattern, "");
+      if (next !== result) {
+        result = next;
+        changed = true;
+      }
+    }
+  }
+
+  return result
+    .replace(/[()（）[\]]/gu, " ")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseProductSegment(input) {
+  const basename = stripExtension(input.split("/").pop() ?? input).trim();
+  const direct = basename.match(CODE_PATTERN);
+
+  if (direct) {
+    return {
+      code: direct[1].toUpperCase(),
+      displayName: cleanDisplayName(direct[2]),
+    };
+  }
+
+  return {
+    code: extractTradeCode(basename),
+    displayName: extractTradeDisplayName(basename),
+  };
+}
+
 function buildImageRecord(sourcePath, fallbackAlt, sortOrder) {
   return {
     sourcePath,
@@ -200,6 +273,10 @@ function pickProcess(segments) {
   }
 
   return null;
+}
+
+function isCustomPatternProduct(segments) {
+  return segments.includes("工艺岩板") && segments.includes("定制图案设计");
 }
 
 function inferSeriesTypes(displayName, process, facePatternNote) {
@@ -276,16 +353,17 @@ async function readProductDirectory(relativeProductDir) {
 
   const segments = relativeProductDir.split("/").filter(Boolean);
   const productSegment = segments.at(-1);
-  const code = extractTradeCode(productSegment);
-  const displayName = extractTradeDisplayName(productSegment);
+  const categoryRoot = segments[0] || "uncategorized";
+  const { code, displayName } = parseProductSegment(productSegment);
 
   if (!code || !displayName) {
     throw new Error(`Cannot parse product code/name from ${relativeProductDir}`);
   }
 
+  const customPattern = isCustomPatternProduct(segments);
   const size = pickSize(segments);
   const thickness = pickThickness(segments);
-  const process = pickProcess(segments);
+  const process = pickProcess(segments) || (customPattern ? "数码模具面" : null);
   const { faceCount, facePatternNote } = extractTradeFaceMetadata(productSegment);
   const colorGroup = inferTradeColorGroup(displayName);
   const seriesTypes = inferSeriesTypes(displayName, process, facePatternNote);
@@ -335,15 +413,26 @@ async function readProductDirectory(relativeProductDir) {
 
   return {
     sourcePath: relativeProductDir,
-    categoryTitle: segments[0] || "4.22素材",
+    categoryTitle: categoryRoot,
     title: displayName,
-    normalizedName: `${MATERIAL_ROOT_NAME}:${displayName}`,
+    // Identity key is `<root>|<categoryRoot>|<code>|<displayName>`. Including
+    // the trade code prevents two products that share a Chinese display name
+    // (e.g. different specs of the same color) from collapsing into one
+    // Payload record on re-import. Multi-spec lives under productVariants.
+    normalizedName: [
+      MATERIAL_ROOT_NAME,
+      categoryRoot,
+      code,
+      displayName,
+    ].join("|"),
     slug: buildSlug(code, displayName),
     seriesTypes,
     coverImageUrl:
       variant.elementImages[0]?.publicUrl ||
       variant.spaceImages[0]?.publicUrl ||
       variant.realImages[0]?.publicUrl,
+    catalogMode: customPattern ? "custom" : "standard",
+    customCapabilityKey: customPattern ? CUSTOM_PATTERN_DESIGN.key : undefined,
     variant,
   };
 }
@@ -364,35 +453,96 @@ async function findBySlug(payload, collection, slug) {
 async function upsertCategory(payload, title, apply) {
   const slug = chineseSlugify(`4.22 ${title}`);
   const existing = await findBySlug(payload, "categories", slug);
-  const data = {
-    title: localized(title),
-    slug,
-    sortOrder: 4220,
-  };
 
   if (!apply) {
     return existing?.id ?? null;
   }
 
   if (existing) {
-    const updated = await payload.update({
+    // Re-run: only patch the zh title (script's source of truth).
+    // Preserves operator-edited en/es/ar/ru titles and slug.
+    await payload.update({
       collection: "categories",
       id: existing.id,
-      data,
-      locale: "all",
+      data: { title },
+      locale: "zh",
       overrideAccess: true,
     });
-    return updated.id;
+    return existing.id;
   }
 
   const created = await payload.create({
     collection: "categories",
-    data,
+    data: {
+      title: localized(title),
+      slug,
+      sortOrder: 4220,
+    },
     locale: "all",
     overrideAccess: true,
   });
 
   return created.id;
+}
+
+async function findCustomCapabilityByKey(payload, capabilityKey) {
+  const { docs } = await payload.find({
+    collection: "customCapabilities",
+    where: { capabilityKey: { equals: capabilityKey } },
+    limit: 1,
+    locale: "all",
+    depth: 0,
+    overrideAccess: true,
+  });
+
+  return docs[0] ?? null;
+}
+
+async function upsertCustomCapability(payload, capabilityKey, apply) {
+  if (!capabilityKey) {
+    return undefined;
+  }
+
+  const existing = await findCustomCapabilityByKey(payload, capabilityKey);
+
+  if (!apply) {
+    return existing?.id ?? null;
+  }
+
+  if (existing) {
+    // Re-run: do not touch i18n title/description — those belong to ops.
+    // Only refresh sortOrder so display ordering stays in sync.
+    await payload.update({
+      collection: "customCapabilities",
+      id: existing.id,
+      data: { sortOrder: 60 },
+      overrideAccess: true,
+    });
+    return existing.id;
+  }
+
+  try {
+    const created = await payload.create({
+      collection: "customCapabilities",
+      data: {
+        capabilityKey,
+        title: localized(CUSTOM_PATTERN_DESIGN.title),
+        description: localized(CUSTOM_PATTERN_DESIGN.description),
+        sortOrder: 60,
+      },
+      locale: "all",
+      overrideAccess: true,
+    });
+    return created.id;
+  } catch (error) {
+    // Unique-key race: another import created the capability between our
+    // find and create. Re-find and return the winner.
+    const recheck = await findCustomCapabilityByKey(payload, capabilityKey);
+    if (recheck) {
+      return recheck.id;
+    }
+    throw error;
+  }
 }
 
 async function findProductByNormalizedName(payload, normalizedName) {
@@ -408,46 +558,65 @@ async function findProductByNormalizedName(payload, normalizedName) {
   return docs[0] ?? null;
 }
 
-async function upsertProduct(payload, product, categoryId, apply) {
+async function upsertProduct(payload, product, categoryId, customCapabilityId, apply) {
   const existing = await findProductByNormalizedName(
     payload,
     product.normalizedName
   );
-  const data = {
-    title: localized(product.title),
-    slug: product.slug,
-    normalizedName: product.normalizedName,
-    published: true,
-    category: categoryId || undefined,
-    seriesTypes: product.seriesTypes,
-    catalogMode: "standard",
-    coverImageUrl: product.coverImageUrl,
-    sortOrder: 4220,
-  };
 
   if (!apply) {
     return existing?.id ?? null;
   }
 
   if (existing) {
-    const updated = await payload.update({
+    // Re-run: only refresh script-derived fields. Preserve operator edits to
+    // slug, en/es/ar/ru title, category, catalogMode, customCapability,
+    // published flag, and sortOrder.
+    await payload.update({
       collection: "products",
       id: existing.id,
-      data,
+      data: {
+        title: product.title,
+        seriesTypes: product.seriesTypes,
+        coverImageUrl: product.coverImageUrl,
+      },
+      locale: "zh",
+      overrideAccess: true,
+    });
+    return existing.id;
+  }
+
+  try {
+    const created = await payload.create({
+      collection: "products",
+      data: {
+        title: localized(product.title),
+        slug: product.slug,
+        normalizedName: product.normalizedName,
+        published: true,
+        category: categoryId || undefined,
+        seriesTypes: product.seriesTypes,
+        catalogMode: product.catalogMode,
+        customCapability: customCapabilityId || undefined,
+        coverImageUrl: product.coverImageUrl,
+        sortOrder: 4220,
+      },
       locale: "all",
       overrideAccess: true,
     });
-    return updated.id;
+    return created.id;
+  } catch (error) {
+    // Unique-key race on normalizedName/slug: re-find and return the winner
+    // rather than failing the whole import.
+    const recheck = await findProductByNormalizedName(
+      payload,
+      product.normalizedName
+    );
+    if (recheck) {
+      return recheck.id;
+    }
+    throw error;
   }
-
-  const created = await payload.create({
-    collection: "products",
-    data,
-    locale: "all",
-    overrideAccess: true,
-  });
-
-  return created.id;
 }
 
 async function findVariant(payload, productId, code) {
@@ -542,7 +711,18 @@ async function main() {
       product.categoryTitle,
       args.apply
     );
-    const productId = await upsertProduct(payload, product, categoryId, args.apply);
+    const customCapabilityId = await upsertCustomCapability(
+      payload,
+      product.customCapabilityKey,
+      args.apply
+    );
+    const productId = await upsertProduct(
+      payload,
+      product,
+      categoryId,
+      customCapabilityId,
+      args.apply
+    );
     const variantId = await upsertVariant(
       payload,
       productId,
@@ -564,6 +744,8 @@ async function main() {
       thickness: product.variant.thickness,
       process: product.variant.process,
       colorGroup: product.variant.colorGroup,
+      catalogMode: product.catalogMode,
+      customCapabilityKey: product.customCapabilityKey,
       seriesTypes: product.seriesTypes,
       media: {
         elementImages: product.variant.elementImages.length,
