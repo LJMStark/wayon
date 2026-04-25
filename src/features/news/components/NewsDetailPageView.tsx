@@ -42,7 +42,7 @@ export function NewsDetailPageView({
               {categoryLabel}
             </span>
           ) : null}
-          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-light drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
+          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="flex items-center text-sm text-white/70">

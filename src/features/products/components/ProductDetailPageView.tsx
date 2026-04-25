@@ -243,32 +243,27 @@ export function ProductDetailPageView({
             decoding="async"
             fetchPriority="high"
           />
-          {/* Soft top-and-bottom darkening keeps white text legible across
-              any cover photo (light marble, dark wood, mid-tone real shots)
-              without flattening the image with a heavy uniform overlay. */}
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55"
-          />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
-            <span className="mb-5 text-[11px] font-semibold uppercase tracking-[0.36em] text-white/85">
-              {category}
-            </span>
-            <h1 className="font-heading text-[2.4rem] font-light tracking-[-0.015em] drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-[3.6rem]">
-              {title}
-            </h1>
-            {seriesTypes.length > 0 ? (
-              <div className="mt-7 flex flex-wrap justify-center gap-2">
-                {seriesTypes.map((seriesType) => (
-                  <span
-                    key={seriesType}
-                    className="border border-white/45 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/90 backdrop-blur-[2px]"
-                  >
-                    {seriesType}
-                  </span>
-                ))}
-              </div>
-            ) : null}
+          <div className="relative z-10 flex h-full flex-col justify-center pt-[var(--header-height)] ps-[32%]">
+            <div className="w-fit max-w-sm bg-white/35 px-10 py-10 backdrop-blur-md md:max-w-md md:px-14 md:py-12">
+              <span className="mb-4 block text-[11px] font-semibold uppercase tracking-[0.36em] text-black/55">
+                {category}
+              </span>
+              <h1 className="font-heading text-[2.2rem] font-light tracking-[-0.015em] text-[#1a1a1a] md:text-[3rem]">
+                {title}
+              </h1>
+              {seriesTypes.length > 0 ? (
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {seriesTypes.map((seriesType) => (
+                    <span
+                      key={seriesType}
+                      className="border border-black/25 px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-black/70"
+                    >
+                      {seriesType}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
       ) : null}
