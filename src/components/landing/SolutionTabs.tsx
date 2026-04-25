@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import type { SolutionItem } from "@/data/home";
 import type { SolutionTabsCopy } from "@/features/home/types";
@@ -62,11 +62,20 @@ export function SolutionTabs({
   copy,
 }: SolutionTabsProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
   };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isPaused, items.length]);
 
   return (
     <motion.section 
@@ -84,7 +93,11 @@ export function SolutionTabs({
           </p>
         </header>
 
-        <div className="relative">
+        <div 
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <div className="relative overflow-hidden bg-[color:var(--surface)]">
             <div className="relative aspect-[7/3] min-h-[300px]">
               <AnimatePresence mode="sync">
