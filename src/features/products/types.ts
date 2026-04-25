@@ -68,6 +68,7 @@ export type ProductsPageData = {
   collectionDescription: string;
   allLabel: string;
   noProductsFoundLabel: string;
+  emptyTaxonomyTemplate: string;
   directoryTitle: string;
   directoryDescription: string;
   navSections: ProductCatalogNavSection[];

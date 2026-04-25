@@ -1,5 +1,9 @@
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
+import { formatCopy } from "@/data/siteCopy";
 import { Link } from "@/i18n/routing";
 import type {
   ProductCatalogSectionKey,
@@ -18,6 +22,15 @@ type ProductGridProps = {
   products: ProductDirectoryItem[];
 
   noProductsFoundLabel: string;
+  emptyTaxonomyTemplate: string;
+};
+
+const GRID_ITEM_INITIAL = { opacity: 0, y: 12 } as const;
+const GRID_ITEM_ANIMATE = { opacity: 1, y: 0 } as const;
+const GRID_ITEM_EXIT = { opacity: 0, y: -8 } as const;
+const GRID_ITEM_TRANSITION = {
+  duration: 0.35,
+  ease: [0.16, 1, 0.3, 1] as const,
 };
 
 function buildProductsHref(
@@ -56,12 +69,14 @@ function buildSummaryTags(product: ProductDirectoryItem): string[] {
 
 function EmptyTaxonomyState({
   activeSectionLabel,
+  emptyTaxonomyTemplate,
 }: {
   activeSectionLabel: string;
+  emptyTaxonomyTemplate: string;
 }): React.JSX.Element {
   return (
     <div className="border border-dashed border-[color:var(--border)] bg-white px-6 py-12 text-center text-[color:var(--muted-foreground)]">
-      当前“{activeSectionLabel}”栏目还没有可展示的二级分类。
+      {formatCopy(emptyTaxonomyTemplate, { section: activeSectionLabel })}
     </div>
   );
 }
@@ -110,6 +125,7 @@ export default function ProductGrid({
   products,
 
   noProductsFoundLabel,
+  emptyTaxonomyTemplate,
 }: ProductGridProps): React.JSX.Element {
   const selectedCard =
     taxonomyCards.find((card) => card.value === activeValue) ?? null;
@@ -127,17 +143,30 @@ export default function ProductGrid({
           </div>
 
           {taxonomyCards.length === 0 ? (
-            <EmptyTaxonomyState activeSectionLabel={activeSectionLabel} />
+            <EmptyTaxonomyState
+              activeSectionLabel={activeSectionLabel}
+              emptyTaxonomyTemplate={emptyTaxonomyTemplate}
+            />
           ) : (
-            <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4">
-              {taxonomyCards.map((card) => (
-                <TaxonomyCard
-                  key={card.key}
-                  activeSection={activeSection}
-                  card={card}
-                />
-              ))}
-            </div>
+            <motion.div
+              key={`taxonomy-${activeSection}`}
+              className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4"
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                {taxonomyCards.map((card) => (
+                  <motion.div
+                    key={card.key}
+                    layout
+                    initial={GRID_ITEM_INITIAL}
+                    animate={GRID_ITEM_ANIMATE}
+                    exit={GRID_ITEM_EXIT}
+                    transition={GRID_ITEM_TRANSITION}
+                  >
+                    <TaxonomyCard activeSection={activeSection} card={card} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
           )}
         </div>
       ) : (
@@ -170,19 +199,31 @@ export default function ProductGrid({
               {noProductsFoundLabel}
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.slug}
-                  title={product.title}
-                  slug={product.slug}
-                  image={product.coverImageUrl}
-                  category={product.seriesTypes[0] || product.category}
-
-                  summaryTags={buildSummaryTags(product)}
-                />
-              ))}
-            </div>
+            <motion.div
+              key={`products-${activeSection}-${activeValue ?? "all"}`}
+              className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3"
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                {products.map((product) => (
+                  <motion.div
+                    key={product.slug}
+                    layout
+                    initial={GRID_ITEM_INITIAL}
+                    animate={GRID_ITEM_ANIMATE}
+                    exit={GRID_ITEM_EXIT}
+                    transition={GRID_ITEM_TRANSITION}
+                  >
+                    <ProductCard
+                      title={product.title}
+                      slug={product.slug}
+                      image={product.coverImageUrl}
+                      category={product.seriesTypes[0] || product.category}
+                      summaryTags={buildSummaryTags(product)}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
           )}
         </div>
       )}

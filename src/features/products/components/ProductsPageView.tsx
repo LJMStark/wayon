@@ -19,6 +19,7 @@ export function ProductsPageView({
   collectionDescription,
   allLabel,
   noProductsFoundLabel,
+  emptyTaxonomyTemplate,
   directoryTitle,
   directoryDescription,
   navSections,
@@ -119,6 +120,7 @@ export function ProductsPageView({
               taxonomyCards={taxonomyCards}
               products={products}
               noProductsFoundLabel={noProductsFoundLabel}
+              emptyTaxonomyTemplate={emptyTaxonomyTemplate}
             />
           </div>
         </div>

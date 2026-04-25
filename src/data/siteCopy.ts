@@ -114,6 +114,13 @@ const SITE_COPY = {
       ar: "لم يتم العثور على منتجات في هذه الفئة.",
       ru: "В этой категории товары не найдены.",
     },
+    emptyTaxonomy: {
+      en: "There are no subcategories to display under \"{section}\" yet.",
+      zh: "当前“{section}”栏目还没有可展示的二级分类。",
+      es: "Aún no hay subcategorías para mostrar en «{section}».",
+      ar: "لا توجد فئات فرعية لعرضها ضمن «{section}» حتى الآن.",
+      ru: "В разделе «{section}» пока нет подкатегорий для отображения.",
+    },
     requestSample: {
       en: "Request a Sample",
       zh: "申请样品",

@@ -145,9 +145,9 @@ export const LANGUAGES: Array<{
   locale: AppLocale;
   icon: string;
 }> = [
-  { code: "ZH", label: "中文", locale: "zh", icon: "🇨🇳" },
-  { code: "EN", label: "English", locale: "en", icon: "🇬🇧" },
-  { code: "ES", label: "Español", locale: "es", icon: "🇪🇸" },
-  { code: "AR", label: "العربية", locale: "ar", icon: "🇦🇪" },
-  { code: "RU", label: "Русский", locale: "ru", icon: "🇷🇺" },
+  { code: "ZH", label: "中文", locale: "zh", icon: "ZH" },
+  { code: "EN", label: "English", locale: "en", icon: "EN" },
+  { code: "ES", label: "Español", locale: "es", icon: "ES" },
+  { code: "AR", label: "العربية", locale: "ar", icon: "AR" },
+  { code: "RU", label: "Русский", locale: "ru", icon: "RU" },
 ];

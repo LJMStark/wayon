@@ -141,6 +141,7 @@ export async function getProductsPageData(
     collectionDescription: productsCopy.directoryDescription,
     allLabel: productsCopy.allFilter,
     noProductsFoundLabel: commonCopy.noProductsFound,
+    emptyTaxonomyTemplate: commonCopy.emptyTaxonomy,
     directoryTitle: productsCopy.directoryTitle,
     directoryDescription: productsCopy.directoryDescription,
     navSections: PRODUCT_CATALOG_NAV_SECTIONS,

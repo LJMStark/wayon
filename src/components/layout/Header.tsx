@@ -74,12 +74,15 @@ function getDesktopNavLinkClassName(isCurrent: boolean): string {
   return "inline-flex items-center text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]";
 }
 
+const UNDERLINE_BASE =
+  "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 origin-center bg-[color:var(--primary)] transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]";
+
 function getDesktopUnderlineClassName(isCurrent: boolean): string {
   if (isCurrent) {
-    return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-transform duration-300 scale-x-100";
+    return `${UNDERLINE_BASE} scale-x-100`;
   }
 
-  return "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 bg-[color:var(--primary)] transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100";
+  return `${UNDERLINE_BASE} scale-x-0 group-hover:scale-x-100`;
 }
 
 function getMegaSubItemClassName(isActive: boolean): string {
@@ -391,7 +394,7 @@ export default function Header(): React.JSX.Element {
                         locale={language.locale}
                         className="flex items-center gap-3 px-4 py-3 text-[15px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
                       >
-                        <span className="text-[18px]">
+                        <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
                           {language.icon}
                         </span>
                         <span>{language.label}</span>
@@ -548,7 +551,9 @@ export default function Header(): React.JSX.Element {
                       onClick={closeMobileMenu}
                       className="flex items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white"
                     >
-                      <span className="text-[18px]">{language.icon}</span>
+                      <span className="inline-flex h-6 w-7 items-center justify-center bg-white/10 text-[11px] font-semibold tracking-[0.08em] text-white/70">
+                        {language.icon}
+                      </span>
                       <span>{language.label}</span>
                     </Link>
                   ))}
