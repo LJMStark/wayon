@@ -46,7 +46,7 @@ function BrandLogo({
   return (
     <div className={className}>
       <Image
-        src="/assets/brand/logo-yanlian-yanban-header.jpg"
+        src="/assets/brand/logo-wayon-white.png"
         alt={BRAND_ALT[locale] ?? BRAND_ALT.en}
         fill
         sizes={sizes}
@@ -70,18 +70,18 @@ function getDesktopNavLinkClassName(
   isTransparent: boolean
 ): string {
   if (isCurrent) {
-    return "inline-flex items-center text-[15px] font-light text-[color:var(--primary)] transition-colors";
+    return "inline-flex items-center text-[15px] font-light text-white transition-colors";
   }
 
   if (isTransparent) {
     return "inline-flex items-center text-[15px] font-light text-white/95 transition-colors hover:text-white";
   }
 
-  return "inline-flex items-center text-[15px] font-light text-[#333333] transition-colors hover:text-[color:var(--primary)]";
+  return "inline-flex items-center text-[15px] font-light text-white/80 transition-colors hover:text-white";
 }
 
 const UNDERLINE_BASE =
-  "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 origin-center bg-[color:var(--primary)] transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]";
+  "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 origin-center bg-white transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]";
 
 function getDesktopUnderlineClassName(isCurrent: boolean): string {
   if (isCurrent) {
@@ -198,7 +198,7 @@ export default function Header(): React.JSX.Element {
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ease-out ${
         isTransparent
           ? "border-transparent bg-transparent"
-          : "border-[color:var(--border)] bg-white"
+          : "border-transparent bg-[color:var(--primary)]"
       }`}
     >
       <div className="wayon-container">
@@ -208,18 +208,13 @@ export default function Header(): React.JSX.Element {
             className="block shrink-0"
           >
             <BrandLogo
-              className="relative h-[42px] w-[63px] md:h-[50px] md:w-[75px]"
-              // The current logo is a JPG with a baked-in white background.
-              // In the transparent header state we'd see that as a white tile
-              // floating over the hero; brightness-[10] crushes it to white
-              // (same trick the dark mobile drawer uses) so the logotype
-              // reads as white-on-image until the header fades to solid.
+              className="relative h-[55px] w-[82px] md:h-[65px] md:w-[98px]"
               imageClassName={`object-contain transition-[filter] duration-300 ease-out ${
-                isTransparent ? "brightness-[10]" : ""
+                isTransparent ? "" : ""
               }`}
               locale={locale}
               preload
-              sizes="(max-width: 768px) 63px, 75px"
+              sizes="(max-width: 768px) 82px, 98px"
             />
           </Link>
 
@@ -364,7 +359,7 @@ export default function Header(): React.JSX.Element {
                 className={`transition-colors ${
                   isTransparent
                     ? "text-white/95 hover:text-white"
-                    : "text-[#333333] hover:text-[color:var(--primary)]"
+                    : "text-white/80 hover:text-white"
                 }`}
                 aria-label={headerCopy.toggleSearch}
               >
@@ -405,7 +400,7 @@ export default function Header(): React.JSX.Element {
 
             <div
               className={`h-4 w-px transition-colors ${
-                isTransparent ? "bg-white/35" : "bg-[color:var(--border)]"
+                isTransparent ? "bg-white/35" : "bg-white/35"
               }`}
             />
 
@@ -419,7 +414,7 @@ export default function Header(): React.JSX.Element {
                 className={`inline-flex items-center gap-2 text-[15px] font-light transition-colors ${
                   isTransparent
                     ? "text-white/95 hover:text-white"
-                    : "text-[#333333] hover:text-[color:var(--primary)]"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
                 <Globe className="size-4" />
@@ -460,7 +455,7 @@ export default function Header(): React.JSX.Element {
             className={`relative z-10 inline-flex size-10 items-center justify-center border transition-colors lg:hidden ${
               isTransparent
                 ? "border-white/45 bg-white/10 text-white backdrop-blur-[2px]"
-                : "border-[color:var(--border)] bg-white text-[#111111]"
+                : "border-white/20 bg-white/10 text-white backdrop-blur-[2px]"
             }`}
             onClick={openMobileMenu}
             aria-label={headerCopy.openNavigation}
@@ -498,10 +493,10 @@ export default function Header(): React.JSX.Element {
             >
               <div className="mb-6 flex items-center justify-between">
                 <BrandLogo
-                  className="relative h-[42px] w-[63px]"
-                  imageClassName="object-contain brightness-[10]"
+                  className="relative h-[55px] w-[82px]"
+                  imageClassName="object-contain"
                   locale={locale}
-                  sizes="63px"
+                  sizes="82px"
                 />
                 <button
                   type="button"

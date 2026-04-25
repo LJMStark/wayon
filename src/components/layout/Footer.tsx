@@ -142,7 +142,7 @@ export default function Footer(): React.JSX.Element {
   ];
   const footerBackgroundStyle = {
     backgroundImage:
-      "linear-gradient(rgba(17,17,17,0.94), rgba(17,17,17,0.97)), url('/assets/backgrounds/footer-bg.png')",
+      "linear-gradient(rgba(0, 43, 80, 0.94), rgba(0, 43, 80, 0.97)), url('/assets/backgrounds/footer-bg.png')",
     backgroundPosition: "center",
     backgroundSize: "cover",
   };
