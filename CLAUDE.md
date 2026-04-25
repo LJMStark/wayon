@@ -9,7 +9,9 @@ This is a **Next.js 16.2.4 multilingual corporate website** for a stone/building
 ## Common Commands
 
 ```bash
-npm run dev        # Start development server (http://localhost:3000)
+# Start development server (http://localhost:3000)
+# Rule: If port 3000 is occupied, stop the process first (e.g., kill -9 $(lsof -t -i:3000)) and run again.
+npm run dev
 npm run build      # Production build
 npm run start      # Start production server
 npm run lint       # Run ESLint
