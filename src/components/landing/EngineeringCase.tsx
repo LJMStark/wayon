@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import type { CaseItem } from "@/data/home";
@@ -13,31 +10,6 @@ type EngineeringCaseProps = {
   items: CaseItem[];
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 20,
-    },
-  },
-};
-
 export function EngineeringCase({
   title,
   subtitle,
@@ -47,36 +19,18 @@ export function EngineeringCase({
     <RevealSection id="case" className="wayon-section bg-neutral-50/50">
       <div className="wayon-container">
         <header className="mb-10 text-center md:mb-14">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="wayon-title text-[color:var(--primary)]"
-          >
+          <h2 className="wayon-title text-[color:var(--primary)]">
             {title}
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="wayon-copy mx-auto mt-5 max-w-[780px]"
-          >
+          </h2>
+          <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
             {subtitle}
-          </motion.p>
+          </p>
         </header>
 
-        {/* 3 columns x 2 rows grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-        >
+        {/* 3 columns x 2 rows grid (Pure Tailwind CSS) */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <motion.a
-              variants={itemVariants}
+            <a
               key={item.title}
               href={item.href}
               target="_blank"
@@ -106,9 +60,9 @@ export function EngineeringCase({
                   </div>
                 </figcaption>
               </figure>
-            </motion.a>
+            </a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </RevealSection>
   );
