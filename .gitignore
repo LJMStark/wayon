@@ -29,6 +29,9 @@
 docs/外贸出口资料/
 docs/外贸出口资料_压缩版/
 docs/需要剪辑/
+docs/4.22/
+docs/4.22-*.json
+docs/4.22_*/
 
 # payload migration bundle (local-only; exported Sanity assets + bundle.json)
 /.migration/
