@@ -116,7 +116,6 @@ function localized(value) {
     en: value,
     es: value,
     ar: value,
-    ru: value,
   };
 }
 

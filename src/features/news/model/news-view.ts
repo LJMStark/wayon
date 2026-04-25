@@ -23,7 +23,6 @@ export function getEmptyNewsMessage(locale: AppLocale): string {
     zh: "暂时还没有新闻内容。",
     es: "Aun no hay noticias disponibles.",
     ar: "لا توجد أخبار متاحة بعد.",
-    ru: "Пока нет доступных новостей.",
   }[locale];
 }
 

@@ -11,7 +11,6 @@ const LOCALE_OG_MAP: Record<AppLocale, string> = {
   en: "en_US",
   es: "es_ES",
   ar: "ar_AE",
-  ru: "ru_RU",
 };
 
 type BuildPageMetadataOptions = {

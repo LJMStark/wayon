@@ -149,5 +149,4 @@ export const LANGUAGES: Array<{
   { code: "EN", label: "English", locale: "en", icon: "EN" },
   { code: "ES", label: "Español", locale: "es", icon: "ES" },
   { code: "AR", label: "العربية", locale: "ar", icon: "AR" },
-  { code: "RU", label: "Русский", locale: "ru", icon: "RU" },
 ];

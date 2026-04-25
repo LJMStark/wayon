@@ -2,7 +2,7 @@ import type { CollectionBeforeValidateHook } from "payload";
 
 import { chineseSlugify } from "../../lib/slugify.ts";
 
-type LocalizedTitle = Partial<Record<"zh" | "en" | "es" | "ar" | "ru", string>>;
+type LocalizedTitle = Partial<Record<"zh" | "en" | "es" | "ar", string>>;
 
 type SlugSourcePayload = {
   slug?: string | null;

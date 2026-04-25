@@ -12,7 +12,6 @@ const MESSAGES = {
   en: { title: "Something went wrong", body: "The site failed to load. Please refresh the page.", retry: "Try again" },
   es: { title: "Algo salió mal", body: "El sitio no se pudo cargar. Por favor actualice la página.", retry: "Intentar de nuevo" },
   ar: { title: "حدث خطأ ما", body: "فشل تحميل الموقع. يرجى تحديث الصفحة.", retry: "حاول مرة أخرى" },
-  ru: { title: "Что-то пошло не так", body: "Не удалось загрузить сайт. Пожалуйста, обновите страницу.", retry: "Повторить" },
 } as const;
 
 type SupportedLocale = keyof typeof MESSAGES;

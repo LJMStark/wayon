@@ -22,7 +22,6 @@ const BRAND_ALT: Record<string, string> = {
   zh: "岩联岩板",
   es: "ZYL Piedra Sinterizada",
   ar: "ZYL حجر ملبد",
-  ru: "ZYL Спечённый камень",
 };
 
 function resolveBaseHref(href: string): string {

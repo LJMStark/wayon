@@ -9,7 +9,6 @@ const LOCALE_DIRECTIONS: Record<AppLocale, "ltr" | "rtl"> = {
   zh: "ltr",
   es: "ltr",
   ar: "rtl",
-  ru: "ltr",
 };
 
 export function hasLocale(locale: string): locale is AppLocale {

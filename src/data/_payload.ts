@@ -3,7 +3,7 @@ import { getPayload, type Payload } from "payload";
 import config from "@payload-config";
 import type { AppLocale } from "@/i18n/types";
 
-const APP_LOCALES: AppLocale[] = ["en", "zh", "es", "ar", "ru"];
+const APP_LOCALES: AppLocale[] = ["en", "zh", "es", "ar"];
 
 let cached: Promise<Payload> | null = null;
 

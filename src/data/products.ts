@@ -200,14 +200,14 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
 }
 
 function emptyLocalized(): Record<AppLocale, string> {
-  return { en: "", zh: "", es: "", ar: "", ru: "" };
+  return { en: "", zh: "", es: "", ar: "" };
 }
 
 function firstLocalized(value: unknown): string | undefined {
   const localized = localizedString(value);
   if (!localized) return undefined;
   return (
-    localized.zh || localized.en || localized.es || localized.ar || localized.ru
+    localized.zh || localized.en || localized.es || localized.ar
   );
 }
 

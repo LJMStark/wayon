@@ -46,7 +46,7 @@ function mapNews(raw: RawNews): NewsArticle {
 }
 
 function emptyLocalized(): Record<AppLocale, string> {
-  return { en: "", zh: "", es: "", ar: "", ru: "" };
+  return { en: "", zh: "", es: "", ar: "" };
 }
 
 export async function getNewsArticles(): Promise<NewsArticle[]> {
@@ -131,7 +131,6 @@ export function formatNewsDate(
     zh: "zh-CN",
     es: "es-ES",
     ar: "ar-AE",
-    ru: "ru-RU",
   };
 
   const full = date.toLocaleDateString(localeMap[locale], {
@@ -154,28 +153,24 @@ const NEWS_CATEGORY_LABELS: Record<string, Record<AppLocale, string>> = {
     zh: "公司新闻",
     es: "Noticias de la empresa",
     ar: "أخبار الشركة",
-    ru: "Новости компании",
   },
   industry: {
     en: "Industry News",
     zh: "行业新闻",
     es: "Noticias de la industria",
     ar: "أخبار الصناعة",
-    ru: "Новости отрасли",
   },
   exhibition: {
     en: "Exhibition",
     zh: "展会",
     es: "Exposición",
     ar: "معرض",
-    ru: "Выставка",
   },
   product: {
     en: "Product Launch",
     zh: "新品发布",
     es: "Lanzamiento de producto",
     ar: "إطلاق المنتج",
-    ru: "Запуск продукта",
   },
 };
 

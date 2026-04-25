@@ -62,7 +62,6 @@ export default buildConfig({
       { code: "en", label: "English" },
       { code: "es", label: "Español" },
       { code: "ar", label: "العربية", rtl: true },
-      { code: "ru", label: "Русский" },
     ],
     defaultLocale: "zh",
     fallback: true,

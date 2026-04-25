@@ -472,7 +472,6 @@ function buildLocalizedTitle(existingTitle, familyName) {
     en: et.en || familyName,
     es: et.es || et.en || familyName,
     ar: et.ar || et.en || familyName,
-    ru: et.ru || et.en || familyName,
   };
 }
 
