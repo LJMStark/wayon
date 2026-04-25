@@ -232,7 +232,7 @@ export default function Header(): React.JSX.Element {
                                 ) : null}
                               </div>
 
-                              <div className="max-h-[360px] overflow-y-auto border-r border-[color:var(--border)] pr-8">
+                              <div className="max-h-[360px] overflow-y-auto border-e border-[color:var(--border)] pe-8">
                                 <ul className="space-y-1">
                                   {item.subItems.map((subItem) => {
                                     const isActive = activeCollection?.label === subItem.label;
@@ -334,7 +334,7 @@ export default function Header(): React.JSX.Element {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute right-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 wayon-menu-shadow"
+                    className="absolute end-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 wayon-menu-shadow"
                   >
                     <form
                       className="flex gap-3"
@@ -382,7 +382,7 @@ export default function Header(): React.JSX.Element {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute right-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
+                    className="absolute end-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
                   >
                     {LANGUAGES.map((language) => (
                       <Link
@@ -503,7 +503,7 @@ export default function Header(): React.JSX.Element {
                       </div>
 
                       {item.subItems?.length && expanded ? (
-                        <div className="mt-4 space-y-4 pl-4">
+                        <div className="mt-4 space-y-4 ps-4">
                           {item.subItems.map((subItem) => (
                             <div key={translateNav(subItem.label)}>
                               <Link
@@ -514,7 +514,7 @@ export default function Header(): React.JSX.Element {
                                 {translateNav(subItem.label)}
                               </Link>
                               {subItem.children?.length ? (
-                                <ul className="mt-3 space-y-2 border-l border-white/10 pl-3">
+                                <ul className="mt-3 space-y-2 border-s border-white/10 ps-3">
                                   {subItem.children.map((child) => (
                                     <li key={translateNav(child.label)}>
                                       <Link

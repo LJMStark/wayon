@@ -120,7 +120,7 @@ export function PartnerCarousel({
                 </p>
               </div>
 
-              <div className="absolute right-0 top-0 bg-[color:var(--primary)] px-5 py-4 text-[14px] font-medium text-white md:rounded-bl-[3.4rem] md:px-7">
+              <div className="absolute end-0 top-0 bg-[color:var(--primary)] px-5 py-4 text-[14px] font-medium text-white md:rounded-es-[3.4rem] md:px-7">
                 {partner.title}
               </div>
             </article>

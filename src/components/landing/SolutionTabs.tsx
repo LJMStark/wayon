@@ -107,7 +107,7 @@ export function SolutionTabs({
               </AnimatePresence>
             </div>
 
-            <article className="relative z-10 w-full bg-black/40 p-6 text-white backdrop-blur-[2px] md:absolute md:left-10 md:top-1/2 md:w-[44.642857%] md:-translate-y-1/2 md:p-10">
+            <article className="relative z-10 w-full bg-black/40 p-6 text-white backdrop-blur-[2px] md:absolute md:start-10 md:top-1/2 md:w-[44.642857%] md:-translate-y-1/2 md:p-10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeItem.label}
@@ -164,7 +164,7 @@ export function SolutionTabs({
                     />
                     <div className={getTabOverlayClassName(index === activeIndex)} />
                   </div>
-                <div className="relative z-10 flex items-center justify-between gap-3 px-4 py-5 text-left">
+                <div className="relative z-10 flex items-center justify-between gap-3 px-4 py-5 text-start">
                   <span className={getTabTextClassName(index === activeIndex)}>
                     {solution.label}
                   </span>

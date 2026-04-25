@@ -1,10 +1,9 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import type { AboutIntroData } from "@/data/home";
 import { Link } from "@/i18n/routing";
+
+import { RevealSection } from "./RevealSection";
 
 type AboutIntroProps = {
   data: AboutIntroData;
@@ -12,13 +11,7 @@ type AboutIntroProps = {
 
 export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
   return (
-    <motion.section 
-      className="wayon-section"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <RevealSection className="wayon-section" amount={0.2}>
       <div className="wayon-container grid items-start gap-10 md:grid-cols-[0.8fr_1.2fr] md:gap-14">
         <div>
           <h2 className="wayon-title whitespace-pre-line">
@@ -42,6 +35,6 @@ export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
           </footer>
         </div>
       </div>
-    </motion.section>
+    </RevealSection>
   );
 }

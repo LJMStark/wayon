@@ -35,7 +35,7 @@ export function NewsDetailPageView({
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pt-10 text-center text-white">
           {categoryLabel ? (
             <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-              <Tag className="mr-1.5 h-3 w-3" />
+              <Tag className="me-1.5 h-3 w-3" />
               {categoryLabel}
             </span>
           ) : null}
@@ -43,7 +43,7 @@ export function NewsDetailPageView({
             {title}
           </h1>
           <div className="flex items-center text-sm text-gray-300">
-            <Calendar className="mr-2 h-4 w-4" />
+            <Calendar className="me-2 h-4 w-4" />
             {dateLabel}
           </div>
         </div>
@@ -54,14 +54,14 @@ export function NewsDetailPageView({
           href="/news"
           className="inline-flex items-center transition-colors hover:text-primary"
         >
-          <ChevronLeft className="mr-1 h-4 w-4" />
+          <ChevronLeft className="me-1 h-4 w-4 rtl:rotate-180" />
           {backToNewsLabel}
         </Link>
       </div>
 
       <div className="mx-auto max-w-4xl px-6 py-16">
         {excerpt ? (
-          <p className="mb-12 border-l-4 border-gold pl-6 text-lg font-light leading-relaxed text-gray-600">
+          <p className="mb-12 border-s-4 border-gold ps-6 text-lg font-light leading-relaxed text-gray-600">
             {excerpt}
           </p>
         ) : null}

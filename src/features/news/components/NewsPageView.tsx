@@ -62,7 +62,7 @@ export function NewsPageView({
                     {featured.category}
                   </span>
                   <span className="flex items-center text-sm font-medium text-gray-300">
-                    <Calendar className="mr-2 h-4 w-4" /> {featured.date}
+                    <Calendar className="me-2 h-4 w-4" /> {featured.date}
                   </span>
                 </div>
                 <h2 className="mb-3 text-2xl font-heading font-bold text-white md:text-3xl">
@@ -137,7 +137,7 @@ function NewsPreviewCard({
           {item.excerpt}
         </p>
         <div className="mt-3 flex items-center text-sm font-medium text-muted-foreground transition-colors group-hover:text-primary">
-          {readLabel} <ChevronRight className="ml-1 h-4 w-4" />
+          {readLabel} <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" />
         </div>
       </div>
     </Link>

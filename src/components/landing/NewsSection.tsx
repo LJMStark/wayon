@@ -1,10 +1,9 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 import type { NewsFeature, NewsItem } from "@/data/home";
 import { Link } from "@/i18n/routing";
+
+import { RevealSection } from "./RevealSection";
 
 type NewsSectionProps = {
   title: string;
@@ -18,13 +17,7 @@ export function NewsSection({
   items,
 }: NewsSectionProps): React.JSX.Element {
   return (
-    <motion.section 
-      className="wayon-section pb-16"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <RevealSection className="wayon-section pb-16">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
           <h2 className="wayon-title">{title}</h2>
@@ -62,7 +55,7 @@ export function NewsSection({
                     <h3 className="max-w-[75%] text-[20px] font-normal leading-[1.45] text-[#2e2e2e]">
                       {item.title}
                     </h3>
-                    <time className="shrink-0 text-right text-[color:var(--primary)]">
+                    <time className="shrink-0 text-end text-[color:var(--primary)]">
                       <span className="block text-[42px] font-bold leading-none md:text-[56px]">
                         {item.day}
                       </span>
@@ -75,6 +68,6 @@ export function NewsSection({
           </div>
         </div>
       </div>
-    </motion.section>
+    </RevealSection>
   );
 }

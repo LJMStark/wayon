@@ -1,9 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 import type { CaseItem } from "@/data/home";
+
+import { RevealSection } from "./RevealSection";
 
 type EngineeringCaseProps = {
   title: string;
@@ -17,14 +16,7 @@ export function EngineeringCase({
   items,
 }: EngineeringCaseProps): React.JSX.Element {
   return (
-    <motion.section 
-      id="case" 
-      className="wayon-section"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <RevealSection id="case" className="wayon-section">
       <div className="wayon-container">
         <header className="mb-8 md:mb-10">
           <h2 className="wayon-title text-[color:var(--primary)]">{title}</h2>
@@ -52,7 +44,7 @@ export function EngineeringCase({
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <figcaption className="absolute inset-x-0 bottom-0 translate-y-full bg-black/40 px-4 py-4 text-center text-[16px] font-normal text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                <figcaption className="absolute inset-x-0 bottom-0 translate-y-full bg-black/40 px-4 py-4 text-center text-[16px] font-normal text-white opacity-0 transition-[transform,opacity] duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                   {item.title}
                 </figcaption>
               </figure>
@@ -60,6 +52,6 @@ export function EngineeringCase({
           ))}
         </div>
       </div>
-    </motion.section>
+    </RevealSection>
   );
 }
