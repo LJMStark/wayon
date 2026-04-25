@@ -28,7 +28,7 @@
   --border: rgba(207, 207, 207, 0.35);
   --footer: #111111;
 
-  --header-height: 80px;
+  --header-height: 160px;
   --site-width: 1140px;
   --site-width-wide: 1400px;
   --section-gap: clamp(5rem, 7vw, 13.5rem);
@@ -40,13 +40,13 @@
 
 @media (max-width: 1024px) {
   :root {
-    --header-height: 85px;
+    --header-height: 170px;
   }
 }
 
 @media (max-width: 620px) {
   :root {
-    --header-height: 65px;
+    --header-height: 130px;
   }
 }
 

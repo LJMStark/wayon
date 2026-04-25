@@ -74,7 +74,7 @@ function getDesktopNavLinkClassName(
   }
 
   if (isTransparent) {
-    return "inline-flex items-center text-[15px] font-light text-white/95 transition-colors hover:text-white";
+    return "inline-flex items-center text-[15px] font-light text-white transition-colors hover:text-white";
   }
 
   return "inline-flex items-center text-[15px] font-light text-white/80 transition-colors hover:text-white";
@@ -358,7 +358,7 @@ export default function Header(): React.JSX.Element {
                 onClick={toggleSearch}
                 className={`transition-colors ${
                   isTransparent
-                    ? "text-white/95 hover:text-white"
+                    ? "text-white hover:text-white"
                     : "text-white/80 hover:text-white"
                 }`}
                 aria-label={headerCopy.toggleSearch}
@@ -413,7 +413,7 @@ export default function Header(): React.JSX.Element {
                 type="button"
                 className={`inline-flex items-center gap-2 text-[15px] font-light transition-colors ${
                   isTransparent
-                    ? "text-white/95 hover:text-white"
+                    ? "text-white hover:text-white"
                     : "text-white/80 hover:text-white"
                 }`}
               >
