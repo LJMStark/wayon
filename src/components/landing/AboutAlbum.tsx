@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import type { AboutAlbumItem } from "@/data/home";
 import type { AboutAlbumCopy } from "@/features/home/types";
@@ -46,7 +46,20 @@ export function AboutAlbum({
   copy,
 }: AboutAlbumProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
+
+  useEffect(() => {
+    if (isPaused || items.length <= 1) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
+    }, 2000);
+
+    return () => window.clearInterval(timer);
+  }, [items.length, isPaused]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
@@ -55,6 +68,8 @@ export function AboutAlbum({
   return (
     <motion.section 
       className="relative pb-12 md:pb-0"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -67,7 +82,7 @@ export function AboutAlbum({
             alt={activeItem.title}
             fill
             sizes="(max-width: 768px) 100vw, 1140px"
-            className="object-cover"
+            className={`object-cover ${activeItem.image.includes('zyl-fashion-pavilion.png') ? 'object-top' : 'object-center'}`}
           />
 
           <div className="absolute inset-y-0 right-0 flex w-full items-center px-4 md:justify-end md:px-0">

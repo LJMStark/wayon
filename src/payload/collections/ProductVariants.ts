@@ -14,19 +14,25 @@ import {
 
 const imageMediaFields: Field[] = [
   {
+    name: "mediaRef",
+    type: "upload",
+    relationTo: "media",
+    admin: {
+      description: "Payload Media record — set when importing via import422Catalog. Takes precedence over publicUrl.",
+    },
+  },
+  {
     name: "sourcePath",
     type: "text",
-    required: true,
     admin: {
-      description: "Decoded filesystem-relative path under docs/外贸出口资料/",
+      description: "Decoded filesystem-relative path (legacy import identity key)",
     },
   },
   {
     name: "publicUrl",
     type: "text",
-    required: true,
     admin: {
-      description: "Percent-encoded /api/trade-media/... URL",
+      description: "R2 public URL (preferred) or legacy /api/trade-media/... URL",
     },
   },
   {
@@ -42,14 +48,20 @@ const imageMediaFields: Field[] = [
 
 const videoMediaFields: Field[] = [
   {
+    name: "mediaRef",
+    type: "upload",
+    relationTo: "media",
+    admin: {
+      description: "Payload Media record — set when importing via import422Catalog. Takes precedence over publicUrl.",
+    },
+  },
+  {
     name: "sourcePath",
     type: "text",
-    required: true,
   },
   {
     name: "publicUrl",
     type: "text",
-    required: true,
   },
   {
     name: "posterUrl",

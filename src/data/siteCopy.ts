@@ -262,7 +262,7 @@ const SITE_COPY = {
     productsCarousel: {
       title: {
         en: "ZYL Product",
-        zh: "ZYL 产品系列",
+        zh: "众岩联产品系列",
         es: "Productos ZYL",
         ar: "منتجات ZYL",
       },
@@ -359,7 +359,7 @@ const SITE_COPY = {
   aboutPage: {
     heroTitle: {
       en: "About ZYL",
-      zh: "关于 ZYL",
+      zh: "关于众岩联",
       es: "Sobre ZYL",
       ar: "عن ZYL",
     },

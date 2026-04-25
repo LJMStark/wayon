@@ -75,7 +75,10 @@ export type Product = {
   variants?: ProductVariant[];
 };
 
+type RawMediaRef = { url?: string | null } | null | undefined;
+
 type RawImageMedia = {
+  mediaRef?: RawMediaRef;
   sourcePath?: string | null;
   publicUrl?: string | null;
   altZh?: string | null;
@@ -83,6 +86,7 @@ type RawImageMedia = {
 };
 
 type RawVideoMedia = {
+  mediaRef?: RawMediaRef;
   sourcePath?: string | null;
   publicUrl?: string | null;
   posterUrl?: string | null;
@@ -131,7 +135,7 @@ type RawProduct = {
 function mapImageMedia(value: RawImageMedia): ProductMediaImage {
   return {
     sourcePath: value.sourcePath ?? "",
-    publicUrl: value.publicUrl ?? "",
+    publicUrl: value.mediaRef?.url ?? value.publicUrl ?? "",
     altZh: value.altZh ?? undefined,
     sortOrder: value.sortOrder ?? undefined,
   };
@@ -140,7 +144,7 @@ function mapImageMedia(value: RawImageMedia): ProductMediaImage {
 function mapVideoMedia(value: RawVideoMedia): ProductMediaVideo {
   return {
     sourcePath: value.sourcePath ?? "",
-    publicUrl: value.publicUrl ?? "",
+    publicUrl: value.mediaRef?.url ?? value.publicUrl ?? "",
     posterUrl: value.posterUrl ?? undefined,
     titleZh: value.titleZh ?? undefined,
     sortOrder: value.sortOrder ?? undefined,

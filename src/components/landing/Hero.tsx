@@ -47,7 +47,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
 
     const timer = window.setInterval(() => {
       setActiveSlide((current) => getWrappedIndex(current, slides.length, "next"));
-    }, 7000);
+    }, 4000);
 
     return () => window.clearInterval(timer);
   }, [slides.length, isPaused]);
@@ -70,7 +70,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
           >
             {slide.type === "video" ? (
               <video
-                className={`size-full object-cover transition-transform duration-[7000ms] ease-linear ${
+                className={`size-full object-cover transition-transform duration-[4000ms] ease-linear ${
                   index === activeSlide ? "scale-105" : "scale-100"
                 }`}
                 autoPlay
@@ -86,7 +86,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                 alt={slide.alt}
                 fill
                 sizes="100vw"
-                className={`object-cover transition-transform duration-[7000ms] ease-linear ${
+                className={`object-cover transition-transform duration-[4000ms] ease-linear ${
                   index === activeSlide ? "scale-105" : "scale-100"
                 }`}
                 priority={index === 0}

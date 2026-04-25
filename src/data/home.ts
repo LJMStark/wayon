@@ -75,8 +75,8 @@ type AppMessageKey = Parameters<AppTranslator>[0];
 export const HERO_SLIDES: HeroSlide[] = [
   {
     type: "image",
-    src: "/assets/hero/hero-1.jpg",
-    alt: "ZYL placeholder",
+    src: "/assets/hero/hero-zyl-global.png",
+    alt: "众岩联全球馆",
   },
   {
     type: "image",
@@ -101,19 +101,19 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item0.title",
     textKey: "HomeData.AboutAlbum.item0.text",
-    image: "/assets/about/foshan-showroom.jpg",
+    image: "/assets/about/zyl-global-pavilion.png",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
-    image: "/assets/about/guangdong-wayon.jpg",
+    image: "/assets/about/about-album-wayon-group.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
-    image: "/assets/about/shanghai-wayon.jpg",
+    image: "/assets/about/zyl-fashion-pavilion.png",
     href: "/about",
   },
   {
@@ -125,13 +125,13 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
-    image: "/assets/about/about-album-wayon-group.jpg",
+    image: "/assets/about/guangdong-wayon.jpg",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
-    image: "/assets/about/foshan-showroom.jpg",
+    image: "/assets/about/zyl-aesthetic-pavilion.png",
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{

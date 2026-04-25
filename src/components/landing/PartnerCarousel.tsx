@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import type { PartnerItem } from "@/data/home";
 import type { PartnerCarouselCopy } from "@/features/home/types";
@@ -54,6 +54,25 @@ export function PartnerCarousel({
   copy,
 }: PartnerCarouselProps): React.JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused || items.length <= 1) return;
+
+    const timer = window.setInterval(() => {
+      if (scrollerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollerRef.current;
+        // If we reached the end, scroll back to start
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollContainerByDirection(scrollerRef.current, "next", 780);
+        }
+      }
+    }, 2000);
+
+    return () => window.clearInterval(timer);
+  }, [items.length, isPaused]);
 
   const scrollByAmount = (direction: CarouselDirection): void => {
     scrollContainerByDirection(scrollerRef.current, direction, 780);
@@ -63,6 +82,8 @@ export function PartnerCarousel({
     <motion.section 
       className="wayon-section pb-16" 
       style={PARTNER_SECTION_STYLE}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}

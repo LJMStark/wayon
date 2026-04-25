@@ -14,7 +14,9 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
-    "import:trade-catalog": "node scripts/importTradeCatalog.mjs",
+    "import:trade-catalog": "node --env-file=.env.local scripts/importTradeCatalog.mjs",
+    "import:422-catalog": "node --env-file=.env.local scripts/import422Catalog.mjs",
+    "migrate:existing-media": "node --env-file=.env.local scripts/migrateExistingMediaToR2.mjs",
     "payload": "payload",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap"
