@@ -68,7 +68,7 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
     partnerCarousel: {
       title: t("PartnerCarousel.industryPartners"),
       description: t("PartnerCarousel.trustedGlobal"),
-      items: getPartners(t),
+      items: getPartners(),
       copy: {
         previousLabel: landingCopy.partnerCarousel.previous,
         nextLabel: landingCopy.partnerCarousel.next,

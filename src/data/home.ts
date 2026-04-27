@@ -1,6 +1,5 @@
 import type { _Translator } from "use-intl";
 import type { AppMessages } from "@/i18n/types";
-import { HOME_VISUAL_PLACEHOLDER_IMAGE } from "@/features/home/model/homeVisuals";
 
 export type HeroSlide = {
   type: "video" | "image";
@@ -38,8 +37,12 @@ export type CaseItem = {
 
 export type PartnerItem = {
   title: string;
-  description: string;
-  image: string;
+  scale: "sm" | "md" | "lg" | "xl";
+  tone: "muted" | "primary" | "strong";
+  x: number;
+  y: number;
+  delay: number;
+  drift: number;
 };
 
 export type NewsItem = {
@@ -280,39 +283,148 @@ const ENGINEERING_CASE_CONFIG = [
 
 const PARTNER_CONFIG = [
   {
-    titleKey: "HomeData.Partners.item0.title",
-    descriptionKey: "HomeData.Partners.item0.description",
-    image: "/assets/partners/partner-0.jpg",
+    title: "酒店工程",
+    scale: "xl",
+    tone: "strong",
+    x: 30,
+    y: 33,
+    delay: 0,
+    drift: -7,
   },
   {
-    titleKey: "HomeData.Partners.item1.title",
-    descriptionKey: "HomeData.Partners.item1.description",
-    image: "/assets/partners/partner-1.jpg",
+    title: "餐厅",
+    scale: "sm",
+    tone: "muted",
+    x: 43,
+    y: 18,
+    delay: 90,
+    drift: 5,
   },
   {
-    titleKey: "HomeData.Partners.item2.title",
-    descriptionKey: "HomeData.Partners.item2.description",
-    image: "/assets/partners/partner-2.jpg",
+    title: "别墅豪宅",
+    scale: "md",
+    tone: "primary",
+    x: 50,
+    y: 31,
+    delay: 180,
+    drift: -5,
   },
   {
-    titleKey: "HomeData.Partners.item3.title",
-    descriptionKey: "HomeData.Partners.item3.description",
-    image: "/assets/partners/partner-3.jpg",
+    title: "地铁工程",
+    scale: "lg",
+    tone: "muted",
+    x: 66,
+    y: 27,
+    delay: 270,
+    drift: 6,
   },
   {
-    titleKey: "HomeData.Partners.item4.title",
-    descriptionKey: "HomeData.Partners.item4.description",
-    image: "/assets/partners/partner-4.jpg",
+    title: "全屋定制",
+    scale: "sm",
+    tone: "primary",
+    x: 79,
+    y: 31,
+    delay: 360,
+    drift: -4,
   },
   {
-    titleKey: "HomeData.Partners.item5.title",
-    descriptionKey: "HomeData.Partners.item5.description",
-    image: "/assets/partners/partner-5.jpg",
+    title: "地标工程",
+    scale: "sm",
+    tone: "muted",
+    x: 25,
+    y: 47,
+    delay: 450,
+    drift: 6,
+  },
+  {
+    title: "石材加工商",
+    scale: "md",
+    tone: "muted",
+    x: 42,
+    y: 48,
+    delay: 540,
+    drift: -6,
+  },
+  {
+    title: "医院工程",
+    scale: "lg",
+    tone: "strong",
+    x: 57,
+    y: 45,
+    delay: 630,
+    drift: 5,
+  },
+  {
+    title: "家具厂",
+    scale: "md",
+    tone: "primary",
+    x: 70,
+    y: 49,
+    delay: 720,
+    drift: -5,
+  },
+  {
+    title: "游乐园",
+    scale: "md",
+    tone: "primary",
+    x: 84,
+    y: 49,
+    delay: 810,
+    drift: 6,
+  },
+  {
+    title: "大型商场",
+    scale: "lg",
+    tone: "strong",
+    x: 32,
+    y: 65,
+    delay: 900,
+    drift: -5,
+  },
+  {
+    title: "体育馆",
+    scale: "sm",
+    tone: "primary",
+    x: 46,
+    y: 64,
+    delay: 990,
+    drift: 4,
+  },
+  {
+    title: "学校",
+    scale: "lg",
+    tone: "strong",
+    x: 53,
+    y: 78,
+    delay: 1080,
+    drift: -5,
+  },
+  {
+    title: "跨国贸易商",
+    scale: "xl",
+    tone: "strong",
+    x: 71,
+    y: 66,
+    delay: 1170,
+    drift: 6,
+  },
+  {
+    title: "建材批发商",
+    scale: "sm",
+    tone: "muted",
+    x: 88,
+    y: 68,
+    delay: 1260,
+    drift: -4,
   },
 ] as const satisfies ReadonlyArray<{
-  titleKey: AppMessageKey;
-  descriptionKey: AppMessageKey;
-  image: string;
+  title: string;
+  scale: PartnerItem["scale"];
+  tone: PartnerItem["tone"];
+  x: number;
+  y: number;
+  delay: number;
+  drift: number;
 }>;
 
 const NEWS_FEATURE_CONFIG = {
@@ -404,12 +516,8 @@ export function getEngineeringCases(t: AppTranslator): CaseItem[] {
   }));
 }
 
-export function getPartners(t: AppTranslator): PartnerItem[] {
-  return PARTNER_CONFIG.map((item) => ({
-    title: t(item.titleKey),
-    description: t(item.descriptionKey),
-    image: item.image,
-  }));
+export function getPartners(): PartnerItem[] {
+  return PARTNER_CONFIG.map((item) => ({ ...item }));
 }
 
 export function getNewsFeature(t: AppTranslator): NewsFeature {
