@@ -91,7 +91,7 @@ export function AboutAlbum({
               <header className="mb-4">
                 <h3 className="text-[24px] font-medium md:text-[30px]">{activeItem.title}</h3>
               </header>
-              <p className="text-[15px] font-light leading-[1.7] text-white/90">
+              <p className="text-[15px] font-normal leading-[1.7] text-white/90">
                 {activeItem.text}
               </p>
               <footer className="mt-6 flex flex-wrap items-center justify-between gap-4">

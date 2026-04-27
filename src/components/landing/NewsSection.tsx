@@ -38,7 +38,7 @@ export function NewsSection({
               <h3 className="text-[20px] font-medium leading-[1.6] text-[#262626]">
                 {feature.title}
               </h3>
-              <p className="mt-4 text-[16px] font-light leading-[1.7] text-[#737373]">
+              <p className="mt-4 text-[16px] font-normal leading-[1.7] text-[#4a4a4a]">
                 {feature.excerpt}
               </p>
             </Link>
@@ -62,7 +62,7 @@ export function NewsSection({
                       <span className="block text-[42px] font-bold leading-none md:text-[56px]">
                         {item.day}
                       </span>
-                      <span className="text-[14px] font-light">{item.yearMonth}</span>
+                      <span className="text-[14px] font-normal">{item.yearMonth}</span>
                     </time>
                   </Link>
                 </li>

@@ -98,8 +98,8 @@ export default function ContactPage() {
         subtitle={contactCopy.heroSubtitle}
       />
 
-      <div className="mx-auto mb-16 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-gray-500">
-        <span className="text-gray-400">◆</span> {commonCopy.breadcrumbLabel}:{" "}
+      <div className="mx-auto mb-16 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
+        <span className="text-[#666666]">◆</span> {commonCopy.breadcrumbLabel}:{" "}
         <Link href="/" className="hover:text-black">
           {tNav("home")}
         </Link>{" "}
@@ -168,14 +168,14 @@ export default function ContactPage() {
                       className="border-t border-gray-200 bg-gray-50/50 p-6 text-sm leading-relaxed text-gray-600"
                     >
                       <div className="mb-2">
-                        <span className="text-gray-400">
+                        <span className="text-[#666666]">
                           {contactCopy.labels.address}:
                         </span>{" "}
                         {location.address}
                       </div>
                       {location.tel ? (
                         <div className="mb-2">
-                          <span className="text-gray-400">
+                          <span className="text-[#666666]">
                             {contactCopy.labels.tel}:
                           </span>{" "}
                           <a
@@ -188,7 +188,7 @@ export default function ContactPage() {
                       ) : null}
                       {location.email ? (
                         <div className="mb-2">
-                          <span className="text-gray-400">
+                          <span className="text-[#666666]">
                             {contactCopy.labels.email}:
                           </span>{" "}
                           <a
@@ -201,7 +201,7 @@ export default function ContactPage() {
                       ) : null}
                       {location.businessHours ? (
                         <div className="mb-2">
-                          <span className="text-gray-400">
+                          <span className="text-[#666666]">
                             {contactCopy.labels.businessHours}:
                           </span>{" "}
                           {location.businessHours}
@@ -209,7 +209,7 @@ export default function ContactPage() {
                       ) : null}
                       {location.fax ? (
                         <div className="mb-2">
-                          <span className="text-gray-400">
+                          <span className="text-[#666666]">
                             {contactCopy.labels.fax}:
                           </span>{" "}
                           {location.fax}
@@ -217,7 +217,7 @@ export default function ContactPage() {
                       ) : null}
                       {location.postalCode ? (
                         <div className="mb-8">
-                          <span className="text-gray-400">
+                          <span className="text-[#666666]">
                             {contactCopy.labels.postalCode}:
                           </span>{" "}
                           {location.postalCode}
@@ -247,7 +247,7 @@ export default function ContactPage() {
       </section>
 
       <section className="mx-auto mb-24 max-w-[1400px] px-6">
-        <h2 className="mb-12 text-3xl font-light text-[#1a1a1a]">
+        <h2 className="mb-12 text-3xl font-normal text-[#1a1a1a]">
           {contactCopy.formTitle}
         </h2>
 
@@ -301,7 +301,7 @@ export default function ContactPage() {
                 name="role"
                 required
                 disabled={isSubmitting}
-                className={`${FORM_CONTROL_CLASS} appearance-none text-gray-500`}
+                className={`${FORM_CONTROL_CLASS} appearance-none text-[#555555]`}
                 defaultValue=""
               >
                 <option value="" disabled>
@@ -440,15 +440,15 @@ export default function ContactPage() {
       <section className="mx-auto mb-24 max-w-[1400px] px-6">
         <div className="flex w-full flex-col items-center justify-between bg-neutral-100 p-8 md:flex-row md:p-16">
           <div className="mb-8 text-center md:mb-0 md:mr-8 md:text-left">
-            <h2 className="mb-4 text-4xl font-light text-[#112349] md:text-5xl">
+            <h2 className="mb-4 text-4xl font-normal text-[#112349] md:text-5xl">
               {contactCopy.sampleTitleLine1}
             </h2>
-            <h2 className="text-4xl font-light text-[#5a718b] md:text-5xl">
+            <h2 className="text-4xl font-normal text-[#5a718b] md:text-5xl">
               {contactCopy.sampleTitleLine2}
             </h2>
           </div>
           <div className="relative h-[250px] w-full max-w-3xl flex-1 md:h-[300px]">
-            <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center bg-[#e5e7eb] text-sm text-gray-400">
+            <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center bg-[#e5e7eb] text-sm text-[#666666]">
               {contactCopy.samplePlaceholder}
             </div>
           </div>

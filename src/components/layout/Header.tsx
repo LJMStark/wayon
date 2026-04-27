@@ -293,7 +293,7 @@ export default function Header(): React.JSX.Element {
                                   {activeCollection?.label ? translateNav(activeCollection.label) : ""}
                                 </h3>
                                 {activeCollection?.description ? (
-                                  <p className="mb-6 text-[16px] leading-[1.7] text-[#666666]">
+                                  <p className="mb-6 text-[16px] leading-[1.7] text-[#4a4a4a]">
                                     {translateNav(activeCollection.description)}
                                   </p>
                                 ) : null}
@@ -543,7 +543,7 @@ export default function Header(): React.JSX.Element {
                         <Link
                           href={item.href}
                           onClick={closeMobileMenu}
-                          className="text-[16px] font-light"
+                          className="text-[16px] font-normal"
                         >
                           {translateNav(item.label)}
                         </Link>

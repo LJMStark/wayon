@@ -30,7 +30,7 @@ export function NewsPageView({
           <h1 className="mb-6 text-4xl font-heading font-bold text-white md:text-5xl lg:text-6xl">
             {heroTitle}
           </h1>
-          <p className="mx-auto max-w-2xl text-lg font-light text-gray-300">
+          <p className="mx-auto max-w-2xl text-lg font-normal text-gray-300">
             {heroDescription}
           </p>
         </div>

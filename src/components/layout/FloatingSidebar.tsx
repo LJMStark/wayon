@@ -87,10 +87,10 @@ function AnimateQr({
 }: AnimateQrProps): React.JSX.Element | null {
   return show ? (
     <div className="absolute right-[calc(100%+12px)] top-1/2 w-44 -translate-y-1/2 border border-[color:var(--border)] bg-white p-4 text-center shadow-[0_0_1rem_rgba(0,0,0,0.08)]">
-      <div className="flex aspect-square items-center justify-center bg-[color:var(--surface)] px-4 text-[12px] leading-5 text-[#666666]">
+      <div className="flex aspect-square items-center justify-center bg-[color:var(--surface)] px-4 text-[12px] leading-5 text-[#4a4a4a]">
         {title}
       </div>
-      <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-[#666666]">
+      <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-[#4a4a4a]">
         {hint}
       </p>
     </div>

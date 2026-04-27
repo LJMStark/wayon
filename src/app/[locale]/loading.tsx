@@ -16,7 +16,7 @@ export default async function LocaleLoading() {
         className="h-10 w-10 animate-spin rounded-full border-2 border-gray-200 border-t-[#0a1e3f]"
         aria-hidden="true"
       />
-      <p className="text-sm tracking-wide text-gray-500">{copy.loading}</p>
+      <p className="text-sm tracking-wide text-[#555555]">{copy.loading}</p>
     </main>
   );
 }

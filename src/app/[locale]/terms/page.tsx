@@ -215,7 +215,7 @@ export default async function TermsPage({
           <h1 className="mb-4 font-heading text-4xl font-bold uppercase tracking-wide text-white md:text-5xl">
             {copy.title}
           </h1>
-          <p className="text-sm font-light text-gray-400">{copy.updated}</p>
+          <p className="text-sm font-normal text-[#666666]">{copy.updated}</p>
         </div>
       </section>
 

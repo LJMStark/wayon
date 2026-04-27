@@ -125,8 +125,8 @@ export default function SolutionPage(): React.JSX.Element {
         subtitle={solutionCopy.heroSubtitle}
       />
 
-      <div className="mx-auto mb-8 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-gray-500">
-        <span className="text-gray-400">◆</span> {commonCopy.breadcrumbLabel}:{" "}
+      <div className="mx-auto mb-8 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
+        <span className="text-[#666666]">◆</span> {commonCopy.breadcrumbLabel}:{" "}
         <Link href="/" className="hover:text-black">
           {tNav("home")}
         </Link>{" "}
@@ -186,7 +186,7 @@ export default function SolutionPage(): React.JSX.Element {
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/10 group-hover:opacity-100">
-                    <span className="translate-y-4 transform text-3xl font-light tracking-[0.2em] text-white transition-all duration-500 group-hover:translate-y-0">
+                    <span className="translate-y-4 transform text-3xl font-normal tracking-[0.2em] text-white transition-all duration-500 group-hover:translate-y-0">
                       ZYL
                     </span>
                   </div>

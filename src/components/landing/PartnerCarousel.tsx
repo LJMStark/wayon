@@ -136,7 +136,7 @@ export function PartnerCarousel({
                 <h3 className="text-[24px] font-semibold leading-[1.5] text-[#1e1e1e]">
                   {partner.title}
                 </h3>
-                <p className="mt-3 text-[16px] font-light leading-[1.78] text-[#666666]">
+                <p className="mt-3 text-[16px] font-normal leading-[1.78] text-[#4a4a4a]">
                   {partner.description}
                 </p>
               </div>

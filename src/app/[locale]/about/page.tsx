@@ -37,7 +37,7 @@ function getExhibitionTabClassName(isActive: boolean): string {
     return "border-b-2 border-black px-10 py-4 text-sm font-medium tracking-wide text-[#1a1a1a] transition-colors";
   }
 
-  return "px-10 py-4 text-sm tracking-wide text-gray-500 transition-colors hover:text-black";
+  return "px-10 py-4 text-sm tracking-wide text-[#555555] transition-colors hover:text-black";
 }
 
 function getTimelineRowClassName(isReverse: boolean): string {
@@ -76,8 +76,8 @@ export default function AboutPage(): React.JSX.Element {
         title={aboutCopy.heroTitle}
       />
 
-      <div className="mx-auto max-w-7xl border-b border-gray-100 px-6 py-4 text-sm text-gray-500">
-        <span className="text-gray-400">◆</span> {commonCopy.breadcrumbLabel}:{" "}
+      <div className="mx-auto max-w-7xl border-b border-gray-100 px-6 py-4 text-sm text-[#555555]">
+        <span className="text-[#888888]">◆</span> {commonCopy.breadcrumbLabel}:{" "}
         <Link href="/" className="hover:text-black">
           {tNav("home")}
         </Link>{" "}
@@ -88,7 +88,7 @@ export default function AboutPage(): React.JSX.Element {
         id="who-are-we"
         className="mx-auto max-w-5xl px-6 py-20 text-center"
       >
-        <h2 className="mb-4 text-3xl font-light md:text-4xl">
+        <h2 className="mb-4 text-3xl font-normal md:text-4xl">
           {aboutCopy.introTitle}
         </h2>
         <h3 className="mb-10 text-sm font-semibold tracking-wider">
@@ -126,7 +126,7 @@ export default function AboutPage(): React.JSX.Element {
             />
           </div>
           <div className="flex flex-col justify-center bg-[#6b6c6e] p-16 text-white">
-            <h2 className="mb-6 text-3xl font-light">{aboutCopy.whyTitle}</h2>
+            <h2 className="mb-6 text-3xl font-normal">{aboutCopy.whyTitle}</h2>
             <p className="mb-10 w-[80%] text-[15px] leading-relaxed text-gray-200">
               {aboutCopy.whyDescription}
             </p>
@@ -143,7 +143,7 @@ export default function AboutPage(): React.JSX.Element {
       <section className="relative mb-24 w-full overflow-hidden bg-[#122245] pb-0 pt-24 text-white">
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="mb-16 text-center">
-            <h2 className="mb-8 text-4xl font-light tracking-wide">
+            <h2 className="mb-8 text-4xl font-normal tracking-wide">
               {aboutCopy.philosophyTitle}
             </h2>
             <p className="mx-auto max-w-2xl text-sm leading-relaxed text-gray-300">
@@ -169,7 +169,7 @@ export default function AboutPage(): React.JSX.Element {
       <section id="certificate" className="mx-auto mb-24 max-w-7xl px-6">
         <div className="mb-24 grid items-center gap-16 md:grid-cols-2">
           <div>
-            <h2 className="mb-6 text-3xl font-light uppercase tracking-widest">
+            <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
               {aboutCopy.certificatesTitle}
             </h2>
             <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
@@ -183,7 +183,7 @@ export default function AboutPage(): React.JSX.Element {
             </Link>
           </div>
           <div className="relative flex h-[300px] items-center justify-center bg-neutral-100">
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-[#888888]">
               {aboutCopy.certificatesPlaceholder}
             </span>
           </div>
@@ -191,10 +191,10 @@ export default function AboutPage(): React.JSX.Element {
 
         <div className="grid items-center gap-16 md:grid-cols-2">
           <div className="order-2 flex h-[300px] items-center justify-center bg-neutral-100 md:order-1">
-            <span className="text-sm text-gray-400">{aboutCopy.teamPlaceholder}</span>
+            <span className="text-sm text-[#888888]">{aboutCopy.teamPlaceholder}</span>
           </div>
           <div className="order-1 md:order-2">
-            <h2 className="mb-6 text-3xl font-light uppercase tracking-widest">
+            <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
               {aboutCopy.teamTitle}
             </h2>
             <p className="text-[15px] leading-relaxed text-gray-600">
@@ -205,7 +205,7 @@ export default function AboutPage(): React.JSX.Element {
       </section>
 
       <section className="mx-auto mb-32 max-w-7xl px-6 text-center">
-        <h2 className="mb-6 text-3xl font-light uppercase tracking-[0.1em]">
+        <h2 className="mb-6 text-3xl font-normal uppercase tracking-[0.1em]">
           {aboutCopy.exhibitionTitle}
         </h2>
         <p className="mx-auto mb-16 max-w-4xl text-[15px] leading-relaxed text-gray-600">
@@ -228,10 +228,10 @@ export default function AboutPage(): React.JSX.Element {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {EXHIBITION_PLACEHOLDERS.map((placeholderIndex) => (
             <div key={placeholderIndex} className="flex flex-col">
-              <div className="mb-4 flex aspect-[4/3] items-center justify-center bg-neutral-100 text-gray-300">
+              <div className="mb-4 flex aspect-[4/3] items-center justify-center bg-neutral-100 text-[#888888]">
                 a{placeholderIndex}
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-[#555555]">
                 {aboutCopy.exhibitionCardCaption}
               </p>
             </div>
@@ -242,7 +242,7 @@ export default function AboutPage(): React.JSX.Element {
       <section className="w-full bg-[#fcfcfc] py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-24 text-center">
-            <h2 className="mr-4 inline-block text-4xl font-light uppercase tracking-widest text-gray-300">
+            <h2 className="mr-4 inline-block text-4xl font-normal uppercase tracking-widest text-[#aaaaaa]">
               {aboutCopy.developmentTitleLead}
             </h2>
             <h2 className="inline-block text-4xl font-bold uppercase tracking-widest text-[#0f2858]">
@@ -268,12 +268,12 @@ export default function AboutPage(): React.JSX.Element {
                   <h3 className="mb-4 text-3xl font-bold text-[#0f2858]">
                     {item.year}
                   </h3>
-                  <p className="max-w-sm text-sm leading-relaxed text-gray-500">
+                  <p className="max-w-sm text-sm leading-relaxed text-[#555555]">
                     {item.text}
                   </p>
                 </div>
 
-                <div className="ml-8 mt-6 flex aspect-video items-center justify-center bg-neutral-100 text-gray-300 md:ml-0 md:mt-0 md:w-[45%]">
+                <div className="ml-8 mt-6 flex aspect-video items-center justify-center bg-neutral-100 text-[#888888] md:ml-0 md:mt-0 md:w-[45%]">
                   {item.year}
                 </div>
               </div>

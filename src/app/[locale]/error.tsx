@@ -23,14 +23,14 @@ export default function LocaleError({ error, reset }: ErrorProps) {
 
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 bg-white px-6 py-24 text-center text-[#1a1a1a]">
-      <h1 className="text-3xl font-light tracking-wide md:text-4xl">
+      <h1 className="text-3xl font-normal tracking-wide md:text-4xl">
         {copy.errorTitle}
       </h1>
       <p className="max-w-xl text-sm leading-relaxed text-gray-600 md:text-base">
         {copy.errorMessage}
       </p>
       {error.digest ? (
-        <p className="font-mono text-xs text-gray-400">
+        <p className="font-mono text-xs text-[#666666]">
           ref: {error.digest}
         </p>
       ) : null}

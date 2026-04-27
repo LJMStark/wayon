@@ -133,7 +133,7 @@ export function SolutionTabs({
                   <header className="mb-4">
                     <h3 className="text-[28px] font-medium md:text-[34px]">{activeItem.title}</h3>
                   </header>
-                  <p className="text-[15px] font-light leading-[1.78] text-white/90">
+                  <p className="text-[15px] font-normal leading-[1.78] text-white/90">
                     {activeItem.description}
                   </p>
                 </motion.div>

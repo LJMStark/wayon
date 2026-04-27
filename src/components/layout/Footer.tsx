@@ -158,7 +158,7 @@ export default function Footer(): React.JSX.Element {
           {/* Col 2 — About Us */}
           <div>
             <SectionHeading>{tFooter("aboutUs")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
               {ABOUT_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="transition-colors hover:text-white">
@@ -172,7 +172,7 @@ export default function Footer(): React.JSX.Element {
           {/* Col 3 — Quick Links */}
           <div>
             <SectionHeading>{tFooter("quickLinks")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
               {QUICK_LINKS.map((link) => (
                 <li key={link.label}>
                   <Link href={link.href} className="transition-colors hover:text-white">
@@ -186,7 +186,7 @@ export default function Footer(): React.JSX.Element {
           {/* Col 4 — Address */}
           <div>
             <SectionHeading>{tFooter("address")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
               {addressLines.map((line) => (
                 <li key={line}>{line}</li>
               ))}
@@ -195,7 +195,7 @@ export default function Footer(): React.JSX.Element {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col items-start justify-between gap-4 pt-6 text-[13px] font-light text-white/50 md:flex-row md:items-center">
+        <div className="flex flex-col items-start justify-between gap-4 pt-6 text-[13px] font-normal text-white/50 md:flex-row md:items-center">
           <p>{tFooter("rights")}</p>
           <div className="flex flex-wrap items-center gap-4">
             {LEGAL_LINKS.map((link) => (

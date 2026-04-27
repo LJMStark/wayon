@@ -97,12 +97,12 @@ export function CountUpStat({
 
   return (
     <div ref={wrapperRef} className="flex flex-col items-center">
-      <div className="mb-2 text-5xl font-light text-[#0f2858]">
+      <div className="mb-2 text-5xl font-semibold text-[#0f2858]">
         {displayed}
         {letterSuffix}
         <span className="text-2xl">{suffix}</span>
       </div>
-      <div className="text-sm text-gray-500">{label}</div>
+      <div className="text-sm text-[#555555]">{label}</div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export default async function LocaleNotFound() {
       <p className="text-6xl font-extralight tracking-widest text-[#0a1e3f]">
         404
       </p>
-      <h1 className="text-3xl font-light tracking-wide md:text-4xl">
+      <h1 className="text-3xl font-normal tracking-wide md:text-4xl">
         {copy.notFoundTitle}
       </h1>
       <p className="max-w-xl text-sm leading-relaxed text-gray-600 md:text-base">

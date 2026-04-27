@@ -43,7 +43,7 @@ export function NewsDetailPageView({
               {categoryLabel}
             </span>
           ) : null}
-          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-light text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
+          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-normal text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="flex items-center text-sm text-white/70">
@@ -53,7 +53,7 @@ export function NewsDetailPageView({
         </div>
       </section>
 
-      <div className="mx-auto max-w-4xl border-b border-gray-100 px-6 py-4 text-[13px] text-gray-500">
+      <div className="mx-auto max-w-4xl border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
         <Link
           href="/news"
           className="inline-flex items-center transition-colors hover:text-primary"
@@ -65,7 +65,7 @@ export function NewsDetailPageView({
 
       <div className="mx-auto max-w-4xl px-6 py-16">
         {excerpt ? (
-          <p className="mb-12 border-s-4 border-gold ps-6 text-lg font-light leading-relaxed text-gray-600">
+          <p className="mb-12 border-s-4 border-gold ps-6 text-lg font-normal leading-relaxed text-gray-600">
             {excerpt}
           </p>
         ) : null}
@@ -75,7 +75,7 @@ export function NewsDetailPageView({
             <RichText data={body} />
           </div>
         ) : (
-          <div className="flex min-h-[200px] items-center justify-center rounded-lg bg-neutral-50 text-gray-400">
+          <div className="flex min-h-[200px] items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
             <p className="text-center text-sm">Content coming soon…</p>
           </div>
         )}

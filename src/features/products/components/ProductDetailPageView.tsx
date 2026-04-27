@@ -51,7 +51,7 @@ function SpecCard({
         <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#888888]">
           {label}
         </span>
-        <span className="text-[13px] font-light leading-relaxed text-[#1a1a1a]">
+        <span className="text-[13px] font-normal leading-relaxed text-[#1a1a1a]">
           {value}
         </span>
       </div>
@@ -277,7 +277,7 @@ export function ProductDetailPageView({
                 <span className="wayon-eyebrow mb-4 block text-black/60">
                   {category}
                 </span>
-                <h1 className="font-heading text-[1.9rem] font-light tracking-[-0.02em] text-[#1a1a1a] md:text-[2.6rem]">
+                <h1 className="font-heading text-[1.9rem] font-normal tracking-[-0.02em] text-[#1a1a1a] md:text-[2.6rem]">
                   {title}
                 </h1>
                 {seriesTypes.length > 0 ? (
@@ -313,7 +313,7 @@ export function ProductDetailPageView({
         {!heroImage ? (
           <div className="mb-16 flex flex-col items-center text-center">
             <span className="wayon-eyebrow mb-5">{category}</span>
-            <h1 className="mb-4 font-heading text-[2.4rem] font-light tracking-[-0.02em] text-[#242424] md:text-[3.2rem]">
+            <h1 className="mb-4 font-heading text-[2.4rem] font-normal tracking-[-0.02em] text-[#242424] md:text-[3.2rem]">
               {title}
             </h1>
           </div>
@@ -321,7 +321,7 @@ export function ProductDetailPageView({
 
         {/* Description */}
         {descriptionParagraphs.length > 0 ? (
-          <div className="mx-auto mb-16 max-w-2xl text-center text-[15px] font-light leading-[1.9] text-[#666666]">
+          <div className="mx-auto mb-16 max-w-2xl text-center text-[15px] font-normal leading-[1.9] text-[#4a4a4a]">
             {descriptionParagraphs.map((paragraph) => (
               <p key={paragraph} className="mb-3 last:mb-0">
                 {paragraph}
