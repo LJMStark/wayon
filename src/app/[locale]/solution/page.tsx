@@ -51,7 +51,7 @@ export default function SolutionPage(): React.JSX.Element {
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <PageHero
-        imageSrc="/assets/solutions/scene-kitchen-countertops.jpg"
+        imageSrc="/assets/solutions/solution-hero-zl826gy905.jpg"
         imageAlt={solutionCopy.heroTitle}
         title={solutionCopy.heroTitle}
         subtitle={solutionCopy.heroSubtitle}
