@@ -939,16 +939,16 @@ const SITE_COPY = {
   },
   casesPage: {
     heroTitle: {
-      en: "Master of Stone",
-      zh: "石材场景大师",
-      es: "Maestría en piedra",
-      ar: "إتقان الحجر",
+      en: "Proven Engineering Excellence",
+      zh: "工程实力，有目共睹",
+      es: "Excelencia en ingeniería probada",
+      ar: "تميز هندسي موثوق",
     },
     heroSubtitle: {
-      en: "Countertops, wall systems, flooring and finished products tailored for residential and commercial projects.",
-      zh: "面向住宅与商业项目的台面、墙面系统、地面系统与成品交付方案。",
-      es: "Encimeras, sistemas murales, pisos y productos terminados para proyectos residenciales y comerciales.",
-      ar: "أسطح عمل وأنظمة جدران وأرضيات ومنتجات نهائية مخصصة للمشاريع السكنية والتجارية.",
+      en: "ZYL sintered stone has been specified across hundreds of residential and commercial projects worldwide — from countertops to façades, every installation speaks for itself.",
+      zh: "众岩联岩板已落地全球数百个住宅与商业项目，从台面到幕墙，每一处应用都是品质的见证。",
+      es: "La piedra sinterizada ZYL se ha especificado en cientos de proyectos residenciales y comerciales en todo el mundo, desde encimeras hasta fachadas.",
+      ar: "تم تنفيذ حجر ZYL الملبد في مئات المشاريع السكنية والتجارية حول العالم — من أسطح العمل إلى الواجهات، كل تركيب يتحدث عن نفسه.",
     },
     galleryAlt: {
       en: "Engineering case {index}",

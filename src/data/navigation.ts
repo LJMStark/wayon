@@ -129,8 +129,8 @@ export const NAV_ITEMS: NavItem[] = [
     label: "case",
     href: "/cases",
     subItems: [
-      { label: "salesCooperation", href: "/solution" },
-      { label: "factoryCooperation", href: "/cases" },
+      { label: "salesCooperation", href: "/cases" },
+      { label: "factoryCooperation", href: "/cases#factory" },
     ],
   },
   { label: "news", href: "/news" },
