@@ -73,9 +73,17 @@ function buildVariantOptionLabel(
   return parts.join(" / ");
 }
 
+type MediaSectionLabels = {
+  elementImages: string;
+  spaceImages: string;
+  realImages: string;
+  videos: string;
+};
+
 function buildVariantData(
   product: Product,
-  locale: AppLocale
+  locale: AppLocale,
+  mediaLabels: MediaSectionLabels
 ): ProductDetailVariantData[] {
   const title = getLocalizedProductValue(product, locale, "title");
   const hasExplicitVariants = (product.variants?.length ?? 0) > 0;
@@ -97,15 +105,17 @@ function buildVariantData(
     faceCount: variant.faceCount,
     facePatternNote: variant.facePatternNote,
     elementImages: variant.elementImages.map((image) =>
-      buildMediaImage(image, `${title} 元素图`)
+      buildMediaImage(image, `${title} ${mediaLabels.elementImages}`)
     ),
     spaceImages: variant.spaceImages.map((image) =>
-      buildMediaImage(image, `${title} 空间图`)
+      buildMediaImage(image, `${title} ${mediaLabels.spaceImages}`)
     ),
     realImages: variant.realImages.map((image) =>
-      buildMediaImage(image, `${title} 实拍图`)
+      buildMediaImage(image, `${title} ${mediaLabels.realImages}`)
     ),
-    videos: variant.videos.map((video) => buildMediaVideo(video, `${title} 视频`)),
+    videos: variant.videos.map((video) =>
+      buildMediaVideo(video, `${title} ${mediaLabels.videos}`)
+    ),
   }));
 }
 
@@ -123,7 +133,12 @@ export function buildProductDetailPageData(
     getLocalizedProductValue(product, locale, "category") ||
     copy.detail.categoryFallback;
   const rawVariants = getProductVariants(product);
-  const variants = buildVariantData(product, locale);
+  const variants = buildVariantData(product, locale, {
+    elementImages: copy.detail.elementImagesTitle,
+    spaceImages: copy.detail.spaceImagesTitle,
+    realImages: copy.detail.realImagesTitle,
+    videos: copy.detail.videosTitle,
+  });
   const defaultVariantCode = pickDefaultVariantCode(
     rawVariants.map<DirectoryVariant>((variant) => ({
       code: variant.code,

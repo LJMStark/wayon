@@ -249,7 +249,7 @@ export function ProductDetailPageView({
   const useTabPills = variants.length > 1 && variants.length <= 8;
 
   return (
-    <div className="min-h-screen bg-white pb-32">
+    <div className="min-h-screen wayon-stone-bg pb-32">
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       {heroImage ? (
         <section className="relative -mt-[var(--header-height)] h-screen min-h-[640px] w-full overflow-hidden">

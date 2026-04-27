@@ -22,7 +22,7 @@ export const CustomCapabilities: CollectionConfig = {
       unique: true,
       index: true,
       options: CUSTOM_CAPABILITIES.map((capability) => ({
-        label: capability.title,
+        label: capability.title.zh,
         value: capability.key,
       })),
       validate: (value: unknown) => {

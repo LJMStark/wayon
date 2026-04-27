@@ -12,38 +12,33 @@ import {
   getCasesPageCopy,
 } from "@/data/siteCopy";
 
-const PRIMARY_TABS = [
-  { key: "salesCooperation", label: "销售合作" },
-  { key: "factoryCooperation", label: "工厂合作" },
-] as const;
+const PRIMARY_TAB_KEYS = ["salesCooperation", "factoryCooperation"] as const;
 
-const GALLERY_IMAGES = [
-  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]", name: "威豪PARTYK" },
-  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]", name: "威豪PARTYK" },
-  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]", name: "威豪PARTYK" },
-  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square", name: "威豪酒店" },
-  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]", name: "威豪酒店" },
-  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]", name: "广州粤海置地" },
-  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]", name: "林城山水酒店" },
-  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]", name: "粤海·云港城" },
-  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]", name: "青语花园酒店" },
-  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square", name: "青语花园酒店" },
-  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]", name: "青语花园酒店" },
-  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]", name: "威豪PARTYK" },
-];
-
-const FACTORY_IMAGES = Array.from({ length: 32 }, (_, i) => ({
-  src: `/assets/factory-cooperation/case-${i + 1}.jpg`,
-  aspect: "aspect-[8/5]",
-  name: `工程合作案例 ${i + 1}`,
-}));
-
-type PrimaryTabKey = (typeof PRIMARY_TABS)[number]["key"];
+type PrimaryTabKey = (typeof PRIMARY_TAB_KEYS)[number];
 type GalleryImage = {
   src: string;
   aspect: string;
-  name: string;
 };
+
+const GALLERY_IMAGES: GalleryImage[] = [
+  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square" },
+  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]" },
+  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]" },
+  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]" },
+  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square" },
+  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]" },
+  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]" },
+];
+
+const FACTORY_IMAGES: GalleryImage[] = Array.from({ length: 32 }, (_, i) => ({
+  src: `/assets/factory-cooperation/case-${i + 1}.jpg`,
+  aspect: "aspect-[8/5]",
+}));
 
 function getPrimaryTabButtonClassName(isActive: boolean): string {
   if (isActive) {
@@ -61,24 +56,23 @@ function getTabFromHash(hash: string): PrimaryTabKey | null {
   return null;
 }
 
-function getImagesForTab(activeTab: PrimaryTabKey): GalleryImage[] {
-  if (activeTab === "factoryCooperation") {
-    return FACTORY_IMAGES;
-  }
-
-  return GALLERY_IMAGES;
-}
-
-function getPrimaryTabLabel(tabKey: PrimaryTabKey): string {
-  return PRIMARY_TABS.find((tab) => tab.key === tabKey)?.label ?? tabKey;
-}
-
 export default function CasesPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
   const casesCopy = getCasesPageCopy(locale);
   const [activeTab, setActiveTab] = useState<PrimaryTabKey>("salesCooperation");
+
+  const getImageLabel = (index: number): string => {
+    const names =
+      activeTab === "factoryCooperation"
+        ? casesCopy.factoryCaseNames
+        : casesCopy.salesCaseNames;
+
+    return names[index] ?? "";
+  };
+
+  const getPrimaryTabLabel = (tabKey: PrimaryTabKey): string => tNav(tabKey);
 
   useEffect(() => {
     const handleHashChange = (): void => {
@@ -95,10 +89,11 @@ export default function CasesPage(): React.JSX.Element {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  const masonryImages = getImagesForTab(activeTab);
+  const masonryImages: GalleryImage[] =
+    activeTab === "factoryCooperation" ? FACTORY_IMAGES : GALLERY_IMAGES;
 
   return (
-    <main className="min-h-screen bg-white text-[#1a1a1a]">
+    <main className="min-h-screen wayon-stone-bg text-[#1a1a1a]">
       <PageHero
         imageSrc="/assets/hero/hero-2.jpg"
         imageAlt={casesCopy.heroTitle}
@@ -120,14 +115,14 @@ export default function CasesPage(): React.JSX.Element {
 
       <div className="mx-auto max-w-[1400px] px-6 pb-24">
         <div className="mb-6 flex flex-wrap justify-center gap-2 md:gap-4">
-          {PRIMARY_TABS.map((tab) => (
+          {PRIMARY_TAB_KEYS.map((tabKey) => (
             <button
-              key={tab.key}
+              key={tabKey}
               type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={getPrimaryTabButtonClassName(activeTab === tab.key)}
+              onClick={() => setActiveTab(tabKey)}
+              className={getPrimaryTabButtonClassName(activeTab === tabKey)}
             >
-              {tab.label}
+              {tNav(tabKey)}
             </button>
           ))}
         </div>
@@ -153,7 +148,7 @@ export default function CasesPage(): React.JSX.Element {
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/20 group-hover:opacity-100">
                     <span className="translate-y-4 transform px-4 text-center text-xl font-normal tracking-[0.1em] text-white transition-all duration-500 group-hover:translate-y-0">
-                      {image.name}
+                      {getImageLabel(index)}
                     </span>
                   </div>
                 </div>

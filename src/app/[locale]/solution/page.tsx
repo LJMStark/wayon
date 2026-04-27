@@ -49,7 +49,7 @@ export default function SolutionPage(): React.JSX.Element {
   const solutionCopy = getSolutionPageCopy(locale);
 
   return (
-    <main className="min-h-screen bg-white text-[#1a1a1a]">
+    <main className="min-h-screen wayon-stone-bg text-[#1a1a1a]">
       <PageHero
         imageSrc="/assets/solutions/solution-hero-zl826gy905.jpg"
         imageAlt={solutionCopy.heroTitle}

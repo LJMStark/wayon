@@ -1,7 +1,12 @@
+import Image from "next/image";
+
 import ProductGrid from "@/components/products/ProductGrid";
 import { Link } from "@/i18n/routing";
 
 import type { ProductsPageData, ProductCatalogSectionKey } from "../types";
+
+const PRODUCTS_HERO_IMAGE_SRC =
+  "/assets/products/products-hero-lauren-black-gold.jpg";
 
 function buildProductsHref(section: ProductCatalogSectionKey): string {
   const params = new URLSearchParams();
@@ -35,20 +40,28 @@ export function ProductsPageView({
     directoryDescription.trim() !== collectionDescription.trim();
 
   return (
-    <main className="min-h-screen bg-white">
-      <section className="relative -mt-[var(--header-height)] overflow-hidden bg-[color:var(--muted)]">
+    <main className="min-h-screen wayon-stone-bg">
+      <section className="relative -mt-[var(--header-height)] overflow-hidden bg-black">
+        <Image
+          src={PRODUCTS_HERO_IMAGE_SRC}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 end-0 w-1/2 bg-gradient-to-l from-[color:var(--surface)] to-transparent rtl:bg-gradient-to-r"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.82)_0%,rgba(0,0,0,0.56)_48%,rgba(0,0,0,0.18)_100%)] rtl:bg-[linear-gradient(270deg,rgba(0,0,0,0.82)_0%,rgba(0,0,0,0.56)_48%,rgba(0,0,0,0.18)_100%)]"
         />
         <div className="wayon-container-wide relative flex min-h-[340px] flex-col justify-center pb-20 pt-[calc(var(--header-height)+5rem)] md:pb-24 md:pt-[calc(var(--header-height)+6rem)]">
-          <span className="wayon-eyebrow mb-5 text-[color:var(--primary)]/70">
+          <span className="wayon-eyebrow mb-5 text-[#d7b06a]">
             {collectionLabel}
           </span>
-          <h1 className="wayon-title max-w-4xl">
+          <h1 className="wayon-title max-w-4xl break-words text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.5)]">
             {heroTitle}
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-[1.85] text-[color:var(--muted-foreground)] md:text-[17px]">
+          <p className="mt-6 max-w-2xl break-words text-base leading-[1.85] text-white/80 md:text-[17px]">
             {heroSubtitle}
           </p>
         </div>

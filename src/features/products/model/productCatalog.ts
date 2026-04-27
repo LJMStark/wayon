@@ -7,7 +7,6 @@ import {
 } from "../lib/tradeCatalog.ts";
 
 import type {
-  ProductCatalogNavSection,
   ProductCatalogSectionKey,
   ProductCustomCapabilitySummary,
   ProductDirectoryItem,
@@ -20,14 +19,26 @@ import {
 
 export const DEFAULT_PRODUCT_CATALOG_SECTION: ProductCatalogSectionKey = "size";
 
-export const PRODUCT_CATALOG_NAV_SECTIONS: ProductCatalogNavSection[] = [
-  { key: "size", label: "规格" },
-  { key: "series", label: "石材" },
-  { key: "thickness", label: "厚度" },
-  { key: "color", label: "颜色" },
-  { key: "process", label: "表面工艺" },
-  { key: "custom", label: "定制产品" },
+export const PRODUCT_CATALOG_SECTION_KEYS: ProductCatalogSectionKey[] = [
+  "size",
+  "series",
+  "thickness",
+  "color",
+  "process",
+  "custom",
 ];
+
+export const PRODUCT_CATALOG_NAV_TRANSLATION_KEYS: Record<
+  ProductCatalogSectionKey,
+  "catalogSize" | "catalogSeries" | "catalogThickness" | "catalogColor" | "catalogProcess" | "catalogCustom"
+> = {
+  size: "catalogSize",
+  series: "catalogSeries",
+  thickness: "catalogThickness",
+  color: "catalogColor",
+  process: "catalogProcess",
+  custom: "catalogCustom",
+};
 
 type CatalogSearchParams = {
   section?: string | string[];
@@ -43,7 +54,7 @@ function readSingleValue(value: string | string[] | undefined): string | null {
 }
 
 function isCatalogSectionKey(value: string): value is ProductCatalogSectionKey {
-  return PRODUCT_CATALOG_NAV_SECTIONS.some((section) => section.key === value);
+  return PRODUCT_CATALOG_SECTION_KEYS.includes(value as ProductCatalogSectionKey);
 }
 
 function mapDirectoryProduct(product: ProductDirectoryItem): DirectoryProduct {
@@ -70,10 +81,6 @@ function mapDirectoryProduct(product: ProductDirectoryItem): DirectoryProduct {
 
 function formatSizeLabel(size: string): string {
   return size.replace(/X/g, " × ");
-}
-
-function formatThicknessLabel(thickness: string): string {
-  return thickness.replace("mm", " 毫米");
 }
 
 function getBaseProducts(
@@ -187,12 +194,9 @@ export function buildProductTaxonomyCards(
         seriesType: value,
       }));
     case "thickness":
-      return buildOrderedCards(
-        baseProducts,
-        TRADE_THICKNESSES,
-        (value) => ({ thickness: value }),
-        formatThicknessLabel
-      );
+      return buildOrderedCards(baseProducts, TRADE_THICKNESSES, (value) => ({
+        thickness: value,
+      }));
     case "color":
       return buildOrderedCards(baseProducts, TRADE_COLOR_GROUPS, (value) => ({
         colorGroup: value,

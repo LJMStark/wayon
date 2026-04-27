@@ -14,7 +14,8 @@ import type { AppLocale } from "@/i18n/types";
 import {
   buildProductTaxonomyCards,
   filterCatalogProducts,
-  PRODUCT_CATALOG_NAV_SECTIONS,
+  PRODUCT_CATALOG_NAV_TRANSLATION_KEYS,
+  PRODUCT_CATALOG_SECTION_KEYS,
   resolveProductCatalogSection,
   resolveProductCatalogValue,
 } from "../model/productCatalog";
@@ -144,7 +145,10 @@ export async function getProductsPageData(
     emptyTaxonomyTemplate: commonCopy.emptyTaxonomy,
     directoryTitle: productsCopy.directoryTitle,
     directoryDescription: productsCopy.directoryDescription,
-    navSections: PRODUCT_CATALOG_NAV_SECTIONS,
+    navSections: PRODUCT_CATALOG_SECTION_KEYS.map((key) => ({
+      key,
+      label: tNav(PRODUCT_CATALOG_NAV_TRANSLATION_KEYS[key]),
+    })),
     activeSection,
     activeValue,
     taxonomyCards,

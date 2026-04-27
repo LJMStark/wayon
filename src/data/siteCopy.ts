@@ -956,6 +956,66 @@ const SITE_COPY = {
       es: "Caso de ingeniería {index}",
       ar: "حالة هندسية {index}",
     },
+    salesCaseNames: {
+      en: [
+        "Weihao PARTYK", "Weihao PARTYK", "Weihao PARTYK", "Weihao Hotel", "Weihao Hotel", "Guangzhou Yuehai Land",
+        "Lincheng Shanshui Hotel", "Yuehai · Yungang City", "Qingyu Garden Hotel", "Qingyu Garden Hotel", "Qingyu Garden Hotel", "Weihao PARTYK",
+      ],
+      zh: [
+        "威豪PARTYK", "威豪PARTYK", "威豪PARTYK", "威豪酒店", "威豪酒店", "广州粤海置地",
+        "林城山水酒店", "粤海·云港城", "青语花园酒店", "青语花园酒店", "青语花园酒店", "威豪PARTYK",
+      ],
+      es: [
+        "Weihao PARTYK", "Weihao PARTYK", "Weihao PARTYK", "Hotel Weihao", "Hotel Weihao", "Yuehai Land Guangzhou",
+        "Hotel Lincheng Shanshui", "Yuehai · Ciudad Yungang", "Hotel Qingyu Garden", "Hotel Qingyu Garden", "Hotel Qingyu Garden", "Weihao PARTYK",
+      ],
+      ar: [
+        "وييهاو PARTYK", "وييهاو PARTYK", "وييهاو PARTYK", "فندق وييهاو", "فندق وييهاو", "يويهاي لاند قوانغتشو",
+        "فندق لينتشنغ شانشوي", "يويهاي · مدينة يونغانغ", "فندق تشينغيو غاردن", "فندق تشينغيو غاردن", "فندق تشينغيو غاردن", "وييهاو PARTYK",
+      ],
+    },
+    factoryCaseNames: {
+      en: [
+        "Wenling People's Court", "Xiangyang Intermediate People's Court", "Liaoning Provincial Archives", "Baigou Town Government",
+        "Guangzhou Agile Hotel", "CWTC International Hotel", "International Grand Hotel", "Junhao Hotel",
+        "Kailai International Hotel", "Changchun Convention Center Hotel", "Wulate Grand Hotel", "Chongqing Sheraton Hotel",
+        "Beijing Children's Palace", "Yangzhou Library", "Ewenki Museum", "Suzhou Art Museum",
+        "Shengsi County Cultural Center", "Longshan Culture Museum", "Sanfu Art Gallery", "Buchang Library",
+        "Hubei Xiangfan Greenwich Tower", "Zhengzhou Meijing Tiancheng (Shihua Rd.)", "Times Beauty Residence", "Zhengzhou Arcadia (Huanghe East Rd.)",
+        "Heilongjiang University", "Huanggang Middle School Guangzhou Campus", "Nankai University", "Hangzhou Greentown Yuhua School",
+        "Beijing Capital International Airport", "World Expo Command Center", "Guangzhou Baiyun International Airport", "Guangzhou Metro Line 5",
+      ],
+      zh: [
+        "温岭市人民法院", "襄阳市中级人民法院", "辽宁省档案馆", "白沟镇人民政府",
+        "广州雅居乐酒店", "华贸国际酒店", "国际大酒店", "君豪酒店",
+        "凯利莱国际酒店", "长春会展中心大酒店", "乌拉特大酒店", "重庆喜来登大酒店",
+        "北京市少年宫", "扬州市图书馆", "鄂温克博物馆", "苏州美术馆",
+        "嵊泗县文化馆", "龙山文化博物馆", "三福艺术馆", "步长图书馆",
+        "湖北省襄樊格林威治大厦", "郑州市石化路美景天城", "时代倾城", "郑州市黄河东路阿卡迪亚",
+        "黑龙江大学", "黄冈中学广州学校", "南开大学", "杭州绿城育华学校",
+        "北京首都机场", "世博指挥中心", "广州新白云国际机场", "广州地铁五号线",
+      ],
+      es: [
+        "Tribunal Popular de Wenling", "Tribunal Intermedio de Xiangyang", "Archivo Provincial de Liaoning", "Gobierno del Municipio de Baigou",
+        "Hotel Agile Guangzhou", "Hotel Internacional CWTC", "Gran Hotel Internacional", "Hotel Junhao",
+        "Hotel Internacional Kailai", "Hotel del Centro de Convenciones de Changchun", "Gran Hotel Wulate", "Hotel Sheraton Chongqing",
+        "Palacio Infantil de Beijing", "Biblioteca de Yangzhou", "Museo Ewenki", "Museo de Arte de Suzhou",
+        "Centro Cultural del Condado de Shengsi", "Museo de la Cultura Longshan", "Galería de Arte Sanfu", "Biblioteca Buchang",
+        "Torre Greenwich Xiangfan (Hubei)", "Zhengzhou Meijing Tiancheng (Av. Shihua)", "Times Beauty Residence", "Zhengzhou Arcadia (Av. Huanghe Este)",
+        "Universidad de Heilongjiang", "Escuela Huanggang Campus Guangzhou", "Universidad de Nankai", "Escuela Greentown Yuhua de Hangzhou",
+        "Aeropuerto Internacional de Beijing-Capital", "Centro de Mando de la Expo Mundial", "Aeropuerto Internacional Baiyun de Guangzhou", "Metro de Guangzhou Línea 5",
+      ],
+      ar: [
+        "محكمة الشعب في وينلينغ", "محكمة الشعب المتوسطة في شيانغيانغ", "أرشيف مقاطعة لياونينغ", "حكومة بلدة بايقو",
+        "فندق أجيل قوانغتشو", "فندق CWTC الدولي", "الفندق الدولي الكبير", "فندق جونهاو",
+        "فندق كايلاي الدولي", "فندق مركز مؤتمرات تشانغتشون", "فندق وولاتي الكبير", "فندق شيراتون تشونغتشينغ",
+        "قصر الأطفال في بكين", "مكتبة يانغتشو", "متحف إيونكي", "متحف سوتشو للفنون",
+        "المركز الثقافي لمقاطعة شنغسي", "متحف ثقافة لونغشان", "صالة سانفو للفنون", "مكتبة بوتشانغ",
+        "برج غرينتش في شيانغفان (هوبي)", "ميجينغ تيانتشنغ بزنغتشو (طريق شيهوا)", "تايمز بيوتي ريزيدنس", "أركاديا بزنغتشو (طريق هوانغهي الشرقي)",
+        "جامعة هيلونغجيانغ", "مدرسة هوانغقانغ - فرع قوانغتشو", "جامعة نانكاي", "مدرسة قرينتاون يوهوا في هانغتشو",
+        "مطار بكين العاصمة الدولي", "مركز قيادة معرض إكسبو العالمي", "مطار قوانغتشو باييون الدولي", "مترو قوانغتشو الخط 5",
+      ],
+    },
   },
   downloadPage: {
     heroTitle: {

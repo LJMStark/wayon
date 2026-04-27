@@ -20,7 +20,7 @@ export function NewsDetailPageView({
     body !== null && Array.isArray(body.root?.children) && body.root.children.length > 0;
 
   return (
-    <article className="min-h-screen bg-white">
+    <article className="min-h-screen wayon-stone-bg">
       <section className="relative -mt-[var(--header-height)] w-full min-h-[430px] md:min-h-[530px] overflow-hidden bg-neutral-900">
         {imageUrl ? (
           <Image

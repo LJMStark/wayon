@@ -1,4 +1,8 @@
-import { getCustomCapabilityFallback } from "../content/customCapabilities.ts";
+import {
+  getCustomCapabilityFallback,
+  getLocalizedCapabilityDescription,
+  getLocalizedCapabilityTitle,
+} from "../content/customCapabilities.ts";
 import type { ProductDirectoryItem, ProductCustomCapabilitySummary } from "../types";
 import type { ProductCustomCapability } from "@/data/products";
 import type { AppLocale } from "@/i18n/types";
@@ -33,13 +37,15 @@ export function buildCustomCapabilitySummaries(
           capability.title?.[locale] ||
           capability.title?.zh ||
           capability.title?.en ||
-          fallback?.title ||
+          (fallback ? getLocalizedCapabilityTitle(fallback, locale) : undefined) ||
           capability.capabilityKey,
         description:
           capability.description?.[locale] ||
           capability.description?.zh ||
           capability.description?.en ||
-          fallback?.description,
+          (fallback
+            ? getLocalizedCapabilityDescription(fallback, locale)
+            : undefined),
         imageSrc: capability.coverImageUrl,
         sortOrder: capability.sortOrder ?? 0,
         count: productCounts.get(capability.capabilityKey) ?? 0,
@@ -60,8 +66,8 @@ export function buildCustomCapabilitySummaries(
 
     summaries.push({
       key: capabilityKey,
-      title: fallback.title,
-      description: fallback.description,
+      title: getLocalizedCapabilityTitle(fallback, locale),
+      description: getLocalizedCapabilityDescription(fallback, locale),
       sortOrder: Number.MAX_SAFE_INTEGER,
       count,
     });

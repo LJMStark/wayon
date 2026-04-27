@@ -4,7 +4,7 @@ import {
   buildProductTaxonomyCards,
   DEFAULT_PRODUCT_CATALOG_SECTION,
   filterCatalogProducts,
-  PRODUCT_CATALOG_NAV_SECTIONS,
+  PRODUCT_CATALOG_SECTION_KEYS,
   resolveProductCatalogSection,
   resolveProductCatalogValue,
 } from "./productCatalog.ts";
@@ -88,7 +88,7 @@ test("buildProductTaxonomyCards only returns used cards for standard sections", 
     customCapabilities
   );
 
-  expect(thicknessCards.map((card) => card.label)).toEqual(["9 毫米", "12 毫米"]);
+  expect(thicknessCards.map((card) => card.label)).toEqual(["9mm", "12mm"]);
   expect(thicknessCards[0].count).toBe(1);
 });
 
@@ -121,5 +121,5 @@ test("sections without backing attribute data should not fall back to all standa
 });
 
 test("catalog navigation keeps the fixed six sections", () => {
-  expect(PRODUCT_CATALOG_NAV_SECTIONS.map((section) => section.key)).toEqual(["size", "series", "thickness", "color", "process", "custom"]);
+  expect(PRODUCT_CATALOG_SECTION_KEYS).toEqual(["size", "series", "thickness", "color", "process", "custom"]);
 });

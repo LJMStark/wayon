@@ -69,7 +69,7 @@ export default function AboutPage(): React.JSX.Element {
   );
 
   return (
-    <main className="min-h-screen bg-white text-[#1a1a1a]">
+    <main className="min-h-screen wayon-stone-bg text-[#1a1a1a]">
       <PageHero
         imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
         imageAlt={aboutCopy.heroTitle}
@@ -239,7 +239,7 @@ export default function AboutPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="w-full bg-[#fcfcfc] py-24">
+      <section className="w-full wayon-stone-bg py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-24 text-center">
             <h2 className="mr-4 inline-block text-4xl font-normal uppercase tracking-widest text-[#aaaaaa]">

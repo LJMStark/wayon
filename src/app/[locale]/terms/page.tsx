@@ -209,7 +209,7 @@ export default async function TermsPage({
   const copy = COPY[locale];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen wayon-stone-bg">
       <section className="bg-[#1a1a1a] py-20">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <h1 className="mb-4 font-heading text-4xl font-bold uppercase tracking-wide text-white md:text-5xl">
