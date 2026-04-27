@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -24,6 +24,7 @@ export function ProductsCarousel({
 }: ProductsCarouselProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const shouldReduce = useReducedMotion();
 
   const scrollByAmount = (direction: "prev" | "next"): void => {
     scrollContainerByDirection(scrollerRef.current, direction, 320);
@@ -36,16 +37,16 @@ export function ProductsCarousel({
         <header className="mb-10 px-4 text-center md:mb-16">
           <div className="mx-auto max-w-[760px]">
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+              whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="wayon-title"
             >
               {copy.title}
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={shouldReduce ? false : { opacity: 0, y: 20 }}
+              whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="wayon-copy mx-auto mt-5 max-w-[680px]"
@@ -66,6 +67,15 @@ export function ProductsCarousel({
                 layout
                 onClick={() => setActiveIndex(index)}
                 onHoverStart={() => setActiveIndex(index)}
+                onKeyDown={(e) => {
+                  if (!isActive && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault();
+                    setActiveIndex(index);
+                  }
+                }}
+                role={isActive ? "group" : "button"}
+                tabIndex={isActive ? -1 : 0}
+                aria-label={isActive ? undefined : product.title}
                 initial={false}
                 animate={{
                   flex: isActive ? 6 : 1,
@@ -76,7 +86,7 @@ export function ProductsCarousel({
                   damping: 30,
                   mass: 1.2,
                 }}
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-neutral-200 transition-shadow duration-500 hover:shadow-2xl ${
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl bg-neutral-200 transition-shadow duration-500 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 ${
                   isActive ? "shadow-xl" : ""
                 }`}
               >
@@ -84,7 +94,7 @@ export function ProductsCarousel({
                   src={product.image}
                   alt={product.title}
                   fill
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none"
                   sizes={isActive ? "50vw" : "15vw"}
                   priority={isActive}
                 />
@@ -181,18 +191,20 @@ export function ProductsCarousel({
 
           <div className="flex items-center justify-center gap-4 px-4">
             <button
+              type="button"
               onClick={() => scrollByAmount("prev")}
-              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)]"
               aria-label={copy.previousLabel}
             >
-              <ChevronLeft className="size-5" />
+              <ChevronLeft className="size-5" aria-hidden="true" />
             </button>
             <button
+              type="button"
               onClick={() => scrollByAmount("next")}
-              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white"
+              className="flex size-12 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 shadow-sm transition-colors hover:border-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)]"
               aria-label={copy.nextLabel}
             >
-              <ChevronRight className="size-5" />
+              <ChevronRight className="size-5" aria-hidden="true" />
             </button>
           </div>
         </div>

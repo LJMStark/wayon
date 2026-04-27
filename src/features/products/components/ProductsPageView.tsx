@@ -43,7 +43,7 @@ export function ProductsPageView({
         />
         <div className="wayon-container-wide relative flex min-h-[340px] flex-col justify-center pb-20 pt-[calc(var(--header-height)+5rem)] md:pb-24 md:pt-[calc(var(--header-height)+6rem)]">
           <span className="wayon-eyebrow mb-5 text-[color:var(--primary)]/70">
-            Product Center
+            {collectionLabel}
           </span>
           <h1 className="wayon-title max-w-4xl">
             {heroTitle}

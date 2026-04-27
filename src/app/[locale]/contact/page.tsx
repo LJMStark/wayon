@@ -276,13 +276,15 @@ export default function ContactPage() {
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-name" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.name.label}:
               </label>
               <input
+                id="contact-name"
                 type="text"
                 name="name"
+                autoComplete="name"
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.name.placeholder}
@@ -290,11 +292,12 @@ export default function ContactPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-role" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.role.label}:
               </label>
               <select
+                id="contact-role"
                 name="role"
                 required
                 disabled={isSubmitting}
@@ -315,13 +318,16 @@ export default function ContactPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
              <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-email" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.email.label}:
               </label>
               <input
+                id="contact-email"
                 type="email"
                 name="email"
+                autoComplete="email"
+                spellCheck={false}
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.email.placeholder}
@@ -331,13 +337,15 @@ export default function ContactPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-company" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.company.label}:
               </label>
               <input
+                id="contact-company"
                 type="text"
                 name="company"
+                autoComplete="organization"
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.company.placeholder}
@@ -348,13 +356,15 @@ export default function ContactPage() {
 
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-phone" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.contact.label}:
               </label>
               <input
-                type="text"
+                id="contact-phone"
+                type="tel"
                 name="contact"
+                autoComplete="tel"
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.contact.placeholder}
@@ -362,13 +372,15 @@ export default function ContactPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="block text-[15px] font-medium">
+              <label htmlFor="contact-country" className="block text-[15px] font-medium">
                 <span className="mr-1 text-red-500">*</span>
                 {contactCopy.fields.country.label}:
               </label>
               <input
+                id="contact-country"
                 type="text"
                 name="country"
+                autoComplete="country-name"
                 required
                 disabled={isSubmitting}
                 placeholder={contactCopy.fields.country.placeholder}
@@ -378,11 +390,12 @@ export default function ContactPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-[15px] font-medium">
+            <label htmlFor="contact-message" className="block text-[15px] font-medium">
               <span className="mr-1 text-red-500">*</span>
               {contactCopy.fields.message.label}:
             </label>
             <textarea
+              id="contact-message"
               name="message"
               rows={6}
               required
@@ -394,23 +407,25 @@ export default function ContactPage() {
             />
           </div>
 
-          {submitStatus === "success" && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm">
-              {contactCopy.successMessage}
-            </div>
-          )}
+          <div aria-live="polite" aria-atomic="true" className="space-y-3">
+            {submitStatus === "success" && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm">
+                {contactCopy.successMessage}
+              </div>
+            )}
 
-          {submitStatus === "rate_limited" && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
-              {contactCopy.rateLimitedMessage}
-            </div>
-          )}
+            {submitStatus === "rate_limited" && (
+              <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
+                {contactCopy.rateLimitedMessage}
+              </div>
+            )}
 
-          {submitStatus === "error" && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
-              {contactCopy.errorMessage}
-            </div>
-          )}
+            {submitStatus === "error" && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+                {contactCopy.errorMessage}
+              </div>
+            )}
+          </div>
 
           <button
             type="submit"

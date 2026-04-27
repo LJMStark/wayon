@@ -66,7 +66,7 @@ function SectionHeader({ label }: { label: string }): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={`mb-14 flex items-center gap-5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+      className={`mb-14 flex items-center gap-5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
       }`}
     >
@@ -305,7 +305,7 @@ export function ProductDetailPageView({
           href="/products"
           className="mb-12 inline-flex items-center gap-2 rounded-full border border-[#002b50]/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#888888] backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
         >
-          <ArrowLeft className="h-3 w-3 rtl:rotate-180" />
+          <ArrowLeft className="h-3 w-3 rtl:rotate-180" aria-hidden="true" />
           {backLabel}
         </Link>
 
@@ -339,13 +339,14 @@ export function ProductDetailPageView({
 
             {useTabPills ? (
               // Pill tabs for ≤8 variants
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="flex flex-wrap justify-center gap-2" role="group" aria-label={labels.variantSelector}>
                 {variants.map((variant) => (
                   <button
                     key={variant.code}
                     type="button"
                     onClick={() => setSelectedVariantCode(variant.code)}
-                    className={`rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                    aria-pressed={selectedVariantCode === variant.code}
+                    className={`rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-offset-2 ${
                       selectedVariantCode === variant.code
                         ? "bg-[#002b50] text-white shadow-[0_8px_24px_-6px_rgba(0,43,80,0.45)]"
                         : "border border-[#002b50]/15 text-[#002b50]/65 hover:border-[#002b50]/30 hover:text-[#002b50]"
@@ -358,13 +359,17 @@ export function ProductDetailPageView({
             ) : (
               // Double-Bezel styled select for >8 variants
               <div className="mx-auto max-w-md rounded-2xl bg-[#F5F2EC] p-[6px] ring-1 ring-black/[0.06]">
+                <label htmlFor="variant-select" className="sr-only">
+                  {labels.variantSelector}
+                </label>
                 <div className="relative rounded-[calc(1rem-0.375rem)] bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
                   <select
+                    id="variant-select"
                     value={selectedVariantCode}
                     onChange={(event) =>
                       setSelectedVariantCode(event.target.value)
                     }
-                    className="w-full appearance-none rounded-[inherit] bg-transparent px-5 py-3.5 pe-10 text-sm text-[#242424] outline-none"
+                    className="w-full appearance-none rounded-[inherit] bg-transparent px-5 py-3.5 pe-10 text-sm text-[#242424] outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-inset"
                   >
                     {variants.map((variant) => (
                       <option key={variant.code} value={variant.code}>
@@ -424,7 +429,7 @@ export function ProductDetailPageView({
             {requestSampleLabel}
             {/* Button-in-Button trailing icon */}
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
-              <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
+              <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden="true" />
             </span>
           </button>
         </div>

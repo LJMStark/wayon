@@ -69,9 +69,15 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col relative text-left rtl:text-right">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[200] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[#002b50] focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="grow flex flex-col">
+          <main id="main-content" className="grow flex flex-col">
             {children}
           </main>
           <Footer />

@@ -44,19 +44,19 @@ export function EngineeringCase({
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-110"
+                    className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none"
                   />
                   {/* Premium Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f2336]/90 via-[#0f2336]/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f2336]/90 via-[#0f2336]/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:transition-none" />
                 </div>
                 
                 {/* Fixed bottom content that moves up nicely on hover */}
-                <figcaption className="absolute inset-x-0 bottom-0 flex translate-y-4 items-end justify-between p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                <figcaption className="absolute inset-x-0 bottom-0 flex translate-y-4 items-end justify-between p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none">
                   <h3 className="text-lg font-medium tracking-wide text-white drop-shadow-md lg:text-xl">
                     {item.title}
                   </h3>
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-colors duration-300 hover:bg-white hover:text-[color:var(--primary)]">
-                    <ArrowUpRight className="size-5" />
+                    <ArrowUpRight className="size-5" aria-hidden="true" />
                   </div>
                 </figcaption>
               </figure>

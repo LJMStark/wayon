@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
@@ -119,6 +119,7 @@ export default function Header(): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
+  const shouldReduce = useReducedMotion();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
   const headerCopy = getHeaderCopy(locale);
@@ -192,8 +193,8 @@ export default function Header(): React.JSX.Element {
 
   return (
     <motion.header
-      initial={{ y: "-100%", opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={shouldReduce ? false : { y: "-100%", opacity: 0 }}
+      animate={shouldReduce ? {} : { y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
       className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ease-out ${
         isTransparent
@@ -363,7 +364,7 @@ export default function Header(): React.JSX.Element {
                 }`}
                 aria-label={headerCopy.toggleSearch}
               >
-                <Search className="size-5" />
+                <Search className="size-5" aria-hidden="true" />
               </button>
 
               <AnimatePresence>
@@ -382,9 +383,10 @@ export default function Header(): React.JSX.Element {
                       <input
                         id="desktop-search"
                         name="keyword"
-                        type="text"
+                        type="search"
+                        autoComplete="off"
                         placeholder={tHeader("searchPlaceholder")}
-                        className="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-2 text-[14px] text-[#333333] focus:border-[color:var(--primary)] focus:outline-none"
+                        className="min-w-0 flex-1 border border-[color:var(--border)] px-3 py-2 text-[14px] text-[#333333] focus:border-[color:var(--primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-1"
                       />
                       <button
                         type="submit"
@@ -411,15 +413,17 @@ export default function Header(): React.JSX.Element {
             >
               <button
                 type="button"
+                aria-label={tHeader("language")}
+                aria-expanded={langOpen}
                 className={`inline-flex items-center gap-2 text-[16px] font-semibold transition-colors ${
                   isTransparent
                     ? "text-white hover:text-white"
                     : "text-white hover:text-white"
                 }`}
               >
-                <Globe className="size-4" />
+                <Globe className="size-4" aria-hidden="true" />
                 <span>{currentLanguage.label}</span>
-                <ChevronDown className={getChevronClassName(langOpen)} />
+                <ChevronDown className={getChevronClassName(langOpen)} aria-hidden="true" />
               </button>
 
               <AnimatePresence>
@@ -516,7 +520,8 @@ export default function Header(): React.JSX.Element {
                 <input
                   id="mobile-search"
                   name="keyword"
-                  type="text"
+                  type="search"
+                  autoComplete="off"
                   placeholder={tHeader("searchPlaceholder")}
                   className="min-w-0 flex-1 bg-white px-4 py-3 text-[14px] text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--primary)]"
                 />

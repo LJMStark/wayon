@@ -8,7 +8,7 @@ import { useLocale } from "next-intl";
 import { getFloatingSidebarCopy } from "@/data/siteCopy";
 
 const BUTTON_CLASS =
-  "flex size-11 items-center justify-center border border-[#dddddd] bg-white text-[#333333] transition-colors hover:border-[color:var(--primary)] hover:text-[color:var(--primary)]";
+  "flex size-11 items-center justify-center border border-[#dddddd] bg-white text-[#333333] transition-colors hover:border-[color:var(--primary)] hover:text-[color:var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-1";
 
 function getSidebarClassName(isVisible: boolean): string {
   if (isVisible) {
@@ -48,8 +48,14 @@ export default function FloatingSidebar(): React.JSX.Element {
         onMouseEnter={() => setShowQr(true)}
         onMouseLeave={() => setShowQr(false)}
       >
-        <button type="button" className={BUTTON_CLASS} aria-label={copy.showQr}>
-          <QrCode className="size-5" />
+        <button
+          type="button"
+          className={BUTTON_CLASS}
+          aria-label={copy.showQr}
+          onFocus={() => setShowQr(true)}
+          onBlur={() => setShowQr(false)}
+        >
+          <QrCode className="size-5" aria-hidden="true" />
         </button>
         <AnimateQr show={showQr} title={copy.qrTitle} hint={copy.qrHint} />
       </div>
@@ -59,7 +65,7 @@ export default function FloatingSidebar(): React.JSX.Element {
         className={BUTTON_CLASS}
         aria-label={copy.contactUs}
       >
-        <MessageCircleMore className="size-5" />
+        <MessageCircleMore className="size-5" aria-hidden="true" />
       </Link>
 
       <button
@@ -68,7 +74,7 @@ export default function FloatingSidebar(): React.JSX.Element {
         className={BUTTON_CLASS}
         aria-label={copy.backToTop}
       >
-        <ArrowUp className="size-5" />
+        <ArrowUp className="size-5" aria-hidden="true" />
       </button>
     </div>
   );

@@ -27,6 +27,7 @@ export function NewsDetailPageView({
             src={imageUrl}
             alt={title}
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -38,7 +39,7 @@ export function NewsDetailPageView({
         <div className="relative z-10 flex min-h-[430px] md:min-h-[530px] flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
           {categoryLabel ? (
             <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-              <Tag className="me-1.5 h-3 w-3" />
+              <Tag className="me-1.5 h-3 w-3" aria-hidden="true" />
               {categoryLabel}
             </span>
           ) : null}
@@ -46,7 +47,7 @@ export function NewsDetailPageView({
             {title}
           </h1>
           <div className="flex items-center text-sm text-white/70">
-            <Calendar className="me-2 h-4 w-4" />
+            <Calendar className="me-2 h-4 w-4" aria-hidden="true" />
             {dateLabel}
           </div>
         </div>
@@ -57,7 +58,7 @@ export function NewsDetailPageView({
           href="/news"
           className="inline-flex items-center transition-colors hover:text-primary"
         >
-          <ChevronLeft className="me-1 h-4 w-4 rtl:rotate-180" />
+          <ChevronLeft className="me-1 h-4 w-4 rtl:rotate-180" aria-hidden="true" />
           {backToNewsLabel}
         </Link>
       </div>
@@ -75,7 +76,7 @@ export function NewsDetailPageView({
           </div>
         ) : (
           <div className="flex min-h-[200px] items-center justify-center rounded-lg bg-neutral-50 text-gray-400">
-            <p className="text-center text-sm">Content coming soon...</p>
+            <p className="text-center text-sm">Content coming soon…</p>
           </div>
         )}
       </div>

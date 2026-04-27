@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
 import type { HeroSlide } from "@/data/home";
 import { formatCopy } from "@/data/siteCopy";
@@ -39,9 +40,10 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
   const t = useTranslations("Hero");
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const shouldReduce = useReducedMotion();
 
   useEffect(() => {
-    if (isPaused || slides.length <= 1) {
+    if (isPaused || slides.length <= 1 || shouldReduce) {
       return;
     }
 
@@ -50,7 +52,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
     }, 4000);
 
     return () => window.clearInterval(timer);
-  }, [slides.length, isPaused]);
+  }, [slides.length, isPaused, shouldReduce]);
 
   return (
     <section
@@ -70,8 +72,10 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
           >
             {slide.type === "video" ? (
               <video
-                className={`size-full object-cover transition-transform duration-[4000ms] ease-linear ${
-                  index === activeSlide ? "scale-105" : "scale-100"
+                className={`size-full object-cover motion-reduce:transform-none motion-reduce:transition-none ${
+                  shouldReduce
+                    ? ""
+                    : `transition-transform duration-[4000ms] ease-linear ${index === activeSlide ? "scale-105" : "scale-100"}`
                 }`}
                 autoPlay
                 muted
@@ -79,6 +83,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                 playsInline
                 preload="metadata"
                 src={slide.src}
+                aria-label={slide.alt}
               />
             ) : (
               <Image
@@ -86,8 +91,10 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                 alt={slide.alt}
                 fill
                 sizes="100vw"
-                className={`object-cover transition-transform duration-[4000ms] ease-linear ${
-                  index === activeSlide ? "scale-105" : "scale-100"
+                className={`object-cover motion-reduce:transform-none motion-reduce:transition-none ${
+                  shouldReduce
+                    ? ""
+                    : `transition-transform duration-[4000ms] ease-linear ${index === activeSlide ? "scale-105" : "scale-100"}`
                 }`}
                 priority={index === 0}
               />

@@ -112,10 +112,12 @@ export default function Footer(): React.JSX.Element {
                   id="footer-contact"
                   name="email"
                   type="email"
+                  autoComplete="email"
+                  spellCheck={false}
                   value={contactValue}
                   onChange={(e) => setContactValue(e.target.value)}
                   placeholder={tFooter("emailPlaceholder")}
-                  className="min-w-0 flex-1 border border-white/20 bg-white/5 px-3 py-2.5 text-[13px] text-white placeholder:text-white/40 focus:border-[color:var(--accent)] focus:outline-none"
+                  className="min-w-0 flex-1 border border-white/20 bg-white/5 px-3 py-2.5 text-[13px] text-white placeholder:text-white/40 focus:border-[color:var(--accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-1"
                 />
                 <button
                   type="submit"

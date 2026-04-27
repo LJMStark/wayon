@@ -55,7 +55,10 @@ export function NewsSection({
                     <h3 className="max-w-[75%] text-[20px] font-normal leading-[1.45] text-[#2e2e2e]">
                       {item.title}
                     </h3>
-                    <time className="shrink-0 text-end text-[color:var(--primary)]">
+                    <time
+                      dateTime={`${item.yearMonth}-${String(item.day).padStart(2, "0")}`}
+                      className="shrink-0 text-end text-[color:var(--primary)]"
+                    >
                       <span className="block text-[42px] font-bold leading-none md:text-[56px]">
                         {item.day}
                       </span>

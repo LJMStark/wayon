@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -48,9 +48,10 @@ export function AboutAlbum({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
+  const shouldReduce = useReducedMotion();
 
   useEffect(() => {
-    if (isPaused || items.length <= 1) {
+    if (isPaused || items.length <= 1 || shouldReduce) {
       return;
     }
 
@@ -59,19 +60,19 @@ export function AboutAlbum({
     }, 2000);
 
     return () => window.clearInterval(timer);
-  }, [items.length, isPaused]);
+  }, [items.length, isPaused, shouldReduce]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
   };
 
   return (
-    <motion.section 
+    <motion.section
       className="relative pb-12 md:pb-0"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+      whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
@@ -107,7 +108,7 @@ export function AboutAlbum({
                       className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
                       aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
                     >
-                      <Icon className="size-4" />
+                      <Icon className="size-4" aria-hidden="true" />
                     </button>
                   ))}
                 </div>

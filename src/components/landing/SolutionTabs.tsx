@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -64,24 +64,25 @@ export function SolutionTabs({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
+  const shouldReduce = useReducedMotion();
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
   };
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || shouldReduce) return;
     const interval = setInterval(() => {
       setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
     }, 5000);
     return () => clearInterval(interval);
-  }, [isPaused, items.length]);
+  }, [isPaused, items.length, shouldReduce]);
 
   return (
-    <motion.section 
+    <motion.section
       className="wayon-section px-0"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={shouldReduce ? false : { opacity: 0, y: 24 }}
+      whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
@@ -140,7 +141,7 @@ export function SolutionTabs({
               <footer className="mt-6 flex items-center justify-between gap-4">
                 <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
                   {formatCopy(copy.ctaTemplate, { title: activeItem.title })}
-                  <ArrowRight className="size-4" />
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
                 <div className="flex items-center gap-2">
                   {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
@@ -151,7 +152,7 @@ export function SolutionTabs({
                       className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
                       aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
                     >
-                      <Icon className="size-4" />
+                      <Icon className="size-4" aria-hidden="true" />
                     </button>
                   ))}
                 </div>
@@ -159,11 +160,13 @@ export function SolutionTabs({
             </article>
           </div>
 
-          <div className="mt-5 grid gap-[5px] md:grid-cols-5">
+          <div className="mt-5 grid gap-[5px] md:grid-cols-5" role="tablist" aria-label={title}>
             {items.map((solution, index) => (
               <button
                 key={solution.label}
                 type="button"
+                role="tab"
+                aria-selected={index === activeIndex}
                 onClick={() => setActiveIndex(index)}
                 className="relative min-h-[84px] overflow-hidden"
                 >
@@ -182,6 +185,7 @@ export function SolutionTabs({
                     {solution.label}
                   </span>
                   <ChevronRight
+                    aria-hidden="true"
                     className={`size-5 shrink-0 ${index === activeIndex ? "text-white" : "text-[#323232]"}`}
                   />
                 </div>

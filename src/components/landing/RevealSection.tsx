@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 
 type RevealSectionProps = Omit<HTMLMotionProps<"section">, "initial" | "whileInView" | "viewport" | "transition"> & {
   amount?: number;
@@ -14,10 +14,11 @@ export function RevealSection({
   amount = 0.15,
   ...rest
 }: RevealSectionProps): React.JSX.Element {
+  const shouldReduce = useReducedMotion();
   return (
     <motion.section
-      initial={REVEAL_INITIAL}
-      whileInView={REVEAL_TARGET}
+      initial={shouldReduce ? false : REVEAL_INITIAL}
+      whileInView={shouldReduce ? undefined : REVEAL_TARGET}
       viewport={{ once: true, amount }}
       transition={REVEAL_TRANSITION}
       {...rest}
