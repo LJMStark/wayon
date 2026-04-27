@@ -5,12 +5,14 @@ import {
   relationshipValue,
 } from "@/data/_payload";
 import {
+  pickDefaultVariantCode,
   selectProductCoverUrl,
   type DirectoryProduct,
   type DirectoryVariant,
 } from "@/features/products/model/productDirectory";
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 import type { AppLocale } from "@/i18n/types";
+import { localizeSeriesType } from "./productAttributeLabels";
 
 export type ProductMediaImage = {
   sourcePath: string;
@@ -58,7 +60,7 @@ export type Product = {
   normalizedName?: string;
   published?: boolean;
   slug: string;
-  category?: string;
+  category?: Record<AppLocale, string>;
   categorySlug?: string;
   imageUrl?: string;
   description?: Record<AppLocale, string>;
@@ -185,7 +187,7 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
     normalizedName: raw.normalizedName ?? undefined,
     published: raw.published ?? false,
     slug: raw.slug ?? "",
-    category: firstLocalized(category?.title),
+    category: localizedString(category?.title),
     categorySlug: category?.slug ?? undefined,
     imageUrl: mediaUrl(raw.image),
     description: localizedString(raw.description),
@@ -205,14 +207,6 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
 
 function emptyLocalized(): Record<AppLocale, string> {
   return { en: "", zh: "", es: "", ar: "" };
-}
-
-function firstLocalized(value: unknown): string | undefined {
-  const localized = localizedString(value);
-  if (!localized) return undefined;
-  return (
-    localized.zh || localized.en || localized.es || localized.ar
-  );
 }
 
 async function loadVariantsByProductIds(
@@ -386,7 +380,7 @@ export function getLocalizedProductValue(
 ): string {
   if (!product) return "";
   if (field === "category") {
-    return product.category || "";
+    return localizedRecordValue(product.category, locale);
   }
   if (field === "description") {
     return (
@@ -397,6 +391,101 @@ export function getLocalizedProductValue(
     );
   }
   return product.title?.[locale] || product.title?.en || product.title?.zh || "";
+}
+
+function localizedRecordValue(
+  value: Record<AppLocale, string> | undefined,
+  locale: AppLocale
+): string {
+  return value?.[locale] || value?.en || value?.zh || value?.es || value?.ar || "";
+}
+
+function hasLocaleValue(
+  value: Record<AppLocale, string> | undefined,
+  locale: AppLocale
+): boolean {
+  return isUsableLocalizedValue(value?.[locale], locale);
+}
+
+function isUsableLocalizedValue(
+  value: string | undefined,
+  locale: AppLocale
+): boolean {
+  const trimmed = value?.trim();
+
+  if (!trimmed) {
+    return false;
+  }
+
+  if (locale !== "zh" && /[\u3400-\u9fff]/.test(trimmed)) {
+    return false;
+  }
+
+  return true;
+}
+
+function variantToDirectoryVariant(variant: ProductVariant): DirectoryVariant {
+  return {
+    code: variant.code,
+    size: variant.size,
+    thickness: variant.thickness,
+    process: variant.process,
+    colorGroup: variant.colorGroup,
+    sortOrder: variant.sortOrder,
+    elementImages: variant.elementImages,
+    spaceImages: variant.spaceImages,
+    realImages: variant.realImages,
+    videos: variant.videos,
+  };
+}
+
+export function getProductDisplayTitle(
+  product: Product,
+  locale: AppLocale
+): string {
+  if (isUsableLocalizedValue(product.title?.[locale], locale)) {
+    return product.title[locale].trim();
+  }
+
+  if (isUsableLocalizedValue(product.title?.en, "en")) {
+    return product.title.en.trim();
+  }
+
+  if (locale === "zh") {
+    return product.title?.zh?.trim() || product.slug;
+  }
+
+  const variants = getProductVariants(product);
+  const defaultVariantCode = pickDefaultVariantCode(
+    variants.map(variantToDirectoryVariant)
+  );
+
+  return defaultVariantCode || variants[0]?.code || product.slug;
+}
+
+export function getProductDisplayCategory(
+  product: Product,
+  locale: AppLocale,
+  fallback = ""
+): string {
+  if (hasLocaleValue(product.category, locale)) {
+    return product.category?.[locale]?.trim() ?? fallback;
+  }
+
+  if (isUsableLocalizedValue(product.category?.en, "en")) {
+    return product.category?.en.trim() ?? fallback;
+  }
+
+  if (locale === "zh" && product.category?.zh?.trim()) {
+    return product.category.zh.trim();
+  }
+
+  const primarySeries = product.seriesTypes?.[0];
+  if (primarySeries) {
+    return localizeSeriesType(primarySeries, locale);
+  }
+
+  return fallback;
 }
 
 function mapLegacyFinishToProcess(value?: string): string | undefined {

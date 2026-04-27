@@ -56,11 +56,13 @@ export function buildNewsDetailPageData(
   copy: {
     backToNewsLabel: string;
     contactLabel: string;
+    contentComingSoonLabel: string;
   }
 ): NewsDetailPageData {
   return {
     backToNewsLabel: copy.backToNewsLabel,
     contactLabel: copy.contactLabel,
+    contentComingSoonLabel: copy.contentComingSoonLabel,
     title: getLocalizedNewsValue(article, locale, "title"),
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
     body: getLocalizedNewsBody(article, locale),

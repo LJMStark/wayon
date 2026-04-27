@@ -1,11 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// The product detail slug is stable: "trade-<sha1prefix>" is generated
-// by buildStableTradeFamilySlug(normalizedName) in
-// src/features/products/lib/tradeImportIdentity.ts, so it survives
-// re-imports of the same supplier data.
-const STABLE_PRODUCT_SLUG = "trade-01db306bd6";
-
 test("root path redirects to a supported locale", async ({ page }) => {
   await page.goto("/");
   // next-intl picks the locale via Accept-Language; the test just
@@ -28,9 +22,17 @@ test("products directory loads with taxonomy filter tabs", async ({ page }) => {
   ).toBeVisible({ timeout: 15_000 });
 });
 
-test("product detail page resolves for a stable imported slug", async ({ page }) => {
-  const response = await page.goto(`/zh/products/${STABLE_PRODUCT_SLUG}`);
-  expect(response?.status()).toBe(200);
+test("product detail page resolves from the current directory", async ({ page }) => {
+  await page.goto(
+    `/zh/products?section=series&value=${encodeURIComponent("质感岩板")}`
+  );
+  const detailLink = page
+    .locator('#main-content a[href^="/zh/products/"]:not([href*="?"])')
+    .first();
+
+  await expect(detailLink).toBeVisible({ timeout: 15_000 });
+  await detailLink.click();
+  await expect(page).toHaveURL(/\/zh\/products\/[^/?#]+$/);
   await expect(page.locator("h1")).toBeVisible();
   // The "request sample" CTA is the primary action — it must render so
   // the product-detail → contact routing path stays intact.
@@ -54,8 +56,8 @@ test("contact page prefills email when ?email query is present", async ({ page }
   ).toHaveValue("visitor@example.com");
 });
 
-test("studio admin UI is reachable without locale prefix", async ({ page }) => {
-  const response = await page.goto("/studio");
+test("payload admin UI is reachable without locale prefix", async ({ page }) => {
+  const response = await page.goto("/admin");
   expect(response?.status()).toBe(200);
-  // Sanity Studio injects its own root — we just need it to not 404.
+  // Payload injects its own root — we just need it to not 404.
 });

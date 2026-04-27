@@ -100,7 +100,7 @@ export function SolutionTabs({
           onMouseLeave={() => setIsPaused(false)}
         >
           <div className="relative overflow-hidden bg-[color:var(--surface)]">
-            <div className="relative aspect-[7/3] min-h-[300px]">
+            <div className="relative min-h-[300px] w-full md:aspect-[7/3]">
               <AnimatePresence mode="sync">
                 <motion.div
                   key={activeItem.label}

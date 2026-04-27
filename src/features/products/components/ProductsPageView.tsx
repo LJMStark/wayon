@@ -25,6 +25,8 @@ export function ProductsPageView({
   allLabel,
   noProductsFoundLabel,
   emptyTaxonomyTemplate,
+  backToCategoriesLabel,
+  productCountTemplate,
   directoryTitle,
   directoryDescription,
   navSections,
@@ -134,6 +136,8 @@ export function ProductsPageView({
               products={products}
               noProductsFoundLabel={noProductsFoundLabel}
               emptyTaxonomyTemplate={emptyTaxonomyTemplate}
+              backToCategoriesLabel={backToCategoriesLabel}
+              productCountTemplate={productCountTemplate}
             />
           </div>
         </div>

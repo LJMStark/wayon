@@ -2,13 +2,15 @@ import { getTranslations } from "next-intl/server";
 
 import {
   getCustomCapabilities,
-  getLocalizedProductValue,
+  getProductDisplayCategory,
+  getProductDisplayTitle,
   getProductImage,
   getProductVariants,
   getProductsDirectory,
 } from "@/data/products";
 import { getCommonCopy, getProductsPageCopy } from "@/data/siteCopy";
 import { getSeriesForCategory } from "@/data/navigationCategoryMap";
+import { localizeProcess } from "@/data/productAttributeLabels";
 import type { AppLocale } from "@/i18n/types";
 
 import {
@@ -70,28 +72,56 @@ function applyLegacyCategoryAlias(
 
 function buildDirectoryItems(
   products: Awaited<ReturnType<typeof getProductsDirectory>>,
-  locale: AppLocale
+  locale: AppLocale,
+  categoryFallback: string
 ): ProductDirectoryItem[] {
-  return products.map((product) => ({
-    slug: product.slug,
-    title: getLocalizedProductValue(product, locale, "title"),
-    category:
-      getLocalizedProductValue(product, locale, "category") ||
-      product.seriesTypes?.[0] ||
-      "",
-    categorySlug: product.categorySlug,
-    catalogMode: product.catalogMode ?? "standard",
-    customCapability: product.customCapability,
-    seriesTypes: product.seriesTypes ?? [],
-    coverImageUrl: getProductImage(product),
-    variants: getProductVariants(product).map((variant) => ({
-      code: variant.code,
-      size: variant.size,
-      thickness: variant.thickness,
-      process: variant.process,
-      colorGroup: variant.colorGroup,
-    })),
-  }));
+  return products.map((product) => {
+    const variants = getProductVariants(product);
+
+    return {
+      slug: product.slug,
+      title: getProductDisplayTitle(product, locale),
+      category: getProductDisplayCategory(product, locale, categoryFallback),
+      categorySlug: product.categorySlug,
+      catalogMode: product.catalogMode ?? "standard",
+      customCapability: product.customCapability,
+      seriesTypes: product.seriesTypes ?? [],
+      coverImageUrl: getProductImage(product),
+      variants: variants.map((variant) => ({
+        code: variant.code,
+        size: variant.size,
+        thickness: variant.thickness,
+        process: variant.process,
+        colorGroup: variant.colorGroup,
+      })),
+      summaryTags: buildSummaryTags(variants, locale),
+    };
+  });
+}
+
+function buildSummaryTags(
+  variants: ReturnType<typeof getProductVariants>,
+  locale: AppLocale
+): string[] {
+  const sizes = new Set(
+    variants
+      .map((variant) => variant.size)
+      .filter((value): value is string => Boolean(value))
+  );
+  const thicknesses = new Set(
+    variants
+      .map((variant) => variant.thickness)
+      .filter((value): value is string => Boolean(value))
+  );
+  const processes = new Set(
+    variants
+      .map((variant) =>
+        variant.process ? localizeProcess(variant.process, locale) : undefined
+      )
+      .filter((value): value is string => Boolean(value))
+  );
+
+  return [...sizes, ...thicknesses, ...processes].slice(0, 4);
 }
 
 export async function getProductsPageData(
@@ -108,7 +138,11 @@ export async function getProductsPageData(
     getCustomCapabilities(),
   ]);
 
-  const products = buildDirectoryItems(rawProducts, locale);
+  const products = buildDirectoryItems(
+    rawProducts,
+    locale,
+    productsCopy.collectionLabel
+  );
   const customCapabilities = buildCustomCapabilitySummaries(
     rawCustomCapabilities,
     products,
@@ -118,7 +152,8 @@ export async function getProductsPageData(
   const taxonomyCards = buildProductTaxonomyCards(
     products,
     activeSection,
-    customCapabilities
+    customCapabilities,
+    locale
   );
   const activeValue = resolveProductCatalogValue(resolvedParams, taxonomyCards);
   const catalogFiltered = filterCatalogProducts(
@@ -143,6 +178,8 @@ export async function getProductsPageData(
     allLabel: productsCopy.allFilter,
     noProductsFoundLabel: commonCopy.noProductsFound,
     emptyTaxonomyTemplate: commonCopy.emptyTaxonomy,
+    backToCategoriesLabel: productsCopy.backToCategories,
+    productCountTemplate: productsCopy.productCount,
     directoryTitle: productsCopy.directoryTitle,
     directoryDescription: productsCopy.directoryDescription,
     navSections: PRODUCT_CATALOG_SECTION_KEYS.map((key) => ({

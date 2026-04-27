@@ -78,7 +78,7 @@ export function AboutAlbum({
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="wayon-container relative">
-        <div className="relative aspect-[12/5] min-h-[420px] overflow-hidden bg-[color:var(--surface)] md:min-h-[540px]">
+        <div className="relative min-h-[420px] w-full overflow-hidden bg-[color:var(--surface)] md:aspect-[12/5] md:min-h-[540px]">
           <ParallaxImage
             key={activeItem.image}
             src={activeItem.image}

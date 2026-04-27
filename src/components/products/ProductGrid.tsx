@@ -23,6 +23,8 @@ type ProductGridProps = {
 
   noProductsFoundLabel: string;
   emptyTaxonomyTemplate: string;
+  backToCategoriesLabel: string;
+  productCountTemplate: string;
 };
 
 const GRID_ITEM_INITIAL = { opacity: 0, y: 12 } as const;
@@ -45,26 +47,6 @@ function buildProductsHref(
   }
 
   return `/products?${params.toString()}`;
-}
-
-function buildSummaryTags(product: ProductDirectoryItem): string[] {
-  const sizes = new Set(
-    product.variants
-      .map((variant) => variant.size)
-      .filter((value): value is string => Boolean(value))
-  );
-  const thicknesses = new Set(
-    product.variants
-      .map((variant) => variant.thickness)
-      .filter((value): value is string => Boolean(value))
-  );
-  const processes = new Set(
-    product.variants
-      .map((variant) => variant.process)
-      .filter((value): value is string => Boolean(value))
-  );
-
-  return [...sizes, ...thicknesses, ...processes].slice(0, 4);
 }
 
 function EmptyTaxonomyState({
@@ -126,6 +108,8 @@ export default function ProductGrid({
 
   noProductsFoundLabel,
   emptyTaxonomyTemplate,
+  backToCategoriesLabel,
+  productCountTemplate,
 }: ProductGridProps): React.JSX.Element {
   const selectedCard =
     taxonomyCards.find((card) => card.value === activeValue) ?? null;
@@ -176,7 +160,7 @@ export default function ProductGrid({
               <Link
                 href={buildProductsHref(activeSection)}
                 className="inline-flex size-10 items-center justify-center border border-[color:var(--border)] text-[color:var(--muted-foreground)] transition-colors duration-200 hover:border-[color:var(--primary)] hover:text-[color:var(--primary)] rtl:rotate-180"
-                aria-label="Back to categories"
+                aria-label={backToCategoriesLabel}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -190,7 +174,7 @@ export default function ProductGrid({
               </div>
             </div>
             <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
-              {products.length} <span className="opacity-60">/ products</span>
+              {formatCopy(productCountTemplate, { count: products.length })}
             </p>
           </div>
 
@@ -217,8 +201,8 @@ export default function ProductGrid({
                       title={product.title}
                       slug={product.slug}
                       image={product.coverImageUrl}
-                      category={product.seriesTypes[0] || product.category}
-                      summaryTags={buildSummaryTags(product)}
+                      category={product.category}
+                      summaryTags={product.summaryTags ?? []}
                     />
                   </motion.div>
                 ))}

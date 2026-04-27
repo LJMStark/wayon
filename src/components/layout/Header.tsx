@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
@@ -119,10 +119,11 @@ export default function Header(): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
-  const shouldReduce = useReducedMotion();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
   const headerCopy = getHeaderCopy(locale);
+  const isRtl = locale === "ar";
+  const mobilePanelClosedX = isRtl ? "-100%" : "100%";
   const translateNav = (key: NavigationKey): string => tNav(key);
   const currentLanguage =
     LANGUAGES.find((language) => language.locale === locale) ?? LANGUAGES[0];
@@ -193,16 +194,14 @@ export default function Header(): React.JSX.Element {
 
   return (
     <motion.header
-      initial={shouldReduce ? false : { y: "-100%", opacity: 0 }}
-      animate={shouldReduce ? {} : { y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ease-out ${
+      initial={false}
+      className={`fixed inset-x-0 top-0 z-50 max-w-[100dvw] overflow-x-clip border-b transition-[background-color,border-color] duration-300 ease-out ${
         isTransparent
           ? "border-transparent bg-transparent"
           : "border-transparent bg-[color:var(--primary)]"
       }`}
     >
-      <div className="mx-auto w-full px-4 md:px-8 xl:px-12 2xl:px-16">
+      <div className="mx-auto w-full max-w-[100dvw] px-4 md:px-8 xl:px-12 2xl:px-16">
         <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-center gap-6 lg:gap-10 xl:gap-16">
           <Link
             href="/"
@@ -260,7 +259,7 @@ export default function Header(): React.JSX.Element {
                                 {activeCollection?.previewImage ? (
                                   <Image
                                     src={activeCollection.previewImage}
-                                    alt={activeCollection.label}
+                                    alt={translateNav(activeCollection.label)}
                                     fill
                                     sizes="40vw"
                                     className="object-cover"
@@ -491,11 +490,11 @@ export default function Header(): React.JSX.Element {
               role="dialog"
               aria-modal="true"
               aria-label={headerCopy.openNavigation}
-              initial={{ x: "100%" }}
+              initial={{ x: mobilePanelClosedX }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              exit={{ x: mobilePanelClosedX }}
               transition={{ duration: 0.25, ease: [0.28, 0.2, 0, 1] }}
-              className="fixed right-0 top-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white lg:hidden"
+              className="fixed inset-y-0 end-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white lg:hidden"
             >
               <div className="mb-6 flex items-center justify-between">
                 <BrandLogo
@@ -536,6 +535,7 @@ export default function Header(): React.JSX.Element {
               <ul className="space-y-2">
                 {NAV_ITEMS.map((item) => {
                   const expanded = mobileOpenSections.includes(item.label);
+                  const mobileSectionId = `mobile-nav-section-${item.label}`;
 
                   return (
                     <li key={translateNav(item.label)} className="border-b border-white/10 pb-3">
@@ -554,6 +554,8 @@ export default function Header(): React.JSX.Element {
                             aria-label={formatCopy(headerCopy.toggleSection, {
                               section: translateNav(item.label),
                             })}
+                            aria-expanded={expanded}
+                            aria-controls={mobileSectionId}
                           >
                             <ChevronDown className={getMobileSectionChevronClassName(expanded)} />
                           </button>
@@ -561,7 +563,7 @@ export default function Header(): React.JSX.Element {
                       </div>
 
                       {item.subItems?.length && expanded ? (
-                        <div className="mt-4 space-y-4 ps-4">
+                        <div id={mobileSectionId} className="mt-4 space-y-4 ps-4">
                           {item.subItems.map((subItem) => (
                             <div key={translateNav(subItem.label)}>
                               <Link

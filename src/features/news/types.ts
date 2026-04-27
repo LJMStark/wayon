@@ -23,6 +23,7 @@ export type NewsPageData = {
 export type NewsDetailPageData = {
   backToNewsLabel: string;
   contactLabel: string;
+  contentComingSoonLabel: string;
   title: string;
   excerpt: string;
   body: NewsArticleBody | null;

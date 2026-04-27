@@ -26,5 +26,6 @@ export const getNewsDetailPageData = cache(async function getNewsDetailPageData(
   return buildNewsDetailPageData(article, locale, {
     backToNewsLabel: commonCopy.backToNews,
     contactLabel: commonCopy.contactUs,
+    contentComingSoonLabel: commonCopy.contentComingSoon,
   });
 });

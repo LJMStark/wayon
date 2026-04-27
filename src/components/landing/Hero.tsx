@@ -118,9 +118,9 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
           <div className="wayon-container-wide">
             <div className="max-w-[62rem] space-y-6 text-white">
               <h1 className="text-[clamp(1.8rem,7.2vw,3rem)] font-medium leading-[1.04] tracking-[0] text-white md:text-[clamp(3.2rem,4.85vw,4.45rem)]">
-                <span className="block whitespace-nowrap">{t("titleLine1")}</span>
+                <span className="block md:whitespace-nowrap">{t("titleLine1")}</span>
                 {highlightedTitleLines.map((line) => (
-                  <span key={line} className="block whitespace-nowrap">
+                  <span key={line} className="block md:whitespace-nowrap">
                     <strong className="font-semibold">{line}</strong>
                   </span>
                 ))}

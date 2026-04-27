@@ -1,10 +1,19 @@
 import {
-  getLocalizedProductValue,
+  getProductDisplayCategory,
+  getProductDisplayTitle,
   getProductVariants,
   type Product,
   type ProductMediaImage,
   type ProductMediaVideo,
 } from "@/data/products";
+import {
+  localizeColorGroup,
+  localizeFaceCount,
+  localizeFacePatternNote,
+  localizeMediaAlt,
+  localizeProcess,
+  localizeSeriesType,
+} from "@/data/productAttributeLabels";
 import { formatCopy } from "@/data/siteCopy";
 import { getTradeMediaContentType } from "@/features/products/lib/tradeMedia";
 import {
@@ -41,22 +50,24 @@ type ProductDetailCopy = {
 
 function buildMediaImage(
   image: ProductMediaImage,
-  fallbackAlt: string
+  fallbackAlt: string,
+  locale: AppLocale
 ): ProductDetailMediaImage {
   return {
     publicUrl: image.publicUrl,
-    alt: image.altZh || fallbackAlt,
+    alt: locale === "zh" && image.altZh ? image.altZh : fallbackAlt,
   };
 }
 
 function buildMediaVideo(
   video: ProductMediaVideo,
-  fallbackTitle: string
+  fallbackTitle: string,
+  locale: AppLocale
 ): ProductDetailMediaVideo {
   return {
     publicUrl: video.publicUrl,
     posterUrl: video.posterUrl,
-    title: video.titleZh || fallbackTitle,
+    title: locale === "zh" && video.titleZh ? video.titleZh : fallbackTitle,
     mimeType: getTradeMediaContentType(video.sourcePath) ?? undefined,
   };
 }
@@ -73,50 +84,49 @@ function buildVariantOptionLabel(
   return parts.join(" / ");
 }
 
-type MediaSectionLabels = {
-  elementImages: string;
-  spaceImages: string;
-  realImages: string;
-  videos: string;
-};
-
 function buildVariantData(
   product: Product,
-  locale: AppLocale,
-  mediaLabels: MediaSectionLabels
+  locale: AppLocale
 ): ProductDetailVariantData[] {
-  const title = getLocalizedProductValue(product, locale, "title");
+  const title = getProductDisplayTitle(product, locale);
   const hasExplicitVariants = (product.variants?.length ?? 0) > 0;
 
-  return getProductVariants(product).map((variant) => ({
-    code: variant.code,
-    showCode: hasExplicitVariants,
-    optionLabel: buildVariantOptionLabel(
-      variant.size,
-      variant.thickness,
-      variant.process,
-      variant.code,
-      hasExplicitVariants
-    ),
-    thickness: variant.thickness,
-    size: variant.size,
-    process: variant.process,
-    colorGroup: variant.colorGroup,
-    faceCount: variant.faceCount,
-    facePatternNote: variant.facePatternNote,
-    elementImages: variant.elementImages.map((image) =>
-      buildMediaImage(image, `${title} ${mediaLabels.elementImages}`)
-    ),
-    spaceImages: variant.spaceImages.map((image) =>
-      buildMediaImage(image, `${title} ${mediaLabels.spaceImages}`)
-    ),
-    realImages: variant.realImages.map((image) =>
-      buildMediaImage(image, `${title} ${mediaLabels.realImages}`)
-    ),
-    videos: variant.videos.map((video) =>
-      buildMediaVideo(video, `${title} ${mediaLabels.videos}`)
-    ),
-  }));
+  return getProductVariants(product).map((variant) => {
+    const process = localizeProcess(variant.process, locale);
+
+    return {
+      code: variant.code,
+      showCode: hasExplicitVariants,
+      optionLabel: buildVariantOptionLabel(
+        variant.size,
+        variant.thickness,
+        process,
+        variant.code,
+        hasExplicitVariants
+      ),
+      thickness: variant.thickness,
+      size: variant.size,
+      process,
+      colorGroup: localizeColorGroup(variant.colorGroup, locale),
+      faceCount: localizeFaceCount(variant.faceCount, locale),
+      facePatternNote: localizeFacePatternNote(
+        variant.facePatternNote,
+        locale
+      ),
+      elementImages: variant.elementImages.map((image) =>
+        buildMediaImage(image, localizeMediaAlt(title, "element", locale), locale)
+      ),
+      spaceImages: variant.spaceImages.map((image) =>
+        buildMediaImage(image, localizeMediaAlt(title, "space", locale), locale)
+      ),
+      realImages: variant.realImages.map((image) =>
+        buildMediaImage(image, localizeMediaAlt(title, "real", locale), locale)
+      ),
+      videos: variant.videos.map((video) =>
+        buildMediaVideo(video, localizeMediaAlt(title, "video", locale), locale)
+      ),
+    };
+  });
 }
 
 export function buildProductDetailPageData(
@@ -128,17 +138,14 @@ export function buildProductDetailPageData(
     detail: ProductDetailCopy;
   }
 ): ProductDetailPageData {
-  const title = getLocalizedProductValue(product, locale, "title");
-  const category =
-    getLocalizedProductValue(product, locale, "category") ||
-    copy.detail.categoryFallback;
+  const title = getProductDisplayTitle(product, locale);
+  const category = getProductDisplayCategory(
+    product,
+    locale,
+    copy.detail.categoryFallback
+  );
   const rawVariants = getProductVariants(product);
-  const variants = buildVariantData(product, locale, {
-    elementImages: copy.detail.elementImagesTitle,
-    spaceImages: copy.detail.spaceImagesTitle,
-    realImages: copy.detail.realImagesTitle,
-    videos: copy.detail.videosTitle,
-  });
+  const variants = buildVariantData(product, locale);
   const defaultVariantCode = pickDefaultVariantCode(
     rawVariants.map<DirectoryVariant>((variant) => ({
       code: variant.code,
@@ -159,7 +166,9 @@ export function buildProductDetailPageData(
     productSlug: product.slug,
     title,
     category,
-    seriesTypes: product.seriesTypes ?? [],
+    seriesTypes: (product.seriesTypes ?? []).map((seriesType) =>
+      localizeSeriesType(seriesType, locale)
+    ),
     descriptionParagraphs: [
       formatCopy(copy.detail.description1, { title, category }),
       copy.detail.description2,

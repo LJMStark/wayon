@@ -7,6 +7,29 @@ import type { ProductDirectoryItem, ProductCustomCapabilitySummary } from "../ty
 import type { ProductCustomCapability } from "@/data/products";
 import type { AppLocale } from "@/i18n/types";
 
+function pickLocalizedCmsValue(
+  values: Record<AppLocale, string> | undefined,
+  locale: AppLocale
+): string | undefined {
+  const localeValue = values?.[locale]?.trim();
+
+  if (localeValue) {
+    return localeValue;
+  }
+
+  const englishValue = values?.en?.trim();
+
+  if (englishValue) {
+    return englishValue;
+  }
+
+  if (locale === "zh") {
+    return values?.zh?.trim() || undefined;
+  }
+
+  return undefined;
+}
+
 export function buildCustomCapabilitySummaries(
   capabilities: ProductCustomCapability[],
   products: ProductDirectoryItem[],
@@ -34,15 +57,11 @@ export function buildCustomCapabilitySummaries(
       return {
         key: capability.capabilityKey,
         title:
-          capability.title?.[locale] ||
-          capability.title?.zh ||
-          capability.title?.en ||
+          pickLocalizedCmsValue(capability.title, locale) ||
           (fallback ? getLocalizedCapabilityTitle(fallback, locale) : undefined) ||
           capability.capabilityKey,
         description:
-          capability.description?.[locale] ||
-          capability.description?.zh ||
-          capability.description?.en ||
+          pickLocalizedCmsValue(capability.description, locale) ||
           (fallback
             ? getLocalizedCapabilityDescription(fallback, locale)
             : undefined),

@@ -57,6 +57,7 @@ export type ProductDirectoryItem = {
   seriesTypes: string[];
   coverImageUrl?: string;
   variants: ProductDirectoryVariantSummary[];
+  summaryTags?: string[];
 };
 
 export type ProductsPageData = {
@@ -69,6 +70,8 @@ export type ProductsPageData = {
   allLabel: string;
   noProductsFoundLabel: string;
   emptyTaxonomyTemplate: string;
+  backToCategoriesLabel: string;
+  productCountTemplate: string;
   directoryTitle: string;
   directoryDescription: string;
   navSections: ProductCatalogNavSection[];

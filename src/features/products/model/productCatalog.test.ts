@@ -85,7 +85,8 @@ test("buildProductTaxonomyCards only returns used cards for standard sections", 
   const thicknessCards = buildProductTaxonomyCards(
     products,
     "thickness",
-    customCapabilities
+    customCapabilities,
+    "zh"
   );
 
   expect(thicknessCards.map((card) => card.label)).toEqual(["9mm", "12mm"]);
@@ -93,7 +94,12 @@ test("buildProductTaxonomyCards only returns used cards for standard sections", 
 });
 
 test("resolveProductCatalogValue only accepts values present in taxonomy cards", () => {
-  const seriesCards = buildProductTaxonomyCards(products, "series", customCapabilities);
+  const seriesCards = buildProductTaxonomyCards(
+    products,
+    "series",
+    customCapabilities,
+    "zh"
+  );
 
   expect(resolveProductCatalogValue({ value: "洞石岩板" }, seriesCards)).toBe("洞石岩板");
   expect(resolveProductCatalogValue({ value: "木纹岩板" }, seriesCards)).toBe(null);
@@ -116,8 +122,30 @@ test("sections without backing attribute data should not fall back to all standa
   }));
 
   expect(filterCatalogProducts(noThicknessProducts, "thickness", null).length).toBe(0);
-  expect(buildProductTaxonomyCards(noThicknessProducts, "thickness", customCapabilities)
+  expect(buildProductTaxonomyCards(noThicknessProducts, "thickness", customCapabilities, "zh")
       .length).toBe(0);
+});
+
+test("taxonomy card labels localize display values without changing filter values", () => {
+  const seriesCards = buildProductTaxonomyCards(
+    products,
+    "series",
+    customCapabilities,
+    "es"
+  );
+  const processCards = buildProductTaxonomyCards(
+    products,
+    "process",
+    customCapabilities,
+    "ar"
+  );
+
+  expect(seriesCards.find((card) => card.value === "洞石岩板")?.label).toBe(
+    "Losa travertino"
+  );
+  expect(processCards.find((card) => card.value === "亮光")?.label).toBe(
+    "لامع"
+  );
 });
 
 test("catalog navigation keeps the fixed six sections", () => {

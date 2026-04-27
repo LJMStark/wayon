@@ -5,6 +5,12 @@ import {
   TRADE_SIZES,
   TRADE_THICKNESSES,
 } from "../lib/tradeCatalog.ts";
+import {
+  localizeColorGroup,
+  localizeProcess,
+  localizeSeriesType,
+} from "@/data/productAttributeLabels";
+import type { AppLocale } from "@/i18n/types";
 
 import type {
   ProductCatalogSectionKey,
@@ -177,7 +183,8 @@ export function resolveProductCatalogValue(
 export function buildProductTaxonomyCards(
   products: ProductDirectoryItem[],
   section: ProductCatalogSectionKey,
-  customCapabilities: ProductCustomCapabilitySummary[]
+  customCapabilities: ProductCustomCapabilitySummary[],
+  locale: AppLocale
 ): ProductTaxonomyCard[] {
   const baseProducts = getBaseProducts(products, section);
 
@@ -190,21 +197,36 @@ export function buildProductTaxonomyCards(
         formatSizeLabel
       );
     case "series":
-      return buildOrderedCards(baseProducts, TRADE_SERIES_TYPES, (value) => ({
-        seriesType: value,
-      }));
+      return buildOrderedCards(
+        baseProducts,
+        TRADE_SERIES_TYPES,
+        (value) => ({
+          seriesType: value,
+        }),
+        (value) => localizeSeriesType(value, locale)
+      );
     case "thickness":
       return buildOrderedCards(baseProducts, TRADE_THICKNESSES, (value) => ({
         thickness: value,
       }));
     case "color":
-      return buildOrderedCards(baseProducts, TRADE_COLOR_GROUPS, (value) => ({
-        colorGroup: value,
-      }));
+      return buildOrderedCards(
+        baseProducts,
+        TRADE_COLOR_GROUPS,
+        (value) => ({
+          colorGroup: value,
+        }),
+        (value) => localizeColorGroup(value, locale) ?? value
+      );
     case "process":
-      return buildOrderedCards(baseProducts, TRADE_PROCESSES, (value) => ({
-        process: value,
-      }));
+      return buildOrderedCards(
+        baseProducts,
+        TRADE_PROCESSES,
+        (value) => ({
+          process: value,
+        }),
+        (value) => localizeProcess(value, locale) ?? value
+      );
     case "custom":
       return customCapabilities.map((capability) => ({
         key: capability.key,

@@ -60,12 +60,14 @@
   }
 
   html {
+    overflow-x: clip;
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
   }
 
   body {
     min-height: 100vh;
+    overflow-x: clip;
     padding-top: var(--header-height);
     background-color: var(--background);
     background-image: url('/assets/calacatta-white-bg.jpg');

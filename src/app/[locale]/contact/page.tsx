@@ -634,7 +634,7 @@ export default function ContactPage() {
                       }}
                     >
                       <label>
-                        Website (leave this field empty)
+                        {contactCopy.honeypotLabel}
                         <input
                           type="text"
                           name="website"
@@ -908,7 +908,7 @@ export default function ContactPage() {
 
                     {/* Fine print */}
                     <p className="text-center text-[11px] leading-relaxed text-stone-400">
-                      By submitting, you agree we may contact you about your inquiry.
+                      {contactCopy.finePrint}
                     </p>
                   </form>
                 </div>

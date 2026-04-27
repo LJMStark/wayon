@@ -9,6 +9,7 @@ import type { NewsDetailPageData } from "../types";
 export function NewsDetailPageView({
   backToNewsLabel,
   contactLabel,
+  contentComingSoonLabel,
   title,
   excerpt,
   body,
@@ -76,7 +77,7 @@ export function NewsDetailPageView({
           </div>
         ) : (
           <div className="flex min-h-[200px] items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
-            <p className="text-center text-sm">Content coming soon…</p>
+            <p className="text-center text-sm">{contentComingSoonLabel}</p>
           </div>
         )}
       </div>

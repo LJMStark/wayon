@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 
 import {
   getProductBySlug,
-  getLocalizedProductValue,
+  getProductDisplayCategory,
+  getProductDisplayTitle,
 } from "@/data/products";
 import { isPublishedProduct } from "@/features/products/model/productExposure";
 import {
@@ -31,10 +32,12 @@ export async function generateMetadata({
 
   const metadataCopy = getMetadataCopy(locale).productDetail;
   const detailCopy = getProductDetailPageCopy(locale);
-  const localizedTitle = getLocalizedProductValue(product, locale, "title");
-  const localizedCategory =
-    getLocalizedProductValue(product, locale, "category") ||
-    detailCopy.categoryFallback;
+  const localizedTitle = getProductDisplayTitle(product, locale);
+  const localizedCategory = getProductDisplayCategory(
+    product,
+    locale,
+    detailCopy.categoryFallback
+  );
 
   return buildPageMetadata({
     locale,

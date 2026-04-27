@@ -159,6 +159,18 @@ const SITE_COPY = {
       es: "La página que busca no existe o se ha movido.",
       ar: "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
     },
+    skipToMain: {
+      en: "Skip to main content",
+      zh: "跳转到主要内容",
+      es: "Saltar al contenido principal",
+      ar: "تخطي إلى المحتوى الرئيسي",
+    },
+    contentComingSoon: {
+      en: "Content coming soon.",
+      zh: "内容即将更新。",
+      es: "Contenido próximamente.",
+      ar: "سيتم نشر المحتوى قريبًا.",
+    },
   },
   header: {
     toggleSearch: {
@@ -669,35 +681,45 @@ const SITE_COPY = {
         name: {
           en: "Foshan Office & Showroom",
           zh: "佛山展厅与办公中心",
-          es: "Foshan Office & Showroom",
-          ar: "Foshan Office & Showroom",
+          es: "Oficina y showroom de Foshan",
+          ar: "مكتب وصالة عرض فوشان",
         },
         address: {
           en: "No. 7-8, 10, 11-2, 12, Block 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang Town, Chancheng District, Foshan, Guangdong, China",
           zh: "佛山市禅城区南庄镇华夏陶瓷博览城陶博三路3座7-8号，10号，11号之二，12号",
-          es: "No. 7-8, 10, 11-2, 12, Block 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang Town, Chancheng District, Foshan, Guangdong, China",
-          ar: "No. 7-8, 10, 11-2, 12, Block 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang Town, Chancheng District, Foshan, Guangdong, China",
+          es: "N.º 7-8, 10, 11-2 y 12, Bloque 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang, Chancheng, Foshan, Guangdong, China",
+          ar: "رقم 7-8 و10 و11-2 و12، المبنى 3، طريق تاوبو الثالث، مدينة هواشيا لمعرض السيراميك، نانتشوانغ، تشانتشنغ، فوشان، قوانغدونغ، الصين",
         },
         tel: "+86 132 2924 6894",
         email: "zyl.stone.slab@gmail.com",
-        businessHours: "Mon-Sat 8:30-17:30",
+        businessHours: {
+          en: "Mon-Sat 8:30-17:30",
+          zh: "周一至周六 8:30-17:30",
+          es: "Lun-Sáb 8:30-17:30",
+          ar: "الإثنين-السبت 8:30-17:30",
+        },
       },
       {
         name: {
           en: "Zhaoqing Production Base",
           zh: "肇庆生产基地",
-          es: "Zhaoqing Production Base",
-          ar: "Zhaoqing Production Base",
+          es: "Base de producción de Zhaoqing",
+          ar: "قاعدة إنتاج تشاوتشينغ",
         },
         address: {
           en: "Songlong Industrial Park, Baitu Town, Gaoyao District, Zhaoqing, Guangdong, China",
           zh: "广东省肇庆市高要区白土镇宋隆工业园",
-          es: "Songlong Industrial Park, Baitu Town, Gaoyao District, Zhaoqing, Guangdong, China",
-          ar: "Songlong Industrial Park, Baitu Town, Gaoyao District, Zhaoqing, Guangdong, China",
+          es: "Parque Industrial Songlong, Baitu, distrito de Gaoyao, Zhaoqing, Guangdong, China",
+          ar: "منتزه سونغلونغ الصناعي، بلدة بايتو، منطقة غاوياؤ، تشاوتشينغ، قوانغدونغ، الصين",
         },
         tel: "+86 132 2924 6894",
         email: "zyl.stone.slab@gmail.com",
-        businessHours: "Mon-Sat 8:30-17:30",
+        businessHours: {
+          en: "Mon-Sat 8:30-17:30",
+          zh: "周一至周六 8:30-17:30",
+          es: "Lun-Sáb 8:30-17:30",
+          ar: "الإثنين-السبت 8:30-17:30",
+        },
       },
     ],
     labels: {
@@ -710,20 +732,20 @@ const SITE_COPY = {
       tel: {
         en: "Tel",
         zh: "电话",
-        es: "Tel",
+        es: "Teléfono",
         ar: "الهاتف",
       },
       email: {
         en: "Email",
         zh: "邮箱",
-        es: "Email",
-        ar: "Email",
+        es: "Correo",
+        ar: "البريد الإلكتروني",
       },
       businessHours: {
         en: "Business Hours",
         zh: "服务时间",
-        es: "Business Hours",
-        ar: "Business Hours",
+        es: "Horario",
+        ar: "ساعات العمل",
       },
       fax: {
         en: "Fax",
@@ -903,6 +925,18 @@ const SITE_COPY = {
       zh: "我对产品 {slug} 感兴趣，希望索取样品。",
       es: "Estoy interesado en el producto {slug} y me gustaría solicitar una muestra.",
       ar: "أنا مهتم بالمنتج {slug} وأود طلب عينة.",
+    },
+    honeypotLabel: {
+      en: "Website (leave this field empty)",
+      zh: "网站（请留空）",
+      es: "Sitio web (deje este campo vacío)",
+      ar: "الموقع الإلكتروني (اترك هذا الحقل فارغًا)",
+    },
+    finePrint: {
+      en: "By submitting, you agree that we may contact you about your inquiry.",
+      zh: "提交后，即表示您同意我们就本次咨询与您联系。",
+      es: "Al enviar el formulario, acepta que podamos contactarle sobre su consulta.",
+      ar: "بإرسال النموذج، فإنك توافق على أن نتواصل معك بخصوص استفسارك.",
     },
     sampleTitleLine1: {
       en: "Contact us",
@@ -1351,6 +1385,18 @@ const SITE_COPY = {
       zh: "全部",
       es: "Todos",
       ar: "الكل",
+    },
+    backToCategories: {
+      en: "Back to categories",
+      zh: "返回分类",
+      es: "Volver a categorías",
+      ar: "العودة إلى الفئات",
+    },
+    productCount: {
+      en: "{count} products",
+      zh: "共 {count} 个产品",
+      es: "{count} productos",
+      ar: "{count} منتج",
     },
     sizeFilterLabel: {
       en: "Size",

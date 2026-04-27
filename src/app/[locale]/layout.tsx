@@ -11,7 +11,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { getMetadataCopy } from "@/data/siteCopy";
+import { getCommonCopy, getMetadataCopy } from "@/data/siteCopy";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { organizationJsonLd } from "@/lib/jsonLd";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
@@ -70,6 +70,7 @@ export default async function RootLayout({
   setRequestLocale(locale);
   const messages = await getMessages({ locale });
   const direction = getLocaleDirection(locale);
+  const commonCopy = getCommonCopy(locale);
 
   return (
     <html
@@ -84,12 +85,12 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale)) }}
         />
       </head>
-      <body className="min-h-full flex flex-col relative text-left rtl:text-right">
+      <body className="min-h-full flex flex-col relative overflow-x-clip text-left rtl:text-right">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[200] focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[#002b50] focus:shadow-lg"
         >
-          Skip to main content
+          {commonCopy.skipToMain}
         </a>
         <NextIntlClientProvider messages={messages}>
           <Header />
