@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* tslint:disable */
-import config from "@payload-config";
 import { RootLayout, handleServerFunctions } from "@payloadcms/next/layouts";
 import type { ServerFunctionClient } from "payload";
 import React from "react";
+
+import { getPayloadConfig } from "@/lib/payload-config";
 
 import { importMap } from "./admin/importMap.js";
 import "./custom.css";
@@ -16,13 +16,17 @@ const serverFunction: ServerFunctionClient = async (args) => {
   "use server";
   return handleServerFunctions({
     ...args,
-    config,
+    config: getPayloadConfig(),
     importMap,
   });
 };
 
 const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+  <RootLayout
+    config={getPayloadConfig()}
+    importMap={importMap}
+    serverFunction={serverFunction}
+  >
     {children}
   </RootLayout>
 );

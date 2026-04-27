@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* tslint:disable */
-import config from "@payload-config";
 import type { Metadata } from "next";
 import { generatePageMetadata, RootPage } from "@payloadcms/next/views";
+
+import { getPayloadConfig } from "@/lib/payload-config";
 
 import { importMap } from "../importMap.js";
 
@@ -16,9 +16,9 @@ type Args = {
 };
 
 export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
-  generatePageMetadata({ config, params, searchParams });
+  generatePageMetadata({ config: getPayloadConfig(), params, searchParams });
 
 const Page = ({ params, searchParams }: Args) =>
-  RootPage({ config, params, searchParams, importMap });
+  RootPage({ config: getPayloadConfig(), params, searchParams, importMap });
 
 export default Page;

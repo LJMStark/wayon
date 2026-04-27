@@ -1,7 +1,7 @@
 import { getPayload, type Payload } from "payload";
 
-import config from "@payload-config";
 import type { AppLocale } from "@/i18n/types";
+import { getPayloadConfig } from "@/lib/payload-config";
 
 const APP_LOCALES: AppLocale[] = ["en", "zh", "es", "ar"];
 
@@ -9,6 +9,7 @@ let cached: Promise<Payload> | null = null;
 
 export async function getPayloadClient(): Promise<Payload> {
   if (!cached) {
+    const config = await getPayloadConfig();
     cached = getPayload({ config });
   }
   return cached;

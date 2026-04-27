@@ -1,8 +1,6 @@
 import type { MetadataRoute } from 'next'
 
 import { routing } from '@/i18n/routing'
-import { getProductSlugs } from '@/data/products'
-import { getNewsSlugs } from '@/data/news'
 import { siteUrl } from '@/lib/env'
 import { normalizeMetadataPath } from '@/lib/metadata'
 
@@ -31,8 +29,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // CMS may be unreachable during build -- skip dynamic entries gracefully.
-  entries.push(...(await getDynamicEntries('/products', 0.7, getProductSlugs)))
-  entries.push(...(await getDynamicEntries('/news', 0.6, getNewsSlugs)))
+  entries.push(
+    ...(await getDynamicEntries('/products', 0.7, async () => {
+      const { getProductSlugs } = await import('@/data/products')
+      return getProductSlugs()
+    })),
+  )
+  entries.push(
+    ...(await getDynamicEntries('/news', 0.6, async () => {
+      const { getNewsSlugs } = await import('@/data/news')
+      return getNewsSlugs()
+    })),
+  )
 
   return entries
 }

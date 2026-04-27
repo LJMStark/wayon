@@ -1,6 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* tslint:disable */
-import config from "@payload-config";
 import { GRAPHQL_PLAYGROUND_GET } from "@payloadcms/next/routes";
 
-export const GET = GRAPHQL_PLAYGROUND_GET(config);
+import { getPayloadConfig } from "@/lib/payload-config";
+
+let handler: Promise<ReturnType<typeof GRAPHQL_PLAYGROUND_GET>> | null = null;
+
+async function getHandler(): Promise<ReturnType<typeof GRAPHQL_PLAYGROUND_GET>> {
+  if (!handler) {
+    handler = Promise.resolve(GRAPHQL_PLAYGROUND_GET(getPayloadConfig()));
+  }
+
+  return handler;
+}
+
+export async function GET(request: Request): Promise<Response> {
+  return (await getHandler())(request);
+}
