@@ -6,11 +6,13 @@ import { NewsSection } from "@/components/landing/NewsSection";
 import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
 import { ProductsCarousel } from "@/components/landing/ProductsCarousel";
 import { SolutionTabs } from "@/components/landing/SolutionTabs";
+import { CountUpStat } from "@/components/ui/CountUpStat";
 
-import type { HomePageData } from "../types";
+import type { HomePageData, HomeStat } from "../types";
 
 export function HomePageView({
   hero,
+  statsSummary,
   aboutIntro,
   aboutAlbum,
   productsCarousel,
@@ -22,6 +24,21 @@ export function HomePageView({
   return (
     <>
       <Hero slides={hero.slides} slideLabel={hero.slideLabel} />
+
+      {/* Stats band — count-up animation, triggers on scroll into view */}
+      <section className="border-b border-[color:var(--border)] bg-[color:var(--background)] px-4 py-14 md:py-20">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-10 divide-x divide-gray-100 text-center md:grid-cols-4">
+          {statsSummary.map((stat: HomeStat) => (
+            <CountUpStat
+              key={stat.label}
+              value={stat.value}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
+          ))}
+        </div>
+      </section>
+
       <ProductsCarousel
         items={productsCarousel.items}
         copy={productsCarousel.copy}

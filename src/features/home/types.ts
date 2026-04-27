@@ -76,8 +76,15 @@ export type NewsSectionData = {
   items: NewsItem[];
 };
 
+export type HomeStat = {
+  value: string;
+  suffix: string;
+  label: string;
+};
+
 export type HomePageData = {
   hero: HomeHeroData;
+  statsSummary: HomeStat[];
   aboutIntro: AboutIntroData;
   aboutAlbum: AboutAlbumSectionData;
   productsCarousel: ProductsCarouselSectionData;

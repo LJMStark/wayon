@@ -11,7 +11,7 @@ import {
   getPartners,
   getSolutions,
 } from "@/data/home";
-import { getLandingCopy } from "@/data/siteCopy";
+import { getAboutPageCopy, getLandingCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
 
 import type { HomePageData } from "../types";
@@ -23,12 +23,14 @@ const DEFAULT_CASE_SUBTITLE =
 export async function getHomePageData(locale: AppLocale): Promise<HomePageData> {
   const t = await getTranslations({ locale });
   const landingCopy = getLandingCopy(locale);
+  const aboutCopy = getAboutPageCopy(locale);
 
   return {
     hero: {
       slides: HERO_SLIDES,
       slideLabel: landingCopy.hero.slideLabel,
     },
+    statsSummary: aboutCopy.stats,
     aboutIntro: getAboutIntro(t),
     aboutAlbum: {
       items: getAboutAlbum(t),

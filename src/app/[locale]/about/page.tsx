@@ -9,6 +9,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { getAboutPageCopy, getCommonCopy } from "@/data/siteCopy";
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
+import { CountUpStat } from "@/components/ui/CountUpStat";
 
 type AboutStat = {
   value: string;
@@ -104,13 +105,12 @@ export default function AboutPage(): React.JSX.Element {
       <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="grid grid-cols-2 gap-12 divide-x divide-gray-100 text-center md:grid-cols-4">
           {aboutCopy.stats.map((stat: AboutStat) => (
-            <div key={`${stat.value}-${stat.label}`} className="flex flex-col items-center">
-              <div className="mb-2 text-5xl font-light text-[#0f2858]">
-                {stat.value}
-                <span className="text-2xl">{stat.suffix}</span>
-              </div>
-              <div className="text-sm text-gray-500">{stat.label}</div>
-            </div>
+            <CountUpStat
+              key={`${stat.value}-${stat.label}`}
+              value={stat.value}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
           ))}
         </div>
       </section>
