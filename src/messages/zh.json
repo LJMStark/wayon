@@ -66,9 +66,8 @@
     "catalogCustom": "定制产品",
     "catalogCustomDesc": "提供个性化定制服务，满足特殊工程需求与创意设计方案。",
     "solution": "场景解决方案",
-    "finishedProducts": "成品展示",
-    "applicationField": "应用领域",
-    "project": "工程应用",
+    "salesCooperation": "销售合作",
+    "factoryCooperation": "工厂合作",
     "view360": "360°全景看样",
     "case": "工程案例",
     "news": "新闻动态",
@@ -102,8 +101,8 @@
   },
   "Hero": {
     "titleLine1": "专注高端岩板供应链",
-    "titleLine2": "全场景岩板方案与制造中心",
-    "subtitle": "提供现货批发、工程贴牌生产以及家居加工柔性定制等全流程一站式卓越服务。",
+    "titleLine2": "全场景岩板方案\n制造与交付中心",
+    "subtitle": "覆盖现货批发、工程贴牌与家居柔性定制，\n提供从选材到交付的一站式服务。",
     "exploreProducts": "探索我们的产品",
     "getFreeSample": "获取免费样品"
   },

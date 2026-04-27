@@ -47,7 +47,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogSize",
         href: "/products?section=size",
         description: "catalogSizeDesc",
-        previewImage: "/assets/solutions/quartz-zero-silica.jpg",
+        previewImage: "/assets/showcases/showcase-0.jpg",
         children: [
           { label: "catalogSize800x2600", href: "/products?section=size&value=800X2600mm" },
           { label: "catalogSize900x2700", href: "/products?section=size&value=900X2700mm" },
@@ -64,7 +64,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogSeries",
         href: "/products?section=series",
         description: "catalogSeriesDesc",
-        previewImage: "/assets/solutions/marble.jpg",
+        previewImage: "/assets/showcases/showcase-1.jpg",
         children: [
           { label: "catalogSeriesTexture", href: `/products?section=series&value=${encodeURIComponent("质感岩板")}` },
           { label: "catalogSeriesFamous", href: `/products?section=series&value=${encodeURIComponent("名石岩板")}` },
@@ -80,7 +80,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogThickness",
         href: "/products?section=thickness",
         description: "catalogThicknessDesc",
-        previewImage: "/assets/solutions/terrazzo.jpg",
+        previewImage: "/assets/showcases/showcase-2.jpg",
         children: [
           { label: "catalogThickness3mm", href: "/products?section=thickness&value=3mm" },
           { label: "catalogThickness6mm", href: "/products?section=thickness&value=6mm" },
@@ -93,7 +93,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogColor",
         href: "/products?section=color",
         description: "catalogColorDesc",
-        previewImage: "/assets/solutions/gem-stone.jpg",
+        previewImage: "/assets/showcases/showcase-3.jpg",
         children: [
           { label: "catalogColorWhite", href: `/products?section=color&value=${encodeURIComponent("白色")}` },
           { label: "catalogColorOffWhite", href: `/products?section=color&value=${encodeURIComponent("米白")}` },
@@ -107,7 +107,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogProcess",
         href: "/products?section=process",
         description: "catalogProcessDesc",
-        previewImage: "/assets/solutions/flexible-stone.jpg",
+        previewImage: "/assets/showcases/showcase-4.jpg",
         children: [
           { label: "catalogProcessPolished", href: `/products?section=process&value=${encodeURIComponent("亮光")}` },
           { label: "catalogProcessMatte", href: `/products?section=process&value=${encodeURIComponent("哑光")}` },
@@ -120,7 +120,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogCustom",
         href: "/products?section=custom",
         description: "catalogCustomDesc",
-        previewImage: "/assets/solutions/cement-stone.jpg",
+        previewImage: "/assets/showcases/showcase-5.jpg",
       },
     ],
   },
@@ -128,9 +128,8 @@ export const NAV_ITEMS: NavItem[] = [
     label: "solution",
     href: "/solution",
     subItems: [
-      { label: "finishedProducts", href: "/solution" },
-      { label: "applicationField", href: "/solution" },
-      { label: "project", href: "/solution#case" },
+      { label: "salesCooperation", href: "/solution" },
+      { label: "factoryCooperation", href: "/solution#case" },
     ],
   },
   { label: "case", href: "/solution#case" },
