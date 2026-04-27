@@ -131,19 +131,13 @@ export function ProductsCarousel({
                     </Link>
                   </div>
 
-                  {/* Vertical Title (when collapsed) */}
+                  {/* Collapsed title */}
                   <div
-                    className={`absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col justify-end transition-opacity duration-500 ${
+                    className={`absolute inset-x-1 bottom-8 flex justify-center transition-opacity duration-500 ${
                       isActive ? "pointer-events-none opacity-0" : "delay-200 opacity-100"
                     }`}
                   >
-                    <h3
-                      className="whitespace-nowrap text-sm font-medium tracking-wider text-white lg:text-base"
-                      style={{
-                        writingMode: "vertical-rl",
-                        textOrientation: "mixed",
-                      }}
-                    >
+                    <h3 className="whitespace-nowrap text-center text-xs font-medium tracking-normal text-white drop-shadow-sm lg:text-sm">
                       {product.title}
                     </h3>
                   </div>
