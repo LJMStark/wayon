@@ -24,7 +24,7 @@ function buildHeaders(
 
   headers.set('Content-Type', contentType)
   headers.set('Accept-Ranges', 'bytes')
-  headers.set('Cache-Control', 'public, max-age=3600')
+  headers.set('Cache-Control', 'public, max-age=31536000, immutable')
 
   if (range) {
     headers.set('Content-Length', String(range.end - range.start + 1))
