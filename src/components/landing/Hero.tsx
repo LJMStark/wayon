@@ -67,7 +67,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="relative aspect-[1920/850] min-h-[420px] w-full md:min-h-[520px]">
+      <div className="relative aspect-[1920/850] min-h-[560px] w-full md:min-h-[520px]">
         {slides.map((slide, index) => (
           <div
             key={getSlideKey(slide, index)}
@@ -125,7 +125,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
                   </span>
                 ))}
               </h1>
-              <p className="wayon-copy max-w-3xl whitespace-pre-line text-base text-white/85 md:text-[17px]">
+              <p className="wayon-copy max-w-3xl whitespace-pre-line text-[14px] leading-[1.7] text-white/85 md:text-[17px]">
                 {t("subtitle")}
               </p>
               <div className="flex flex-wrap items-center gap-4 pt-2">
