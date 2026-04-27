@@ -113,7 +113,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
-    image: "/assets/about/zyl-fashion-pavilion.png",
+    image: "/assets/about/zyl-aesthetic-pavilion.png",
     href: "/about",
   },
   {
@@ -131,7 +131,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
-    image: "/assets/about/zyl-aesthetic-pavilion.png",
+    image: "/assets/about/zyl-fashion-pavilion.png",
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{
