@@ -5,6 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import type { AboutAlbumItem } from "@/data/home";
 import type { AboutAlbumCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
@@ -78,12 +79,13 @@ export function AboutAlbum({
     >
       <div className="wayon-container relative">
         <div className="relative aspect-[12/5] min-h-[420px] overflow-hidden bg-[color:var(--surface)] md:min-h-[540px]">
-          <Image
+          <ParallaxImage
+            key={activeItem.image}
             src={activeItem.image}
             alt={activeItem.title}
-            fill
             sizes="(max-width: 768px) 100vw, 1140px"
             className={`object-cover ${activeItem.image.includes('zyl-fashion-pavilion.png') ? 'object-top' : 'object-center'}`}
+            intensity={70}
           />
 
           <div className="absolute inset-y-0 right-0 flex w-full items-center px-4 md:justify-end md:px-0">

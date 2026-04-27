@@ -9,6 +9,6 @@ test("home placeholder image reuses the trade yellow placeholder", () => {
   expect(HOME_VISUAL_PLACEHOLDER_IMAGE).toBe("/assets/fallbacks/product-fallback.jpg");
 });
 
-test("home case placeholder href points to the solution section", () => {
-  expect(HOME_CASE_PLACEHOLDER_HREF).toBe("/solution#case");
+test("home case placeholder href points to the cases page", () => {
+  expect(HOME_CASE_PLACEHOLDER_HREF).toBe("/cases");
 });

@@ -1,99 +1,57 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/routing";
-import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
-import {
-  formatCopy,
-  getCommonCopy,
-  getSolutionPageCopy,
-} from "@/data/siteCopy";
+import { getCommonCopy, getSolutionPageCopy } from "@/data/siteCopy";
 
-const PRIMARY_TABS = [
-  { key: "salesCooperation", label: "销售合作" },
-  { key: "factoryCooperation", label: "工厂合作" },
+const SOLUTION_SCENES = [
+  {
+    labelKey: "HomeData.Solutions.item0.label" as const,
+    titleKey: "HomeData.Solutions.item0.title" as const,
+    descriptionKey: "HomeData.Solutions.item0.description" as const,
+    image: "/assets/solutions/scene-kitchen-countertops.jpg",
+  },
+  {
+    labelKey: "HomeData.Solutions.item1.label" as const,
+    titleKey: "HomeData.Solutions.item1.title" as const,
+    descriptionKey: "HomeData.Solutions.item1.description" as const,
+    image: "/assets/solutions/scene-bathroom-spaces.jpg",
+  },
+  {
+    labelKey: "HomeData.Solutions.item2.label" as const,
+    titleKey: "HomeData.Solutions.item2.title" as const,
+    descriptionKey: "HomeData.Solutions.item2.description" as const,
+    image: "/assets/solutions/scene-furniture-tops.jpg",
+  },
+  {
+    labelKey: "HomeData.Solutions.item3.label" as const,
+    titleKey: "HomeData.Solutions.item3.title" as const,
+    descriptionKey: "HomeData.Solutions.item3.description" as const,
+    image: "/assets/solutions/scene-wall-floor.jpg",
+  },
+  {
+    labelKey: "HomeData.Solutions.item4.label" as const,
+    titleKey: "HomeData.Solutions.item4.title" as const,
+    descriptionKey: "HomeData.Solutions.item4.description" as const,
+    image: "/assets/solutions/scene-commercial-showcase.jpg",
+  },
 ] as const;
-
-const GALLERY_IMAGES = [
-  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square" },
-  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]" },
-  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square" },
-  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]" },
-];
-
-type PrimaryTabKey = (typeof PRIMARY_TABS)[number]["key"];
-type GalleryImage = {
-  src: string;
-  aspect: string;
-};
-
-function getPrimaryTabButtonClassName(isActive: boolean): string {
-  if (isActive) {
-    return "border border-[#0f2858] bg-[#0f2858] px-8 py-2.5 text-sm tracking-wide text-white transition-colors";
-  }
-
-  return "border border-gray-200 bg-white px-8 py-2.5 text-sm tracking-wide text-gray-600 transition-colors hover:border-gray-400";
-}
-
-function getTabFromHash(hash: string): PrimaryTabKey | null {
-  if (hash === "#case") {
-    return "factoryCooperation";
-  }
-
-  return null;
-}
-
-function getImagesForTab(activeTab: PrimaryTabKey): GalleryImage[] {
-  if (activeTab === "factoryCooperation") {
-    return [...GALLERY_IMAGES].reverse();
-  }
-
-  return GALLERY_IMAGES;
-}
-
-function getPrimaryTabLabel(tabKey: PrimaryTabKey): string {
-  return PRIMARY_TABS.find((tab) => tab.key === tabKey)?.label ?? tabKey;
-}
 
 export default function SolutionPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
+  const t = useTranslations();
   const commonCopy = getCommonCopy(locale);
   const solutionCopy = getSolutionPageCopy(locale);
-  const [activeTab, setActiveTab] = useState<PrimaryTabKey>("salesCooperation");
-
-  useEffect(() => {
-    const handleHashChange = (): void => {
-      const nextTab = getTabFromHash(window.location.hash);
-
-      if (nextTab) {
-        setActiveTab(nextTab);
-      }
-    };
-
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange);
-
-    return () => window.removeEventListener("hashchange", handleHashChange);
-  }, []);
-
-  const masonryImages = getImagesForTab(activeTab);
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <PageHero
-        imageSrc="/assets/hero/hero-2.jpg"
+        imageSrc="/assets/solutions/scene-kitchen-countertops.jpg"
         imageAlt={solutionCopy.heroTitle}
         title={solutionCopy.heroTitle}
         subtitle={solutionCopy.heroSubtitle}
@@ -105,54 +63,73 @@ export default function SolutionPage(): React.JSX.Element {
           {tNav("home")}
         </Link>{" "}
         &gt;{" "}
-        <Link href="/solution" className="hover:text-black">
-          {commonCopy.allCases}
-        </Link>{" "}
-        &gt; <span className="text-black">{getPrimaryTabLabel(activeTab)}</span>
+        <span className="text-black">{tNav("solution")}</span>
       </div>
 
       <div className="mx-auto max-w-[1400px] px-6 pb-24">
-        <div className="mb-6 flex flex-wrap justify-center gap-2 md:gap-4">
-          {PRIMARY_TABS.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={getPrimaryTabButtonClassName(activeTab === tab.key)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <div className="space-y-20">
+          {SOLUTION_SCENES.map((scene, index) => {
+            const isReversed = index % 2 === 1;
 
-        <div className="mt-8">
-          <h2 className="mb-8 text-2xl font-bold text-[#1a1a1a]">
-            {getPrimaryTabLabel(activeTab)}
-          </h2>
-
-          <div className="columns-1 gap-2 md:columns-2 lg:columns-3">
-            {masonryImages.map((image, index) => (
-              <div
-                key={`${image.src}-${index}`}
-                className="group relative mb-2 cursor-pointer overflow-hidden break-inside-avoid bg-neutral-100"
+            return (
+              <section
+                key={scene.labelKey}
+                id={`scene-${index}`}
+                className="scroll-mt-24"
               >
-                <div className={`relative w-full ${image.aspect}`}>
-                  <Image
-                    src={image.src}
-                    alt={formatCopy(solutionCopy.galleryAlt, { index: index + 1 })}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/10 group-hover:opacity-100">
-                    <span className="translate-y-4 transform text-3xl font-normal tracking-[0.2em] text-white transition-all duration-500 group-hover:translate-y-0">
-                      ZYL
+                <div
+                  className={`flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-14 ${
+                    isReversed ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100 lg:w-[58%]">
+                    <Image
+                      src={scene.image}
+                      alt={t(scene.titleKey)}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 58vw"
+                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.03]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col justify-center lg:w-[42%]">
+                    <span className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/60">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
+                    <h2 className="mb-4 text-[28px] font-medium leading-tight text-[#1a1a1a] md:text-[34px]">
+                      {t(scene.titleKey)}
+                    </h2>
+                    <p className="mb-6 text-[15px] leading-[1.8] text-[#555]">
+                      {t(scene.descriptionKey)}
+                    </p>
+                    <Link
+                      href="/contact"
+                      className="group inline-flex items-center gap-2 text-[14px] font-medium tracking-wide text-[color:var(--primary)] transition-colors hover:text-[color:var(--primary)]/80"
+                    >
+                      {commonCopy.contactUs}
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              </section>
+            );
+          })}
+        </div>
+
+        <div className="mt-24 border-t border-gray-100 pt-12 text-center">
+          <h3 className="mb-4 text-2xl font-medium text-[#1a1a1a]">
+            {commonCopy.contactUs}
+          </h3>
+          <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#666]">
+            {solutionCopy.heroSubtitle}
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 border border-[#0f2858] bg-[#0f2858] px-10 py-3 text-sm tracking-wide text-white transition-colors hover:bg-[#1a3a7a]"
+          >
+            {commonCopy.contactUs}
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
       </div>
     </main>

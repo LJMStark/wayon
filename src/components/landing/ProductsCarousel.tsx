@@ -142,7 +142,6 @@ export function ProductsCarousel({
                       style={{
                         writingMode: "vertical-rl",
                         textOrientation: "mixed",
-                        transform: "rotate(180deg)",
                       }}
                     >
                       {product.title}
