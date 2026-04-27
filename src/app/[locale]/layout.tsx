@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Montserrat, Cairo } from "next/font/google";
+import { Cairo, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -31,6 +32,21 @@ const cairo = Cairo({
   display: "swap",
 });
 
+const miSans = localFont({
+  src: "../fonts/MiSans-WayonSubset.woff2",
+  variable: "--font-misans",
+  weight: "150 700",
+  style: "normal",
+  display: "swap",
+  fallback: [
+    "Noto Sans SC",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "sans-serif",
+  ],
+});
+
 export async function generateMetadata({
   params,
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
@@ -59,7 +75,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${montserrat.variable} ${cairo.variable} h-full`}
+      className={`${montserrat.variable} ${miSans.variable} ${cairo.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

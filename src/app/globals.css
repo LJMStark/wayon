@@ -12,8 +12,9 @@
   --color-border: var(--border);
   --color-footer: var(--footer);
 
-  --font-sans: var(--font-montserrat);
-  --font-heading: var(--font-montserrat);
+  --font-sans: var(--wayon-font-sans);
+  --font-heading: var(--wayon-font-heading);
+  --font-cjk: var(--wayon-font-cjk);
 }
 
 :root {
@@ -36,6 +37,9 @@
   --mini-gap: clamp(1.5rem, 2vw, 3rem);
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
+  --wayon-font-sans: var(--font-montserrat), var(--font-misans);
+  --wayon-font-heading: var(--font-montserrat), var(--font-misans);
+  --wayon-font-cjk: var(--font-misans);
 }
 
 @media (max-width: 1024px) {
@@ -69,7 +73,7 @@
     background-attachment: fixed;
     background-position: center;
     color: var(--foreground);
-    font-family: var(--font-sans), sans-serif;
+    font-family: var(--wayon-font-sans);
     font-size: 16px;
     line-height: 1.875;
     text-rendering: optimizeLegibility;
@@ -78,7 +82,7 @@
   }
 
   html[dir="rtl"] body {
-    font-family: var(--font-cairo), var(--font-montserrat), sans-serif;
+    font-family: var(--font-cairo), var(--wayon-font-sans);
   }
 
   a {
@@ -100,8 +104,8 @@
   h5,
   h6 {
     color: #242424;
-    font-family: var(--font-heading), sans-serif;
-    letter-spacing: -0.02em;
+    font-family: var(--wayon-font-heading);
+    letter-spacing: 0;
     line-height: 1.1;
   }
 }
@@ -143,8 +147,8 @@
   /* color intentionally omitted — let utilities (text-white etc.) control it */
   .wayon-title {
     font-size: clamp(3rem, 4vw, 5.04rem);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    letter-spacing: 0;
     text-transform: uppercase;
     text-wrap: balance;
   }
@@ -152,7 +156,7 @@
   .wayon-title strong {
     position: relative;
     display: inline-block;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .wayon-title strong::after {
@@ -173,7 +177,7 @@
     color: var(--muted-foreground);
     font-size: 16px;
     font-weight: 400;
-    line-height: 1.875;
+    line-height: 1.85;
   }
 
   .wayon-button-link {
@@ -183,7 +187,7 @@
     gap: 0.6rem;
     color: inherit;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1;
     transition: opacity 0.2s ease-out;
   }
@@ -269,6 +273,22 @@
   .wayon-cta-ghost:hover {
     background-color: currentColor;
     color: var(--primary);
+  }
+
+  :lang(zh) .wayon-title,
+  :lang(zh) .wayon-cta-primary,
+  :lang(zh) .wayon-cta-ghost {
+    text-transform: none;
+  }
+
+  :lang(zh) .wayon-eyebrow {
+    letter-spacing: 0.08em;
+    text-transform: none;
+  }
+
+  :lang(zh) .wayon-cta-primary,
+  :lang(zh) .wayon-cta-ghost {
+    letter-spacing: 0.04em;
   }
 
   .partner-cloud {
