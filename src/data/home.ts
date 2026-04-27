@@ -82,8 +82,8 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     type: "image",
-    src: "/assets/hero/hero-2.jpg",
-    alt: "ZYL placeholder",
+    src: "/assets/hero/hero-lifestyle-slab.png",
+    alt: "众岩联为美好生活做好每一片岩板",
   },
 ];
 
