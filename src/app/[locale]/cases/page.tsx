@@ -9,7 +9,7 @@ import { useLocale, useTranslations } from "next-intl";
 import {
   formatCopy,
   getCommonCopy,
-  getSolutionPageCopy,
+  getCasesPageCopy,
 } from "@/data/siteCopy";
 
 const PRIMARY_TABS = [
@@ -75,7 +75,7 @@ export default function CasesPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
-  const solutionCopy = getSolutionPageCopy(locale);
+  const casesCopy = getCasesPageCopy(locale);
   const [activeTab, setActiveTab] = useState<PrimaryTabKey>("salesCooperation");
 
   useEffect(() => {
@@ -99,9 +99,9 @@ export default function CasesPage(): React.JSX.Element {
     <main className="min-h-screen bg-white text-[#1a1a1a]">
       <PageHero
         imageSrc="/assets/hero/hero-2.jpg"
-        imageAlt={solutionCopy.heroTitle}
-        title={solutionCopy.heroTitle}
-        subtitle={solutionCopy.heroSubtitle}
+        imageAlt={casesCopy.heroTitle}
+        title={casesCopy.heroTitle}
+        subtitle={casesCopy.heroSubtitle}
       />
 
       <div className="mx-auto mb-8 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
@@ -144,7 +144,7 @@ export default function CasesPage(): React.JSX.Element {
                 <div className={`relative w-full ${image.aspect}`}>
                   <Image
                     src={image.src}
-                    alt={formatCopy(solutionCopy.galleryAlt, { index: index + 1 })}
+                    alt={formatCopy(casesCopy.galleryAlt, { index: index + 1 })}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"

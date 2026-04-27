@@ -936,6 +936,20 @@ const SITE_COPY = {
       es: "Encimeras, sistemas murales, pisos y productos terminados para proyectos residenciales y comerciales.",
       ar: "أسطح عمل وأنظمة جدران وأرضيات ومنتجات نهائية مخصصة للمشاريع السكنية والتجارية.",
     },
+  },
+  casesPage: {
+    heroTitle: {
+      en: "Master of Stone",
+      zh: "石材场景大师",
+      es: "Maestría en piedra",
+      ar: "إتقان الحجر",
+    },
+    heroSubtitle: {
+      en: "Countertops, wall systems, flooring and finished products tailored for residential and commercial projects.",
+      zh: "面向住宅与商业项目的台面、墙面系统、地面系统与成品交付方案。",
+      es: "Encimeras, sistemas murales, pisos y productos terminados para proyectos residenciales y comerciales.",
+      ar: "أسطح عمل وأنظمة جدران وأرضيات ومنتجات نهائية مخصصة للمشاريع السكنية والتجارية.",
+    },
     galleryAlt: {
       en: "Engineering case {index}",
       zh: "工程案例 {index}",
@@ -1573,6 +1587,10 @@ export function getContactPageCopy(locale: AppLocale) {
 
 export function getSolutionPageCopy(locale: AppLocale) {
   return resolveLocale(SITE_COPY.solutionPage, locale);
+}
+
+export function getCasesPageCopy(locale: AppLocale) {
+  return resolveLocale(SITE_COPY.casesPage, locale);
 }
 
 export function getDownloadPageCopy(locale: AppLocale) {
