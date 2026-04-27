@@ -42,7 +42,6 @@ export type PartnerItem = {
   x: number;
   y: number;
   delay: number;
-  drift: number;
 };
 
 export type NewsItem = {
@@ -289,7 +288,6 @@ const PARTNER_CONFIG = [
     x: 30,
     y: 33,
     delay: 0,
-    drift: -7,
   },
   {
     title: "餐厅",
@@ -298,7 +296,6 @@ const PARTNER_CONFIG = [
     x: 43,
     y: 18,
     delay: 90,
-    drift: 5,
   },
   {
     title: "别墅豪宅",
@@ -307,7 +304,6 @@ const PARTNER_CONFIG = [
     x: 50,
     y: 31,
     delay: 180,
-    drift: -5,
   },
   {
     title: "地铁工程",
@@ -316,7 +312,6 @@ const PARTNER_CONFIG = [
     x: 66,
     y: 27,
     delay: 270,
-    drift: 6,
   },
   {
     title: "全屋定制",
@@ -325,7 +320,6 @@ const PARTNER_CONFIG = [
     x: 79,
     y: 31,
     delay: 360,
-    drift: -4,
   },
   {
     title: "地标工程",
@@ -334,7 +328,6 @@ const PARTNER_CONFIG = [
     x: 25,
     y: 47,
     delay: 450,
-    drift: 6,
   },
   {
     title: "石材加工商",
@@ -343,7 +336,6 @@ const PARTNER_CONFIG = [
     x: 42,
     y: 48,
     delay: 540,
-    drift: -6,
   },
   {
     title: "医院工程",
@@ -352,7 +344,6 @@ const PARTNER_CONFIG = [
     x: 57,
     y: 45,
     delay: 630,
-    drift: 5,
   },
   {
     title: "家具厂",
@@ -361,7 +352,6 @@ const PARTNER_CONFIG = [
     x: 70,
     y: 49,
     delay: 720,
-    drift: -5,
   },
   {
     title: "游乐园",
@@ -370,7 +360,6 @@ const PARTNER_CONFIG = [
     x: 84,
     y: 49,
     delay: 810,
-    drift: 6,
   },
   {
     title: "大型商场",
@@ -379,7 +368,6 @@ const PARTNER_CONFIG = [
     x: 32,
     y: 65,
     delay: 900,
-    drift: -5,
   },
   {
     title: "体育馆",
@@ -388,7 +376,6 @@ const PARTNER_CONFIG = [
     x: 46,
     y: 64,
     delay: 990,
-    drift: 4,
   },
   {
     title: "学校",
@@ -397,7 +384,6 @@ const PARTNER_CONFIG = [
     x: 53,
     y: 78,
     delay: 1080,
-    drift: -5,
   },
   {
     title: "跨国贸易商",
@@ -406,16 +392,14 @@ const PARTNER_CONFIG = [
     x: 71,
     y: 66,
     delay: 1170,
-    drift: 6,
   },
   {
     title: "建材批发商",
     scale: "sm",
     tone: "muted",
-    x: 88,
-    y: 68,
+    x: 89,
+    y: 78,
     delay: 1260,
-    drift: -4,
   },
 ] as const satisfies ReadonlyArray<{
   title: string;
@@ -424,7 +408,6 @@ const PARTNER_CONFIG = [
   x: number;
   y: number;
   delay: number;
-  drift: number;
 }>;
 
 const NEWS_FEATURE_CONFIG = {

@@ -18,7 +18,6 @@ const TONE_CLASS_NAMES: Record<PartnerItem["tone"], string> = {
 
 type PartnerWordStyle = CSSProperties & {
   "--partner-delay": string;
-  "--partner-drift": string;
   "--partner-x": string;
   "--partner-y": string;
 };
@@ -33,7 +32,6 @@ type PartnerCarouselProps = {
 function getPartnerWordStyle(partner: PartnerItem): PartnerWordStyle {
   return {
     "--partner-delay": `${partner.delay}ms`,
-    "--partner-drift": `${partner.drift}px`,
     "--partner-x": `${partner.x}%`,
     "--partner-y": `${partner.y}%`,
   };

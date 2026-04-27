@@ -347,6 +347,16 @@
 
   .partner-cloud__item {
     --partner-opacity: 0.74;
+    --partner-duration: 12s;
+    --partner-phase: -1s;
+    --partner-move-x-a: 0.35rem;
+    --partner-move-y-a: -0.25rem;
+    --partner-move-x-b: -0.3rem;
+    --partner-move-y-b: 0.25rem;
+    --partner-move-x-c: 0.25rem;
+    --partner-move-y-c: 0.35rem;
+    --partner-move-x-d: -0.2rem;
+    --partner-move-y-d: -0.18rem;
     display: inline-flex;
     width: 100%;
     align-items: center;
@@ -360,8 +370,11 @@
     opacity: var(--partner-opacity);
     text-shadow: 0 0.55rem 1.6rem rgba(0, 43, 80, 0.16);
     text-wrap: nowrap;
-    animation: partnerCloudReveal 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: var(--partner-delay);
+    will-change: transform, opacity;
+    animation:
+      partnerCloudReveal 720ms cubic-bezier(0.16, 1, 0.3, 1) both,
+      partnerCloudMobileWander var(--partner-duration) ease-in-out infinite;
+    animation-delay: var(--partner-delay), var(--partner-phase);
     transition:
       color 180ms ease-out,
       opacity 180ms ease-out,
@@ -407,6 +420,84 @@
     font-weight: 700;
   }
 
+  .partner-cloud__item:nth-child(6n + 1) {
+    --partner-duration: 10.5s;
+    --partner-phase: -2.2s;
+    --partner-move-x-a: 0.95rem;
+    --partner-move-y-a: -0.58rem;
+    --partner-move-x-b: -0.65rem;
+    --partner-move-y-b: 0.42rem;
+    --partner-move-x-c: 0.48rem;
+    --partner-move-y-c: 0.7rem;
+    --partner-move-x-d: -0.28rem;
+    --partner-move-y-d: -0.46rem;
+  }
+
+  .partner-cloud__item:nth-child(6n + 2) {
+    --partner-duration: 13.8s;
+    --partner-phase: -5.1s;
+    --partner-move-x-a: -0.72rem;
+    --partner-move-y-a: 0.48rem;
+    --partner-move-x-b: 0.58rem;
+    --partner-move-y-b: 0.65rem;
+    --partner-move-x-c: -0.9rem;
+    --partner-move-y-c: -0.34rem;
+    --partner-move-x-d: 0.4rem;
+    --partner-move-y-d: -0.58rem;
+  }
+
+  .partner-cloud__item:nth-child(6n + 3) {
+    --partner-duration: 12.4s;
+    --partner-phase: -7.4s;
+    --partner-move-x-a: 0.42rem;
+    --partner-move-y-a: 0.62rem;
+    --partner-move-x-b: 0.95rem;
+    --partner-move-y-b: -0.36rem;
+    --partner-move-x-c: -0.55rem;
+    --partner-move-y-c: -0.72rem;
+    --partner-move-x-d: -0.78rem;
+    --partner-move-y-d: 0.26rem;
+  }
+
+  .partner-cloud__item:nth-child(6n + 4) {
+    --partner-duration: 15s;
+    --partner-phase: -3.7s;
+    --partner-move-x-a: -0.48rem;
+    --partner-move-y-a: -0.76rem;
+    --partner-move-x-b: 0.72rem;
+    --partner-move-y-b: 0.24rem;
+    --partner-move-x-c: 0.32rem;
+    --partner-move-y-c: 0.8rem;
+    --partner-move-x-d: -0.92rem;
+    --partner-move-y-d: -0.12rem;
+  }
+
+  .partner-cloud__item:nth-child(6n + 5) {
+    --partner-duration: 11.7s;
+    --partner-phase: -8.6s;
+    --partner-move-x-a: 0.78rem;
+    --partner-move-y-a: 0.18rem;
+    --partner-move-x-b: -0.38rem;
+    --partner-move-y-b: -0.72rem;
+    --partner-move-x-c: -0.72rem;
+    --partner-move-y-c: 0.54rem;
+    --partner-move-x-d: 0.62rem;
+    --partner-move-y-d: -0.34rem;
+  }
+
+  .partner-cloud__item:nth-child(6n + 6) {
+    --partner-duration: 14.3s;
+    --partner-phase: -6.2s;
+    --partner-move-x-a: -0.86rem;
+    --partner-move-y-a: -0.26rem;
+    --partner-move-x-b: -0.18rem;
+    --partner-move-y-b: 0.74rem;
+    --partner-move-x-c: 0.84rem;
+    --partner-move-y-c: -0.48rem;
+    --partner-move-x-d: 0.32rem;
+    --partner-move-y-d: 0.36rem;
+  }
+
   @media (min-width: 768px) {
     .partner-cloud__stage {
       display: block;
@@ -425,8 +516,8 @@
       transform: translate(-50%, -50%);
       animation:
         partnerCloudReveal 780ms cubic-bezier(0.16, 1, 0.3, 1) both,
-        partnerCloudFloat 6.5s ease-in-out infinite;
-      animation-delay: var(--partner-delay), calc(var(--partner-delay) * -1);
+        partnerCloudWander var(--partner-duration) ease-in-out infinite;
+      animation-delay: var(--partner-delay), var(--partner-phase);
     }
 
     .partner-cloud__item--sm {
@@ -471,15 +562,49 @@
   }
 }
 
-@keyframes partnerCloudFloat {
+@keyframes partnerCloudMobileWander {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(0.18rem, -0.12rem, 0);
+  }
+
+  50% {
+    transform: translate3d(-0.14rem, 0.16rem, 0);
+  }
+
+  75% {
+    transform: translate3d(0.1rem, 0.18rem, 0);
+  }
+}
+
+@keyframes partnerCloudWander {
   0%,
   100% {
     transform: translate(-50%, -50%) translate3d(0, 0, 0);
   }
 
-  50% {
+  18% {
     transform: translate(-50%, -50%)
-      translate3d(0, var(--partner-drift), 0);
+      translate3d(var(--partner-move-x-a), var(--partner-move-y-a), 0);
+  }
+
+  39% {
+    transform: translate(-50%, -50%)
+      translate3d(var(--partner-move-x-b), var(--partner-move-y-b), 0);
+  }
+
+  61% {
+    transform: translate(-50%, -50%)
+      translate3d(var(--partner-move-x-c), var(--partner-move-y-c), 0);
+  }
+
+  82% {
+    transform: translate(-50%, -50%)
+      translate3d(var(--partner-move-x-d), var(--partner-move-y-d), 0);
   }
 }
 
