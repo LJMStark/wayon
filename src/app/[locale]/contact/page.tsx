@@ -6,7 +6,7 @@ import { Link } from "@/i18n/routing";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { getCommonCopy, getContactPageCopy, formatCopy } from "@/data/siteCopy";
+import { getContactPageCopy, formatCopy } from "@/data/siteCopy";
 
 import { submitInquiry } from "@/app/actions/inquiry";
 
@@ -45,7 +45,7 @@ function useScrollReveal() {
     return () => observer.disconnect();
   }, []);
 
-  return { ref, visible };
+  return [ref, visible] as const;
 }
 
 function GrainOverlay() {
@@ -104,7 +104,6 @@ function FloatingLabelInput({
   inputKey?: string;
 }) {
   const [focused, setFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(!!defaultValue);
 
   return (
     <div className="group relative">
@@ -128,11 +127,9 @@ function FloatingLabelInput({
           placeholder={focused ? (placeholder ?? "") : ""}
           defaultValue={defaultValue}
           onFocus={() => setFocused(true)}
-          onBlur={(e) => {
+          onBlur={() => {
             setFocused(false);
-            setHasValue(e.target.value.trim().length > 0);
           }}
-          onChange={(e) => setHasValue(e.target.value.trim().length > 0)}
           className="w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 placeholder-stone-300 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
           style={{
             borderColor: focused ? "#78716c" : "#d6d3d1",
@@ -297,7 +294,6 @@ export default function ContactPage() {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const searchParams = useSearchParams();
-  const commonCopy = getCommonCopy(locale);
   const contactCopy = getContactPageCopy(locale);
   const [activeAccordion, setActiveAccordion] = useState<string>(
     contactCopy.locations[0].name
@@ -320,9 +316,8 @@ export default function ContactPage() {
   >("idle");
   const renderedAtRef = useRef<number>(0);
 
-  const heroReveal = useScrollReveal();
-  const formReveal = useScrollReveal();
-  const mapReveal = useScrollReveal();
+  const [formRevealRef, isFormRevealVisible] = useScrollReveal();
+  const [mapRevealRef, isMapRevealVisible] = useScrollReveal();
 
   useEffect(() => {
     renderedAtRef.current = Date.now();
@@ -378,13 +373,13 @@ export default function ContactPage() {
         <div className="grid gap-16 md:grid-cols-[1fr_1.4fr] md:gap-24 lg:gap-32">
 
           {/* ── LEFT: Brand + Contact Info ── */}
-          <div ref={mapReveal.ref}>
+          <div ref={mapRevealRef}>
             {/* Eyebrow tag */}
             <div
               className="mb-8 transition-all duration-1000"
               style={{
-                transform: mapReveal.visible ? "translateY(0)" : "translateY(2rem)",
-                opacity: mapReveal.visible ? 1 : 0,
+                transform: isMapRevealVisible ? "translateY(0)" : "translateY(2rem)",
+                opacity: isMapRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -397,8 +392,8 @@ export default function ContactPage() {
             <div
               className="mb-12 transition-all duration-1000 delay-100"
               style={{
-                transform: mapReveal.visible ? "translateY(0)" : "translateY(2.5rem)",
-                opacity: mapReveal.visible ? 1 : 0,
+                transform: isMapRevealVisible ? "translateY(0)" : "translateY(2.5rem)",
+                opacity: isMapRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -417,8 +412,8 @@ export default function ContactPage() {
             <div
               className="mb-12 transition-all duration-1000 delay-200"
               style={{
-                transform: mapReveal.visible ? "translateY(0)" : "translateY(2rem)",
-                opacity: mapReveal.visible ? 1 : 0,
+                transform: isMapRevealVisible ? "translateY(0)" : "translateY(2rem)",
+                opacity: isMapRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -455,8 +450,8 @@ export default function ContactPage() {
             <div
               className="mb-10 space-y-0 transition-all duration-1000 delay-300"
               style={{
-                transform: mapReveal.visible ? "translateY(0)" : "translateY(1.5rem)",
-                opacity: mapReveal.visible ? 1 : 0,
+                transform: isMapRevealVisible ? "translateY(0)" : "translateY(1.5rem)",
+                opacity: isMapRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -557,8 +552,8 @@ export default function ContactPage() {
             <div
               className="flex flex-wrap gap-2 transition-all duration-1000 delay-[400ms]"
               style={{
-                transform: mapReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                opacity: mapReveal.visible ? 1 : 0,
+                transform: isMapRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                opacity: isMapRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -583,13 +578,13 @@ export default function ContactPage() {
           </div>
 
           {/* ── RIGHT: Luxury Form ── */}
-          <div ref={formReveal.ref}>
+          <div ref={formRevealRef}>
             {/* Form section heading */}
             <div
               className="mb-12 transition-all duration-1000"
               style={{
-                transform: formReveal.visible ? "translateY(0)" : "translateY(2rem)",
-                opacity: formReveal.visible ? 1 : 0,
+                transform: isFormRevealVisible ? "translateY(0)" : "translateY(2rem)",
+                opacity: isFormRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -602,8 +597,8 @@ export default function ContactPage() {
             <div
               className="transition-all duration-1000 delay-150"
               style={{
-                transform: formReveal.visible ? "translateY(0)" : "translateY(2.5rem)",
-                opacity: formReveal.visible ? 1 : 0,
+                transform: isFormRevealVisible ? "translateY(0)" : "translateY(2.5rem)",
+                opacity: isFormRevealVisible ? 1 : 0,
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
@@ -654,8 +649,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-200"
                         style={{
-                          transform: formReveal.visible ? "translateY(0) blur(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0) blur(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -673,8 +668,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-[250ms]"
                         style={{
-                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -695,8 +690,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-[300ms]"
                         style={{
-                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -716,8 +711,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-[350ms]"
                         style={{
-                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -739,8 +734,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-[400ms]"
                         style={{
-                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -758,8 +753,8 @@ export default function ContactPage() {
                       <div
                         className="transition-all duration-700 delay-[450ms]"
                         style={{
-                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: formReveal.visible ? 1 : 0,
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
@@ -780,8 +775,8 @@ export default function ContactPage() {
                     <div
                       className="transition-all duration-700 delay-[500ms]"
                       style={{
-                        transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                        opacity: formReveal.visible ? 1 : 0,
+                        transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: isFormRevealVisible ? 1 : 0,
                         transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                       }}
                     >
@@ -829,8 +824,8 @@ export default function ContactPage() {
                     <div
                       className="transition-all duration-700 delay-[600ms]"
                       style={{
-                        transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
-                        opacity: formReveal.visible ? 1 : 0,
+                        transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: isFormRevealVisible ? 1 : 0,
                         transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                       }}
                     >

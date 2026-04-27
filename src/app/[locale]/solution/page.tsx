@@ -11,15 +11,11 @@ import {
   getCommonCopy,
   getSolutionPageCopy,
 } from "@/data/siteCopy";
-import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 const PRIMARY_TABS = [
-  "finishedProducts",
-  "applicationField",
-  "project",
+  { key: "salesCooperation", label: "销售合作" },
+  { key: "factoryCooperation", label: "工厂合作" },
 ] as const;
-
-const SECONDARY_TABS = ["catalogSeriesTexture", "catalogSeriesFamous", "catalogSeriesTravertine"] as const;
 
 const GALLERY_IMAGES = [
   { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]" },
@@ -36,8 +32,7 @@ const GALLERY_IMAGES = [
   { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]" },
 ];
 
-type PrimaryTabKey = (typeof PRIMARY_TABS)[number];
-type SecondaryTabKey = (typeof SECONDARY_TABS)[number];
+type PrimaryTabKey = (typeof PRIMARY_TABS)[number]["key"];
 type GalleryImage = {
   src: string;
   aspect: string;
@@ -51,44 +46,24 @@ function getPrimaryTabButtonClassName(isActive: boolean): string {
   return "border border-gray-200 bg-white px-8 py-2.5 text-sm tracking-wide text-gray-600 transition-colors hover:border-gray-400";
 }
 
-function getSecondaryTabButtonClassName(isActive: boolean): string {
-  if (isActive) {
-    return "font-medium uppercase opacity-100 transition-opacity hover:opacity-100";
-  }
-
-  return "uppercase opacity-60 transition-opacity hover:opacity-100";
-}
-
 function getTabFromHash(hash: string): PrimaryTabKey | null {
   if (hash === "#case") {
-    return "project";
+    return "factoryCooperation";
   }
 
   return null;
 }
 
-function getImagesForTab(
-  activeTab: PrimaryTabKey,
-  activeSubTab: SecondaryTabKey
-): GalleryImage[] {
-  if (activeTab === "finishedProducts") {
-    return GALLERY_IMAGES.slice(3).concat(GALLERY_IMAGES.slice(0, 3));
-  }
-
-
-  if (activeTab === "project") {
+function getImagesForTab(activeTab: PrimaryTabKey): GalleryImage[] {
+  if (activeTab === "factoryCooperation") {
     return [...GALLERY_IMAGES].reverse();
   }
 
-  if (activeSubTab === "catalogSeriesFamous") {
-    return GALLERY_IMAGES.slice(2, 10);
-  }
-
-  if (activeSubTab === "catalogSeriesTravertine") {
-    return GALLERY_IMAGES.slice(4, 12);
-  }
-
   return GALLERY_IMAGES;
+}
+
+function getPrimaryTabLabel(tabKey: PrimaryTabKey): string {
+  return PRIMARY_TABS.find((tab) => tab.key === tabKey)?.label ?? tabKey;
 }
 
 export default function SolutionPage(): React.JSX.Element {
@@ -96,8 +71,7 @@ export default function SolutionPage(): React.JSX.Element {
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
   const solutionCopy = getSolutionPageCopy(locale);
-  const [activeTab, setActiveTab] = useState<PrimaryTabKey>("applicationField");
-  const [activeSubTab, setActiveSubTab] = useState<SecondaryTabKey>("catalogSeriesTexture");
+  const [activeTab, setActiveTab] = useState<PrimaryTabKey>("salesCooperation");
 
   useEffect(() => {
     const handleHashChange = (): void => {
@@ -114,7 +88,7 @@ export default function SolutionPage(): React.JSX.Element {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  const masonryImages = getImagesForTab(activeTab, activeSubTab);
+  const masonryImages = getImagesForTab(activeTab);
 
   return (
     <main className="min-h-screen bg-white text-[#1a1a1a]">
@@ -134,41 +108,26 @@ export default function SolutionPage(): React.JSX.Element {
         <Link href="/solution" className="hover:text-black">
           {commonCopy.allCases}
         </Link>{" "}
-        &gt; <span className="text-black">{tNav(activeTab)}</span>
+        &gt; <span className="text-black">{getPrimaryTabLabel(activeTab)}</span>
       </div>
 
       <div className="mx-auto max-w-[1400px] px-6 pb-24">
         <div className="mb-6 flex flex-wrap justify-center gap-2 md:gap-4">
           {PRIMARY_TABS.map((tab) => (
             <button
-              key={tab}
+              key={tab.key}
               type="button"
-              onClick={() => setActiveTab(tab)}
-              className={getPrimaryTabButtonClassName(activeTab === tab)}
+              onClick={() => setActiveTab(tab.key)}
+              className={getPrimaryTabButtonClassName(activeTab === tab.key)}
             >
-              {tNav(tab)}
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "applicationField" ? (
-          <div className="mb-16 flex justify-center gap-8 text-[13px] text-[#0f2858]">
-            {SECONDARY_TABS.map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveSubTab(tab)}
-                className={getSecondaryTabButtonClassName(activeSubTab === tab)}
-              >
-                {tNav(tab)}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
         <div className="mt-8">
           <h2 className="mb-8 text-2xl font-bold text-[#1a1a1a]">
-            {tNav(activeTab)}
+            {getPrimaryTabLabel(activeTab)}
           </h2>
 
           <div className="columns-1 gap-2 md:columns-2 lg:columns-3">
