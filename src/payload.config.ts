@@ -46,6 +46,7 @@ export default buildConfig({
     Inquiries,
   ],
   editor: lexicalEditor({}),
+  graphQL: { disable: true },
   secret: payloadSecret,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
