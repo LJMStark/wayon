@@ -4,16 +4,11 @@ import { PageHero } from "@/components/layout/PageHero";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Minus, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { getCommonCopy, getContactPageCopy, formatCopy } from "@/data/siteCopy";
-import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 import { submitInquiry } from "@/app/actions/inquiry";
-
-const FORM_CONTROL_CLASS =
-  "w-full rounded-none border border-gray-300 bg-white px-4 py-3 text-sm transition-colors focus:border-[#0f2858] focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed";
 
 type ContactLocation = {
   name: string;
@@ -30,6 +25,274 @@ type ContactSocialLink = {
   href: string;
 };
 
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, visible };
+}
+
+function GrainOverlay() {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[5]"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
+        opacity: 0.028,
+        mixBlendMode: "multiply",
+      }}
+    />
+  );
+}
+
+function ExpandIcon({ expanded }: { expanded: boolean }) {
+  return (
+    <span className="relative flex h-4 w-4 items-center justify-center">
+      <span
+        className="absolute h-px w-4 bg-current transition-all duration-500"
+        style={{ transform: expanded ? "rotate(45deg)" : "rotate(0deg)" }}
+      />
+      <span
+        className="absolute h-px w-4 bg-current transition-all duration-500"
+        style={{
+          transform: expanded ? "rotate(-45deg)" : "rotate(90deg)",
+          opacity: expanded ? 1 : 1,
+        }}
+      />
+    </span>
+  );
+}
+
+function FloatingLabelInput({
+  id,
+  name,
+  type = "text",
+  label,
+  placeholder,
+  autoComplete,
+  required,
+  disabled,
+  defaultValue,
+  inputKey,
+}: {
+  id: string;
+  name: string;
+  type?: string;
+  label: string;
+  placeholder?: string;
+  autoComplete?: string;
+  required?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  inputKey?: string;
+}) {
+  const [focused, setFocused] = useState(false);
+  const [hasValue, setHasValue] = useState(!!defaultValue);
+
+  return (
+    <div className="group relative">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
+      >
+        {label}
+        {required && <span className="ml-1 text-amber-600">·</span>}
+      </label>
+
+      <div className="relative">
+        <input
+          id={id}
+          key={inputKey}
+          type={type}
+          name={name}
+          autoComplete={autoComplete}
+          required={required}
+          disabled={disabled}
+          placeholder={focused ? (placeholder ?? "") : ""}
+          defaultValue={defaultValue}
+          onFocus={() => setFocused(true)}
+          onBlur={(e) => {
+            setFocused(false);
+            setHasValue(e.target.value.trim().length > 0);
+          }}
+          onChange={(e) => setHasValue(e.target.value.trim().length > 0)}
+          className="w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 placeholder-stone-300 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
+          style={{
+            borderColor: focused ? "#78716c" : "#d6d3d1",
+            borderBottomWidth: "1px",
+          }}
+        />
+        <span
+          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
+          style={{
+            width: focused ? "100%" : "0%",
+            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FloatingLabelSelect({
+  id,
+  name,
+  label,
+  placeholder,
+  options,
+  required,
+  disabled,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  placeholder: string;
+  options: readonly string[];
+  required?: boolean;
+  disabled?: boolean;
+}) {
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <div className="group relative">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
+      >
+        {label}
+        {required && <span className="ml-1 text-amber-600">·</span>}
+      </label>
+      <div className="relative">
+        <select
+          id={id}
+          name={name}
+          required={required}
+          disabled={disabled}
+          defaultValue=""
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="w-full appearance-none border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
+          style={{
+            borderColor: focused ? "#78716c" : "#d6d3d1",
+            borderBottomWidth: "1px",
+          }}
+        >
+          <option value="" disabled className="text-stone-400">
+            {placeholder}
+          </option>
+          {options.map((opt) => (
+            <option key={opt} value={opt} className="text-stone-800">
+              {opt}
+            </option>
+          ))}
+        </select>
+
+        <svg
+          className="pointer-events-none absolute bottom-3 right-0 h-3.5 w-3.5 text-stone-400"
+          viewBox="0 0 14 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M2 5L7 10L12 5"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+
+        <span
+          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
+          style={{
+            width: focused ? "100%" : "0%",
+            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FloatingLabelTextarea({
+  id,
+  name,
+  label,
+  placeholder,
+  required,
+  disabled,
+  defaultValue,
+  inputKey,
+  rows = 5,
+}: {
+  id: string;
+  name: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  inputKey?: string;
+  rows?: number;
+}) {
+  const [focused, setFocused] = useState(false);
+
+  return (
+    <div className="group relative">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
+      >
+        {label}
+        {required && <span className="ml-1 text-amber-600">·</span>}
+      </label>
+      <div className="relative">
+        <textarea
+          id={id}
+          key={inputKey}
+          name={name}
+          rows={rows}
+          required={required}
+          disabled={disabled}
+          placeholder={focused ? (placeholder ?? "") : ""}
+          defaultValue={defaultValue}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="w-full resize-none border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 placeholder-stone-300 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
+          style={{
+            borderColor: focused ? "#78716c" : "#d6d3d1",
+            borderBottomWidth: "1px",
+          }}
+        />
+        <span
+          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
+          style={{
+            width: focused ? "100%" : "0%",
+            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function ContactPage() {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
@@ -40,12 +303,6 @@ export default function ContactPage() {
     contactCopy.locations[0].name
   );
 
-  // The Header search → products, Footer newsletter, and Product detail
-  // "request sample" buttons all funnel here with `?email` or `?product`
-  // populated. We seed the fields via `defaultValue` (uncontrolled) plus a
-  // `key` keyed on the prefill so a new URL-driven value re-mounts the
-  // input; once mounted, the browser owns the value and the user can
-  // still edit freely before submit.
   const prefilledEmail = searchParams.get("email")?.trim() ?? "";
   const prefilledProductSlug = searchParams.get("product")?.trim() ?? "";
   const prefilledMessage = useMemo(
@@ -63,6 +320,10 @@ export default function ContactPage() {
   >("idle");
   const renderedAtRef = useRef<number>(0);
 
+  const heroReveal = useScrollReveal();
+  const formReveal = useScrollReveal();
+  const mapReveal = useScrollReveal();
+
   useEffect(() => {
     renderedAtRef.current = Date.now();
   }, []);
@@ -75,7 +336,7 @@ export default function ContactPage() {
     const formData = new FormData(e.currentTarget);
     formData.set("renderedAt", String(renderedAtRef.current));
     const result = await submitInquiry(formData);
-    
+
     setIsSubmitting(false);
     if (result.success) {
       setSubmitStatus("success");
@@ -90,7 +351,12 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-[#1a1a1a]">
+    <main
+      className="min-h-[100dvh] text-stone-800"
+      style={{ backgroundColor: "#FDFBF7" }}
+    >
+      <GrainOverlay />
+
       <PageHero
         imageSrc="/assets/contact/contact-hero.jpg"
         imageAlt={contactCopy.heroTitle}
@@ -98,362 +364,570 @@ export default function ContactPage() {
         subtitle={contactCopy.heroSubtitle}
       />
 
-      <div className="mx-auto mb-16 max-w-[1400px] border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
-        <span className="text-[#666666]">◆</span> {commonCopy.breadcrumbLabel}:{" "}
-        <Link href="/" className="hover:text-black">
+      {/* Breadcrumb */}
+      <div className="mx-auto max-w-[1400px] border-b border-stone-200/60 px-6 py-4 text-[12px] uppercase tracking-[0.12em] text-stone-400">
+        <Link href="/" className="transition-colors duration-300 hover:text-stone-700">
           {tNav("home")}
-        </Link>{" "}
-        &gt; <span className="text-black">{contactCopy.breadcrumbCurrent}</span>
+        </Link>
+        <span className="mx-2 text-stone-300">—</span>
+        <span className="text-stone-600">{contactCopy.breadcrumbCurrent}</span>
       </div>
 
-      <section className="mx-auto mb-24 max-w-[1400px] px-6">
-        <div className="grid items-start gap-12 md:grid-cols-2 lg:gap-24">
-          <div className="relative w-full overflow-hidden bg-neutral-50 md:h-[600px] aspect-square md:aspect-auto">
-            <iframe
-              title={contactCopy.mapTitle}
-              src={contactCopy.mapEmbedUrl}
-              className="h-full w-full border-0"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+      {/* ── MAIN CONTENT: Editorial Split ── */}
+      <section className="mx-auto max-w-[1400px] px-6 py-24 md:py-32">
+        <div className="grid gap-16 md:grid-cols-[1fr_1.4fr] md:gap-24 lg:gap-32">
 
-          <div className="flex flex-col gap-2">
-            {contactCopy.locations.map((location: ContactLocation, index: number) => {
-              const isActive = activeAccordion === location.name;
-              const triggerId = `contact-location-${index}-trigger`;
-              const panelId = `contact-location-${index}-panel`;
+          {/* ── LEFT: Brand + Contact Info ── */}
+          <div ref={mapReveal.ref}>
+            {/* Eyebrow tag */}
+            <div
+              className="mb-8 transition-all duration-1000"
+              style={{
+                transform: mapReveal.visible ? "translateY(0)" : "translateY(2rem)",
+                opacity: mapReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              <span className="inline-flex items-center rounded-full border border-stone-300/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium text-stone-500">
+                {contactCopy.mapSubtitle}
+              </span>
+            </div>
 
-              return (
+            {/* Main heading */}
+            <div
+              className="mb-12 transition-all duration-1000 delay-100"
+              style={{
+                transform: mapReveal.visible ? "translateY(0)" : "translateY(2.5rem)",
+                opacity: mapReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              <h1
+                className="font-serif text-5xl font-light leading-[1.1] text-stone-800 md:text-6xl lg:text-7xl"
+                style={{ fontFamily: "'Plus Jakarta Sans', Georgia, serif" }}
+              >
+                {contactCopy.heroTitle}
+              </h1>
+              <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-stone-500">
+                {contactCopy.heroSubtitle}
+              </p>
+            </div>
+
+            {/* Map — Double Bezel */}
+            <div
+              className="mb-12 transition-all duration-1000 delay-200"
+              style={{
+                transform: mapReveal.visible ? "translateY(0)" : "translateY(2rem)",
+                opacity: mapReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              {/* Outer shell */}
+              <div
+                className="rounded-[1.75rem] p-1.5"
+                style={{
+                  background: "rgba(0,0,0,0.04)",
+                  boxShadow: "0 0 0 1px rgba(0,0,0,0.06)",
+                }}
+              >
+                {/* Inner core */}
                 <div
-                  key={location.name}
-                  className="overflow-hidden border border-gray-200"
+                  className="relative overflow-hidden"
+                  style={{
+                    borderRadius: "calc(1.75rem - 0.375rem)",
+                    height: "260px",
+                    boxShadow: "inset 0 1px 1px rgba(255,255,255,0.5)",
+                  }}
                 >
-                  <button
-                    id={triggerId}
-                    onClick={() => setActiveAccordion(location.name)}
-                    className={`flex w-full items-center p-0 transition-colors ${
-                      isActive
-                        ? "bg-gray-50/50"
-                        : "bg-neutral-50 hover:bg-neutral-100"
-                    }`}
-                    type="button"
-                    aria-expanded={isActive}
-                    aria-controls={panelId}
-                  >
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center ${
-                        isActive
-                          ? "bg-[#0f2858] text-white"
-                          : "bg-[#112349] text-white"
-                      }`}
-                    >
-                      {isActive ? (
-                        <Minus className="h-5 w-5" aria-hidden="true" />
-                      ) : (
-                        <Plus className="h-5 w-5" aria-hidden="true" />
-                      )}
-                    </div>
-                    <span className="ml-4 flex-1 text-left text-[15px] font-medium text-gray-700">
-                      {location.name}
-                    </span>
-                  </button>
+                  <iframe
+                    title={contactCopy.mapTitle}
+                    src={contactCopy.mapEmbedUrl}
+                    className="h-full w-full border-0"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+              </div>
+            </div>
 
-                  {isActive && location.address ? (
+            {/* Locations accordion */}
+            <div
+              className="mb-10 space-y-0 transition-all duration-1000 delay-300"
+              style={{
+                transform: mapReveal.visible ? "translateY(0)" : "translateY(1.5rem)",
+                opacity: mapReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              {contactCopy.locations.map((location: ContactLocation, index: number) => {
+                const isActive = activeAccordion === location.name;
+                const triggerId = `contact-location-${index}-trigger`;
+                const panelId = `contact-location-${index}-panel`;
+
+                return (
+                  <div
+                    key={location.name}
+                    className="border-b border-stone-200/70"
+                  >
+                    <button
+                      id={triggerId}
+                      onClick={() =>
+                        setActiveAccordion(isActive ? "" : location.name)
+                      }
+                      className="flex w-full items-center justify-between py-4 text-left transition-colors duration-300 hover:text-stone-600"
+                      type="button"
+                      aria-expanded={isActive}
+                      aria-controls={panelId}
+                    >
+                      <span className="text-[13px] uppercase tracking-[0.14em] font-medium text-stone-700">
+                        {location.name}
+                      </span>
+                      <span className="ml-4 flex-shrink-0 text-stone-400">
+                        <ExpandIcon expanded={isActive} />
+                      </span>
+                    </button>
+
                     <div
                       id={panelId}
                       role="region"
                       aria-labelledby={triggerId}
-                      className="border-t border-gray-200 bg-gray-50/50 p-6 text-sm leading-relaxed text-gray-600"
+                      className="overflow-hidden transition-all duration-700"
+                      style={{
+                        maxHeight: isActive ? "400px" : "0px",
+                        opacity: isActive ? 1 : 0,
+                        transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                      }}
                     >
-                      <div className="mb-2">
-                        <span className="text-[#666666]">
-                          {contactCopy.labels.address}:
-                        </span>{" "}
-                        {location.address}
-                      </div>
-                      {location.tel ? (
-                        <div className="mb-2">
-                          <span className="text-[#666666]">
-                            {contactCopy.labels.tel}:
-                          </span>{" "}
-                          <a
-                            href={`tel:${location.tel}`}
-                            className="text-[#0ea5e9] hover:underline"
-                          >
-                            {location.tel}
-                          </a>
-                        </div>
-                      ) : null}
-                      {location.email ? (
-                        <div className="mb-2">
-                          <span className="text-[#666666]">
-                            {contactCopy.labels.email}:
-                          </span>{" "}
-                          <a
-                            href={`mailto:${location.email}`}
-                            className="text-[#0ea5e9] hover:underline"
-                          >
-                            {location.email}
-                          </a>
-                        </div>
-                      ) : null}
-                      {location.businessHours ? (
-                        <div className="mb-2">
-                          <span className="text-[#666666]">
-                            {contactCopy.labels.businessHours}:
-                          </span>{" "}
-                          {location.businessHours}
-                        </div>
-                      ) : null}
-                      {location.fax ? (
-                        <div className="mb-2">
-                          <span className="text-[#666666]">
-                            {contactCopy.labels.fax}:
-                          </span>{" "}
-                          {location.fax}
-                        </div>
-                      ) : null}
-                      {location.postalCode ? (
-                        <div className="mb-8">
-                          <span className="text-[#666666]">
-                            {contactCopy.labels.postalCode}:
-                          </span>{" "}
-                          {location.postalCode}
-                        </div>
-                      ) : null}
-
-                      <div className="flex flex-wrap gap-2">
-                        {contactCopy.socialLinks.map((link: ContactSocialLink) => (
-                          <a
-                            key={link.label}
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex h-8 items-center rounded-full bg-gray-200 px-3 text-xs font-medium transition-colors hover:bg-gray-300"
-                          >
-                            {link.label}
-                          </a>
-                        ))}
+                      <div className="pb-5 pr-8 text-[13px] leading-relaxed text-stone-500">
+                        {location.address && (
+                          <div className="mb-2">
+                            <span className="font-medium text-stone-400 uppercase tracking-wider text-[10px]">
+                              {contactCopy.labels.address}
+                            </span>
+                            <p className="mt-0.5">{location.address}</p>
+                          </div>
+                        )}
+                        {location.tel && (
+                          <div className="mb-2">
+                            <span className="font-medium text-stone-400 uppercase tracking-wider text-[10px]">
+                              {contactCopy.labels.tel}
+                            </span>
+                            <p className="mt-0.5">
+                              <a
+                                href={`tel:${location.tel}`}
+                                className="text-stone-600 transition-colors hover:text-stone-800"
+                              >
+                                {location.tel}
+                              </a>
+                            </p>
+                          </div>
+                        )}
+                        {location.email && (
+                          <div className="mb-2">
+                            <span className="font-medium text-stone-400 uppercase tracking-wider text-[10px]">
+                              {contactCopy.labels.email}
+                            </span>
+                            <p className="mt-0.5">
+                              <a
+                                href={`mailto:${location.email}`}
+                                className="text-stone-600 transition-colors hover:text-stone-800"
+                              >
+                                {location.email}
+                              </a>
+                            </p>
+                          </div>
+                        )}
+                        {location.businessHours && (
+                          <div className="mb-2">
+                            <span className="font-medium text-stone-400 uppercase tracking-wider text-[10px]">
+                              {contactCopy.labels.businessHours}
+                            </span>
+                            <p className="mt-0.5">{location.businessHours}</p>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto mb-24 max-w-[1400px] px-6">
-        <h2 className="mb-12 text-3xl font-normal text-[#1a1a1a]">
-          {contactCopy.formTitle}
-        </h2>
-
-        <form onSubmit={handleSubmit} className="w-full space-y-6">
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              left: "-10000px",
-              top: "auto",
-              width: "1px",
-              height: "1px",
-              overflow: "hidden",
-            }}
-          >
-            <label>
-              Website (leave this field empty)
-              <input
-                type="text"
-                name="website"
-                tabIndex={-1}
-                autoComplete="off"
-                defaultValue=""
-              />
-            </label>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <label htmlFor="contact-name" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.name.label}:
-              </label>
-              <input
-                id="contact-name"
-                type="text"
-                name="name"
-                autoComplete="name"
-                required
-                disabled={isSubmitting}
-                placeholder={contactCopy.fields.name.placeholder}
-                className={FORM_CONTROL_CLASS}
-              />
+                  </div>
+                );
+              })}
             </div>
-            <div className="space-y-2">
-              <label htmlFor="contact-role" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.role.label}:
-              </label>
-              <select
-                id="contact-role"
-                name="role"
-                required
-                disabled={isSubmitting}
-                className={`${FORM_CONTROL_CLASS} appearance-none text-[#555555]`}
-                defaultValue=""
+
+            {/* Social links */}
+            <div
+              className="flex flex-wrap gap-2 transition-all duration-1000 delay-[400ms]"
+              style={{
+                transform: mapReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                opacity: mapReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              {contactCopy.socialLinks.map((link: ContactSocialLink) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-1.5 rounded-full border border-stone-300/60 px-4 py-1.5 text-[11px] uppercase tracking-[0.12em] font-medium text-stone-500 transition-all duration-500 hover:border-stone-500 hover:text-stone-800 active:scale-[0.97]"
+                  style={{ transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)" }}
+                >
+                  {link.label}
+                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-stone-100 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-stone-200">
+                    <svg width="7" height="7" viewBox="0 0 7 7" fill="none" aria-hidden="true">
+                      <path d="M1 6L6 1M6 1H2M6 1V5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* ── RIGHT: Luxury Form ── */}
+          <div ref={formReveal.ref}>
+            {/* Form section heading */}
+            <div
+              className="mb-12 transition-all duration-1000"
+              style={{
+                transform: formReveal.visible ? "translateY(0)" : "translateY(2rem)",
+                opacity: formReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              <span className="inline-flex items-center rounded-full border border-stone-300/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium text-stone-500">
+                {contactCopy.formTitle}
+              </span>
+            </div>
+
+            {/* Double Bezel form container */}
+            <div
+              className="transition-all duration-1000 delay-150"
+              style={{
+                transform: formReveal.visible ? "translateY(0)" : "translateY(2.5rem)",
+                opacity: formReveal.visible ? 1 : 0,
+                transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+              }}
+            >
+              {/* Outer shell */}
+              <div
+                className="rounded-[2rem] p-2"
+                style={{
+                  background: "rgba(0,0,0,0.025)",
+                  boxShadow: "0 0 0 1px rgba(0,0,0,0.05), 0 32px 80px -20px rgba(0,0,0,0.06)",
+                }}
               >
-                <option value="" disabled>
-                  {contactCopy.fields.role.placeholder}
-                </option>
-                {contactCopy.fields.role.options.map((option: string) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+                {/* Inner core */}
+                <div
+                  className="px-8 py-10 md:px-12 md:py-12"
+                  style={{
+                    borderRadius: "calc(2rem - 0.5rem)",
+                    background: "#FDFBF7",
+                    boxShadow: "inset 0 1px 1px rgba(255,255,255,0.8)",
+                  }}
+                >
+                  <form onSubmit={handleSubmit} className="space-y-10">
+                    {/* Honeypot */}
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        left: "-10000px",
+                        top: "auto",
+                        width: "1px",
+                        height: "1px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <label>
+                        Website (leave this field empty)
+                        <input
+                          type="text"
+                          name="website"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          defaultValue=""
+                        />
+                      </label>
+                    </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-             <div className="space-y-2">
-              <label htmlFor="contact-email" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.email.label}:
-              </label>
-              <input
-                id="contact-email"
-                type="email"
-                name="email"
-                autoComplete="email"
-                spellCheck={false}
-                required
-                disabled={isSubmitting}
-                placeholder={contactCopy.fields.email.placeholder}
-                defaultValue={prefilledEmail}
-                key={`email-${prefilledEmail}`}
-                className={FORM_CONTROL_CLASS}
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="contact-company" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.company.label}:
-              </label>
-              <input
-                id="contact-company"
-                type="text"
-                name="company"
-                autoComplete="organization"
-                required
-                disabled={isSubmitting}
-                placeholder={contactCopy.fields.company.placeholder}
-                className={FORM_CONTROL_CLASS}
-              />
-            </div>
-          </div>
+                    {/* Row 1: Name + Role */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div
+                        className="transition-all duration-700 delay-200"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0) blur(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelInput
+                          id="contact-name"
+                          name="name"
+                          type="text"
+                          label={contactCopy.fields.name.label}
+                          placeholder={contactCopy.fields.name.placeholder}
+                          autoComplete="name"
+                          required
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                      <div
+                        className="transition-all duration-700 delay-[250ms]"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelSelect
+                          id="contact-role"
+                          name="role"
+                          label={contactCopy.fields.role.label}
+                          placeholder={contactCopy.fields.role.placeholder}
+                          options={contactCopy.fields.role.options}
+                          required
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                    </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <label htmlFor="contact-phone" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.contact.label}:
-              </label>
-              <input
-                id="contact-phone"
-                type="tel"
-                name="contact"
-                autoComplete="tel"
-                required
-                disabled={isSubmitting}
-                placeholder={contactCopy.fields.contact.placeholder}
-                className={FORM_CONTROL_CLASS}
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="contact-country" className="block text-[15px] font-medium">
-                <span className="mr-1 text-red-500">*</span>
-                {contactCopy.fields.country.label}:
-              </label>
-              <input
-                id="contact-country"
-                type="text"
-                name="country"
-                autoComplete="country-name"
-                required
-                disabled={isSubmitting}
-                placeholder={contactCopy.fields.country.placeholder}
-                className={FORM_CONTROL_CLASS}
-              />
-            </div>
-          </div>
+                    {/* Row 2: Email + Company */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div
+                        className="transition-all duration-700 delay-[300ms]"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelInput
+                          id="contact-email"
+                          name="email"
+                          type="email"
+                          label={contactCopy.fields.email.label}
+                          placeholder={contactCopy.fields.email.placeholder}
+                          autoComplete="email"
+                          required
+                          disabled={isSubmitting}
+                          defaultValue={prefilledEmail}
+                          inputKey={`email-${prefilledEmail}`}
+                        />
+                      </div>
+                      <div
+                        className="transition-all duration-700 delay-[350ms]"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelInput
+                          id="contact-company"
+                          name="company"
+                          type="text"
+                          label={contactCopy.fields.company.label}
+                          placeholder={contactCopy.fields.company.placeholder}
+                          autoComplete="organization"
+                          required
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                    </div>
 
-          <div className="space-y-2">
-            <label htmlFor="contact-message" className="block text-[15px] font-medium">
-              <span className="mr-1 text-red-500">*</span>
-              {contactCopy.fields.message.label}:
-            </label>
-            <textarea
-              id="contact-message"
-              name="message"
-              rows={6}
-              required
-              disabled={isSubmitting}
-              placeholder={contactCopy.fields.message.placeholder}
-              defaultValue={prefilledMessage}
-              key={`message-${prefilledMessage}`}
-              className={`${FORM_CONTROL_CLASS} resize-none`}
-            />
-          </div>
+                    {/* Row 3: Contact + Country */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div
+                        className="transition-all duration-700 delay-[400ms]"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelInput
+                          id="contact-phone"
+                          name="contact"
+                          type="tel"
+                          label={contactCopy.fields.contact.label}
+                          placeholder={contactCopy.fields.contact.placeholder}
+                          autoComplete="tel"
+                          required
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                      <div
+                        className="transition-all duration-700 delay-[450ms]"
+                        style={{
+                          transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                          opacity: formReveal.visible ? 1 : 0,
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                        }}
+                      >
+                        <FloatingLabelInput
+                          id="contact-country"
+                          name="country"
+                          type="text"
+                          label={contactCopy.fields.country.label}
+                          placeholder={contactCopy.fields.country.placeholder}
+                          autoComplete="country-name"
+                          required
+                          disabled={isSubmitting}
+                        />
+                      </div>
+                    </div>
 
-          <div aria-live="polite" aria-atomic="true" className="space-y-3">
-            {submitStatus === "success" && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 text-sm">
-                {contactCopy.successMessage}
+                    {/* Message */}
+                    <div
+                      className="transition-all duration-700 delay-[500ms]"
+                      style={{
+                        transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: formReveal.visible ? 1 : 0,
+                        transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                      }}
+                    >
+                      <FloatingLabelTextarea
+                        id="contact-message"
+                        name="message"
+                        label={contactCopy.fields.message.label}
+                        placeholder={contactCopy.fields.message.placeholder}
+                        required
+                        disabled={isSubmitting}
+                        defaultValue={prefilledMessage}
+                        inputKey={`message-${prefilledMessage}`}
+                        rows={5}
+                      />
+                    </div>
+
+                    {/* Status messages */}
+                    <div aria-live="polite" aria-atomic="true">
+                      {submitStatus === "success" && (
+                        <div
+                          className="rounded-2xl border border-stone-200 bg-stone-50 px-6 py-4 text-[13px] text-stone-600"
+                          style={{
+                            animation: "fadeSlideUp 0.6s cubic-bezier(0.32, 0.72, 0, 1) forwards",
+                          }}
+                        >
+                          <span className="mr-2 text-stone-400">✓</span>
+                          {contactCopy.successMessage}
+                        </div>
+                      )}
+                      {submitStatus === "rate_limited" && (
+                        <div className="rounded-2xl border border-amber-100 bg-amber-50 px-6 py-4 text-[13px] text-amber-700">
+                          <span className="mr-2">◷</span>
+                          {contactCopy.rateLimitedMessage}
+                        </div>
+                      )}
+                      {submitStatus === "error" && (
+                        <div className="rounded-2xl border border-red-100 bg-red-50 px-6 py-4 text-[13px] text-red-600">
+                          <span className="mr-2">✕</span>
+                          {contactCopy.errorMessage}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Submit — Button-in-Button architecture */}
+                    <div
+                      className="transition-all duration-700 delay-[600ms]"
+                      style={{
+                        transform: formReveal.visible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: formReveal.visible ? 1 : 0,
+                        transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                      }}
+                    >
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="group relative flex w-full items-center justify-between overflow-hidden rounded-full px-6 py-4 text-[13px] uppercase tracking-[0.14em] font-medium text-white transition-all duration-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                        style={{
+                          background: isSubmitting
+                            ? "#78716c"
+                            : "linear-gradient(135deg, #1c1917 0%, #292524 100%)",
+                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                          boxShadow: "0 8px 40px -12px rgba(28, 25, 23, 0.35)",
+                        }}
+                      >
+                        {/* Shimmer on hover */}
+                        <span
+                          className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, #292524 0%, #44403c 100%)",
+                          }}
+                          aria-hidden="true"
+                        />
+
+                        <span className="relative z-[1]">
+                          {isSubmitting ? contactCopy.submitting : contactCopy.submit}
+                        </span>
+
+                        {/* Trailing icon — nested pill */}
+                        <span
+                          className="relative z-[1] ml-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105"
+                          style={{
+                            background: "rgba(255,255,255,0.12)",
+                            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                          }}
+                        >
+                          {isSubmitting ? (
+                            <svg
+                              className="h-3.5 w-3.5 animate-spin text-white/70"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              aria-hidden="true"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                              />
+                            </svg>
+                          ) : (
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 12 12"
+                              fill="none"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M2 10L10 2M10 2H4M10 2V8"
+                                stroke="white"
+                                strokeWidth="1.4"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          )}
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Fine print */}
+                    <p className="text-center text-[11px] leading-relaxed text-stone-400">
+                      By submitting, you agree we may contact you about your inquiry.
+                    </p>
+                  </form>
+                </div>
               </div>
-            )}
-
-            {submitStatus === "rate_limited" && (
-              <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
-                {contactCopy.rateLimitedMessage}
-              </div>
-            )}
-
-            {submitStatus === "error" && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
-                {contactCopy.errorMessage}
-              </div>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-[#0a1e3f] py-4 text-sm font-medium uppercase tracking-wide text-white transition-colors hover:bg-black disabled:bg-gray-400"
-          >
-             {isSubmitting ? contactCopy.submitting : contactCopy.submit}
-          </button>
-        </form>
-      </section>
-
-      <section className="mx-auto mb-24 max-w-[1400px] px-6">
-        <div className="flex w-full flex-col items-center justify-between bg-neutral-100 p-8 md:flex-row md:p-16">
-          <div className="mb-8 text-center md:mb-0 md:mr-8 md:text-left">
-            <h2 className="mb-4 text-4xl font-normal text-[#112349] md:text-5xl">
-              {contactCopy.sampleTitleLine1}
-            </h2>
-            <h2 className="text-4xl font-normal text-[#5a718b] md:text-5xl">
-              {contactCopy.sampleTitleLine2}
-            </h2>
-          </div>
-          <div className="relative h-[250px] w-full max-w-3xl flex-1 md:h-[300px]">
-            <div className="absolute right-0 top-0 flex h-full w-full items-center justify-center bg-[#e5e7eb] text-sm text-[#666666]">
-              {contactCopy.samplePlaceholder}
             </div>
           </div>
         </div>
       </section>
+
+      <style>{`
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(0.5rem); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </main>
   );
 }
