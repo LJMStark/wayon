@@ -12,16 +12,32 @@
 //   node scripts/backfillProductPublished.mjs              # apply
 //   node scripts/backfillProductPublished.mjs --dry-run    # report only
 
-import * as dotenv from "dotenv";
 import { getPayload } from "payload";
-
-dotenv.config({ path: ".env.local" });
 
 const dryRun = process.argv.includes("--dry-run");
 
 async function main() {
+  process.on("uncaughtException", (err) => {
+    if (err.message?.includes("Connection terminated") || err.code === "ECONNRESET") {
+      console.warn("[pool] connection dropped, next query will reconnect");
+    } else {
+      console.error("Fatal:", err);
+      process.exit(1);
+    }
+  });
+
   const config = (await import("../src/payload.config.ts")).default;
   const payload = await getPayload({ config });
+
+  if (payload.db?.pool) {
+    payload.db.pool.on("error", (err) => {
+      if (err.message?.includes("Connection terminated") || err.code === "ECONNRESET") {
+        console.warn("[pool] connection dropped, next query will reconnect");
+      } else {
+        console.error("[pool error]", err.message);
+      }
+    });
+  }
 
   const { docs: targets } = await payload.find({
     collection: "products",

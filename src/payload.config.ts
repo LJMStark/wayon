@@ -13,6 +13,7 @@ import {
   r2AccessKeyId,
   r2Bucket,
   r2Endpoint,
+  r2PublicUrl,
   r2SecretAccessKey,
 } from "./lib/server-env.ts";
 import { Categories } from "./payload/collections/Categories.ts";
@@ -52,6 +53,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: databaseUrl,
+      keepAlive: true,
+      idleTimeoutMillis: 0,
     },
     idType: "uuid",
   }),
@@ -69,7 +72,10 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        media: true,
+        media: {
+          generateFileURL: ({ filename, prefix }) =>
+            `${r2PublicUrl}/${prefix ? `${prefix}/` : ""}${filename}`,
+        },
       },
       bucket: r2Bucket,
       config: {

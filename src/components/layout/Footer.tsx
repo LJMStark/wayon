@@ -12,17 +12,7 @@ type FooterLink = {
   href: string;
 };
 
-type FooterSection = {
-  title: string;
-  links: readonly FooterLink[];
-  listClassName: string;
-};
-
 type FooterLegalKey = "privacyPolicy" | "termsOfService";
-
-type FooterLinkSectionProps = FooterSection & {
-  translateNav: (key: NavigationKey) => string;
-};
 
 const ABOUT_LINKS = [
   { label: "whoAreWe", href: "/about#who-are-we" },
@@ -31,35 +21,17 @@ const ABOUT_LINKS = [
   { label: "download", href: "/download" },
 ] as const satisfies ReadonlyArray<FooterLink>;
 
-const COLLECTION_LINKS = [
-  { label: "catalogSize", href: "/products?section=size" },
-  { label: "catalogSeries", href: "/products?section=series" },
-  { label: "catalogThickness", href: "/products?section=thickness" },
-  { label: "catalogColor", href: "/products?section=color" },
-  { label: "catalogProcess", href: "/products?section=process" },
-  { label: "catalogCustom", href: "/products?section=custom" },
+const QUICK_LINKS = [
+  { label: "home", href: "/" },
+  { label: "collection", href: "/products" },
+  { label: "solution", href: "/solution" },
+  { label: "news", href: "/news" },
+  { label: "contactUs", href: "/contact" },
 ] as const satisfies ReadonlyArray<FooterLink>;
-
-const CASE_LINKS = [
-  { label: "finishedProducts", href: "/solution" },
-  { label: "applicationField", href: "/solution" },
-  { label: "project", href: "/solution#case" },
-] as const satisfies ReadonlyArray<FooterLink>;
-
-const FOOTER_PROMO_LINKS = [
-  { href: "/contact", image: "/assets/footer/footer-link-1.png" },
-  { href: "/contact", image: "/assets/footer/footer-link-2.png" },
-] as const;
 
 const LEGAL_LINKS = [
-  {
-    label: "privacyPolicy",
-    href: "/privacy",
-  },
-  {
-    label: "termsOfService",
-    href: "/terms",
-  },
+  { label: "privacyPolicy", href: "/privacy" },
+  { label: "termsOfService", href: "/terms" },
 ] as const satisfies ReadonlyArray<{ label: FooterLegalKey; href: string }>;
 
 const SOCIAL_LINKS = [
@@ -80,27 +52,21 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
-function FooterLinkSection({
-  title,
-  links,
-  listClassName,
-  translateNav,
-}: FooterLinkSectionProps): React.JSX.Element {
+function SectionHeading({ children }: { children: React.ReactNode }): React.JSX.Element {
   return (
-    <div>
-      <h3 className="mb-4 text-[20px] font-medium text-white">{title}</h3>
-      <ul className={listClassName}>
-        {links.map((link) => (
-          <li key={translateNav(link.label)}>
-            <Link href={link.href} className="transition-colors hover:text-white">
-              {translateNav(link.label)}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="mb-5">
+      <h3 className="text-[17px] font-semibold text-white">{children}</h3>
+      <div className="mt-2 h-0.5 w-8 bg-[color:var(--accent)]" />
     </div>
   );
 }
+
+const footerBackgroundStyle = {
+  backgroundImage:
+    "linear-gradient(rgba(0, 43, 80, 0.94), rgba(0, 43, 80, 0.97)), url('/assets/backgrounds/footer-bg.png')",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+};
 
 export default function Footer(): React.JSX.Element {
   const tFooter = useTranslations("Footer");
@@ -111,126 +77,127 @@ export default function Footer(): React.JSX.Element {
   const [contactValue, setContactValue] = useState("");
   const router = useRouter();
 
-  // The newsletter/subscribe affordance does not have its own backend
-  // (no Resend Audience, no dedicated schema). Instead of silently
-  // swallowing the submission, forward the visitor to the contact
-  // page with their email prefilled so the inquiry pipeline handles
-  // the follow-up.
   const handleSubscribeSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const trimmed = contactValue.trim();
     const target = trimmed ? `/contact?email=${encodeURIComponent(trimmed)}` : "/contact";
     router.push(target);
   };
-  const footerSections: FooterSection[] = [
-    {
-      title: tFooter("aboutUs"),
-      links: ABOUT_LINKS,
-      listClassName: "space-y-2 text-[14px] font-light leading-7 text-white/70",
-    },
-    {
-      title: tFooter("collection"),
-      links: COLLECTION_LINKS,
-      listClassName:
-        "grid gap-x-8 gap-y-2 text-[14px] font-light leading-7 text-white/70 sm:grid-cols-2",
-    },
-    {
-      title: tFooter("case"),
-      links: CASE_LINKS,
-      listClassName: "space-y-2 text-[14px] font-light leading-7 text-white/70",
-    },
-  ];
-  const footerBackgroundStyle = {
-    backgroundImage:
-      "linear-gradient(rgba(0, 43, 80, 0.94), rgba(0, 43, 80, 0.97)), url('/assets/backgrounds/footer-bg.png')",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  };
 
   return (
-    <footer className="relative overflow-hidden bg-[color:var(--footer)] text-white" style={footerBackgroundStyle}>
+    <footer
+      className="relative overflow-hidden bg-[color:var(--footer)] text-white"
+      style={footerBackgroundStyle}
+    >
       <div className="wayon-container px-[15px] py-16 md:py-20">
-        <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-[1.05fr_0.9fr_1.15fr_0.8fr_1.1fr] md:gap-10">
-          <div>
-            <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("address")}</h3>
-            <div className="space-y-2 text-[14px] font-light leading-7 text-white/70">
-              {addressLines.map((line) => (
-                <p key={line}>{line}</p>
-              ))}
+        {/* Main grid */}
+        <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-[2fr_1fr_1fr_1.6fr] md:gap-10">
+
+          {/* Col 1 — Logo + Newsletter + Social */}
+          <div className="flex flex-col gap-6">
+            <Link href="/">
+              <Image
+                src="/assets/brand/logo-wayon-white.png"
+                alt="Wayon Stone"
+                width={160}
+                height={48}
+                className="object-contain object-left"
+              />
+            </Link>
+
+            <div>
+              <SectionHeading>{tFooter("getFreeSample")}</SectionHeading>
+              <form className="flex gap-2" onSubmit={handleSubscribeSubmit}>
+                <input
+                  id="footer-contact"
+                  name="email"
+                  type="email"
+                  value={contactValue}
+                  onChange={(e) => setContactValue(e.target.value)}
+                  placeholder={tFooter("emailPlaceholder")}
+                  className="min-w-0 flex-1 border border-white/20 bg-white/5 px-3 py-2.5 text-[13px] text-white placeholder:text-white/40 focus:border-[color:var(--accent)] focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 bg-[color:var(--primary)] px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-[#0a3e6f]"
+                >
+                  {tFooter("subscribe")}
+                </button>
+              </form>
+            </div>
+
+            <div>
+              <p className="mb-4 text-[13px] leading-relaxed text-white/60">
+                {tFooter("followUs")}
+              </p>
+              <div className="flex gap-3">
+                {SOCIAL_LINKS.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-colors hover:border-white/60"
+                    aria-label={link.label}
+                  >
+                    <Image
+                      src={link.icon}
+                      alt=""
+                      fill
+                      sizes="36px"
+                      className="object-contain p-2"
+                    />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
-          {footerSections.map((section) => (
-            <FooterLinkSection
-              key={section.title}
-              title={section.title}
-              links={section.links}
-              listClassName={section.listClassName}
-              translateNav={translateNav}
-            />
-          ))}
-
+          {/* Col 2 — About Us */}
           <div>
-            <h3 className="mb-4 text-[20px] font-medium text-white">{tFooter("getFreeSample")}</h3>
-            <form className="space-y-3" onSubmit={handleSubscribeSubmit}>
-              <input
-                id="footer-contact"
-                name="email"
-                type="email"
-                value={contactValue}
-                onChange={(event) => setContactValue(event.target.value)}
-                placeholder={tFooter("emailPlaceholder")}
-                className="w-full border border-white/20 bg-white/5 px-4 py-3 text-[14px] text-white placeholder:text-white/40 focus:border-[color:var(--accent)] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="w-full bg-[color:var(--primary)] px-4 py-3 text-[13px] font-medium text-white transition-colors hover:bg-[#0a3e6f]"
-              >
-                {tFooter("subscribe")}
-              </button>
-            </form>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {FOOTER_PROMO_LINKS.map((link) => (
-                <Link key={link.image} href={link.href} className="relative aspect-[230/68] overflow-hidden">
-                  <Image
-                    src={link.image}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 45vw, 230px"
-                    className="object-cover"
-                  />
-                </Link>
+            <SectionHeading>{tFooter("aboutUs")}</SectionHeading>
+            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+              {ABOUT_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="transition-colors hover:text-white">
+                    {translateNav(link.label)}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
+          </div>
 
-            <h3 className="mb-4 mt-6 text-[20px] font-medium text-white">{tFooter("followUs")}</h3>
-            <div className="flex flex-wrap gap-3">
-              {SOCIAL_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="relative flex size-10 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-colors hover:border-white/60"
-                  aria-label={link.label}
-                >
-                  <Image src={link.icon} alt="" fill sizes="40px" className="object-contain p-2.5" />
-                </a>
+          {/* Col 3 — Quick Links */}
+          <div>
+            <SectionHeading>{tFooter("quickLinks")}</SectionHeading>
+            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+              {QUICK_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="transition-colors hover:text-white">
+                    {translateNav(link.label)}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
+          </div>
+
+          {/* Col 4 — Address */}
+          <div>
+            <SectionHeading>{tFooter("address")}</SectionHeading>
+            <ul className="space-y-3 text-[14px] font-light leading-relaxed text-white/70">
+              {addressLines.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-4 py-6 text-[13px] font-light text-white/50 md:flex-row md:items-center">
+        {/* Bottom bar */}
+        <div className="flex flex-col items-start justify-between gap-4 pt-6 text-[13px] font-light text-white/50 md:flex-row md:items-center">
           <p>{tFooter("rights")}</p>
           <div className="flex flex-wrap items-center gap-4">
             {LEGAL_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="transition-colors hover:text-white"
-              >
+              <Link key={link.label} href={link.href} className="transition-colors hover:text-white">
                 {tFooter(link.label)}
               </Link>
             ))}

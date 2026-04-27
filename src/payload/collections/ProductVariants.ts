@@ -114,7 +114,6 @@ export const ProductVariants: CollectionConfig = {
     {
       name: "process",
       type: "select",
-      required: true,
       options: TRADE_PROCESSES.map((value) => ({ label: value, value })),
     },
     {

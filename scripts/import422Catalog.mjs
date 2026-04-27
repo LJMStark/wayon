@@ -50,6 +50,10 @@ function parseArgs(argv) {
       const flag = argv.find((a) => a.startsWith("--limit="));
       return flag ? parseInt(flag.slice("--limit=".length), 10) : null;
     })(),
+    skipCategories: (() => {
+      const flags = argv.filter((a) => a.startsWith("--skip-category="));
+      return flags.map((f) => f.slice("--skip-category=".length));
+    })(),
   };
 }
 
@@ -140,8 +144,21 @@ async function uploadMedia(payload, filePath, altText, dryRun) {
     return { id: "dry-run", url: "https://r2.example.com/dry-run" };
   }
 
-  const data = await readFile(filePath);
   const filename = path.basename(filePath);
+
+  // Idempotency: reuse existing media doc if filename already uploaded
+  const existing = await payload.find({
+    collection: "media",
+    where: { filename: { equals: filename } },
+    limit: 1,
+    overrideAccess: true,
+  });
+  if (existing.docs.length > 0) {
+    const doc = existing.docs[0];
+    return { id: doc.id, url: doc.url ?? "" };
+  }
+
+  const data = await readFile(filePath);
   const ext = path.extname(filename).toLowerCase();
   const mimetype = MIME_TYPES[ext] ?? "application/octet-stream";
 
@@ -169,22 +186,26 @@ async function upsertProduct(payload, slug, title, normalizedName, dryRun) {
     overrideAccess: true,
   });
 
-  const data = {
-    slug,
-    title: { zh: title, en: title },
-    normalizedName,
-    published: false,
-  };
-
   if (existing.docs.length > 0) {
     return existing.docs[0].id;
   }
 
   if (dryRun) return `dry-run-${slug}`;
 
+  // Create with zh locale first, then patch en locale separately.
+  // Passing { title: { zh, en } } without locale causes Payload to store the
+  // entire object as a JSON string in the default locale field.
   const created = await payload.create({
     collection: "products",
-    data,
+    locale: "zh",
+    data: { slug, title, normalizedName, published: false },
+    overrideAccess: true,
+  });
+  await payload.update({
+    collection: "products",
+    id: created.id,
+    locale: "en",
+    data: { title },
     overrideAccess: true,
   });
   return created.id;
@@ -335,17 +356,49 @@ async function processLeafDir(payload, leafDir, uploadCache, args, stats) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
+  // Supabase terminates idle pg connections; without a handler Node.js crashes the process.
+  // Catch both pool-level and client-level errors so the import can continue after reconnect.
+  process.on("uncaughtException", (err) => {
+    if (err.message?.includes("Connection terminated") || err.code === "ECONNRESET") {
+      console.warn("[pool] connection dropped by server, next query will reconnect");
+    } else {
+      console.error("Fatal uncaught exception:", err);
+      process.exit(1);
+    }
+  });
+
   console.log(`Mode: ${args.dryRun ? "DRY-RUN (pass --apply to write)" : "APPLY"}`);
   if (args.limit) console.log(`Limit: first ${args.limit} product directories`);
+  if (args.skipCategories.length) console.log(`Skip categories: ${args.skipCategories.join(", ")}`);
 
   const config = (await import("../src/payload.config.ts")).default;
   const payload = await getPayload({ config });
+
+  // Pool-level handler as belt-and-suspenders alongside uncaughtException above.
+  if (payload.db?.pool) {
+    payload.db.pool.on("error", (err) => {
+      if (err.message?.includes("Connection terminated") || err.code === "ECONNRESET") {
+        console.warn("[pool] connection dropped by server, next query will reconnect");
+      } else {
+        console.error("[pool error]", err.message);
+      }
+    });
+  }
 
   console.log("Scanning docs/4.22/ for product directories...");
   let leafDirs = await findLeafDirs(CATALOG_ROOT);
   leafDirs.sort();
 
   console.log(`Found ${leafDirs.length} product directories`);
+
+  if (args.skipCategories.length) {
+    leafDirs = leafDirs.filter((d) => {
+      const rel = path.relative(CATALOG_ROOT, d);
+      const topCategory = rel.split(path.sep)[0];
+      return !args.skipCategories.includes(topCategory);
+    });
+    console.log(`After skipping categories: ${leafDirs.length} directories`);
+  }
 
   if (args.limit) {
     leafDirs = leafDirs.slice(0, args.limit);
