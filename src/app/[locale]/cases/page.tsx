@@ -18,29 +18,31 @@ const PRIMARY_TABS = [
 ] as const;
 
 const GALLERY_IMAGES = [
-  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square" },
-  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]" },
-  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]" },
-  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]" },
-  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square" },
-  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]" },
-  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]" },
+  { src: "/assets/solutions-gallery/gallery-0.jpg", aspect: "aspect-[4/3]", name: "威豪PARTYK" },
+  { src: "/assets/solutions-gallery/gallery-1.jpg", aspect: "aspect-[3/4]", name: "威豪PARTYK" },
+  { src: "/assets/solutions-gallery/gallery-2.jpg", aspect: "aspect-[16/9]", name: "威豪PARTYK" },
+  { src: "/assets/solutions-gallery/gallery-3.jpg", aspect: "aspect-square", name: "威豪酒店" },
+  { src: "/assets/solutions-gallery/gallery-4.jpg", aspect: "aspect-[3/4]", name: "威豪酒店" },
+  { src: "/assets/solutions-gallery/gallery-5.jpg", aspect: "aspect-[16/9]", name: "广州粤海置地" },
+  { src: "/assets/solutions-gallery/gallery-6.jpg", aspect: "aspect-[4/5]", name: "林城山水酒店" },
+  { src: "/assets/solutions-gallery/gallery-7.jpg", aspect: "aspect-[16/9]", name: "粤海·云港城" },
+  { src: "/assets/solutions-gallery/gallery-8.jpg", aspect: "aspect-[4/3]", name: "青语花园酒店" },
+  { src: "/assets/solutions-gallery/gallery-9.jpg", aspect: "aspect-square", name: "青语花园酒店" },
+  { src: "/assets/solutions-gallery/gallery-10.jpg", aspect: "aspect-[3/4]", name: "青语花园酒店" },
+  { src: "/assets/solutions-gallery/gallery-11.jpg", aspect: "aspect-[4/5]", name: "威豪PARTYK" },
 ];
 
 const FACTORY_IMAGES = Array.from({ length: 32 }, (_, i) => ({
   src: `/assets/factory-cooperation/case-${i + 1}.jpg`,
   aspect: "aspect-[8/5]",
+  name: `工程合作案例 ${i + 1}`,
 }));
 
 type PrimaryTabKey = (typeof PRIMARY_TABS)[number]["key"];
 type GalleryImage = {
   src: string;
   aspect: string;
+  name: string;
 };
 
 function getPrimaryTabButtonClassName(isActive: boolean): string {
@@ -149,9 +151,9 @@ export default function CasesPage(): React.JSX.Element {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/10 group-hover:opacity-100">
-                    <span className="translate-y-4 transform text-3xl font-normal tracking-[0.2em] text-white transition-all duration-500 group-hover:translate-y-0">
-                      ZYL
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/20 group-hover:opacity-100">
+                    <span className="translate-y-4 transform px-4 text-center text-xl font-normal tracking-[0.1em] text-white transition-all duration-500 group-hover:translate-y-0">
+                      {image.name}
                     </span>
                   </div>
                 </div>

@@ -325,17 +325,18 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form);
     formData.set("renderedAt", String(renderedAtRef.current));
     const result = await submitInquiry(formData);
 
     setIsSubmitting(false);
     if (result.success) {
       setSubmitStatus("success");
-      e.currentTarget.reset();
+      form.reset();
       return;
     }
     if (result.error === "rate_limited") {
