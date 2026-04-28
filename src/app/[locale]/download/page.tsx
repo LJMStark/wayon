@@ -92,7 +92,7 @@ export default async function DownloadPage({
     <div className="min-h-screen wayon-stone-bg">
       <section className="bg-[#1a1a1a] -mt-[var(--header-height)] pb-20 pt-[calc(var(--header-height)+80px)]">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-          <h1 className="mb-4 text-4xl font-heading font-bold uppercase tracking-wide text-white md:text-5xl">
+          <h1 className="wayon-page-title mb-4 text-4xl font-normal uppercase tracking-wide text-white md:text-5xl">
             {downloadCopy.heroTitle}
           </h1>
           <p className="max-w-xl text-sm font-normal text-[#666666]">

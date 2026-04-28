@@ -34,7 +34,7 @@ export function PageHero({
         className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/55"
       />
       <div className="relative z-10 flex min-h-[480px] md:min-h-[560px] flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
-        <h1 className="font-heading text-[2rem] font-normal tracking-[-0.015em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-[3rem]">
+        <h1 className="wayon-page-title text-[2rem] font-normal tracking-[-0.015em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-[3rem]">
           {title}
         </h1>
         {subtitle ? (

@@ -55,7 +55,7 @@ export function NewsDetailPageView({
               {categoryLabel}
             </span>
           ) : null}
-          <h1 className="mb-4 font-heading text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
+          <h1 className="wayon-page-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
             {title}
           </h1>
           <div className="flex items-center justify-center text-sm text-[#666666]">

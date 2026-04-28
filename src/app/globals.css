@@ -613,7 +613,8 @@
   }
 }
 
-.wayon-home .wayon-title,
+.wayon-title,
+.wayon-page-title,
 .wayon-hero-title {
   font-family:
     var(--font-cormorant),
@@ -629,7 +630,7 @@
   font-variant-ligatures: common-ligatures;
 }
 
-.wayon-home .wayon-title {
+.wayon-title {
   line-height: 0.98;
 }
 
@@ -655,7 +656,8 @@
   font-weight: 600;
 }
 
-:lang(zh) .wayon-home .wayon-title,
+:lang(zh) .wayon-title,
+:lang(zh) .wayon-page-title,
 :lang(zh) .wayon-hero-title {
   font-family:
     var(--font-lxgw-marker),
