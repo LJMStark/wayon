@@ -23,7 +23,7 @@ test("products directory loads with taxonomy filter tabs", async ({ page }) => {
   // Root layout + page each render a <main>, so scope to .last() (the
   // page-owned one) rather than assume a single match.
   await expect(page.locator("main").last()).toBeVisible();
-  // The catalog nav section (规格/石材/厚度/颜色/表面工艺/定制产品) is the
+  // The catalog nav section (规格/岩板产品系列/厚度/颜色/表面工艺/定制产品) is the
   // load-bearing UI on this page — a visitor needs it to filter. The
   // tabs are rendered as next-intl <Link>s (role=link), not buttons.
   await expect(
