@@ -24,6 +24,7 @@ const detailCopy = {
   realImagesTitle: "Real Photos",
   videosTitle: "Videos",
   videoFallback: "Video is not supported.",
+  relatedProductsTitle: "Similar Products",
 };
 
 test("product detail data localizes catalog attributes and avoids Chinese fallback titles outside zh", () => {
@@ -192,4 +193,146 @@ test("product metadata description uses product copy before category template", 
     "A woven grey texture with a restrained architectural tone."
   );
   expect(description).not.toContain("Stone Surface");
+});
+
+test("product detail data recommends similar products and excludes the current product", () => {
+  const source: Product = {
+    _id: "p5",
+    slug: "quartz-a",
+    title: {
+      en: "Quartz A",
+      zh: "石英石 A",
+      es: "Quartz A",
+      ar: "Quartz A",
+    },
+    categorySlug: "quartz",
+    category: {
+      en: "Quartz",
+      zh: "石英石",
+      es: "Cuarzo",
+      ar: "كوارتز",
+    },
+    published: true,
+    sortOrder: 10,
+    seriesTypes: ["石英石"],
+    variants: [
+      {
+        code: "QA",
+        size: "1600X3200mm",
+        thickness: "12mm",
+        process: "哑光",
+        colorGroup: "白色",
+        elementImages: [],
+        spaceImages: [],
+        realImages: [],
+        videos: [],
+      },
+    ],
+  };
+  const sameCategory: Product = {
+    _id: "p6",
+    slug: "quartz-b",
+    title: {
+      en: "Quartz B",
+      zh: "石英石 B",
+      es: "Quartz B",
+      ar: "Quartz B",
+    },
+    categorySlug: "quartz",
+    category: source.category,
+    published: true,
+    sortOrder: 20,
+    coverImageUrl: "/quartz-b.jpg",
+    seriesTypes: ["石英石"],
+    variants: [
+      {
+        code: "QB",
+        size: "1600X3200mm",
+        thickness: "12mm",
+        process: "哑光",
+        elementImages: [],
+        spaceImages: [],
+        realImages: [],
+        videos: [],
+      },
+    ],
+  };
+  const sameCategoryLowerScore: Product = {
+    _id: "p7",
+    slug: "quartz-c",
+    title: {
+      en: "Quartz C",
+      zh: "石英石 C",
+      es: "Quartz C",
+      ar: "Quartz C",
+    },
+    categorySlug: "quartz",
+    category: source.category,
+    published: true,
+    sortOrder: 15,
+    variants: [
+      {
+        code: "QC",
+        size: "800X2600mm",
+        elementImages: [],
+        spaceImages: [],
+        realImages: [],
+        videos: [],
+      },
+    ],
+  };
+  const sameSeries: Product = {
+    _id: "p8",
+    slug: "same-series",
+    title: {
+      en: "Same Series",
+      zh: "同系列",
+      es: "Same Series",
+      ar: "Same Series",
+    },
+    categorySlug: "sintered-stone",
+    published: true,
+    sortOrder: 1,
+    seriesTypes: ["石英石"],
+    variants: [],
+  };
+  const unrelated: Product = {
+    _id: "p9",
+    slug: "unrelated",
+    title: {
+      en: "Unrelated",
+      zh: "无关产品",
+      es: "Unrelated",
+      ar: "Unrelated",
+    },
+    categorySlug: "marble",
+    published: true,
+    sortOrder: 1,
+    seriesTypes: ["大理石"],
+    variants: [],
+  };
+
+  const pageData = buildProductDetailPageData(
+    source,
+    "en",
+    {
+      backLabel: "Back",
+      requestSampleLabel: "Request sample",
+      detail: detailCopy,
+    },
+    [source, sameCategory, sameCategoryLowerScore, sameSeries, unrelated]
+  );
+
+  expect(pageData.labels.relatedProducts).toBe("Similar Products");
+  expect(pageData.relatedProducts.map((product) => product.slug)).toEqual([
+    "quartz-b",
+    "quartz-c",
+    "same-series",
+  ]);
+  expect(pageData.relatedProducts[0]).toMatchObject({
+    title: "Quartz B",
+    category: "Quartz",
+    coverImageUrl: "/quartz-b.jpg",
+    summaryTags: ["1600X3200mm", "12mm", "Matte"],
+  });
 });

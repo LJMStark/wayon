@@ -2,10 +2,12 @@ import {
   getProductDisplayCategory,
   getProductDisplayDescription,
   getProductDisplayTitle,
+  getProductImage,
   getProductVariants,
   type Product,
   type ProductMediaImage,
   type ProductMediaVideo,
+  type ProductVariant,
 } from "@/data/products";
 import {
   localizeColorGroup,
@@ -28,7 +30,10 @@ import type {
   ProductDetailMediaVideo,
   ProductDetailPageData,
   ProductDetailVariantData,
+  ProductRelatedProduct,
 } from "../types";
+
+const RELATED_PRODUCTS_LIMIT = 3;
 
 type ProductDetailCopy = {
   categoryFallback: string;
@@ -47,6 +52,7 @@ type ProductDetailCopy = {
   realImagesTitle: string;
   videosTitle: string;
   videoFallback: string;
+  relatedProductsTitle: string;
 };
 
 function buildMediaImage(
@@ -130,6 +136,151 @@ function buildVariantData(
   });
 }
 
+function uniqueStrings(values: Array<string | null | undefined>): string[] {
+  return [...new Set(values.filter((value): value is string => Boolean(value)))];
+}
+
+function buildSummaryTags(
+  variants: ProductVariant[],
+  locale: AppLocale
+): string[] {
+  const sizes = uniqueStrings(variants.map((variant) => variant.size));
+  const thicknesses = uniqueStrings(
+    variants.map((variant) => variant.thickness)
+  );
+  const processes = uniqueStrings(
+    variants.map((variant) =>
+      variant.process ? localizeProcess(variant.process, locale) : undefined
+    )
+  );
+
+  return [...sizes, ...thicknesses, ...processes].slice(0, 4);
+}
+
+function productCategoryKey(product: Product): string {
+  return (
+    product.categorySlug ||
+    product.category?.en?.trim() ||
+    product.category?.zh?.trim() ||
+    product.category?.es?.trim() ||
+    product.category?.ar?.trim() ||
+    ""
+  );
+}
+
+function countSharedValues(
+  leftValues: Iterable<string | null | undefined>,
+  rightValues: Iterable<string | null | undefined>
+): number {
+  const leftSet = new Set(uniqueStrings([...leftValues]));
+  const rightSet = new Set(uniqueStrings([...rightValues]));
+
+  return [...leftSet].filter((value) => rightSet.has(value)).length;
+}
+
+function countSharedVariantValues(
+  left: Product,
+  right: Product,
+  selectValue: (variant: ProductVariant) => string | undefined
+): number {
+  return countSharedValues(
+    getProductVariants(left).map(selectValue),
+    getProductVariants(right).map(selectValue)
+  );
+}
+
+function scoreRelatedProduct(source: Product, candidate: Product): number {
+  let score = 0;
+  const sourceCategory = productCategoryKey(source);
+  const candidateCategory = productCategoryKey(candidate);
+
+  if (
+    source.catalogMode === "custom" &&
+    source.customCapability &&
+    source.customCapability === candidate.customCapability
+  ) {
+    score += 12;
+  }
+
+  if (sourceCategory && sourceCategory === candidateCategory) {
+    score += 10;
+  }
+
+  score +=
+    countSharedValues(source.seriesTypes ?? [], candidate.seriesTypes ?? []) * 5;
+  score += countSharedVariantValues(
+    source,
+    candidate,
+    (variant) => variant.size
+  );
+  score += countSharedVariantValues(
+    source,
+    candidate,
+    (variant) => variant.thickness
+  );
+  score += countSharedVariantValues(
+    source,
+    candidate,
+    (variant) => variant.process
+  );
+  score += countSharedVariantValues(
+    source,
+    candidate,
+    (variant) => variant.colorGroup
+  );
+
+  return score;
+}
+
+function compareProductsByCatalogOrder(left: Product, right: Product): number {
+  const leftOrder = left.sortOrder ?? Number.MAX_SAFE_INTEGER;
+  const rightOrder = right.sortOrder ?? Number.MAX_SAFE_INTEGER;
+
+  if (leftOrder !== rightOrder) {
+    return leftOrder - rightOrder;
+  }
+
+  return left.slug.localeCompare(right.slug, "zh-Hans-CN");
+}
+
+function buildRelatedProducts(
+  product: Product,
+  relatedCandidates: Product[],
+  locale: AppLocale,
+  categoryFallback: string
+): ProductRelatedProduct[] {
+  return relatedCandidates
+    .filter((candidate) => candidate.slug !== product.slug)
+    .map((candidate) => ({
+      product: candidate,
+      score: scoreRelatedProduct(product, candidate),
+    }))
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => {
+      if (left.score !== right.score) {
+        return right.score - left.score;
+      }
+
+      return compareProductsByCatalogOrder(left.product, right.product);
+    })
+    .slice(0, RELATED_PRODUCTS_LIMIT)
+    .map(({ product: relatedProduct }) => {
+      const variants = getProductVariants(relatedProduct);
+
+      return {
+        slug: relatedProduct.slug,
+        title: getProductDisplayTitle(relatedProduct, locale),
+        category: getProductDisplayCategory(
+          relatedProduct,
+          locale,
+          categoryFallback
+        ),
+        coverImageUrl: getProductImage(relatedProduct),
+        summaryTags: buildSummaryTags(variants, locale),
+      };
+    });
+}
+
 export function buildProductDescriptionParagraphs(
   product: Product,
   locale: AppLocale,
@@ -178,7 +329,8 @@ export function buildProductDetailPageData(
     backLabel: string;
     requestSampleLabel: string;
     detail: ProductDetailCopy;
-  }
+  },
+  relatedCandidates: Product[] = []
 ): ProductDetailPageData {
   const title = getProductDisplayTitle(product, locale);
   const category = getProductDisplayCategory(
@@ -220,6 +372,12 @@ export function buildProductDetailPageData(
     ),
     defaultVariantCode,
     variants,
+    relatedProducts: buildRelatedProducts(
+      product,
+      relatedCandidates,
+      locale,
+      copy.detail.categoryFallback
+    ),
     labels: {
       variantSelector: copy.detail.variantSelectorLabel,
       productCode: copy.detail.productCodeLabel,
@@ -234,6 +392,7 @@ export function buildProductDetailPageData(
       realImages: copy.detail.realImagesTitle,
       videos: copy.detail.videosTitle,
       videoFallback: copy.detail.videoFallback,
+      relatedProducts: copy.detail.relatedProductsTitle,
     },
   };
 }

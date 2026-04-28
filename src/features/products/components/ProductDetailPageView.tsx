@@ -4,13 +4,15 @@ import { useEffect, useRef, useState, useMemo } from "react";
 
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 
-import { Link, useRouter } from "@/i18n/routing";
+import ProductCard from "@/components/products/ProductCard";
+import { Link } from "@/i18n/routing";
 
 import type {
   ProductDetailMediaImage,
   ProductDetailMediaVideo,
   ProductDetailPageData,
   ProductDetailVariantData,
+  ProductRelatedProduct,
 } from "../types";
 
 type ProductSpecification = {
@@ -181,6 +183,36 @@ function MediaVideoGrid({
   );
 }
 
+function RelatedProductsSection({
+  products,
+  title,
+}: {
+  products: ProductRelatedProduct[];
+  title: string;
+}): React.JSX.Element | null {
+  if (products.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="mt-28">
+      <SectionHeader label={title} />
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {products.map((product) => (
+          <ProductCard
+            key={product.slug}
+            title={product.title}
+            slug={product.slug}
+            image={product.coverImageUrl}
+            category={product.category}
+            summaryTags={product.summaryTags}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function buildSpecifications(
   variant: ProductDetailVariantData,
   labels: ProductDetailPageData["labels"]
@@ -225,16 +257,13 @@ export function ProductDetailPageView({
   descriptionParagraphs,
   defaultVariantCode,
   variants,
+  relatedProducts,
   labels,
 }: ProductDetailPageData): React.JSX.Element {
-  const router = useRouter();
   const [selectedVariantCode, setSelectedVariantCode] = useState<string>(
     defaultVariantCode ?? variants[0]?.code ?? ""
   );
-
-  const handleRequestSample = (): void => {
-    router.push(`/contact?product=${encodeURIComponent(productSlug)}`);
-  };
+  const requestSampleHref = `/contact?product=${encodeURIComponent(productSlug)}`;
 
   const selectedVariant = useMemo(
     () =>
@@ -421,9 +450,8 @@ export function ProductDetailPageView({
 
         {/* ─── REQUEST SAMPLE CTA — pill + nested icon circle ───────── */}
         <div className="mb-28 flex justify-center">
-          <button
-            type="button"
-            onClick={handleRequestSample}
+          <Link
+            href={requestSampleHref}
             className="group inline-flex items-center gap-3 rounded-full bg-[#002b50] px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_12px_40px_-12px_rgba(0,43,80,0.5)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:shadow-[0_16px_48px_-10px_rgba(0,43,80,0.55)]"
           >
             {requestSampleLabel}
@@ -431,7 +459,7 @@ export function ProductDetailPageView({
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
               <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden="true" />
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* ─── MEDIA GALLERIES ──────────────────────────────────────── */}
@@ -469,6 +497,11 @@ export function ProductDetailPageView({
             ) : null}
           </div>
         ) : null}
+
+        <RelatedProductsSection
+          products={relatedProducts}
+          title={labels.relatedProducts}
+        />
       </div>
     </div>
   );

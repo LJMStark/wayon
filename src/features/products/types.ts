@@ -96,6 +96,14 @@ export type ProductDetailMediaVideo = {
   mimeType?: string;
 };
 
+export type ProductRelatedProduct = {
+  slug: string;
+  title: string;
+  category: string;
+  coverImageUrl?: string;
+  summaryTags: string[];
+};
+
 export type ProductDetailVariantData = {
   code: string;
   showCode: boolean;
@@ -126,6 +134,7 @@ export type ProductDetailPageLabels = {
   realImages: string;
   videos: string;
   videoFallback: string;
+  relatedProducts: string;
 };
 
 export type ProductDetailPageData = {
@@ -138,5 +147,6 @@ export type ProductDetailPageData = {
   descriptionParagraphs: string[];
   defaultVariantCode: string | null;
   variants: ProductDetailVariantData[];
+  relatedProducts: ProductRelatedProduct[];
   labels: ProductDetailPageLabels;
 };

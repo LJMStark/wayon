@@ -1528,6 +1528,12 @@ const SITE_COPY = {
       es: "Su navegador no es compatible con este formato de video.",
       ar: "متصفحك لا يدعم هذا النوع من الفيديو.",
     },
+    relatedProductsTitle: {
+      en: "Similar Products",
+      zh: "同类产品推荐",
+      es: "Productos similares",
+      ar: "منتجات مشابهة",
+    },
   },
   metadata: {
     root: {
