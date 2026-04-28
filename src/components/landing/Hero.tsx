@@ -114,9 +114,9 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-transparent rtl:bg-gradient-to-l"
         />
 
-        <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-10 md:pb-24 lg:pb-28">
+        <div className="absolute inset-x-0 bottom-0 z-10 px-4 pb-8 sm:px-6 md:pb-24 lg:pb-28">
           <div className="wayon-container-wide">
-            <div className="max-w-[62rem] space-y-6 text-white">
+            <div className="max-w-[62rem] space-y-4 text-white sm:space-y-6">
               <h1 className="wayon-hero-title text-[clamp(1.8rem,7.2vw,3rem)] leading-[1.04] tracking-[0] text-white md:text-[clamp(3.2rem,4.85vw,4.45rem)]">
                 <span className="block md:whitespace-nowrap">{t("titleLine1")}</span>
                 {highlightedTitleLines.map((line) => (
@@ -128,7 +128,7 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
               <p className="wayon-copy max-w-3xl whitespace-pre-line text-[14px] leading-[1.7] text-white/85 md:text-[17px]">
                 {t("subtitle")}
               </p>
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-1 sm:pt-2">
                 <Link href="/products" className="wayon-cta-primary">
                   {t("exploreProducts")}
                 </Link>

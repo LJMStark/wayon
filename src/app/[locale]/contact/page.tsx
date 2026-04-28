@@ -1,11 +1,17 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 
 import { submitInquiry } from "@/app/actions/inquiry";
 import { PageHero } from "@/components/layout/PageHero";
+import {
+  getSocialIconBrandColor,
+  SocialIcon,
+} from "@/components/ui/SocialIcon";
+import { SOCIAL_LINKS } from "@/data/socialLinks";
 import { formatCopy, getContactPageCopy } from "@/data/siteCopy";
 import { Link } from "@/i18n/routing";
 
@@ -19,11 +25,6 @@ type ContactLocation = {
   businessHours?: string;
 };
 
-type ContactSocialLink = {
-  label: string;
-  href: string;
-};
-
 type ContactFormStatus = "idle" | "success" | "error" | "rate_limited";
 
 const FIELD_LABEL_CLASS =
@@ -31,6 +32,8 @@ const FIELD_LABEL_CLASS =
 const FIELD_BASE_CONTROL_CLASS =
   "w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40";
 const FIELD_FOCUS_TIMING = "cubic-bezier(0.32, 0.72, 0, 1)";
+const CONTACT_SOCIAL_LINK_CLASS =
+  "inline-flex size-10 items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--social-brand-color)] shadow-[0_10px_26px_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)] hover:shadow-[0_14px_30px_rgba(28,25,23,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] active:scale-[0.96]";
 
 function useScrollReveal(): readonly [
   React.RefObject<HTMLDivElement | null>,
@@ -580,21 +583,28 @@ export default function ContactPage(): React.JSX.Element {
                 transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
               }}
             >
-              {contactCopy.socialLinks.map((link: ContactSocialLink) => (
+              {SOCIAL_LINKS.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 rounded-full border border-stone-300/60 px-4 py-1.5 text-[11px] uppercase tracking-[0.12em] font-medium text-stone-500 transition-all duration-500 hover:border-stone-500 hover:text-stone-800 active:scale-[0.97]"
-                  style={{ transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)" }}
+                  className={CONTACT_SOCIAL_LINK_CLASS}
+                  style={
+                    {
+                      "--social-brand-color": getSocialIconBrandColor(
+                        link.platform
+                      ),
+                    } as CSSProperties
+                  }
+                  aria-label={link.label}
+                  title={link.label}
                 >
-                  {link.label}
-                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-stone-100 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-stone-200">
-                    <svg width="7" height="7" viewBox="0 0 7 7" fill="none" aria-hidden="true">
-                      <path d="M1 6L6 1M6 1H2M6 1V5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
+                  <SocialIcon
+                    platform={link.platform}
+                    className="size-5"
+                    variant="brand"
+                  />
                 </a>
               ))}
             </div>

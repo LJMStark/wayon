@@ -22,8 +22,8 @@ export function NewsDetailPageView({
 
   return (
     <article className="min-h-screen wayon-stone-bg">
-      <section className="relative -mt-[var(--header-height)] w-full min-h-[430px] md:min-h-[530px] overflow-hidden bg-neutral-900">
-        {imageUrl ? (
+      {imageUrl ? (
+        <section className="relative -mt-[var(--header-height)] w-full h-[300px] md:h-[400px] overflow-hidden bg-neutral-900">
           <Image
             src={imageUrl}
             alt={title}
@@ -32,27 +32,10 @@ export function NewsDetailPageView({
             className="object-cover"
             priority
           />
-        ) : null}
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/55"
-        />
-        <div className="relative z-10 flex min-h-[430px] md:min-h-[530px] flex-col items-center justify-center px-6 pt-[var(--header-height)] text-center text-white">
-          {categoryLabel ? (
-            <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-              <Tag className="me-1.5 h-3 w-3" aria-hidden="true" />
-              {categoryLabel}
-            </span>
-          ) : null}
-          <h1 className="mb-4 max-w-3xl font-heading text-3xl font-normal text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.45)] md:text-4xl lg:text-5xl">
-            {title}
-          </h1>
-          <div className="flex items-center text-sm text-white/70">
-            <Calendar className="me-2 h-4 w-4" aria-hidden="true" />
-            {dateLabel}
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <div className="h-[var(--header-height)] bg-primary" />
+      )}
 
       <div className="mx-auto max-w-4xl border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
         <Link
@@ -64,7 +47,23 @@ export function NewsDetailPageView({
         </Link>
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 py-16">
+      <div className="mx-auto max-w-4xl px-6 py-12 md:py-16">
+        <div className="mb-10 border-b border-gray-100 pb-8 text-center">
+          {categoryLabel ? (
+            <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+              <Tag className="me-1.5 h-3 w-3" aria-hidden="true" />
+              {categoryLabel}
+            </span>
+          ) : null}
+          <h1 className="mb-4 font-heading text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
+            {title}
+          </h1>
+          <div className="flex items-center justify-center text-sm text-[#666666]">
+            <Calendar className="me-2 h-4 w-4" aria-hidden="true" />
+            {dateLabel}
+          </div>
+        </div>
+
         {excerpt ? (
           <p className="mb-12 border-s-4 border-gold ps-6 text-lg font-normal leading-relaxed text-gray-600">
             {excerpt}

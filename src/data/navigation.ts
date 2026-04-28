@@ -142,14 +142,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "solution", href: "/solution" },
-  {
-    label: "case",
-    href: "/cases",
-    subItems: [
-      { label: "salesCooperation", href: "/cases" },
-      { label: "factoryCooperation", href: "/cases#factory" },
-    ],
-  },
+  { label: "case", href: "/cases" },
   { label: "news", href: "/news" },
   { label: "contactUs", href: "/contact" },
 ];

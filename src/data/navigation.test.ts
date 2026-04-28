@@ -18,3 +18,35 @@ test("collection process menu exposes every supported process", () => {
 
   expect(values).toEqual([...TRADE_PROCESSES]);
 });
+
+test("collection custom menu exposes customization links with contact fallbacks", () => {
+  const collection = NAV_ITEMS.find((item) => item.label === "collection");
+  const customSection = collection?.subItems?.find(
+    (item) => item.label === "catalogCustom"
+  );
+  const children = customSection?.children ?? [];
+
+  expect(children.map((child) => child.label)).toEqual([
+    "catalogCustomSize",
+    "catalogCustomThickness",
+    "catalogCustomSurfaceFinish",
+    "catalogCustomColor",
+    "catalogCustomCuttingProcessing",
+    "catalogCustomPatternDesign",
+    "catalogCustomHotBending",
+    "catalogCustomLogoBranding",
+  ]);
+
+  for (const child of children) {
+    const url = new URL(child.href, "https://example.com");
+
+    if (child.label === "catalogCustomPatternDesign") {
+      expect(url.pathname).toBe("/products");
+      expect(url.searchParams.get("section")).toBe("series");
+      expect(url.searchParams.get("value")).toBe("艺术岩板");
+      continue;
+    }
+
+    expect(url.pathname).toBe("/contact");
+  }
+});

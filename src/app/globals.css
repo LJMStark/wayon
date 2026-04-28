@@ -29,7 +29,7 @@
   --border: rgba(207, 207, 207, 0.35);
   --footer: #111111;
 
-  --header-height: 160px;
+  --header-height: 118px;
   --site-width: 1140px;
   --site-width-wide: 1400px;
   --section-gap: clamp(5rem, 7vw, 13.5rem);
@@ -42,15 +42,21 @@
   --wayon-font-cjk: var(--font-misans);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1279px) {
   :root {
-    --header-height: 170px;
+    --header-height: 104px;
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 767px) {
   :root {
-    --header-height: 130px;
+    --header-height: 88px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-height: 80px;
   }
 }
 
@@ -299,6 +305,45 @@
   :lang(zh) .wayon-cta-primary,
   :lang(zh) .wayon-cta-ghost {
     letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 480px) {
+    .wayon-title {
+      font-size: 2.55rem;
+      line-height: 1.04;
+    }
+
+    .wayon-eyebrow {
+      letter-spacing: 0.24em;
+    }
+
+    .wayon-cta-primary,
+    .wayon-cta-ghost {
+      width: 100%;
+      min-height: 3rem;
+      justify-content: center;
+      padding: 1rem 1.25rem;
+      text-align: center;
+      letter-spacing: 0.14em;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .wayon-title {
+      font-size: 2.35rem;
+    }
+
+    .wayon-copy {
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .wayon-cta-primary,
+    .wayon-cta-ghost {
+      padding-inline: 1rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+    }
   }
 
   .partner-cloud {
@@ -591,6 +636,19 @@
 .wayon-hero-title {
   text-wrap: balance;
   text-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 480px) {
+  .wayon-hero-title {
+    font-size: 2.15rem;
+    line-height: 1.03;
+  }
+}
+
+@media (max-width: 360px) {
+  .wayon-hero-title {
+    font-size: 1.58rem;
+  }
 }
 
 .wayon-hero-title strong {

@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import { useMessages, useTranslations } from "next-intl";
+import type { CSSProperties } from "react";
 import { useState } from "react";
 
 import type { NavigationKey } from "@/data/navigation";
 import { SOCIAL_LINKS } from "@/data/socialLinks";
 import { Link, useRouter } from "@/i18n/routing";
-import { SocialIcon } from "@/components/ui/SocialIcon";
+import {
+  getSocialIconBrandColor,
+  SocialIcon,
+} from "@/components/ui/SocialIcon";
 
 type FooterLink = {
   label: NavigationKey;
@@ -73,12 +77,12 @@ export default function Footer(): React.JSX.Element {
       className="relative overflow-hidden bg-[color:var(--footer)] text-white"
       style={footerBackgroundStyle}
     >
-      <div className="wayon-container px-[15px] py-16 md:py-20">
+      <div className="wayon-container px-[15px] py-12 sm:py-14 md:py-16 xl:py-20">
         {/* Main grid */}
-        <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-[2fr_1fr_1fr_1.6fr] md:gap-10">
+        <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[minmax(260px,0.9fr)_minmax(0,1.1fr)] md:items-start md:gap-12 xl:grid-cols-[minmax(300px,0.95fr)_minmax(0,2.05fr)] xl:gap-16 xl:pb-12">
 
           {/* Col 1 — Logo + Newsletter + Social */}
-          <div className="flex flex-col gap-6">
+          <div className="flex max-w-[720px] flex-col gap-6 md:max-w-none">
             <Link href="/">
               <Image
                 src="/assets/brand/logo-wayon-white.png"
@@ -90,7 +94,10 @@ export default function Footer(): React.JSX.Element {
             </Link>
 
             <div>
-              <form className="flex gap-2" onSubmit={handleSubscribeSubmit}>
+              <form
+                className="flex max-w-[720px] flex-col gap-2 min-[480px]:flex-row md:max-w-none"
+                onSubmit={handleSubscribeSubmit}
+              >
                 <input
                   id="footer-contact"
                   name="email"
@@ -122,7 +129,14 @@ export default function Footer(): React.JSX.Element {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-colors hover:border-white/60 hover:bg-white/10"
+                    className="flex size-9 items-center justify-center rounded-full border border-white/80 bg-white text-[var(--social-brand-color)] shadow-[0_10px_24px_rgba(0,0,0,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)]"
+                    style={
+                      {
+                        "--social-brand-color": getSocialIconBrandColor(
+                          link.platform
+                        ),
+                      } as CSSProperties
+                    }
                     aria-label={link.label}
                   >
                     <SocialIcon platform={link.platform} className="size-[18px]" />
@@ -132,42 +146,44 @@ export default function Footer(): React.JSX.Element {
             </div>
           </div>
 
-          {/* Col 2 — About Us */}
-          <div>
-            <SectionHeading>{tFooter("aboutUs")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
-              {ABOUT_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {translateNav(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="grid gap-9 min-[480px]:grid-cols-2 min-[480px]:gap-x-8 min-[480px]:gap-y-10 lg:grid-cols-3 xl:gap-x-12">
+            {/* Col 2 — About Us */}
+            <div>
+              <SectionHeading>{tFooter("aboutUs")}</SectionHeading>
+              <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
+                {ABOUT_LINKS.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className="transition-colors hover:text-white">
+                      {translateNav(link.label)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Col 3 — Quick Links */}
-          <div>
-            <SectionHeading>{tFooter("quickLinks")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
-              {QUICK_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="transition-colors hover:text-white">
-                    {translateNav(link.label)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Col 3 — Quick Links */}
+            <div>
+              <SectionHeading>{tFooter("quickLinks")}</SectionHeading>
+              <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
+                {QUICK_LINKS.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className="transition-colors hover:text-white">
+                      {translateNav(link.label)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Col 4 — Address */}
-          <div>
-            <SectionHeading>{tFooter("address")}</SectionHeading>
-            <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
-              {addressLines.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
+            {/* Col 4 — Address */}
+            <div className="min-[480px]:col-span-2 lg:col-span-1">
+              <SectionHeading>{tFooter("address")}</SectionHeading>
+              <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
+                {addressLines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 

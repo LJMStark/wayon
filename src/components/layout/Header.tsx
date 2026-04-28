@@ -70,14 +70,14 @@ function getDesktopNavLinkClassName(
   isTransparent: boolean
 ): string {
   if (isCurrent) {
-    return "inline-flex items-center text-[16px] font-semibold text-white transition-colors";
+    return "inline-flex items-center text-[15px] font-semibold text-white transition-colors 2xl:text-[16px]";
   }
 
   if (isTransparent) {
-    return "inline-flex items-center text-[16px] font-semibold text-white transition-colors hover:text-white";
+    return "inline-flex items-center text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
   }
 
-  return "inline-flex items-center text-[16px] font-semibold text-white transition-colors hover:text-white";
+  return "inline-flex items-center text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
 }
 
 const UNDERLINE_BASE =
@@ -195,30 +195,30 @@ export default function Header(): React.JSX.Element {
   return (
     <motion.header
       initial={false}
-      className={`fixed inset-x-0 top-0 z-50 max-w-[100dvw] overflow-x-clip border-b transition-[background-color,border-color] duration-300 ease-out ${
+      className={`fixed inset-x-0 top-0 z-50 overflow-visible border-b transition-[background-color,border-color] duration-300 ease-out ${
         isTransparent
           ? "border-transparent bg-transparent"
           : "border-transparent bg-[color:var(--primary)]"
       }`}
     >
-      <div className="mx-auto w-full max-w-[100dvw] px-4 md:px-8 xl:px-12 2xl:px-16">
-        <div className="flex h-[var(--header-height)] w-full items-center justify-between lg:justify-center gap-6 lg:gap-10 xl:gap-16">
+      <div className="mx-auto w-full max-w-[1400px] px-[clamp(16px,_4vw,_48px)]">
+        <div className="flex h-[var(--header-height)] w-full items-center justify-between gap-4 min-[1120px]:gap-5 2xl:gap-8">
           <Link
             href="/"
             className="block shrink-0"
           >
             <BrandLogo
-              className="relative h-[65px] w-[105px] md:h-[90px] md:w-[146px]"
+              className="relative h-[60px] w-[98px] sm:h-[64px] sm:w-[104px] md:h-[76px] md:w-[123px] xl:h-[82px] xl:w-[133px] 2xl:h-[90px] 2xl:w-[146px]"
               imageClassName={`object-contain transition-[filter] duration-300 ease-out ${
                 isTransparent ? "" : ""
               }`}
               locale={locale}
               preload
-              sizes="(max-width: 768px) 82px, 98px"
+              sizes="(max-width: 640px) 98px, (max-width: 768px) 104px, (max-width: 1280px) 123px, (max-width: 1536px) 133px, 146px"
             />
           </Link>
 
-          <nav className="hidden items-center lg:flex whitespace-nowrap">
+          <nav className="hidden min-w-0 flex-1 items-center justify-center whitespace-nowrap min-[1120px]:flex">
             <ul className="flex items-center flex-nowrap">
               {NAV_ITEMS.map((item) => {
                 const isOpen = activeMenu === item.label;
@@ -227,7 +227,7 @@ export default function Header(): React.JSX.Element {
                 return (
                   <li
                     key={translateNav(item.label)}
-                    className="group relative flex h-[var(--header-height)] items-center px-3 xl:px-5"
+                    className="group relative flex h-[var(--header-height)] items-center px-2 min-[1200px]:px-3 2xl:px-5"
                     onMouseEnter={() => {
                       setActiveMenu(item.label);
                       if (item.mega && item.subItems?.length) {
@@ -351,7 +351,7 @@ export default function Header(): React.JSX.Element {
             </ul>
           </nav>
 
-          <div className="hidden h-[40px] items-center gap-5 lg:flex xl:gap-8">
+          <div className="hidden h-[40px] shrink-0 items-center gap-4 min-[1120px]:flex 2xl:gap-8">
             <div className="relative">
               <button
                 type="button"
@@ -457,7 +457,7 @@ export default function Header(): React.JSX.Element {
 
           <button
             type="button"
-            className={`relative z-10 inline-flex size-10 items-center justify-center border transition-colors lg:hidden ${
+            className={`relative z-10 inline-flex size-12 items-center justify-center border transition-colors min-[1120px]:hidden ${
               isTransparent
                 ? "border-white/45 bg-white/10 text-white backdrop-blur-[2px]"
                 : "border-white/20 bg-white/10 text-white backdrop-blur-[2px]"
@@ -480,7 +480,7 @@ export default function Header(): React.JSX.Element {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+              className="fixed inset-0 z-40 bg-black/40 min-[1120px]:hidden"
               onClick={closeMobileMenu}
               aria-label={headerCopy.closeNavigationOverlay}
             />
@@ -494,15 +494,21 @@ export default function Header(): React.JSX.Element {
               animate={{ x: 0 }}
               exit={{ x: mobilePanelClosedX }}
               transition={{ duration: 0.25, ease: [0.28, 0.2, 0, 1] }}
-              className="fixed inset-y-0 end-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white lg:hidden"
+              className="fixed inset-y-0 end-0 z-50 h-full w-full max-w-[420px] overflow-y-auto bg-[#272727] p-5 text-white min-[1120px]:hidden"
             >
               <div className="mb-6 flex items-center justify-between">
-                <BrandLogo
-                  className="relative h-[55px] w-[82px]"
-                  imageClassName="object-contain"
-                  locale={locale}
-                  sizes="82px"
-                />
+                <Link
+                  href="/"
+                  className="block shrink-0"
+                  onClick={closeMobileMenu}
+                >
+                  <BrandLogo
+                    className="relative h-[55px] w-[82px]"
+                    imageClassName="object-contain"
+                    locale={locale}
+                    sizes="82px"
+                  />
+                </Link>
                 <button
                   type="button"
                   onClick={closeMobileMenu}

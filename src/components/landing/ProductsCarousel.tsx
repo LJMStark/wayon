@@ -57,7 +57,7 @@ export function ProductsCarousel({
         </header>
 
         {/* Desktop Expandable Accordion Gallery */}
-        <div className="hidden h-[65vh] min-h-[500px] max-h-[700px] w-full gap-2 px-4 md:flex lg:gap-4 lg:px-8">
+        <div className="hidden h-[65vh] min-h-[500px] max-h-[700px] w-full gap-2 px-4 xl:flex xl:gap-4 xl:px-8">
           {items.map((product, index) => {
             const isActive = activeIndex === index;
 
@@ -148,7 +148,7 @@ export function ProductsCarousel({
         </div>
 
         {/* Mobile Carousel (Enhanced Full-width Snap) */}
-        <div className="relative md:hidden">
+        <div className="relative xl:hidden">
           <div
             ref={scrollerRef}
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-8 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -203,7 +203,7 @@ export function ProductsCarousel({
         </div>
 
         {/* View All Products Link (Desktop) */}
-        <div className="mt-12 hidden justify-center md:flex">
+        <div className="mt-12 hidden justify-center xl:flex">
           <Link href="/products" className="wayon-button-link text-[15px]">
             {copy.detailLabel}
           </Link>
