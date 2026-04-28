@@ -53,6 +53,7 @@ npm test                     # 运行 Vitest 单测
 npm run test:watch           # Vitest 监听模式
 npm run test:e2e             # Playwright E2E（需先 npm run dev）
 npm run import:trade-catalog # 导入 trade 目录数据到 Sanity
+npm run generate:product-copy # 生成产品级四语文案草稿（默认 dry-run）
 ```
 
 ## 项目结构

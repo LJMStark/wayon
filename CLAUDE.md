@@ -205,6 +205,10 @@ INQUIRY_NOTIFY_TO=sales@company.com         # comma-separated for multiple recip
 # Public deployment origin — used by sitemap.xml, robots.txt, Open Graph
 # Optional: src/lib/env.ts falls back to the production domain
 NEXT_PUBLIC_SITE_URL=https://zylsinteredstone.com
+
+# AI product copy generation — used only by npm run generate:product-copy
+OPENAI_API_KEY=sk-...
+OPENAI_PRODUCT_COPY_MODEL=gpt-5.4-mini
 ```
 
 Sanity is **no longer used** — any reference to `SANITY_*` env vars, `@sanity/*` imports, or `src/sanity/` paths in older docs/scripts is historical. The previous Sanity → Payload migration is complete; do not reintroduce Sanity.

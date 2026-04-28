@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "import:trade-catalog": "node --env-file=.env.local scripts/importTradeCatalog.mjs",
     "import:422-catalog": "node --env-file=.env.local scripts/import422Catalog.mjs",
+    "generate:product-copy": "node --env-file=.env.local scripts/generateProductCopy.mjs",
     "migrate:existing-media": "node --env-file=.env.local scripts/migrateExistingMediaToR2.mjs",
     "payload": "payload",
     "generate:types": "payload generate:types",
