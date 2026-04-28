@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Cairo, Montserrat } from "next/font/google";
+import {
+  Cairo,
+  Cormorant_Garamond,
+  LXGW_Marker_Gothic,
+  Montserrat,
+} from "next/font/google";
 import localFont from "next/font/local";
 import "../globals.css";
 import Header from "@/components/layout/Header";
@@ -30,6 +35,20 @@ const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "700"],
   display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const lxgwMarker = LXGW_Marker_Gothic({
+  variable: "--font-lxgw-marker",
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const miSans = localFont({
@@ -76,7 +95,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${montserrat.variable} ${miSans.variable} ${cairo.variable} h-full`}
+      className={`${montserrat.variable} ${cormorant.variable} ${lxgwMarker.variable} ${miSans.variable} ${cairo.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

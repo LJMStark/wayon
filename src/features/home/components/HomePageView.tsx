@@ -22,7 +22,7 @@ export function HomePageView({
   newsSection,
 }: HomePageData): React.JSX.Element {
   return (
-    <>
+    <div className="wayon-home">
       <Hero slides={hero.slides} slideLabel={hero.slideLabel} />
 
       {/* Stats band — count-up animation, triggers on scroll into view */}
@@ -43,6 +43,8 @@ export function HomePageView({
         items={productsCarousel.items}
         copy={productsCarousel.copy}
       />
+      <AboutIntro data={aboutIntro} />
+      <AboutAlbum items={aboutAlbum.items} copy={aboutAlbum.copy} />
       <SolutionTabs
         title={solutionTabs.title}
         description={solutionTabs.description}
@@ -54,8 +56,6 @@ export function HomePageView({
         subtitle={engineeringCase.subtitle}
         items={engineeringCase.items}
       />
-      <AboutIntro data={aboutIntro} />
-      <AboutAlbum items={aboutAlbum.items} copy={aboutAlbum.copy} />
       <PartnerCarousel
         title={partnerCarousel.title}
         description={partnerCarousel.description}
@@ -67,6 +67,6 @@ export function HomePageView({
         feature={newsSection.feature}
         items={newsSection.items}
       />
-    </>
+    </div>
   );
 }

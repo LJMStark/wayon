@@ -568,6 +568,52 @@
   }
 }
 
+.wayon-home .wayon-title,
+.wayon-hero-title {
+  font-family:
+    var(--font-cormorant),
+    var(--font-lxgw-marker),
+    var(--font-cairo),
+    "Songti SC",
+    "Noto Serif CJK SC",
+    "Source Han Serif SC",
+    STSong,
+    SimSun,
+    serif;
+  font-weight: 400;
+  font-variant-ligatures: common-ligatures;
+}
+
+.wayon-home .wayon-title {
+  line-height: 0.98;
+}
+
+.wayon-hero-title {
+  text-wrap: balance;
+  text-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.wayon-hero-title strong {
+  font-weight: 600;
+}
+
+:lang(zh) .wayon-home .wayon-title,
+:lang(zh) .wayon-hero-title {
+  font-family:
+    var(--font-lxgw-marker),
+    "Songti SC",
+    "Noto Serif CJK SC",
+    "Source Han Serif SC",
+    STSong,
+    SimSun,
+    serif;
+  font-weight: 400;
+}
+
+:lang(zh) .wayon-hero-title strong {
+  font-weight: 400;
+}
+
 @keyframes partnerCloudScan {
   0%,
   18% {
