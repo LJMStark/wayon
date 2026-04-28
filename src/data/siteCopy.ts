@@ -785,23 +785,99 @@ const SITE_COPY = {
       },
       role: {
         label: {
-          en: "You are",
-          zh: "您的身份",
-          es: "Usted es",
-          ar: "أنت",
+          en: "Customer Type",
+          zh: "客户身份",
+          es: "Tipo de cliente",
+          ar: "نوع العميل",
         },
         placeholder: {
-          en: "Select your role *",
-          zh: "请选择您的身份 *",
-          es: "Seleccione su rol *",
-          ar: "اختر دورك *",
+          en: "Select your customer type *",
+          zh: "请选择客户身份 *",
+          es: "Seleccione su tipo de cliente *",
+          ar: "اختر نوع العميل *",
         },
-        options: {
-          en: ["Builder", "Designer", "Homeowner"],
-          zh: ["工程承包商", "设计师", "业主"],
-          es: ["Constructor", "Diseñador", "Propietario"],
-          ar: ["مقاول", "مصمم", "مالك منزل"],
-        },
+        options: [
+          {
+            title: {
+              en: "Large Project Buyers",
+              zh: "大型项目采购商",
+              es: "Compradores de grandes proyectos",
+              ar: "مشترو المشاريع الكبيرة",
+            },
+            detail: {
+              en: "(Real estate developers / International construction companies / Hotel project contractors)",
+              zh: "（地产开发商 / 国际建筑公司 / 酒店工程方）",
+              es: "(Promotoras inmobiliarias / Constructoras internacionales / Contratistas hoteleros)",
+              ar: "(مطورو العقارات / شركات البناء الدولية / جهات مشاريع الفنادق)",
+            },
+            value: {
+              en: "Large Project Buyers (Real estate developers / International construction companies / Hotel project contractors)",
+              zh: "大型项目采购商（地产开发商 / 国际建筑公司 / 酒店工程方）",
+              es: "Compradores de grandes proyectos (Promotoras inmobiliarias / Constructoras internacionales / Contratistas hoteleros)",
+              ar: "مشترو المشاريع الكبيرة (مطورو العقارات / شركات البناء الدولية / جهات مشاريع الفنادق)",
+            },
+          },
+          {
+            title: {
+              en: "Channel Importers / Wholesalers",
+              zh: "渠道进口商 / 批发商",
+              es: "Importadores de canal / Mayoristas",
+              ar: "مستوردو القنوات / تجار الجملة",
+            },
+            detail: {
+              en: "(Building materials traders / Sintered stone brand distributors / Regional agents)",
+              zh: "（建材贸易商 / 岩板品牌经销商 / 区域代理商）",
+              es: "(Comerciantes de materiales / Distribuidores de marcas de piedra sinterizada / Agentes regionales)",
+              ar: "(تجار مواد البناء / موزعو علامات الحجر الملبد / الوكلاء الإقليميون)",
+            },
+            value: {
+              en: "Channel Importers / Wholesalers (Building materials traders / Sintered stone brand distributors / Regional agents)",
+              zh: "渠道进口商 / 批发商（建材贸易商 / 岩板品牌经销商 / 区域代理商）",
+              es: "Importadores de canal / Mayoristas (Comerciantes de materiales / Distribuidores de marcas de piedra sinterizada / Agentes regionales)",
+              ar: "مستوردو القنوات / تجار الجملة (تجار مواد البناء / موزعو علامات الحجر الملبد / الوكلاء الإقليميون)",
+            },
+          },
+          {
+            title: {
+              en: "Professional Designers & Fabricators",
+              zh: "专业设计与加工方",
+              es: "Diseñadores y procesadores profesionales",
+              ar: "مصممون ومصنعون متخصصون",
+            },
+            detail: {
+              en: "(Interior designers / Stone fabricators / Custom renovation service providers)",
+              zh: "（室内设计师 / 石材加工厂 / 定制装修服务商）",
+              es: "(Interioristas / Talleres de piedra / Servicios de reforma a medida)",
+              ar: "(مصممو الديكور الداخلي / مصانع معالجة الحجر / مزودو خدمات التشطيب المخصص)",
+            },
+            value: {
+              en: "Professional Designers & Fabricators (Interior designers / Stone fabricators / Custom renovation service providers)",
+              zh: "专业设计与加工方（室内设计师 / 石材加工厂 / 定制装修服务商）",
+              es: "Diseñadores y procesadores profesionales (Interioristas / Talleres de piedra / Servicios de reforma a medida)",
+              ar: "مصممون ومصنعون متخصصون (مصممو الديكور الداخلي / مصانع معالجة الحجر / مزودو خدمات التشطيب المخصص)",
+            },
+          },
+          {
+            title: {
+              en: "Other Customer Types",
+              zh: "其他类型客户",
+              es: "Otros tipos de cliente",
+              ar: "أنواع أخرى من العملاء",
+            },
+            detail: {
+              en: "(Please describe your business scenario)",
+              zh: "（请补充说明您的业务场景）",
+              es: "(Describa su escenario comercial)",
+              ar: "(يرجى توضيح سياق عملك)",
+            },
+            value: {
+              en: "Other Customer Types (Please describe your business scenario)",
+              zh: "其他类型客户（请补充说明您的业务场景）",
+              es: "Otros tipos de cliente (Describa su escenario comercial)",
+              ar: "أنواع أخرى من العملاء (يرجى توضيح سياق عملك)",
+            },
+          },
+        ],
       },
       email: {
         label: {

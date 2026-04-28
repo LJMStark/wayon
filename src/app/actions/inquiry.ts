@@ -12,7 +12,7 @@ import {
 
 const inquirySchema = z.object({
   name: z.string().trim().min(1).max(100),
-  role: z.string().trim().min(1).max(100),
+  role: z.string().trim().min(1).max(240),
   email: z.string().trim().email().max(200),
   company: z.string().trim().min(1).max(200),
   contact: z.string().trim().min(1).max(200),

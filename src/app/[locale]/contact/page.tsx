@@ -184,17 +184,23 @@ function FloatingLabelInput({
   );
 }
 
-type FloatingLabelSelectProps = {
+type ContactRoleOption = {
+  title: string;
+  detail: string;
+  value: string;
+};
+
+type FloatingOptionGroupProps = {
   id: string;
   name: string;
   label: string;
   placeholder: string;
-  options: readonly string[];
+  options: readonly ContactRoleOption[];
   required?: boolean;
   disabled?: boolean;
 };
 
-function FloatingLabelSelect({
+function FloatingOptionGroup({
   id,
   name,
   label,
@@ -202,52 +208,57 @@ function FloatingLabelSelect({
   options,
   required,
   disabled,
-}: FloatingLabelSelectProps): React.JSX.Element {
-  const [focused, setFocused] = useState(false);
+}: FloatingOptionGroupProps): React.JSX.Element {
+  const hintId = `${id}-hint`;
 
   return (
-    <FloatingFieldFrame
-      id={id}
-      label={label}
-      required={required}
-      focused={focused}
-    >
-      <select
-        id={id}
-        name={name}
-        required={required}
-        disabled={disabled}
-        defaultValue=""
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className={`${FIELD_BASE_CONTROL_CLASS} appearance-none`}
-        style={getFieldControlStyle(focused)}
-      >
-        <option value="" disabled className="text-stone-400">
-          {placeholder}
-        </option>
-        {options.map((opt) => (
-          <option key={opt} value={opt} className="text-stone-800">
-            {opt}
-          </option>
-        ))}
-      </select>
+    <fieldset className="group" disabled={disabled}>
+      <legend className={FIELD_LABEL_CLASS}>
+        {label}
+        {required ? <span className="ml-1 text-amber-600">·</span> : null}
+      </legend>
+      <p id={hintId} className="mb-3 text-[12px] leading-relaxed text-stone-400">
+        {placeholder}
+      </p>
+      <div className="grid gap-3 lg:grid-cols-2">
+        {options.map((option, index) => {
+          const optionId = `${id}-${index}`;
 
-      <svg
-        className="pointer-events-none absolute bottom-3 right-0 h-3.5 w-3.5 text-stone-400"
-        viewBox="0 0 14 14"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M2 5L7 10L12 5"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </FloatingFieldFrame>
+          return (
+            <label
+              key={option.value}
+              htmlFor={optionId}
+              className={`relative block ${
+                disabled ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
+            >
+              <input
+                id={optionId}
+                type="radio"
+                name={name}
+                value={option.value}
+                required={required}
+                disabled={disabled}
+                aria-describedby={hintId}
+                className="peer sr-only"
+              />
+              <span className="block min-h-[6.75rem] rounded-lg border border-stone-200 bg-white/45 px-4 py-3.5 text-start transition-all duration-300 break-words peer-checked:border-stone-700 peer-checked:bg-stone-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-stone-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
+                <span className="block pr-7 text-[14px] font-medium leading-snug text-stone-800 rtl:pl-7 rtl:pr-0">
+                  {option.title}
+                </span>
+                <span className="mt-1.5 block text-[12px] leading-relaxed text-stone-500">
+                  {option.detail}
+                </span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute right-4 top-4 h-3.5 w-3.5 rounded-full border border-stone-300 transition-all duration-300 peer-checked:border-stone-800 peer-checked:bg-stone-800 rtl:left-4 rtl:right-auto"
+              />
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
   );
 }
 
@@ -649,7 +660,7 @@ export default function ContactPage(): React.JSX.Element {
                       </label>
                     </div>
 
-                    {/* Row 1: Name + Role */}
+                    {/* Row 1: Name + Email */}
                     <div className="grid gap-8 sm:grid-cols-2">
                       <div
                         className="transition-all duration-700 delay-200"
@@ -678,28 +689,6 @@ export default function ContactPage(): React.JSX.Element {
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
                       >
-                        <FloatingLabelSelect
-                          id="contact-role"
-                          name="role"
-                          label={contactCopy.fields.role.label}
-                          placeholder={contactCopy.fields.role.placeholder}
-                          options={contactCopy.fields.role.options}
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Row 2: Email + Company */}
-                    <div className="grid gap-8 sm:grid-cols-2">
-                      <div
-                        className="transition-all duration-700 delay-[300ms]"
-                        style={{
-                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: isFormRevealVisible ? 1 : 0,
-                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
-                        }}
-                      >
                         <FloatingLabelInput
                           id="contact-email"
                           name="email"
@@ -713,6 +702,30 @@ export default function ContactPage(): React.JSX.Element {
                           inputKey={`email-${prefilledEmail}`}
                         />
                       </div>
+                    </div>
+
+                    {/* Customer identity */}
+                    <div
+                      className="transition-all duration-700 delay-[300ms]"
+                      style={{
+                        transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: isFormRevealVisible ? 1 : 0,
+                        transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                      }}
+                    >
+                      <FloatingOptionGroup
+                        id="contact-role"
+                        name="role"
+                        label={contactCopy.fields.role.label}
+                        placeholder={contactCopy.fields.role.placeholder}
+                        options={contactCopy.fields.role.options}
+                        required
+                        disabled={isSubmitting}
+                      />
+                    </div>
+
+                    {/* Row 2: Company + Country */}
+                    <div className="grid gap-8 sm:grid-cols-2">
                       <div
                         className="transition-all duration-700 delay-[350ms]"
                         style={{
@@ -732,31 +745,8 @@ export default function ContactPage(): React.JSX.Element {
                           disabled={isSubmitting}
                         />
                       </div>
-                    </div>
-
-                    {/* Row 3: Contact + Country */}
-                    <div className="grid gap-8 sm:grid-cols-2">
                       <div
                         className="transition-all duration-700 delay-[400ms]"
-                        style={{
-                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
-                          opacity: isFormRevealVisible ? 1 : 0,
-                          transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
-                        }}
-                      >
-                        <FloatingLabelInput
-                          id="contact-phone"
-                          name="contact"
-                          type="tel"
-                          label={contactCopy.fields.contact.label}
-                          placeholder={contactCopy.fields.contact.placeholder}
-                          autoComplete="tel"
-                          required
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                      <div
-                        className="transition-all duration-700 delay-[450ms]"
                         style={{
                           transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                           opacity: isFormRevealVisible ? 1 : 0,
@@ -774,6 +764,27 @@ export default function ContactPage(): React.JSX.Element {
                           disabled={isSubmitting}
                         />
                       </div>
+                    </div>
+
+                    {/* Contact */}
+                    <div
+                      className="transition-all duration-700 delay-[450ms]"
+                      style={{
+                        transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
+                        opacity: isFormRevealVisible ? 1 : 0,
+                        transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
+                      }}
+                    >
+                      <FloatingLabelInput
+                        id="contact-phone"
+                        name="contact"
+                        type="tel"
+                        label={contactCopy.fields.contact.label}
+                        placeholder={contactCopy.fields.contact.placeholder}
+                        autoComplete="tel"
+                        required
+                        disabled={isSubmitting}
+                      />
                     </div>
 
                     {/* Message */}
