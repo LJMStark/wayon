@@ -1364,7 +1364,7 @@ const SITE_COPY = {
     },
     collectionLabel: {
       en: "Collection Overview",
-      zh: "系列总览",
+      zh: "",
       es: "Resumen de colecciones",
       ar: "نظرة عامة على المجموعات",
     },

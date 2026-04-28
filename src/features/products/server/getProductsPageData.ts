@@ -137,7 +137,7 @@ export async function getProductsPageData(
   const products = buildDirectoryItems(
     rawProducts,
     locale,
-    productsCopy.collectionLabel
+    productsCopy.collectionLabel || productsCopy.heroTitle
   );
   const customCapabilities = buildCustomCapabilitySummaries(
     rawCustomCapabilities,

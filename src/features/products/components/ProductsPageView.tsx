@@ -35,6 +35,7 @@ export function ProductsPageView({
   taxonomyCards,
   products,
 }: ProductsPageData): React.JSX.Element {
+  const hasCollectionLabel = collectionLabel.trim().length > 0;
   const activeSectionLabel =
     navSections.find((section) => section.key === activeSection)?.label ??
     collectionLabel;
@@ -57,9 +58,11 @@ export function ProductsPageView({
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.82)_0%,rgba(0,0,0,0.56)_48%,rgba(0,0,0,0.18)_100%)] rtl:bg-[linear-gradient(270deg,rgba(0,0,0,0.82)_0%,rgba(0,0,0,0.56)_48%,rgba(0,0,0,0.18)_100%)]"
         />
         <div className="wayon-container-wide relative flex min-h-[340px] flex-col justify-center pb-20 pt-[calc(var(--header-height)+5rem)] md:pb-24 md:pt-[calc(var(--header-height)+6rem)]">
-          <span className="wayon-eyebrow mb-5 text-[#d7b06a]">
-            {collectionLabel}
-          </span>
+          {hasCollectionLabel ? (
+            <span className="wayon-eyebrow mb-5 text-[#d7b06a]">
+              {collectionLabel}
+            </span>
+          ) : null}
           <h1 className="wayon-title max-w-4xl break-words text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.5)]">
             {heroTitle}
           </h1>
@@ -74,13 +77,21 @@ export function ProductsPageView({
         <Link href="/" className="transition-colors hover:text-[color:var(--primary)]">
           {homeLabel}
         </Link>
-        <span aria-hidden className="mx-2 opacity-40">/</span>
-        <span className="text-[color:var(--foreground)]">{collectionLabel}</span>
+        {hasCollectionLabel ? (
+          <>
+            <span aria-hidden className="mx-2 opacity-40">/</span>
+            <span className="text-[color:var(--foreground)]">
+              {collectionLabel}
+            </span>
+          </>
+        ) : null}
       </div>
 
       <section className="wayon-container-wide pb-10">
         <div className="max-w-3xl space-y-4">
-          <span className="wayon-eyebrow">{collectionLabel}</span>
+          {hasCollectionLabel ? (
+            <span className="wayon-eyebrow">{collectionLabel}</span>
+          ) : null}
           <h2 className="font-heading text-[2rem] font-medium tracking-[-0.015em] text-[#242424] md:text-[2.4rem]">
             {directoryTitle}
           </h2>
