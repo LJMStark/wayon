@@ -125,9 +125,9 @@ export default function AboutPage(): React.JSX.Element {
               className="object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center bg-[#6b6c6e] p-16 text-white">
-            <h2 className="mb-6 text-3xl font-normal">{aboutCopy.whyTitle}</h2>
-            <p className="mb-10 w-[80%] text-[15px] leading-relaxed text-gray-200">
+          <div className="flex flex-col justify-center bg-[#122245] p-16 text-white">
+            <h2 className="mb-6 text-3xl font-bold text-white">{aboutCopy.whyTitle}</h2>
+            <p className="mb-10 w-[80%] text-[15px] leading-relaxed text-white/85">
               {aboutCopy.whyDescription}
             </p>
             <Link
