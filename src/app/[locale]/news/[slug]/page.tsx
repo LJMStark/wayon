@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { NewsDetailPageView } from "@/features/news/components/NewsDetailPageView";
 import { getNewsDetailPageData } from "@/features/news/server/getNewsDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
-import { buildPageMetadata } from "@/lib/metadata";
+import { articleJsonLd } from "@/lib/jsonLd";
+import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
 
 // Published articles rarely change; hourly refresh is plenty.
 export const revalidate = 3600;
@@ -36,5 +37,23 @@ export default async function NewsDetailPage({
     notFound();
   }
 
-  return <NewsDetailPageView {...pageData} />;
+  const jsonLd = articleJsonLd({
+    headline: pageData.title,
+    description: pageData.excerpt || pageData.title,
+    image: pageData.imageUrl ? [pageData.imageUrl] : [],
+    datePublished: pageData.publishedAt,
+    url: normalizeMetadataPath(locale, `/news/${slug}`),
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <NewsDetailPageView {...pageData} />
+    </>
+  );
 }

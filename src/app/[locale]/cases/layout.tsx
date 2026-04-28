@@ -10,7 +10,7 @@ export async function generateMetadata({
 }: LayoutProps<"/[locale]/cases">): Promise<Metadata> {
   const { locale } = await params;
   const activeLocale = hasLocale(locale) ? locale : routing.defaultLocale;
-  const metadataCopy = getMetadataCopy(activeLocale).solution;
+  const metadataCopy = getMetadataCopy(activeLocale).cases;
 
   return buildPageMetadata({
     locale: activeLocale,

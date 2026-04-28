@@ -12,6 +12,10 @@ const SOCIAL_LINKS = [
 const FOSHAN_ADDRESS =
   "No. 7-8, 10, 11-2, 12, Block 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang Town, Chancheng District, Foshan, Guangdong, China";
 
+function absoluteUrl(value: string): string {
+  return value.startsWith("http") ? value : `${siteUrl}${value}`;
+}
+
 export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
   void locale; // parameter reserved for future locale-specific overrides
 
@@ -61,9 +65,7 @@ export function productJsonLd(input: {
   brand?: string;
   url: string;
 }): Record<string, unknown> {
-  const absoluteImages = input.image.map((img) =>
-    img.startsWith("http") ? img : `${siteUrl}${img}`,
-  );
+  const absoluteImages = input.image.map((img) => absoluteUrl(img));
 
   const result: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -87,6 +89,40 @@ export function productJsonLd(input: {
 
   if (input.category) {
     result.category = input.category;
+  }
+
+  return result;
+}
+
+export function articleJsonLd(input: {
+  headline: string;
+  description: string;
+  image: string[];
+  datePublished: string;
+  url: string;
+  author?: string;
+}): Record<string, unknown> {
+  const absoluteImages = input.image.filter(Boolean).map((img) => absoluteUrl(img));
+
+  const result: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    datePublished: input.datePublished,
+    url: absoluteUrl(input.url),
+    author: {
+      "@type": "Organization",
+      name: input.author ?? "ZYL",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
+    },
+  };
+
+  if (absoluteImages.length > 0) {
+    result.image = absoluteImages;
   }
 
   return result;

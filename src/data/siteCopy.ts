@@ -1608,6 +1608,20 @@ const SITE_COPY = {
         ar: "استكشف سيناريوهات تطبيق ZYL في المنتجات النهائية وأنظمة الجدران والأرضيات والمشاريع.",
       },
     },
+    cases: {
+      title: {
+        en: "Project Cases | Sales & Factory Cooperation",
+        zh: "合作案例 | 销售与工厂合作",
+        es: "Casos de proyecto | Ventas y cooperación de fábrica",
+        ar: "دراسات المشاريع | تعاون المبيعات والمصانع",
+      },
+      description: {
+        en: "Explore ZYL cooperation cases for distributors, fabricators and factory partners across global stone projects.",
+        zh: "查看众岩联面向经销商、加工厂与工厂伙伴的全球石材项目合作案例。",
+        es: "Explore casos de cooperación de ZYL para distribuidores, fabricantes y socios de fábrica en proyectos globales de piedra.",
+        ar: "استكشف حالات تعاون ZYL مع الموزعين والمصنعين وشركاء المصانع في مشاريع الحجر العالمية.",
+      },
+    },
     download: {
       title: {
         en: "Download Center | Catalogs & Technical Files",

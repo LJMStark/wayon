@@ -67,6 +67,7 @@ export function buildNewsDetailPageData(
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
     body: getLocalizedNewsBody(article, locale),
     imageUrl: article.imageUrl || null,
+    publishedAt: article.publishedAt,
     dateLabel: formatNewsDate(article.publishedAt, locale).full,
     categoryLabel: getNewsCategoryLabel(article.category, locale),
   };

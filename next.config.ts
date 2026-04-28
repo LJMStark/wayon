@@ -8,7 +8,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 type Redirect = { source: string; destination: string; permanent: boolean };
 
 function redirect(source: string, destination: string): Redirect {
-  return { source, destination, permanent: false };
+  return { source, destination, permanent: true };
 }
 
 const isDev = process.env.NODE_ENV === 'development';

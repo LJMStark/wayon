@@ -28,6 +28,7 @@ export type NewsDetailPageData = {
   excerpt: string;
   body: NewsArticleBody | null;
   imageUrl: string | null;
+  publishedAt: string;
   dateLabel: string;
   categoryLabel: string;
 };
