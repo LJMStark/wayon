@@ -117,10 +117,14 @@ export function Hero({ slides, slideLabel }: HeroProps): React.JSX.Element {
         <div className="absolute inset-x-0 bottom-0 z-10 px-4 pb-8 sm:px-6 md:pb-24 lg:pb-28">
           <div className="wayon-container-wide">
             <div className="max-w-[62rem] space-y-4 text-white sm:space-y-6">
-              <h1 className="wayon-hero-title text-[clamp(1.8rem,7.2vw,3rem)] leading-[1.04] tracking-[0] text-white md:text-[clamp(3.2rem,4.85vw,4.45rem)]">
+              <h1
+                aria-label={[t("titleLine1"), ...highlightedTitleLines].join(" ")}
+                className="wayon-hero-title text-[clamp(1.8rem,7.2vw,3rem)] leading-[1.04] tracking-[0] text-white md:text-[clamp(3.2rem,4.85vw,4.45rem)]"
+              >
                 <span className="block md:whitespace-nowrap">{t("titleLine1")}</span>
                 {highlightedTitleLines.map((line) => (
                   <span key={line} className="block md:whitespace-nowrap">
+                    {" "}
                     <strong>{line}</strong>
                   </span>
                 ))}
