@@ -16,13 +16,8 @@ const BUTTON_CLASS =
 const TRIGGER_BUTTON_CLASS =
   "flex size-12 items-center justify-center rounded-full border border-white/30 bg-[#083355]/80 text-white shadow-[0_16px_34px_rgba(2,22,40,0.28)] backdrop-blur-md transition-all duration-200 hover:scale-105 hover:border-white/60 hover:bg-[#083355]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#083355]";
 
-function getSidebarClassName(isVisible: boolean): string {
-  if (isVisible) {
-    return "fixed bottom-24 right-3 z-40 transition-all duration-300 translate-x-0 opacity-100 sm:right-4 lg:bottom-6";
-  }
-
-  return "fixed bottom-24 right-3 z-40 transition-all duration-300 pointer-events-none translate-x-3 opacity-0 sm:right-4 lg:bottom-6";
-}
+const SIDEBAR_CLASS =
+  "fixed bottom-24 right-3 z-40 translate-x-0 opacity-100 sm:right-4 lg:bottom-6";
 
 function getLinksClassName(isExpanded: boolean): string {
   if (isExpanded) {
@@ -32,36 +27,9 @@ function getLinksClassName(isExpanded: boolean): string {
   return "absolute bottom-full right-0 mb-3 flex flex-col gap-2 transition-all duration-200 pointer-events-none translate-y-3 opacity-0";
 }
 
-function hasHoverPointer(): boolean {
-  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-}
-
 export default function FloatingSidebar(): React.JSX.Element {
-  const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const toggleVisibility = (): void => {
-      const shouldShow =
-        window.matchMedia("(max-width: 1023px)").matches || window.scrollY > 540;
-
-      setIsVisible(shouldShow);
-
-      if (!shouldShow) {
-        setIsExpanded(false);
-      }
-    };
-
-    toggleVisibility();
-    window.addEventListener("scroll", toggleVisibility, { passive: true });
-    window.addEventListener("resize", toggleVisibility);
-
-    return () => {
-      window.removeEventListener("scroll", toggleVisibility);
-      window.removeEventListener("resize", toggleVisibility);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isExpanded) {
@@ -92,16 +60,9 @@ export default function FloatingSidebar(): React.JSX.Element {
   return (
     <div
       ref={rootRef}
-      className={getSidebarClassName(isVisible)}
+      className={SIDEBAR_CLASS}
       onMouseEnter={() => {
-        if (hasHoverPointer()) {
-          setIsExpanded(true);
-        }
-      }}
-      onMouseLeave={() => {
-        if (hasHoverPointer()) {
-          setIsExpanded(false);
-        }
+        setIsExpanded(true);
       }}
       onBlur={(event) => {
         const nextTarget = event.relatedTarget instanceof Node ? event.relatedTarget : null;
