@@ -1,14 +1,13 @@
 "use client";
 
-import { PageHero } from "@/components/layout/PageHero";
-import { useSearchParams } from "next/navigation";
-import { Link } from "@/i18n/routing";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-
-import { getContactPageCopy, formatCopy } from "@/data/siteCopy";
+import { useSearchParams } from "next/navigation";
 
 import { submitInquiry } from "@/app/actions/inquiry";
+import { PageHero } from "@/components/layout/PageHero";
+import { formatCopy, getContactPageCopy } from "@/data/siteCopy";
+import { Link } from "@/i18n/routing";
 
 type ContactLocation = {
   name: string;
@@ -25,8 +24,19 @@ type ContactSocialLink = {
   href: string;
 };
 
-function useScrollReveal() {
-  const ref = useRef<HTMLDivElement>(null);
+type ContactFormStatus = "idle" | "success" | "error" | "rate_limited";
+
+const FIELD_LABEL_CLASS =
+  "mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700";
+const FIELD_BASE_CONTROL_CLASS =
+  "w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40";
+const FIELD_FOCUS_TIMING = "cubic-bezier(0.32, 0.72, 0, 1)";
+
+function useScrollReveal(): readonly [
+  React.RefObject<HTMLDivElement | null>,
+  boolean,
+] {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -45,10 +55,10 @@ function useScrollReveal() {
     return () => observer.disconnect();
   }, []);
 
-  return [ref, visible] as const;
+  return [ref, visible];
 }
 
-function GrainOverlay() {
+function GrainOverlay(): React.JSX.Element {
   return (
     <div
       aria-hidden="true"
@@ -62,7 +72,7 @@ function GrainOverlay() {
   );
 }
 
-function ExpandIcon({ expanded }: { expanded: boolean }) {
+function ExpandIcon({ expanded }: { expanded: boolean }): React.JSX.Element {
   return (
     <span className="relative flex h-4 w-4 items-center justify-center">
       <span
@@ -73,12 +83,66 @@ function ExpandIcon({ expanded }: { expanded: boolean }) {
         className="absolute h-px w-4 bg-current transition-all duration-500"
         style={{
           transform: expanded ? "rotate(-45deg)" : "rotate(90deg)",
-          opacity: expanded ? 1 : 1,
         }}
       />
     </span>
   );
 }
+
+type FloatingFieldFrameProps = {
+  id: string;
+  label: string;
+  required?: boolean;
+  focused: boolean;
+  children: React.ReactNode;
+};
+
+function getFieldControlStyle(focused: boolean): React.CSSProperties {
+  return {
+    borderColor: focused ? "#78716c" : "#d6d3d1",
+    borderBottomWidth: "1px",
+  };
+}
+
+function FloatingFieldFrame({
+  id,
+  label,
+  required,
+  focused,
+  children,
+}: FloatingFieldFrameProps): React.JSX.Element {
+  return (
+    <div className="group relative">
+      <label htmlFor={id} className={FIELD_LABEL_CLASS}>
+        {label}
+        {required ? <span className="ml-1 text-amber-600">·</span> : null}
+      </label>
+      <div className="relative">
+        {children}
+        <span
+          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
+          style={{
+            width: focused ? "100%" : "0%",
+            transitionTimingFunction: FIELD_FOCUS_TIMING,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+type FloatingLabelInputProps = {
+  id: string;
+  name: string;
+  type?: string;
+  label: string;
+  placeholder?: string;
+  autoComplete?: string;
+  required?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  inputKey?: string;
+};
 
 function FloatingLabelInput({
   id,
@@ -91,62 +155,44 @@ function FloatingLabelInput({
   disabled,
   defaultValue,
   inputKey,
-}: {
-  id: string;
-  name: string;
-  type?: string;
-  label: string;
-  placeholder?: string;
-  autoComplete?: string;
-  required?: boolean;
-  disabled?: boolean;
-  defaultValue?: string;
-  inputKey?: string;
-}) {
+}: FloatingLabelInputProps): React.JSX.Element {
   const [focused, setFocused] = useState(false);
 
   return (
-    <div className="group relative">
-      <label
-        htmlFor={id}
-        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
-      >
-        {label}
-        {required && <span className="ml-1 text-amber-600">·</span>}
-      </label>
-
-      <div className="relative">
-        <input
-          id={id}
-          key={inputKey}
-          type={type}
-          name={name}
-          autoComplete={autoComplete}
-          required={required}
-          disabled={disabled}
-          placeholder={focused ? (placeholder ?? "") : ""}
-          defaultValue={defaultValue}
-          onFocus={() => setFocused(true)}
-          onBlur={() => {
-            setFocused(false);
-          }}
-          className="w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 placeholder-stone-300 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
-          style={{
-            borderColor: focused ? "#78716c" : "#d6d3d1",
-            borderBottomWidth: "1px",
-          }}
-        />
-        <span
-          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
-          style={{
-            width: focused ? "100%" : "0%",
-            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
-          }}
-        />
-      </div>
-    </div>
+    <FloatingFieldFrame
+      id={id}
+      label={label}
+      required={required}
+      focused={focused}
+    >
+      <input
+        id={id}
+        key={inputKey}
+        type={type}
+        name={name}
+        autoComplete={autoComplete}
+        required={required}
+        disabled={disabled}
+        placeholder={focused ? (placeholder ?? "") : ""}
+        defaultValue={defaultValue}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={`${FIELD_BASE_CONTROL_CLASS} placeholder-stone-300`}
+        style={getFieldControlStyle(focused)}
+      />
+    </FloatingFieldFrame>
   );
 }
+
+type FloatingLabelSelectProps = {
+  id: string;
+  name: string;
+  label: string;
+  placeholder: string;
+  options: readonly string[];
+  required?: boolean;
+  disabled?: boolean;
+};
 
 function FloatingLabelSelect({
   id,
@@ -156,77 +202,66 @@ function FloatingLabelSelect({
   options,
   required,
   disabled,
-}: {
-  id: string;
-  name: string;
-  label: string;
-  placeholder: string;
-  options: readonly string[];
-  required?: boolean;
-  disabled?: boolean;
-}) {
+}: FloatingLabelSelectProps): React.JSX.Element {
   const [focused, setFocused] = useState(false);
 
   return (
-    <div className="group relative">
-      <label
-        htmlFor={id}
-        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
+    <FloatingFieldFrame
+      id={id}
+      label={label}
+      required={required}
+      focused={focused}
+    >
+      <select
+        id={id}
+        name={name}
+        required={required}
+        disabled={disabled}
+        defaultValue=""
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={`${FIELD_BASE_CONTROL_CLASS} appearance-none`}
+        style={getFieldControlStyle(focused)}
       >
-        {label}
-        {required && <span className="ml-1 text-amber-600">·</span>}
-      </label>
-      <div className="relative">
-        <select
-          id={id}
-          name={name}
-          required={required}
-          disabled={disabled}
-          defaultValue=""
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className="w-full appearance-none border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
-          style={{
-            borderColor: focused ? "#78716c" : "#d6d3d1",
-            borderBottomWidth: "1px",
-          }}
-        >
-          <option value="" disabled className="text-stone-400">
-            {placeholder}
+        <option value="" disabled className="text-stone-400">
+          {placeholder}
+        </option>
+        {options.map((opt) => (
+          <option key={opt} value={opt} className="text-stone-800">
+            {opt}
           </option>
-          {options.map((opt) => (
-            <option key={opt} value={opt} className="text-stone-800">
-              {opt}
-            </option>
-          ))}
-        </select>
+        ))}
+      </select>
 
-        <svg
-          className="pointer-events-none absolute bottom-3 right-0 h-3.5 w-3.5 text-stone-400"
-          viewBox="0 0 14 14"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M2 5L7 10L12 5"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-
-        <span
-          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
-          style={{
-            width: focused ? "100%" : "0%",
-            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
-          }}
+      <svg
+        className="pointer-events-none absolute bottom-3 right-0 h-3.5 w-3.5 text-stone-400"
+        viewBox="0 0 14 14"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M2 5L7 10L12 5"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
-      </div>
-    </div>
+      </svg>
+    </FloatingFieldFrame>
   );
 }
+
+type FloatingLabelTextareaProps = {
+  id: string;
+  name: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
+  inputKey?: string;
+  rows?: number;
+};
 
 function FloatingLabelTextarea({
   id,
@@ -238,59 +273,35 @@ function FloatingLabelTextarea({
   defaultValue,
   inputKey,
   rows = 5,
-}: {
-  id: string;
-  name: string;
-  label: string;
-  placeholder?: string;
-  required?: boolean;
-  disabled?: boolean;
-  defaultValue?: string;
-  inputKey?: string;
-  rows?: number;
-}) {
+}: FloatingLabelTextareaProps): React.JSX.Element {
   const [focused, setFocused] = useState(false);
 
   return (
-    <div className="group relative">
-      <label
-        htmlFor={id}
-        className="mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700"
-      >
-        {label}
-        {required && <span className="ml-1 text-amber-600">·</span>}
-      </label>
-      <div className="relative">
-        <textarea
-          id={id}
-          key={inputKey}
-          name={name}
-          rows={rows}
-          required={required}
-          disabled={disabled}
-          placeholder={focused ? (placeholder ?? "") : ""}
-          defaultValue={defaultValue}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className="w-full resize-none border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 placeholder-stone-300 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40"
-          style={{
-            borderColor: focused ? "#78716c" : "#d6d3d1",
-            borderBottomWidth: "1px",
-          }}
-        />
-        <span
-          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
-          style={{
-            width: focused ? "100%" : "0%",
-            transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
-          }}
-        />
-      </div>
-    </div>
+    <FloatingFieldFrame
+      id={id}
+      label={label}
+      required={required}
+      focused={focused}
+    >
+      <textarea
+        id={id}
+        key={inputKey}
+        name={name}
+        rows={rows}
+        required={required}
+        disabled={disabled}
+        placeholder={focused ? (placeholder ?? "") : ""}
+        defaultValue={defaultValue}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className={`${FIELD_BASE_CONTROL_CLASS} resize-none placeholder-stone-300`}
+        style={getFieldControlStyle(focused)}
+      />
+    </FloatingFieldFrame>
   );
 }
 
-export default function ContactPage() {
+export default function ContactPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const searchParams = useSearchParams();
@@ -311,9 +322,7 @@ export default function ContactPage() {
     [prefilledProductSlug, contactCopy.productInquiryPrefill]
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error" | "rate_limited"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<ContactFormStatus>("idle");
   const renderedAtRef = useRef<number>(0);
 
   const [formRevealRef, isFormRevealVisible] = useScrollReveal();
@@ -323,7 +332,9 @@ export default function ContactPage() {
     renderedAtRef.current = Date.now();
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     const form = e.currentTarget;
     setIsSubmitting(true);

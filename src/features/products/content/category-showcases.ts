@@ -1,5 +1,4 @@
 import type { NavigationKey } from "@/data/navigation";
-import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "../model/productExposure";
 
 type ProductCategoryShowcaseContent = {
   slug: string;

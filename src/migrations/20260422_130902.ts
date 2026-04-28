@@ -1,6 +1,6 @@
 import { type MigrateUpArgs, type MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TYPE "public"."_locales" AS ENUM('zh', 'en', 'es', 'ar', 'ru');
   CREATE TYPE "public"."enum_custom_capabilities_capability_key" AS ENUM('custom-thickness', 'custom-cutting-processing', 'custom-size', 'custom-surface', 'custom-color', 'custom-pattern-design', 'custom-hot-bending', 'custom-logo-branding');
@@ -398,7 +398,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP TABLE "users_sessions" CASCADE;
   DROP TABLE "users" CASCADE;

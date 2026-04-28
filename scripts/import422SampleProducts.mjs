@@ -224,8 +224,9 @@ function buildVideoRecord(sourcePath, fallbackTitle, sortOrder) {
 
 function stripArrayIds(items = []) {
   return items.map((item) => {
-    const { id: _id, ...rest } = item;
-    return rest;
+    const stripped = { ...item };
+    delete stripped.id;
+    return stripped;
   });
 }
 

@@ -20,6 +20,7 @@ import type {
 } from "../types";
 import {
   matchesDirectoryFilters,
+  type DirectoryFilters,
   type DirectoryProduct,
 } from "./productDirectory.ts";
 
@@ -34,9 +35,17 @@ export const PRODUCT_CATALOG_SECTION_KEYS: ProductCatalogSectionKey[] = [
   "custom",
 ];
 
+type CatalogNavTranslationKey =
+  | "catalogSize"
+  | "catalogSeries"
+  | "catalogThickness"
+  | "catalogColor"
+  | "catalogProcess"
+  | "catalogCustom";
+
 export const PRODUCT_CATALOG_NAV_TRANSLATION_KEYS: Record<
   ProductCatalogSectionKey,
-  "catalogSize" | "catalogSeries" | "catalogThickness" | "catalogColor" | "catalogProcess" | "catalogCustom"
+  CatalogNavTranslationKey
 > = {
   size: "catalogSize",
   series: "catalogSeries",
@@ -50,6 +59,8 @@ type CatalogSearchParams = {
   section?: string | string[];
   value?: string | string[];
 };
+
+type ProductDirectoryVariant = ProductDirectoryItem["variants"][number];
 
 function readSingleValue(value: string | string[] | undefined): string | null {
   if (Array.isArray(value)) {
@@ -106,53 +117,57 @@ function getBaseProducts(
       return product.seriesTypes.length > 0;
     }
 
-    return product.variants.some((variant) => {
-      if (section === "size") {
-        return Boolean(variant.size);
-      }
-
-      if (section === "thickness") {
-        return Boolean(variant.thickness);
-      }
-
-      if (section === "color") {
-        return Boolean(variant.colorGroup);
-      }
-
-      if (section === "process") {
-        return Boolean(variant.process);
-      }
-
-      return false;
-    });
+    return product.variants.some((variant) =>
+      hasVariantValueForSection(variant, section)
+    );
   });
+}
+
+function hasVariantValueForSection(
+  variant: ProductDirectoryVariant,
+  section: ProductCatalogSectionKey
+): boolean {
+  switch (section) {
+    case "size":
+      return Boolean(variant.size);
+    case "thickness":
+      return Boolean(variant.thickness);
+    case "color":
+      return Boolean(variant.colorGroup);
+    case "process":
+      return Boolean(variant.process);
+    default:
+      return false;
+  }
 }
 
 function buildOrderedCards(
   products: ProductDirectoryItem[],
   values: readonly string[],
-  buildFilter: (value: string) => Parameters<typeof matchesDirectoryFilters>[1],
+  buildFilter: (value: string) => DirectoryFilters,
   formatLabel?: (value: string) => string
 ): ProductTaxonomyCard[] {
-  const cards: Array<ProductTaxonomyCard | null> = values.map((value) => {
+  const cards: ProductTaxonomyCard[] = [];
+
+  for (const value of values) {
     const matching = products.filter((product) =>
       matchesDirectoryFilters(mapDirectoryProduct(product), buildFilter(value))
     );
 
     if (matching.length === 0) {
-      return null;
+      continue;
     }
 
-    return {
+    cards.push({
       key: value,
       value,
       label: formatLabel ? formatLabel(value) : value,
       imageSrc: matching[0]?.coverImageUrl,
       count: matching.length,
-    };
-  });
+    });
+  }
 
-  return cards.filter((card): card is ProductTaxonomyCard => card !== null);
+  return cards;
 }
 
 export function resolveProductCatalogSection(
@@ -256,14 +271,31 @@ export function filterCatalogProducts(
     return baseProducts;
   }
 
+  const activeFilter = buildActiveCatalogFilter(section, activeValue);
+
   return baseProducts.filter((product) =>
-    matchesDirectoryFilters(mapDirectoryProduct(product), {
-      size: section === "size" ? activeValue : null,
-      seriesType: section === "series" ? activeValue : null,
-      thickness: section === "thickness" ? activeValue : null,
-      colorGroup: section === "color" ? activeValue : null,
-      process: section === "process" ? activeValue : null,
-      customCapability: section === "custom" ? activeValue : null,
-    })
+    matchesDirectoryFilters(mapDirectoryProduct(product), activeFilter)
   );
+}
+
+function buildActiveCatalogFilter(
+  section: ProductCatalogSectionKey,
+  activeValue: string
+): DirectoryFilters {
+  switch (section) {
+    case "size":
+      return { size: activeValue };
+    case "series":
+      return { seriesType: activeValue };
+    case "thickness":
+      return { thickness: activeValue };
+    case "color":
+      return { colorGroup: activeValue };
+    case "process":
+      return { process: activeValue };
+    case "custom":
+      return { customCapability: activeValue };
+    default:
+      return {};
+  }
 }

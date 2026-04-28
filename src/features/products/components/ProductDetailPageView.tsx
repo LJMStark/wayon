@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 
 import { Link, useRouter } from "@/i18n/routing";
 
@@ -12,6 +12,11 @@ import type {
   ProductDetailPageData,
   ProductDetailVariantData,
 } from "../types";
+
+type ProductSpecification = {
+  label: string;
+  value: string;
+};
 
 // IntersectionObserver fade-up — GPU-safe (transform + opacity only)
 function useFadeIn(): [React.RefObject<HTMLDivElement | null>, boolean] {
@@ -179,26 +184,35 @@ function MediaVideoGrid({
 function buildSpecifications(
   variant: ProductDetailVariantData,
   labels: ProductDetailPageData["labels"]
-): Array<{ label: string; value: string }> {
-  return [
-    variant.showCode && variant.code
-      ? { label: labels.productCode, value: variant.code }
-      : null,
-    variant.colorGroup
-      ? { label: labels.colorGroup, value: variant.colorGroup }
-      : null,
-    variant.size ? { label: labels.size, value: variant.size } : null,
-    variant.faceCount
-      ? { label: labels.faceCount, value: variant.faceCount }
-      : null,
-    variant.process ? { label: labels.process, value: variant.process } : null,
-    variant.thickness
-      ? { label: labels.thickness, value: variant.thickness }
-      : null,
+): ProductSpecification[] {
+  const specifications: ProductSpecification[] = [];
+
+  if (variant.showCode) {
+    addSpecification(specifications, labels.productCode, variant.code);
+  }
+
+  addSpecification(specifications, labels.colorGroup, variant.colorGroup);
+  addSpecification(specifications, labels.size, variant.size);
+  addSpecification(specifications, labels.faceCount, variant.faceCount);
+  addSpecification(specifications, labels.process, variant.process);
+  addSpecification(specifications, labels.thickness, variant.thickness);
+  addSpecification(
+    specifications,
+    labels.facePatternNote,
     variant.facePatternNote
-      ? { label: labels.facePatternNote, value: variant.facePatternNote }
-      : null,
-  ].filter((item): item is { label: string; value: string } => item !== null);
+  );
+
+  return specifications;
+}
+
+function addSpecification(
+  specifications: ProductSpecification[],
+  label: string,
+  value: string | null | undefined
+): void {
+  if (value) {
+    specifications.push({ label, value });
+  }
 }
 
 export function ProductDetailPageView({
@@ -234,7 +248,8 @@ export function ProductDetailPageView({
     ? buildSpecifications(selectedVariant, labels)
     : [];
 
-  const heroFromElement = selectedVariant?.elementImages[0] ?? null;
+  const elementImages = selectedVariant?.elementImages ?? [];
+  const heroFromElement = elementImages[0] ?? null;
   const heroImage =
     heroFromElement ??
     selectedVariant?.spaceImages[0] ??
@@ -242,8 +257,8 @@ export function ProductDetailPageView({
     null;
 
   const remainingElementImages = heroFromElement
-    ? (selectedVariant?.elementImages ?? []).slice(1)
-    : (selectedVariant?.elementImages ?? []);
+    ? elementImages.slice(1)
+    : elementImages;
 
   // Pill tabs for ≤8 variants; styled select for more
   const useTabPills = variants.length > 1 && variants.length <= 8;
@@ -377,26 +392,11 @@ export function ProductDetailPageView({
                       </option>
                     ))}
                   </select>
-                  {/* Inline chevron — no icon library */}
                   <div
                     aria-hidden
                     className="pointer-events-none absolute inset-y-0 end-4 flex items-center"
                   >
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 12 12"
-                      fill="none"
-                      className="text-[#002b50]/35"
-                    >
-                      <path
-                        d="M2 4.5L6 8.5L10 4.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <ChevronDown className="h-3 w-3 text-[#002b50]/35" />
                   </div>
                 </div>
               </div>

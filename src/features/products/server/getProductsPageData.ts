@@ -103,25 +103,21 @@ function buildSummaryTags(
   variants: ReturnType<typeof getProductVariants>,
   locale: AppLocale
 ): string[] {
-  const sizes = new Set(
-    variants
-      .map((variant) => variant.size)
-      .filter((value): value is string => Boolean(value))
+  const sizes = uniqueStrings(variants.map((variant) => variant.size));
+  const thicknesses = uniqueStrings(
+    variants.map((variant) => variant.thickness)
   );
-  const thicknesses = new Set(
-    variants
-      .map((variant) => variant.thickness)
-      .filter((value): value is string => Boolean(value))
-  );
-  const processes = new Set(
-    variants
-      .map((variant) =>
-        variant.process ? localizeProcess(variant.process, locale) : undefined
-      )
-      .filter((value): value is string => Boolean(value))
+  const processes = uniqueStrings(
+    variants.map((variant) =>
+      variant.process ? localizeProcess(variant.process, locale) : undefined
+    )
   );
 
   return [...sizes, ...thicknesses, ...processes].slice(0, 4);
+}
+
+function uniqueStrings(values: Array<string | null | undefined>): string[] {
+  return [...new Set(values.filter((value): value is string => Boolean(value)))];
 }
 
 export async function getProductsPageData(
@@ -131,12 +127,12 @@ export async function getProductsPageData(
   const resolvedParams = applyLegacyCategoryAlias(searchParams);
   const [tNav, commonCopy, productsCopy, rawProducts, rawCustomCapabilities] =
     await Promise.all([
-    getTranslations({ locale, namespace: "Navigation" }),
-    Promise.resolve(getCommonCopy(locale)),
-    Promise.resolve(getProductsPageCopy(locale)),
-    getProductsDirectory(),
-    getCustomCapabilities(),
-  ]);
+      getTranslations({ locale, namespace: "Navigation" }),
+      Promise.resolve(getCommonCopy(locale)),
+      Promise.resolve(getProductsPageCopy(locale)),
+      getProductsDirectory(),
+      getCustomCapabilities(),
+    ]);
 
   const products = buildDirectoryItems(
     rawProducts,
