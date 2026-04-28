@@ -6,6 +6,7 @@ import {
   getProductDisplayTitle,
 } from "@/data/products";
 import { isPublishedProduct } from "@/features/products/model/productExposure";
+import { buildProductMetadataDescription } from "@/features/products/model/product-detail";
 import {
   formatCopy,
   getProductDetailPageCopy,
@@ -38,14 +39,19 @@ export async function generateMetadata({
     locale,
     detailCopy.categoryFallback
   );
+  const description = buildProductMetadataDescription(
+    product,
+    locale,
+    localizedTitle,
+    localizedCategory,
+    detailCopy,
+    metadataCopy.description
+  );
 
   return buildPageMetadata({
     locale,
     title: formatCopy(metadataCopy.title, { title: localizedTitle }),
-    description: formatCopy(metadataCopy.description, {
-      title: localizedTitle,
-      category: localizedCategory,
-    }),
+    description,
     path: `/products/${slug}`,
   });
 }

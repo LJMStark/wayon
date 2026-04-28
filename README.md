@@ -48,11 +48,12 @@ npm run dev                  # 启动开发服务器
 npm run build                # 生产构建
 npm run start                # 启动生产服务器
 npm run lint                 # ESLint 静态检查
-npm run typecheck            # TypeScript 类型检查
+npm run typecheck            # 生成 Next 路由类型并执行 TypeScript 检查
 npm test                     # 运行 Vitest 单测
 npm run test:watch           # Vitest 监听模式
 npm run test:e2e             # Playwright E2E（需先 npm run dev）
 npm run import:trade-catalog # 导入 trade 目录数据到 Sanity
+npm run generate:product-copy # 生成产品级四语文案草稿（默认 dry-run）
 ```
 
 ## 项目结构

@@ -1,5 +1,6 @@
 import {
   getProductDisplayCategory,
+  getProductDisplayDescription,
   getProductDisplayTitle,
   getProductVariants,
   type Product,
@@ -129,6 +130,47 @@ function buildVariantData(
   });
 }
 
+export function buildProductDescriptionParagraphs(
+  product: Product,
+  locale: AppLocale,
+  title: string,
+  category: string,
+  copy: Pick<ProductDetailCopy, "description1" | "description2">
+): string[] {
+  const productDescription = getProductDisplayDescription(product, locale);
+
+  if (productDescription) {
+    return productDescription
+      .split(/\n{2,}|\r?\n/u)
+      .map((paragraph) => paragraph.trim())
+      .filter(Boolean);
+  }
+
+  return [
+    formatCopy(copy.description1, { title, category }),
+    copy.description2,
+  ].filter((paragraph) => paragraph.trim().length > 0);
+}
+
+export function buildProductMetadataDescription(
+  product: Product,
+  locale: AppLocale,
+  title: string,
+  category: string,
+  detailCopy: Pick<ProductDetailCopy, "description1" | "description2">,
+  metadataTemplate: string
+): string {
+  const description = buildProductDescriptionParagraphs(
+    product,
+    locale,
+    title,
+    category,
+    detailCopy
+  ).join(" ");
+
+  return description || formatCopy(metadataTemplate, { title, category });
+}
+
 export function buildProductDetailPageData(
   product: Product,
   locale: AppLocale,
@@ -169,10 +211,13 @@ export function buildProductDetailPageData(
     seriesTypes: (product.seriesTypes ?? []).map((seriesType) =>
       localizeSeriesType(seriesType, locale)
     ),
-    descriptionParagraphs: [
-      formatCopy(copy.detail.description1, { title, category }),
-      copy.detail.description2,
-    ],
+    descriptionParagraphs: buildProductDescriptionParagraphs(
+      product,
+      locale,
+      title,
+      category,
+      copy.detail
+    ),
     defaultVariantCode,
     variants,
     labels: {

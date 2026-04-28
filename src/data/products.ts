@@ -463,6 +463,27 @@ export function getProductDisplayTitle(
   return defaultVariantCode || variants[0]?.code || product.slug;
 }
 
+export function getProductDisplayDescription(
+  product: Product,
+  locale: AppLocale
+): string {
+  const description = product.description;
+
+  if (isUsableLocalizedValue(description?.[locale], locale)) {
+    return description?.[locale]?.trim() ?? "";
+  }
+
+  if (isUsableLocalizedValue(description?.en, "en")) {
+    return description?.en.trim() ?? "";
+  }
+
+  if (locale === "zh" && description?.zh?.trim()) {
+    return description.zh.trim();
+  }
+
+  return "";
+}
+
 export function getProductDisplayCategory(
   product: Product,
   locale: AppLocale,
