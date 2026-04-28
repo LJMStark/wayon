@@ -5,7 +5,9 @@ import { useMessages, useTranslations } from "next-intl";
 import { useState } from "react";
 
 import type { NavigationKey } from "@/data/navigation";
+import { SOCIAL_LINKS } from "@/data/socialLinks";
 import { Link, useRouter } from "@/i18n/routing";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 type FooterLink = {
   label: NavigationKey;
@@ -33,24 +35,6 @@ const LEGAL_LINKS = [
   { label: "privacyPolicy", href: "/privacy" },
   { label: "termsOfService", href: "/terms" },
 ] as const satisfies ReadonlyArray<{ label: FooterLegalKey; href: string }>;
-
-const SOCIAL_LINKS = [
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/zyl.stone.slab/",
-    icon: "/assets/icons/social/instagram.png",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-    icon: "/assets/icons/social/youtube.png",
-  },
-  {
-    label: "Pinterest",
-    href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-    icon: "/assets/icons/social/pinterest.png",
-  },
-] as const;
 
 function SectionHeading({ children }: { children: React.ReactNode }): React.JSX.Element {
   return (
@@ -132,23 +116,17 @@ export default function Footer(): React.JSX.Element {
               <p className="mb-4 text-[13px] leading-relaxed text-white/60">
                 {tFooter("followUs")}
               </p>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {SOCIAL_LINKS.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
                     target="_blank"
-                    rel="noreferrer"
-                    className="relative flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/5 transition-colors hover:border-white/60"
+                    rel="noopener noreferrer"
+                    className="flex size-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-colors hover:border-white/60 hover:bg-white/10"
                     aria-label={link.label}
                   >
-                    <Image
-                      src={link.icon}
-                      alt=""
-                      fill
-                      sizes="36px"
-                      className="object-contain p-2"
-                    />
+                    <SocialIcon platform={link.platform} className="size-[18px]" />
                   </a>
                 ))}
               </div>

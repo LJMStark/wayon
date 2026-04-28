@@ -1,12 +1,6 @@
 import { siteUrl } from "@/lib/env";
 import type { AppLocale } from "@/i18n/types";
-
-// Social links sourced from src/components/layout/Footer.tsx SOCIAL_LINKS
-const SOCIAL_LINKS = [
-  "https://www.instagram.com/zyl.stone.slab/",
-  "https://www.youtube.com/@ZYLStoneSlabEngineering",
-  "https://www.pinterest.com/ZYLstoneslabengineering/",
-] as const;
+import { SOCIAL_LINKS } from "@/data/socialLinks";
 
 // Foshan address from src/data/siteCopy.ts (EN version of office address)
 const FOSHAN_ADDRESS =
@@ -34,7 +28,7 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
       addressRegion: "Guangdong",
       addressCountry: "CN",
     },
-    sameAs: [...SOCIAL_LINKS],
+    sameAs: SOCIAL_LINKS.map((link) => link.href),
   };
 }
 

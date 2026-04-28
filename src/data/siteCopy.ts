@@ -1,4 +1,5 @@
 import type { AppLocale } from "@/i18n/types";
+import { SOCIAL_LINKS } from "@/data/socialLinks";
 
 type LocalizedValue<T> = Record<AppLocale, T>;
 type ResolvedCopy<T> = T extends readonly (infer U)[]
@@ -760,24 +761,7 @@ const SITE_COPY = {
         ar: "الرمز البريدي",
       },
     },
-    socialLinks: [
-      {
-        label: "WhatsApp",
-        href: "https://wa.me/8613229246894",
-      },
-      {
-        label: "Instagram",
-        href: "https://www.instagram.com/zyl.stone.slab/",
-      },
-      {
-        label: "YouTube",
-        href: "https://www.youtube.com/@ZYLStoneSlabEngineering",
-      },
-      {
-        label: "Pinterest",
-        href: "https://www.pinterest.com/ZYLstoneslabengineering/",
-      },
-    ],
+    socialLinks: SOCIAL_LINKS.map(({ label, href }) => ({ label, href })),
     formTitle: {
       en: "Leave us a message",
       zh: "给我们留言",
