@@ -229,12 +229,14 @@ export function buildNewsDetailPageData(
   locale: AppLocale,
   copy: {
     backToNewsLabel: string;
+    contactCtaTitle: string;
     contactLabel: string;
     contentComingSoonLabel: string;
   }
 ): NewsDetailPageData {
   return {
     backToNewsLabel: copy.backToNewsLabel,
+    contactCtaTitle: copy.contactCtaTitle,
     contactLabel: copy.contactLabel,
     contentComingSoonLabel: copy.contentComingSoonLabel,
     title: getLocalizedNewsValue(article, locale, "title"),

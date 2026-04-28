@@ -64,6 +64,12 @@ const SITE_COPY = {
       es: "Contáctenos",
       ar: "اتصل بنا",
     },
+    contactCtaTitle: {
+      en: "Need pricing or sample support?",
+      zh: "需要报价或样品支持？",
+      es: "¿Necesita precio o muestras?",
+      ar: "هل تحتاج إلى عرض سعر أو عينات؟",
+    },
     readMore: {
       en: "Read More",
       zh: "了解更多",

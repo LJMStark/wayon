@@ -27,6 +27,7 @@ vi.mock("next/navigation", () => ({
 test("news article JSON-LD URL uses the active locale path", async () => {
   getNewsDetailPageData.mockResolvedValue({
     backToNewsLabel: "Back to news",
+    contactCtaTitle: "Need pricing or sample support?",
     contactLabel: "Contact us",
     contentComingSoonLabel: "Coming soon",
     title: "Silica-free surface launch",

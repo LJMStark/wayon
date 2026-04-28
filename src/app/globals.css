@@ -6,9 +6,11 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-gold: var(--gold);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-surface: var(--surface);
+  --color-card: var(--card);
   --color-border: var(--border);
   --color-footer: var(--footer);
 
@@ -23,8 +25,10 @@
   --primary: #002b50;
   --primary-foreground: #ffffff;
   --accent: #002b50;
+  --gold: #d9b45b;
   --muted: #f7fafd;
   --surface: #f6f6f6;
+  --card: #ffffff;
   --muted-foreground: #4a4a4a;
   --border: rgba(207, 207, 207, 0.35);
   --footer: #111111;

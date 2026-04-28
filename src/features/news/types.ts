@@ -28,6 +28,7 @@ export type NewsPageData = {
 
 export type NewsDetailPageData = {
   backToNewsLabel: string;
+  contactCtaTitle: string;
   contactLabel: string;
   contentComingSoonLabel: string;
   title: string;

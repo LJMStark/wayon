@@ -29,6 +29,7 @@ test("news article visuals use real local assets instead of yellow placeholders"
     const article = makeArticle(slug);
     const data = buildNewsDetailPageData(article, "zh", {
       backToNewsLabel: "返回新闻",
+      contactCtaTitle: "需要报价或样品支持？",
       contactLabel: "联系我们",
       contentComingSoonLabel: "内容即将上线",
     });

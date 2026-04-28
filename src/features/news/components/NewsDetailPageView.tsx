@@ -8,6 +8,7 @@ import type { NewsArticleVisual, NewsDetailPageData } from "../types";
 
 export function NewsDetailPageView({
   backToNewsLabel,
+  contactCtaTitle,
   contactLabel,
   contentComingSoonLabel,
   title,
@@ -85,10 +86,10 @@ export function NewsDetailPageView({
         )}
       </div>
 
-      <section className="bg-primary py-16">
+      <section className="bg-primary px-6 pb-6 pt-10 md:pb-8 md:pt-14">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="mb-4 text-2xl font-heading font-bold text-white">
-            {contactLabel}
+          <h2 className="mb-5 text-2xl font-heading font-bold text-white">
+            {contactCtaTitle}
           </h2>
           <Link
             href="/contact"
