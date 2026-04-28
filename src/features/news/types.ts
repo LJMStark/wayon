@@ -9,6 +9,12 @@ export type NewsPreviewItem = {
   slug: string;
 };
 
+export type NewsArticleVisual = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
 export type NewsPageData = {
   eyebrow: string;
   heroTitle: string;
@@ -28,6 +34,7 @@ export type NewsDetailPageData = {
   excerpt: string;
   body: NewsArticleBody | null;
   imageUrl: string | null;
+  visuals: NewsArticleVisual[];
   publishedAt: string;
   dateLabel: string;
   categoryLabel: string;

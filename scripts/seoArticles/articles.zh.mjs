@@ -36,6 +36,20 @@ export const articles_zh = {
         type: "p",
         text: "岩板补的是另一个空缺：耐高温、抗紫外、零吸水、莫氏硬度上的高分位、单板尺寸最大可做到 1600×3200mm，且能做出几可乱真的连纹。代价是脆。岩板不会变形不会染色，但重物砸到边角会崩。",
       },
+      { type: "h2", text: "为什么 2024 年以后，安全问题被重新拉回桌面" },
+      {
+        type: "p",
+        text: "过去大家聊台面材料，常常只比价格、花色和耐污。2024 年以后，另一个问题绕不开了：加工时的硅尘。澳大利亚从 2024 年 7 月 1 日开始禁止制造、供应、加工和安装含至少 1% 结晶二氧化硅的人造石台面、板材和板块；2025 年 1 月 1 日起，这类产品也被禁止进口。官方文件同时把 **不含树脂的烧结石和瓷质产品** 排除在这条 engineered stone 禁令定义之外。",
+      },
+      {
+        type: "p",
+        text: "这不是说岩板加工就可以不防护。切割、开孔、磨边只要产生粉尘，工人就应该湿切、抽尘、戴合规呼吸防护。区别在于：岩板不靠树脂粘合，也不是高树脂含量的人造石英石。选材时要把材料本身和加工现场分开看。",
+      },
+      { type: "h2", text: "它已经有清楚的行业名称" },
+      {
+        type: "p",
+        text: "英文资料里经常看到 gauged porcelain tile panels/slabs。TCNA 和 ANSI 的 A137.3 / A108.19 / A108.20 标准，把这类产品定义为面积 1㎡ 或以上、按控制厚度制造的瓷质板/大板，并分别讨论墙面、地面和台面强度要求。换句话说，大板不是一句营销词，它已经进入安装规范和验收语言。",
+      },
       { type: "h2", text: "建筑师为什么这两年开始认真用它" },
       {
         type: "p",
@@ -63,6 +77,15 @@ export const articles_zh = {
         type: "p",
         text: "想要石材的视觉、瓷器的耐久、整面墙两片到底的尺度，选岩板。需要复杂雕花边型、找的加工厂从没切过大板、预算按阿里巴巴最便宜那块板来定的——这三种情况，再考虑考虑。",
       },
+      { type: "h2", text: "资料来源" },
+      {
+        type: "ul",
+        items: [
+          "[Safe Work Australia：engineered stone ban](https://www.safeworkaustralia.gov.au/safety-topic/hazards/silica/engineered-stone-ban)",
+          "[TCNA：ANSI A137.3 / A108.19 / A108.20 gauged porcelain tile panels/slabs 标准](https://tcnatile.com/products/publications/ansi-a137-3-a108-19-and-a108-20-american-national-standard-specifications-for-gauged-porcelain-tiles-and-tile-panels-slabs-specifications-october-2025/)",
+          "[NIOSH：2026 台面加工硅尘危害警示](https://www.cdc.gov/niosh/docs/2026-101/default.html)",
+        ],
+      },
       {
         type: "p",
         text: "想看一下不同系列在大尺寸下的真实视觉，[产品系列页](/zh/products)按花色和厚度分类，从 3mm 一直覆盖到 15mm。",
@@ -83,6 +106,15 @@ export const articles_zh = {
         type: "p",
         text: "下面是按几个真正决定选材的问题给出的对比，不绕弯。",
       },
+      { type: "h2", text: "先补一项：加工安全" },
+      {
+        type: "p",
+        text: "以前做材料对比，很少把加工工人的健康写进来。现在不能再跳过。NIOSH 2026 年 1 月的简报写得很直接：engineered stone 通常含 90% 以上结晶二氧化硅；加州被检查的石材加工店里，有 51% 至少一名员工暴露超过 OSHA 允许接触限值。英国 2024 年发表的首批人工石相关硅肺病例也很年轻，中位年龄 34 岁。",
+      },
+      {
+        type: "p",
+        text: "这件事会改变买家的问题清单。过去问「会不会渗色、会不会烫坏」，现在还要问：加工厂湿切吗？开孔时有局部抽尘吗？有没有给工人做呼吸防护和暴露监测？所谓低硅或无硅材料，可以降低一部分风险，但不能替代加工现场的防护。",
+      },
       { type: "h2", text: "耐高温" },
       {
         type: "p",
@@ -100,6 +132,11 @@ export const articles_zh = {
       {
         type: "p",
         text: "石英石、岩板和高品质花岗岩零吸水。咖啡洒上一小时、一整天、出差一周回来擦掉都没事。代价是损失了一点真石材在斜射光下那种通透感。通体连纹岩板能补一部分，纯印花岩板不能。",
+      },
+      { type: "h2", text: "低硅新品怎么理解" },
+      {
+        type: "p",
+        text: "澳大利亚禁令后，几个大品牌都在推低硅或无硅矿物表面。Cosentino 在 2024 年 KBIS 上推出 Silestone XM，称新品最高含 10% 结晶二氧化硅；Caesarstone Australia 也在 2024 年 2 月宣布 Mineral Crystalline Silica-Free 系列。这里要注意措辞：这些是品牌声明，不等于所有同名市场品类都自动达标。采购时要看检测报告，不要只看宣传页。",
       },
       { type: "h2", text: "颜值" },
       {
@@ -155,6 +192,17 @@ export const articles_zh = {
         type: "p",
         text: "预算紧的整体翻新，目标只是「比贴瓷砖好一点、比贴墙纸耐造」：石英石，灶台旁边备一个锅垫，并且接受它就这样。",
       },
+      { type: "h2", text: "资料来源" },
+      {
+        type: "ul",
+        items: [
+          "[NIOSH Science Bulletin：engineered stone countertop workers](https://www.cdc.gov/niosh/bulletin/2026/engineered-stone-cos.html)",
+          "[OSHA/NIOSH：Hazard Alert for countertop workers](https://www.cdc.gov/niosh/docs/2026-101/default.html)",
+          "[Thorax / PubMed：Artificial stone silicosis: a UK case series](https://pubmed.ncbi.nlm.nih.gov/39107113/)",
+          "[Cosentino：Silestone XM at KBIS 2024](https://www.cosentino.com/usa/blog/cosentino-sets-industry-benchmark-unveils-new-category-of-sustainable-mineral-surfacing-at-kbis-2024/)",
+          "[Caesarstone Australia：Mineral Crystalline Silica-Free launch](https://www.caesarstone.com.au/project-date/05-02-24/)",
+        ],
+      },
       {
         type: "p",
         text: "想看不同**花色系列**在大板尺度下的实拍效果——名石、洞石、连纹、质感岩板——[产品页](/zh/products)按系列和厚度都做了筛选。",
@@ -174,6 +222,15 @@ export const articles_zh = {
       {
         type: "p",
         text: "岩板的标准厚度有 3mm、6mm、9mm、12mm、15mm 五档，每一档解决的问题不一样。",
+      },
+      { type: "h2", text: "先别只看工厂报价单，看标准怎么分" },
+      {
+        type: "p",
+        text: "大规格瓷质板在国际标准里通常归到 gauged porcelain tile panels/slabs。TCNA/ANSI 2025 年 10 月版 A137.3 / A108.19 / A108.20 把不同厚度段分开处理，比如 3.5–4.9mm、5.0–6.5mm、20mm 及以上，并把墙面、地面、台面放在不同安装要求里看。这个思路比「越厚越好」靠谱。",
+      },
+      {
+        type: "p",
+        text: "换到真实项目里，就是先问它承不承重、有没有滚动荷载、是不是外墙、有没有冻融和热应力，再选厚度。想要 30mm 视觉边，那是倒角拼接的问题，不是一定要买 30mm 厚板。",
       },
       { type: "h2", text: "3mm — 只能上墙" },
       {
@@ -234,6 +291,14 @@ export const articles_zh = {
         type: "p",
         text: "这个厚度本地有现货还是要排产？影响交期。这个厚度下最大板规格是多少？影响设计。这个厚度的视觉缺陷率是多少、需要多备多少片？影响损耗。靠谱的工厂这三题都能直接答出来。",
       },
+      { type: "h2", text: "资料来源" },
+      {
+        type: "ul",
+        items: [
+          "[TCNA：ANSI A137.3 / A108.19 / A108.20 gauged porcelain tile panels/slabs 标准](https://tcnatile.com/products/publications/ansi-a137-3-a108-19-and-a108-20-american-national-standard-specifications-for-gauged-porcelain-tiles-and-tile-panels-slabs-specifications-october-2025/)",
+          "[Coverings 2025：Top Tile Trends](https://www.coverings.com/press-release/2025-top-tile-trends/)",
+        ],
+      },
       {
         type: "p",
         text: "想看[不同厚度下的全色系](/zh/products)——3mm 到 15mm——产品页直接按厚度筛选。",
@@ -242,9 +307,9 @@ export const articles_zh = {
   },
 
   "sourcing-sintered-slabs-from-china": {
-    title: "从中国采购岩板，外贸买家踩过的 7 个坑",
+    title: "从中国采购岩板，外贸买家踩过的 8 个坑",
     excerpt:
-      "全球大约一半的大规格瓷板/岩板产能在佛山和它周边的广东产业带。给欧美品牌商代工的工厂和阿里巴巴上接散单的工厂，常常是同一家。两个渠道的价差极大。这篇讲怎么走通直采，又不被坑。",
+      "全球大规格瓷板/岩板产能高度集中在佛山和它周边的广东产业带。给欧美品牌商代工的工厂和阿里巴巴上接散单的工厂，常常出现在同一个供应链里。两个渠道的价差极大。这篇讲怎么走通直采，又不被坑。",
     blocks: [
       {
         type: "p",
@@ -253,6 +318,15 @@ export const articles_zh = {
       {
         type: "p",
         text: "那些品牌也不是白拿溢价——他们提供分销网络、技术支持、营销物料、批次匹配、付款账期。但不是每个进口商都需要这一整套。如果你自己有仓库、有加工能力、客户买的是性能而非品牌，那直采是可行的。多数第一次试的人在第一个柜上亏钱，原因都很可预测。",
+      },
+      { type: "h2", text: "先看大盘：不是所有瓷砖都在涨" },
+      {
+        type: "p",
+        text: "2024 年全球瓷砖产量是 149.5 亿㎡，同比下降 6.2%；出口量 26.74 亿㎡，同比下降 2.5%。这组 MECS/ACIMAC 数据很重要，因为它提醒买家：岩板和大规格板是结构性机会，不代表整个瓷砖市场都在扩张。市场收缩时，便宜货会更多，库存货也会更多。",
+      },
+      {
+        type: "p",
+        text: "美国市场也能看到这种拉扯。TCNA 的 2024 年美国瓷砖市场更新显示，美国瓷砖消费同比下降 5.1%，进口占消费量 71.5%；到 2025 年一季度，消费同比回升 4.6%，进口占比升到 73.2%。如果你做北美渠道，直采确实有空间，但也更需要盯住质量和合规。",
       },
       { type: "h2", text: "1. 阿里巴巴上最便宜的那块板，不是你以为的那块板" },
       {
@@ -308,10 +382,25 @@ export const articles_zh = {
         type: "p",
         text: "信用证（L/C）在头部工厂、整柜以上订单是可用的，对首次合作的买家最安全。如果工厂要求电汇到个人账户，红灯——正规工厂走对公账户开发票。",
       },
-      { type: "h2", text: "7. 至少飞一次佛山" },
+      { type: "h2", text: "7. 合规文件别只要检测报告" },
+      {
+        type: "p",
+        text: "2024 年以后，台面材料的进口商还要多问两类文件。第一类是材料检测：吸水率、抗折强度、耐磨、耐化学品，必要时加结晶二氧化硅含量。第二类是加工安全建议：湿切、抽尘、个人防护、开孔和磨边说明。OSHA/NIOSH 2026 年更新的台面加工硅尘警示覆盖天然石和人造石台面，采购方虽然不一定直接管理工厂车间，但你给下游加工商的资料越完整，后续争议越少。",
+      },
+      { type: "h2", text: "8. 至少飞一次佛山" },
       {
         type: "p",
         text: "如果你年进口量已经到一定规模——比如三柜以上——一定要至少飞一次佛山，赶陶博会的两天就能走访 4-5 家工厂。佛山陶瓷城的工厂分布密度极高，一个工作日能验四五家。基本上长期合作关系都是从一次现场拜访开始的。",
+      },
+      { type: "h2", text: "资料来源" },
+      {
+        type: "ul",
+        items: [
+          "[Ceramic World Web / MECS：2024 global ceramic tile production and consumption](https://ceramicworldweb.com/en/economics-and-markets/world-production-and-consumption-ceramic-tiles-2024)",
+          "[TCNA：2024 U.S. Ceramic Tile Market Update](https://tcnatile.com/wp-content/uploads/2025/04/PR-2024-U.S.-Ceramic-Tile-Market-Update-4.30.25.pdf)",
+          "[TCNA：1Q 2025 U.S. Ceramic Tile Market Update](https://tcnatile.com/wp-content/uploads/2025/06/PR-1Q-2025-U.S.-Ceramic-Tile-Market-Update.pdf)",
+          "[OSHA/NIOSH：Hazard Alert for countertop workers](https://www.cdc.gov/niosh/docs/2026-101/default.html)",
+        ],
       },
       {
         type: "p",
@@ -328,6 +417,19 @@ export const articles_zh = {
       {
         type: "p",
         text: "岩板商业化的头一个十年基本属于厨房台面。那一阶段已经定型。2026 年我们看到的有意思的项目，岩板用在别的地方——而且大部分是在做天然材料根本做不到的事。",
+      },
+      { type: "h2", text: "展会给出的信号很一致" },
+      {
+        type: "p",
+        text: "Coverings 2025 把 “Mineral Drenching” 列为年度趋势之一，说的就是用 gauged porcelain panels 把一个空间连续包起来：地面、墙面、台面，甚至家具。这个词有点花，但背后的动作很实际：设计师不再把大板只当台面材料，而是把它当成能统一空间语言的饰面系统。",
+      },
+      {
+        type: "p",
+        text: "欧洲展会也在给同样的信号。Cersaie 2025 官方数据约 95,000 名观众、627 家展商、29 个国家参展；Marmomac 2025 披露 1,400 家展商、54 个国家、约 50,000 名观众，国际观众占 66%。这些展会原本一个偏瓷砖，一个偏天然石，现在讨论的话题越来越重叠：大规格、低维护、整屋表面、项目交付。",
+      },
+      {
+        type: "p",
+        text: "市场数据也支持这个方向。ResearchAndMarkets 的 2025 年摘要估算，全球 sintered stone 市场从 2024 年约 8.78 亿美元增至 2025 年约 9.29 亿美元，预计 2030 年到 12.4 亿美元。它不是脱离建筑周期狂奔的品类，但确实在从厨房台面往建筑饰面迁移。",
       },
       { type: "h2", text: "1. 住宅与酒店的连纹书本贴墙" },
       {
@@ -391,6 +493,16 @@ export const articles_zh = {
       {
         type: "p",
         text: "两个都还早，五年内会成标配。",
+      },
+      { type: "h2", text: "资料来源" },
+      {
+        type: "ul",
+        items: [
+          "[Coverings 2025：Top Tile Trends](https://www.coverings.com/press-release/2025-top-tile-trends/)",
+          "[Cersaie 2025 官方数据](https://www.cersaie.it/en/index.php)",
+          "[Marmomac 2025 facts and figures](https://www.marmomac.com/en/visit/facts-and-figures/)",
+          "[ResearchAndMarkets：Sintered Stone Market 2025](https://www.researchandmarkets.com/reports/6083317/sintered-stone-market-surface-finish-matte)",
+        ],
       },
       {
         type: "p",

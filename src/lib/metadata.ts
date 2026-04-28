@@ -17,6 +17,7 @@ type BuildPageMetadataOptions = {
   locale: AppLocale;
   title: string;
   description: string;
+  image?: string;
   imageAlt?: string;
   path?: string;
   includeIcons?: boolean;
@@ -38,6 +39,7 @@ export function buildPageMetadata({
   locale,
   title,
   description,
+  image = "/assets/hero/home-hero-slide-2.png",
   imageAlt,
   path = "/",
   includeIcons = false,
@@ -74,7 +76,7 @@ export function buildPageMetadata({
       alternateLocale: alternateLocales,
       images: [
         {
-          url: "/assets/hero/home-hero-slide-2.png",
+          url: image,
           width: 1920,
           height: 1080,
           alt: imageAlt ?? title,
@@ -85,7 +87,7 @@ export function buildPageMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: ["/assets/hero/home-hero-slide-2.png"],
+      images: [image],
     },
   };
 }

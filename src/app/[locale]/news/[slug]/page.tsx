@@ -23,6 +23,8 @@ export async function generateMetadata({
     locale,
     title: pageData.title,
     description: pageData.excerpt || pageData.title,
+    image: pageData.imageUrl ?? undefined,
+    imageAlt: pageData.title,
     path: `/news/${slug}`,
   });
 }
