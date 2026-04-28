@@ -14,8 +14,6 @@ import { buildPageMetadata } from "@/lib/metadata";
 import { getLocaleDirection } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getCommonCopy, getMetadataCopy } from "@/data/siteCopy";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { organizationJsonLd } from "@/lib/jsonLd";
@@ -119,8 +117,6 @@ export default async function RootLayout({
           <Footer />
           <FloatingSidebar />
         </NextIntlClientProvider>
-        <Analytics />
-        <SpeedInsights />
         <GoogleAnalytics />
         <BaiduAnalytics />
         <SentryInit />
