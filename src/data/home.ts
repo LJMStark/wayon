@@ -282,7 +282,7 @@ const ENGINEERING_CASE_CONFIG = [
 
 const PARTNER_CONFIG = [
   {
-    title: "酒店工程",
+    titleKey: "HomeData.PartnerCloud.item0.title",
     scale: "xl",
     tone: "strong",
     x: 30,
@@ -290,7 +290,7 @@ const PARTNER_CONFIG = [
     delay: 0,
   },
   {
-    title: "餐厅",
+    titleKey: "HomeData.PartnerCloud.item1.title",
     scale: "sm",
     tone: "muted",
     x: 43,
@@ -298,7 +298,7 @@ const PARTNER_CONFIG = [
     delay: 90,
   },
   {
-    title: "别墅豪宅",
+    titleKey: "HomeData.PartnerCloud.item2.title",
     scale: "md",
     tone: "primary",
     x: 50,
@@ -306,7 +306,7 @@ const PARTNER_CONFIG = [
     delay: 180,
   },
   {
-    title: "地铁工程",
+    titleKey: "HomeData.PartnerCloud.item3.title",
     scale: "lg",
     tone: "muted",
     x: 66,
@@ -314,7 +314,7 @@ const PARTNER_CONFIG = [
     delay: 270,
   },
   {
-    title: "全屋定制",
+    titleKey: "HomeData.PartnerCloud.item4.title",
     scale: "sm",
     tone: "primary",
     x: 79,
@@ -322,7 +322,7 @@ const PARTNER_CONFIG = [
     delay: 360,
   },
   {
-    title: "地标工程",
+    titleKey: "HomeData.PartnerCloud.item5.title",
     scale: "sm",
     tone: "muted",
     x: 25,
@@ -330,7 +330,7 @@ const PARTNER_CONFIG = [
     delay: 450,
   },
   {
-    title: "石材加工商",
+    titleKey: "HomeData.PartnerCloud.item6.title",
     scale: "md",
     tone: "muted",
     x: 42,
@@ -338,7 +338,7 @@ const PARTNER_CONFIG = [
     delay: 540,
   },
   {
-    title: "医院工程",
+    titleKey: "HomeData.PartnerCloud.item7.title",
     scale: "lg",
     tone: "strong",
     x: 57,
@@ -346,7 +346,7 @@ const PARTNER_CONFIG = [
     delay: 630,
   },
   {
-    title: "家具厂",
+    titleKey: "HomeData.PartnerCloud.item8.title",
     scale: "md",
     tone: "primary",
     x: 70,
@@ -354,7 +354,7 @@ const PARTNER_CONFIG = [
     delay: 720,
   },
   {
-    title: "游乐园",
+    titleKey: "HomeData.PartnerCloud.item9.title",
     scale: "md",
     tone: "primary",
     x: 84,
@@ -362,7 +362,7 @@ const PARTNER_CONFIG = [
     delay: 810,
   },
   {
-    title: "大型商场",
+    titleKey: "HomeData.PartnerCloud.item10.title",
     scale: "lg",
     tone: "strong",
     x: 32,
@@ -370,7 +370,7 @@ const PARTNER_CONFIG = [
     delay: 900,
   },
   {
-    title: "体育馆",
+    titleKey: "HomeData.PartnerCloud.item11.title",
     scale: "sm",
     tone: "primary",
     x: 46,
@@ -378,7 +378,7 @@ const PARTNER_CONFIG = [
     delay: 990,
   },
   {
-    title: "学校",
+    titleKey: "HomeData.PartnerCloud.item12.title",
     scale: "lg",
     tone: "strong",
     x: 53,
@@ -386,7 +386,7 @@ const PARTNER_CONFIG = [
     delay: 1080,
   },
   {
-    title: "跨国贸易商",
+    titleKey: "HomeData.PartnerCloud.item13.title",
     scale: "xl",
     tone: "strong",
     x: 71,
@@ -394,7 +394,7 @@ const PARTNER_CONFIG = [
     delay: 1170,
   },
   {
-    title: "建材批发商",
+    titleKey: "HomeData.PartnerCloud.item14.title",
     scale: "sm",
     tone: "muted",
     x: 89,
@@ -402,7 +402,7 @@ const PARTNER_CONFIG = [
     delay: 1260,
   },
 ] as const satisfies ReadonlyArray<{
-  title: string;
+  titleKey: AppMessageKey;
   scale: PartnerItem["scale"];
   tone: PartnerItem["tone"];
   x: number;
@@ -499,8 +499,15 @@ export function getEngineeringCases(t: AppTranslator): CaseItem[] {
   }));
 }
 
-export function getPartners(): PartnerItem[] {
-  return PARTNER_CONFIG.map((item) => ({ ...item }));
+export function getPartners(t: AppTranslator): PartnerItem[] {
+  return PARTNER_CONFIG.map((item) => ({
+    title: t(item.titleKey),
+    scale: item.scale,
+    tone: item.tone,
+    x: item.x,
+    y: item.y,
+    delay: item.delay,
+  }));
 }
 
 export function getNewsFeature(t: AppTranslator): NewsFeature {

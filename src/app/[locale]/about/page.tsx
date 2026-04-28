@@ -26,18 +26,18 @@ const EXHIBITION_PLACEHOLDERS = [1, 2, 3, 4] as const;
 
 function getPhilosophyTabClassName(isActive: boolean): string {
   if (isActive) {
-    return "border-t-2 border-white bg-[#0b1630] px-12 py-5 text-sm uppercase tracking-wider transition-colors";
+    return "shrink-0 border-t-2 border-white bg-[#0b1630] px-6 py-4 text-sm uppercase tracking-wider transition-colors md:px-12 md:py-5";
   }
 
-  return "px-12 py-5 text-sm uppercase tracking-wider transition-colors hover:bg-white/5";
+  return "shrink-0 px-6 py-4 text-sm uppercase tracking-wider transition-colors hover:bg-white/5 md:px-12 md:py-5";
 }
 
 function getExhibitionTabClassName(isActive: boolean): string {
   if (isActive) {
-    return "border-b-2 border-black px-10 py-4 text-sm font-medium tracking-wide text-[#1a1a1a] transition-colors";
+    return "shrink-0 border-b-2 border-black px-5 py-3 text-sm font-medium tracking-wide text-[#1a1a1a] transition-colors md:px-10 md:py-4";
   }
 
-  return "px-10 py-4 text-sm tracking-wide text-[#555555] transition-colors hover:text-black";
+  return "shrink-0 px-5 py-3 text-sm tracking-wide text-[#555555] transition-colors hover:text-black md:px-10 md:py-4";
 }
 
 function getTimelineRowClassName(isReverse: boolean): string {
@@ -151,7 +151,7 @@ export default function AboutPage(): React.JSX.Element {
             </p>
           </div>
 
-          <div className="flex justify-center border-b border-white/20">
+          <div className="flex overflow-x-auto border-b border-white/20 md:justify-center">
             {aboutCopy.philosophyTabs.map((tab: string) => (
               <button
                 key={tab}
@@ -212,7 +212,7 @@ export default function AboutPage(): React.JSX.Element {
           {aboutCopy.exhibitionDescription}
         </p>
 
-        <div className="mb-12 flex justify-center border-b border-gray-200">
+        <div className="mb-12 flex overflow-x-auto border-b border-gray-200 md:justify-center">
           {aboutCopy.exhibitionTabs.map((tab: string) => (
             <button
               key={tab}

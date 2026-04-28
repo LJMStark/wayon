@@ -7,7 +7,7 @@ import { RevealSection } from "./RevealSection";
 
 type NewsSectionProps = {
   title: string;
-  feature: NewsFeature;
+  feature: NewsFeature | null;
   items: NewsItem[];
 };
 
@@ -15,7 +15,11 @@ export function NewsSection({
   title,
   feature,
   items,
-}: NewsSectionProps): React.JSX.Element {
+}: NewsSectionProps): React.JSX.Element | null {
+  if (!feature) {
+    return null;
+  }
+
   return (
     <RevealSection className="wayon-section pb-16">
       <div className="wayon-container">

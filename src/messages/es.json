@@ -308,6 +308,53 @@
         "description": "Los promotores eligen ZYL Stone por su calidad constante y su capacidad para proyectos a gran escala..."
       }
     },
+    "PartnerCloud": {
+      "item0": {
+        "title": "Hoteles"
+      },
+      "item1": {
+        "title": "Restaurantes"
+      },
+      "item2": {
+        "title": "Villas"
+      },
+      "item3": {
+        "title": "Metro"
+      },
+      "item4": {
+        "title": "A medida"
+      },
+      "item5": {
+        "title": "Emblemas"
+      },
+      "item6": {
+        "title": "Taller"
+      },
+      "item7": {
+        "title": "Salud"
+      },
+      "item8": {
+        "title": "Mueble"
+      },
+      "item9": {
+        "title": "Parques"
+      },
+      "item10": {
+        "title": "Centros"
+      },
+      "item11": {
+        "title": "Estadios"
+      },
+      "item12": {
+        "title": "Escuelas"
+      },
+      "item13": {
+        "title": "Global"
+      },
+      "item14": {
+        "title": "Mayoristas"
+      }
+    },
     "EngineeringCases": {
       "item0": {
         "title": "Hotel en Dominica"

@@ -624,14 +624,7 @@ export default function ContactPage() {
                     {/* Honeypot */}
                     <div
                       aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        left: "-10000px",
-                        top: "auto",
-                        width: "1px",
-                        height: "1px",
-                        overflow: "hidden",
-                      }}
+                      className="sr-only"
                     >
                       <label>
                         {contactCopy.honeypotLabel}

@@ -308,6 +308,53 @@
         "description": "يختار المطورون ZYL Stone لجودتها المستقرة وقدرتها على خدمة المشاريع واسعة النطاق..."
       }
     },
+    "PartnerCloud": {
+      "item0": {
+        "title": "الفنادق"
+      },
+      "item1": {
+        "title": "المطاعم"
+      },
+      "item2": {
+        "title": "الفلل"
+      },
+      "item3": {
+        "title": "المترو"
+      },
+      "item4": {
+        "title": "تفصيل"
+      },
+      "item5": {
+        "title": "معالم"
+      },
+      "item6": {
+        "title": "حجر"
+      },
+      "item7": {
+        "title": "صحة"
+      },
+      "item8": {
+        "title": "الأثاث"
+      },
+      "item9": {
+        "title": "مدن ترفيهية"
+      },
+      "item10": {
+        "title": "المولات"
+      },
+      "item11": {
+        "title": "ملاعب"
+      },
+      "item12": {
+        "title": "مدارس"
+      },
+      "item13": {
+        "title": "تجارة"
+      },
+      "item14": {
+        "title": "تجار مواد"
+      }
+    },
     "EngineeringCases": {
       "item0": {
         "title": "فندق دومينيكا"

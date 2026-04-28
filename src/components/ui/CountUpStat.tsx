@@ -44,6 +44,11 @@ export function CountUpStat({
 }: CountUpStatProps): React.JSX.Element {
   const { num: target, letterSuffix } = parseValue(value);
   const isDecimal = value.includes(".");
+  const isLongMetric =
+    value.replace(/[,\s.]/g, "").length + letterSuffix.length + suffix.trim().length >= 8;
+  const valueClassName = isLongMetric
+    ? "text-[clamp(1.48rem,2.9vw,2.2rem)]"
+    : "text-[clamp(1.65rem,3.4vw,2.55rem)]";
   const [displayed, setDisplayed] = useState("0");
   const [triggered, setTriggered] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -97,10 +102,15 @@ export function CountUpStat({
 
   return (
     <div ref={wrapperRef} className="flex flex-col items-center">
-      <div className="mb-2 text-5xl font-semibold text-[#0f2858]">
+      <div
+        className={[
+          "mb-2 inline-flex max-w-full items-baseline justify-center whitespace-nowrap font-semibold leading-none text-[#0f2858]",
+          valueClassName,
+        ].join(" ")}
+      >
         {displayed}
         {letterSuffix}
-        <span className="text-2xl">{suffix}</span>
+        <span className="ml-1 shrink-0 text-[0.5em]">{suffix}</span>
       </div>
       <div className="text-sm text-[#555555]">{label}</div>
     </div>

@@ -310,6 +310,53 @@
         "description": "作为数百个大型工程的首推集采供应商，我们的品控标准是开发企业安心的基石。"
       }
     },
+    "PartnerCloud": {
+      "item0": {
+        "title": "酒店工程"
+      },
+      "item1": {
+        "title": "餐厅"
+      },
+      "item2": {
+        "title": "别墅豪宅"
+      },
+      "item3": {
+        "title": "地铁工程"
+      },
+      "item4": {
+        "title": "全屋定制"
+      },
+      "item5": {
+        "title": "地标工程"
+      },
+      "item6": {
+        "title": "石材加工商"
+      },
+      "item7": {
+        "title": "医院工程"
+      },
+      "item8": {
+        "title": "家具厂"
+      },
+      "item9": {
+        "title": "游乐园"
+      },
+      "item10": {
+        "title": "大型商场"
+      },
+      "item11": {
+        "title": "体育馆"
+      },
+      "item12": {
+        "title": "学校"
+      },
+      "item13": {
+        "title": "跨国贸易商"
+      },
+      "item14": {
+        "title": "建材批发商"
+      }
+    },
     "EngineeringCases": {
       "item0": {
         "title": "广州雅居乐酒店"

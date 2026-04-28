@@ -72,7 +72,7 @@ export type PartnerCarouselSectionData = {
 
 export type NewsSectionData = {
   title: string;
-  feature: NewsFeature;
+  feature: NewsFeature | null;
   items: NewsItem[];
 };
 

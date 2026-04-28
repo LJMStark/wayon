@@ -310,6 +310,53 @@
         "description": "Developers choose ZYL Stone for its consistent quality, large-scale..."
       }
     },
+    "PartnerCloud": {
+      "item0": {
+        "title": "Hotels"
+      },
+      "item1": {
+        "title": "Restaurants"
+      },
+      "item2": {
+        "title": "Villas"
+      },
+      "item3": {
+        "title": "Metro"
+      },
+      "item4": {
+        "title": "Custom"
+      },
+      "item5": {
+        "title": "Landmarks"
+      },
+      "item6": {
+        "title": "Makers"
+      },
+      "item7": {
+        "title": "Clinics"
+      },
+      "item8": {
+        "title": "Furniture"
+      },
+      "item9": {
+        "title": "Parks"
+      },
+      "item10": {
+        "title": "Malls"
+      },
+      "item11": {
+        "title": "Stadiums"
+      },
+      "item12": {
+        "title": "Schools"
+      },
+      "item13": {
+        "title": "Traders"
+      },
+      "item14": {
+        "title": "Wholesalers"
+      }
+    },
     "EngineeringCases": {
       "item0": {
         "title": "Dominica Hotel"
