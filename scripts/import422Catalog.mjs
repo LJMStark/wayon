@@ -114,6 +114,10 @@ function classifyFile(filename) {
   return "realImages";
 }
 
+function isCustomPatternProduct(segments) {
+  return segments.includes("工艺岩板") && segments.includes("定制图案设计");
+}
+
 // Parse metadata from the directory path
 function parsePathMetadata(leafDir) {
   const rel = path.relative(CATALOG_ROOT, leafDir);
@@ -132,6 +136,10 @@ function parsePathMetadata(leafDir) {
       process = candidate;
       break;
     }
+  }
+
+  if (!process && isCustomPatternProduct(segments)) {
+    process = "数码模具面";
   }
 
   const topCategory = segments[0] ?? null;

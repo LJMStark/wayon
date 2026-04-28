@@ -1445,7 +1445,7 @@ const SITE_COPY = {
       ar: "التشطيب",
     },
     finishValue: {
-      en: "Polished / Matte",
+      en: "High gloss / Matte",
       zh: "亮光 / 哑光",
       es: "Pulido / Mate",
       ar: "لامع / مطفي",

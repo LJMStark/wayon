@@ -12,7 +12,7 @@ type LocalizedLabel = Record<AppLocale, string>;
 
 const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
   "亮光": {
-    en: "Polished",
+    en: "High gloss",
     zh: "亮光",
     es: "Pulido",
     ar: "لامع",
@@ -24,43 +24,43 @@ const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
     ar: "مطفي",
   },
   "亮面(奢石釉)": {
-    en: "Polished (Luxury Glaze)",
+    en: "Luxury stone glaze",
     zh: "亮面(奢石釉)",
     es: "Pulido (Esmalte de lujo)",
     ar: "لامع (طلاء فاخر)",
   },
   "真石镜面釉": {
-    en: "True Stone Mirror Glaze",
+    en: "Real Stone Mirror Glaze",
     zh: "真石镜面釉",
     es: "Esmalte espejo piedra",
     ar: "طلاء مرآة الحجر الحقيقي",
   },
   "肌肤釉": {
-    en: "Skin-Touch Glaze",
+    en: "Skin-touch Glaze",
     zh: "肌肤釉",
     es: "Esmalte tacto piel",
     ar: "طلاء ناعم",
   },
   "透光石": {
-    en: "Translucent",
+    en: "Translucent Slab",
     zh: "透光石",
     es: "Translúcido",
     ar: "شبه شفاف",
   },
   "高白": {
-    en: "High White",
+    en: "Super White",
     zh: "高白",
     es: "Blanco alto",
     ar: "أبيض ناصع",
   },
   "数码模具面": {
-    en: "Digital Mold Surface",
+    en: "Digital Mould Texture",
     zh: "数码模具面",
     es: "Superficie molde digital",
     ar: "سطح قالب رقمي",
   },
   "精雕": {
-    en: "Fine Carving",
+    en: "Precision carved",
     zh: "精雕",
     es: "Tallado fino",
     ar: "نحت دقيق",
@@ -72,13 +72,13 @@ const PROCESS_LABELS: Record<TradeProcess, LocalizedLabel> = {
     ar: "طلاء مُقلَّد",
   },
   "火烧面": {
-    en: "Flamed Surface",
+    en: "Flamed Finish",
     zh: "火烧面",
     es: "Superficie flameada",
     ar: "سطح محروق",
   },
   "定位彩晶": {
-    en: "Color Crystal",
+    en: "Positioned Crystal Inlay",
     zh: "定位彩晶",
     es: "Cristal color",
     ar: "كريستال ملون",

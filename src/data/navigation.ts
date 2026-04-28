@@ -111,9 +111,16 @@ export const NAV_ITEMS: NavItem[] = [
         children: [
           { label: "catalogProcessPolished", href: `/products?section=process&value=${encodeURIComponent("亮光")}` },
           { label: "catalogProcessMatte", href: `/products?section=process&value=${encodeURIComponent("哑光")}` },
-          { label: "catalogProcessSkin", href: `/products?section=process&value=${encodeURIComponent("肌肤釉")}` },
+          { label: "catalogProcessLuxGlaze", href: `/products?section=process&value=${encodeURIComponent("亮面(奢石釉)")}` },
           { label: "catalogProcessMirror", href: `/products?section=process&value=${encodeURIComponent("真石镜面釉")}` },
+          { label: "catalogProcessSkin", href: `/products?section=process&value=${encodeURIComponent("肌肤釉")}` },
+          { label: "catalogProcessTranslucent", href: `/products?section=process&value=${encodeURIComponent("透光石")}` },
+          { label: "catalogProcessHighWhite", href: `/products?section=process&value=${encodeURIComponent("高白")}` },
           { label: "catalogProcessDigitalMold", href: `/products?section=process&value=${encodeURIComponent("数码模具面")}` },
+          { label: "catalogProcessFlamed", href: `/products?section=process&value=${encodeURIComponent("火烧面")}` },
+          { label: "catalogProcessCarved", href: `/products?section=process&value=${encodeURIComponent("精雕")}` },
+          { label: "catalogProcessRetro", href: `/products?section=process&value=${encodeURIComponent("复刻釉")}` },
+          { label: "catalogProcessCrystal", href: `/products?section=process&value=${encodeURIComponent("定位彩晶")}` },
         ],
       },
       {
