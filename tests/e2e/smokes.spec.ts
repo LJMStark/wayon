@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
 
+const hasPayloadBackedE2E =
+  process.env.PAYLOAD_E2E === "1" ||
+  Boolean(process.env.DATABASE_URL && process.env.PAYLOAD_SECRET);
+
 test("root path redirects to a supported locale", async ({ page }) => {
   await page.goto("/");
   // next-intl picks the locale via Accept-Language; the test just
@@ -9,6 +13,11 @@ test("root path redirects to a supported locale", async ({ page }) => {
 });
 
 test("products directory loads with taxonomy filter tabs", async ({ page }) => {
+  test.skip(
+    !hasPayloadBackedE2E,
+    "Payload-backed product pages need DATABASE_URL/PAYLOAD_SECRET in CI"
+  );
+
   await page.goto("/zh/products");
   await expect(page).toHaveURL(/\/zh\/products/);
   // Root layout + page each render a <main>, so scope to .last() (the
@@ -23,6 +32,11 @@ test("products directory loads with taxonomy filter tabs", async ({ page }) => {
 });
 
 test("product detail page resolves from the current directory", async ({ page }) => {
+  test.skip(
+    !hasPayloadBackedE2E,
+    "Payload-backed product pages need DATABASE_URL/PAYLOAD_SECRET in CI"
+  );
+
   await page.goto(
     `/zh/products?section=series&value=${encodeURIComponent("质感岩板")}`
   );
@@ -57,6 +71,11 @@ test("contact page prefills email when ?email query is present", async ({ page }
 });
 
 test("payload admin UI is reachable without locale prefix", async ({ page }) => {
+  test.skip(
+    !hasPayloadBackedE2E,
+    "Payload admin needs DATABASE_URL/PAYLOAD_SECRET in CI"
+  );
+
   const response = await page.goto("/admin");
   expect(response?.status()).toBe(200);
   // Payload injects its own root — we just need it to not 404.
