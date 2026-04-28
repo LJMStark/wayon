@@ -17,7 +17,7 @@ npm run dev
 npm run build      # Production build
 npm run start      # Start production server
 npm run lint       # ESLint
-npm run typecheck  # tsc --noEmit
+npm run typecheck  # next typegen + tsc --noEmit
 npm test           # Vitest unit tests
 npm run test:watch
 npm run test:e2e   # Playwright (needs dev server on :3000)
