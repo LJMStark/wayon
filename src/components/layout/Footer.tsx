@@ -90,7 +90,6 @@ export default function Footer(): React.JSX.Element {
             </Link>
 
             <div>
-              <SectionHeading>{tFooter("getFreeSample")}</SectionHeading>
               <form className="flex gap-2" onSubmit={handleSubscribeSubmit}>
                 <input
                   id="footer-contact"

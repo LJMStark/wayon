@@ -54,11 +54,11 @@ function SpecCard({
 }): React.JSX.Element {
   return (
     <div className="rounded-2xl bg-[#F5F2EC] p-[6px] ring-1 ring-black/[0.06]">
-      <div className="flex min-h-[96px] flex-col items-center justify-center gap-2.5 rounded-[calc(1rem-0.375rem)] bg-white px-4 py-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-        <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#888888]">
+      <div className="flex min-h-[116px] flex-col items-center justify-center gap-3 rounded-[calc(1rem-0.375rem)] bg-white px-5 py-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+        <span className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[#888888]">
           {label}
         </span>
-        <span className="text-[13px] font-normal leading-relaxed text-[#1a1a1a]">
+        <span className="text-[16px] font-normal leading-relaxed text-[#1a1a1a] md:text-[17px]">
           {value}
         </span>
       </div>
@@ -73,14 +73,23 @@ function SectionHeader({ label }: { label: string }): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={`mb-14 flex items-center gap-5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
+      className={`mb-12 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
       }`}
     >
-      <span className="shrink-0 rounded-full bg-[#002b50]/[0.05] px-4 py-1.5 text-[9px] font-semibold uppercase tracking-[0.26em] text-[#002b50]/60 ring-1 ring-[#002b50]/10">
-        {label}
-      </span>
-      <div className="h-px flex-1 bg-gradient-to-r from-[#002b50]/12 to-transparent" />
+      <div className="flex w-full max-w-3xl items-center justify-center gap-4 px-2 sm:gap-6">
+        <div
+          aria-hidden
+          className="h-px min-w-0 flex-1 bg-gradient-to-l from-[#002b50]/14 to-transparent"
+        />
+        <span className="shrink-0 rounded-full bg-white/80 px-8 py-3.5 text-center text-[18px] font-semibold uppercase tracking-[0.08em] text-[#002b50] shadow-[0_12px_34px_-22px_rgba(0,43,80,0.55)] ring-1 ring-[#002b50]/12 backdrop-blur-sm sm:text-[22px]">
+          {label}
+        </span>
+        <div
+          aria-hidden
+          className="h-px min-w-0 flex-1 bg-gradient-to-r from-[#002b50]/14 to-transparent"
+        />
+      </div>
     </div>
   );
 }
@@ -279,9 +288,10 @@ export function ProductDetailPageView({
 
   const elementImages = selectedVariant?.elementImages ?? [];
   const heroFromElement = elementImages[0] ?? null;
+  const heroSpaceImage = selectedVariant?.spaceImages[0] ?? null;
   const heroImage =
     heroFromElement ??
-    selectedVariant?.spaceImages[0] ??
+    heroSpaceImage ??
     selectedVariant?.realImages[0] ??
     null;
 
@@ -296,7 +306,7 @@ export function ProductDetailPageView({
     <div className="min-h-screen wayon-stone-bg pb-32">
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       {heroImage ? (
-        <section className="relative -mt-[var(--header-height)] h-screen min-h-[640px] w-full overflow-hidden">
+        <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[430px] max-h-[680px] w-full overflow-hidden md:h-[64svh] md:min-h-[520px] md:max-h-[720px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroImage.publicUrl}
@@ -312,31 +322,47 @@ export function ProductDetailPageView({
             className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/5 to-transparent"
           />
 
-          {/* Info card: Double-Bezel (outer shell → inner core) */}
-          <div className="relative z-10 flex h-full flex-col justify-center pt-[var(--header-height)] ps-[max(5vw,24px)] pe-4">
-            {/* outer shell */}
-            <div className="w-full max-w-[460px] rounded-[2rem] bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur-2xl md:max-w-[540px]">
-              {/* inner core */}
-              <div className="rounded-[calc(2rem-0.5rem)] bg-white/32 px-8 py-9 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-10 md:py-11">
-                <span className="wayon-eyebrow mb-4 block text-black/60">
-                  {category}
-                </span>
-                <h1 className="font-heading text-[1.9rem] font-normal tracking-[-0.02em] text-[#1a1a1a] md:text-[2.6rem]">
-                  {title}
-                </h1>
-                {seriesTypes.length > 0 ? (
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {seriesTypes.map((seriesType) => (
-                      <span
-                        key={seriesType}
-                        className="rounded-full border border-black/20 px-3.5 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-black/65"
-                      >
-                        {seriesType}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
+          <div className="relative z-10 flex h-full items-center pt-[var(--header-height)]">
+            <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(360px,540px)_minmax(0,520px)] lg:gap-12 xl:gap-16">
+              {/* Info card: Double-Bezel (outer shell → inner core) */}
+              <div className="w-full max-w-[460px] rounded-[2rem] bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur-2xl md:max-w-[540px]">
+                {/* inner core */}
+                <div className="rounded-[calc(2rem-0.5rem)] bg-white/32 px-8 py-9 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-10 md:py-11">
+                  <span className="wayon-eyebrow mb-5 block text-[15px] tracking-[0.08em] text-black/60">
+                    {category}
+                  </span>
+                  <h1 className="font-heading text-[2.2rem] font-normal tracking-[-0.02em] text-[#1a1a1a] md:text-[3.1rem]">
+                    {title}
+                  </h1>
+                  {seriesTypes.length > 0 ? (
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {seriesTypes.map((seriesType) => (
+                        <span
+                          key={seriesType}
+                          className="rounded-full border border-black/20 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[0.1em] text-black/65"
+                        >
+                          {seriesType}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               </div>
+
+              {heroSpaceImage ? (
+                <figure className="hidden w-full max-w-[520px] justify-self-end rounded-[1.75rem] bg-white/12 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-xl lg:block">
+                  <div className="overflow-hidden rounded-[calc(1.75rem-0.5rem)] bg-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={heroSpaceImage.publicUrl}
+                      alt={heroSpaceImage.alt}
+                      loading="eager"
+                      decoding="async"
+                      className="block aspect-[4/3] w-full object-cover"
+                    />
+                  </div>
+                </figure>
+              ) : null}
             </div>
           </div>
         </section>
@@ -347,16 +373,18 @@ export function ProductDetailPageView({
         {/* Back link — pill badge */}
         <Link
           href="/products"
-          className="mb-12 inline-flex items-center gap-2 rounded-full border border-[#002b50]/10 bg-white/70 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#888888] backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
+          className="mb-12 inline-flex items-center gap-2.5 rounded-full border border-[#002b50]/10 bg-white/70 px-5 py-2.5 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#888888] backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
         >
-          <ArrowLeft className="h-3 w-3 rtl:rotate-180" aria-hidden="true" />
+          <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
           {backLabel}
         </Link>
 
         {/* No-hero fallback title */}
         {!heroImage ? (
           <div className="mb-16 flex flex-col items-center text-center">
-            <span className="wayon-eyebrow mb-5">{category}</span>
+            <span className="wayon-eyebrow mb-5 text-[15px] tracking-[0.08em]">
+              {category}
+            </span>
             <h1 className="mb-4 font-heading text-[2.4rem] font-normal tracking-[-0.02em] text-[#242424] md:text-[3.2rem]">
               {title}
             </h1>
@@ -365,7 +393,7 @@ export function ProductDetailPageView({
 
         {/* Description */}
         {descriptionParagraphs.length > 0 ? (
-          <div className="mx-auto mb-16 max-w-2xl text-center text-[15px] font-normal leading-[1.9] text-[#4a4a4a]">
+          <div className="mx-auto mb-16 max-w-3xl text-center text-[17px] font-normal leading-[1.85] text-[#4a4a4a] md:text-[18px]">
             {descriptionParagraphs.map((paragraph) => (
               <p key={paragraph} className="mb-3 last:mb-0">
                 {paragraph}
@@ -377,7 +405,7 @@ export function ProductDetailPageView({
         {/* ─── VARIANT SELECTOR ─────────────────────────────────────── */}
         {variants.length > 1 ? (
           <div className="mb-16">
-            <p className="wayon-eyebrow mb-5 text-center">
+            <p className="wayon-eyebrow mb-5 text-center text-[15px] tracking-[0.08em]">
               {labels.variantSelector}
             </p>
 
@@ -390,7 +418,7 @@ export function ProductDetailPageView({
                     type="button"
                     onClick={() => setSelectedVariantCode(variant.code)}
                     aria-pressed={selectedVariantCode === variant.code}
-                    className={`rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.14em] transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-offset-2 ${
+                    className={`rounded-full px-6 py-3 text-[14px] font-medium uppercase tracking-[0.08em] transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-offset-2 md:text-[15px] ${
                       selectedVariantCode === variant.code
                         ? "bg-[#002b50] text-white shadow-[0_8px_24px_-6px_rgba(0,43,80,0.45)]"
                         : "border border-[#002b50]/15 text-[#002b50]/65 hover:border-[#002b50]/30 hover:text-[#002b50]"
@@ -413,7 +441,7 @@ export function ProductDetailPageView({
                     onChange={(event) =>
                       setSelectedVariantCode(event.target.value)
                     }
-                    className="w-full appearance-none rounded-[inherit] bg-transparent px-5 py-3.5 pe-10 text-sm text-[#242424] outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-inset"
+                    className="w-full appearance-none rounded-[inherit] bg-transparent px-5 py-4 pe-10 text-[16px] text-[#242424] outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-inset"
                   >
                     {variants.map((variant) => (
                       <option key={variant.code} value={variant.code}>
@@ -436,7 +464,7 @@ export function ProductDetailPageView({
         {/* ─── SPECIFICATION BENTO CARDS ────────────────────────────── */}
         {specifications.length > 0 ? (
           <div className="mb-16">
-            <div className="mx-auto grid w-full max-w-4xl grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            <div className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
               {specifications.map((specification) => (
                 <SpecCard
                   key={specification.label}
@@ -452,12 +480,12 @@ export function ProductDetailPageView({
         <div className="mb-28 flex justify-center">
           <Link
             href={requestSampleHref}
-            className="group inline-flex items-center gap-3 rounded-full bg-[#002b50] px-7 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_12px_40px_-12px_rgba(0,43,80,0.5)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:shadow-[0_16px_48px_-10px_rgba(0,43,80,0.55)]"
+            className="group inline-flex items-center gap-3.5 rounded-full bg-[#002b50] px-8 py-[1.125rem] text-[15px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_40px_-12px_rgba(0,43,80,0.5)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:shadow-[0_16px_48px_-10px_rgba(0,43,80,0.55)]"
           >
             {requestSampleLabel}
             {/* Button-in-Button trailing icon */}
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
-              <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden="true" />
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
+              <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
             </span>
           </Link>
         </div>
