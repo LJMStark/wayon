@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Calendar, ChevronLeft, Images, Tag } from "lucide-react";
+import { Calendar, ChevronLeft, Tag } from "lucide-react";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { Link } from "@/i18n/routing";
@@ -149,10 +149,6 @@ function ArticleVisualCard({
           priority={priority}
         />
       </div>
-      <figcaption className="flex gap-2 px-4 py-3 text-sm leading-6 text-gray-600">
-        <Images className="mt-1 h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
-        <span>{visual.caption}</span>
-      </figcaption>
     </figure>
   );
 }

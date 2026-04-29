@@ -35,10 +35,10 @@ const NEWS_ARTICLE_VISUALS: Record<
         ar: "سطح مطبخ وحائط خلفي كامل من الحجر الملبد",
       },
       caption: {
-        en: "Kitchen counters were the first mass-market use case; full-height backsplash panels made the material more architectural.",
+        en: "Kitchen counters were the first mass-market use case. Full-height backsplash panels made it an architectural material.",
         zh: "厨房台面是岩板最早跑通的大众场景；整面挡水墙让它从台面材料变成空间饰面。",
-        es: "Las encimeras de cocina fueron el primer uso masivo; los paneles de pared completa ampliaron su papel arquitectónico.",
-        ar: "كانت أسطح المطابخ أول استخدام واسع؛ ثم جعلت ألواح الجدران الكاملة المادة جزءا من التصميم المعماري.",
+        es: "Las encimeras de cocina fueron el primer uso masivo. Los paneles de pared completa lo convirtieron en un material arquitectónico.",
+        ar: "كانت أسطح المطابخ أول استخدام واسع. ألواح الجدار الكاملة جعلته مادة معمارية.",
       },
     },
     {
@@ -50,10 +50,10 @@ const NEWS_ARTICLE_VISUALS: Record<
         ar: "ألواح بورسلان كبيرة مستخدمة في أرضية تجارية",
       },
       caption: {
-        en: "Large panels reduce joint lines, which is why designers use them on walls, floors, and feature surfaces.",
+        en: "Large slabs mean fewer visible seams. This is why designers choose them for walls, floors, and feature surfaces.",
         zh: "大板减少了缝线，设计师才会把它放到墙面、地面和大面积视觉面上。",
-        es: "Los paneles grandes reducen juntas visibles, por eso se usan en paredes, suelos y superficies protagonistas.",
-        ar: "تقلل الألواح الكبيرة الفواصل المرئية، لذلك يستخدمها المصممون في الجدران والأرضيات والأسطح البارزة.",
+        es: "El gran formato reduce las juntas. Por eso los diseñadores lo eligen para paredes, suelos y superficies protagonistas.",
+        ar: "تقلل الألواح الكبيرة من الفواصل المرئية، وهذا هو السبب الرئيسي وراء اختيار المصممين لها للجدران والأرضيات والأسطح البارزة.",
       },
     },
   ],
@@ -67,10 +67,10 @@ const NEWS_ARTICLE_VISUALS: Record<
         ar: "سطح مطبخ مستخدم في الطهي اليومي",
       },
       caption: {
-        en: "For kitchen and bath work, heat, stains, edges, and fabrication safety all matter.",
+        en: "When choosing kitchen or bathroom surfaces, focus on heat and stain resistance, edge detailing, and fabrication safety.",
         zh: "厨卫台面真正要比的，是耐热、防污、边型加工和加工安全。",
-        es: "En cocina y baño importan el calor, las manchas, los cantos y la seguridad de fabricación.",
-        ar: "في المطابخ والحمامات، تهم مقاومة الحرارة والبقع والحواف وسلامة التصنيع.",
+        es: "Para superficies de cocina y baño, prioriza la resistencia al calor y manchas, el acabado de los cantos y la seguridad en el montaje.",
+        ar: "عند اختيار أسطح المطابخ والحمامات، ركز على مقاومة الحرارة والبقع، وتفاصيل الحافة، وسلامة التصنيع.",
       },
     },
     {
@@ -234,6 +234,7 @@ export function buildNewsDetailPageData(
     contentComingSoonLabel: string;
   }
 ): NewsDetailPageData {
+  const rawBody = getLocalizedNewsBody(article, locale);
   return {
     backToNewsLabel: copy.backToNewsLabel,
     contactCtaTitle: copy.contactCtaTitle,
@@ -241,7 +242,7 @@ export function buildNewsDetailPageData(
     contentComingSoonLabel: copy.contentComingSoonLabel,
     title: getLocalizedNewsValue(article, locale, "title"),
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
-    body: getLocalizedNewsBody(article, locale),
+    body: rawBody ? stripReferencesSection(rawBody) : null,
     imageUrl: article.imageUrl || null,
     visuals: getNewsArticleVisuals(article.slug, locale),
     publishedAt: article.publishedAt,
@@ -266,4 +267,48 @@ function resolveLocalized(
   locale: AppLocale
 ): string {
   return value[locale] || value.en || value.zh || "";
+}
+
+// Keywords that identify a references/sources section heading in any supported locale.
+const REFERENCES_HEADING_PATTERNS = [
+  /^\s*资料来源\s*$/,
+  /^\s*参考资料\s*$/,
+  /^\s*references?\s*$/i,
+  /^\s*sources?\s*$/i,
+  /^\s*bibliography\s*$/i,
+  /^\s*المراجع\s*$/,
+  /^\s*referencias?\s*$/i,
+];
+
+function extractNodeText(node: unknown): string {
+  if (!node || typeof node !== "object") return "";
+  const n = node as Record<string, unknown>;
+  if (typeof n["text"] === "string") return n["text"];
+  if (Array.isArray(n["children"])) {
+    return (n["children"] as unknown[]).map(extractNodeText).join("");
+  }
+  return "";
+}
+
+function isReferencesHeading(node: unknown): boolean {
+  if (!node || typeof node !== "object") return false;
+  const n = node as Record<string, unknown>;
+  if (n["type"] !== "heading") return false;
+  const text = extractNodeText(n);
+  return REFERENCES_HEADING_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+function stripReferencesSection<T extends { root?: unknown }>(body: T): T {
+  if (!body?.root || typeof body.root !== "object") return body;
+  const root = body.root as Record<string, unknown>;
+  if (!Array.isArray(root["children"])) return body;
+
+  const children = root["children"] as unknown[];
+  const cutIndex = children.findIndex(isReferencesHeading);
+  if (cutIndex === -1) return body;
+
+  return {
+    ...body,
+    root: { ...root, children: children.slice(0, cutIndex) },
+  };
 }
