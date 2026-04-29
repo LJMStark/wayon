@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -10,43 +10,7 @@ import type { SolutionTabsCopy } from "@/features/home/types";
 import { formatCopy } from "@/data/siteCopy";
 import { Link } from "@/i18n/routing";
 
-import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
-
-const NAVIGATION_BUTTONS = [
-  {
-    direction: "prev",
-    ariaLabelKey: "previous",
-    Icon: ChevronLeft,
-  },
-  {
-    direction: "next",
-    ariaLabelKey: "next",
-    Icon: ChevronRight,
-  },
-] as const;
-
-function getTabOverlayClassName(isActive: boolean): string {
-  if (isActive) {
-    return "absolute inset-0 bg-[color:var(--primary)]/85 transition-colors";
-  }
-
-  return "absolute inset-0 bg-white/88 transition-colors";
-}
-
-function getTabTextClassName(isActive: boolean): string {
-  if (isActive) {
-    return "text-[18px] font-normal leading-none text-white";
-  }
-
-  return "text-[18px] font-normal leading-none text-[#323232]";
-}
-
-function getCarouselActionLabel(
-  copy: SolutionTabsCopy,
-  key: "previous" | "next"
-): string {
-  return key === "previous" ? copy.previousLabel : copy.nextLabel;
-}
+import { getWrappedIndex } from "./carouselUtils";
 
 type SolutionTabsProps = {
   title: string;
@@ -66,131 +30,99 @@ export function SolutionTabs({
   const activeItem = items[activeIndex];
   const shouldReduce = useReducedMotion();
 
-  const changeActiveIndex = (direction: CarouselDirection): void => {
-    setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
-  };
-
   useEffect(() => {
-    if (isPaused || shouldReduce) return;
+    if (isPaused || shouldReduce || items.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [isPaused, items.length, shouldReduce]);
 
   return (
     <motion.section
-      className="wayon-section px-0"
-      initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-      whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
+      className="relative h-screen min-h-[700px] max-h-[1000px] w-full bg-[#09090b] overflow-hidden"
+      initial={shouldReduce ? false : { opacity: 0 }}
+      whileInView={shouldReduce ? undefined : { opacity: 1 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1 }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="mx-auto max-w-[1920px] px-4 lg:px-8">
-        <header className="mb-6 text-center md:mb-10">
-          <h2 className="wayon-title">{title}</h2>
-          <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
-            {description}
-          </p>
+      {/* Background Images */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={activeItem.label}
+          className="absolute inset-0"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Image
+            src={activeItem.image}
+            alt={activeItem.title}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority={activeIndex === 0}
+          />
+          {/* High contrast gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/60 to-transparent opacity-90" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Content Layer */}
+      <div className="relative z-10 mx-auto max-w-[90rem] h-full flex flex-col justify-between px-6 lg:px-12 py-24">
+
+        <header className="max-w-2xl">
+          <h2 className="text-white/60 text-xs tracking-[0.3em] uppercase mb-4">{title}</h2>
+          <p className="text-white text-[15px] leading-relaxed max-w-md">{description}</p>
         </header>
 
-        <div 
-          className="relative"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <div className="relative overflow-hidden bg-[color:var(--surface)]">
-            <div className="relative min-h-[300px] w-full md:aspect-[7/3]">
-              <AnimatePresence mode="sync">
-                <motion.div
-                  key={activeItem.label}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <Image
-                    src={activeItem.image}
-                    alt={activeItem.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 1140px"
-                    className="object-cover"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-24 items-end mb-12">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeItem.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="max-w-3xl"
+            >
+              <h3 className="text-[clamp(2.5rem,6vw,5.5rem)] font-light tracking-wide text-white mb-6 uppercase leading-[1.1]">
+                {activeItem.title}
+              </h3>
+              <p className="text-[15px] lg:text-[16px] leading-[1.8] text-white/80 mb-10 max-w-xl">
+                {activeItem.description}
+              </p>
+              <Link href={activeItem.href} className="group relative inline-flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-white pb-3 w-fit">
+                <span className="relative z-10">{formatCopy(copy.ctaTemplate, { title: activeItem.title })}</span>
+                <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white/30 transition-colors duration-300 group-hover:bg-white" />
+                <ArrowRight className="size-4 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
 
-            <article className="relative z-10 w-full bg-black/40 p-6 text-white backdrop-blur-[2px] md:absolute md:start-10 md:top-1/2 md:w-[44.642857%] md:-translate-y-1/2 md:p-10">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeItem.label}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          {/* Minimalist Tabs list */}
+          <div className="flex flex-col gap-6 items-start lg:items-end w-full lg:mb-4" role="tablist">
+            {items.map((solution, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <button
+                  key={solution.label}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveIndex(index)}
+                  className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-all duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
                 >
-                  <header className="mb-4">
-                    <h3 className="text-[28px] font-medium md:text-[34px]">{activeItem.title}</h3>
-                  </header>
-                  <p className="text-[15px] font-normal leading-[1.78] text-white/90">
-                    {activeItem.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-              <footer className="mt-6 flex items-center justify-between gap-4">
-                <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  {formatCopy(copy.ctaTemplate, { title: activeItem.title })}
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </Link>
-                <div className="flex items-center gap-2">
-                  {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
-                    <button
-                      key={direction}
-                      type="button"
-                      onClick={() => changeActiveIndex(direction)}
-                      className="flex size-10 items-center justify-center border border-white/40 text-white transition-colors hover:bg-white/10"
-                      aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
-                    >
-                      <Icon className="size-4" aria-hidden="true" />
-                    </button>
-                  ))}
-                </div>
-              </footer>
-            </article>
-          </div>
-
-          <div className="mt-5 grid gap-[5px] md:grid-cols-5" role="tablist" aria-label={title}>
-            {items.map((solution, index) => (
-              <button
-                key={solution.label}
-                type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
-                onClick={() => setActiveIndex(index)}
-                className="relative min-h-[84px] overflow-hidden"
-                >
-                  <div className="absolute inset-0">
-                    <Image
-                      src={solution.image}
-                    alt={solution.label}
-                    fill
-                      sizes="(max-width: 768px) 100vw, 225px"
-                      className="object-cover"
-                    />
-                    <div className={getTabOverlayClassName(index === activeIndex)} />
-                  </div>
-                <div className="relative z-10 flex items-center justify-between gap-3 px-4 py-5 text-start">
-                  <span className={getTabTextClassName(index === activeIndex)}>
+                  <span className={`text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-wider uppercase transition-all duration-500 whitespace-nowrap ${isActive ? "text-white translate-x-2 lg:-translate-x-2" : "text-white/60"}`}>
                     {solution.label}
                   </span>
-                  <ChevronRight
-                    aria-hidden="true"
-                    className={`size-5 shrink-0 ${index === activeIndex ? "text-white" : "text-[#323232]"}`}
-                  />
-                </div>
-              </button>
-            ))}
+                  <span className={`h-[1px] transition-all duration-500 hidden md:block ${isActive ? "w-16 bg-white" : "w-0 bg-transparent"}`} />
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ type CountUpStatProps = {
   suffix?: string;
   label: string;
   duration?: number;
+  tone?: "default" | "inverse";
 };
 
 // Parse "160M" → { num: 160, letterSuffix: "M" }
@@ -41,6 +42,7 @@ export function CountUpStat({
   suffix = "",
   label,
   duration = 1800,
+  tone = "default",
 }: CountUpStatProps): React.JSX.Element {
   const { num: target, letterSuffix } = parseValue(value);
   const isDecimal = value.includes(".");
@@ -49,6 +51,7 @@ export function CountUpStat({
   const valueClassName = isLongMetric
     ? "text-[clamp(1.48rem,2.9vw,2.2rem)]"
     : "text-[clamp(1.65rem,3.4vw,2.55rem)]";
+  const isInverse = tone === "inverse";
   const [displayed, setDisplayed] = useState("0");
   const [triggered, setTriggered] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -104,15 +107,33 @@ export function CountUpStat({
     <div ref={wrapperRef} className="flex flex-col items-center">
       <div
         className={[
-          "mb-2 inline-flex max-w-full items-baseline justify-center whitespace-nowrap font-semibold leading-none text-[#0f2858]",
+          "mb-2 inline-flex max-w-full items-baseline justify-center whitespace-nowrap leading-none",
+          isInverse
+            ? "font-light tracking-tight text-white"
+            : "font-semibold text-[#0f2858]",
           valueClassName,
         ].join(" ")}
       >
         {displayed}
         {letterSuffix}
-        <span className="ml-1 shrink-0 text-[0.5em]">{suffix}</span>
+        <span
+          className={[
+            "ml-1 shrink-0 text-[0.5em]",
+            isInverse ? "font-medium tracking-normal text-white/70" : "",
+          ].join(" ")}
+        >
+          {suffix}
+        </span>
       </div>
-      <div className="text-sm text-[#555555]">{label}</div>
+      <div
+        className={
+          isInverse
+            ? "text-xs font-medium tracking-[0.2em] text-white/40 uppercase"
+            : "text-sm text-[#555555]"
+        }
+      >
+        {label}
+      </div>
     </div>
   );
 }

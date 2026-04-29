@@ -110,7 +110,6 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
   return {
     hero: {
       slides: HERO_SLIDES,
-      slideLabel: landingCopy.hero.slideLabel,
     },
     statsSummary: aboutCopy.stats,
     aboutIntro: getAboutIntro(t),
@@ -120,6 +119,7 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
         ctaLabel: landingCopy.aboutAlbum.learnMore,
         previousLabel: landingCopy.aboutAlbum.previous,
         nextLabel: landingCopy.aboutAlbum.next,
+        slideLabel: landingCopy.aboutAlbum.slideLabel,
       },
     },
     productsCarousel: {

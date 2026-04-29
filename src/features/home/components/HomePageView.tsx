@@ -22,20 +22,23 @@ export function HomePageView({
   newsSection,
 }: HomePageData): React.JSX.Element {
   return (
-    <div className="wayon-home">
-      <Hero slides={hero.slides} slideLabel={hero.slideLabel} />
+    <div className="wayon-home bg-[#09090b] text-white">
+      <Hero slides={hero.slides} />
 
-      {/* Stats band — count-up animation, triggers on scroll into view */}
-      <section className="border-b border-[color:var(--border)] bg-[color:var(--background)] px-4 py-14 md:py-20">
-        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-10 divide-x divide-gray-100 text-center md:grid-cols-4">
-          {statsSummary.map((stat: HomeStat) => (
-            <CountUpStat
-              key={stat.label}
-              value={stat.value}
-              suffix={stat.suffix}
-              label={stat.label}
-            />
-          ))}
+      {/* Stats band — dark luxury integration */}
+      <section className="relative z-10 -mt-12 px-4 sm:px-6">
+        <div className="mx-auto max-w-[80rem]">
+          <div className="bg-[#121214]/80 backdrop-blur-xl border border-white/5 py-12 px-6 sm:px-12 grid grid-cols-2 gap-y-12 md:gap-y-0 divide-x divide-white/5 text-center md:grid-cols-4 shadow-2xl">
+            {statsSummary.map((stat: HomeStat) => (
+              <CountUpStat
+                key={stat.label}
+                value={stat.value}
+                suffix={stat.suffix}
+                label={stat.label}
+                tone="inverse"
+              />
+            ))}
+          </div>
         </div>
       </section>
 

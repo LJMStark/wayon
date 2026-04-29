@@ -277,6 +277,12 @@ const SITE_COPY = {
         es: "Siguiente elemento del álbum",
         ar: "عنصر الألبوم التالي",
       },
+      slideLabel: {
+        en: "Go to album slide {index}",
+        zh: "切换到第 {index} 张相册图",
+        es: "Ir a la diapositiva del álbum {index}",
+        ar: "الانتقال إلى شريحة الألبوم {index}",
+      },
     },
     productsCarousel: {
       title: {

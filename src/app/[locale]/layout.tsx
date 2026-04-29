@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import {
   Cairo,
-  Cormorant_Garamond,
+  Inter,
+  Playfair_Display,
   LXGW_Marker_Gothic,
-  Montserrat,
 } from "next/font/google";
 import localFont from "next/font/local";
 import "../globals.css";
@@ -21,10 +21,9 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
 import { SentryInit } from "@/components/analytics/SentryInit";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500", "700"],
   display: "swap",
 });
 
@@ -35,8 +34,8 @@ const cairo = Cairo({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
   display: "swap",
 });
@@ -93,7 +92,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${montserrat.variable} ${cormorant.variable} ${lxgwMarker.variable} ${miSans.variable} ${cairo.variable} h-full`}
+      className={`${inter.variable} ${playfair.variable} ${lxgwMarker.variable} ${miSans.variable} ${cairo.variable} h-full`}
       suppressHydrationWarning
     >
       <head>

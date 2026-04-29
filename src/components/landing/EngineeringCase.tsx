@@ -15,51 +15,61 @@ export function EngineeringCase({
   subtitle,
   items,
 }: EngineeringCaseProps): React.JSX.Element {
+
+  // Assign varying aspect ratios for masonry effect
+  const getAspectRatio = (index: number) => {
+    const ratios = [
+      "aspect-[4/5]", "aspect-[16/9]", "aspect-[3/4]",
+      "aspect-[1/1]", "aspect-[4/3]", "aspect-[9/16]"
+    ];
+    return ratios[index % ratios.length];
+  };
+
   return (
-    <RevealSection id="case" className="wayon-section bg-neutral-50/50 px-0">
-      <div className="mx-auto max-w-[1920px] px-4 lg:px-8">
-        <header className="mb-10 text-center md:mb-14">
-          <h2 className="wayon-title text-[color:var(--primary)]">
-            {title}
-          </h2>
-          <p className="wayon-copy mx-auto mt-5 max-w-[780px]">
-            {subtitle}
-          </p>
+    <RevealSection id="case" className="py-24 md:py-32 bg-[#09090b] px-4 md:px-8">
+      <div className="mx-auto max-w-[1920px]">
+        <header className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/10 pb-8">
+          <div className="max-w-2xl">
+            <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-wide text-white uppercase leading-[1.1] mb-6">
+              {title}
+            </h2>
+            <p className="text-white/60 text-[15px] leading-relaxed max-w-md">
+              {subtitle}
+            </p>
+          </div>
         </header>
 
-        {/* 3 columns x 2 rows grid (Pure Tailwind CSS) */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
+        {/* Masonry Layout */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:gap-y-8">
+          {items.map((item, index) => (
             <a
               key={item.title}
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="group block overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow duration-500 hover:shadow-xl"
+              className="group block relative overflow-hidden bg-[#121214] break-inside-avoid border border-white/5"
             >
-              <figure className="relative h-full">
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none"
-                  />
-                  {/* Premium Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f2336]/90 via-[#0f2336]/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:transition-none" />
-                </div>
-                
-                {/* Fixed bottom content that moves up nicely on hover */}
-                <figcaption className="absolute inset-x-0 bottom-0 flex translate-y-4 items-end justify-between p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100 motion-reduce:transition-none">
-                  <h3 className="text-lg font-medium tracking-wide text-white drop-shadow-md lg:text-xl">
+              <div className={`relative w-full ${getAspectRatio(index)}`}>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                />
+                {/* Dark Luxury Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/90 via-[#09090b]/20 to-transparent opacity-60 transition-opacity duration-700 group-hover:opacity-90" />
+
+                {/* Content */}
+                <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end translate-y-4 opacity-0 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:translate-y-0 group-hover:opacity-100">
+                  <h3 className="text-2xl font-light tracking-wide text-white mb-6 uppercase">
                     {item.title}
                   </h3>
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-colors duration-300 hover:bg-white hover:text-[color:var(--primary)]">
+                  <div className="flex size-12 shrink-0 items-center justify-center border border-white/30 text-white transition-colors duration-500 hover:bg-white hover:text-black">
                     <ArrowUpRight className="size-5" aria-hidden="true" />
                   </div>
-                </figcaption>
-              </figure>
+                </div>
+              </div>
             </a>
           ))}
         </div>

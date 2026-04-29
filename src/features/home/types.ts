@@ -12,13 +12,13 @@ import type {
 
 export type HomeHeroData = {
   slides: HeroSlide[];
-  slideLabel: string;
 };
 
 export type AboutAlbumCopy = {
   ctaLabel: string;
   previousLabel: string;
   nextLabel: string;
+  slideLabel: string;
 };
 
 export type ProductsCarouselCopy = {

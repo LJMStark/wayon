@@ -5,8 +5,8 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import type { AboutAlbumItem } from "@/data/home";
+import { formatCopy } from "@/data/siteCopy";
 import type { AboutAlbumCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
 
@@ -25,14 +25,6 @@ const NAVIGATION_BUTTONS = [
   },
 ] as const;
 
-function getThumbnailClassName(isActive: boolean): string {
-  if (isActive) {
-    return "relative overflow-hidden border border-white/80 shadow-[0_0_0_1px_rgba(255,255,255,0.65)] transition-all";
-  }
-
-  return "relative overflow-hidden border border-white/20 transition-all";
-}
-
 type AboutAlbumProps = {
   items: AboutAlbumItem[];
   copy: AboutAlbumCopy;
@@ -48,7 +40,6 @@ export function AboutAlbum({
 }: AboutAlbumProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const activeItem = items[activeIndex];
   const shouldReduce = useReducedMotion();
 
   useEffect(() => {
@@ -58,7 +49,7 @@ export function AboutAlbum({
 
     const timer = window.setInterval(() => {
       setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
-    }, 2000);
+    }, 5000);
 
     return () => window.clearInterval(timer);
   }, [items.length, isPaused, shouldReduce]);
@@ -69,77 +60,79 @@ export function AboutAlbum({
 
   return (
     <motion.section
-      className="relative pb-12 md:pb-0"
+      className="relative h-[80vh] min-h-[600px] w-full bg-[#09090b] overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      initial={shouldReduce ? false : { opacity: 0, y: 24 }}
-      whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      initial={shouldReduce ? false : { opacity: 0 }}
+      whileInView={shouldReduce ? undefined : { opacity: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 1 }}
     >
-      <div className="wayon-container relative">
-        <div className="relative min-h-[420px] w-full overflow-hidden bg-[color:var(--surface)] md:aspect-[12/5] md:min-h-[540px]">
-          <ParallaxImage
-            key={activeItem.image}
-            src={activeItem.image}
-            alt={activeItem.title}
-            sizes="(max-width: 768px) 100vw, 1140px"
-            className={`object-cover ${activeItem.image.includes('zyl-fashion-pavilion.png') ? 'object-top' : 'object-center'}`}
-            intensity={70}
-          />
+      {items.map((item, index) => {
+        const isActive = activeIndex === index;
+        return (
+          <div
+            key={item.title}
+            className={`absolute inset-0 transition-opacity duration-[1.5s] ease-[0.16,1,0.3,1] ${
+              isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+            }`}
+          >
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className={`object-cover transition-transform duration-[8s] ease-linear ${isActive ? "scale-105" : "scale-100"}`}
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/60" />
 
-          <div className="absolute inset-y-0 right-0 flex w-full items-center px-4 md:justify-end md:px-0">
-            <article className="w-full max-w-[520px] bg-black/40 p-6 text-white backdrop-blur-[2px] md:mr-[13.5%] md:p-8">
-              <header className="mb-4">
-                <h3 className="text-[24px] font-medium md:text-[30px]">{activeItem.title}</h3>
-              </header>
-              <p className="text-[15px] font-normal leading-[1.7] text-white/90">
-                {activeItem.text}
-              </p>
-              <footer className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <Link href={activeItem.href} className="wayon-button-link text-[15px] text-white">
-                  {copy.ctaLabel}
-                  <ArrowRight className="size-4" />
+            <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
+              <div className={`transition-all duration-[1s] ease-[0.16,1,0.3,1] delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}>
+                <h3 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-widest text-white mb-6 uppercase">
+                  {item.title}
+                </h3>
+                <p className="max-w-2xl mx-auto text-white/80 text-[15px] leading-relaxed mb-10">
+                  {item.text}
+                </p>
+                <Link href={item.href} className="group relative inline-flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-white pb-3 w-fit">
+                  <span className="relative z-10">{copy.ctaLabel}</span>
+                  <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white/40 transition-colors duration-300 group-hover:bg-white" />
+                  <ArrowRight className="size-4 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
                 </Link>
-                <div className="flex items-center gap-2">
-                  {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
-                    <button
-                      key={direction}
-                      type="button"
-                      onClick={() => changeActiveIndex(direction)}
-                      className="flex size-10 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/10"
-                      aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
-                    >
-                      <Icon className="size-4" aria-hidden="true" />
-                    </button>
-                  ))}
-                </div>
-              </footer>
-            </article>
-          </div>
-        </div>
-
-        <div className="mt-4 grid gap-3 px-[15px] sm:grid-cols-2 md:absolute md:bottom-10 md:left-1/2 md:w-[71.875%] md:-translate-x-1/2 md:grid-cols-6 md:px-0">
-          {items.map((item, index) => (
-            <button
-              key={item.title}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={getThumbnailClassName(index === activeIndex)}
-            >
-              <div className="relative aspect-[3/2]">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 180px"
-                  className="object-cover"
-                />
               </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {items.length > 1 && (
+        <div className="absolute right-6 top-6 z-20 flex items-center gap-3 md:bottom-12 md:right-12 md:top-auto">
+          {NAVIGATION_BUTTONS.map(({ direction, ariaLabelKey, Icon }) => (
+            <button
+              key={direction}
+              type="button"
+              onClick={() => changeActiveIndex(direction)}
+              className="flex size-12 items-center justify-center border border-white/20 bg-black/20 backdrop-blur-md text-white transition-colors hover:bg-white hover:text-black"
+              aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
+            >
+              <Icon className="size-5" aria-hidden="true" />
             </button>
           ))}
         </div>
-      </div>
+      )}
+
+      {items.length > 1 && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+          {items.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveIndex(index)}
+              className={`h-[2px] transition-all duration-300 ${activeIndex === index ? "w-12 bg-white" : "w-6 bg-white/30"}`}
+              aria-label={formatCopy(copy.slideLabel, { index: index + 1 })}
+            />
+          ))}
+        </div>
+      )}
     </motion.section>
   );
 }

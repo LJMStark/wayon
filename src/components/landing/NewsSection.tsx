@@ -21,53 +21,58 @@ export function NewsSection({
   }
 
   return (
-    <RevealSection className="wayon-section pb-16">
-      <div className="wayon-container">
-        <header className="mb-8 md:mb-10">
-          <h2 className="wayon-title">{title}</h2>
+    <RevealSection className="py-24 md:py-32 bg-[#09090b] px-4 lg:px-8 border-t border-white/5">
+      <div className="mx-auto max-w-[90rem]">
+        <header className="mb-16 md:mb-20">
+          <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-widest text-white uppercase leading-none">
+            {title}
+          </h2>
         </header>
 
-        <div className="grid gap-10 lg:grid-cols-[0.46fr_0.54fr] lg:gap-16">
+        <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] xl:gap-24">
+          {/* Featured Article */}
           <article>
-            <Link href={feature.href} className="group block">
-              <div className="relative mb-5 aspect-[129/76] overflow-hidden bg-[color:var(--surface)]">
+            <Link href={feature.href} className="group block h-full flex flex-col">
+              <div className="relative mb-8 aspect-[16/7] md:aspect-[21/9] lg:aspect-[16/10] overflow-hidden bg-[#121214] border border-white/5">
                 <Image
                   src={feature.image}
                   alt={feature.title}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 46vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-[2s] ease-[0.16,1,0.3,1] group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/40 to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
               </div>
-              <h3 className="text-[20px] font-medium leading-[1.6] text-[#262626]">
+              <h3 className="text-[clamp(1.5rem,2.5vw,2rem)] font-light leading-[1.3] text-white tracking-wide transition-colors group-hover:text-white/70">
                 {feature.title}
               </h3>
-              <p className="mt-4 text-[16px] font-normal leading-[1.7] text-[#4a4a4a]">
+              <p className="mt-6 text-[15px] font-normal leading-[1.8] text-white/60 line-clamp-3 max-w-xl">
                 {feature.excerpt}
               </p>
             </Link>
           </article>
 
+          {/* News List */}
           <div>
-            <ul>
+            <ul className="border-t border-white/10">
               {items.map((item) => (
                 <li key={item.title}>
                   <Link
                     href={item.href}
-                    className="flex items-center justify-between gap-6 border-b border-[color:var(--border)] py-6 transition-colors hover:text-[color:var(--primary)]"
+                    className="group flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 border-b border-white/10 py-8 md:py-10 transition-colors hover:bg-white/[0.02] px-2 md:px-6"
                   >
-                    <h3 className="max-w-[75%] text-[20px] font-normal leading-[1.45] text-[#2e2e2e]">
-                      {item.title}
-                    </h3>
                     <time
                       dateTime={`${item.yearMonth}-${String(item.day).padStart(2, "0")}`}
-                      className="shrink-0 text-end text-[color:var(--primary)]"
+                      className="shrink-0 flex items-baseline gap-4 text-white/60 group-hover:text-white transition-colors duration-500"
                     >
-                      <span className="block text-[42px] font-bold leading-none md:text-[56px]">
-                        {item.day}
+                      <span className="block text-[clamp(4rem,6vw,6rem)] font-light leading-[0.8] tracking-tighter tabular-nums">
+                        {String(item.day).padStart(2, "0")}
                       </span>
-                      <span className="text-[14px] font-normal">{item.yearMonth}</span>
+                      <span className="text-xs tracking-[0.3em] uppercase">{item.yearMonth}</span>
                     </time>
+                    <h3 className="w-full text-[18px] md:text-[22px] font-light leading-[1.5] text-white/80 group-hover:text-white transition-colors duration-500">
+                      {item.title}
+                    </h3>
                   </Link>
                 </li>
               ))}
