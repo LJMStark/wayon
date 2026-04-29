@@ -1,9 +1,15 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import type { SolutionItem } from "@/data/home";
 import type { SolutionTabsCopy } from "@/features/home/types";
@@ -19,6 +25,18 @@ type SolutionTabsProps = {
   copy: SolutionTabsCopy;
 };
 
+function useMatchMedia(query: string): boolean {
+  return useSyncExternalStore(
+    (notify) => {
+      const mq = window.matchMedia(query);
+      mq.addEventListener("change", notify);
+      return () => mq.removeEventListener("change", notify);
+    },
+    () => window.matchMedia(query).matches,
+    () => false
+  );
+}
+
 export function SolutionTabs({
   title,
   description,
@@ -29,25 +47,65 @@ export function SolutionTabs({
   const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
   const shouldReduce = useReducedMotion();
+  const isLargeViewport = useMatchMedia("(min-width: 1024px)");
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollDriven = isLargeViewport && !shouldReduce && items.length > 1;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    if (!scrollDriven) return;
+    const next = Math.min(
+      items.length - 1,
+      Math.max(0, Math.floor(progress * items.length))
+    );
+    setActiveIndex((current) => (current === next ? current : next));
+  });
 
   useEffect(() => {
+    if (scrollDriven) return;
     if (isPaused || shouldReduce || items.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
     }, 6000);
     return () => clearInterval(interval);
-  }, [isPaused, items.length, shouldReduce]);
+  }, [isPaused, items.length, scrollDriven, shouldReduce]);
+
+  const handleTabSelect = (index: number): void => {
+    if (!scrollDriven || !sectionRef.current || items.length <= 1) {
+      setActiveIndex(index);
+      return;
+    }
+    const rect = sectionRef.current.getBoundingClientRect();
+    const sectionTop = window.scrollY + rect.top;
+    const scrollableHeight = rect.height - window.innerHeight;
+    const ratio = index / items.length + 1 / (items.length * 2);
+    window.scrollTo({
+      top: sectionTop + scrollableHeight * ratio,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <motion.section
-      className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-[color:var(--primary)]"
-      initial={shouldReduce ? false : { opacity: 0 }}
-      whileInView={shouldReduce ? undefined : { opacity: 1 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 1 }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+    <section
+      ref={sectionRef}
+      style={
+        scrollDriven ? { height: `${items.length * 100}vh` } : undefined
+      }
+      className="relative w-full bg-[color:var(--primary)]"
     >
+      <motion.div
+        className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden lg:sticky lg:top-0"
+        initial={shouldReduce ? false : { opacity: 0 }}
+        whileInView={shouldReduce ? undefined : { opacity: 1 }}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: 1 }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
       {/* Background Images */}
       <AnimatePresence mode="sync">
         <motion.div
@@ -114,7 +172,7 @@ export function SolutionTabs({
                   type="button"
                   role="tab"
                   aria-selected={isActive}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => handleTabSelect(index)}
                   className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-opacity duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
                 >
                   <span className={`text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-wider uppercase transition-[transform,color] duration-500 whitespace-nowrap ${isActive ? "text-white translate-x-2 lg:-translate-x-2" : "text-white/60"}`}>
@@ -127,6 +185,7 @@ export function SolutionTabs({
           </div>
         </div>
       </div>
-    </motion.section>
+      </motion.div>
+    </section>
   );
 }
