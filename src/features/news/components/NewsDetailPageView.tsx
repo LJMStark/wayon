@@ -76,7 +76,7 @@ export function NewsDetailPageView({
         {visuals.length > 0 ? <ArticleVisualDeck visuals={visuals} /> : null}
 
         {hasBody && body ? (
-          <div className="mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6">
+          <div className="mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:visited]:text-amber-800 [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6">
             <RichText data={body} />
           </div>
         ) : (
