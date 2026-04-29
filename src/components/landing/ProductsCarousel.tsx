@@ -131,15 +131,17 @@ export function ProductsCarousel({
                     </Link>
                   </div>
 
-                  {/* Collapsed title */}
+                  {/* Collapsed title — visual peek of inactive card name; real
+                      heading is the 24-30px h3 above when card is active */}
                   <div
+                    aria-hidden
                     className={`absolute inset-x-1 bottom-8 flex justify-center transition-opacity duration-500 ${
                       isActive ? "pointer-events-none opacity-0" : "delay-200 opacity-100"
                     }`}
                   >
-                    <h3 className="whitespace-nowrap text-center text-xs font-medium tracking-normal text-white drop-shadow-sm lg:text-sm">
+                    <span className="whitespace-nowrap text-center text-xs font-medium tracking-normal text-white drop-shadow-sm lg:text-sm">
                       {product.title}
-                    </h3>
+                    </span>
                   </div>
                 </div>
               </motion.div>
