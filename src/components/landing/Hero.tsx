@@ -118,7 +118,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               className="group relative inline-flex items-center gap-3 text-xs md:text-sm tracking-[0.25em] uppercase text-white/60 hover:text-white pb-2 transition-colors duration-300"
             >
               <span className="relative z-10">{t("getFreeSample")}</span>
-              <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-white transition-all duration-500 ease-out group-hover:w-full" />
+              <span className="absolute bottom-0 left-0 h-[1px] w-full origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover:scale-x-100" />
             </Link>
           </motion.div>
         </div>
@@ -132,9 +132,9 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               {!isPaused && (
                 <motion.div
                   key={activeSlide}
-                  className="absolute inset-y-0 left-0 bg-white"
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
+                  className="absolute inset-y-0 left-0 w-full origin-left bg-white"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
                   transition={{ duration: 6, ease: "linear" }}
                 />
               )}

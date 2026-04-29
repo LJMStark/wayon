@@ -30,10 +30,10 @@ type ContactFormStatus = "idle" | "success" | "error" | "rate_limited";
 const FIELD_LABEL_CLASS =
   "mb-2 block text-[11px] uppercase tracking-[0.18em] font-medium text-stone-400 transition-colors duration-300 group-focus-within:text-stone-700";
 const FIELD_BASE_CONTROL_CLASS =
-  "w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-all duration-500 disabled:cursor-not-allowed disabled:opacity-40";
+  "w-full border-0 border-b bg-transparent pb-3 pt-1 text-[15px] text-stone-800 outline-none transition-[border-color,opacity] duration-500 disabled:cursor-not-allowed disabled:opacity-40";
 const FIELD_FOCUS_TIMING = "cubic-bezier(0.32, 0.72, 0, 1)";
 const CONTACT_SOCIAL_LINK_CLASS =
-  "inline-flex size-10 items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--social-brand-color)] shadow-[0_10px_26px_rgba(28,25,23,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)] hover:shadow-[0_14px_30px_rgba(28,25,23,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] active:scale-[0.96]";
+  "inline-flex size-10 items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--social-brand-color)] shadow-[0_10px_26px_rgba(28,25,23,0.08)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)] hover:shadow-[0_14px_30px_rgba(28,25,23,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] active:scale-[0.96]";
 
 function useScrollReveal(): readonly [
   React.RefObject<HTMLDivElement | null>,
@@ -79,11 +79,11 @@ function ExpandIcon({ expanded }: { expanded: boolean }): React.JSX.Element {
   return (
     <span className="relative flex h-4 w-4 items-center justify-center">
       <span
-        className="absolute h-px w-4 bg-current transition-all duration-500"
+        className="absolute h-px w-4 bg-current transition-transform duration-500"
         style={{ transform: expanded ? "rotate(45deg)" : "rotate(0deg)" }}
       />
       <span
-        className="absolute h-px w-4 bg-current transition-all duration-500"
+        className="absolute h-px w-4 bg-current transition-transform duration-500"
         style={{
           transform: expanded ? "rotate(-45deg)" : "rotate(90deg)",
         }}
@@ -123,9 +123,9 @@ function FloatingFieldFrame({
       <div className="relative">
         {children}
         <span
-          className="absolute bottom-0 left-0 h-px bg-stone-700 transition-all duration-700"
+          className="absolute bottom-0 left-0 h-px w-full origin-left bg-stone-700 transition-transform duration-700"
           style={{
-            width: focused ? "100%" : "0%",
+            transform: focused ? "scaleX(1)" : "scaleX(0)",
             transitionTimingFunction: FIELD_FOCUS_TIMING,
           }}
         />
@@ -245,7 +245,7 @@ function FloatingOptionGroup({
                 aria-describedby={hintId}
                 className="peer sr-only"
               />
-              <span className="block min-h-[6.75rem] rounded-lg border border-stone-200 bg-white/45 px-4 py-3.5 text-start transition-all duration-300 break-words peer-checked:border-stone-700 peer-checked:bg-stone-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-stone-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
+              <span className="block min-h-[6.75rem] rounded-lg border border-stone-200 bg-white/45 px-4 py-3.5 text-start transition-[border-color,background-color,opacity] duration-300 break-words peer-checked:border-stone-700 peer-checked:bg-stone-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-stone-700 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
                 <span className="block pr-7 text-[14px] font-medium leading-snug text-stone-800 rtl:pl-7 rtl:pr-0">
                   {option.title}
                 </span>
@@ -255,7 +255,7 @@ function FloatingOptionGroup({
               </span>
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute right-4 top-4 h-3.5 w-3.5 rounded-full border border-stone-300 transition-all duration-300 peer-checked:border-stone-800 peer-checked:bg-stone-800 rtl:left-4 rtl:right-auto"
+                className="pointer-events-none absolute right-4 top-4 h-3.5 w-3.5 rounded-full border border-stone-300 transition-[border-color,background-color] duration-300 peer-checked:border-stone-800 peer-checked:bg-stone-800 rtl:left-4 rtl:right-auto"
               />
             </label>
           );
@@ -402,7 +402,7 @@ export default function ContactPage(): React.JSX.Element {
           <div ref={mapRevealRef}>
             {/* Eyebrow tag */}
             <div
-              className="mb-8 transition-all duration-1000"
+              className="mb-8 transition-[transform,opacity] duration-1000"
               style={{
                 transform: isMapRevealVisible ? "translateY(0)" : "translateY(2rem)",
                 opacity: isMapRevealVisible ? 1 : 0,
@@ -416,7 +416,7 @@ export default function ContactPage(): React.JSX.Element {
 
             {/* Main heading */}
             <div
-              className="mb-12 transition-all duration-1000 delay-100"
+              className="mb-12 transition-[transform,opacity] duration-1000 delay-100"
               style={{
                 transform: isMapRevealVisible ? "translateY(0)" : "translateY(2.5rem)",
                 opacity: isMapRevealVisible ? 1 : 0,
@@ -436,7 +436,7 @@ export default function ContactPage(): React.JSX.Element {
 
             {/* Map — Double Bezel */}
             <div
-              className="mb-12 transition-all duration-1000 delay-200"
+              className="mb-12 transition-[transform,opacity] duration-1000 delay-200"
               style={{
                 transform: isMapRevealVisible ? "translateY(0)" : "translateY(2rem)",
                 opacity: isMapRevealVisible ? 1 : 0,
@@ -474,7 +474,7 @@ export default function ContactPage(): React.JSX.Element {
 
             {/* Locations accordion */}
             <div
-              className="mb-10 space-y-0 transition-all duration-1000 delay-300"
+              className="mb-10 space-y-0 transition-[transform,opacity] duration-1000 delay-300"
               style={{
                 transform: isMapRevealVisible ? "translateY(0)" : "translateY(1.5rem)",
                 opacity: isMapRevealVisible ? 1 : 0,
@@ -513,14 +513,14 @@ export default function ContactPage(): React.JSX.Element {
                       id={panelId}
                       role="region"
                       aria-labelledby={triggerId}
-                      className="overflow-hidden transition-all duration-700"
+                      className="grid transition-[grid-template-rows,opacity] duration-700"
                       style={{
-                        maxHeight: isActive ? "400px" : "0px",
+                        gridTemplateRows: isActive ? "1fr" : "0fr",
                         opacity: isActive ? 1 : 0,
                         transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                       }}
                     >
-                      <div className="pb-5 pr-8 text-[13px] leading-relaxed text-stone-500">
+                      <div className="overflow-hidden pb-5 pr-8 text-[13px] leading-relaxed text-stone-500">
                         {location.address && (
                           <div className="mb-2">
                             <span className="font-medium text-stone-400 uppercase tracking-wider text-[10px]">
@@ -576,7 +576,7 @@ export default function ContactPage(): React.JSX.Element {
 
             {/* Social links */}
             <div
-              className="flex flex-wrap gap-2 transition-all duration-1000 delay-[400ms]"
+              className="flex flex-wrap gap-2 transition-[transform,opacity] duration-1000 delay-[400ms]"
               style={{
                 transform: isMapRevealVisible ? "translateY(0)" : "translateY(1rem)",
                 opacity: isMapRevealVisible ? 1 : 0,
@@ -614,7 +614,7 @@ export default function ContactPage(): React.JSX.Element {
           <div ref={formRevealRef}>
             {/* Form section heading */}
             <div
-              className="mb-12 transition-all duration-1000"
+              className="mb-12 transition-[transform,opacity] duration-1000"
               style={{
                 transform: isFormRevealVisible ? "translateY(0)" : "translateY(2rem)",
                 opacity: isFormRevealVisible ? 1 : 0,
@@ -628,7 +628,7 @@ export default function ContactPage(): React.JSX.Element {
 
             {/* Double Bezel form container */}
             <div
-              className="transition-all duration-1000 delay-150"
+              className="transition-[transform,opacity] duration-1000 delay-150"
               style={{
                 transform: isFormRevealVisible ? "translateY(0)" : "translateY(2.5rem)",
                 opacity: isFormRevealVisible ? 1 : 0,
@@ -673,9 +673,9 @@ export default function ContactPage(): React.JSX.Element {
                     {/* Row 1: Name + Email */}
                     <div className="grid gap-8 sm:grid-cols-2">
                       <div
-                        className="transition-all duration-700 delay-200"
+                        className="transition-[transform,opacity] duration-700 delay-200"
                         style={{
-                          transform: isFormRevealVisible ? "translateY(0) blur(0)" : "translateY(1rem)",
+                          transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                           opacity: isFormRevealVisible ? 1 : 0,
                           transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",
                         }}
@@ -692,7 +692,7 @@ export default function ContactPage(): React.JSX.Element {
                         />
                       </div>
                       <div
-                        className="transition-all duration-700 delay-[250ms]"
+                        className="transition-[transform,opacity] duration-700 delay-[250ms]"
                         style={{
                           transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                           opacity: isFormRevealVisible ? 1 : 0,
@@ -716,7 +716,7 @@ export default function ContactPage(): React.JSX.Element {
 
                     {/* Customer identity */}
                     <div
-                      className="transition-all duration-700 delay-[300ms]"
+                      className="transition-[transform,opacity] duration-700 delay-[300ms]"
                       style={{
                         transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                         opacity: isFormRevealVisible ? 1 : 0,
@@ -737,7 +737,7 @@ export default function ContactPage(): React.JSX.Element {
                     {/* Row 2: Company + Country */}
                     <div className="grid gap-8 sm:grid-cols-2">
                       <div
-                        className="transition-all duration-700 delay-[350ms]"
+                        className="transition-[transform,opacity] duration-700 delay-[350ms]"
                         style={{
                           transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                           opacity: isFormRevealVisible ? 1 : 0,
@@ -756,7 +756,7 @@ export default function ContactPage(): React.JSX.Element {
                         />
                       </div>
                       <div
-                        className="transition-all duration-700 delay-[400ms]"
+                        className="transition-[transform,opacity] duration-700 delay-[400ms]"
                         style={{
                           transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                           opacity: isFormRevealVisible ? 1 : 0,
@@ -778,7 +778,7 @@ export default function ContactPage(): React.JSX.Element {
 
                     {/* Contact */}
                     <div
-                      className="transition-all duration-700 delay-[450ms]"
+                      className="transition-[transform,opacity] duration-700 delay-[450ms]"
                       style={{
                         transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                         opacity: isFormRevealVisible ? 1 : 0,
@@ -799,7 +799,7 @@ export default function ContactPage(): React.JSX.Element {
 
                     {/* Message */}
                     <div
-                      className="transition-all duration-700 delay-[500ms]"
+                      className="transition-[transform,opacity] duration-700 delay-[500ms]"
                       style={{
                         transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                         opacity: isFormRevealVisible ? 1 : 0,
@@ -848,7 +848,7 @@ export default function ContactPage(): React.JSX.Element {
 
                     {/* Submit — Button-in-Button architecture */}
                     <div
-                      className="transition-all duration-700 delay-[600ms]"
+                      className="transition-[transform,opacity] duration-700 delay-[600ms]"
                       style={{
                         transform: isFormRevealVisible ? "translateY(0)" : "translateY(1rem)",
                         opacity: isFormRevealVisible ? 1 : 0,
@@ -858,7 +858,7 @@ export default function ContactPage(): React.JSX.Element {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="group relative flex w-full items-center justify-between overflow-hidden rounded-full px-6 py-4 text-[13px] uppercase tracking-[0.14em] font-medium text-white transition-all duration-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="group relative flex w-full items-center justify-between overflow-hidden rounded-full px-6 py-4 text-[13px] uppercase tracking-[0.14em] font-medium text-white transition-[background,transform,opacity,box-shadow] duration-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                         style={{
                           background: isSubmitting
                             ? "#78716c"
@@ -883,7 +883,7 @@ export default function ContactPage(): React.JSX.Element {
 
                         {/* Trailing icon — nested pill */}
                         <span
-                          className="relative z-[1] ml-4 flex h-8 w-8 items-center justify-center rounded-full transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105"
+                          className="relative z-[1] ml-4 flex h-8 w-8 items-center justify-center rounded-full transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105"
                           style={{
                             background: "rgba(255,255,255,0.12)",
                             transitionTimingFunction: "cubic-bezier(0.32, 0.72, 0, 1)",

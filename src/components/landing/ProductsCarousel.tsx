@@ -74,11 +74,10 @@ export function ProductsCarousel({
               const isActive = activeIndex === index;
 
               return (
-                <motion.div
+                <div
                   key={product.title}
-                  layout
                   onClick={() => setActiveIndex(index)}
-                  onHoverStart={() => setActiveIndex(index)}
+                  onMouseEnter={() => setActiveIndex(index)}
                   onKeyDown={(e) => {
                     if (!isActive && (e.key === "Enter" || e.key === " ")) {
                       e.preventDefault();
@@ -88,17 +87,17 @@ export function ProductsCarousel({
                   role={isActive ? "group" : "button"}
                   tabIndex={isActive ? -1 : 0}
                   aria-label={isActive ? undefined : product.title}
-                  initial={false}
-                  animate={{
-                    flex: isActive ? 6 : 1,
+                  // Native CSS transition on flex-grow lets the browser
+                  // batch the row reflow once per frame instead of paying
+                  // framer-motion's per-frame layout dispatch on a 75vh
+                  // container of 5 image cards.
+                  style={{
+                    flexGrow: isActive ? 6 : 1,
+                    transitionProperty: "flex-grow, opacity, border-color",
+                    transitionDuration: "500ms",
+                    transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 200,
-                    damping: 30,
-                    mass: 1,
-                  }}
-                  className={`group relative cursor-pointer overflow-hidden border border-[#002b50]/10 bg-white transition-all duration-500 shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] ${
+                  className={`group relative basis-0 cursor-pointer overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] ${
                     isActive ? "opacity-100" : "opacity-80 hover:opacity-100 hover:border-[#002b50]/25"
                   }`}
                 >
@@ -121,7 +120,7 @@ export function ProductsCarousel({
                     />
                     {/* Expanded Content */}
                     <div
-                      className={`relative z-10 overflow-hidden transition-all duration-700 ease-[0.16,1,0.3,1] ${
+                      className={`relative z-10 overflow-hidden transition-[transform,opacity] duration-700 ease-[0.16,1,0.3,1] ${
                         isActive
                           ? "translate-y-0 opacity-100"
                           : "translate-y-12 opacity-0 pointer-events-none"
@@ -154,7 +153,7 @@ export function ProductsCarousel({
                       </span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

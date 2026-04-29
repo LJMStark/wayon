@@ -115,12 +115,12 @@ export function SolutionTabs({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveIndex(index)}
-                  className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-all duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
+                  className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-opacity duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
                 >
-                  <span className={`text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-wider uppercase transition-all duration-500 whitespace-nowrap ${isActive ? "text-white translate-x-2 lg:-translate-x-2" : "text-white/60"}`}>
+                  <span className={`text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-wider uppercase transition-[transform,color] duration-500 whitespace-nowrap ${isActive ? "text-white translate-x-2 lg:-translate-x-2" : "text-white/60"}`}>
                     {solution.label}
                   </span>
-                  <span className={`h-[1px] transition-all duration-500 hidden md:block ${isActive ? "w-16 bg-white" : "w-0 bg-transparent"}`} />
+                  <span className={`hidden h-[1px] w-16 origin-left bg-white transition-transform duration-500 md:block ${isActive ? "scale-x-100" : "scale-x-0"}`} />
                 </button>
               )
             })}

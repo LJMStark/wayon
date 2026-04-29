@@ -87,7 +87,7 @@ export default function CasesPage(): React.JSX.Element {
                     className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-colors duration-500 group-hover:bg-black/20 group-hover:opacity-100">
-                    <span className="translate-y-4 transform px-4 text-center text-xl font-normal tracking-[0.1em] text-white transition-all duration-500 group-hover:translate-y-0">
+                    <span className="translate-y-4 transform px-4 text-center text-xl font-normal tracking-[0.1em] text-white transition-transform duration-500 group-hover:translate-y-0">
                       {getImageLabel(index)}
                     </span>
                   </div>

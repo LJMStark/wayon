@@ -80,10 +80,6 @@
     overflow-x: clip;
     padding-top: var(--header-height);
     background-color: var(--background);
-    background-image: url('/assets/calacatta-white-bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
     color: var(--foreground);
     font-family: var(--wayon-font-sans);
     font-size: 16px;
@@ -91,6 +87,22 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Fixed page background as a separate composited layer.
+     Replaces `background-attachment: fixed` (which forces a repaint of the
+     viewport-sized background on every scroll frame on platforms that honor
+     it, and is silently disabled on iOS Safari). The pseudo-element is
+     promoted to its own layer and is essentially free to scroll over. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url("/assets/calacatta-white-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
   }
 
   html[dir="rtl"] body {
@@ -231,12 +243,13 @@
     box-shadow: var(--shadow-soft);
   }
 
+  /* Body already paints the same fixed background as a composited layer
+     (see body::before). Pages that opt into this class only need to ensure
+     they don't paint over it — keeping the class as a no-op marker preserves
+     the styling contract while avoiding a second `background-attachment: fixed`
+     paint. */
   .wayon-stone-bg {
-    background-color: var(--background);
-    background-image: url("/assets/calacatta-white-bg.jpg");
-    background-position: center top;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: transparent;
   }
 
   .wayon-menu-shadow {
@@ -704,12 +717,10 @@
 
 @keyframes partnerCloudReveal {
   from {
-    filter: blur(0.35rem);
     opacity: 0;
   }
 
   to {
-    filter: blur(0);
     opacity: var(--partner-opacity);
   }
 }

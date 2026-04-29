@@ -60,7 +60,7 @@ export function EngineeringCase({
                 <div className="absolute inset-0 bg-gradient-to-t from-[#002b50]/90 via-[#002b50]/20 to-transparent opacity-55 transition-opacity duration-700 group-hover:opacity-90" />
 
                 {/* Content */}
-                <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end translate-y-4 opacity-0 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end translate-y-4 opacity-0 transition-[transform,opacity] duration-700 ease-[0.16,1,0.3,1] group-hover:translate-y-0 group-hover:opacity-100">
                   <h3 className="text-2xl font-light tracking-wide text-white mb-6 uppercase">
                     {item.title}
                   </h3>

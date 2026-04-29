@@ -88,7 +88,7 @@ export function AboutAlbum({
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,43,80,0.08)_0%,rgba(0,43,80,0.26)_100%)]" />
 
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-              <div className={`transition-all duration-[1s] ease-[0.16,1,0.3,1] delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}>
+              <div className={`transition-[transform,opacity] duration-[1s] ease-[0.16,1,0.3,1] delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}>
                 <h3 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-widest text-white mb-6 uppercase">
                   {item.title}
                 </h3>
@@ -128,7 +128,7 @@ export function AboutAlbum({
             <button
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`h-[2px] transition-all duration-300 ${activeIndex === index ? "w-12 bg-white" : "w-6 bg-white/30"}`}
+              className={`h-[2px] w-12 origin-left transition-[transform,background-color] duration-300 ${activeIndex === index ? "scale-x-100 bg-white" : "scale-x-50 bg-white/30"}`}
               aria-label={formatCopy(copy.slideLabel, { index: index + 1 })}
             />
           ))}

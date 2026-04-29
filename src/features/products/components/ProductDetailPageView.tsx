@@ -73,7 +73,7 @@ function SectionHeader({ label }: { label: string }): React.JSX.Element {
   return (
     <div
       ref={ref}
-      className={`mb-12 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
+      className={`mb-12 flex justify-center transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
       }`}
     >
@@ -325,7 +325,7 @@ export function ProductDetailPageView({
           <div className="relative z-10 flex h-full items-center pt-[var(--header-height)]">
             <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(360px,540px)_minmax(0,520px)] lg:gap-12 xl:gap-16">
               {/* Info card: Double-Bezel (outer shell → inner core) */}
-              <div className="w-full max-w-[460px] rounded-[2rem] bg-white/10 p-2 ring-1 ring-white/15 backdrop-blur-2xl md:max-w-[540px]">
+              <div className="w-full max-w-[460px] rounded-[2rem] bg-white/15 p-2 ring-1 ring-white/15 backdrop-blur-md md:max-w-[540px]">
                 {/* inner core */}
                 <div className="rounded-[calc(2rem-0.5rem)] bg-white/32 px-8 py-9 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-10 md:py-11">
                   <span className="wayon-eyebrow mb-5 block text-[15px] tracking-[0.08em] text-black/60">
@@ -350,7 +350,7 @@ export function ProductDetailPageView({
               </div>
 
               {heroSpaceImage ? (
-                <figure className="hidden w-full max-w-[520px] justify-self-end rounded-[1.75rem] bg-white/12 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-xl lg:block">
+                <figure className="hidden w-full max-w-[520px] justify-self-end rounded-[1.75rem] bg-white/18 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-md lg:block">
                   <div className="overflow-hidden rounded-[calc(1.75rem-0.5rem)] bg-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -373,7 +373,7 @@ export function ProductDetailPageView({
         {/* Back link — pill badge */}
         <Link
           href="/products"
-          className="mb-12 inline-flex items-center gap-2.5 rounded-full border border-[#002b50]/10 bg-white/70 px-5 py-2.5 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#888888] backdrop-blur-sm transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
+          className="mb-12 inline-flex items-center gap-2.5 rounded-full border border-[#002b50]/10 bg-white/70 px-5 py-2.5 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#888888] backdrop-blur-sm transition-[color,border-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
         >
           <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden="true" />
           {backLabel}
@@ -418,7 +418,7 @@ export function ProductDetailPageView({
                     type="button"
                     onClick={() => setSelectedVariantCode(variant.code)}
                     aria-pressed={selectedVariantCode === variant.code}
-                    className={`rounded-full px-6 py-3 text-[14px] font-medium uppercase tracking-[0.08em] transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-offset-2 md:text-[15px] ${
+                    className={`rounded-full px-6 py-3 text-[14px] font-medium uppercase tracking-[0.08em] transition-[background-color,color,border-color,box-shadow] duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#002b50] focus-visible:ring-offset-2 md:text-[15px] ${
                       selectedVariantCode === variant.code
                         ? "bg-[#002b50] text-white shadow-[0_8px_24px_-6px_rgba(0,43,80,0.45)]"
                         : "border border-[#002b50]/15 text-[#002b50]/65 hover:border-[#002b50]/30 hover:text-[#002b50]"
@@ -480,7 +480,7 @@ export function ProductDetailPageView({
         <div className="mb-28 flex justify-center">
           <Link
             href={requestSampleHref}
-            className="group inline-flex items-center gap-3.5 rounded-full bg-[#002b50] px-8 py-[1.125rem] text-[15px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_40px_-12px_rgba(0,43,80,0.5)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:shadow-[0_16px_48px_-10px_rgba(0,43,80,0.55)]"
+            className="group inline-flex items-center gap-3.5 rounded-full bg-[#002b50] px-8 py-[1.125rem] text-[15px] font-semibold uppercase tracking-[0.12em] text-white shadow-[0_12px_40px_-12px_rgba(0,43,80,0.5)] transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:shadow-[0_16px_48px_-10px_rgba(0,43,80,0.55)]"
           >
             {requestSampleLabel}
             {/* Button-in-Button trailing icon */}

@@ -136,11 +136,10 @@ export default function ProductGrid({
               key={`taxonomy-${activeSection}`}
               className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4"
             >
-              <AnimatePresence mode="popLayout" initial={false}>
+              <AnimatePresence initial={false}>
                 {taxonomyCards.map((card) => (
                   <motion.div
                     key={card.key}
-                    layout
                     initial={GRID_ITEM_INITIAL}
                     animate={GRID_ITEM_ANIMATE}
                     exit={GRID_ITEM_EXIT}
@@ -187,11 +186,10 @@ export default function ProductGrid({
               key={`products-${activeSection}-${activeValue ?? "all"}`}
               className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3"
             >
-              <AnimatePresence mode="popLayout" initial={false}>
+              <AnimatePresence initial={false}>
                 {products.map((product) => (
                   <motion.div
                     key={product.slug}
-                    layout
                     initial={GRID_ITEM_INITIAL}
                     animate={GRID_ITEM_ANIMATE}
                     exit={GRID_ITEM_EXIT}

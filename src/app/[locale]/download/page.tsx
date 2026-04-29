@@ -27,7 +27,7 @@ function DownloadCatalogCard({
   requestCatalogLabel,
 }: DownloadCatalogCardProps): React.JSX.Element {
   return (
-    <div className="group flex flex-col border border-gray-200 p-8 transition-all duration-300 hover:border-[#1a1a1a] hover:shadow-lg">
+    <div className="group flex flex-col border border-gray-200 p-8 transition-[border-color,box-shadow] duration-300 hover:border-[#1a1a1a] hover:shadow-lg">
       <div className="mb-4 flex items-center justify-between">
         <span className="bg-gray-100 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#666666]">
           PDF
