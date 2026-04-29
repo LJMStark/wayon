@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useReducedMotion,
   motion,
   AnimatePresence,
+  useScroll,
+  useTransform,
   type Variants,
 } from "framer-motion";
 
@@ -28,10 +30,9 @@ const HERO_TITLE_CONTAINER: Variants = {
 };
 
 const HERO_TITLE_LINE: Variants = {
-  hidden: { opacity: 0, y: 60 },
+  hidden: { y: "110%" },
   show: {
-    opacity: 1,
-    y: 0,
+    y: "0%",
     transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
   },
 };
@@ -44,6 +45,13 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const shouldReduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const heroContentY = useTransform(scrollYProgress, [0, 1], [0, -180]);
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1, 0]);
 
   useEffect(() => {
     if (isPaused || slides.length <= 1 || shouldReduce) {
@@ -61,6 +69,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
 
   return (
     <section
+      ref={sectionRef}
       className="relative -mt-[var(--header-height)] h-screen min-h-[700px] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -99,33 +108,38 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 pb-24 md:px-16 md:pb-32 lg:px-24 lg:pb-40">
+      <motion.div
+        className="absolute inset-0 z-10 flex flex-col justify-end px-6 pb-24 md:px-16 md:pb-32 lg:px-24 lg:pb-40"
+        style={shouldReduce ? undefined : { y: heroContentY, opacity: heroContentOpacity, willChange: "transform, opacity" }}
+      >
         <div className="max-w-[90rem] w-full mx-auto space-y-8">
           <motion.div
             variants={HERO_TITLE_CONTAINER}
             initial={shouldReduce ? false : "hidden"}
             animate="show"
-            className="overflow-hidden"
           >
             <h1
               aria-label={[t("titleLine1"), ...highlightedTitleLines].join(" ")}
               className="wayon-hero-title text-white"
             >
-              <motion.span
-                variants={HERO_TITLE_LINE}
-                className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 mb-6 uppercase"
-              >
-                {t("titleLine1")}
-              </motion.span>
-              {highlightedTitleLines.map((line) => (
+              <span className="block overflow-hidden mb-6">
                 <motion.span
-                  key={line}
                   variants={HERO_TITLE_LINE}
-                  className="block text-[clamp(3.5rem,9vw,8.5rem)] leading-[1.05] tracking-tight"
+                  className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 uppercase"
                 >
-                  {" "}
-                  {line}
+                  {t("titleLine1")}
                 </motion.span>
+              </span>
+              {highlightedTitleLines.map((line) => (
+                <span key={line} className="block overflow-hidden">
+                  <motion.span
+                    variants={HERO_TITLE_LINE}
+                    className="block text-[clamp(3.5rem,9vw,8.5rem)] leading-[1.05] tracking-tight"
+                  >
+                    {" "}
+                    {line}
+                  </motion.span>
+                </span>
               ))}
             </h1>
           </motion.div>
@@ -153,7 +167,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             </Link>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {slides.length > 1 && (
         <div className="absolute right-6 bottom-10 md:right-16 md:bottom-16 lg:right-24 z-20 flex gap-4">
