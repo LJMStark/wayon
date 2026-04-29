@@ -46,7 +46,7 @@ export function PartnerCarousel({
     <section className="partner-cloud overflow-hidden border-t border-[#002b50]/10 py-16 md:py-32">
       <div className="mx-auto max-w-[90rem] px-4 md:px-8">
         <div className="partner-cloud__canvas">
-          <header className="relative z-10 mx-auto max-w-3xl text-center">
+          <header className="wayon-reveal-up-soft relative z-10 mx-auto max-w-3xl text-center">
             <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/65">
               {description}
             </p>

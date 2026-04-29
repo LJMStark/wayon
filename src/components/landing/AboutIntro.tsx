@@ -29,7 +29,7 @@ export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
           <Link href={data.href} className="group relative inline-flex w-fit items-center gap-4 pb-3 text-sm uppercase tracking-[0.2em] text-[color:var(--primary)]">
             <span className="relative z-10">{data.cta}</span>
             <span className="absolute bottom-0 left-0 h-[1px] w-full bg-[color:var(--primary)]/35 transition-colors duration-300 group-hover:bg-[color:var(--primary)]" />
-            <ArrowRight className="size-4 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
+            <ArrowRight className="size-4 relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-2" />
           </Link>
         </div>
       </div>

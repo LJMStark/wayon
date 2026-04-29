@@ -56,7 +56,7 @@ export function NewsSection({
           <div>
             <ul className="border-t border-[#002b50]/10">
               {items.map((item) => (
-                <li key={item.title}>
+                <li key={item.title} className="wayon-reveal-up-soft">
                   <Link
                     href={item.href}
                     className="group flex flex-col items-start justify-between gap-6 border-b border-[#002b50]/10 px-2 py-8 transition-colors hover:bg-white/45 md:flex-row md:items-center md:gap-12 md:px-6 md:py-10"

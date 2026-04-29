@@ -63,7 +63,7 @@ export function ProductsCarousel({
               <Link href="/products" className="group relative inline-flex w-fit items-center gap-4 pb-3 text-sm uppercase tracking-[0.2em] text-[color:var(--primary)]">
                 <span className="relative z-10">{copy.detailLabel}</span>
                 <span className="absolute bottom-0 left-0 h-[1px] w-full bg-[color:var(--primary)]/35 transition-colors duration-300 group-hover:bg-[color:var(--primary)]" />
-                <ArrowRight className="size-4 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
+                <ArrowRight className="size-4 relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-2" />
               </Link>
             </motion.div>
           </div>
@@ -168,7 +168,7 @@ export function ProductsCarousel({
                 <Link
                   key={product.title}
                   href={product.href}
-                  className="group relative aspect-[3/4] w-[85vw] shrink-0 snap-center overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] md:w-[60vw]"
+                  className="wayon-snap-card group relative aspect-[3/4] w-[85vw] shrink-0 snap-center overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] md:w-[60vw]"
                 >
                   <Image
                     src={product.image}
