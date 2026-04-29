@@ -219,7 +219,7 @@ export function toNewsPreviewItem(
     category: getNewsCategoryLabel(article.category, locale),
     title,
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
-    image: article.imageUrl || NEWS_FALLBACK_IMAGE,
+    image: getNewsPrimaryImage(article, locale) ?? NEWS_FALLBACK_IMAGE,
     slug: article.slug,
   };
 }
@@ -235,6 +235,10 @@ export function buildNewsDetailPageData(
   }
 ): NewsDetailPageData {
   const rawBody = getLocalizedNewsBody(article, locale);
+  const visuals = getNewsArticleVisuals(article.slug, locale);
+  const primaryVisual = visuals[0];
+  const imageUrl = primaryVisual?.src ?? (article.imageUrl || null);
+
   return {
     backToNewsLabel: copy.backToNewsLabel,
     contactCtaTitle: copy.contactCtaTitle,
@@ -243,12 +247,20 @@ export function buildNewsDetailPageData(
     title: getLocalizedNewsValue(article, locale, "title"),
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
     body: rawBody ? stripReferencesSection(rawBody) : null,
-    imageUrl: article.imageUrl || null,
-    visuals: getNewsArticleVisuals(article.slug, locale),
+    imageUrl,
+    visuals: primaryVisual ? visuals.slice(1) : visuals,
     publishedAt: article.publishedAt,
     dateLabel: formatNewsDate(article.publishedAt, locale).full,
     categoryLabel: getNewsCategoryLabel(article.category, locale),
   };
+}
+
+function getNewsPrimaryImage(
+  article: NewsArticle,
+  locale: AppLocale
+): string | null {
+  const [primaryVisual] = getNewsArticleVisuals(article.slug, locale);
+  return primaryVisual?.src ?? (article.imageUrl || null);
 }
 
 function getNewsArticleVisuals(

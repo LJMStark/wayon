@@ -33,7 +33,6 @@ export const getNewsPageData = cache(async function getNewsPageData(
     heroTitle: newsCopy.heroTitle,
     heroDescription: newsCopy.heroDescription,
     recentUpdatesLabel: commonCopy.recentUpdates,
-    readLabel: newsCopy.readLabel,
     featured: featured ?? null,
     recent,
     emptyMessage: getEmptyNewsMessage(locale),

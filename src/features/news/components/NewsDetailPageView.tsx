@@ -118,16 +118,22 @@ function ArticleVisualDeck({
     return <></>;
   }
 
+  if (supporting.length === 0) {
+    return (
+      <section className="mx-auto mb-14 max-w-3xl">
+        <ArticleVisualCard visual={featured} priority />
+      </section>
+    );
+  }
+
   return (
     <section className="mb-14 grid gap-4 md:grid-cols-[1.5fr_1fr]">
       <ArticleVisualCard visual={featured} priority />
-      {supporting.length > 0 ? (
-        <div className="grid gap-4">
-          {supporting.slice(0, 2).map((visual) => (
-            <ArticleVisualCard key={visual.src} visual={visual} compact />
-          ))}
-        </div>
-      ) : null}
+      <div className="grid gap-4">
+        {supporting.slice(0, 2).map((visual) => (
+          <ArticleVisualCard key={visual.src} visual={visual} compact />
+        ))}
+      </div>
     </section>
   );
 }

@@ -20,7 +20,6 @@ export type NewsPageData = {
   heroTitle: string;
   heroDescription: string;
   recentUpdatesLabel: string;
-  readLabel: string;
   featured: NewsPreviewItem | null;
   recent: NewsPreviewItem[];
   emptyMessage: string;

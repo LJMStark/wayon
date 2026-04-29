@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 import { Link } from "@/i18n/routing";
 
@@ -15,7 +15,6 @@ export function NewsPageView({
   heroTitle,
   heroDescription,
   recentUpdatesLabel,
-  readLabel,
   featured,
   recent,
   emptyMessage,
@@ -80,7 +79,7 @@ export function NewsPageView({
             <div className="mb-4 h-px w-full bg-muted" />
 
             {recent.map((item) => (
-              <NewsPreviewCard key={item.slug} item={item} readLabel={readLabel} />
+              <NewsPreviewCard key={item.slug} item={item} />
             ))}
           </div>
         </section>
@@ -103,10 +102,8 @@ export function NewsPageView({
 
 function NewsPreviewCard({
   item,
-  readLabel,
 }: {
   item: NewsPreviewItem;
-  readLabel: string;
 }): React.JSX.Element {
   return (
     <Link
@@ -136,9 +133,6 @@ function NewsPreviewCard({
         <p className="line-clamp-2 text-sm text-muted-foreground">
           {item.excerpt}
         </p>
-        <div className="mt-3 flex items-center text-sm font-medium text-muted-foreground transition-colors group-hover:text-primary">
-          {readLabel} <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" />
-        </div>
       </div>
     </Link>
   );
