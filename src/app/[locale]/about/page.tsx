@@ -167,40 +167,28 @@ export default function AboutPage(): React.JSX.Element {
       </section>
 
       <section id="certificate" className="mx-auto mb-24 max-w-7xl px-6">
-        <div className="mb-24 grid items-center gap-16 md:grid-cols-2">
-          <div>
-            <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
-              {aboutCopy.certificatesTitle}
-            </h2>
-            <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
-              {aboutCopy.certificatesDescription}
-            </p>
-            <Link
-              href="/about#certificate"
-              className="flex items-center gap-2 border-b border-black pb-1 text-sm uppercase tracking-widest transition-colors hover:text-gray-500"
-            >
-              {aboutCopy.certificatesCta} <MoveRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="relative flex h-[300px] items-center justify-center bg-neutral-100">
-            <span className="text-sm text-[#888888]">
-              {aboutCopy.certificatesPlaceholder}
-            </span>
-          </div>
+        <div className="mb-24 max-w-3xl">
+          <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
+            {aboutCopy.certificatesTitle}
+          </h2>
+          <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
+            {aboutCopy.certificatesDescription}
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 border-b border-black pb-1 text-sm uppercase tracking-widest transition-colors hover:text-gray-500"
+          >
+            {aboutCopy.certificatesCta} <MoveRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <div className="grid items-center gap-16 md:grid-cols-2">
-          <div className="order-2 flex h-[300px] items-center justify-center bg-neutral-100 md:order-1">
-            <span className="text-sm text-[#888888]">{aboutCopy.teamPlaceholder}</span>
-          </div>
-          <div className="order-1 md:order-2">
-            <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
-              {aboutCopy.teamTitle}
-            </h2>
-            <p className="text-[15px] leading-relaxed text-gray-600">
-              {aboutCopy.teamDescription}
-            </p>
-          </div>
+        <div className="max-w-3xl">
+          <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
+            {aboutCopy.teamTitle}
+          </h2>
+          <p className="text-[15px] leading-relaxed text-gray-600">
+            {aboutCopy.teamDescription}
+          </p>
         </div>
       </section>
 
