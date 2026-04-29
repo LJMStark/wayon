@@ -84,7 +84,10 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <h1 className="wayon-hero-title text-white">
+            <h1
+              aria-label={[t("titleLine1"), ...highlightedTitleLines].join(" ")}
+              className="wayon-hero-title text-white"
+            >
               <span className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 mb-6 uppercase">
                 {t("titleLine1")}
               </span>
@@ -93,6 +96,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                   key={line}
                   className="block text-[clamp(3.5rem,9vw,8.5rem)] leading-[1.05] tracking-tight"
                 >
+                  {" "}
                   {line}
                 </span>
               ))}
@@ -107,18 +111,18 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
           >
             <Link
               href="/products"
-              className="group relative inline-flex items-center gap-3 text-xs md:text-sm tracking-[0.25em] uppercase text-white pb-2"
+              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs md:text-sm tracking-[0.25em] uppercase text-white"
             >
               <span className="relative z-10">{t("exploreProducts")}</span>
-              <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white/40 transition-colors duration-300 group-hover:bg-white" />
+              <span className="pointer-events-none absolute inset-x-1 bottom-3 h-[1px] bg-white/40 transition-colors duration-300 group-hover:bg-white" />
             </Link>
 
             <Link
               href="/contact"
-              className="group relative inline-flex items-center gap-3 text-xs md:text-sm tracking-[0.25em] uppercase text-white/60 hover:text-white pb-2 transition-colors duration-300"
+              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs md:text-sm tracking-[0.25em] uppercase text-white/60 transition-colors duration-300 hover:text-white"
             >
               <span className="relative z-10">{t("getFreeSample")}</span>
-              <span className="absolute bottom-0 left-0 h-[1px] w-full origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover:scale-x-100" />
+              <span className="pointer-events-none absolute inset-x-1 bottom-3 h-[1px] origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover:scale-x-100" />
             </Link>
           </motion.div>
         </div>
