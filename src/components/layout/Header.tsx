@@ -69,15 +69,17 @@ function getDesktopNavLinkClassName(
   isCurrent: boolean,
   isTransparent: boolean
 ): string {
+  // py-3 expands the click target to ≥44px tall while the absolute-positioned
+  // underline span (anchored to the parent <li>'s bottom) stays in place.
   if (isCurrent) {
-    return "inline-flex items-center text-[15px] font-semibold text-white transition-colors 2xl:text-[16px]";
+    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors 2xl:text-[16px]";
   }
 
   if (isTransparent) {
-    return "inline-flex items-center text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
+    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
   }
 
-  return "inline-flex items-center text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
+  return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
 }
 
 const UNDERLINE_BASE =
