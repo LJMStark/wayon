@@ -41,7 +41,13 @@ export function ParallaxImage({
         style={
           shouldReduce
             ? { position: "absolute", top: 0, bottom: 0 }
-            : { position: "absolute", top: -intensity, bottom: -intensity, y }
+            : {
+                position: "absolute",
+                top: -intensity,
+                bottom: -intensity,
+                y,
+                willChange: "transform",
+              }
         }
       >
         <Image {...imageProps} alt={alt} fill className={className} />

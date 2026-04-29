@@ -81,7 +81,9 @@ export function AboutAlbum({
               src={item.image}
               alt={item.title}
               fill
-              className={`object-cover transition-transform duration-[8s] ease-linear ${isActive ? "scale-105" : "scale-100"}`}
+              className={`object-cover transition-transform duration-[8s] ease-linear ${
+                isActive ? "scale-105 [will-change:transform]" : "scale-100"
+              }`}
               sizes="100vw"
             />
             <div className="absolute inset-0 bg-[#002b50]/30" />

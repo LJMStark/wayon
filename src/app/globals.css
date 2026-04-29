@@ -771,6 +771,61 @@
   }
 }
 
+@supports (animation-timeline: view()) {
+  .wayon-reveal-up {
+    animation: wayon-reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+    will-change: transform, opacity;
+  }
+
+  .wayon-reveal-up-soft {
+    animation: wayon-reveal-up-soft linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 80%;
+    will-change: transform, opacity;
+  }
+
+  .wayon-image-zoom-in {
+    animation: wayon-image-zoom linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  @keyframes wayon-reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wayon-reveal-up-soft {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wayon-image-zoom {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -3,7 +3,12 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useReducedMotion, motion, AnimatePresence } from "framer-motion";
+import {
+  useReducedMotion,
+  motion,
+  AnimatePresence,
+  type Variants,
+} from "framer-motion";
 
 import type { HeroSlide } from "@/data/home";
 import { Link } from "@/i18n/routing";
@@ -12,6 +17,23 @@ import { getWrappedIndex } from "./carouselUtils";
 
 type HeroProps = {
   slides: HeroSlide[];
+};
+
+const HERO_TITLE_CONTAINER: Variants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+  },
+};
+
+const HERO_TITLE_LINE: Variants = {
+  hidden: { opacity: 0, y: 60 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
 export function Hero({ slides }: HeroProps): React.JSX.Element {
@@ -47,6 +69,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
         <motion.div
           key={`${activeSlide}-${slide?.src}`}
           className="absolute inset-0 z-0"
+          style={{ willChange: "transform, opacity" }}
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
@@ -79,26 +102,30 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
       <div className="absolute inset-0 z-10 flex flex-col justify-end px-6 pb-24 md:px-16 md:pb-32 lg:px-24 lg:pb-40">
         <div className="max-w-[90rem] w-full mx-auto space-y-8">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            variants={HERO_TITLE_CONTAINER}
+            initial={shouldReduce ? false : "hidden"}
+            animate="show"
             className="overflow-hidden"
           >
             <h1
               aria-label={[t("titleLine1"), ...highlightedTitleLines].join(" ")}
               className="wayon-hero-title text-white"
             >
-              <span className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 mb-6 uppercase">
+              <motion.span
+                variants={HERO_TITLE_LINE}
+                className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 mb-6 uppercase"
+              >
                 {t("titleLine1")}
-              </span>
+              </motion.span>
               {highlightedTitleLines.map((line) => (
-                <span
+                <motion.span
                   key={line}
+                  variants={HERO_TITLE_LINE}
                   className="block text-[clamp(3.5rem,9vw,8.5rem)] leading-[1.05] tracking-tight"
                 >
                   {" "}
                   {line}
-                </span>
+                </motion.span>
               ))}
             </h1>
           </motion.div>

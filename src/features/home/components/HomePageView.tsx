@@ -27,7 +27,7 @@ export function HomePageView({
 
       <section className="relative z-10 -mt-12 px-4 sm:px-6">
         <div className="mx-auto max-w-[80rem]">
-          <div className="grid grid-cols-2 gap-y-12 border border-[color:var(--border)] bg-white/82 px-6 py-12 text-center shadow-[0_28px_90px_-54px_rgba(0,43,80,0.45)] backdrop-blur-md sm:px-12 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#002b50]/10">
+          <div className="wayon-reveal-up grid grid-cols-2 gap-y-12 border border-[color:var(--border)] bg-white/82 px-6 py-12 text-center shadow-[0_28px_90px_-54px_rgba(0,43,80,0.45)] backdrop-blur-md sm:px-12 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#002b50]/10">
             {statsSummary.map((stat: HomeStat) => (
               <CountUpStat
                 key={stat.label}
