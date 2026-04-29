@@ -129,7 +129,7 @@ export default function Footer(): React.JSX.Element {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex size-11 items-center justify-center rounded-full border border-white/80 bg-white text-[var(--social-brand-color)] shadow-[0_10px_24px_rgba(0,0,0,0.12)] transition-[transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)]"
+                    className="flex size-9 items-center justify-center rounded-full border border-white/80 bg-white text-[var(--social-brand-color)] shadow-[0_10px_24px_rgba(0,0,0,0.12)] transition-[transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-[var(--social-brand-color)]"
                     style={
                       {
                         "--social-brand-color": getSocialIconBrandColor(
