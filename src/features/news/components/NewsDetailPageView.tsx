@@ -40,50 +40,54 @@ export function NewsDetailPageView({
         <div className="h-[var(--header-height)] bg-primary" />
       )}
 
-      <div className="mx-auto max-w-5xl border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
-        <Link
-          href="/news"
-          className="inline-flex items-center transition-colors hover:text-primary"
-        >
-          <ChevronLeft className="me-1 h-4 w-4 rtl:rotate-180" aria-hidden="true" />
-          {backToNewsLabel}
-        </Link>
-      </div>
-
-      <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
-        <div className="mb-10 border-b border-gray-100 pb-8 text-center">
-          {categoryLabel ? (
-            <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-              <Tag className="me-1.5 h-3 w-3" aria-hidden="true" />
-              {categoryLabel}
-            </span>
-          ) : null}
-          <h1 className="wayon-page-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
-            {title}
-          </h1>
-          <div className="flex items-center justify-center text-sm text-[#666666]">
-            <Calendar className="me-2 h-4 w-4" aria-hidden="true" />
-            {dateLabel}
-          </div>
+      {/* Flat white reading surface — overrides the body::before marble bg
+          so long-form prose doesn't have to compete with stone veining. */}
+      <div className="bg-white">
+        <div className="mx-auto max-w-5xl border-b border-gray-100 px-6 py-4 text-[13px] text-[#555555]">
+          <Link
+            href="/news"
+            className="inline-flex items-center transition-colors hover:text-primary"
+          >
+            <ChevronLeft className="me-1 h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+            {backToNewsLabel}
+          </Link>
         </div>
 
-        {excerpt ? (
-          <p className="mx-auto mb-12 max-w-3xl border-s-4 border-gold ps-6 text-lg font-normal leading-relaxed text-gray-600">
-            {excerpt}
-          </p>
-        ) : null}
-
-        {visuals.length > 0 ? <ArticleVisualDeck visuals={visuals} /> : null}
-
-        {hasBody && body ? (
-          <div className="wayon-article-prose mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6">
-            <RichText data={body} />
+        <div className="mx-auto max-w-5xl px-6 py-12 md:py-16">
+          <div className="mb-10 border-b border-gray-100 pb-8 text-center">
+            {categoryLabel ? (
+              <span className="mb-4 inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+                <Tag className="me-1.5 h-3 w-3" aria-hidden="true" />
+                {categoryLabel}
+              </span>
+            ) : null}
+            <h1 className="wayon-page-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
+              {title}
+            </h1>
+            <div className="flex items-center justify-center text-sm text-[#666666]">
+              <Calendar className="me-2 h-4 w-4" aria-hidden="true" />
+              {dateLabel}
+            </div>
           </div>
-        ) : (
-          <div className="mx-auto flex min-h-[200px] max-w-3xl items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
-            <p className="text-center text-sm">{contentComingSoonLabel}</p>
-          </div>
-        )}
+
+          {excerpt ? (
+            <p className="mx-auto mb-12 max-w-3xl border-s-4 border-gold ps-6 text-lg font-normal leading-relaxed text-gray-600">
+              {excerpt}
+            </p>
+          ) : null}
+
+          {visuals.length > 0 ? <ArticleVisualDeck visuals={visuals} /> : null}
+
+          {hasBody && body ? (
+            <div className="wayon-article-prose mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6">
+              <RichText data={body} />
+            </div>
+          ) : (
+            <div className="mx-auto flex min-h-[200px] max-w-3xl items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
+              <p className="text-center text-sm">{contentComingSoonLabel}</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <section className="bg-primary px-6 pb-6 pt-10 md:pb-8 md:pt-14">
