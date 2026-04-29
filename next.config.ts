@@ -28,25 +28,23 @@ const R2_ORIGIN = `https://${R2_HOSTNAME}`;
 //   In production this directive is omitted to tighten the attack surface.
 // - Google Maps is embedded as an iframe on the contact page (mapEmbedUrl in
 //   src/data/siteCopy.ts points at https://www.google.com/maps?...&output=embed).
-// - Vercel Analytics + Speed Insights load from va.vercel-scripts.com and report
-//   to vitals.vercel-insights.com; vercel.live is used by the preview toolbar.
+// - Cloudflare Web Analytics beacon (static.cloudflareinsights.com/beacon.min.js)
+//   is injected at the Cloudflare edge for every response served through CF; the
+//   beacon then POSTs telemetry to cloudflareinsights.com. Allowed in script-src
+//   and connect-src below so the browser doesn't reject it.
 function buildSiteCsp(dev: boolean): string {
   const scriptSrc = [
     "'self'",
     "'unsafe-inline'",
     ...(dev ? ["'unsafe-eval'"] : []),
-    "https://*.vercel-scripts.com",
-    "https://vercel.live",
-    "https://va.vercel-scripts.com",
+    "https://static.cloudflareinsights.com",
     "https://www.googletagmanager.com",
     "https://hm.baidu.com",
   ].join(' ');
 
   const connectSrc = [
     "'self'",
-    "https://vitals.vercel-insights.com",
-    "https://va.vercel-scripts.com",
-    "https://vercel.live",
+    "https://cloudflareinsights.com",
     "https://www.google-analytics.com",
     "https://region1.google-analytics.com",
     "https://hm.baidu.com",
@@ -71,7 +69,7 @@ function buildSiteCsp(dev: boolean): string {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     `img-src ${imgSrc}`,
     "font-src 'self' data: https://fonts.gstatic.com",
-    "frame-src 'self' https://www.google.com https://*.google.com https://vercel.live",
+    "frame-src 'self' https://www.google.com https://*.google.com",
     `connect-src ${connectSrc}`,
     `media-src 'self' ${R2_ORIGIN}`,
     "worker-src 'self' blob:",
