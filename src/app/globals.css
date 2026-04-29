@@ -102,6 +102,13 @@
     text-decoration: none;
   }
 
+  /* Tailwind v4 doesn't compile arbitrary `:visited` descendant variants for
+     browser-security reasons, so the news article prose component opts in via
+     this class instead of `[&_a:visited]:text-amber-800`. amber-800 = #92400e. */
+  .wayon-article-prose a:visited {
+    color: #92400e;
+  }
+
   button,
   input,
   textarea,
