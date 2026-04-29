@@ -60,7 +60,7 @@ export function AboutAlbum({
 
   return (
     <motion.section
-      className="relative h-[80vh] min-h-[600px] w-full bg-[#09090b] overflow-hidden"
+      className="relative h-[80vh] min-h-[600px] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       initial={shouldReduce ? false : { opacity: 0 }}
@@ -84,7 +84,8 @@ export function AboutAlbum({
               className={`object-cover transition-transform duration-[8s] ease-linear ${isActive ? "scale-105" : "scale-100"}`}
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-black/60" />
+            <div className="absolute inset-0 bg-[#002b50]/30" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,43,80,0.08)_0%,rgba(0,43,80,0.26)_100%)]" />
 
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
               <div className={`transition-all duration-[1s] ease-[0.16,1,0.3,1] delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}>
@@ -112,7 +113,7 @@ export function AboutAlbum({
               key={direction}
               type="button"
               onClick={() => changeActiveIndex(direction)}
-              className="flex size-12 items-center justify-center border border-white/20 bg-black/20 backdrop-blur-md text-white transition-colors hover:bg-white hover:text-black"
+              className="flex size-12 items-center justify-center border border-white/30 bg-[#002b50]/30 text-white backdrop-blur-md transition-colors hover:bg-white hover:text-[color:var(--primary)]"
               aria-label={getCarouselActionLabel(copy, ariaLabelKey)}
             >
               <Icon className="size-5" aria-hidden="true" />

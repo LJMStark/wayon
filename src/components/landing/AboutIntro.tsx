@@ -11,24 +11,24 @@ type AboutIntroProps = {
 
 export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
   return (
-    <RevealSection className="py-24 md:py-32 lg:py-48 bg-[#09090b] text-white relative z-0" amount={0.2}>
+    <RevealSection className="relative z-0 py-16 text-[#242424] md:py-20 lg:py-28" amount={0.2}>
       <div className="mx-auto max-w-[80rem] px-6 text-center">
-        <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] font-light tracking-wide leading-[1.1] mb-12 uppercase mx-auto max-w-5xl">
+        <h2 className="mx-auto mb-10 max-w-5xl text-[clamp(2.5rem,6vw,5.5rem)] font-light uppercase leading-[1.1] tracking-wide text-[color:var(--primary)]">
           {data.title}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-4xl mx-auto text-left">
           {data.paragraphs.map((paragraph, index) => (
-            <p key={paragraph} className={`text-white/60 text-[15px] leading-relaxed ${index === 0 ? "text-[16px] text-white/90 font-medium" : ""}`}>
+            <p key={paragraph} className={`text-[15px] leading-relaxed text-[#4a4a4a] ${index === 0 ? "text-[16px] font-medium text-[#242424]" : ""}`}>
               {paragraph}
             </p>
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center">
-          <Link href={data.href} className="group relative inline-flex items-center gap-4 text-sm tracking-[0.2em] uppercase text-white pb-3 w-fit">
+        <div className="mt-12 flex justify-center">
+          <Link href={data.href} className="group relative inline-flex w-fit items-center gap-4 pb-3 text-sm uppercase tracking-[0.2em] text-[color:var(--primary)]">
             <span className="relative z-10">{data.cta}</span>
-            <span className="absolute bottom-0 left-0 h-[1px] w-full bg-white/30 transition-colors duration-300 group-hover:bg-white" />
+            <span className="absolute bottom-0 left-0 h-[1px] w-full bg-[color:var(--primary)]/35 transition-colors duration-300 group-hover:bg-[color:var(--primary)]" />
             <ArrowRight className="size-4 relative z-10 transition-transform duration-300 group-hover:translate-x-2" />
           </Link>
         </div>

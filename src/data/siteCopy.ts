@@ -287,7 +287,7 @@ const SITE_COPY = {
     productsCarousel: {
       title: {
         en: "ZYL Product",
-        zh: "众岩联产品系列",
+        zh: "众岩联\n产品系列",
         es: "Productos ZYL",
         ar: "منتجات ZYL",
       },

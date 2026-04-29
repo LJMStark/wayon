@@ -39,7 +39,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
 
   return (
     <section
-      className="relative -mt-[var(--header-height)] h-screen min-h-[700px] w-full overflow-hidden bg-[#09090b]"
+      className="relative -mt-[var(--header-height)] h-screen min-h-[700px] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -71,8 +71,8 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               priority
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#002b50]/72 via-[#002b50]/28 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#002b50]/82 via-transparent to-transparent" />
         </motion.div>
       </AnimatePresence>
 

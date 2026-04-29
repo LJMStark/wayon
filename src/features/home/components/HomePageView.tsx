@@ -22,20 +22,18 @@ export function HomePageView({
   newsSection,
 }: HomePageData): React.JSX.Element {
   return (
-    <div className="wayon-home bg-[#09090b] text-white">
+    <div className="wayon-home wayon-stone-bg text-[#242424]">
       <Hero slides={hero.slides} />
 
-      {/* Stats band — dark luxury integration */}
       <section className="relative z-10 -mt-12 px-4 sm:px-6">
         <div className="mx-auto max-w-[80rem]">
-          <div className="bg-[#121214]/80 backdrop-blur-xl border border-white/5 py-12 px-6 sm:px-12 grid grid-cols-2 gap-y-12 md:gap-y-0 divide-x divide-white/5 text-center md:grid-cols-4 shadow-2xl">
+          <div className="grid grid-cols-2 gap-y-12 border border-[color:var(--border)] bg-white/82 px-6 py-12 text-center shadow-[0_28px_90px_-54px_rgba(0,43,80,0.45)] backdrop-blur-md sm:px-12 md:grid-cols-4 md:gap-y-0 md:divide-x md:divide-[#002b50]/10">
             {statsSummary.map((stat: HomeStat) => (
               <CountUpStat
                 key={stat.label}
                 value={stat.value}
                 suffix={stat.suffix}
                 label={stat.label}
-                tone="inverse"
               />
             ))}
           </div>

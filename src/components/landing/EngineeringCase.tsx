@@ -26,14 +26,14 @@ export function EngineeringCase({
   };
 
   return (
-    <RevealSection id="case" className="py-24 md:py-32 bg-[#09090b] px-4 md:px-8">
+    <RevealSection id="case" className="px-4 py-24 md:px-8 md:py-32">
       <div className="mx-auto max-w-[1920px]">
-        <header className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-white/10 pb-8">
+        <header className="mb-16 flex flex-col justify-between gap-8 border-b border-[#002b50]/12 pb-8 md:mb-24 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-wide text-white uppercase leading-[1.1] mb-6">
+            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light uppercase leading-[1.1] tracking-wide text-[color:var(--primary)]">
               {title}
             </h2>
-            <p className="text-white/60 text-[15px] leading-relaxed max-w-md">
+            <p className="max-w-md text-[15px] leading-relaxed text-[#4a4a4a]">
               {subtitle}
             </p>
           </div>
@@ -47,7 +47,7 @@ export function EngineeringCase({
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="group block relative overflow-hidden bg-[#121214] break-inside-avoid border border-white/5"
+              className="group relative block break-inside-avoid overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)]"
             >
               <div className={`relative w-full ${getAspectRatio(index)}`}>
                 <Image
@@ -57,15 +57,14 @@ export function EngineeringCase({
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                 />
-                {/* Dark Luxury Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/90 via-[#09090b]/20 to-transparent opacity-60 transition-opacity duration-700 group-hover:opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#002b50]/90 via-[#002b50]/20 to-transparent opacity-55 transition-opacity duration-700 group-hover:opacity-90" />
 
                 {/* Content */}
                 <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end translate-y-4 opacity-0 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:translate-y-0 group-hover:opacity-100">
                   <h3 className="text-2xl font-light tracking-wide text-white mb-6 uppercase">
                     {item.title}
                   </h3>
-                  <div className="flex size-12 shrink-0 items-center justify-center border border-white/30 text-white transition-colors duration-500 hover:bg-white hover:text-black">
+                  <div className="flex size-12 shrink-0 items-center justify-center border border-white/35 text-white transition-colors duration-500 hover:bg-white hover:text-[color:var(--primary)]">
                     <ArrowUpRight className="size-5" aria-hidden="true" />
                   </div>
                 </div>

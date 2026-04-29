@@ -40,7 +40,7 @@ export function SolutionTabs({
 
   return (
     <motion.section
-      className="relative h-screen min-h-[700px] max-h-[1000px] w-full bg-[#09090b] overflow-hidden"
+      className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden bg-[color:var(--primary)]"
       initial={shouldReduce ? false : { opacity: 0 }}
       whileInView={shouldReduce ? undefined : { opacity: 1 }}
       viewport={{ once: true, amount: 0.15 }}
@@ -66,8 +66,9 @@ export function SolutionTabs({
             sizes="100vw"
             priority={activeIndex === 0}
           />
-          {/* High contrast gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/60 to-transparent opacity-90" />
+          <div className="absolute inset-0 bg-[#002b50]/10" />
+          <div className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-[#002b50]/34 via-[#002b50]/12 to-transparent" />
+          <div className="absolute inset-y-0 left-0 w-[58%] bg-gradient-to-r from-[#002b50]/28 via-[#002b50]/10 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
@@ -89,10 +90,10 @@ export function SolutionTabs({
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-3xl"
             >
-              <h3 className="text-[clamp(2.5rem,6vw,5.5rem)] font-light tracking-wide text-white mb-6 uppercase leading-[1.1]">
+              <h3 className="mb-6 text-[clamp(2.5rem,6vw,5.5rem)] font-light uppercase leading-[1.1] tracking-wide text-white drop-shadow-[0_4px_18px_rgba(0,43,80,0.45)]">
                 {activeItem.title}
               </h3>
-              <p className="text-[15px] lg:text-[16px] leading-[1.8] text-white/80 mb-10 max-w-xl">
+              <p className="mb-10 max-w-xl text-[15px] leading-[1.8] text-white/90 drop-shadow-[0_2px_10px_rgba(0,43,80,0.45)] lg:text-[16px]">
                 {activeItem.description}
               </p>
               <Link href={activeItem.href} className="group relative inline-flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-white pb-3 w-fit">
