@@ -22,7 +22,12 @@ type DevelopmentHistoryItem = {
   text: string;
 };
 
-const EXHIBITION_PLACEHOLDERS = [1, 2, 3, 4] as const;
+type ExhibitionCard = {
+  src: string;
+  category: string;
+  alt: string;
+  caption: string;
+};
 
 function getPhilosophyTabClassName(isActive: boolean): string {
   if (isActive) {
@@ -61,11 +66,22 @@ export default function AboutPage(): React.JSX.Element {
   const tNav = useTranslations("Navigation");
   const commonCopy = getCommonCopy(locale);
   const aboutCopy = getAboutPageCopy(locale);
+  const exhibitionTabs: string[] = Array.from(aboutCopy.exhibitionTabs);
+  const exhibitionCards: ExhibitionCard[] = Array.from(
+    aboutCopy.exhibitionCards
+  );
   const [activePhilosophyTab, setActivePhilosophyTab] = useState<string>(
     aboutCopy.philosophyTabs[0]
   );
   const [activeExhibitionTab, setActiveExhibitionTab] = useState<string>(
-    aboutCopy.exhibitionTabs[0]
+    exhibitionTabs[0]
+  );
+  const firstExhibitionTab = exhibitionTabs[0];
+  const currentExhibitionTab = exhibitionTabs.includes(activeExhibitionTab)
+    ? activeExhibitionTab
+    : firstExhibitionTab;
+  const visibleExhibitionCards = exhibitionCards.filter(
+    (card) => card.category === currentExhibitionTab
   );
 
   return (
@@ -192,7 +208,10 @@ export default function AboutPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="mx-auto mb-32 max-w-7xl px-6 text-center">
+      <section
+        id="enterprise-activities"
+        className="mx-auto mb-32 max-w-7xl px-6 text-center"
+      >
         <h2 className="mb-6 text-3xl font-normal uppercase tracking-[0.1em]">
           {aboutCopy.exhibitionTitle}
         </h2>
@@ -201,26 +220,32 @@ export default function AboutPage(): React.JSX.Element {
         </p>
 
         <div className="mb-12 flex overflow-x-auto border-b border-gray-200 md:justify-center">
-          {aboutCopy.exhibitionTabs.map((tab: string) => (
+          {exhibitionTabs.map((tab: string) => (
             <button
               key={tab}
               type="button"
               onClick={() => setActiveExhibitionTab(tab)}
-              className={getExhibitionTabClassName(activeExhibitionTab === tab)}
+              className={getExhibitionTabClassName(currentExhibitionTab === tab)}
             >
               {tab}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {EXHIBITION_PLACEHOLDERS.map((placeholderIndex) => (
-            <div key={placeholderIndex} className="flex flex-col">
-              <div className="mb-4 flex aspect-[4/3] items-center justify-center bg-neutral-100 text-[#888888]">
-                a{placeholderIndex}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
+          {visibleExhibitionCards.map((card) => (
+            <div key={card.src} className="flex flex-col text-left">
+              <div className="relative mb-4 aspect-video overflow-hidden bg-neutral-100">
+                <Image
+                  src={card.src}
+                  alt={card.alt}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-500 hover:scale-[1.03]"
+                />
               </div>
-              <p className="text-sm text-[#555555]">
-                {aboutCopy.exhibitionCardCaption}
+              <p className="text-sm leading-relaxed text-[#555555]">
+                {card.caption}
               </p>
             </div>
           ))}
