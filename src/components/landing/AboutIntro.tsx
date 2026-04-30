@@ -11,6 +11,32 @@ type AboutIntroProps = {
 };
 
 const FEATURE_ICONS = [Warehouse, Factory, Headphones] as const;
+const NO_BREAK_MEASUREMENT_PATTERN =
+  /(\d[\d,.]*(?:\s*(?:\u4e07|\u4ebf))?\s*(?:\u33a1|m\u00b2|sqm)(?:[\u3002.]?))/giu;
+
+function renderNoBreakMeasurements(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
+
+  for (const match of text.matchAll(NO_BREAK_MEASUREMENT_PATTERN)) {
+    const index = match.index;
+
+    if (index === undefined) continue;
+    if (index > cursor) parts.push(text.slice(cursor, index));
+
+    const value = match[0];
+    parts.push(
+      <span key={`${index}-${value}`} className="whitespace-nowrap">
+        {value}
+      </span>
+    );
+    cursor = index + value.length;
+  }
+
+  if (cursor < text.length) parts.push(text.slice(cursor));
+
+  return parts;
+}
 
 export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
   return (
@@ -33,13 +59,13 @@ export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
                 {data.title}
               </h2>
 
-              <div className="mt-7 max-w-3xl space-y-3 text-[15px] leading-[1.9] text-[#4a4f55] sm:text-[16px]">
+              <div className="mt-7 max-w-3xl space-y-3 text-pretty text-[15px] leading-[1.9] text-[#4a4f55] sm:text-[16px]">
                 {data.paragraphs.map((paragraph, index) => (
                   <p
                     key={paragraph}
                     className={index === 0 ? "font-medium text-[#242424]" : undefined}
                   >
-                    {paragraph}
+                    {renderNoBreakMeasurements(paragraph)}
                   </p>
                 ))}
               </div>

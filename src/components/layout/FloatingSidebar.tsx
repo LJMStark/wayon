@@ -24,7 +24,7 @@ const BUTTON_CLASS =
   "group flex size-11 items-center justify-center rounded-full border border-white/90 bg-white text-[var(--social-brand-color)] shadow-[0_10px_30px_rgba(2,22,40,0.2)] backdrop-blur-md transition-[transform,border-color] duration-200 hover:scale-105 hover:border-[var(--social-brand-color)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#083355]";
 
 const SIDEBAR_CLASS =
-  "fixed bottom-24 right-3 z-40 flex flex-col gap-2 sm:right-4 lg:bottom-6";
+  "fixed bottom-24 right-3 z-40 hidden flex-col gap-2 sm:flex sm:right-4 lg:bottom-6";
 
 export default function FloatingSidebar(): React.JSX.Element {
   return (
