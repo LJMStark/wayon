@@ -105,6 +105,22 @@ test("resolveProductCatalogValue only accepts values present in taxonomy cards",
   expect(resolveProductCatalogValue({ value: "木纹岩板" }, seriesCards)).toBe(null);
 });
 
+test("resolveProductCatalogValue accepts known empty series values for canonical links", () => {
+  const seriesCards = buildProductTaxonomyCards(
+    products,
+    "series",
+    customCapabilities,
+    "zh"
+  );
+
+  expect(
+    resolveProductCatalogValue({ value: "新品系列" }, seriesCards, "series")
+  ).toBe("新品系列");
+  expect(
+    resolveProductCatalogValue({ value: "不存在的系列" }, seriesCards, "series")
+  ).toBe(null);
+});
+
 test("filterCatalogProducts separates standard and custom sections", () => {
   expect(filterCatalogProducts(products, "size", null).length).toBe(2);
   expect(filterCatalogProducts(products, "custom", null).length).toBe(1);

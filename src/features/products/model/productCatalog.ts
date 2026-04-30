@@ -184,7 +184,8 @@ export function resolveProductCatalogSection(
 
 export function resolveProductCatalogValue(
   searchParams: CatalogSearchParams,
-  taxonomyCards: ProductTaxonomyCard[]
+  taxonomyCards: ProductTaxonomyCard[],
+  section?: ProductCatalogSectionKey
 ): string | null {
   const value = readSingleValue(searchParams.value);
 
@@ -192,7 +193,11 @@ export function resolveProductCatalogValue(
     return null;
   }
 
-  return taxonomyCards.some((card) => card.value === value) ? value : null;
+  if (taxonomyCards.some((card) => card.value === value)) {
+    return value;
+  }
+
+  return section && isKnownCatalogValue(section, value) ? value : null;
 }
 
 export function buildProductTaxonomyCards(
@@ -297,5 +302,31 @@ function buildActiveCatalogFilter(
       return { customCapability: activeValue };
     default:
       return {};
+  }
+}
+
+function isKnownCatalogValue(
+  section: ProductCatalogSectionKey,
+  value: string
+): boolean {
+  switch (section) {
+    case "size":
+      return TRADE_SIZES.includes(value as (typeof TRADE_SIZES)[number]);
+    case "series":
+      return TRADE_SERIES_TYPES.includes(
+        value as (typeof TRADE_SERIES_TYPES)[number]
+      );
+    case "thickness":
+      return TRADE_THICKNESSES.includes(
+        value as (typeof TRADE_THICKNESSES)[number]
+      );
+    case "color":
+      return TRADE_COLOR_GROUPS.includes(
+        value as (typeof TRADE_COLOR_GROUPS)[number]
+      );
+    case "process":
+      return TRADE_PROCESSES.includes(value as (typeof TRADE_PROCESSES)[number]);
+    default:
+      return false;
   }
 }

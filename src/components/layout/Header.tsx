@@ -315,7 +315,11 @@ export default function Header(): React.JSX.Element {
                                   <Link
                                     href={activeCollection?.href ?? "/products"}
                                     className="text-[16px] font-semibold text-[color:var(--primary)]"
-                                  >{tNav("collection")}</Link>
+                                  >
+                                    {activeCollection?.label
+                                      ? translateNav(activeCollection.label)
+                                      : tNav("collection")}
+                                  </Link>
                                 )}
                               </div>
                             </div>

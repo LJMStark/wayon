@@ -77,6 +77,7 @@ export type ProductsPageData = {
   navSections: ProductCatalogNavSection[];
   activeSection: ProductCatalogSectionKey;
   activeValue: string | null;
+  activeValueLabel: string | null;
   taxonomyCards: ProductTaxonomyCard[];
   customCapabilities: ProductCustomCapabilitySummary[];
   products: ProductDirectoryItem[];

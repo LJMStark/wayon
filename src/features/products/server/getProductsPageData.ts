@@ -10,7 +10,11 @@ import {
 } from "@/data/products";
 import { getCommonCopy, getProductsPageCopy } from "@/data/siteCopy";
 import { getSeriesForCategory } from "@/data/navigationCategoryMap";
-import { localizeProcess } from "@/data/productAttributeLabels";
+import {
+  localizeColorGroup,
+  localizeProcess,
+  localizeSeriesType,
+} from "@/data/productAttributeLabels";
 import type { AppLocale } from "@/i18n/types";
 
 import {
@@ -23,7 +27,9 @@ import {
 } from "../model/productCatalog";
 import { buildCustomCapabilitySummaries } from "../model/customCapabilitySummary";
 import type {
+  ProductCatalogSectionKey,
   ProductDirectoryItem,
+  ProductTaxonomyCard,
   ProductsPageData,
 } from "../types";
 
@@ -120,6 +126,54 @@ function uniqueStrings(values: Array<string | null | undefined>): string[] {
   return [...new Set(values.filter((value): value is string => Boolean(value)))];
 }
 
+function formatSizeLabel(size: string): string {
+  return size.replace(/X/g, " × ");
+}
+
+function getActiveValueLabel({
+  activeSection,
+  activeValue,
+  customCapabilities,
+  locale,
+  taxonomyCards,
+}: {
+  activeSection: ProductCatalogSectionKey;
+  activeValue: string | null;
+  customCapabilities: ReturnType<typeof buildCustomCapabilitySummaries>;
+  locale: AppLocale;
+  taxonomyCards: ProductTaxonomyCard[];
+}): string | null {
+  if (!activeValue) {
+    return null;
+  }
+
+  const taxonomyLabel = taxonomyCards.find(
+    (card) => card.value === activeValue
+  )?.label;
+
+  if (taxonomyLabel) {
+    return taxonomyLabel;
+  }
+
+  switch (activeSection) {
+    case "size":
+      return formatSizeLabel(activeValue);
+    case "series":
+      return localizeSeriesType(activeValue, locale);
+    case "color":
+      return localizeColorGroup(activeValue, locale) ?? activeValue;
+    case "process":
+      return localizeProcess(activeValue, locale) ?? activeValue;
+    case "custom":
+      return (
+        customCapabilities.find((capability) => capability.key === activeValue)
+          ?.title ?? activeValue
+      );
+    default:
+      return activeValue;
+  }
+}
+
 export async function getProductsPageData(
   locale: AppLocale,
   searchParams: ProductsPageSearchParams = {}
@@ -151,7 +205,18 @@ export async function getProductsPageData(
     customCapabilities,
     locale
   );
-  const activeValue = resolveProductCatalogValue(resolvedParams, taxonomyCards);
+  const activeValue = resolveProductCatalogValue(
+    resolvedParams,
+    taxonomyCards,
+    activeSection
+  );
+  const activeValueLabel = getActiveValueLabel({
+    activeSection,
+    activeValue,
+    customCapabilities,
+    locale,
+    taxonomyCards,
+  });
   const catalogFiltered = filterCatalogProducts(
     products,
     activeSection,
@@ -184,6 +249,7 @@ export async function getProductsPageData(
     })),
     activeSection,
     activeValue,
+    activeValueLabel,
     taxonomyCards,
     customCapabilities,
     products: filteredProducts,

@@ -17,6 +17,7 @@ type ProductGridProps = {
   activeSection: ProductCatalogSectionKey;
   activeSectionLabel: string;
   activeValue: string | null;
+  activeValueLabel: string | null;
   allLabel: string;
   taxonomyCards: ProductTaxonomyCard[];
   products: ProductDirectoryItem[];
@@ -102,6 +103,7 @@ export default function ProductGrid({
   activeSection,
   activeSectionLabel,
   activeValue,
+  activeValueLabel,
   allLabel,
   taxonomyCards,
   products,
@@ -168,7 +170,7 @@ export default function ProductGrid({
               <div className="flex flex-col gap-1">
                 <span className="wayon-eyebrow">{activeSectionLabel}</span>
                 <h3 className="font-heading text-[1.75rem] font-medium tracking-[-0.01em] text-[#242424]">
-                  {selectedCard?.label || allLabel}
+                  {selectedCard?.label || activeValueLabel || allLabel}
                 </h3>
               </div>
             </div>

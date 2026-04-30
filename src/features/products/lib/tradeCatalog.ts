@@ -42,6 +42,8 @@ export const TRADE_SERIES_TYPES = [
   "艺术岩板",
   "连纹岩板",
   "创意网红",
+  "新品系列",
+  "特惠系列",
 ] as const;
 
 export type TradeSeriesType = (typeof TRADE_SERIES_TYPES)[number];

@@ -32,6 +32,7 @@ export function ProductsPageView({
   navSections,
   activeSection,
   activeValue,
+  activeValueLabel,
   taxonomyCards,
   products,
 }: ProductsPageData): React.JSX.Element {
@@ -142,6 +143,7 @@ export function ProductsPageView({
               activeSection={activeSection}
               activeSectionLabel={activeSectionLabel}
               activeValue={activeValue}
+              activeValueLabel={activeValueLabel}
               allLabel={allLabel}
               taxonomyCards={taxonomyCards}
               products={products}

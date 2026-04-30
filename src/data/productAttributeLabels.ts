@@ -217,6 +217,18 @@ const SERIES_TYPE_LABELS: Record<string, LocalizedLabel> = {
     es: "Diseño tendencia",
     ar: "تصميم رائج",
   },
+  "新品系列": {
+    en: "New Arrivals",
+    zh: "新品系列",
+    es: "Novedades",
+    ar: "وصل حديثا",
+  },
+  "特惠系列": {
+    en: "Special Offers",
+    zh: "特惠系列",
+    es: "Ofertas especiales",
+    ar: "عروض خاصة",
+  },
 };
 
 // ---------------------------------------------------------------------------

@@ -77,6 +77,18 @@ export const NAV_ITEMS: NavItem[] = [
         ],
       },
       {
+        label: "catalogNewSeries",
+        href: `/products?section=series&value=${encodeURIComponent("新品系列")}`,
+        description: "catalogNewSeriesDesc",
+        previewImage: "/assets/showcases/showcase-1.jpg",
+      },
+      {
+        label: "catalogSpecialSeries",
+        href: `/products?section=series&value=${encodeURIComponent("特惠系列")}`,
+        description: "catalogSpecialSeriesDesc",
+        previewImage: "/assets/showcases/showcase-1.jpg",
+      },
+      {
         label: "catalogThickness",
         href: "/products?section=thickness",
         description: "catalogThicknessDesc",
