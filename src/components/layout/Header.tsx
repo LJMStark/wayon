@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Globe, Menu, Search, X } from "lucide-react";
+import { ChevronDown, Globe, Menu, Search, Sparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -304,9 +304,14 @@ export default function Header(): React.JSX.Element {
                                       <li key={translateNav(child.label)}>
                                         <Link
                                           href={child.href}
-                                          className="block text-[14px] leading-6 text-[#404040] transition-colors hover:text-[color:var(--primary)]"
+                                          className="inline-flex items-center gap-1.5 text-[14px] leading-6 text-[#404040] transition-colors hover:text-[color:var(--primary)]"
                                         >
-                                          {translateNav(child.label)}
+                                          <span>{translateNav(child.label)}</span>
+                                          {child.label === "catalogCustomPatternDesign" ? (
+                                            <span className="wayon-sparkle inline-flex shrink-0" aria-hidden="true">
+                                              <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                            </span>
+                                          ) : null}
                                         </Link>
                                       </li>
                                     ))}
@@ -592,9 +597,14 @@ export default function Header(): React.JSX.Element {
                                       <Link
                                         href={child.href}
                                         onClick={closeMobileMenu}
-                                        className="text-[13px] text-white/65"
+                                        className="inline-flex items-center gap-1.5 text-[13px] text-white/65"
                                       >
-                                        {translateNav(child.label)}
+                                        <span>{translateNav(child.label)}</span>
+                                        {child.label === "catalogCustomPatternDesign" ? (
+                                          <span className="wayon-sparkle inline-flex shrink-0" aria-hidden="true">
+                                            <Sparkles className="h-3 w-3" strokeWidth={1.75} />
+                                          </span>
+                                        ) : null}
                                       </Link>
                                     </li>
                                   ))}

@@ -146,7 +146,7 @@ export const NAV_ITEMS: NavItem[] = [
           { label: "catalogCustomSurfaceFinish", href: "/contact" },
           { label: "catalogCustomColor", href: "/contact" },
           { label: "catalogCustomCuttingProcessing", href: "/contact" },
-          { label: "catalogCustomPatternDesign", href: `/products?section=series&value=${encodeURIComponent("艺术岩板")}` },
+          { label: "catalogCustomPatternDesign", href: `/products?section=custom&value=${encodeURIComponent("custom-pattern-design")}` },
           { label: "catalogCustomHotBending", href: "/contact" },
           { label: "catalogCustomLogoBranding", href: "/contact" },
         ],

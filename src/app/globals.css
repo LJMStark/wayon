@@ -1254,6 +1254,28 @@
   }
 }
 
+.wayon-sparkle {
+  color: #c79430;
+  filter: drop-shadow(0 0 4px rgba(212, 168, 58, 0.45));
+  animation: wayon-sparkle-pulse 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+@keyframes wayon-sparkle-pulse {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 3px rgba(212, 168, 58, 0.4));
+    color: #c79430;
+  }
+  50% {
+    transform: scale(1.18) rotate(12deg);
+    filter: drop-shadow(0 0 9px rgba(245, 211, 122, 0.85));
+    color: #f0c45a;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

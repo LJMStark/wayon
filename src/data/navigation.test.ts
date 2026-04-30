@@ -64,8 +64,8 @@ test("collection custom menu exposes customization links with contact fallbacks"
 
     if (child.label === "catalogCustomPatternDesign") {
       expect(url.pathname).toBe("/products");
-      expect(url.searchParams.get("section")).toBe("series");
-      expect(url.searchParams.get("value")).toBe("艺术岩板");
+      expect(url.searchParams.get("section")).toBe("custom");
+      expect(url.searchParams.get("value")).toBe("custom-pattern-design");
       continue;
     }
 
