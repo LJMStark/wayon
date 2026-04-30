@@ -52,7 +52,6 @@ export default function ProductCard({
       </Link>
 
       <div className="flex grow flex-col p-6 md:p-7">
-        <span className="wayon-eyebrow mb-3">{category}</span>
         <h3 className="mb-5 font-heading text-[1.5rem] font-medium leading-[1.15] tracking-[-0.01em] text-[#242424]">
           {title}
         </h3>
