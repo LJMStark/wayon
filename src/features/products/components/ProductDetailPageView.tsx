@@ -97,10 +97,8 @@ function SectionHeader({ label }: { label: string }): React.JSX.Element {
 // Image grid — rounded corners + hover scale (transform only)
 function MediaImageGrid({
   images,
-  singleColumn = false,
 }: {
   images: ProductDetailMediaImage[];
-  singleColumn?: boolean;
 }): React.JSX.Element | null {
   if (images.length === 0) return null;
 
@@ -120,30 +118,8 @@ function MediaImageGrid({
     );
   }
 
-  if (singleColumn) {
-    return (
-      <div className="mx-auto flex max-w-3xl flex-col gap-5">
-        {images.map((image) => (
-          <div
-            key={image.publicUrl}
-            className="group overflow-hidden rounded-xl ring-1 ring-black/[0.06]"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={image.publicUrl}
-              alt={image.alt}
-              loading="lazy"
-              decoding="async"
-              className="block h-auto w-full transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.02]"
-            />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
-    <div className="columns-1 gap-5 md:columns-2 [&>*]:mb-5 [&>*]:break-inside-avoid">
+    <div className="mx-auto flex max-w-3xl flex-col gap-5">
       {images.map((image) => (
         <div
           key={image.publicUrl}
@@ -527,14 +503,14 @@ export function ProductDetailPageView({
             {selectedVariant.spaceImages.length > 0 ? (
               <section>
                 <SectionHeader label={labels.spaceImages} />
-                <MediaImageGrid images={selectedVariant.spaceImages} singleColumn />
+                <MediaImageGrid images={selectedVariant.spaceImages} />
               </section>
             ) : null}
 
             {selectedVariant.realImages.length > 0 ? (
               <section>
                 <SectionHeader label={labels.realImages} />
-                <MediaImageGrid images={selectedVariant.realImages} singleColumn />
+                <MediaImageGrid images={selectedVariant.realImages} />
               </section>
             ) : null}
 
