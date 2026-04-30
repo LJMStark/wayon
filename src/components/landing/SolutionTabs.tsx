@@ -173,7 +173,7 @@ export function SolutionTabs({
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => handleTabSelect(index)}
-                  className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-opacity duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-40 hover:opacity-100"}`}
+                  className={`text-left lg:text-right group flex items-center lg:flex-row-reverse gap-4 md:gap-6 transition-opacity duration-500 w-full lg:w-auto ${isActive ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
                 >
                   <span className={`text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-wider uppercase transition-[transform,color] duration-500 whitespace-nowrap ${isActive ? "text-white translate-x-2 lg:-translate-x-2" : "text-white/60"}`}>
                     {solution.label}
