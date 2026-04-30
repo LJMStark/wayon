@@ -214,8 +214,13 @@ export function toNewsPreviewItem(
     return null;
   }
 
+  const formattedDate = formatNewsDate(article.publishedAt, locale);
+
   return {
-    date: formatNewsDate(article.publishedAt, locale).full,
+    date: formattedDate.full,
+    dateTime: article.publishedAt,
+    dateDay: formattedDate.day,
+    dateYearMonth: formattedDate.yearMonth,
     category: getNewsCategoryLabel(article.category, locale),
     title,
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),

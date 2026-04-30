@@ -2,6 +2,9 @@ import type { NewsArticleBody } from "@/data/news";
 
 export type NewsPreviewItem = {
   date: string;
+  dateTime: string;
+  dateDay: string;
+  dateYearMonth: string;
   category: string;
   title: string;
   excerpt: string;
