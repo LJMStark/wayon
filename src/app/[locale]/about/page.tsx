@@ -19,6 +19,7 @@ type AboutStat = {
 
 type DevelopmentHistoryItem = {
   year: string;
+  image?: string;
   text: string;
 };
 
@@ -286,22 +287,23 @@ export default function AboutPage(): React.JSX.Element {
                   </p>
                 </div>
 
-                <div className="ml-8 mt-6 flex aspect-video items-center justify-center bg-neutral-100 text-[#888888] md:ml-0 md:mt-0 md:w-[45%]">
-                  {item.year}
+                <div className="relative ml-8 mt-6 flex aspect-video items-center justify-center overflow-hidden bg-neutral-100 text-[#888888] md:ml-0 md:mt-0 md:w-[45%]">
+                  {item.image ? (
+                    <Image
+                      src={item.image}
+                      alt={item.year}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 45vw"
+                    />
+                  ) : (
+                    item.year
+                  )}
                 </div>
               </div>
                 );
               }
             )}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <button
-              className="bg-[#0f2858] px-10 py-3 text-sm tracking-wider text-white transition-colors hover:bg-black"
-              type="button"
-            >
-              {aboutCopy.moreButton} →
-            </button>
           </div>
         </div>
       </section>
