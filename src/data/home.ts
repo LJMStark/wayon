@@ -57,11 +57,26 @@ export type SocialPost = {
   image: string;
 };
 
+export type AboutIntroFeature = {
+  title: string;
+  text: string;
+};
+
+export type AboutIntroImage = {
+  src: string;
+  alt: string;
+};
+
 export type AboutIntroData = {
   title: string;
   paragraphs: string[];
   href: string;
   cta: string;
+  secondaryHref: string;
+  secondaryCta: string;
+  primaryImage: AboutIntroImage;
+  secondaryImage: AboutIntroImage;
+  features: AboutIntroFeature[];
 };
 
 export type NewsFeature = {
@@ -92,11 +107,49 @@ const ABOUT_INTRO_CONFIG = {
   paragraphKeys: ["HomeData.AboutIntro.p1", "HomeData.AboutIntro.p2"],
   href: "/about",
   ctaKey: "HomeData.AboutIntro.cta",
+  secondaryHref: "/contact",
+  secondaryCtaKey: "Navigation.contactUs",
+  primaryImage: {
+    src: "/assets/about/zyl-global-pavilion.png",
+    altKey: "HomeData.AboutAlbum.item0.title",
+  },
+  secondaryImage: {
+    src: "/assets/about/zyl-aesthetic-pavilion.png",
+    altKey: "HomeData.AboutAlbum.item2.title",
+  },
+  featureKeys: [
+    {
+      titleKey: "HomeData.AboutAlbum.item1.title",
+      textKey: "HomeData.AboutAlbum.item1.text",
+    },
+    {
+      titleKey: "HomeData.AboutAlbum.item3.title",
+      textKey: "HomeData.AboutAlbum.item3.text",
+    },
+    {
+      titleKey: "HomeData.AboutAlbum.item5.title",
+      textKey: "HomeData.AboutAlbum.item5.text",
+    },
+  ],
 } as const satisfies {
   titleKey: AppMessageKey;
   paragraphKeys: readonly AppMessageKey[];
   href: string;
   ctaKey: AppMessageKey;
+  secondaryHref: string;
+  secondaryCtaKey: AppMessageKey;
+  primaryImage: {
+    src: string;
+    altKey: AppMessageKey;
+  };
+  secondaryImage: {
+    src: string;
+    altKey: AppMessageKey;
+  };
+  featureKeys: readonly {
+    titleKey: AppMessageKey;
+    textKey: AppMessageKey;
+  }[];
 };
 
 const ABOUT_ALBUM_CONFIG = [
@@ -460,6 +513,20 @@ export function getAboutIntro(t: AppTranslator): AboutIntroData {
     paragraphs: ABOUT_INTRO_CONFIG.paragraphKeys.map((key) => t(key)),
     href: ABOUT_INTRO_CONFIG.href,
     cta: t(ABOUT_INTRO_CONFIG.ctaKey),
+    secondaryHref: ABOUT_INTRO_CONFIG.secondaryHref,
+    secondaryCta: t(ABOUT_INTRO_CONFIG.secondaryCtaKey),
+    primaryImage: {
+      src: ABOUT_INTRO_CONFIG.primaryImage.src,
+      alt: t(ABOUT_INTRO_CONFIG.primaryImage.altKey),
+    },
+    secondaryImage: {
+      src: ABOUT_INTRO_CONFIG.secondaryImage.src,
+      alt: t(ABOUT_INTRO_CONFIG.secondaryImage.altKey),
+    },
+    features: ABOUT_INTRO_CONFIG.featureKeys.map((item) => ({
+      title: t(item.titleKey),
+      text: t(item.textKey),
+    })),
   };
 }
 
