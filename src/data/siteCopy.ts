@@ -1508,6 +1508,50 @@ const SITE_COPY = {
         year: "2025",
       },
     ],
+    certificationsTitle: {
+      en: "Quality Certifications",
+      zh: "质量认证",
+      es: "Certificaciones de calidad",
+      ar: "شهادات الجودة",
+    },
+    certificationsDescription: {
+      en: "Third-party inspection reports for procurement verification and project compliance.",
+      zh: "第三方检测机构出具的质量检验报告，供采购决策与工程合规使用。",
+      es: "Informes de inspección de terceros para verificación de compras y cumplimiento normativo.",
+      ar: "تقارير فحص جودة صادرة عن جهات مستقلة للتحقق من المشتريات والامتثال الهندسي.",
+    },
+    downloadReport: {
+      en: "Download",
+      zh: "下载",
+      es: "Descargar",
+      ar: "تحميل",
+    },
+    certifications: [
+      {
+        title: {
+          en: "Porcelain Slab — Inspection Report",
+          zh: "岩板质量检验报告",
+          es: "Losa porcelánica — Informe de inspección",
+          ar: "تقرير فحص جودة ألواح البورسلان",
+        },
+        description: {
+          en: "Covers 8 test items including water absorption, breaking strength, modulus of rupture, stain resistance and radionuclide limits. All items passed.",
+          zh: "涵盖吸水率、破坏强度、断裂模数、耐污染性、放射性核素限量等8项检测，全部合格。",
+          es: "Cubre 8 ensayos: absorción de agua, resistencia a rotura, módulo de rotura, resistencia a manchas y límites de radionúclidos. Todos aprobados.",
+          ar: "يشمل 8 بنود اختبار منها امتصاص الماء وقوة الكسر ومعامل الكسر ومقاومة البقع وحدود النويدات المشعة. جميعها مطابقة.",
+        },
+        issuer: {
+          en: "Yueyang City Inspection & Testing Center",
+          zh: "岳阳市检验检测中心",
+          es: "Centro de Inspección y Pruebas de Yueyang",
+          ar: "مركز الفحص والاختبار في يويانغ",
+        },
+        reportNumber: "AJ20240230",
+        year: "2024",
+        size: "1.2 MB",
+        downloadUrl: "/downloads/inspection-report-AJ20240230.pdf",
+      },
+    ],
     ctaTitle: {
       en: "Need custom documentation?",
       zh: "需要定制资料吗？",

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download, FileCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { Link } from "@/i18n/routing";
@@ -17,9 +17,24 @@ type DownloadCatalog = {
   year: string;
 };
 
+type DownloadCertification = {
+  title: string;
+  description: string;
+  issuer: string;
+  reportNumber: string;
+  year: string;
+  size: string;
+  downloadUrl: string;
+};
+
 type DownloadCatalogCardProps = {
   catalog: DownloadCatalog;
   requestCatalogLabel: string;
+};
+
+type DownloadCertCardProps = {
+  cert: DownloadCertification;
+  downloadLabel: string;
 };
 
 function DownloadCatalogCard({
@@ -52,6 +67,47 @@ function DownloadCatalogCard({
           {requestCatalogLabel}
           <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
+      </div>
+    </div>
+  );
+}
+
+function DownloadCertCard({
+  cert,
+  downloadLabel,
+}: DownloadCertCardProps): React.JSX.Element {
+  return (
+    <div className="group flex flex-col border border-gray-200 p-8 transition-[border-color,box-shadow] duration-300 hover:border-[#1a1a1a] hover:shadow-lg">
+      <div className="mb-4 flex items-center justify-between">
+        <span className="flex items-center gap-1.5 bg-[#f0f7f0] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#3a7a3a]">
+          <FileCheck className="h-3 w-3" />
+          PDF
+        </span>
+        <span className="text-[11px] text-[#666666]">{cert.year}</span>
+      </div>
+
+      <h3 className="mb-3 font-heading text-lg font-bold text-[#1a1a1a]">
+        {cert.title}
+      </h3>
+
+      <p className="mb-3 grow text-sm font-normal leading-relaxed text-[#555555]">
+        {cert.description}
+      </p>
+
+      <p className="mb-6 text-[11px] text-[#888888]">
+        {cert.issuer} · {cert.reportNumber}
+      </p>
+
+      <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+        <span className="text-[11px] text-[#666666]">{cert.size}</span>
+        <a
+          href={cert.downloadUrl}
+          download
+          className="inline-flex items-center text-sm font-medium text-[#1a1a1a] transition-colors group-hover:text-gray-600"
+        >
+          {downloadLabel}
+          <Download className="ml-2 h-4 w-4" />
+        </a>
       </div>
     </div>
   );
@@ -110,6 +166,30 @@ export default async function DownloadPage({
               requestCatalogLabel={downloadCopy.requestCatalog}
             />
           ))}
+        </div>
+      </section>
+
+      <section className="border-t border-gray-100 py-16">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+          <div className="mb-10">
+            <h2 className="mb-3 font-heading text-2xl font-bold uppercase text-[#1a1a1a]">
+              {downloadCopy.certificationsTitle}
+            </h2>
+            <p className="max-w-xl text-sm font-normal text-[#555555]">
+              {downloadCopy.certificationsDescription}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {downloadCopy.certifications.map(
+              (cert: DownloadCertification) => (
+                <DownloadCertCard
+                  key={cert.reportNumber}
+                  cert={cert}
+                  downloadLabel={downloadCopy.downloadReport}
+                />
+              )
+            )}
+          </div>
         </div>
       </section>
 
