@@ -21,6 +21,13 @@ export type ProductCatalogNavSection = {
   label: string;
 };
 
+export type ProductCatalogValueLink = {
+  key: string;
+  value: string;
+  label: string;
+  href: string;
+};
+
 export type ProductTaxonomyCard = {
   key: string;
   value: string;
@@ -75,6 +82,7 @@ export type ProductsPageData = {
   directoryTitle: string;
   directoryDescription: string;
   navSections: ProductCatalogNavSection[];
+  seriesQuickLinks: ProductCatalogValueLink[];
   activeSection: ProductCatalogSectionKey;
   activeValue: string | null;
   activeValueLabel: string | null;

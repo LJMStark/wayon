@@ -55,6 +55,9 @@ export const PRODUCT_CATALOG_NAV_TRANSLATION_KEYS: Record<
   custom: "catalogCustom",
 };
 
+const PROMOTED_EMPTY_SERIES = new Set<string>(["新品系列", "特惠系列"]);
+const PROMOTED_EMPTY_SERIES_IMAGE = "/assets/showcases/showcase-1.jpg";
+
 type CatalogSearchParams = {
   section?: string | string[];
   value?: string | string[];
@@ -170,6 +173,45 @@ function buildOrderedCards(
   return cards;
 }
 
+function buildSeriesTaxonomyCards(
+  products: ProductDirectoryItem[],
+  locale: AppLocale
+): ProductTaxonomyCard[] {
+  const populatedCards = buildOrderedCards(
+    products,
+    TRADE_SERIES_TYPES,
+    (value) => ({
+      seriesType: value,
+    }),
+    (value) => localizeSeriesType(value, locale)
+  );
+  const cardByValue = new Map(
+    populatedCards.map((card) => [card.value, card] as const)
+  );
+
+  return TRADE_SERIES_TYPES.flatMap((value) => {
+    const populatedCard = cardByValue.get(value);
+
+    if (populatedCard) {
+      return [populatedCard];
+    }
+
+    if (!PROMOTED_EMPTY_SERIES.has(value)) {
+      return [];
+    }
+
+    return [
+      {
+        key: value,
+        value,
+        label: localizeSeriesType(value, locale),
+        imageSrc: PROMOTED_EMPTY_SERIES_IMAGE,
+        count: 0,
+      },
+    ];
+  });
+}
+
 export function resolveProductCatalogSection(
   searchParams: CatalogSearchParams
 ): ProductCatalogSectionKey {
@@ -217,14 +259,7 @@ export function buildProductTaxonomyCards(
         formatSizeLabel
       );
     case "series":
-      return buildOrderedCards(
-        baseProducts,
-        TRADE_SERIES_TYPES,
-        (value) => ({
-          seriesType: value,
-        }),
-        (value) => localizeSeriesType(value, locale)
-      );
+      return buildSeriesTaxonomyCards(baseProducts, locale);
     case "thickness":
       return buildOrderedCards(baseProducts, TRADE_THICKNESSES, (value) => ({
         thickness: value,

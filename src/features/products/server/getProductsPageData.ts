@@ -47,11 +47,27 @@ type ProductsPageSearchParams = {
   q?: string | string[];
 };
 
+const SIDEBAR_SERIES_VALUE_LINKS = ["新品系列", "特惠系列"] as const;
+
 function readSingleParam(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) {
     return value[0];
   }
   return value;
+}
+
+function buildProductsHref(
+  section: ProductCatalogSectionKey,
+  value?: string
+): string {
+  const params = new URLSearchParams();
+  params.set("section", section);
+
+  if (value) {
+    params.set("value", value);
+  }
+
+  return `/products?${params.toString()}`;
 }
 
 function applyLegacyCategoryAlias(
@@ -246,6 +262,12 @@ export async function getProductsPageData(
     navSections: PRODUCT_CATALOG_SECTION_KEYS.map((key) => ({
       key,
       label: tNav(PRODUCT_CATALOG_NAV_TRANSLATION_KEYS[key]),
+    })),
+    seriesQuickLinks: SIDEBAR_SERIES_VALUE_LINKS.map((value) => ({
+      key: value,
+      value,
+      label: localizeSeriesType(value, locale),
+      href: buildProductsHref("series", value),
     })),
     activeSection,
     activeValue,

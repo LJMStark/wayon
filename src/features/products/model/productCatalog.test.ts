@@ -121,6 +121,35 @@ test("resolveProductCatalogValue accepts known empty series values for canonical
   ).toBe(null);
 });
 
+test("buildProductTaxonomyCards keeps promoted empty series visible", () => {
+  const seriesCards = buildProductTaxonomyCards(
+    products,
+    "series",
+    customCapabilities,
+    "zh"
+  );
+
+  expect(seriesCards.slice(-2).map((card) => ({
+    value: card.value,
+    label: card.label,
+    count: card.count,
+    imageSrc: card.imageSrc,
+  }))).toEqual([
+    {
+      value: "新品系列",
+      label: "新品系列",
+      count: 0,
+      imageSrc: "/assets/showcases/showcase-1.jpg",
+    },
+    {
+      value: "特惠系列",
+      label: "特惠系列",
+      count: 0,
+      imageSrc: "/assets/showcases/showcase-1.jpg",
+    },
+  ]);
+});
+
 test("filterCatalogProducts separates standard and custom sections", () => {
   expect(filterCatalogProducts(products, "size", null).length).toBe(2);
   expect(filterCatalogProducts(products, "custom", null).length).toBe(1);

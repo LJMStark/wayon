@@ -8,9 +8,16 @@ import type { ProductsPageData, ProductCatalogSectionKey } from "../types";
 const PRODUCTS_HERO_IMAGE_SRC =
   "/assets/products/products-hero-lauren-black-gold.jpg";
 
-function buildProductsHref(section: ProductCatalogSectionKey): string {
+function buildProductsHref(
+  section: ProductCatalogSectionKey,
+  value?: string | null
+): string {
   const params = new URLSearchParams();
   params.set("section", section);
+
+  if (value) {
+    params.set("value", value);
+  }
 
   return `/products?${params.toString()}`;
 }
@@ -30,6 +37,7 @@ export function ProductsPageView({
   directoryTitle,
   directoryDescription,
   navSections,
+  seriesQuickLinks,
   activeSection,
   activeValue,
   activeValueLabel,
@@ -115,24 +123,56 @@ export function ProductsPageView({
                 const isActive = section.key === activeSection;
 
                 return (
-                  <Link
-                    key={section.key}
-                    href={buildProductsHref(section.key)}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`relative flex items-center px-7 py-5 text-[15px] font-medium tracking-[0.02em] transition-colors duration-200 ${
-                      isActive
-                        ? "text-[color:var(--primary)]"
-                        : "text-[#333333] hover:text-[color:var(--primary)]"
-                    }`}
-                  >
-                    <span
-                      aria-hidden
-                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center transition-transform duration-300 ease-out ${
-                        isActive ? "scale-y-100 bg-[color:var(--primary)]" : "scale-y-0 bg-[color:var(--primary)]"
+                  <div key={section.key} className="flex flex-col">
+                    <Link
+                      href={buildProductsHref(section.key)}
+                      aria-current={isActive && !activeValue ? "page" : undefined}
+                      className={`relative flex items-center px-7 py-5 text-[15px] font-medium tracking-[0.02em] transition-colors duration-200 ${
+                        isActive
+                          ? "text-[color:var(--primary)]"
+                          : "text-[#333333] hover:text-[color:var(--primary)]"
                       }`}
-                    />
-                    {section.label}
-                  </Link>
+                    >
+                      <span
+                        aria-hidden
+                        className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center transition-transform duration-300 ease-out ${
+                          isActive ? "scale-y-100 bg-[color:var(--primary)]" : "scale-y-0 bg-[color:var(--primary)]"
+                        }`}
+                      />
+                      {section.label}
+                    </Link>
+                    {section.key === "series" && seriesQuickLinks.length > 0 ? (
+                      <div className="mb-2 ms-7 flex flex-col border-s border-[color:var(--border)]/80">
+                        {seriesQuickLinks.map((link) => {
+                          const isLinkActive =
+                            activeSection === "series" && activeValue === link.value;
+
+                          return (
+                            <Link
+                              key={link.key}
+                              href={link.href}
+                              aria-current={isLinkActive ? "page" : undefined}
+                              className={`relative py-2.5 ps-5 pe-4 text-[13px] font-medium tracking-[0.02em] transition-colors duration-200 ${
+                                isLinkActive
+                                  ? "text-[color:var(--primary)]"
+                                  : "text-[color:var(--muted-foreground)] hover:text-[color:var(--primary)]"
+                              }`}
+                            >
+                              <span
+                                aria-hidden
+                                className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center transition-transform duration-300 ease-out ${
+                                  isLinkActive
+                                    ? "scale-y-100 bg-[color:var(--accent)]"
+                                    : "scale-y-0 bg-[color:var(--accent)]"
+                                }`}
+                              />
+                              {link.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
                 );
               })}
             </nav>
