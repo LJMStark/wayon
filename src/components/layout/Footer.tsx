@@ -180,7 +180,7 @@ export default function Footer(): React.JSX.Element {
               <SectionHeading>{tFooter("address")}</SectionHeading>
               <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
                 {addressLines.map((line) => {
-                  const match = line.match(/^(.*?[：:])(.+)$/s);
+                  const match = line.match(/^(.*?[：:])([\s\S]+)$/);
                   if (!match) return <li key={line}>{line}</li>;
                   const valueLines = match[2].trim().split("\n");
                   return (
