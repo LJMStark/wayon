@@ -23,7 +23,7 @@ export function NewsPageView({
     <div className="min-h-screen wayon-stone-bg pb-24">
       <section className="-mt-[var(--header-height)] bg-primary px-4 pb-20 pt-[calc(var(--header-height)+8rem)] text-center">
         <div className="mx-auto max-w-4xl animate-fade-up">
-          <span className="mb-4 block text-sm font-bold uppercase tracking-widest text-gold">
+          <span className="mb-4 block text-[1.3rem] font-bold uppercase tracking-widest text-gold">
             {eyebrow}
           </span>
           <h1 className="wayon-page-title mb-6 text-4xl font-normal text-white md:text-5xl lg:text-6xl">

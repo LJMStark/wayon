@@ -89,10 +89,10 @@ const SITE_COPY = {
       ar: "جارٍ التحميل...",
     },
     allCases: {
-      en: "All Cases",
-      zh: "全部案例",
-      es: "Todos los casos",
-      ar: "جميع الحالات",
+      en: "Case Gallery",
+      zh: "案例展示",
+      es: "Galería de casos",
+      ar: "معرض الحالات",
     },
     recentUpdates: {
       en: "Recent Updates",
@@ -1299,10 +1299,10 @@ const SITE_COPY = {
       ar: "تميز هندسي موثوق",
     },
     heroSubtitle: {
-      en: "ZYL sintered stone has been specified across hundreds of residential and commercial projects worldwide — from countertops to façades, every installation speaks for itself.",
-      zh: "众岩联岩板已落地全球数百个住宅与商业项目，从台面到幕墙，每一处应用都是品质的见证。",
-      es: "La piedra sinterizada ZYL se ha especificado en cientos de proyectos residenciales y comerciales en todo el mundo, desde encimeras hasta fachadas.",
-      ar: "تم تنفيذ حجر ZYL الملبد في مئات المشاريع السكنية والتجارية حول العالم — من أسطح العمل إلى الواجهات، كل تركيب يتحدث عن نفسه.",
+      en: "ZYL sintered stone has been specified across multiple residential and commercial projects worldwide — from countertops to façades, every installation speaks for itself.",
+      zh: "众岩联岩板已落地全球多个住宅与商业项目，从台面到幕墙，每一处应用都是品质的见证。",
+      es: "La piedra sinterizada ZYL se ha especificado en múltiples proyectos residenciales y comerciales en todo el mundo, desde encimeras hasta fachadas.",
+      ar: "تم تنفيذ حجر ZYL الملبد في عدة مشاريع سكنية وتجارية حول العالم — من أسطح العمل إلى الواجهات، كل تركيب يتحدث عن نفسه.",
     },
     galleryAlt: {
       en: "Engineering case {index}",
@@ -1523,10 +1523,10 @@ const SITE_COPY = {
       ar: "المركز الإعلامي",
     },
     heroTitle: {
-      en: "Company News & Updates",
-      zh: "企业新闻与动态",
-      es: "Noticias y actualizaciones de la empresa",
-      ar: "أخبار الشركة وتحديثاتها",
+      en: "Company News & Industry Updates",
+      zh: "企业新闻与行业动态",
+      es: "Noticias de la empresa y actualidad del sector",
+      ar: "أخبار الشركة وتحديثات القطاع",
     },
     heroDescription: {
       en: "Product launches, project updates and exhibition news from ZYL Stone.",
