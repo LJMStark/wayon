@@ -44,6 +44,9 @@
   --wayon-font-sans: var(--font-inter), var(--font-misans), sans-serif;
   --wayon-font-heading: var(--font-playfair), var(--font-misans), serif;
   --wayon-font-cjk: var(--font-misans);
+  --wayon-font-greatwall-dahei: "长城大黑体", "ChangCheng DaHeiTi",
+    "Chang Cheng Da Hei Ti", "Great Wall DaHei", "STHeiti", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", var(--font-misans), sans-serif;
 }
 
 @media (max-width: 1279px) {
@@ -1004,6 +1007,7 @@
 }
 
 .wayon-home-hero {
+  font-family: var(--wayon-font-greatwall-dahei);
   height: 100vh;
   height: 100svh;
   min-height: 620px;
@@ -1041,6 +1045,12 @@
   font-size: clamp(2.25rem, min(11.6vw, 13svh), 8rem);
   letter-spacing: 0;
   line-height: 1.04;
+}
+
+.wayon-home-hero__title-line--single {
+  font-size: clamp(2.05rem, 6.4vw, 4.85rem);
+  font-size: clamp(2.05rem, min(6.4vw, 8svh), 4.85rem);
+  line-height: 1.08;
 }
 
 .wayon-home-hero__actions {
@@ -1087,6 +1097,12 @@
 
 :lang(zh) .wayon-hero-title strong {
   font-weight: 400;
+}
+
+.wayon-home-hero .wayon-hero-title,
+:lang(zh) .wayon-home-hero .wayon-hero-title {
+  font-family: var(--wayon-font-greatwall-dahei);
+  font-weight: 700;
 }
 
 @keyframes engineeringCaseMarqueeLtr {
@@ -1274,6 +1290,21 @@
     filter: drop-shadow(0 0 9px rgba(245, 211, 122, 0.85));
     color: #f0c45a;
   }
+}
+
+@keyframes philosophy-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.philosophy-fade-in {
+  animation: philosophy-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

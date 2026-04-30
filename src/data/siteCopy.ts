@@ -524,6 +524,12 @@ const SITE_COPY = {
       es: ["Filosofía", "Misión", "Visión", "Valores"],
       ar: ["الفلسفة", "الرسالة", "الرؤية", "القيم"],
     },
+    philosophyPhilosophy: {
+      en: "Quality builds trust. Service shapes the future.",
+      zh: "以品质铸信任，以服务赢未来。",
+      es: "La calidad construye confianza. El servicio construye el futuro.",
+      ar: "الجودة تبني الثقة، والخدمة تبني المستقبل.",
+    },
     philosophyMission: {
       en: "Empower users' better life with fast, reliable sintered stone services.",
       zh: "用快捷岩板服务成就用户美好生活",

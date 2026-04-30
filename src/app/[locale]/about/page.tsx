@@ -32,10 +32,22 @@ type ExhibitionCard = {
 
 function getPhilosophyTabClassName(isActive: boolean): string {
   if (isActive) {
-    return "shrink-0 border-t-2 border-white bg-[#0b1630] px-6 py-4 text-sm uppercase tracking-wider transition-colors md:px-12 md:py-5";
+    return "shrink-0 border-t-2 border-[#d9b45b] bg-[#0b1630] px-6 py-4 text-sm uppercase tracking-wider text-[#d9b45b] transition-all duration-300 md:px-12 md:py-5";
   }
 
-  return "shrink-0 px-6 py-4 text-sm uppercase tracking-wider transition-colors hover:bg-white/5 md:px-12 md:py-5";
+  return "shrink-0 border-t-2 border-transparent px-6 py-4 text-sm uppercase tracking-wider text-gray-400 transition-all duration-300 hover:bg-white/5 hover:text-white md:px-12 md:py-5";
+}
+
+function getPhilosophyContent(
+  activeTab: string,
+  tabs: readonly string[],
+  aboutCopy: ReturnType<typeof getAboutPageCopy>
+): string {
+  const idx = tabs.indexOf(activeTab);
+  if (idx === 1) return String(aboutCopy.philosophyMission);
+  if (idx === 2) return String(aboutCopy.philosophyVision);
+  if (idx === 3) return String(aboutCopy.philosophyValues);
+  return String(aboutCopy.philosophyPhilosophy);
 }
 
 function getExhibitionTabClassName(isActive: boolean): string {
@@ -157,15 +169,25 @@ export default function AboutPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="relative mb-24 w-full overflow-hidden bg-[#122245] pb-0 pt-24 text-white">
+      <section className="relative mb-24 w-full overflow-hidden bg-[#122245] pb-0 pt-20 text-white">
         <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <h2 className="mb-8 text-4xl font-normal tracking-wide">
+          <div className="mb-12 text-center">
+            <h2 className="mb-5 text-5xl font-normal tracking-wide text-[#d9b45b] md:text-6xl">
               {aboutCopy.philosophyTitle}
             </h2>
-            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-gray-300">
-              {aboutCopy.philosophyDescription}
-            </p>
+            <div className="mx-auto mb-10 h-px w-12 bg-[#d9b45b]/50" />
+
+            <div className="mx-auto max-w-2xl">
+              <div key={activePhilosophyTab} className="philosophy-fade-in">
+                <p className="text-2xl font-light leading-relaxed tracking-wider text-white/90 md:text-3xl md:leading-relaxed">
+                  {getPhilosophyContent(
+                    activePhilosophyTab,
+                    aboutCopy.philosophyTabs,
+                    aboutCopy
+                  )}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="flex overflow-x-auto border-b border-white/20 md:justify-center">
@@ -173,6 +195,7 @@ export default function AboutPage(): React.JSX.Element {
               <button
                 key={tab}
                 type="button"
+                onMouseEnter={() => setActivePhilosophyTab(tab)}
                 onClick={() => setActivePhilosophyTab(tab)}
                 className={getPhilosophyTabClassName(activePhilosophyTab === tab)}
               >
