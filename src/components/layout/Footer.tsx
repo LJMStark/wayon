@@ -179,9 +179,19 @@ export default function Footer(): React.JSX.Element {
             <div className="min-[480px]:col-span-2 lg:col-span-1">
               <SectionHeading>{tFooter("address")}</SectionHeading>
               <ul className="space-y-3 text-[14px] font-normal leading-relaxed text-white/70">
-                {addressLines.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
+                {addressLines.map((line) => {
+                  const match = line.match(/^(.*?[：:])(.+)$/s);
+                  if (!match) return <li key={line}>{line}</li>;
+                  const valueLines = match[2].trim().split("\n");
+                  return (
+                    <li key={line}>
+                      <span className="block">{match[1]}</span>
+                      {valueLines.map((vl) => (
+                        <span key={vl} className="block">{vl}</span>
+                      ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

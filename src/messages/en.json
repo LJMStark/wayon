@@ -94,10 +94,9 @@
     "address": "Address",
     "addressLines": [
       "Office & showroom: No. 7-8, 10, 11-2, 12, Block 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang Town, Chancheng District, Foshan, Guangdong, China",
-      "Factory: Songlong Industrial Park, Baitu Town, Gaoyao District, Zhaoqing, Guangdong, China",
       "Phone / WhatsApp: +86 132 2924 6894",
       "Email: zyl.stone.slab@gmail.com",
-      "Business hours: Mon-Sat 8:30-17:30"
+      "Business hours: Mon-Sat\n8:30-17:30"
     ],
     "aboutUs": "About Us",
     "collection": "Collection",
@@ -112,8 +111,8 @@
     "quickLinks": "Quick Links"
   },
   "Hero": {
-    "titleLine1": "PREMIUM SINTERED STONE",
-    "titleLine2": "GLOBAL SUPPLY CHAIN",
+    "titleLine1": "Global Premium Sintered Stone Supply Chain • Global Supply • Fast Delivery",
+    "titleLine2": "",
     "subtitle": "Providing comprehensive solutions including spot wholesale, OEM engineering, and flexible custom fabrication for residential and commercial projects.",
     "exploreProducts": "EXPLORE PRODUCTS",
     "getFreeSample": "GET FREE SAMPLE"
