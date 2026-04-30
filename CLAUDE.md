@@ -81,6 +81,16 @@ src/
 - **RTL support** — Arabic (`ar`) uses `dir="rtl"`; no separate component variants needed
 - **GraphQL is disabled** in `payload.config.ts` (`graphQL: { disable: true }`) because Payload's auto-generated GraphQL enum names choke on Chinese characters in collection slugs/labels
 
+### UI Layout Stability
+
+Any frontend, CSS, typography, image, animation, or responsive-layout change must keep the affected pages free of visible overlap, collision, clipping, or unintended misalignment across browsers, operating systems, font rendering differences, zoom levels, and responsive breakpoints.
+
+- Do not rely on a single desktop viewport. Check mobile, tablet, regular desktop, ultrawide, and short-height desktop layouts when the changed area can affect page structure.
+- Treat browser differences, OS font metrics, fallback fonts, translated text length, and 100%/125% browser zoom as real constraints. Layout must still wrap, shrink, space, or reposition cleanly.
+- Use defensive CSS for fixed headers, hero sections, navigation, cards, media, controls, and text blocks: stable dimensions, `min`/`max` bounds, safe padding, wrapping rules, overflow handling, and breakpoint-specific sizing.
+- Before finishing frontend work, verify the affected page in representative viewports such as `390x844`, `768x1024`, `1440x900`, and `1920x768`. Include Chromium, WebKit, and Firefox when the change touches layout-sensitive areas.
+- If any supported browser, system, or responsive layout can show overlapping or misaligned UI, fix it before considering the task complete.
+
 ### Payload CMS
 
 - **Database**: Postgres (`@payloadcms/db-postgres`) via `DATABASE_URL`. UUID primary keys

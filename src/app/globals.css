@@ -662,16 +662,61 @@
   text-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.3);
 }
 
+.wayon-home-hero {
+  height: 100vh;
+  height: 100svh;
+  min-height: 620px;
+}
+
+.wayon-home-hero__content {
+  padding-block-start: calc(var(--header-height) + clamp(1rem, 4vh, 2.5rem));
+  padding-block-start: calc(var(--header-height) + clamp(1rem, 4svh, 2.5rem));
+  padding-inline: clamp(1.5rem, 5vw, 6rem);
+  padding-block-end: clamp(5.5rem, 10vh, 9rem);
+  padding-block-end: clamp(5.5rem, 10svh, 9rem);
+}
+
+.wayon-home-hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vh, 2rem);
+  gap: clamp(1.25rem, 3svh, 2rem);
+}
+
+.wayon-home-hero__kicker-wrap {
+  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
+  margin-bottom: clamp(0.75rem, 2svh, 1.5rem);
+}
+
+.wayon-home-hero__kicker {
+  font-size: clamp(1.25rem, 4.8vw, 2.25rem);
+  font-size: clamp(1.25rem, min(4.8vw, 4.5svh), 2.25rem);
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+
+.wayon-home-hero__title-line {
+  font-size: clamp(2.25rem, 11.6vw, 8rem);
+  font-size: clamp(2.25rem, min(11.6vw, 13svh), 8rem);
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+
+.wayon-home-hero__actions {
+  gap: clamp(1.25rem, 3vw, 2rem);
+  padding-top: clamp(0.5rem, 2vh, 1.25rem);
+  padding-top: clamp(0.5rem, 2svh, 1.25rem);
+}
+
 @media (max-width: 480px) {
   .wayon-hero-title {
-    font-size: 2.15rem;
     line-height: 1.03;
   }
 }
 
 @media (max-width: 360px) {
   .wayon-hero-title {
-    font-size: 1.58rem;
+    line-height: 1.05;
   }
 }
 

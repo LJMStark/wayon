@@ -70,7 +70,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   return (
     <section
       ref={sectionRef}
-      className="relative -mt-[var(--header-height)] h-screen min-h-[700px] w-full overflow-hidden bg-[color:var(--primary)]"
+      className="wayon-home-hero relative -mt-[var(--header-height)] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -109,10 +109,10 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
       </AnimatePresence>
 
       <motion.div
-        className="absolute inset-0 z-10 flex flex-col justify-end px-6 pb-24 md:px-16 md:pb-32 lg:px-24 lg:pb-40"
+        className="wayon-home-hero__content absolute inset-0 z-10 flex flex-col justify-end"
         style={shouldReduce ? undefined : { y: heroContentY, opacity: heroContentOpacity, willChange: "transform, opacity" }}
       >
-        <div className="max-w-[90rem] w-full mx-auto space-y-8">
+        <div className="wayon-home-hero__inner mx-auto w-full max-w-[90rem]">
           <motion.div
             variants={HERO_TITLE_CONTAINER}
             initial={shouldReduce ? false : "hidden"}
@@ -122,10 +122,10 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               aria-label={[t("titleLine1"), ...highlightedTitleLines].join(" ")}
               className="wayon-hero-title text-white"
             >
-              <span className="block overflow-hidden mb-6">
+              <span className="wayon-home-hero__kicker-wrap block overflow-hidden">
                 <motion.span
                   variants={HERO_TITLE_LINE}
-                  className="block text-[clamp(1.5rem,3vw,2.5rem)] font-light tracking-[0.15em] opacity-80 uppercase"
+                  className="wayon-home-hero__kicker block font-light uppercase opacity-80"
                 >
                   {t("titleLine1")}
                 </motion.span>
@@ -134,9 +134,8 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                 <span key={line} className="block overflow-hidden">
                   <motion.span
                     variants={HERO_TITLE_LINE}
-                    className="block text-[clamp(3.5rem,9vw,8.5rem)] leading-[1.05] tracking-tight"
+                    className="wayon-home-hero__title-line block"
                   >
-                    {" "}
                     {line}
                   </motion.span>
                 </span>
@@ -148,11 +147,11 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-8 pt-8"
+            className="wayon-home-hero__actions flex flex-col items-start sm:flex-row sm:items-center"
           >
             <Link
               href="/products"
-              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs md:text-sm tracking-[0.25em] uppercase text-white"
+              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs uppercase tracking-[0] text-white md:text-sm"
             >
               <span className="relative z-10">{t("exploreProducts")}</span>
               <span className="pointer-events-none absolute inset-x-1 bottom-3 h-[1px] bg-white/40 transition-colors duration-300 group-hover:bg-white" />
@@ -160,7 +159,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
 
             <Link
               href="/contact"
-              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs md:text-sm tracking-[0.25em] uppercase text-white/60 transition-colors duration-300 hover:text-white"
+              className="group relative inline-flex items-center gap-3 px-1 py-4 text-xs uppercase tracking-[0] text-white/60 transition-colors duration-300 hover:text-white md:text-sm"
             >
               <span className="relative z-10">{t("getFreeSample")}</span>
               <span className="pointer-events-none absolute inset-x-1 bottom-3 h-[1px] origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover:scale-x-100" />
