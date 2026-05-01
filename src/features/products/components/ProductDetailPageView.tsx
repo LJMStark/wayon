@@ -333,16 +333,13 @@ export function ProductDetailPageView({
               <div className="w-full max-w-[340px] rounded-[1.5rem] bg-white/15 p-1.5 ring-1 ring-white/15 backdrop-blur-md md:max-w-[360px]">
                 {/* inner core */}
                 <div className="rounded-[calc(1.5rem-0.375rem)] bg-white/32 px-5 py-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-6 md:py-6">
-                  <div className="mb-3.5 flex flex-wrap items-center gap-2.5">
-                    <span className="wayon-eyebrow text-[12px] tracking-[0.08em] text-black/60 md:text-[13px]">
-                      {category}
-                    </span>
-                    {heroProductCode ? (
-                      <span className="rounded-full border border-black/15 bg-white/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-black/60 md:text-[11px]">
-                        {labels.productCode} {heroProductCode}
+                  {heroProductCode ? (
+                    <div className="mb-3.5">
+                      <span className="text-[16px] font-semibold uppercase tracking-[0.08em] text-black/60 md:text-[17px]">
+                        {heroProductCode}
                       </span>
-                    ) : null}
-                  </div>
+                    </div>
+                  ) : null}
                   <h1 className="font-heading text-[1.65rem] font-normal leading-[1.08] tracking-[0] text-[#1a1a1a] md:text-[2rem] xl:text-[2.15rem]">
                     {title}
                   </h1>
