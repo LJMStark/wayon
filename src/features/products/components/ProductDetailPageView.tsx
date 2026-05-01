@@ -405,7 +405,7 @@ export function ProductDetailPageView({
 
         {/* Description */}
         {descriptionParagraphs.length > 0 ? (
-          <div className="mx-auto mb-16 max-w-3xl text-center text-[17px] font-normal leading-[1.85] text-[#4a4a4a] [text-wrap:pretty] md:text-[18px]">
+          <div className="mx-auto mb-16 max-w-2xl text-left text-[17px] font-normal leading-[1.85] text-[#4a4a4a] [text-wrap:pretty] md:text-[18px]">
             {descriptionParagraphs.map((paragraph) => (
               <p key={paragraph} className="mb-3 last:mb-0">
                 {paragraph}

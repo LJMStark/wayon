@@ -691,6 +691,15 @@ async function main() {
 
 const entryUrl = process.argv[1] ? pathToFileURL(process.argv[1]).href : "";
 if (import.meta.url === entryUrl) {
+  // pg-pool emits an unhandled 'error' event when the server closes an idle
+  // connection. In dry-run mode the pool is never used after the initial
+  // product fetch, so this is safe to ignore.
+  process.on("uncaughtException", (err) => {
+    if (err.message === "Connection terminated unexpectedly") return;
+    console.error(err.message);
+    process.exit(1);
+  });
+
   main()
     .then(() => process.exit(0))
     .catch((error) => {

@@ -19,6 +19,7 @@
     "generate:product-copy": "node --env-file=.env.local scripts/generateProductCopy.mjs",
     "generate:product-copy:gemini": "node --env-file=.env.local scripts/generateProductCopyGemini.mjs",
     "apply:first-wave-copy": "node --env-file=.env.local scripts/applyFirstWaveCopy.mjs",
+    "apply:gemini-drafts": "node --env-file=.env.local scripts/applyGeminiDrafts.mjs",
     "verify:copy-completeness": "node --env-file=.env.local scripts/verifyCopyCompleteness.mjs",
     "migrate:existing-media": "node --env-file=.env.local scripts/migrateExistingMediaToR2.mjs",
     "payload": "payload",
