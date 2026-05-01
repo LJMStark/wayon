@@ -110,9 +110,9 @@ export default function ProductGrid({
   allLabel,
   taxonomyCards,
   products,
-  searchQuery,
-  searchResultsLabel,
-  searchResultsForTemplate,
+  searchQuery = "",
+  searchResultsLabel = "",
+  searchResultsForTemplate = "{query}",
 
   noProductsFoundLabel,
   emptyTaxonomyTemplate,

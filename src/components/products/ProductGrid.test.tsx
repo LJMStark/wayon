@@ -83,3 +83,28 @@ test("search mode renders product result cards without a selected taxonomy value
 
   expect(findProductCardTitles(ProductGrid(props))).toEqual(["西奈金"]);
 });
+
+test("missing search props fall back to the taxonomy card view", () => {
+  const props = {
+    activeSection: "size" as const,
+    activeSectionLabel: "规格",
+    activeValue: null,
+    activeValueLabel: null,
+    allLabel: "全部",
+    taxonomyCards,
+    products: [product],
+    noProductsFoundLabel: "该分类下暂无产品。",
+    emptyTaxonomyTemplate: "当前“{section}”栏目还没有可展示的二级分类。",
+    backToCategoriesLabel: "返回分类",
+    productCountTemplate: "共 {count} 个产品",
+  };
+
+  expect(() =>
+    ProductGrid(props as React.ComponentProps<typeof ProductGrid>)
+  ).not.toThrow();
+  expect(
+    findProductCardTitles(
+      ProductGrid(props as React.ComponentProps<typeof ProductGrid>)
+    )
+  ).toEqual([]);
+});
