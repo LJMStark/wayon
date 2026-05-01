@@ -1,19 +1,49 @@
 "use client";
 
-import { useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useEffect, useSyncExternalStore } from "react";
 
-import { Link } from "@/i18n/routing";
 import { getCommonCopy } from "@/data/siteCopy";
+import type { AppLocale } from "@/i18n/types";
 
 type ErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
+const APP_LOCALES: AppLocale[] = ["en", "zh", "es", "ar"];
+
+function isAppLocale(value: string): value is AppLocale {
+  return APP_LOCALES.includes(value as AppLocale);
+}
+
+function getLocaleFromPathname(pathname: string): AppLocale {
+  const pathLocale = pathname.split("/")[1];
+
+  return isAppLocale(pathLocale) ? pathLocale : "zh";
+}
+
+function getBrowserLocale(): AppLocale {
+  return getLocaleFromPathname(window.location.pathname);
+}
+
+function getServerLocale(): AppLocale {
+  return "zh";
+}
+
+function subscribeToLocationChange(onStoreChange: () => void): () => void {
+  window.addEventListener("popstate", onStoreChange);
+
+  return () => window.removeEventListener("popstate", onStoreChange);
+}
+
 export default function LocaleError({ error, reset }: ErrorProps) {
-  const locale = useLocale();
+  const locale = useSyncExternalStore(
+    subscribeToLocationChange,
+    getBrowserLocale,
+    getServerLocale
+  );
   const copy = getCommonCopy(locale);
+  const homeHref = `/${locale}`;
 
   useEffect(() => {
     // Surface the error with its digest so Vercel function logs can be
@@ -42,12 +72,12 @@ export default function LocaleError({ error, reset }: ErrorProps) {
         >
           {copy.tryAgain}
         </button>
-        <Link
-          href="/"
+        <a
+          href={homeHref}
           className="border border-[#0a1e3f] px-6 py-3 text-sm font-medium uppercase tracking-wide text-[#0a1e3f] transition-colors hover:bg-[#0a1e3f] hover:text-white"
         >
           {copy.backToHome}
-        </Link>
+        </a>
       </div>
     </main>
   );

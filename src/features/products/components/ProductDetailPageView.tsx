@@ -285,6 +285,7 @@ export function ProductDetailPageView({
   const specifications = selectedVariant
     ? buildSpecifications(selectedVariant, labels)
     : [];
+  const heroProductCode = selectedVariant?.code?.trim() ?? "";
 
   const elementImages = selectedVariant?.elementImages ?? [];
   const heroFromElement = elementImages[0] ?? null;
@@ -306,12 +307,16 @@ export function ProductDetailPageView({
     <div className="min-h-screen wayon-stone-bg pb-32">
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       {heroImage ? (
-        <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[430px] max-h-[680px] w-full overflow-hidden md:h-[64svh] md:min-h-[520px] md:max-h-[720px]">
+        <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[430px] max-h-[680px] w-full overflow-hidden md:h-[64svh] md:min-h-[580px] md:max-h-[720px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroImage.publicUrl}
             alt={heroImage.alt}
-            className="absolute inset-0 h-full w-full object-cover"
+            className={`absolute inset-0 h-full w-full object-cover ${
+              heroFromElement
+                ? "origin-left scale-[1.08] object-left"
+                : "object-center"
+            }`}
             loading="eager"
             decoding="async"
             fetchPriority="high"
@@ -323,23 +328,30 @@ export function ProductDetailPageView({
           />
 
           <div className="relative z-10 flex h-full items-center pt-[var(--header-height)]">
-            <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(360px,540px)_minmax(0,520px)] lg:gap-12 xl:gap-16">
+            <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(300px,400px)_minmax(0,680px)] lg:gap-8 xl:gap-10">
               {/* Info card: Double-Bezel (outer shell → inner core) */}
-              <div className="w-full max-w-[460px] rounded-[2rem] bg-white/15 p-2 ring-1 ring-white/15 backdrop-blur-md md:max-w-[540px]">
+              <div className="w-full max-w-[340px] rounded-[1.5rem] bg-white/15 p-1.5 ring-1 ring-white/15 backdrop-blur-md md:max-w-[360px]">
                 {/* inner core */}
-                <div className="rounded-[calc(2rem-0.5rem)] bg-white/32 px-8 py-9 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-10 md:py-11">
-                  <span className="wayon-eyebrow mb-5 block text-[15px] tracking-[0.08em] text-black/60">
-                    {category}
-                  </span>
-                  <h1 className="font-heading text-[2.2rem] font-normal tracking-[-0.02em] text-[#1a1a1a] md:text-[3.1rem]">
+                <div className="rounded-[calc(1.5rem-0.375rem)] bg-white/32 px-5 py-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-6 md:py-6">
+                  <div className="mb-3.5 flex flex-wrap items-center gap-2.5">
+                    <span className="wayon-eyebrow text-[12px] tracking-[0.08em] text-black/60 md:text-[13px]">
+                      {category}
+                    </span>
+                    {heroProductCode ? (
+                      <span className="rounded-full border border-black/15 bg-white/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-black/60 md:text-[11px]">
+                        {labels.productCode} {heroProductCode}
+                      </span>
+                    ) : null}
+                  </div>
+                  <h1 className="font-heading text-[1.65rem] font-normal leading-[1.08] tracking-[0] text-[#1a1a1a] md:text-[2rem] xl:text-[2.15rem]">
                     {title}
                   </h1>
                   {seriesTypes.length > 0 ? (
-                    <div className="mt-6 flex flex-wrap gap-2">
+                    <div className="mt-4 flex flex-wrap gap-2">
                       {seriesTypes.map((seriesType) => (
                         <span
                           key={seriesType}
-                          className="rounded-full border border-black/20 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[0.1em] text-black/65"
+                          className="rounded-full border border-black/20 px-3 py-1 text-[12px] font-medium uppercase tracking-[0.08em] text-black/65"
                         >
                           {seriesType}
                         </span>
@@ -350,7 +362,7 @@ export function ProductDetailPageView({
               </div>
 
               {heroSpaceImage ? (
-                <figure className="hidden w-full max-w-[520px] justify-self-end rounded-[1.75rem] bg-white/18 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-md lg:block">
+                <figure className="hidden w-full max-w-[600px] justify-self-start rounded-[1.75rem] bg-white/18 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-md lg:-translate-x-3 lg:block xl:-translate-x-8">
                   <div className="overflow-hidden rounded-[calc(1.75rem-0.5rem)] bg-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img

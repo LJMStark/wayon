@@ -108,7 +108,7 @@ export default async function RootLayout({
         >
           {commonCopy.skipToMain}
         </a>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
           <main id="main-content" className="grow flex flex-col">
             {children}
