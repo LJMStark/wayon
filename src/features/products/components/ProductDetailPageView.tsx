@@ -20,7 +20,6 @@ type ProductSpecification = {
   value: string;
 };
 
-// IntersectionObserver fade-up — GPU-safe (transform + opacity only)
 function useFadeIn(): [React.RefObject<HTMLDivElement | null>, boolean] {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -44,7 +43,6 @@ function useFadeIn(): [React.RefObject<HTMLDivElement | null>, boolean] {
   return [ref, visible];
 }
 
-// Double-Bezel specification card — outer shell → inner core
 function SpecCard({
   label,
   value,
@@ -66,7 +64,6 @@ function SpecCard({
   );
 }
 
-// Section header: eyebrow pill + gradient rule line
 function SectionHeader({ label }: { label: string }): React.JSX.Element {
   const [ref, visible] = useFadeIn();
 
@@ -94,7 +91,6 @@ function SectionHeader({ label }: { label: string }): React.JSX.Element {
   );
 }
 
-// Image grid — rounded corners + hover scale (transform only)
 function MediaImageGrid({
   images,
 }: {
@@ -139,7 +135,6 @@ function MediaImageGrid({
   );
 }
 
-// Video grid — bezel outer shell, black inner
 function MediaVideoGrid({
   videos,
   fallbackLabel,
@@ -329,9 +324,7 @@ export function ProductDetailPageView({
 
           <div className="relative z-10 flex h-full items-center pt-[var(--header-height)]">
             <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(300px,400px)_minmax(0,680px)] lg:gap-8 xl:gap-10">
-              {/* Info card: Double-Bezel (outer shell → inner core) */}
               <div className="w-full max-w-[340px] rounded-[1.5rem] bg-white/15 p-1.5 ring-1 ring-white/15 backdrop-blur-md md:max-w-[360px]">
-                {/* inner core */}
                 <div className="rounded-[calc(1.5rem-0.375rem)] bg-white/32 px-5 py-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-6 md:py-6">
                   {heroProductCode ? (
                     <div className="mb-3.5">
@@ -379,7 +372,6 @@ export function ProductDetailPageView({
 
       {/* ─── CONTENT ──────────────────────────────────────────────────── */}
       <div className="wayon-container-wide pt-10">
-        {/* Back link — pill badge */}
         <Link
           href="/products"
           className="mb-12 inline-flex items-center gap-2.5 rounded-full border border-[#002b50]/10 bg-white/70 px-5 py-2.5 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#888888] backdrop-blur-sm transition-[color,border-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
@@ -400,7 +392,6 @@ export function ProductDetailPageView({
           </div>
         ) : null}
 
-        {/* Description */}
         {descriptionParagraphs.length > 0 ? (
           <div className="mx-auto mb-16 max-w-2xl text-left text-[17px] font-normal leading-[1.85] text-[#4a4a4a] [text-wrap:pretty] md:text-[18px]">
             {descriptionParagraphs.map((paragraph) => (

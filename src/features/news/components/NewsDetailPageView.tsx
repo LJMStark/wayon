@@ -178,13 +178,12 @@ function ArticleProse({
     return <></>;
   }
 
+  const proseBase =
+    "wayon-article-prose text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6";
+
   return (
     <div
-      className={
-        compact
-          ? "wayon-article-prose text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-0 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6"
-          : "wayon-article-prose mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6"
-      }
+      className={`${proseBase} ${compact ? "[&_p]:mb-0" : "mx-auto max-w-3xl [&_p]:mb-6"}`}
     >
       <RichText data={body} />
     </div>
@@ -224,21 +223,19 @@ function ArticleVisualDeck({
 
 function ArticleVisualCard({
   visual,
-  compact = false,
   priority = false,
 }: {
   visual: NewsArticleVisual;
-  compact?: boolean;
   priority?: boolean;
 }): React.JSX.Element {
   return (
     <figure className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-[0_18px_60px_rgba(0,43,80,0.08)]">
-      <div className={compact ? "relative aspect-[3/2] bg-neutral-50" : "relative aspect-[3/2] bg-neutral-50"}>
+      <div className="relative aspect-[3/2] bg-neutral-50">
         <Image
           src={visual.src}
           alt={visual.alt}
           fill
-          sizes={compact ? "(max-width: 768px) 100vw, 380px" : "(max-width: 768px) 100vw, 620px"}
+          sizes="(max-width: 768px) 100vw, 620px"
           className="object-contain"
           priority={priority}
         />

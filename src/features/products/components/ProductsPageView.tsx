@@ -139,8 +139,8 @@ export function ProductsPageView({
                   >
                     <span
                       aria-hidden
-                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center transition-transform duration-300 ease-out ${
-                        isLinkActive ? "scale-y-100 bg-[color:var(--primary)]" : "scale-y-0 bg-[color:var(--primary)]"
+                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center bg-[color:var(--primary)] transition-transform duration-300 ease-out ${
+                        isLinkActive ? "scale-y-100" : "scale-y-0"
                       }`}
                     />
                     {link.label}
@@ -163,8 +163,8 @@ export function ProductsPageView({
                   >
                     <span
                       aria-hidden
-                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center transition-transform duration-300 ease-out ${
-                        isActive ? "scale-y-100 bg-[color:var(--primary)]" : "scale-y-0 bg-[color:var(--primary)]"
+                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center bg-[color:var(--primary)] transition-transform duration-300 ease-out ${
+                        isActive ? "scale-y-100" : "scale-y-0"
                       }`}
                     />
                     {section.label}
