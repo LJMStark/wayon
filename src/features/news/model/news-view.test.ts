@@ -17,6 +17,7 @@ const LOCALES: Record<AppLocale, string> = {
 };
 
 const NEWS_SLUGS = [
+  "zyl-918-global-opening",
   "what-is-sintered-stone",
   "sintered-stone-vs-quartz-vs-marble",
   "sintered-slab-thickness-guide",
@@ -93,6 +94,23 @@ test("news detail page uses the matched primary visual as hero without duplicati
 
   expect(data.imageUrl).toBe("/assets/solutions/scene-commercial-showcase.jpg");
   expect(data.visuals.map((visual) => visual.src)).not.toContain(data.imageUrl);
+});
+
+test("zyl 918 opening article keeps the cover plus all imported body images", () => {
+  const data = buildNewsDetailPageData(makeArticle("zyl-918-global-opening"), "zh", {
+    backToNewsLabel: "返回新闻",
+    contactCtaTitle: "需要报价或样品支持？",
+    contactLabel: "联系我们",
+    contentComingSoonLabel: "内容即将上线",
+  });
+
+  expect(data.imageUrl).toBe(
+    "/assets/news/zyl-918-global-opening/00-cover.jpg"
+  );
+  expect(data.visuals).toHaveLength(19);
+  expect(data.visuals.at(-1)?.src).toBe(
+    "/assets/news/zyl-918-global-opening/19.jpg"
+  );
 });
 
 function makeArticle(slug: string): NewsArticle {

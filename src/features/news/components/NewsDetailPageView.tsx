@@ -4,7 +4,11 @@ import { RichText } from "@payloadcms/richtext-lexical/react";
 
 import { Link } from "@/i18n/routing";
 
-import type { NewsArticleVisual, NewsDetailPageData } from "../types";
+import type {
+  NewsArticleContentBlock,
+  NewsArticleVisual,
+  NewsDetailPageData,
+} from "../types";
 
 export function NewsDetailPageView({
   backToNewsLabel,
@@ -16,11 +20,13 @@ export function NewsDetailPageView({
   body,
   imageUrl,
   visuals,
+  contentBlocks,
   dateLabel,
   categoryLabel,
 }: NewsDetailPageData): React.JSX.Element {
   const hasBody =
     body !== null && Array.isArray(body.root?.children) && body.root.children.length > 0;
+  const hasContentBlocks = contentBlocks.length > 0;
 
   return (
     <article className="min-h-screen wayon-stone-bg">
@@ -76,16 +82,20 @@ export function NewsDetailPageView({
             </p>
           ) : null}
 
-          {visuals.length > 0 ? <ArticleVisualDeck visuals={visuals} /> : null}
-
-          {hasBody && body ? (
-            <div className="wayon-article-prose mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6">
-              <RichText data={body} />
-            </div>
+          {hasContentBlocks ? (
+            <ArticleContentBlocks blocks={contentBlocks} />
           ) : (
-            <div className="mx-auto flex min-h-[200px] max-w-3xl items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
-              <p className="text-center text-sm">{contentComingSoonLabel}</p>
-            </div>
+            <>
+              {visuals.length > 0 ? <ArticleVisualDeck visuals={visuals} /> : null}
+
+              {hasBody && body ? (
+                <ArticleProse body={body} />
+              ) : (
+                <div className="mx-auto flex min-h-[200px] max-w-3xl items-center justify-center rounded-lg bg-neutral-50 text-[#666666]">
+                  <p className="text-center text-sm">{contentComingSoonLabel}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -104,6 +114,80 @@ export function NewsDetailPageView({
         </div>
       </section>
     </article>
+  );
+}
+
+function ArticleContentBlocks({
+  blocks,
+}: {
+  blocks: NewsArticleContentBlock[];
+}): React.JSX.Element {
+  return (
+    <div className="mx-auto max-w-3xl space-y-10">
+      {blocks.map((block, index) => {
+        if (block.type === "body") {
+          return <ArticleProse key={`body-${index}`} body={block.body} compact />;
+        }
+
+        return (
+          <ArticleInlineVisual
+            key={block.visual.src}
+            visual={block.visual}
+            priority={index < 3}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function ArticleInlineVisual({
+  visual,
+  priority = false,
+}: {
+  visual: NewsArticleVisual;
+  priority?: boolean;
+}): React.JSX.Element {
+  return (
+    <figure>
+      <div className="relative aspect-[3/2] w-full overflow-hidden">
+        <Image
+          src={visual.src}
+          alt={visual.alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 768px"
+          className="object-contain"
+          priority={priority}
+        />
+      </div>
+      <figcaption className="pt-3 text-center text-sm leading-6 text-[#666666]">
+        {visual.caption || visual.alt}
+      </figcaption>
+    </figure>
+  );
+}
+
+function ArticleProse({
+  body,
+  compact = false,
+}: {
+  body: NewsDetailPageData["body"];
+  compact?: boolean;
+}): React.JSX.Element {
+  if (!body) {
+    return <></>;
+  }
+
+  return (
+    <div
+      className={
+        compact
+          ? "wayon-article-prose text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-0 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6"
+          : "wayon-article-prose mx-auto max-w-3xl text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_p]:mb-6 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6"
+      }
+    >
+      <RichText data={body} />
+    </div>
   );
 }
 
@@ -127,11 +211,11 @@ function ArticleVisualDeck({
   }
 
   return (
-    <section className="mb-14 grid gap-4 md:grid-cols-[1.5fr_1fr]">
+    <section className="mx-auto mb-14 max-w-4xl space-y-4">
       <ArticleVisualCard visual={featured} priority />
-      <div className="grid gap-4">
-        {supporting.slice(0, 2).map((visual) => (
-          <ArticleVisualCard key={visual.src} visual={visual} compact />
+      <div className="space-y-4">
+        {supporting.map((visual) => (
+          <ArticleVisualCard key={visual.src} visual={visual} />
         ))}
       </div>
     </section>
@@ -149,16 +233,21 @@ function ArticleVisualCard({
 }): React.JSX.Element {
   return (
     <figure className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-[0_18px_60px_rgba(0,43,80,0.08)]">
-      <div className={compact ? "relative aspect-[16/10]" : "relative aspect-[16/11]"}>
+      <div className={compact ? "relative aspect-[3/2] bg-neutral-50" : "relative aspect-[3/2] bg-neutral-50"}>
         <Image
           src={visual.src}
           alt={visual.alt}
           fill
           sizes={compact ? "(max-width: 768px) 100vw, 380px" : "(max-width: 768px) 100vw, 620px"}
-          className="object-cover"
+          className="object-contain"
           priority={priority}
         />
       </div>
+      {visual.caption ? (
+        <figcaption className="px-4 py-3 text-center text-sm leading-6 text-[#666666]">
+          {visual.caption}
+        </figcaption>
+      ) : null}
     </figure>
   );
 }

@@ -18,6 +18,16 @@ export type NewsArticleVisual = {
   caption: string;
 };
 
+export type NewsArticleContentBlock =
+  | {
+      type: "body";
+      body: NewsArticleBody;
+    }
+  | {
+      type: "visual";
+      visual: NewsArticleVisual;
+    };
+
 export type NewsPageData = {
   eyebrow: string;
   heroTitle: string;
@@ -38,6 +48,7 @@ export type NewsDetailPageData = {
   body: NewsArticleBody | null;
   imageUrl: string | null;
   visuals: NewsArticleVisual[];
+  contentBlocks: NewsArticleContentBlock[];
   publishedAt: string;
   dateLabel: string;
   categoryLabel: string;

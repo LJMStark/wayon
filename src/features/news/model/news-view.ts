@@ -3,11 +3,13 @@ import {
   getLocalizedNewsBody,
   getLocalizedNewsValue,
   getNewsCategoryLabel,
+  type NewsArticleBody,
   type NewsArticle,
 } from "@/data/news";
 import type { AppLocale } from "@/i18n/types";
 
 import type {
+  NewsArticleContentBlock,
   NewsArticleVisual,
   NewsDetailPageData,
   NewsPreviewItem,
@@ -16,6 +18,8 @@ import type {
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 
 const NEWS_FALLBACK_IMAGE = TRADE_YELLOW_PLACEHOLDER_IMAGE;
+const ZYL_918_GLOBAL_OPENING_ASSET_BASE =
+  "/assets/news/zyl-918-global-opening";
 
 const NEWS_ARTICLE_VISUALS: Record<
   string,
@@ -25,6 +29,36 @@ const NEWS_ARTICLE_VISUALS: Record<
     caption: Record<AppLocale, string>;
   }>
 > = {
+  "zyl-918-global-opening": [
+    zyl918Visual("00-cover.jpg", "众岩联918馆、全球馆开业封面"),
+    zyl918Visual("01.jpg", "众岩联918馆、全球馆开业盛典现场图 1"),
+    zyl918Visual("02.jpg", "众岩联918馆、全球馆开业盛典现场图 2"),
+    zyl918Visual("03.jpg", "众岩联918馆、全球馆开业盛典现场图 3"),
+    zyl918Visual("04.jpg", "众岩联918馆、全球馆开业盛典现场图 4"),
+    zyl918Visual("05.jpg", "众岩联918馆、全球馆开业盛典现场图 5", "开业盛典现场"),
+    zyl918Visual("06.jpg", "众岩联董事长戴锦平", "众岩联董事长戴锦平"),
+    zyl918Visual(
+      "07.jpg",
+      "佛山陶瓷协会秘书长潘勇文致辞",
+      "佛山陶瓷协会秘书长潘勇文致辞"
+    ),
+    zyl918Visual("08.jpg", "众岩联918馆、全球馆剪彩前现场"),
+    zyl918Visual("09.jpg", "众岩联918馆、全球馆剪彩仪式", "剪彩仪式"),
+    zyl918Visual("10.jpg", "众岩联918馆、全球馆开业现场图 10"),
+    zyl918Visual("11.jpg", "众岩联918馆、全球馆开业现场图 11"),
+    zyl918Visual("12.jpg", "众岩联918馆、全球馆开业大吉", "开业大吉"),
+    zyl918Visual("13.jpg", "众岩联918馆、全球馆展厅参观图 13"),
+    zyl918Visual("14.jpg", "众岩联918馆、全球馆展厅参观图 14"),
+    zyl918Visual("15.jpg", "众岩联918馆、全球馆展厅参观图 15"),
+    zyl918Visual("16.jpg", "众岩联918馆、全球馆展厅参观图 16"),
+    zyl918Visual("17.jpg", "众岩联918馆、全球馆展厅参观图 17"),
+    zyl918Visual("18.jpg", "众岩联918馆、全球馆展厅参观图 18"),
+    zyl918Visual(
+      "19.jpg",
+      "众岩联918馆、全球馆展厅内部",
+      "众岩联918馆、全球馆展厅内部"
+    ),
+  ],
   "what-is-sintered-stone": [
     {
       src: "/assets/solutions/scene-kitchen-countertops.jpg",
@@ -187,6 +221,26 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
 };
 
+function localizedVisualText(value: string): Record<AppLocale, string> {
+  return { en: value, zh: value, es: value, ar: value };
+}
+
+function zyl918Visual(
+  filename: string,
+  alt: string,
+  caption = ""
+): {
+  src: string;
+  alt: Record<AppLocale, string>;
+  caption: Record<AppLocale, string>;
+} {
+  return {
+    src: `${ZYL_918_GLOBAL_OPENING_ASSET_BASE}/${filename}`,
+    alt: localizedVisualText(alt),
+    caption: localizedVisualText(caption || alt),
+  };
+}
+
 export function getNewsHref(slug: string): string {
   return `/news/${slug}`;
 }
@@ -243,6 +297,13 @@ export function buildNewsDetailPageData(
   const visuals = getNewsArticleVisuals(article.slug, locale);
   const primaryVisual = visuals[0];
   const imageUrl = primaryVisual?.src ?? (article.imageUrl || null);
+  const body = rawBody ? stripReferencesSection(rawBody) : null;
+  const detailVisuals = primaryVisual ? visuals.slice(1) : visuals;
+  const contentBlocks = buildNewsArticleContentBlocks(
+    article.slug,
+    body,
+    detailVisuals
+  );
 
   return {
     backToNewsLabel: copy.backToNewsLabel,
@@ -251,13 +312,65 @@ export function buildNewsDetailPageData(
     contentComingSoonLabel: copy.contentComingSoonLabel,
     title: getLocalizedNewsValue(article, locale, "title"),
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
-    body: rawBody ? stripReferencesSection(rawBody) : null,
+    body,
     imageUrl,
-    visuals: primaryVisual ? visuals.slice(1) : visuals,
+    visuals: detailVisuals,
+    contentBlocks,
     publishedAt: article.publishedAt,
     dateLabel: formatNewsDate(article.publishedAt, locale).full,
     categoryLabel: getNewsCategoryLabel(article.category, locale),
   };
+}
+
+function buildNewsArticleContentBlocks(
+  slug: string,
+  body: NewsArticleBody | null,
+  visuals: NewsArticleVisual[]
+): NewsArticleContentBlock[] {
+  if (slug !== "zyl-918-global-opening" || !body?.root) {
+    return [];
+  }
+
+  const root = body.root as Record<string, unknown>;
+  if (!Array.isArray(root["children"])) {
+    return [];
+  }
+
+  const [intro, chairmanIntro, chairmanPlan] = root["children"] as unknown[];
+  const blocks: NewsArticleContentBlock[] = [];
+
+  pushBodyBlock(blocks, body, intro);
+  for (const visual of visuals.slice(0, 6)) {
+    blocks.push({ type: "visual", visual });
+  }
+  pushBodyBlock(blocks, body, chairmanIntro);
+  pushBodyBlock(blocks, body, chairmanPlan);
+  for (const visual of visuals.slice(6)) {
+    blocks.push({ type: "visual", visual });
+  }
+
+  return blocks;
+}
+
+function pushBodyBlock(
+  blocks: NewsArticleContentBlock[],
+  body: NewsArticleBody,
+  child: unknown
+): void {
+  if (!child) return;
+  const root = body.root as Record<string, unknown>;
+  const bodyBlock = {
+    ...body,
+    root: {
+      ...root,
+      children: [child],
+    },
+  } as unknown as NewsArticleBody;
+
+  blocks.push({
+    type: "body",
+    body: bodyBlock,
+  });
 }
 
 function getNewsPrimaryImage(
