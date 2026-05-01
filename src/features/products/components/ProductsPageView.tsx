@@ -43,6 +43,9 @@ export function ProductsPageView({
   activeValueLabel,
   taxonomyCards,
   products,
+  searchQuery,
+  searchResultsLabel,
+  searchResultsForTemplate,
 }: ProductsPageData): React.JSX.Element {
   const hasCollectionLabel = collectionLabel.trim().length > 0;
   const activeSectionLabel =
@@ -180,6 +183,9 @@ export function ProductsPageView({
               allLabel={allLabel}
               taxonomyCards={taxonomyCards}
               products={products}
+              searchQuery={searchQuery}
+              searchResultsLabel={searchResultsLabel}
+              searchResultsForTemplate={searchResultsForTemplate}
               noProductsFoundLabel={noProductsFoundLabel}
               emptyTaxonomyTemplate={emptyTaxonomyTemplate}
               backToCategoriesLabel={backToCategoriesLabel}

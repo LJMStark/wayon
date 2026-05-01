@@ -21,6 +21,9 @@ type ProductGridProps = {
   allLabel: string;
   taxonomyCards: ProductTaxonomyCard[];
   products: ProductDirectoryItem[];
+  searchQuery: string;
+  searchResultsLabel: string;
+  searchResultsForTemplate: string;
 
   noProductsFoundLabel: string;
   emptyTaxonomyTemplate: string;
@@ -107,6 +110,9 @@ export default function ProductGrid({
   allLabel,
   taxonomyCards,
   products,
+  searchQuery,
+  searchResultsLabel,
+  searchResultsForTemplate,
 
   noProductsFoundLabel,
   emptyTaxonomyTemplate,
@@ -115,10 +121,16 @@ export default function ProductGrid({
 }: ProductGridProps): React.JSX.Element {
   const selectedCard =
     taxonomyCards.find((card) => card.value === activeValue) ?? null;
+  const isSearchMode = searchQuery.trim().length > 0;
+  const showProductResults = Boolean(activeValue || isSearchMode);
+  const resultTitle = isSearchMode
+    ? formatCopy(searchResultsForTemplate, { query: searchQuery })
+    : selectedCard?.label || activeValueLabel || allLabel;
+  const resultEyebrow = isSearchMode ? searchResultsLabel : activeSectionLabel;
 
   return (
     <section>
-      {!activeValue ? (
+      {!showProductResults ? (
         <div className="space-y-10">
           <div className="flex items-baseline gap-4 border-b border-[color:var(--border)] pb-5">
             <span className="wayon-eyebrow">{activeSectionLabel}</span>
@@ -168,9 +180,9 @@ export default function ProductGrid({
                 </svg>
               </Link>
               <div className="flex flex-col gap-1">
-                <span className="wayon-eyebrow">{activeSectionLabel}</span>
+                <span className="wayon-eyebrow">{resultEyebrow}</span>
                 <h3 className="font-heading text-[1.75rem] font-medium tracking-[-0.01em] text-[#242424]">
-                  {selectedCard?.label || activeValueLabel || allLabel}
+                  {resultTitle}
                 </h3>
               </div>
             </div>
@@ -185,7 +197,7 @@ export default function ProductGrid({
             </div>
           ) : (
             <motion.div
-              key={`products-${activeSection}-${activeValue ?? "all"}`}
+              key={`products-${activeSection}-${activeValue ?? "all"}-${searchQuery}`}
               className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3"
             >
               <AnimatePresence initial={false}>

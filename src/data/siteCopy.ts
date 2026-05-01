@@ -1734,6 +1734,18 @@ const SITE_COPY = {
       es: "{count} productos",
       ar: "{count} منتج",
     },
+    searchResultsLabel: {
+      en: "Search results",
+      zh: "搜索结果",
+      es: "Resultados de búsqueda",
+      ar: "نتائج البحث",
+    },
+    searchResultsFor: {
+      en: "Results for \"{query}\"",
+      zh: "“{query}”的搜索结果",
+      es: "Resultados para «{query}»",
+      ar: "نتائج البحث عن «{query}»",
+    },
     sizeFilterLabel: {
       en: "Size",
       zh: "规格",

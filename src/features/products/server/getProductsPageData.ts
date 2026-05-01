@@ -89,7 +89,7 @@ function applyLegacyCategoryAlias(
     return params;
   }
 
-  return { section: "series", value: series };
+  return { ...params, section: "series", value: series };
 }
 
 function buildDirectoryItems(
@@ -140,6 +140,55 @@ function buildSummaryTags(
 
 function uniqueStrings(values: Array<string | null | undefined>): string[] {
   return [...new Set(values.filter((value): value is string => Boolean(value)))];
+}
+
+function normalizeSearchValue(value: string | null | undefined): string {
+  return value?.trim().toLowerCase() ?? "";
+}
+
+function hasExplicitCatalogScope(params: ProductsPageSearchParams): boolean {
+  const requestedSection = readSingleParam(params.section);
+  const requestedValue = readSingleParam(params.value);
+
+  return Boolean(
+    requestedValue ||
+      (requestedSection &&
+        PRODUCT_CATALOG_SECTION_KEYS.includes(
+          requestedSection as ProductCatalogSectionKey
+        ))
+  );
+}
+
+function productMatchesSearch(
+  product: ProductDirectoryItem,
+  searchQuery: string,
+  locale: AppLocale
+): boolean {
+  const values = [
+    product.title,
+    product.category,
+    product.slug,
+    product.categorySlug,
+    product.customCapability,
+    ...product.seriesTypes,
+    ...product.seriesTypes.map((value) => localizeSeriesType(value, locale)),
+    ...(product.summaryTags ?? []),
+    ...product.variants.flatMap((variant) => [
+      variant.code,
+      variant.size,
+      variant.thickness,
+      variant.process,
+      variant.process ? localizeProcess(variant.process, locale) : undefined,
+      variant.colorGroup,
+      variant.colorGroup
+        ? localizeColorGroup(variant.colorGroup, locale)
+        : undefined,
+    ]),
+  ];
+
+  return values.some((value) =>
+    normalizeSearchValue(value).includes(searchQuery)
+  );
 }
 
 function formatSizeLabel(size: string): string {
@@ -238,10 +287,15 @@ export async function getProductsPageData(
     activeSection,
     activeValue
   );
-  const searchQuery = readSingleParam(resolvedParams.q)?.trim().toLowerCase() ?? "";
+  const searchInput = readSingleParam(resolvedParams.q)?.trim() ?? "";
+  const searchQuery = normalizeSearchValue(searchInput);
+  const searchBase =
+    searchQuery && !hasExplicitCatalogScope(resolvedParams)
+      ? products
+      : catalogFiltered;
   const filteredProducts = searchQuery
-    ? catalogFiltered.filter((product) =>
-        product.title.toLowerCase().includes(searchQuery)
+    ? searchBase.filter((product) =>
+        productMatchesSearch(product, searchQuery, locale)
       )
     : catalogFiltered;
 
@@ -275,5 +329,8 @@ export async function getProductsPageData(
     taxonomyCards,
     customCapabilities,
     products: filteredProducts,
+    searchQuery: searchInput,
+    searchResultsLabel: productsCopy.searchResultsLabel,
+    searchResultsForTemplate: productsCopy.searchResultsFor,
   };
 }

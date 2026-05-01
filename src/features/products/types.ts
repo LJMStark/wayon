@@ -89,6 +89,9 @@ export type ProductsPageData = {
   taxonomyCards: ProductTaxonomyCard[];
   customCapabilities: ProductCustomCapabilitySummary[];
   products: ProductDirectoryItem[];
+  searchQuery: string;
+  searchResultsLabel: string;
+  searchResultsForTemplate: string;
 };
 
 export type ProductDetailMediaImage = {
