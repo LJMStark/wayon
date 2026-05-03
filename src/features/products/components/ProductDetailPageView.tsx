@@ -302,7 +302,7 @@ export function ProductDetailPageView({
     <div className="min-h-screen wayon-stone-bg pb-32">
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       {heroImage ? (
-        <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[430px] max-h-[680px] w-full overflow-hidden md:h-[64svh] md:min-h-[580px] md:max-h-[720px]">
+        <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[520px] max-h-[760px] w-full overflow-hidden sm:h-[62svh] sm:min-h-[690px] md:min-h-[720px] lg:h-[66svh] lg:min-h-[640px] xl:max-h-[800px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroImage.publicUrl}
@@ -319,12 +319,12 @@ export function ProductDetailPageView({
           {/* Directional gradient for depth without hard vignette */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/5 to-transparent"
+            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.32)_0%,rgba(0,0,0,0.16)_32%,rgba(0,0,0,0.04)_68%,rgba(0,0,0,0)_100%)]"
           />
 
           <div className="relative z-10 flex h-full items-center pt-[var(--header-height)]">
-            <div className="grid w-full items-center gap-6 px-[max(5vw,24px)] lg:grid-cols-[minmax(300px,400px)_minmax(0,680px)] lg:gap-8 xl:gap-10">
-              <div className="w-full max-w-[340px] rounded-[1.5rem] bg-white/15 p-1.5 ring-1 ring-white/15 backdrop-blur-md md:max-w-[360px]">
+            <div className="mx-auto grid w-full max-w-[1480px] items-center gap-4 px-[max(5vw,20px)] sm:gap-5 md:gap-6 lg:grid-cols-[minmax(280px,0.35fr)_minmax(420px,0.58fr)] lg:gap-[clamp(1rem,2.4vw,2.75rem)] xl:px-[max(4vw,48px)]">
+              <div className="w-full max-w-[clamp(280px,27vw,420px)] rounded-[1.5rem] bg-white/15 p-1.5 ring-1 ring-white/15 backdrop-blur-md">
                 <div className="rounded-[calc(1.5rem-0.375rem)] bg-white/32 px-5 py-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-6 md:py-6">
                   {heroProductCode ? (
                     <div className="mb-3.5">
@@ -352,7 +352,7 @@ export function ProductDetailPageView({
               </div>
 
               {heroSpaceImage ? (
-                <figure className="hidden w-full max-w-[600px] justify-self-start rounded-[1.75rem] bg-white/18 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-md lg:-translate-x-3 lg:block xl:-translate-x-8">
+                <figure className="hidden w-full max-w-[min(72vw,620px)] rounded-[1.75rem] bg-white/18 p-2 shadow-[0_32px_90px_-42px_rgba(0,30,60,0.72)] ring-1 ring-white/20 backdrop-blur-md sm:block md:max-w-[min(66vw,700px)] lg:max-w-[clamp(420px,44vw,680px)] lg:-translate-x-[clamp(0.75rem,1.7vw,2rem)]">
                   <div className="overflow-hidden rounded-[calc(1.75rem-0.5rem)] bg-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
