@@ -424,8 +424,7 @@ export default function ContactPage(): React.JSX.Element {
               }}
             >
               <h1
-                className="font-serif text-5xl font-light leading-[1.1] text-stone-800 md:text-6xl lg:text-7xl"
-                style={{ fontFamily: "'Plus Jakarta Sans', Georgia, serif" }}
+                className="wayon-brand-title text-5xl font-light leading-[1.1] text-stone-800 md:text-6xl lg:text-7xl"
               >
                 {contactCopy.heroTitle}
               </h1>

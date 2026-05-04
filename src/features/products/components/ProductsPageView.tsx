@@ -75,7 +75,7 @@ export function ProductsPageView({
               {collectionLabel}
             </span>
           ) : null}
-          <h1 className="wayon-title max-w-4xl break-words text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.5)]">
+          <h1 className="wayon-title wayon-brand-title max-w-4xl break-words text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.5)]">
             {heroTitle}
           </h1>
           <p className="mt-6 max-w-2xl break-words text-base leading-[1.85] text-white/80 md:text-[17px]">
@@ -104,7 +104,7 @@ export function ProductsPageView({
           {hasCollectionLabel ? (
             <span className="wayon-eyebrow">{collectionLabel}</span>
           ) : null}
-          <h2 className="font-heading text-[2rem] font-medium tracking-[-0.015em] text-[#242424] md:text-[2.4rem]">
+          <h2 className="wayon-brand-title text-[2rem] text-[#242424] md:text-[2.4rem]">
             {directoryTitle}
           </h2>
           <p className="text-[15px] leading-[1.85] text-[color:var(--muted-foreground)]">

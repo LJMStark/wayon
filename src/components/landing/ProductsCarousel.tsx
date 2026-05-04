@@ -39,7 +39,7 @@ export function ProductsCarousel({
               initial={shouldReduce ? false : { opacity: 0, x: -30 }}
               whileInView={shouldReduce ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="mb-6 whitespace-pre-line text-[clamp(3.5rem,7vw,6rem)] font-light uppercase leading-[0.95] tracking-[0] text-[color:var(--primary)]"
+              className="wayon-brand-title mb-6 whitespace-pre-line text-[clamp(3.5rem,7vw,6rem)] uppercase leading-[0.95] text-[color:var(--primary)]"
             >
               {copy.title}
             </motion.h2>

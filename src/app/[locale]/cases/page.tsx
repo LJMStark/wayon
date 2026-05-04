@@ -68,7 +68,7 @@ export default function CasesPage(): React.JSX.Element {
 
       <div className="mx-auto max-w-[1400px] px-6 pb-24">
         <div className="mt-8">
-          <h2 className="mb-8 text-2xl font-bold text-[#1a1a1a]">
+          <h2 className="wayon-brand-title mb-8 text-2xl text-[#1a1a1a]">
             {commonCopy.allCases}
           </h2>
 

@@ -91,7 +91,7 @@ export function AboutAlbum({
 
             <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
               <div className={`transition-[transform,opacity] duration-[1s] ease-[0.16,1,0.3,1] delay-300 ${isActive ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}>
-                <h3 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light tracking-widest text-white mb-6 uppercase">
+                <h3 className="wayon-brand-title mb-6 text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-none text-white">
                   {item.title}
                 </h3>
                 <p className="max-w-2xl mx-auto text-white/80 text-[15px] leading-relaxed mb-10">

@@ -67,7 +67,7 @@ export function EngineeringCase({
       <div className="mx-auto max-w-[1920px] px-4 md:px-8">
         <header className="engineering-case__header mb-10 flex flex-col justify-between gap-8 border-b border-[#002b50]/12 pb-8 md:mb-14 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <h2 className="mb-6 text-[clamp(2.5rem,5vw,4.5rem)] font-light uppercase leading-[1.1] tracking-wide text-[color:var(--primary)]">
+            <h2 className="wayon-brand-title mb-6 text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-[1.1] text-[color:var(--primary)]">
               {title}
             </h2>
             <p className="max-w-md text-[15px] leading-relaxed text-[#4a4a4a]">

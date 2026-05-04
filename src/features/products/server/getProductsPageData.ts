@@ -47,7 +47,7 @@ type ProductsPageSearchParams = {
   q?: string | string[];
 };
 
-const SIDEBAR_SERIES_VALUE_LINKS = ["新品系列", "特惠系列"] as const;
+const SIDEBAR_SERIES_VALUE_LINKS = ["特惠系列"] as const;
 
 function readSingleParam(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) {

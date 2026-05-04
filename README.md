@@ -1,16 +1,17 @@
 # ZYL Stone Web (wayon-web)
 
-ZYL Stone 多语言企业官网：Next.js 16 + Sanity CMS 驱动的产品目录、新闻、解决方案与询盘站点。支持中 / 英 / 西 / 阿 / 俄 五种语言，默认中文（zh）。
+ZYL Stone 多语言企业官网：Next.js 16 + Payload CMS 3 驱动的产品目录、新闻、解决方案与询盘站点。支持中 / 英 / 西 / 阿 四种语言，默认中文（zh）。
 
 ## 技术栈
 
-- **Next.js 16.2.1** (App Router, React Server Components)
-- **React 19.2**
-- **Sanity CMS 5** (嵌入式 Studio，路径 `/studio`)
+- **Next.js 16.2.4** (App Router, React Server Components)
+- **React 19**
+- **Payload CMS 3.83**（嵌入式管理后台，路径 `/admin`）
+- **PostgreSQL**（通过 `@payloadcms/db-postgres`）
+- **Cloudflare R2**（媒体文件存储，S3 兼容）
 - **next-intl** 多语言路由与文案
 - **Tailwind CSS 4**
 - **Resend** 询盘邮件投递
-- **Vercel Analytics** + **Speed Insights**
 - **Vitest** 单元测试 / **Playwright** E2E
 
 ## Quick Start
@@ -23,7 +24,7 @@ npm install
 npm run dev                  # http://localhost:3000
 ```
 
-Studio 在开发服务器启动后访问 `http://localhost:3000/studio` 使用。
+管理后台在开发服务器启动后访问 `http://localhost:3000/admin`（需要有效的 `DATABASE_URL`）。
 
 ## 环境变量
 
@@ -31,60 +32,73 @@ Studio 在开发服务器启动后访问 `http://localhost:3000/studio` 使用�
 
 | Key | 说明 | 获取方式 |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity 项目 ID | Sanity 控制台 → Project Settings |
-| `NEXT_PUBLIC_SANITY_DATASET` | Sanity 数据集名（通常 `production`） | Sanity 控制台 → Datasets |
-| `NEXT_PUBLIC_SANITY_API_VERSION` | Sanity API 版本（如 `2026-04-03`） | 使用当前日期或项目约定版本 |
-| `SANITY_API_TOKEN` | Sanity 写入令牌 | Sanity 控制台 → API → Tokens（需 Editor 及以上） |
+| `PAYLOAD_SECRET` | Payload CMS 加密密钥（随机长字符串） | 自行生成（如 `openssl rand -hex 32`） |
+| `DATABASE_URL` | PostgreSQL 连接串 | `postgresql://user:pass@host:5432/db` |
+| `R2_BUCKET` | Cloudflare R2 存储桶名称 | Cloudflare 控制台 → R2 |
+| `R2_ENDPOINT` | R2 S3 兼容端点 | `https://<accountid>.r2.cloudflarestorage.com` |
+| `R2_PUBLIC_URL` | R2 公开访问域名 | Cloudflare 控制台 → R2 → 自定义域名 |
+| `R2_ACCESS_KEY_ID` | R2 API 访问密钥 ID | Cloudflare 控制台 → R2 → API 令牌 |
+| `R2_SECRET_ACCESS_KEY` | R2 API 访问密钥 | 同上 |
 | `RESEND_API_KEY` | Resend 邮件服务 API Key | Resend 控制台 → API Keys |
 | `RESEND_FROM_EMAIL` | 询盘邮件发信地址 | 已在 Resend 验证过的域名邮箱 |
-| `INQUIRY_NOTIFY_TO` | 询盘通知收件地址 | 团队内部指定邮箱 |
+| `INQUIRY_NOTIFY_TO` | 询盘通知收件地址（多个用逗号分隔） | 团队内部指定邮箱 |
+| `NEXT_PUBLIC_SITE_URL` | 站点公开域名（可选，有回退值） | 如 `https://zylsinteredstone.com` |
+| `OPENAI_API_KEY` | OpenAI API Key（仅 generate:product-copy 脚本使用） | OpenAI 控制台 |
 
-**安全提示**：永远不要把 `.env.local` 提交到 Git；所有密钥通过各服务控制台获取，不在仓库中保存示例值。
+**安全提示**：永远不要把 `.env.local` 提交到 Git；`.gitignore` 已排除该文件。
 
 ## 常用命令
 
 ```bash
-npm run dev                  # 启动开发服务器
-npm run build                # 生产构建
-npm run start                # 启动生产服务器
-npm run lint                 # ESLint 静态检查
-npm run typecheck            # 生成 Next 路由类型并执行 TypeScript 检查
-npm test                     # 运行 Vitest 单测
-npm run test:watch           # Vitest 监听模式
-npm run test:e2e             # Playwright E2E（需先 npm run dev）
-npm run import:trade-catalog # 导入 trade 目录数据到 Sanity
-npm run generate:product-copy # 生成产品级四语文案草稿（默认 dry-run）
+npm run dev                   # 启动开发服务器（http://localhost:3000）
+npm run build                 # 生产构建
+npm run start                 # 启动生产服务器
+npm run lint                  # ESLint 静态检查
+npm run typecheck             # 生成 Next 路由类型并执行 TypeScript 检查
+npm test                      # 运行 Vitest 单测
+npm run test:watch            # Vitest 监听模式
+npm run test:e2e              # Playwright E2E（需先 npm run dev）
+
+# Payload CMS
+npm run payload               # Payload CLI 直通
+npm run generate:types        # 重新生成 src/payload-types.ts（改 schema 后运行）
+npm run generate:importmap    # 重新生成 Payload admin import map
+
+# 数据迁移脚本（一次性，详见 CLAUDE.md）
+npm run import:422-catalog    # 从 docs/4.22/ 导入产品目录
+npm run migrate:existing-media # 将旧 /api/trade-media/* 引用迁移到 R2
+npm run generate:product-copy # 生成产品多语言文案草稿（默认 dry-run）
 ```
 
 ## 项目结构
 
 ```
 src/
-  app/             # Next.js App Router：[locale] 路由、Sanity Studio、Server Actions
-  components/      # 跨页面共用 UI（layout / landing / products ...）
-  features/        # 功能模块（home / products / news / shared），按 model + lib + components 组织
-  sanity/          # Sanity client、GROQ 查询、schema 定义
-  i18n/            # next-intl routing 与 request 配置
-  data/            # 静态 JSON 数据与站点文案
-  messages/        # 各 locale 翻译 JSON
+  app/
+    [locale]/        # 公开路由（zh/en/es/ar），含首页、产品、新闻、联系等
+    (payload)/       # Payload 路由组：/admin 后台 + /api REST 端点
+    api/             # 自定义 API 路由（trade-media 文件代理）
+    actions/         # Server Actions（inquiry.ts 询盘表单）
+  components/        # 跨页面共用 UI（layout / landing / products 等）
+  features/          # 功能模块（home / products / news / shared）
+  payload/           # Payload collection schema、hooks
+  data/              # 服务端数据获取（products.ts、news.ts）
+  i18n/              # next-intl 路由与 request 配置
+  lib/               # 环境变量验证（env.ts、server-env.ts）
+  messages/          # 各 locale 翻译 JSON（en/zh/es/ar）
 ```
 
-详细约定见 [CLAUDE.md](./CLAUDE.md)。
+详细约定、架构决策与迁移脚本说明见 [CLAUDE.md](./CLAUDE.md)。
 
 ## 部署
 
-部署目标为 Vercel：
+生产环境部署在 **Zeabur**，域名 `zylsinteredstone.com`。Zeabur 使用 zbpack 自动检测并构建 Next.js 项目。
 
-1. 在 Vercel 导入本仓库
-2. 在 Project Settings → Environment Variables 中补齐上文所有 key
-3. 每次推送 `main` 触发自动部署；PR 会生成预览环境
-4. Sanity Studio 随站点部署，访问 `/studio`
+部署步骤：
 
-## Sanity Studio 用法
-
-- 本地：`npm run dev` 后打开 `/studio`
-- 部署后：访问生产域名下的 `/studio`
-- Schema 修改位于 `src/sanity/schemaTypes/`；改动后无需手动部署 schema（Studio 随应用构建打包）
+1. 在 Zeabur 控制台导入本仓库
+2. 在 Service → Variables 中补齐上方所有环境变量
+3. 推送 `main` 分支触发自动部署
 
 ## 贡献规范
 
@@ -98,7 +112,7 @@ npm test
 
 - Commit 消息遵循 Conventional Commits（`feat:` / `fix:` / `refactor:` / `docs:` 等）
 - 一个 PR 只做一件事，附带必要的测试
-- 涉及 UI 变更时，同步在 PR 描述中贴截图或录屏
+- 涉及 UI 变更时，在 PR 描述中贴截图或录屏
 
 ## 许可证
 

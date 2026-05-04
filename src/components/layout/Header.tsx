@@ -10,6 +10,7 @@ import {
   LANGUAGES,
   NAV_ITEMS,
   type NavigationKey,
+  type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
@@ -115,6 +116,48 @@ function getMobileSectionChevronClassName(isExpanded: boolean): string {
   }
 
   return "size-5 transition-transform";
+}
+
+function PreviewProductGrid({
+  products,
+  titleClassName = "text-[#404040] group-hover:text-[color:var(--primary)]",
+  translateTitle,
+  onProductClick,
+}: {
+  products: PreviewProduct[];
+  titleClassName?: string;
+  translateTitle?: (title: string) => string;
+  onProductClick?: () => void;
+}): React.JSX.Element {
+  return (
+    <ul className="grid gap-3 sm:grid-cols-2">
+      {products.map((product) => (
+        <li key={product.href}>
+          <Link
+            href={product.href}
+            onClick={onProductClick}
+            className="group block"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--surface)]">
+              <Image
+                src={product.imageSrc}
+                alt={translateTitle?.(product.title) ?? product.title}
+                fill
+                sizes="(max-width: 1119px) 160px, 18vw"
+                className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
+                unoptimized
+              />
+            </div>
+            <span
+              className={`mt-2 block text-[13px] leading-5 transition-colors ${titleClassName}`}
+            >
+              {translateTitle?.(product.title) ?? product.title}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default function Header(): React.JSX.Element {
@@ -316,6 +359,10 @@ export default function Header(): React.JSX.Element {
                                       </li>
                                     ))}
                                   </ul>
+                                ) : activeCollection?.previewProducts?.length ? (
+                                  <PreviewProductGrid
+                                    products={activeCollection.previewProducts}
+                                  />
                                 ) : (
                                   <Link
                                     href={activeCollection?.href ?? "/products"}
@@ -609,6 +656,14 @@ export default function Header(): React.JSX.Element {
                                     </li>
                                   ))}
                                 </ul>
+                              ) : subItem.previewProducts?.length ? (
+                                <div className="mt-3">
+                                  <PreviewProductGrid
+                                    products={subItem.previewProducts}
+                                    titleClassName="text-white/70 group-hover:text-white"
+                                    onProductClick={closeMobileMenu}
+                                  />
+                                </div>
                               ) : null}
                             </div>
                           ))}

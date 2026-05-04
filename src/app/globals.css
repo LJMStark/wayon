@@ -41,12 +41,10 @@
   --mini-gap: clamp(1.5rem, 2vw, 3rem);
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
-  --wayon-font-sans: var(--font-inter), var(--font-misans), sans-serif;
-  --wayon-font-heading: var(--font-playfair), var(--font-misans), serif;
-  --wayon-font-cjk: var(--font-misans);
-  --wayon-font-greatwall-dahei: "长城大黑体", "ChangCheng DaHeiTi",
-    "Chang Cheng Da Hei Ti", "Great Wall DaHei", "STHeiti", "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", var(--font-misans), sans-serif;
+  --wayon-font-sans: var(--font-noto-sans-sc), sans-serif;
+  --wayon-font-heading: var(--font-playfair), serif;
+  --wayon-font-cjk: var(--font-noto-sans-sc), sans-serif;
+  --wayon-font-hero: var(--font-geource-sans), sans-serif;
 }
 
 @media (max-width: 1279px) {
@@ -109,7 +107,7 @@
   }
 
   html[dir="rtl"] body {
-    font-family: var(--font-cairo), var(--wayon-font-sans);
+    font-family: var(--font-cairo), sans-serif;
   }
 
   a {
@@ -212,6 +210,12 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.85;
+  }
+
+  .wayon-brand-title {
+    font-family: var(--wayon-font-hero);
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
   .wayon-button-link {
@@ -1026,16 +1030,7 @@
 .wayon-title,
 .wayon-page-title,
 .wayon-hero-title {
-  font-family:
-    var(--font-playfair),
-    var(--font-lxgw-marker),
-    var(--font-cairo),
-    "Songti SC",
-    "Noto Serif CJK SC",
-    "Source Han Serif SC",
-    STSong,
-    SimSun,
-    serif;
+  font-family: var(--font-playfair), serif;
   font-weight: 400;
   font-variant-ligatures: common-ligatures;
 }
@@ -1050,7 +1045,7 @@
 }
 
 .wayon-home-hero {
-  font-family: var(--wayon-font-greatwall-dahei);
+  font-family: var(--wayon-font-hero);
   height: 100vh;
   height: 100svh;
   min-height: 620px;
@@ -1127,14 +1122,7 @@
 :lang(zh) .wayon-title,
 :lang(zh) .wayon-page-title,
 :lang(zh) .wayon-hero-title {
-  font-family:
-    var(--font-lxgw-marker),
-    "Songti SC",
-    "Noto Serif CJK SC",
-    "Source Han Serif SC",
-    STSong,
-    SimSun,
-    serif;
+  font-family: var(--font-lxgw-marker), sans-serif;
   font-weight: 400;
 }
 
@@ -1142,10 +1130,30 @@
   font-weight: 400;
 }
 
+:lang(zh) .wayon-title,
+:lang(zh) .wayon-page-title,
+:lang(zh) .wayon-hero-title,
+:lang(zh) .wayon-brand-title {
+  font-family: var(--wayon-font-hero);
+  font-weight: 700;
+}
+
 .wayon-home-hero .wayon-hero-title,
 :lang(zh) .wayon-home-hero .wayon-hero-title {
-  font-family: var(--wayon-font-greatwall-dahei);
+  font-family: var(--wayon-font-hero);
   font-weight: 700;
+}
+
+:lang(ar) .wayon-home-hero .wayon-hero-title,
+:lang(ar) .wayon-hero-title {
+  font-family: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: 0;
+}
+
+:lang(ar) .wayon-home-hero__title-line--single {
+  line-height: 1.35;
 }
 
 @keyframes engineeringCaseMarqueeLtr {

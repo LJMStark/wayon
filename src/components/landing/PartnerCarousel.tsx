@@ -50,7 +50,7 @@ export function PartnerCarousel({
             <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/65">
               {description}
             </p>
-            <h2 className="mt-6 text-[clamp(2rem,4vw,3.5rem)] font-light uppercase leading-none tracking-wide text-[#242424]">
+            <h2 className="wayon-brand-title mt-6 text-[clamp(2rem,4vw,3.5rem)] uppercase leading-none text-[#242424]">
               {title}
             </h2>
           </header>

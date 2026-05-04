@@ -67,7 +67,7 @@ export function NewsDetailPageView({
                 {categoryLabel}
               </span>
             ) : null}
-            <h1 className="wayon-page-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
+            <h1 className="wayon-page-title wayon-brand-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
               {title}
             </h1>
             <div className="flex items-center justify-center text-sm text-[#666666]">
@@ -102,7 +102,7 @@ export function NewsDetailPageView({
 
       <section className="bg-primary px-6 pb-6 pt-10 md:pb-8 md:pt-14">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="mb-5 text-2xl font-heading font-bold text-white">
+          <h2 className="wayon-brand-title mb-5 text-2xl text-white">
             {contactCtaTitle}
           </h2>
           <Link

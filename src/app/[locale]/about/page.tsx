@@ -117,7 +117,7 @@ export default function AboutPage(): React.JSX.Element {
         id="who-are-we"
         className="mx-auto max-w-5xl px-6 py-20 text-center"
       >
-        <h2 className="mb-4 text-3xl font-normal md:text-4xl">
+        <h2 className="wayon-brand-title mb-4 text-3xl font-normal md:text-4xl">
           {aboutCopy.introTitle}
         </h2>
         <h3 className="mb-10 text-sm font-semibold tracking-wider">
@@ -155,7 +155,7 @@ export default function AboutPage(): React.JSX.Element {
             />
           </div>
           <div className="flex flex-col justify-center bg-[#122245] p-16 text-white">
-            <h2 className="mb-6 text-3xl font-bold text-white">{aboutCopy.whyTitle}</h2>
+            <h2 className="wayon-brand-title mb-6 text-3xl text-white">{aboutCopy.whyTitle}</h2>
             <p className="mb-10 w-[80%] text-[15px] leading-relaxed text-white/85">
               {aboutCopy.whyDescription}
             </p>
@@ -172,7 +172,7 @@ export default function AboutPage(): React.JSX.Element {
       <section className="relative mb-24 w-full overflow-hidden bg-[#122245] pb-0 pt-20 text-white">
         <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
-            <h2 className="mb-5 text-5xl font-normal tracking-wide text-[#d9b45b] md:text-6xl">
+            <h2 className="wayon-brand-title mb-5 text-5xl font-normal tracking-wide text-[#d9b45b] md:text-6xl">
               {aboutCopy.philosophyTitle}
             </h2>
             <div className="mx-auto mb-10 h-px w-12 bg-[#d9b45b]/50" />
@@ -208,7 +208,7 @@ export default function AboutPage(): React.JSX.Element {
 
       <section id="certificate" className="mx-auto mb-24 max-w-7xl px-6">
         <div className="mb-24 max-w-3xl">
-          <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
+          <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-widest">
             {aboutCopy.certificatesTitle}
           </h2>
           <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
@@ -223,7 +223,7 @@ export default function AboutPage(): React.JSX.Element {
         </div>
 
         <div className="max-w-3xl">
-          <h2 className="mb-6 text-3xl font-normal uppercase tracking-widest">
+          <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-widest">
             {aboutCopy.teamTitle}
           </h2>
           <p className="text-[15px] leading-relaxed text-gray-600">
@@ -236,7 +236,7 @@ export default function AboutPage(): React.JSX.Element {
         id="enterprise-activities"
         className="mx-auto mb-32 max-w-7xl px-6 text-center"
       >
-        <h2 className="mb-6 text-3xl font-normal uppercase tracking-[0.1em]">
+        <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-[0.1em]">
           {aboutCopy.exhibitionTitle}
         </h2>
         <p className="mx-auto mb-16 max-w-4xl text-[15px] leading-relaxed text-gray-600">
@@ -279,10 +279,10 @@ export default function AboutPage(): React.JSX.Element {
       <section className="w-full wayon-stone-bg py-24">
         <div className="mx-auto max-w-5xl px-6">
           <div className="mb-24 text-center">
-            <h2 className="mr-4 inline-block text-4xl font-normal uppercase tracking-widest text-[#aaaaaa]">
+            <h2 className="wayon-brand-title mr-4 inline-block text-4xl font-normal uppercase tracking-widest text-[#aaaaaa]">
               {aboutCopy.developmentTitleLead}
             </h2>
-            <h2 className="inline-block text-4xl font-bold uppercase tracking-widest text-[#0f2858]">
+            <h2 className="wayon-brand-title inline-block text-4xl font-bold uppercase tracking-widest text-[#0f2858]">
               {aboutCopy.developmentTitleStrong}
             </h2>
           </div>
