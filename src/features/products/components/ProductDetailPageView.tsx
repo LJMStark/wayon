@@ -333,7 +333,7 @@ export function ProductDetailPageView({
                       </span>
                     </div>
                   ) : null}
-                  <h1 className="font-heading text-[1.65rem] font-normal leading-[1.08] tracking-[0] text-[#1a1a1a] md:text-[2rem] xl:text-[2.15rem]">
+                  <h1 className="wayon-brand-title text-[1.65rem] leading-[1.08] text-[#1a1a1a] md:text-[2rem] xl:text-[2.15rem]">
                     {title}
                   </h1>
                   {seriesTypes.length > 0 ? (
@@ -386,7 +386,7 @@ export function ProductDetailPageView({
             <span className="wayon-eyebrow mb-5 text-[15px] tracking-[0.08em]">
               {category}
             </span>
-            <h1 className="mb-4 font-heading text-[2.4rem] font-normal tracking-[-0.02em] text-[#242424] md:text-[3.2rem]">
+            <h1 className="wayon-brand-title mb-4 text-[2.4rem] text-[#242424] md:text-[3.2rem]">
               {title}
             </h1>
           </div>
