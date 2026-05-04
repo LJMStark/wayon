@@ -11,12 +11,19 @@ export type ChildLink = {
   href: string;
 };
 
+export type PreviewProduct = {
+  title: string;
+  href: string;
+  imageSrc: string;
+};
+
 export type SubItem = {
   label: NavigationKey;
   href: string;
   description?: NavigationKey;
   previewImage?: string;
   children?: ChildLink[];
+  previewProducts?: PreviewProduct[];
 };
 
 export type NavItem = {
@@ -74,19 +81,41 @@ export const NAV_ITEMS: NavItem[] = [
           { label: "catalogSeriesArt", href: `/products?section=series&value=${encodeURIComponent("艺术岩板")}` },
           { label: "catalogSeriesContinuous", href: `/products?section=series&value=${encodeURIComponent("连纹岩板")}` },
           { label: "catalogSeriesTrending", href: `/products?section=series&value=${encodeURIComponent("创意网红")}` },
+          { label: "catalogNewSeries", href: `/products?section=series&value=${encodeURIComponent("新品系列")}` },
         ],
-      },
-      {
-        label: "catalogNewSeries",
-        href: `/products?section=series&value=${encodeURIComponent("新品系列")}`,
-        description: "catalogNewSeriesDesc",
-        previewImage: "/assets/showcases/showcase-1.jpg",
       },
       {
         label: "catalogSpecialSeries",
         href: `/products?section=series&value=${encodeURIComponent("特惠系列")}`,
         description: "catalogSpecialSeriesDesc",
-        previewImage: "/assets/showcases/showcase-1.jpg",
+        previewImage:
+          "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+        previewProducts: [
+          {
+            title: "ZYL1632L971雅诗兰黛",
+            href: "/products/zyl1632l971",
+            imageSrc:
+              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+          },
+          {
+            title: "丝绸白",
+            href: "/products/zl1224l936",
+            imageSrc:
+              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1224L936%E4%B8%9D%E7%BB%B8%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+          },
+          {
+            title: "伊莎贝尔白",
+            href: "/products/zl1632ls015",
+            imageSrc:
+              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632LS015%E4%BC%8A%E8%8E%8E%E8%B4%9D%E5%B0%94%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+          },
+          {
+            title: "佩拉粉玉",
+            href: "/products/zl1632l982",
+            imageSrc:
+              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632L982%E4%BD%A9%E6%8B%89%E7%B2%89%E7%8E%89%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+          },
+        ],
       },
       {
         label: "catalogThickness",
