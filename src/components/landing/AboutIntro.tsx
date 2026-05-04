@@ -55,7 +55,7 @@ export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
             </div>
 
             <div className="relative">
-              <h2 className="max-w-4xl whitespace-pre-line text-[clamp(2.1rem,4.2vw,4.95rem)] font-light uppercase leading-[1.02] text-[color:var(--primary)]">
+              <h2 className="wayon-brand-title max-w-4xl whitespace-pre-line text-[clamp(2.1rem,4.2vw,4.95rem)] uppercase leading-[1.02] text-[color:var(--primary)]">
                 {data.title}
               </h2>
 

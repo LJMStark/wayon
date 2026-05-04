@@ -24,7 +24,7 @@ export function NewsSection({
     <RevealSection className="border-t border-[#002b50]/10 px-4 py-24 md:py-32 lg:px-8">
       <div className="mx-auto max-w-[90rem]">
         <header className="mb-16 md:mb-20">
-          <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light uppercase leading-none tracking-widest text-[color:var(--primary)]">
+          <h2 className="wayon-brand-title text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-none text-[color:var(--primary)]">
             {title}
           </h2>
         </header>

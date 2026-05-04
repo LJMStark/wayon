@@ -212,6 +212,12 @@
     line-height: 1.85;
   }
 
+  .wayon-brand-title {
+    font-family: var(--wayon-font-hero);
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
   .wayon-button-link {
     position: relative;
     display: inline-flex;
