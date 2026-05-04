@@ -172,7 +172,7 @@ export default async function DownloadPage({
       <section className="border-t border-gray-100 py-16">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h2 className="mb-3 font-heading text-2xl font-bold uppercase text-[#1a1a1a]">
+            <h2 className="wayon-brand-title mb-3 text-2xl uppercase text-[#1a1a1a]">
               {downloadCopy.certificationsTitle}
             </h2>
             <p className="max-w-xl text-sm font-normal text-[#555555]">
@@ -195,7 +195,7 @@ export default async function DownloadPage({
 
       <section className="wayon-stone-bg border-t border-gray-100 py-16">
         <div className="mx-auto max-w-[1400px] px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="mb-4 text-2xl font-heading font-bold uppercase text-[#1a1a1a]">
+          <h2 className="wayon-brand-title mb-4 text-2xl uppercase text-[#1a1a1a]">
             {downloadCopy.ctaTitle}
           </h2>
           <p className="mx-auto mb-8 max-w-md text-sm font-normal text-[#555555]">

@@ -47,7 +47,7 @@ export function NewsPageView({
             <span className="text-sm font-semibold text-[#d9b45b]">
               {eyebrow}
             </span>
-            <h1 className="wayon-page-title mt-6 text-4xl font-normal leading-tight text-white md:text-5xl lg:text-6xl">
+            <h1 className="wayon-page-title wayon-brand-title mt-6 text-4xl font-normal leading-tight text-white md:text-5xl lg:text-6xl">
               {heroTitle}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
@@ -67,7 +67,7 @@ export function NewsPageView({
                 <span className="text-sm font-semibold text-[#d9b45b]">
                   {eyebrow}
                 </span>
-                <h2 className="mt-4 text-3xl font-heading font-normal leading-tight text-[#002b50] md:text-4xl">
+                <h2 className="wayon-brand-title mt-4 text-3xl font-normal leading-tight text-[#002b50] md:text-4xl">
                   {recentUpdatesLabel}
                 </h2>
                 <div className="mt-8 flex items-end gap-3 text-[#002b50]">
@@ -94,7 +94,7 @@ export function NewsPageView({
         <section className="bg-white/94 py-24">
           <div className="wayon-container-wide">
             <div className="border border-[#002b50]/12 bg-white px-6 py-16 text-center shadow-[0_24px_70px_-52px_rgba(0,43,80,0.45)]">
-              <h2 className="text-3xl font-heading font-normal text-[#002b50]">
+              <h2 className="wayon-brand-title text-3xl font-normal text-[#002b50]">
                 {recentUpdatesLabel}
               </h2>
               <p className="mt-4 text-[#4a4a4a]">{emptyMessage}</p>

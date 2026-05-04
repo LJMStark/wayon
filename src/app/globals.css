@@ -1131,6 +1131,14 @@
   font-weight: 400;
 }
 
+:lang(zh) .wayon-title,
+:lang(zh) .wayon-page-title,
+:lang(zh) .wayon-hero-title,
+:lang(zh) .wayon-brand-title {
+  font-family: var(--wayon-font-hero);
+  font-weight: 700;
+}
+
 .wayon-home-hero .wayon-hero-title,
 :lang(zh) .wayon-home-hero .wayon-hero-title {
   font-family: var(--wayon-font-hero);

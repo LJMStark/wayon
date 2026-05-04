@@ -96,7 +96,7 @@ export default function SolutionPage(): React.JSX.Element {
                     <span className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="mb-4 text-[28px] font-medium leading-tight text-[#1a1a1a] md:text-[34px]">
+                    <h2 className="wayon-brand-title mb-4 text-[28px] font-medium leading-tight text-[#1a1a1a] md:text-[34px]">
                       {t(scene.titleKey)}
                     </h2>
                     <p className="mb-6 text-[15px] leading-[1.8] text-[#555]">
@@ -117,7 +117,7 @@ export default function SolutionPage(): React.JSX.Element {
         </div>
 
         <div className="mt-24 border-t border-gray-100 pt-12 text-center">
-          <h3 className="mb-4 text-2xl font-medium text-[#1a1a1a]">
+          <h3 className="wayon-brand-title mb-4 text-2xl text-[#1a1a1a]">
             {commonCopy.contactUs}
           </h3>
           <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#666]">
