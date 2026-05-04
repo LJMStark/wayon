@@ -13,7 +13,6 @@ import { getLocaleParams } from "@/features/shared/server/locale";
 import { organizationJsonLd } from "@/lib/jsonLd";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
-import { SentryInit } from "@/components/analytics/SentryInit";
 
 export async function generateMetadata({
   params,
@@ -70,7 +69,6 @@ export default async function RootLayout({
         </NextIntlClientProvider>
         <GoogleAnalytics />
         <BaiduAnalytics />
-        <SentryInit />
       </body>
     </html>
   );
