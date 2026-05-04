@@ -6,7 +6,7 @@ depend on fonts installed on the visitor's device.
 
 ## Fonts
 
-- `NotoSansSC.ttf`: primary UI font for Chinese and Latin interface text.
+- `NotoSansSC-WayonSubset.woff2`: primary UI font for Chinese and Latin interface text (subset of Noto Sans SC, regular + bold weights only).
 - `GeourceSansCHS-Regular-WayonSubset.woff2`, `GeourceSansCHS-Medium-WayonSubset.woff2`, `GeourceSansCHS-Bold-WayonSubset.woff2`: YuanGou / Geource Sans subsets for the home hero.
 - `PlayfairDisplay.ttf`: editorial heading font.
 - `LXGWMarkerGothic-Regular-WayonSubset.woff2`: Chinese display heading font subset.

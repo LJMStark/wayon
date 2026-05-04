@@ -31,9 +31,9 @@ export const lxgwMarker = localFont({
 });
 
 export const notoSansSc = localFont({
-  src: "./fonts/NotoSansSC.ttf",
+  src: "./fonts/NotoSansSC-WayonSubset.woff2",
   variable: "--font-noto-sans-sc",
-  weight: "100 900",
+  weight: "400 700",
   style: "normal",
   display: "swap",
   preload: false,

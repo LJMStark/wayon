@@ -41,10 +41,10 @@
   --mini-gap: clamp(1.5rem, 2vw, 3rem);
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
-  --wayon-font-sans: var(--font-noto-sans-sc);
-  --wayon-font-heading: var(--font-playfair);
-  --wayon-font-cjk: var(--font-noto-sans-sc);
-  --wayon-font-hero: var(--font-geource-sans);
+  --wayon-font-sans: var(--font-noto-sans-sc), sans-serif;
+  --wayon-font-heading: var(--font-playfair), serif;
+  --wayon-font-cjk: var(--font-noto-sans-sc), sans-serif;
+  --wayon-font-hero: var(--font-geource-sans), sans-serif;
 }
 
 @media (max-width: 1279px) {
@@ -107,7 +107,7 @@
   }
 
   html[dir="rtl"] body {
-    font-family: var(--font-cairo);
+    font-family: var(--font-cairo), sans-serif;
   }
 
   a {
@@ -1030,7 +1030,7 @@
 .wayon-title,
 .wayon-page-title,
 .wayon-hero-title {
-  font-family: var(--font-playfair);
+  font-family: var(--font-playfair), serif;
   font-weight: 400;
   font-variant-ligatures: common-ligatures;
 }
@@ -1122,8 +1122,7 @@
 :lang(zh) .wayon-title,
 :lang(zh) .wayon-page-title,
 :lang(zh) .wayon-hero-title {
-  font-family:
-    var(--font-lxgw-marker);
+  font-family: var(--font-lxgw-marker), sans-serif;
   font-weight: 400;
 }
 
