@@ -30,7 +30,7 @@ npm run generate:importmap        # Regenerate Payload admin import map
 # Data migrations (one-shot scripts, see "Migration Scripts" below)
 npm run import:422-catalog        # Import current product catalog from docs/4.22/
 npm run migrate:existing-media    # Move /api/trade-media/* references → R2 via Payload
-npm run import:trade-catalog      # LEGACY: targets docs/外贸出口资料/ which no longer exists
+# DO NOT RUN: import:trade-catalog — targets docs/外贸出口资料/ which no longer exists
 ```
 
 **Tests** are Vitest, co-located next to the code they cover (`*.test.ts(x)` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. There is no jsdom setup — tests assume pure-function models; do not import `.tsx` components.
@@ -79,6 +79,8 @@ src/
 - **Homepage is 100% static** — `src/app/[locale]/page.tsx` + `src/features/home/` run zero CMS queries and only render `/public/assets/...`. Payload changes do NOT affect the homepage
 - **Server Actions** for form submissions (inquiry → Resend email + Payload `inquiries` collection)
 - **RTL support** — Arabic (`ar`) uses `dir="rtl"`; no separate component variants needed
+- **`src/app/[locale]/loading.tsx`** — shared skeleton shown while any locale page segment suspends; edit this for global loading UX
+- **`src/app/not-found.tsx`** (root, no locale context) — inline styles only, Tailwind classes do not apply at this level; `src/app/[locale]/not-found.tsx` handles the locale-aware 404
 - **GraphQL is disabled** in `payload.config.ts` (`graphQL: { disable: true }`) because Payload's auto-generated GraphQL enum names choke on Chinese characters in collection slugs/labels
 
 ### UI Layout Stability
@@ -179,7 +181,16 @@ Dead/legacy:
 - **Frontend locales**: `["en", "zh", "es", "ar"]` (4)
 - **Payload locales**: `["zh", "en", "es", "ar"]` (4)
 - Navigation helpers: `Link`, `redirect`, `useRouter` from `src/i18n/routing.ts` (not `next/link`)
-- Static frontend strings: `src/messages/{locale}.json` + `src/data/siteCopy.ts`
+- **next-intl middleware lives at `src/proxy.ts`** (not the conventional `src/middleware.ts`) and is re-exported via `src/middleware.ts` — edit `proxy.ts` for locale routing rules
+
+#### Two static-content sources
+
+| Source | When to use | Access pattern |
+|--------|-------------|----------------|
+| `src/messages/{locale}.json` | UI strings, labels, short copy — loaded per-request by next-intl | `useTranslations('Footer')` / `getTranslations` |
+| `src/data/siteCopy.ts` | Longer structured copy (hero, about, cases, solution) that is locale-keyed inline | `getCommonCopy(locale)`, `getMetadataCopy(locale)` |
+
+Do not mix them: next-intl strings belong in JSON files; structured page copy with multiple fields per locale belongs in `siteCopy.ts`. Adding a new translatable string: if it's a simple label, add to all four JSON files; if it's a structured block, extend `siteCopy.ts`.
 
 ### API Routes & Redirects
 
