@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fontVariableClassName } from "./font-config";
 
 type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -53,11 +54,10 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
   const isRtl = locale === "ar";
 
   return (
-    <html lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+    <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={fontVariableClassName}>
       <body
         style={{
-          fontFamily:
-            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          fontFamily: isRtl ? "var(--font-cairo)" : "var(--font-noto-sans-sc)",
           margin: 0,
           minHeight: "100vh",
           display: "flex",

@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import {
-  Cairo,
-  Inter,
-  Playfair_Display,
-  LXGW_Marker_Gothic,
-} from "next/font/google";
-import localFont from "next/font/local";
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingSidebar from "@/components/layout/FloatingSidebar";
+import { fontVariableClassName } from "@/app/font-config";
 import { buildPageMetadata } from "@/lib/metadata";
 import { getLocaleDirection } from "@/i18n/types";
 import { NextIntlClientProvider } from "next-intl";
@@ -20,48 +14,6 @@ import { organizationJsonLd } from "@/lib/jsonLd";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
 import { SentryInit } from "@/components/analytics/SentryInit";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-});
-
-const cairo = Cairo({
-  variable: "--font-cairo",
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "700"],
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const lxgwMarker = LXGW_Marker_Gothic({
-  variable: "--font-lxgw-marker",
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-});
-
-const miSans = localFont({
-  src: "../fonts/MiSans-WayonSubset.woff2",
-  variable: "--font-misans",
-  weight: "150 700",
-  style: "normal",
-  display: "swap",
-  fallback: [
-    "Noto Sans SC",
-    "PingFang SC",
-    "Hiragino Sans GB",
-    "Microsoft YaHei",
-    "sans-serif",
-  ],
-});
 
 export async function generateMetadata({
   params,
@@ -92,7 +44,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={direction}
-      className={`${inter.variable} ${playfair.variable} ${lxgwMarker.variable} ${miSans.variable} ${cairo.variable} h-full`}
+      className={`${fontVariableClassName} h-full`}
       suppressHydrationWarning
     >
       <head>

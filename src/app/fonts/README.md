@@ -1,10 +1,18 @@
 # Font Notice
 
-This project uses a subset of MiSans for Chinese interface text.
+Runtime fonts are vendored in this directory and loaded through `next/font/local`.
+CSS font stacks intentionally avoid system fallback font names, so pages do not
+depend on fonts installed on the visitor's device.
 
-- Font: MiSans
-- Source: https://hyperos.mi.com/font/
-- License notice: https://hyperos.mi.com/font-download/MiSans%E5%AD%97%E4%BD%93%E7%9F%A5%E8%AF%86%E4%BA%A7%E6%9D%83%E8%AE%B8%E5%8F%AF%E5%8D%8F%E8%AE%AE.pdf
-- Subset file: `MiSans-WayonSubset.woff2`
+## Fonts
 
-The subset is generated from the current site copy and keeps system Chinese fonts as fallback for glyphs outside the subset.
+- `NotoSansSC.ttf`: primary UI font for Chinese and Latin interface text.
+- `GeourceSansCHS-Regular-WayonSubset.woff2`, `GeourceSansCHS-Medium-WayonSubset.woff2`, `GeourceSansCHS-Bold-WayonSubset.woff2`: YuanGou / Geource Sans subsets for the home hero.
+- `PlayfairDisplay.ttf`: editorial heading font.
+- `LXGWMarkerGothic-Regular-WayonSubset.woff2`: Chinese display heading font subset.
+- `Cairo.ttf`: Arabic UI font.
+
+## Licenses
+
+All active runtime fonts are covered by SIL Open Font License 1.1 notices stored
+under `licenses/`.
