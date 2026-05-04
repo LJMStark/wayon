@@ -39,10 +39,11 @@ const HERO_TITLE_LINE: Variants = {
 
 export function Hero({ slides }: HeroProps): React.JSX.Element {
   const t = useTranslations("Hero");
-  const titleLine1 = t("titleLine1").trim();
+  const lockMiddleDot = (text: string): string => text.replace(/ · /g, " · ");
+  const titleLine1 = lockMiddleDot(t("titleLine1").trim());
   const highlightedTitleLines = t("titleLine2")
     .split("\n")
-    .map((line) => line.trim())
+    .map((line) => lockMiddleDot(line.trim()))
     .filter(Boolean);
   const displayTitleLines =
     highlightedTitleLines.length > 0

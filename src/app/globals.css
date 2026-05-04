@@ -1145,6 +1145,18 @@
   font-weight: 700;
 }
 
+:lang(ar) .wayon-home-hero .wayon-hero-title,
+:lang(ar) .wayon-hero-title {
+  font-family: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: 0;
+}
+
+:lang(ar) .wayon-home-hero__title-line--single {
+  line-height: 1.35;
+}
+
 @keyframes engineeringCaseMarqueeLtr {
   from {
     transform: translate3d(-50%, 0, 0);
