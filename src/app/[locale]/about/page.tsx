@@ -206,22 +206,7 @@ export default function AboutPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section id="certificate" className="mx-auto mb-24 max-w-7xl px-6">
-        <div className="mb-24 max-w-3xl">
-          <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-widest">
-            {aboutCopy.certificatesTitle}
-          </h2>
-          <p className="mb-8 text-[15px] leading-relaxed text-gray-600">
-            {aboutCopy.certificatesDescription}
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 border-b border-black pb-1 text-sm uppercase tracking-widest transition-colors hover:text-gray-500"
-          >
-            {aboutCopy.certificatesCta} <MoveRight className="h-4 w-4" />
-          </Link>
-        </div>
-
+      <section id="team" className="mx-auto mb-24 max-w-7xl px-6">
         <div className="max-w-3xl">
           <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-widest">
             {aboutCopy.teamTitle}

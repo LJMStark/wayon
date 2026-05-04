@@ -548,30 +548,6 @@ const SITE_COPY = {
       es: "Los usuarios primero · Orientados al servicio · Altruismo y cooperación beneficiosa para todos",
       ar: "المستخدمون أولاً · خدمة موجّهة · إيثار وتعاون مربح للجميع",
     },
-    certificatesTitle: {
-      en: "Certificates",
-      zh: "资质证书",
-      es: "Certificaciones",
-      ar: "الشهادات",
-    },
-    certificatesDescription: {
-      en: "Management certifications, export credentials and test reports are being organized for upload. If you need specific qualification files for a project, please contact our team directly.",
-      zh: "管理体系认证、出口资质与检测报告资料正在整理中，页面将根据工厂资质文件同步更新。如需具体项目认证文件，请直接联系业务团队。",
-      es: "ZYL ha establecido un sistema de gestión de calidad alineado con los requisitos internacionales, con certificaciones y credenciales de ingeniería para exportación y suministro a gran escala.",
-      ar: "أنشأت ZYL نظام إدارة جودة متوافقًا مع متطلبات المشاريع الدولية، مع شهادات واعتمادات هندسية تدعم التصدير والتوريد واسع النطاق.",
-    },
-    certificatesCta: {
-      en: "View Certificate",
-      zh: "查看证书",
-      es: "Ver certificados",
-      ar: "عرض الشهادات",
-    },
-    certificatesPlaceholder: {
-      en: "Certificate display area",
-      zh: "证书展示区域",
-      es: "Área de exhibición de certificados",
-      ar: "منطقة عرض الشهادات",
-    },
     teamTitle: {
       en: "Team",
       zh: "团队实力",

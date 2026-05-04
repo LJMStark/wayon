@@ -41,7 +41,6 @@ export const NAV_ITEMS: NavItem[] = [
     subItems: [
       { label: "whoAreWe", href: "/about#who-are-we" },
       { label: "factory", href: "/about#factory" },
-      { label: "certificate", href: "/about#certificate" },
       { label: "download", href: "/download" },
     ],
   },

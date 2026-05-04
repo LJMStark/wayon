@@ -162,7 +162,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
-    image: "/assets/about/about-album-wayon-group.jpg",
+    image: "/assets/about/zyl-warehouse-aerial.webp",
     href: "/about",
   },
   {

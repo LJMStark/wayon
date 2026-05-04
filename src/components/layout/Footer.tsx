@@ -23,7 +23,6 @@ type FooterLegalKey = "privacyPolicy" | "termsOfService";
 const ABOUT_LINKS = [
   { label: "whoAreWe", href: "/about#who-are-we" },
   { label: "factory", href: "/about#factory" },
-  { label: "certificate", href: "/about#certificate" },
   { label: "download", href: "/download" },
 ] as const satisfies ReadonlyArray<FooterLink>;
 
