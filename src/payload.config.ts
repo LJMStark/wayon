@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
+import { zh } from "@payloadcms/translations/languages/zh";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
@@ -47,6 +48,10 @@ export default buildConfig({
   ],
   editor: lexicalEditor({}),
   graphQL: { disable: true },
+  i18n: {
+    fallbackLanguage: "zh",
+    supportedLanguages: { zh },
+  },
   secret: payloadSecret,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

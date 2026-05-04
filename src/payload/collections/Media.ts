@@ -2,6 +2,10 @@ import type { CollectionConfig } from "payload";
 
 export const Media: CollectionConfig = {
   slug: "media",
+  labels: {
+    singular: "媒体素材",
+    plural: "媒体素材",
+  },
   access: {
     read: () => true,
   },
@@ -17,30 +21,33 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: "alt",
+      label: "替代文本",
       type: "text",
       localized: true,
     },
     {
       name: "caption",
+      label: "说明文字",
       type: "text",
       localized: true,
     },
     {
       name: "category",
+      label: "素材分类",
       type: "select",
       options: [
-        { label: "Product", value: "product" },
-        { label: "License / Qualification", value: "license" },
-        { label: "Showroom", value: "showroom" },
-        { label: "Factory", value: "factory" },
-        { label: "Case (Sales)", value: "case-sales" },
-        { label: "Case (Factory)", value: "case-factory" },
-        { label: "Other", value: "other" },
+        { label: "产品", value: "product" },
+        { label: "资质 / 证书", value: "license" },
+        { label: "展厅", value: "showroom" },
+        { label: "工厂", value: "factory" },
+        { label: "案例（销售）", value: "case-sales" },
+        { label: "案例（工厂）", value: "case-factory" },
+        { label: "其他", value: "other" },
       ],
       admin: {
         position: "sidebar",
         description:
-          "Asset class. Existing product images are backfilled to 'product' by migration; non-product uploads should pick the matching tag.",
+          "素材用途分类。产品图已由迁移脚本标记为“产品”，其他上传素材请选择对应分类。",
       },
     },
   ],

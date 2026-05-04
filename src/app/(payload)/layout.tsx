@@ -2,6 +2,7 @@
 import { RootLayout, handleServerFunctions } from "@payloadcms/next/layouts";
 import type { ServerFunctionClient } from "payload";
 import React from "react";
+import "@payloadcms/next/css";
 
 import { getPayloadConfig } from "@/lib/payload-config";
 

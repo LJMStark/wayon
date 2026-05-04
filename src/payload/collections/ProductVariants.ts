@@ -15,32 +15,37 @@ import {
 const imageMediaFields: Field[] = [
   {
     name: "mediaRef",
+    label: "媒体文件",
     type: "upload",
     relationTo: "media",
     admin: {
-      description: "Payload Media record — set when importing via import422Catalog. Takes precedence over publicUrl.",
+      description: "Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。",
     },
   },
   {
     name: "sourcePath",
+    label: "来源路径",
     type: "text",
     admin: {
-      description: "Decoded filesystem-relative path (legacy import identity key)",
+      description: "解码后的相对文件路径，作为旧数据导入识别键。",
     },
   },
   {
     name: "publicUrl",
+    label: "公开 URL",
     type: "text",
     admin: {
-      description: "R2 public URL (preferred) or legacy /api/trade-media/... URL",
+      description: "R2 公开 URL，或旧的 /api/trade-media/... URL。",
     },
   },
   {
     name: "altZh",
+    label: "中文替代文本",
     type: "text",
   },
   {
     name: "sortOrder",
+    label: "排序",
     type: "number",
     defaultValue: 0,
   },
@@ -49,30 +54,36 @@ const imageMediaFields: Field[] = [
 const videoMediaFields: Field[] = [
   {
     name: "mediaRef",
+    label: "媒体文件",
     type: "upload",
     relationTo: "media",
     admin: {
-      description: "Payload Media record — set when importing via import422Catalog. Takes precedence over publicUrl.",
+      description: "Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。",
     },
   },
   {
     name: "sourcePath",
+    label: "来源路径",
     type: "text",
   },
   {
     name: "publicUrl",
+    label: "公开 URL",
     type: "text",
   },
   {
     name: "posterUrl",
+    label: "封面图 URL",
     type: "text",
   },
   {
     name: "titleZh",
+    label: "中文标题",
     type: "text",
   },
   {
     name: "sortOrder",
+    label: "排序",
     type: "number",
     defaultValue: 0,
   },
@@ -80,6 +91,10 @@ const videoMediaFields: Field[] = [
 
 export const ProductVariants: CollectionConfig = {
   slug: "productVariants",
+  labels: {
+    singular: "产品规格",
+    plural: "产品规格",
+  },
   admin: {
     useAsTitle: "code",
     defaultColumns: ["code", "productRef", "size", "process", "sortOrder"],
@@ -90,6 +105,7 @@ export const ProductVariants: CollectionConfig = {
   fields: [
     {
       name: "productRef",
+      label: "所属产品",
       type: "relationship",
       relationTo: "products",
       required: true,
@@ -97,65 +113,81 @@ export const ProductVariants: CollectionConfig = {
     },
     {
       name: "code",
+      label: "型号",
       type: "text",
       required: true,
       index: true,
     },
     {
       name: "size",
+      label: "规格",
       type: "select",
       required: true,
       options: TRADE_SIZES.map((value) => ({ label: value, value })),
     },
     {
       name: "thickness",
+      label: "厚度",
       type: "text",
     },
     {
       name: "process",
+      label: "工艺",
       type: "select",
       options: TRADE_PROCESSES.map((value) => ({ label: value, value })),
     },
     {
       name: "colorGroup",
+      label: "颜色组",
       type: "select",
       options: TRADE_COLOR_GROUPS.map((value) => ({ label: value, value })),
     },
     {
       name: "faceCount",
+      label: "面数",
       type: "text",
       admin: {
-        description: "For example: 单面 / 多面 / 四面",
+        description: "例如：单面 / 多面 / 四面",
       },
     },
     {
       name: "facePatternNote",
+      label: "纹理说明",
       type: "text",
     },
     {
       name: "sortOrder",
+      label: "排序",
       type: "number",
       defaultValue: 0,
       index: true,
     },
     {
       name: "elementImages",
+      label: "元素图",
       type: "array",
+      labels: { singular: "元素图", plural: "元素图" },
       fields: imageMediaFields,
     },
     {
       name: "spaceImages",
+      label: "空间图",
       type: "array",
+      labels: { singular: "空间图", plural: "空间图" },
       fields: imageMediaFields,
     },
     {
       name: "realImages",
+      label: "实拍图",
       type: "array",
+      labels: { singular: "实拍图", plural: "实拍图" },
       fields: imageMediaFields,
     },
     {
       name: "videos",
+      label: "视频",
       type: "array",
+      labels: { singular: "视频", plural: "视频" },
       fields: videoMediaFields,
     },
   ],

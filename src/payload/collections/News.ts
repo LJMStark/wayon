@@ -4,6 +4,10 @@ import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const News: CollectionConfig = {
   slug: "news",
+  labels: {
+    singular: "新闻",
+    plural: "新闻",
+  },
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "publishedAt", "category"],
@@ -24,12 +28,14 @@ export const News: CollectionConfig = {
   fields: [
     {
       name: "title",
+      label: "标题",
       type: "text",
       localized: true,
       required: true,
     },
     {
       name: "slug",
+      label: "链接标识",
       type: "text",
       unique: true,
       required: true,
@@ -37,6 +43,7 @@ export const News: CollectionConfig = {
     },
     {
       name: "publishedAt",
+      label: "发布时间",
       type: "date",
       required: true,
       index: true,
@@ -48,26 +55,30 @@ export const News: CollectionConfig = {
     },
     {
       name: "coverImage",
+      label: "封面图",
       type: "upload",
       relationTo: "media",
     },
     {
       name: "excerpt",
+      label: "摘要",
       type: "textarea",
       localized: true,
     },
     {
       name: "category",
+      label: "新闻分类",
       type: "select",
       options: [
-        { label: "Company News", value: "company" },
-        { label: "Industry News", value: "industry" },
-        { label: "Exhibition", value: "exhibition" },
-        { label: "Product Launch", value: "product" },
+        { label: "公司新闻", value: "company" },
+        { label: "行业新闻", value: "industry" },
+        { label: "展会活动", value: "exhibition" },
+        { label: "新品发布", value: "product" },
       ],
     },
     {
       name: "body",
+      label: "正文",
       type: "richText",
       localized: true,
     },

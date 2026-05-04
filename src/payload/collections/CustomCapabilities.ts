@@ -7,6 +7,10 @@ import {
 
 export const CustomCapabilities: CollectionConfig = {
   slug: "customCapabilities",
+  labels: {
+    singular: "定制能力",
+    plural: "定制能力",
+  },
   admin: {
     useAsTitle: "capabilityKey",
     defaultColumns: ["capabilityKey", "sortOrder"],
@@ -17,6 +21,7 @@ export const CustomCapabilities: CollectionConfig = {
   fields: [
     {
       name: "capabilityKey",
+      label: "能力类型",
       type: "select",
       required: true,
       unique: true,
@@ -37,22 +42,26 @@ export const CustomCapabilities: CollectionConfig = {
     },
     {
       name: "title",
+      label: "标题",
       type: "text",
       localized: true,
       required: true,
     },
     {
       name: "description",
+      label: "描述",
       type: "text",
       localized: true,
     },
     {
       name: "coverImage",
+      label: "封面图",
       type: "upload",
       relationTo: "media",
     },
     {
       name: "sortOrder",
+      label: "排序",
       type: "number",
       defaultValue: 0,
       index: true,

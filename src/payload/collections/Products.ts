@@ -5,6 +5,10 @@ import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const Products: CollectionConfig = {
   slug: "products",
+  labels: {
+    singular: "产品",
+    plural: "产品",
+  },
   admin: {
     useAsTitle: "title",
     defaultColumns: [
@@ -29,12 +33,14 @@ export const Products: CollectionConfig = {
   fields: [
     {
       name: "title",
+      label: "标题",
       type: "text",
       localized: true,
       required: true,
     },
     {
       name: "slug",
+      label: "链接标识",
       type: "text",
       unique: true,
       required: true,
@@ -42,54 +48,62 @@ export const Products: CollectionConfig = {
     },
     {
       name: "category",
+      label: "产品分类",
       type: "relationship",
       relationTo: "categories",
     },
     {
       name: "normalizedName",
+      label: "标准化名称",
       type: "text",
       admin: {
         description:
-          "Deterministic family name used for imported trade materials. Import identity key — do not edit manually.",
+          "导入产品时生成的族系名称，用作导入识别键。不要手动修改。",
       },
     },
     {
       name: "published",
+      label: "发布到前台",
       type: "checkbox",
       defaultValue: false,
       index: true,
       admin: {
         description:
-          "Controls whether the product is visible on the public site. Imported trade products are auto-published. Manually created products default to unpublished — flip this on once content is ready.",
+          "控制产品是否在官网显示。导入产品会自动发布，手动新建产品默认不发布，内容准备好后再打开。",
       },
     },
     {
       name: "image",
+      label: "主图",
       type: "upload",
       relationTo: "media",
     },
     {
       name: "description",
+      label: "描述",
       type: "textarea",
       localized: true,
     },
     {
       name: "seriesTypes",
+      label: "系列类型",
       type: "select",
       hasMany: true,
       options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
     },
     {
       name: "catalogMode",
+      label: "产品类型",
       type: "select",
       defaultValue: "standard",
       options: [
-        { label: "Standard Product", value: "standard" },
-        { label: "Custom Product", value: "custom" },
+        { label: "标准产品", value: "standard" },
+        { label: "定制产品", value: "custom" },
       ],
     },
     {
       name: "customCapability",
+      label: "关联定制能力",
       type: "relationship",
       relationTo: "customCapabilities",
       admin: {
@@ -98,22 +112,24 @@ export const Products: CollectionConfig = {
     },
     {
       name: "coverImageUrl",
+      label: "封面图 URL",
       type: "text",
       admin: {
         description:
-          "Percent-encoded /api/trade-media/... URL — populated by the trade catalog importer. Plain string, not a Media upload.",
+          "导入脚本写入的 /api/trade-media/... URL。这里是字符串，不是媒体上传。",
       },
     },
     {
       name: "coverVideoPosterUrl",
+      label: "封面视频海报 URL",
       type: "text",
       admin: {
-        description:
-          "Percent-encoded poster URL for the cover video, if any. Populated by the trade catalog importer.",
+        description: "导入脚本写入的封面视频海报 URL。",
       },
     },
     {
       name: "thickness",
+      label: "厚度",
       type: "text",
       admin: {
         description: "e.g. 15mm / 20mm / 30mm",
@@ -121,17 +137,19 @@ export const Products: CollectionConfig = {
     },
     {
       name: "finish",
+      label: "表面工艺",
       type: "select",
       options: [
-        { label: "Polished", value: "polished" },
-        { label: "Honed", value: "honed" },
-        { label: "Leathered", value: "leathered" },
-        { label: "Brushed", value: "brushed" },
-        { label: "Sandblasted", value: "sandblasted" },
+        { label: "亮光", value: "polished" },
+        { label: "哑光", value: "honed" },
+        { label: "皮纹", value: "leathered" },
+        { label: "拉丝", value: "brushed" },
+        { label: "喷砂", value: "sandblasted" },
       ],
     },
     {
       name: "size",
+      label: "规格",
       type: "text",
       admin: {
         description: "e.g. 3200x1600mm",
@@ -139,14 +157,16 @@ export const Products: CollectionConfig = {
     },
     {
       name: "featured",
+      label: "首页推荐",
       type: "checkbox",
       defaultValue: false,
       admin: {
-        description: "Show on homepage carousel",
+        description: "显示在首页轮播中",
       },
     },
     {
       name: "sortOrder",
+      label: "排序",
       type: "number",
       defaultValue: 0,
       index: true,
