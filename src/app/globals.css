@@ -1066,16 +1066,18 @@
   gap: clamp(1.25rem, 3svh, 2rem);
 }
 
-.wayon-home-hero__kicker-wrap {
-  margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
-  margin-bottom: clamp(0.75rem, 2svh, 1.5rem);
+.wayon-home-hero__tagline-wrap {
+  margin-top: clamp(0.6rem, 1.6vh, 1.5rem);
+  margin-top: clamp(0.6rem, 1.6svh, 1.5rem);
 }
 
-.wayon-home-hero__kicker {
-  font-size: clamp(1.25rem, 4.8vw, 2.25rem);
-  font-size: clamp(1.25rem, min(4.8vw, 4.5svh), 2.25rem);
-  letter-spacing: 0;
-  line-height: 1.15;
+.wayon-home-hero__tagline {
+  font-size: clamp(1.05rem, 3.4vw, 2.5rem);
+  font-size: clamp(1.05rem, min(3.4vw, 4.4svh), 2.5rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  white-space: nowrap;
 }
 
 .wayon-home-hero__title-line {

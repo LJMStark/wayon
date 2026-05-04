@@ -41,16 +41,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const t = useTranslations("Hero");
   const lockMiddleDot = (text: string): string => text.replace(/ · /g, " · ");
   const titleLine1 = lockMiddleDot(t("titleLine1").trim());
-  const highlightedTitleLines = t("titleLine2")
-    .split("\n")
-    .map((line) => lockMiddleDot(line.trim()))
-    .filter(Boolean);
-  const displayTitleLines =
-    highlightedTitleLines.length > 0
-      ? highlightedTitleLines
-      : [titleLine1].filter(Boolean);
-  const showKicker = titleLine1.length > 0 && highlightedTitleLines.length > 0;
-  const isSingleTitle = !showKicker;
+  const tagline = lockMiddleDot(t("tagline").trim());
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const shouldReduce = useReducedMotion();
@@ -128,31 +119,27 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             animate="show"
           >
             <h1
-              aria-label={[titleLine1, ...highlightedTitleLines].filter(Boolean).join(" ")}
+              aria-label={[titleLine1, tagline].filter(Boolean).join(" — ")}
               className="wayon-hero-title text-white"
             >
-              {showKicker ? (
-                <span className="wayon-home-hero__kicker-wrap block overflow-hidden">
+              <span className="block overflow-hidden">
+                <motion.span
+                  variants={HERO_TITLE_LINE}
+                  className="wayon-home-hero__title-line wayon-home-hero__title-line--single block"
+                >
+                  {titleLine1}
+                </motion.span>
+              </span>
+              {tagline ? (
+                <span className="wayon-home-hero__tagline-wrap block overflow-hidden">
                   <motion.span
                     variants={HERO_TITLE_LINE}
-                    className="wayon-home-hero__kicker block font-light uppercase opacity-80"
+                    className="wayon-home-hero__tagline block opacity-90"
                   >
-                    {titleLine1}
+                    {tagline}
                   </motion.span>
                 </span>
               ) : null}
-              {displayTitleLines.map((line) => (
-                <span key={line} className="block overflow-hidden">
-                  <motion.span
-                    variants={HERO_TITLE_LINE}
-                    className={`wayon-home-hero__title-line block ${
-                      isSingleTitle ? "wayon-home-hero__title-line--single" : ""
-                    }`}
-                  >
-                    {line}
-                  </motion.span>
-                </span>
-              ))}
             </h1>
           </motion.div>
 
