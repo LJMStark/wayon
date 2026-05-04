@@ -34,6 +34,9 @@ docs.compressed/
 # payload migration bundle (local-only; exported Sanity assets + bundle.json)
 /.migration/
 
+# one-shot media-cleanup audit snapshots (local-only)
+/unused-media-plan-*.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*
