@@ -20,16 +20,6 @@ export const playfair = localFont({
   adjustFontFallback: false,
 });
 
-export const lxgwMarker = localFont({
-  src: "./fonts/LXGWMarkerGothic-Regular-WayonSubset.woff2",
-  variable: "--font-lxgw-marker",
-  weight: "400",
-  style: "normal",
-  display: "swap",
-  preload: false,
-  adjustFontFallback: false,
-});
-
 export const notoSansSc = localFont({
   src: "./fonts/NotoSansSC-WayonSubset.woff2",
   variable: "--font-noto-sans-sc",
@@ -41,7 +31,14 @@ export const notoSansSc = localFont({
 });
 
 export const geourceSans = localFont({
+  // Bold listed first so next/font emits <link rel="preload"> for the LCP weight
+  // used by the home Hero (.wayon-hero-title at font-weight: 700).
   src: [
+    {
+      path: "./fonts/GeourceSansCHS-Bold-WayonSubset.woff2",
+      weight: "700",
+      style: "normal",
+    },
     {
       path: "./fonts/GeourceSansCHS-Regular-WayonSubset.woff2",
       weight: "400",
@@ -52,22 +49,15 @@ export const geourceSans = localFont({
       weight: "500",
       style: "normal",
     },
-    {
-      path: "./fonts/GeourceSansCHS-Bold-WayonSubset.woff2",
-      weight: "700",
-      style: "normal",
-    },
   ],
   variable: "--font-geource-sans",
   display: "swap",
-  preload: false,
-  adjustFontFallback: false,
+  preload: true,
 });
 
 export const fontVariableClassName = [
   cairo.variable,
   playfair.variable,
-  lxgwMarker.variable,
   notoSansSc.variable,
   geourceSans.variable,
 ].join(" ");

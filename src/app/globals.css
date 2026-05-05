@@ -42,7 +42,7 @@
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
   --wayon-font-sans: var(--font-noto-sans-sc), sans-serif;
-  --wayon-font-heading: var(--font-playfair), var(--font-geource-sans), sans-serif;
+  --wayon-font-heading: var(--font-playfair), var(--font-geource-sans), var(--font-noto-sans-sc), sans-serif;
   --wayon-font-cjk: var(--font-noto-sans-sc), sans-serif;
   --wayon-font-hero: var(--font-geource-sans), sans-serif;
 }
@@ -1115,23 +1115,6 @@
   font-weight: 600;
 }
 
-:lang(zh) h1,
-:lang(zh) h2,
-:lang(zh) h3,
-:lang(zh) h4,
-:lang(zh) h5,
-:lang(zh) h6,
-:lang(zh) .wayon-title,
-:lang(zh) .wayon-page-title,
-:lang(zh) .wayon-hero-title {
-  font-family: var(--font-lxgw-marker), sans-serif;
-  font-weight: 400;
-}
-
-:lang(zh) .wayon-hero-title strong {
-  font-weight: 400;
-}
-
 :lang(zh) .wayon-title,
 :lang(zh) .wayon-page-title,
 :lang(zh) .wayon-hero-title,
@@ -1140,10 +1123,18 @@
   font-weight: 700;
 }
 
+:lang(zh) .wayon-hero-title strong {
+  font-weight: 700;
+}
+
 .wayon-home-hero .wayon-hero-title,
 :lang(zh) .wayon-home-hero .wayon-hero-title {
   font-family: var(--wayon-font-hero);
   font-weight: 700;
+}
+
+html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
 }
 
 :lang(ar) .wayon-home-hero .wayon-hero-title,
