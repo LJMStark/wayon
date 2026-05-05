@@ -16,7 +16,6 @@
 
   --font-sans: var(--wayon-font-sans);
   --font-heading: var(--wayon-font-heading);
-  --font-cjk: var(--wayon-font-cjk);
 }
 
 :root {
@@ -41,10 +40,10 @@
   --mini-gap: clamp(1.5rem, 2vw, 3rem);
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
-  --wayon-font-sans: var(--font-noto-sans-sc), sans-serif;
+  --wayon-font-sans: var(--font-noto-sans-sc), var(--font-inter), system-ui, sans-serif;
   --wayon-font-heading: var(--font-playfair), var(--font-geource-sans), var(--font-noto-sans-sc), sans-serif;
-  --wayon-font-cjk: var(--font-noto-sans-sc), sans-serif;
   --wayon-font-hero: var(--font-geource-sans), sans-serif;
+  --wayon-font-arabic: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
 }
 
 @media (max-width: 1279px) {
@@ -107,7 +106,7 @@
   }
 
   html[dir="rtl"] body {
-    font-family: var(--font-cairo), sans-serif;
+    font-family: var(--wayon-font-arabic);
   }
 
   a {
@@ -1134,12 +1133,12 @@
 }
 
 html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
+  font-family: var(--wayon-font-arabic);
 }
 
 :lang(ar) .wayon-home-hero .wayon-hero-title,
 :lang(ar) .wayon-hero-title {
-  font-family: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
+  font-family: var(--wayon-font-arabic);
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: 0;

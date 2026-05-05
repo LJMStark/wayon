@@ -1,7 +1,17 @@
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+
+// Latin variable font for body text in en/es and any extended-Latin glyphs
+// (e.g. Spanish á/é/í/ó/ú/ñ) outside the NotoSansSC subset.
+export const inter = Inter({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-inter",
+  display: "swap",
+  preload: false,
+});
 
 export const cairo = localFont({
-  src: "./fonts/Cairo.ttf",
+  src: "./fonts/Cairo.woff2",
   variable: "--font-cairo",
   weight: "200 1000",
   style: "normal",
@@ -60,4 +70,5 @@ export const fontVariableClassName = [
   playfair.variable,
   notoSansSc.variable,
   geourceSans.variable,
+  inter.variable,
 ].join(" ");

@@ -57,7 +57,9 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={fontVariableClassName}>
       <body
         style={{
-          fontFamily: isRtl ? "var(--font-cairo)" : "var(--font-noto-sans-sc)",
+          fontFamily: isRtl
+            ? 'var(--font-cairo), "Segoe UI Arabic", system-ui, sans-serif'
+            : "var(--font-noto-sans-sc), var(--font-inter), system-ui, sans-serif",
           margin: 0,
           minHeight: "100vh",
           display: "flex",
