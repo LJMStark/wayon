@@ -42,7 +42,7 @@
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
   --wayon-font-sans: var(--font-noto-sans-sc), sans-serif;
-  --wayon-font-heading: var(--font-playfair), serif;
+  --wayon-font-heading: var(--font-playfair), var(--font-geource-sans), sans-serif;
   --wayon-font-cjk: var(--font-noto-sans-sc), sans-serif;
   --wayon-font-hero: var(--font-geource-sans), sans-serif;
 }
