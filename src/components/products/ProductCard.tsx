@@ -6,7 +6,6 @@ type ProductCardProps = {
   title: string;
   image?: string;
   slug: string;
-  category: string;
   summaryTags: string[];
 };
 
@@ -17,7 +16,6 @@ export default function ProductCard({
   title,
   image,
   slug,
-  category,
   summaryTags,
 }: ProductCardProps): React.JSX.Element {
   const detailsHref = `/products/${slug}`;

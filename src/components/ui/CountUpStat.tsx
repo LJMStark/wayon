@@ -52,7 +52,7 @@ export function CountUpStat({
     ? "text-[clamp(1.48rem,2.9vw,2.2rem)]"
     : "text-[clamp(1.65rem,3.4vw,2.55rem)]";
   const isInverse = tone === "inverse";
-  const [displayed, setDisplayed] = useState("0");
+  const [displayed, setDisplayed] = useState(() => formatNumber(target, isDecimal));
   const [triggered, setTriggered] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);

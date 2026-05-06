@@ -213,7 +213,6 @@ export default function ProductGrid({
                       title={product.title}
                       slug={product.slug}
                       image={product.coverImageUrl}
-                      category={product.category}
                       summaryTags={product.summaryTags ?? []}
                     />
                   </motion.div>

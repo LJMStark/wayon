@@ -203,7 +203,6 @@ function RelatedProductsSection({
             title={product.title}
             slug={product.slug}
             image={product.coverImageUrl}
-            category={product.category}
             summaryTags={product.summaryTags}
           />
         ))}
