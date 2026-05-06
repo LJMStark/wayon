@@ -43,7 +43,7 @@ export function PartnerCarousel({
   items,
 }: PartnerCarouselProps): React.JSX.Element {
   return (
-    <section className="partner-cloud overflow-hidden border-t border-[#002b50]/10 py-16 md:py-32">
+    <section className="partner-cloud wayon-home-section--compact overflow-hidden border-t border-[#002b50]/10">
       <div className="mx-auto max-w-[90rem] px-4 md:px-8">
         <div className="partner-cloud__canvas">
           <header className="wayon-reveal-up-soft relative z-10 mx-auto max-w-3xl text-center">

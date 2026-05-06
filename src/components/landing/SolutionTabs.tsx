@@ -93,7 +93,7 @@ export function SolutionTabs({
       style={
         scrollDriven ? { height: `${items.length * 100}vh` } : undefined
       }
-      className="relative mt-8 w-full bg-[color:var(--primary)] md:mt-10 lg:mt-12"
+      className="wayon-home-immersive relative w-full bg-[color:var(--primary)]"
     >
       <motion.div
         className="relative h-screen min-h-[700px] w-full overflow-hidden lg:sticky lg:top-0"

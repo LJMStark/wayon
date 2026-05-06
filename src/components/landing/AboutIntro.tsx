@@ -41,7 +41,7 @@ function renderNoBreakMeasurements(text: string): React.ReactNode[] {
 export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
   return (
     <RevealSection
-      className="relative z-0 overflow-hidden py-16 text-[#242424] md:py-20 lg:py-28"
+      className="wayon-home-section--compact relative z-0 overflow-hidden text-[#242424]"
       amount={0.2}
     >
       <div className="absolute inset-x-0 top-[18%] h-[58%] bg-white/64" />

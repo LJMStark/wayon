@@ -62,7 +62,7 @@ export function EngineeringCase({
   return (
     <RevealSection
       id="case"
-      className="engineering-case overflow-hidden py-24 md:py-32"
+      className="engineering-case wayon-home-section overflow-hidden"
     >
       <div className="mx-auto max-w-[1920px] px-4 md:px-8">
         <header className="engineering-case__header mb-10 flex flex-col justify-between gap-8 border-b border-[#002b50]/12 pb-8 md:mb-14 md:flex-row md:items-end">
