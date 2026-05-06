@@ -283,8 +283,8 @@ export function ProductDetailPageView({
             className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.1)_52%,rgba(255,255,255,0.28)_100%)]"
           />
 
-          <div className="relative z-10 h-full px-[max(5vw,20px)] pt-[calc(var(--header-height)+clamp(1.25rem,4svh,3rem))] pb-[clamp(3.5rem,8svh,6rem)]">
-            <div className="mx-auto grid h-full w-full max-w-[1480px] content-center gap-5 md:gap-6 lg:grid-cols-[minmax(0,0.74fr)_minmax(180px,0.26fr)] lg:content-stretch lg:items-center lg:gap-[clamp(1.25rem,3vw,3.75rem)] xl:px-[max(0px,1.5vw)]">
+          <div className="relative z-10 flex h-full items-center px-[max(5vw,20px)] pt-[calc(var(--header-height)+clamp(1.25rem,4svh,3rem))] pb-[clamp(3.5rem,8svh,6rem)]">
+            <div className="mx-auto grid w-full max-w-[1480px] items-end gap-5 [direction:ltr] md:grid-cols-[minmax(0,0.72fr)_minmax(170px,0.28fr)] md:gap-6 lg:grid-cols-[minmax(0,0.74fr)_minmax(180px,0.26fr)] lg:gap-[clamp(1.25rem,3vw,3.75rem)] xl:px-[max(0px,1.5vw)]">
               {heroMainImage ? (
                 <figure className="w-full max-w-[min(86vw,980px)] justify-self-start rounded-[1.85rem] bg-white/18 p-2 shadow-[0_34px_92px_-44px_rgba(0,30,60,0.62)] ring-1 ring-white/25 backdrop-blur-md sm:max-w-[min(80vw,940px)] lg:max-w-none">
                   <div className="overflow-hidden rounded-[calc(1.85rem-0.5rem)] bg-white/38 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32)]">
@@ -300,8 +300,8 @@ export function ProductDetailPageView({
                 </figure>
               ) : null}
 
-              <div className="w-full max-w-[clamp(190px,18vw,290px)] justify-self-end self-end rounded-[1.1rem] bg-white/18 p-1.5 ring-1 ring-white/18 backdrop-blur-md">
-                <div className="rounded-[calc(1.1rem-0.375rem)] bg-white/34 px-3.5 py-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] md:px-4 md:py-4">
+              <div className="w-full max-w-[clamp(190px,18vw,290px)] justify-self-end rounded-[1.1rem] bg-white/18 p-1.5 ring-1 ring-white/18 backdrop-blur-md">
+                <div className="rounded-[calc(1.1rem-0.375rem)] bg-white/34 px-3.5 py-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] rtl:[direction:rtl] md:px-4 md:py-4">
                   {heroProductLabel ? (
                     <div className="mb-2.5">
                       <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-black/58 md:text-[12px]">
@@ -309,7 +309,7 @@ export function ProductDetailPageView({
                       </span>
                     </div>
                   ) : null}
-                  <h1 className="wayon-brand-title text-[1.18rem] leading-[1.08] text-[#1a1a1a] md:text-[1.3rem] xl:text-[1.42rem]">
+                  <h1 className="wayon-brand-title break-words text-[1.18rem] leading-[1.08] text-[#1a1a1a] [overflow-wrap:anywhere] md:text-[1.3rem] xl:text-[1.42rem]">
                     {title}
                   </h1>
                 </div>
