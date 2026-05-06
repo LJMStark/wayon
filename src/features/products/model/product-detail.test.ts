@@ -27,7 +27,7 @@ const detailCopy = {
   relatedProductsTitle: "Similar Products",
 };
 
-test("product detail data localizes catalog attributes and avoids Chinese fallback titles outside zh", () => {
+test("product detail data localizes catalog attributes and transliterates Chinese fallback titles outside zh", () => {
   const product: Product = {
     _id: "p1",
     slug: "lv930y09-wei-shui-ni-qian-hui",
@@ -67,7 +67,7 @@ test("product detail data localizes catalog attributes and avoids Chinese fallba
     detail: detailCopy,
   });
 
-  expect(pageData.title).toBe("LV930Y09");
+  expect(pageData.title).toBe("WEI SHUI NI QIAN HUI");
   expect(pageData.category).toBe("Losa textura");
   expect(pageData.seriesTypes).toEqual(["Losa textura"]);
   expect(pageData.variants[0]?.process).toBe("Mate");
@@ -154,7 +154,7 @@ test("product detail data does not fall back to Chinese descriptions outside zh"
   });
 
   expect(pageData.descriptionParagraphs).toEqual([
-    "Discover LV930Y09 from Stone Surface.",
+    "Discover WEI SHUI NI QIAN HUI from Stone Surface.",
     "Built for project use.",
   ]);
 });
@@ -330,7 +330,7 @@ test("product detail data recommends similar products and excludes the current p
     "same-series",
   ]);
   expect(pageData.relatedProducts[0]).toMatchObject({
-    title: "Quartz B",
+    title: "SHI YING SHI B",
     category: "Quartz",
     coverImageUrl: "/quartz-b.jpg",
     summaryTags: ["1600X3200mm", "12mm", "Matte"],

@@ -6,19 +6,14 @@ import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 
 import ProductCard from "@/components/products/ProductCard";
 import { Link } from "@/i18n/routing";
+import { buildProductSpecifications } from "../model/productSpecifications";
 
 import type {
   ProductDetailMediaImage,
   ProductDetailMediaVideo,
   ProductDetailPageData,
-  ProductDetailVariantData,
   ProductRelatedProduct,
 } from "../types";
-
-type ProductSpecification = {
-  label: string;
-  value: string;
-};
 
 function useFadeIn(): [React.RefObject<HTMLDivElement | null>, boolean] {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -217,40 +212,6 @@ function RelatedProductsSection({
   );
 }
 
-function buildSpecifications(
-  variant: ProductDetailVariantData,
-  labels: ProductDetailPageData["labels"]
-): ProductSpecification[] {
-  const specifications: ProductSpecification[] = [];
-
-  if (variant.showCode) {
-    addSpecification(specifications, labels.productCode, variant.code);
-  }
-
-  addSpecification(specifications, labels.colorGroup, variant.colorGroup);
-  addSpecification(specifications, labels.size, variant.size);
-  addSpecification(specifications, labels.faceCount, variant.faceCount);
-  addSpecification(specifications, labels.process, variant.process);
-  addSpecification(specifications, labels.thickness, variant.thickness);
-  addSpecification(
-    specifications,
-    labels.facePatternNote,
-    variant.facePatternNote
-  );
-
-  return specifications;
-}
-
-function addSpecification(
-  specifications: ProductSpecification[],
-  label: string,
-  value: string | null | undefined
-): void {
-  if (value) {
-    specifications.push({ label, value });
-  }
-}
-
 export function ProductDetailPageView({
   backLabel,
   requestSampleLabel,
@@ -278,7 +239,7 @@ export function ProductDetailPageView({
   );
 
   const specifications = selectedVariant
-    ? buildSpecifications(selectedVariant, labels)
+    ? buildProductSpecifications(selectedVariant, labels)
     : [];
   const heroProductCode = selectedVariant?.code?.trim() ?? "";
 

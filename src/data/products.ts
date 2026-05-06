@@ -4,11 +4,10 @@ import {
   mediaUrl,
   relationshipValue,
 } from "@/data/_payload";
+import { pinyin } from "pinyin-pro";
 import {
-  pickDefaultVariantCode,
   selectProductCoverUrl,
   type DirectoryProduct,
-  type DirectoryVariant,
 } from "@/features/products/model/productDirectory";
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 import type { AppLocale } from "@/i18n/types";
@@ -424,43 +423,44 @@ function isUsableLocalizedValue(
   return true;
 }
 
-function variantToDirectoryVariant(variant: ProductVariant): DirectoryVariant {
-  return {
-    code: variant.code,
-    size: variant.size,
-    thickness: variant.thickness,
-    process: variant.process,
-    colorGroup: variant.colorGroup,
-    sortOrder: variant.sortOrder,
-    elementImages: variant.elementImages,
-    spaceImages: variant.spaceImages,
-    realImages: variant.realImages,
-    videos: variant.videos,
-  };
+function toUppercasePinyin(value: string): string {
+  return pinyin(value, {
+    toneType: "none",
+    type: "string",
+    nonZh: "consecutive",
+    separator: " ",
+  })
+    .replace(/\s+/g, " ")
+    .trim()
+    .toUpperCase();
 }
 
 export function getProductDisplayTitle(
   product: Product,
   locale: AppLocale
 ): string {
-  if (isUsableLocalizedValue(product.title?.[locale], locale)) {
-    return product.title[locale].trim();
+  if (locale === "zh") {
+    if (isUsableLocalizedValue(product.title?.zh, "zh")) {
+      return product.title.zh.trim();
+    }
+
+    if (isUsableLocalizedValue(product.title?.en, "en")) {
+      return product.title.en.trim();
+    }
+
+    return product.slug;
+  }
+
+  const chineseTitle = product.title?.zh?.trim();
+  if (chineseTitle) {
+    return toUppercasePinyin(chineseTitle);
   }
 
   if (isUsableLocalizedValue(product.title?.en, "en")) {
     return product.title.en.trim();
   }
 
-  if (locale === "zh") {
-    return product.title?.zh?.trim() || product.slug;
-  }
-
-  const variants = getProductVariants(product);
-  const defaultVariantCode = pickDefaultVariantCode(
-    variants.map(variantToDirectoryVariant)
-  );
-
-  return defaultVariantCode || variants[0]?.code || product.slug;
+  return product.slug;
 }
 
 export function getProductDisplayDescription(
@@ -572,7 +572,7 @@ export function getProductImage(product: Product): string {
     coverImageUrl: product.coverImageUrl ?? product.imageUrl ?? null,
     catalogMode: product.catalogMode,
     customCapability: product.customCapability ?? null,
-    variants: getProductVariants(product).map<DirectoryVariant>((variant) => ({
+    variants: getProductVariants(product).map((variant) => ({
       code: variant.code,
       size: variant.size,
       thickness: variant.thickness,

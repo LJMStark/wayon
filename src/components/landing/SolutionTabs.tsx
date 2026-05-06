@@ -38,8 +38,6 @@ function useMatchMedia(query: string): boolean {
 }
 
 export function SolutionTabs({
-  title,
-  description,
   items,
   copy,
 }: SolutionTabsProps): React.JSX.Element {
@@ -95,7 +93,7 @@ export function SolutionTabs({
       style={
         scrollDriven ? { height: `${items.length * 100}vh` } : undefined
       }
-      className="relative w-full bg-[color:var(--primary)]"
+      className="relative mt-8 w-full bg-[color:var(--primary)] md:mt-10 lg:mt-12"
     >
       <motion.div
         className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden lg:sticky lg:top-0"
@@ -132,12 +130,6 @@ export function SolutionTabs({
 
       {/* Content Layer */}
       <div className="relative z-10 mx-auto max-w-[90rem] h-full flex flex-col justify-between px-6 lg:px-12 py-24">
-
-        <header className="max-w-2xl">
-          <h2 className="text-white/60 text-xs tracking-[0.3em] uppercase mb-4">{title}</h2>
-          <p className="text-white text-[15px] leading-relaxed max-w-md">{description}</p>
-        </header>
-
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-24 items-end mb-12">
           <AnimatePresence mode="wait">
             <motion.div
