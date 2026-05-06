@@ -207,7 +207,7 @@ export default function AboutPage(): React.JSX.Element {
       </section>
 
       <section id="team" className="mx-auto mb-24 max-w-7xl px-6">
-        <div className="max-w-3xl">
+        <div className="mx-auto max-w-3xl text-center">
           <h2 className="wayon-brand-title mb-6 text-3xl font-normal uppercase tracking-widest">
             {aboutCopy.teamTitle}
           </h2>
