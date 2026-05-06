@@ -81,6 +81,12 @@ test("unknown news previews keep their CMS cover image", () => {
   expect(item?.image).toBe("/assets/news/news-feature.jpg");
 });
 
+test("unknown news previews use the news fallback when no CMS cover exists", () => {
+  const item = toNewsPreviewItem(makeArticle("custom-company-update"), "zh");
+
+  expect(item?.image).toBe("/assets/fallbacks/news-fallback.jpg");
+});
+
 test("home news entries can reuse the same subject-matched preview image", () => {
   const image = getNewsPreviewImage(
     {

@@ -15,9 +15,7 @@ import type {
   NewsPreviewItem,
 } from "../types";
 
-import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
-
-const NEWS_FALLBACK_IMAGE = TRADE_YELLOW_PLACEHOLDER_IMAGE;
+const NEWS_FALLBACK_IMAGE = "/assets/fallbacks/news-fallback.jpg";
 const ZYL_918_GLOBAL_OPENING_ASSET_BASE =
   "/assets/news/zyl-918-global-opening";
 

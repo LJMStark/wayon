@@ -33,7 +33,7 @@ test("news article JSON-LD URL uses the active locale path", async () => {
     title: "Silica-free surface launch",
     excerpt: "A safer engineered stone option.",
     body: null,
-    imageUrl: "/assets/news/silica-free.jpg",
+    imageUrl: "/assets/news/news-feature.jpg",
     publishedAt: "2026-04-20T08:00:00.000Z",
     dateLabel: "April 20, 2026",
     categoryLabel: "Company News",
