@@ -74,6 +74,22 @@ function getTimelineContentClassName(isReverse: boolean): string {
   return "ml-8 flex flex-col md:ml-0 md:w-[45%] md:items-end md:text-right";
 }
 
+function getExhibitionGridClassName(cardCount: number): string {
+  if (cardCount < 4) {
+    return "grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 md:flex md:flex-wrap md:justify-center";
+  }
+
+  return "grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4";
+}
+
+function getExhibitionCardClassName(cardCount: number): string {
+  if (cardCount < 4) {
+    return "flex w-full max-w-[18rem] flex-col text-left";
+  }
+
+  return "flex flex-col text-left";
+}
+
 export default function AboutPage(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
@@ -241,9 +257,12 @@ export default function AboutPage(): React.JSX.Element {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
+        <div className={getExhibitionGridClassName(visibleExhibitionCards.length)}>
           {visibleExhibitionCards.map((card) => (
-            <div key={card.src} className="flex flex-col text-left">
+            <div
+              key={card.src}
+              className={getExhibitionCardClassName(visibleExhibitionCards.length)}
+            >
               <div className="relative mb-4 aspect-video overflow-hidden bg-neutral-100">
                 <Image
                   src={card.src}
