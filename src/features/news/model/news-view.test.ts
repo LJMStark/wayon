@@ -61,7 +61,7 @@ test("news previews prefer subject-matched article visuals over CMS cover images
   const item = toNewsPreviewItem(
     {
       ...makeArticle("sintered-slab-architectural-applications"),
-      imageUrl: "/assets/cases/case-2-beijing-children-palace.png",
+      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.png",
     },
     "zh"
   );
@@ -97,7 +97,7 @@ test("news detail page uses the matched primary visual as hero without duplicati
   const data = buildNewsDetailPageData(
     {
       ...makeArticle("sintered-slab-architectural-applications"),
-      imageUrl: "/assets/cases/case-2-beijing-children-palace.png",
+      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.png",
     },
     "zh",
     {

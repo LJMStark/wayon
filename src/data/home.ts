@@ -299,33 +299,33 @@ const SOLUTION_CONFIG = [
 const ENGINEERING_CASE_CONFIG = [
   {
     titleKey: "HomeData.EngineeringCases.item0.title",
-    image: "/assets/cases/case-1-guangzhou-agile-hotel.png",
-    href: "/assets/cases/case-1-guangzhou-agile-hotel.png",
+    image: "/assets/cases/case-1-weihao-hotel.png",
+    href: "/assets/cases/case-1-weihao-hotel.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item1.title",
-    image: "/assets/cases/case-2-beijing-children-palace.png",
-    href: "/assets/cases/case-2-beijing-children-palace.png",
+    image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+    href: "/assets/cases/case-2-guangzhou-yuehai-land.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item2.title",
-    image: "/assets/cases/case-3-sanfu-art-museum.png",
-    href: "/assets/cases/case-3-sanfu-art-museum.png",
+    image: "/assets/cases/case-3-qingyu-garden-hotel.png",
+    href: "/assets/cases/case-3-qingyu-garden-hotel.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item3.title",
-    image: "/assets/cases/case-4-huamao-international-hotel.png",
-    href: "/assets/cases/case-4-huamao-international-hotel.png",
+    image: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
+    href: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
-    image: "/assets/cases/case-5-guangzhou-baiyun-airport.png",
-    href: "/assets/cases/case-5-guangzhou-baiyun-airport.png",
+    image: "/assets/cases/case-5-weihao-partyk.png",
+    href: "/assets/cases/case-5-weihao-partyk.png",
   },
   {
     titleKey: "HomeData.EngineeringCases.item5.title",
-    image: "/assets/cases/case-6-nankai-university.png",
-    href: "/assets/cases/case-6-nankai-university.png",
+    image: "/assets/cases/case-6-yuehai-yungang-city.png",
+    href: "/assets/cases/case-6-yuehai-yungang-city.png",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;

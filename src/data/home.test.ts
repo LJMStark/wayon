@@ -1,0 +1,52 @@
+import { expect, test } from "vitest";
+
+import zhMessages from "@/messages/zh.json";
+
+import { getEngineeringCases } from "./home";
+
+type EngineeringCaseTranslator = Parameters<typeof getEngineeringCases>[0];
+
+function translate(key: string): string {
+  return key.split(".").reduce<unknown>((value, segment) => {
+    if (typeof value !== "object" || value === null) {
+      return undefined;
+    }
+
+    return (value as Record<string, unknown>)[segment];
+  }, zhMessages) as string;
+}
+
+test("home engineering cases keep source image names and Chinese titles aligned", () => {
+  expect(getEngineeringCases(translate as EngineeringCaseTranslator)).toEqual([
+    {
+      title: "威豪酒店",
+      image: "/assets/cases/case-1-weihao-hotel.png",
+      href: "/assets/cases/case-1-weihao-hotel.png",
+    },
+    {
+      title: "广州粤海置地",
+      image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+      href: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+    },
+    {
+      title: "青语花园酒店",
+      image: "/assets/cases/case-3-qingyu-garden-hotel.png",
+      href: "/assets/cases/case-3-qingyu-garden-hotel.png",
+    },
+    {
+      title: "林城山水酒店",
+      image: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
+      href: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
+    },
+    {
+      title: "威豪PARTYK",
+      image: "/assets/cases/case-5-weihao-partyk.png",
+      href: "/assets/cases/case-5-weihao-partyk.png",
+    },
+    {
+      title: "粤海·云港城",
+      image: "/assets/cases/case-6-yuehai-yungang-city.png",
+      href: "/assets/cases/case-6-yuehai-yungang-city.png",
+    },
+  ]);
+});
