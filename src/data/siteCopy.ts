@@ -816,6 +816,90 @@ const SITE_COPY = {
           ar: "نشاط مشاركة استراتيجية الأعمال",
         },
       },
+      {
+        src: "/assets/about/enterprise-activity-12-allies.webp",
+        category: {
+          en: "Company Visits",
+          zh: "企业参访",
+          es: "Visitas empresariales",
+          ar: "زيارات الشركات",
+        },
+        alt: {
+          en: "Enterprise allies exchange meeting",
+          zh: "企业盟友交流会",
+          es: "Reunión de intercambio de aliados empresariales",
+          ar: "اجتماع تبادل حلفاء المؤسسة",
+        },
+        caption: {
+          en: "Allies Exchange Meeting",
+          zh: "企业盟友交流会",
+          es: "Reunión de Aliados",
+          ar: "اجتماع الحلفاء",
+        },
+      },
+      {
+        src: "/assets/about/enterprise-activity-13-partners.webp",
+        category: {
+          en: "Company Visits",
+          zh: "企业参访",
+          es: "Visitas empresariales",
+          ar: "زيارات الشركات",
+        },
+        alt: {
+          en: "Partner exchange meeting",
+          zh: "合伙人交流会",
+          es: "Reunión de intercambio de socios",
+          ar: "اجتماع تبادل الشركاء",
+        },
+        caption: {
+          en: "Partner Exchange Meeting",
+          zh: "合伙人交流会",
+          es: "Reunión de Socios",
+          ar: "اجتماع الشركاء",
+        },
+      },
+      {
+        src: "/assets/about/enterprise-activity-14-channel.webp",
+        category: {
+          en: "Channel Exchange",
+          zh: "渠道交流",
+          es: "Intercambio de canales",
+          ar: "تبادل القنوات",
+        },
+        alt: {
+          en: "Channel exchange activity",
+          zh: "渠道交流活动",
+          es: "Actividad de intercambio de canales",
+          ar: "نشاط تبادل القنوات",
+        },
+        caption: {
+          en: "Channel Exchange",
+          zh: "渠道交流活动",
+          es: "Intercambio de Canales",
+          ar: "تبادل القنوات",
+        },
+      },
+      {
+        src: "/assets/about/enterprise-activity-15-sales-training.webp",
+        category: {
+          en: "Professional Training",
+          zh: "专业培训",
+          es: "Capacitación profesional",
+          ar: "تدريب مهني",
+        },
+        alt: {
+          en: "Sales leader professional training",
+          zh: "销售团长专业培训",
+          es: "Capacitación profesional para líderes de ventas",
+          ar: "تدريب مهني لقادة المبيعات",
+        },
+        caption: {
+          en: "Sales Training",
+          zh: "销售团长专业培训",
+          es: "Capacitación de Ventas",
+          ar: "تدريب المبيعات",
+        },
+      },
     ],
     developmentTitleLead: {
       en: "Company",

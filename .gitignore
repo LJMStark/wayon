@@ -37,6 +37,12 @@ docs.compressed/
 # one-shot media-cleanup audit snapshots (local-only)
 /unused-media-plan-*.json
 
+# uncompressed source mp4s for /assets/about/ (compressed copies live in R2)
+/public/assets/about/about-*.mp4
+
+# scratch dir for one-shot media work
+/tmp/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

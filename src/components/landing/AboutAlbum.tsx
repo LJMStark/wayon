@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { AboutAlbumItem } from "@/data/home";
 import { formatCopy } from "@/data/siteCopy";
@@ -41,6 +41,7 @@ export function AboutAlbum({
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const shouldReduce = useReducedMotion();
+  const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
   useEffect(() => {
     if (isPaused || items.length <= 1 || shouldReduce) {
@@ -53,6 +54,19 @@ export function AboutAlbum({
 
     return () => window.clearInterval(timer);
   }, [items.length, isPaused, shouldReduce]);
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+      if (index === activeIndex) {
+        video.play().catch(() => {
+          // Autoplay may be blocked; safe to ignore — poster image stays visible.
+        });
+      } else {
+        video.pause();
+      }
+    });
+  }, [activeIndex]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
@@ -77,15 +91,32 @@ export function AboutAlbum({
               isActive ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
             }`}
           >
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              className={`object-cover transition-transform duration-[8s] ease-linear ${
-                isActive ? "scale-105 [will-change:transform]" : "scale-100"
-              }`}
-              sizes="100vw"
-            />
+            {item.video ? (
+              <video
+                ref={(node) => {
+                  videoRefs.current[index] = node;
+                }}
+                src={item.video}
+                poster={item.image}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[8s] ease-linear ${
+                  isActive ? "scale-105 [will-change:transform]" : "scale-100"
+                }`}
+              />
+            ) : (
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                className={`object-cover transition-transform duration-[8s] ease-linear ${
+                  isActive ? "scale-105 [will-change:transform]" : "scale-100"
+                }`}
+                sizes="100vw"
+              />
+            )}
             <div className="absolute inset-0 bg-[#002b50]/30" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,43,80,0.08)_0%,rgba(0,43,80,0.26)_100%)]" />
 

@@ -11,6 +11,7 @@ export type AboutAlbumItem = {
   title: string;
   text: string;
   image: string;
+  video?: string;
   href: string;
 };
 
@@ -157,24 +158,28 @@ const ABOUT_ALBUM_CONFIG = [
     titleKey: "HomeData.AboutAlbum.item0.title",
     textKey: "HomeData.AboutAlbum.item0.text",
     image: "/assets/about/zyl-global-pavilion.png",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-pavilion-entrance.mp4",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
     image: "/assets/about/zyl-warehouse-aerial.webp",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-warehouse.mp4",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
     image: "/assets/about/zyl-aesthetic-pavilion.png",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-showroom-interior.mp4",
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item3.title",
     textKey: "HomeData.AboutAlbum.item3.text",
     image: "/assets/about/yunfu-wayon.webp",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-factory-production.mp4",
     href: "/about",
   },
   {
@@ -187,12 +192,14 @@ const ABOUT_ALBUM_CONFIG = [
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
     image: "/assets/about/zyl-fashion-pavilion.png",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-service-team.mp4",
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
   textKey: AppMessageKey;
   image: string;
+  video?: string;
   href: string;
 }>;
 
@@ -535,6 +542,7 @@ export function getAboutAlbum(t: AppTranslator): AboutAlbumItem[] {
     title: t(item.titleKey),
     text: t(item.textKey),
     image: item.image,
+    video: "video" in item ? item.video : undefined,
     href: item.href,
   }));
 }
