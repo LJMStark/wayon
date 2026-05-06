@@ -19,7 +19,10 @@ import {
 import { getAboutPageCopy, getLandingCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
 
-import { getNewsHref } from "@/features/news/model/news-view";
+import {
+  getNewsHref,
+  getNewsPreviewImage,
+} from "@/features/news/model/news-view";
 
 import type { HomePageData } from "../types";
 
@@ -51,7 +54,7 @@ function toHomeNewsEntry(
     title,
     href: getNewsHref(article.slug),
     excerpt: getLocalizedNewsValue(article, locale, "excerpt"),
-    image: article.imageUrl || NEWS_FALLBACK_IMAGE,
+    image: getNewsPreviewImage(article, locale) || NEWS_FALLBACK_IMAGE,
     ...dateParts,
   };
 }

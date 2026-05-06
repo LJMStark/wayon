@@ -283,6 +283,14 @@ export function toNewsPreviewItem(
   };
 }
 
+export function getNewsPreviewImage(
+  article: Pick<NewsArticle, "slug" | "imageUrl">,
+  locale: AppLocale
+): string | null {
+  const [primaryVisual] = getNewsArticleVisuals(article.slug, locale);
+  return primaryVisual?.src ?? (article.imageUrl || null);
+}
+
 export function buildNewsDetailPageData(
   article: NewsArticle,
   locale: AppLocale,
@@ -377,8 +385,7 @@ function getNewsPrimaryImage(
   article: NewsArticle,
   locale: AppLocale
 ): string | null {
-  const [primaryVisual] = getNewsArticleVisuals(article.slug, locale);
-  return primaryVisual?.src ?? (article.imageUrl || null);
+  return getNewsPreviewImage(article, locale);
 }
 
 function getNewsArticleVisuals(

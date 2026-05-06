@@ -7,7 +7,11 @@ import { expect, test } from "vitest";
 import type { AppLocale } from "@/i18n/types";
 import type { NewsArticle } from "@/data/news";
 
-import { buildNewsDetailPageData, toNewsPreviewItem } from "./news-view";
+import {
+  buildNewsDetailPageData,
+  getNewsPreviewImage,
+  toNewsPreviewItem,
+} from "./news-view";
 
 const LOCALES: Record<AppLocale, string> = {
   en: "News title",
@@ -75,6 +79,18 @@ test("unknown news previews keep their CMS cover image", () => {
   );
 
   expect(item?.image).toBe("/assets/news/news-feature.jpg");
+});
+
+test("home news entries can reuse the same subject-matched preview image", () => {
+  const image = getNewsPreviewImage(
+    {
+      ...makeArticle("sintered-slab-architectural-applications"),
+      imageUrl: "https://example.com/city-night.jpg",
+    },
+    "zh"
+  );
+
+  expect(image).toBe("/assets/solutions/scene-commercial-showcase.jpg");
 });
 
 test("news detail page uses the matched primary visual as hero without duplicating it", () => {
