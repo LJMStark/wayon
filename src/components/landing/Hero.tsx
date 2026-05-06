@@ -13,6 +13,7 @@ import {
 } from "framer-motion";
 
 import type { HeroSlide } from "@/data/home";
+import { HOME_HERO_FALLBACK_IMAGE } from "@/features/home/model/homeVisuals";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex } from "./carouselUtils";
@@ -95,7 +96,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             />
           ) : (
             <Image
-              src={slide?.src || "/assets/hero-placeholder.jpg"}
+              src={slide?.src || HOME_HERO_FALLBACK_IMAGE}
               alt={slide?.alt || ""}
               fill
               sizes="100vw"
