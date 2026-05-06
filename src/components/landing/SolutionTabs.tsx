@@ -96,7 +96,7 @@ export function SolutionTabs({
       className="relative mt-8 w-full bg-[color:var(--primary)] md:mt-10 lg:mt-12"
     >
       <motion.div
-        className="relative h-screen min-h-[700px] max-h-[1000px] w-full overflow-hidden lg:sticky lg:top-0"
+        className="relative h-screen min-h-[700px] w-full overflow-hidden lg:sticky lg:top-0"
         initial={shouldReduce ? false : { opacity: 0 }}
         whileInView={shouldReduce ? undefined : { opacity: 1 }}
         viewport={{ once: true, amount: 0.15 }}
