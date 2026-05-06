@@ -595,13 +595,13 @@ const SITE_COPY = {
         },
         alt: {
           en: "Visitors arriving at ZYL Global Pavilion",
-          zh: "参访团抵达众岩联全球馆",
+          zh: "协会企业会员到众岩联展厅参访",
           es: "Visitantes llegando al Pabellón Global de ZYL",
           ar: "وصول الزوار إلى جناح ZYL العالمي",
         },
         caption: {
           en: "Company visit arrival",
-          zh: "企业参访抵达现场",
+          zh: "协会企业会员到展厅参访",
           es: "Llegada de la visita empresarial",
           ar: "وصول زيارة الشركة",
         },
@@ -622,7 +622,7 @@ const SITE_COPY = {
         },
         caption: {
           en: "918 showroom guided tour",
-          zh: "918馆展厅导览",
+          zh: "全球馆展厅导览",
           es: "Recorrido guiado del showroom 918",
           ar: "جولة إرشادية في صالة عرض 918",
         },
@@ -643,7 +643,7 @@ const SITE_COPY = {
         },
         caption: {
           en: "Material application exchange",
-          zh: "材料应用交流",
+          zh: "场景应用交流",
           es: "Intercambio de aplicaciones de materiales",
           ar: "تبادل حول تطبيقات المواد",
         },
@@ -664,7 +664,7 @@ const SITE_COPY = {
         },
         caption: {
           en: "Sintered stone material tour",
-          zh: "岩板材料展厅参观",
+          zh: "918展馆导览",
           es: "Recorrido de materiales de piedra sinterizada",
           ar: "جولة مواد الحجر الملبد",
         },
@@ -679,13 +679,13 @@ const SITE_COPY = {
         },
         alt: {
           en: "ZYL 918 hall exterior visit scene",
-          zh: "众岩联918馆外部参访现场",
+          zh: "协会企业会员到众岩联展厅参访",
           es: "Escena de visita exterior al pabellón 918 de ZYL",
           ar: "مشهد زيارة خارجية لقاعة ZYL 918",
         },
         caption: {
           en: "Supply chain showroom visit",
-          zh: "供应链展厅参访",
+          zh: "协会企业会员到展厅参访",
           es: "Visita al showroom de la cadena de suministro",
           ar: "زيارة صالة عرض سلسلة التوريد",
         },
