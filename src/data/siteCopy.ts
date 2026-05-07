@@ -286,10 +286,10 @@ const SITE_COPY = {
     },
     productsCarousel: {
       title: {
-        en: "ZYL Product",
+        en: "ZYL Sintered Stone Products",
         zh: "众岩联\n产品系列",
-        es: "Productos ZYL",
-        ar: "منتجات ZYL",
+        es: "Productos ZYL Sintered Stone",
+        ar: "منتجات ZYL Sintered Stone",
       },
       description: {
         en: "Our sintered stone is categorized by style series, covering texture, famous stone, travertine, wood-grain, wall panel, art, continuous-vein and creative trending series, combining the aesthetic texture of natural stone with the superior performance of sintered stone.",
@@ -383,10 +383,10 @@ const SITE_COPY = {
   },
   aboutPage: {
     heroTitle: {
-      en: "About ZYL",
+      en: "About ZYL Sintered Stone",
       zh: "关于众岩联",
-      es: "Sobre ZYL",
-      ar: "عن ZYL",
+      es: "Sobre ZYL Sintered Stone",
+      ar: "عن ZYL Sintered Stone",
     },
     breadcrumbCurrent: {
       en: "About Us",
@@ -397,8 +397,8 @@ const SITE_COPY = {
     introTitle: {
       en: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
       zh: "广东众岩联岩板科技有限公司",
-      es: "ZYL Stone | Calidad en cada paso",
-      ar: "ZYL Stone | الجودة في كل خطوة",
+      es: "ZYL Sintered Stone | Calidad en cada paso",
+      ar: "ZYL Sintered Stone | الجودة في كل خطوة",
     },
     introSubtitle: {
       en: "Professional Sintered Stone Supply Chain Platform",
@@ -410,8 +410,8 @@ const SITE_COPY = {
       {
         en: "Founded in 2014 and based in Foshan, Guangdong ZYL Sintered Stone Technology Co., Ltd. is a professional sintered stone supply chain platform integrating R&D, design, sales and service.",
         zh: "广东众岩联岩板科技有限公司成立于 2014 年，坐落于佛山，是一家集研发、设计、销售、服务于一体的专业岩板供应链平台。",
-        es: "Fundada en China en 1982, ZYL Stone opera una red integrada de fabricación que cubre cuarzo, terrazo, mármol, mármol artificial, gemas, porcelánico, piedra de cemento y otros materiales decorativos avanzados.",
-        ar: "تأسست ZYL Stone في الصين عام 1982 وتدير شبكة تصنيع متكاملة تشمل الكوارتز والتيرازو والرخام والرخام الصناعي والأحجار الكريمة وألواح البورسلان وحجر الأسمنت ومواد زخرفية متقدمة أخرى.",
+        es: "Fundada en China en 1982, ZYL Sintered Stone opera una red integrada de fabricación que cubre cuarzo, terrazo, mármol, mármol artificial, gemas, porcelánico, piedra de cemento y otros materiales decorativos avanzados.",
+        ar: "تأسست ZYL Sintered Stone في الصين عام 1982 وتدير شبكة تصنيع متكاملة تشمل الكوارتز والتيرازو والرخام والرخام الصناعي والأحجار الكريمة وألواح البورسلان وحجر الأسمنت ومواد زخرفية متقدمة أخرى.",
       },
       {
         en: "The company operates a 53,000 sqm modern warehouse with more than 2,000,000 sqm of ready-stock slabs, enabling faster response for distributors, project contractors and home customization clients.",
@@ -420,10 +420,10 @@ const SITE_COPY = {
         ar: "تدعم فرقنا الألواح والأسطح وواجهات الحمامات وأنظمة الجدران والأرضيات وحزم الهندسة المخصصة للفنادق والمشاريع التجارية والعلامات السكنية في أكثر من 80 دولة ومنطقة.",
       },
       {
-        en: "Supported by two modern production bases, approximately 160,000,000 sqm of annual capacity and a professional marketing and service team of over 100 members, ZYL provides one-stop support from material selection to delivery.",
+        en: "Supported by two modern production bases, approximately 160,000,000 sqm of annual capacity and a professional marketing and service team of over 100 members, ZYL Sintered Stone provides one-stop support from material selection to delivery.",
         zh: "依托两大现代化生产基地、约 1.6 亿㎡ 年产能以及 100+ 专业营销与服务团队，众岩联可为客户提供从选材到交付的一站式服务。",
-        es: "Respaldada por canteras, showrooms, I+D y centros de procesamiento, ZYL ofrece un sistema integral desde la selección de materiales y la optimización del diseño hasta la fabricación y la ejecución del proyecto.",
-        ar: "وبدعم من المحاجر وصالات العرض والبحث والتطوير ومراكز المعالجة، تقدم ZYL نظامًا متكاملاً يبدأ من اختيار المواد وتحسين التصميم وصولاً إلى التوجيه التصنيعي وتنفيذ المشروع.",
+        es: "Respaldada por canteras, showrooms, I+D y centros de procesamiento, ZYL Sintered Stone ofrece un sistema integral desde la selección de materiales y la optimización del diseño hasta la fabricación y la ejecución del proyecto.",
+        ar: "وبدعم من المحاجر وصالات العرض والبحث والتطوير ومراكز المعالجة، تقدم ZYL Sintered Stone نظامًا متكاملاً يبدأ من اختيار المواد وتحسين التصميم وصولاً إلى التوجيه التصنيعي وتنفيذ المشروع.",
       },
     ],
     stats: [
@@ -491,14 +491,14 @@ const SITE_COPY = {
     whyTitle: {
       en: "Core Strengths",
       zh: "核心优势",
-      es: "Por qué ZYL",
-      ar: "لماذا ZYL",
+      es: "Por qué ZYL Sintered Stone",
+      ar: "لماذا ZYL Sintered Stone",
     },
     whyDescription: {
-      en: "A 53,000 sqm modern warehouse, more than 2,000,000 sqm of ready stock and a 100+ professional marketing and service team help ZYL respond quickly across quotation, sampling, project coordination and delivery.",
+      en: "A 53,000 sqm modern warehouse, more than 2,000,000 sqm of ready stock and a 100+ professional marketing and service team help ZYL Sintered Stone respond quickly across quotation, sampling, project coordination and delivery.",
       zh: "53,000㎡ 现代化仓储中心、超 200 万㎡ 常备现货以及 100+ 专业营销与服务团队，使众岩联能够高效响应报价、打样、项目协同与交付需求。",
-      es: "Con más de cuatro décadas de experiencia, ZYL combina producción a gran escala, conocimiento de ingeniería y servicio ágil para acelerar el paso del concepto a la instalación.",
-      ar: "بخبرة تزيد على أربعة عقود، تجمع ZYL بين الإنتاج واسع النطاق والخبرة الهندسية والخدمة السريعة لمساعدة العملاء على الانتقال من الفكرة إلى التركيب بكفاءة.",
+      es: "Con más de cuatro décadas de experiencia, ZYL Sintered Stone combina producción a gran escala, conocimiento de ingeniería y servicio ágil para acelerar el paso del concepto a la instalación.",
+      ar: "بخبرة تزيد على أربعة عقود، تجمع ZYL Sintered Stone بين الإنتاج واسع النطاق والخبرة الهندسية والخدمة السريعة لمساعدة العملاء على الانتقال من الفكرة إلى التركيب بكفاءة.",
     },
     whyCta: {
       en: "Contact Sales",
@@ -555,10 +555,10 @@ const SITE_COPY = {
       ar: "الفريق",
     },
     teamDescription: {
-      en: "ZYL has more than 100 people across R&D design, marketing and service teams. The platform has 55 offices in total, plus 100 distribution leaders, supported by strong kiln supply chain production lines for reliable customer delivery.",
+      en: "ZYL Sintered Stone has more than 100 people across R&D design, marketing and service teams. The platform has 55 offices in total, plus 100 distribution leaders, supported by strong kiln supply chain production lines for reliable customer delivery.",
       zh: "众岩联拥有研发设计，营销及服务团队规模超100人，整个平台众岩联总共有55间办公室，另外有100位分销团长，强大的窑炉供应链生产线为客户保驾护航。",
-      es: "ZYL cuenta con más de 100 personas en equipos de I+D, diseño, marketing y servicio. La plataforma suma 55 oficinas y 100 líderes de distribución, con sólidas líneas de producción de la cadena de suministro de hornos para respaldar la entrega al cliente.",
-      ar: "تضم ZYL أكثر من 100 شخص في فرق البحث والتصميم والتسويق والخدمة. ولدى المنصة 55 مكتباً و100 قائد توزيع، مع خطوط إنتاج قوية في سلسلة توريد الأفران لدعم تسليم العملاء.",
+      es: "ZYL Sintered Stone cuenta con más de 100 personas en equipos de I+D, diseño, marketing y servicio. La plataforma suma 55 oficinas y 100 líderes de distribución, con sólidas líneas de producción de la cadena de suministro de hornos para respaldar la entrega al cliente.",
+      ar: "تضم ZYL Sintered Stone أكثر من 100 شخص في فرق البحث والتصميم والتسويق والخدمة. ولدى المنصة 55 مكتباً و100 قائد توزيع، مع خطوط إنتاج قوية في سلسلة توريد الأفران لدعم تسليم العملاء.",
     },
     teamPlaceholder: {
       en: "Team story area",
@@ -573,10 +573,10 @@ const SITE_COPY = {
       ar: "أنشطة التبادل المؤسسي",
     },
     exhibitionDescription: {
-      en: "ZYL continues to host industry exchanges, company visits and professional training activities, staying deeply connected with global distributors, designers and engineering clients while sharing advanced material application experience and demonstrating our supply chain strength and project delivery capability.",
+      en: "ZYL Sintered Stone continues to host industry exchanges, company visits and professional training activities, staying deeply connected with global distributors, designers and engineering clients while sharing advanced material application experience and demonstrating our supply chain strength and project delivery capability.",
       zh: "众岩联持续举办行业交流、企业参访与专业培训活动，与全球经销商、设计师及工程客户保持深度连接，分享前沿材料应用经验，展示我们的供应链实力与工程交付能力。",
-      es: "ZYL sigue organizando intercambios sectoriales, visitas empresariales y capacitaciones profesionales, manteniendo una conexión profunda con distribuidores, diseñadores y clientes de ingeniería globales, compartiendo experiencia avanzada en aplicaciones de materiales y mostrando nuestra fortaleza de cadena de suministro y capacidad de entrega.",
-      ar: "تواصل ZYL تنظيم لقاءات صناعية وزيارات مؤسسية وبرامج تدريب مهنية، وتحافظ على ارتباط عميق مع الموزعين والمصممين وعملاء المشاريع حول العالم، مع مشاركة خبرات تطبيق المواد المتقدمة وإظهار قوة سلسلة التوريد وقدرة تسليم المشاريع.",
+      es: "ZYL Sintered Stone sigue organizando intercambios sectoriales, visitas empresariales y capacitaciones profesionales, manteniendo una conexión profunda con distribuidores, diseñadores y clientes de ingeniería globales, compartiendo experiencia avanzada en aplicaciones de materiales y mostrando nuestra fortaleza de cadena de suministro y capacidad de entrega.",
+      ar: "تواصل ZYL Sintered Stone تنظيم لقاءات صناعية وزيارات مؤسسية وبرامج تدريب مهنية، وتحافظ على ارتباط عميق مع الموزعين والمصممين وعملاء المشاريع حول العالم، مع مشاركة خبرات تطبيق المواد المتقدمة وإظهار قوة سلسلة التوريد وقدرة تسليم المشاريع.",
     },
     exhibitionTabs: {
       en: ["Showroom Tours", "Company Visits", "Professional Training", "Channel Exchange"],
@@ -594,10 +594,10 @@ const SITE_COPY = {
           ar: "زيارات الشركات",
         },
         alt: {
-          en: "Visitors arriving at ZYL Global Pavilion",
+          en: "Visitors arriving at ZYL Sintered Stone Global Pavilion",
           zh: "协会企业会员到众岩联展厅参访",
-          es: "Visitantes llegando al Pabellón Global de ZYL",
-          ar: "وصول الزوار إلى جناح ZYL العالمي",
+          es: "Visitantes llegando al Pabellón Global de ZYL Sintered Stone",
+          ar: "وصول الزوار إلى جناح ZYL Sintered Stone العالمي",
         },
         caption: {
           en: "Company visit arrival",
@@ -615,10 +615,10 @@ const SITE_COPY = {
           ar: "جولات صالة العرض",
         },
         alt: {
-          en: "Visitors touring the ZYL 918 showroom corridor",
+          en: "Visitors touring the ZYL Sintered Stone 918 showroom corridor",
           zh: "参访团参观众岩联918馆展厅走廊",
-          es: "Visitantes recorriendo el pasillo del showroom 918 de ZYL",
-          ar: "زوار يتجولون في ممر صالة عرض ZYL 918",
+          es: "Visitantes recorriendo el pasillo del showroom 918 de ZYL Sintered Stone",
+          ar: "زوار يتجولون في ممر صالة عرض ZYL Sintered Stone 918",
         },
         caption: {
           en: "918 showroom guided tour",
@@ -678,10 +678,10 @@ const SITE_COPY = {
           ar: "زيارات الشركات",
         },
         alt: {
-          en: "ZYL 918 hall exterior visit scene",
+          en: "ZYL Sintered Stone 918 hall exterior visit scene",
           zh: "协会企业会员到众岩联展厅参访",
-          es: "Escena de visita exterior al pabellón 918 de ZYL",
-          ar: "مشهد زيارة خارجية لقاعة ZYL 918",
+          es: "Escena de visita exterior al pabellón 918 de ZYL Sintered Stone",
+          ar: "مشهد زيارة خارجية لقاعة ZYL Sintered Stone 918",
         },
         caption: {
           en: "Supply chain showroom visit",
@@ -699,10 +699,10 @@ const SITE_COPY = {
           ar: "جولات صالة العرض",
         },
         alt: {
-          en: "Brand and service introduction in the ZYL showroom",
+          en: "Brand and service introduction in the ZYL Sintered Stone showroom",
           zh: "众岩联展厅内进行品牌与服务介绍",
-          es: "Presentación de marca y servicio en el showroom de ZYL",
-          ar: "تعريف بالعلامة والخدمات في صالة عرض ZYL",
+          es: "Presentación de marca y servicio en el showroom de ZYL Sintered Stone",
+          ar: "تعريف بالعلامة والخدمات في صالة عرض ZYL Sintered Stone",
         },
         caption: {
           en: "Brand and service introduction",
@@ -960,7 +960,7 @@ const SITE_COPY = {
         text: {
           en: "The ZYL Sintered Stone showroom was officially completed, highlighting the enterprise's technical strength and brand value with modern design and professional displays.",
           zh: "众岩联岩板展厅正式落成，以现代化设计与专业化展示，彰显了企业的技术实力与品牌价值。",
-          es: "El showroom de Piedra Sinterizada ZYL se completó oficialmente, destacando la fuerza técnica y el valor de marca de la empresa con diseño moderno y exhibiciones profesionales.",
+          es: "El showroom de Piedra Sinterizada ZYL Sintered Stone se completó oficialmente, destacando la fuerza técnica y el valor de marca de la empresa con diseño moderno y exhibiciones profesionales.",
           ar: "اكتملت صالة عرض ZYL Sintered Stone رسميًا، مما يبرز القوة التقنية وقيمة العلامة التجارية للشركة من خلال التصميم الحديث والعروض الاحترافية.",
         },
       },
@@ -980,7 +980,7 @@ const SITE_COPY = {
         text: {
           en: "The ZYL Sintered Stone platform partner strategy 3.0 new growth model was released, and the Nanzhuang ready-stock sintered stone warehouse capacity was newly expanded to 50,000 square meters.",
           zh: "众岩联岩板平台合伙人战略3.0新增长模式发布，现货岩板南庄仓储能力新增至5万平方米。",
-          es: "Se lanzó el nuevo modelo de crecimiento de la estrategia de socios de la plataforma de Piedra Sinterizada ZYL 3.0, y la capacidad del almacén de piedra sinterizada lista de Nanzhuang se amplió a 50,000 metros cuadrados.",
+          es: "Se lanzó el nuevo modelo de crecimiento de la estrategia de socios de la plataforma de Piedra Sinterizada ZYL Sintered Stone 3.0, y la capacidad del almacén de piedra sinterizada lista de Nanzhuang se amplió a 50,000 metros cuadrados.",
           ar: "تم إطلاق نموذج النمو الجديد لاستراتيجية شركاء منصة ZYL Sintered Stone 3.0، وتم توسيع سعة مستودع حجر نانتشوانغ الملبد الجاهز حديثًا إلى 50000 متر مربع.",
         },
       }
@@ -1365,10 +1365,10 @@ const SITE_COPY = {
       ar: "تميز هندسي موثوق",
     },
     heroSubtitle: {
-      en: "ZYL sintered stone has been specified across multiple residential and commercial projects worldwide — from countertops to façades, every installation speaks for itself.",
+      en: "ZYL Sintered Stone has been specified across multiple residential and commercial projects worldwide — from countertops to façades, every installation speaks for itself.",
       zh: "众岩联岩板已落地全球多个住宅与商业项目，从台面到幕墙，每一处应用都是品质的见证。",
-      es: "La piedra sinterizada ZYL se ha especificado en múltiples proyectos residenciales y comerciales en todo el mundo, desde encimeras hasta fachadas.",
-      ar: "تم تنفيذ حجر ZYL الملبد في عدة مشاريع سكنية وتجارية حول العالم — من أسطح العمل إلى الواجهات، كل تركيب يتحدث عن نفسه.",
+      es: "La piedra sinterizada ZYL Sintered Stone se ha especificado en múltiples proyectos residenciales y comerciales en todo el mundo, desde encimeras hasta fachadas.",
+      ar: "تم تنفيذ حجر ZYL Sintered Stone الملبد في عدة مشاريع سكنية وتجارية حول العالم — من أسطح العمل إلى الواجهات، كل تركيب يتحدث عن نفسه.",
     },
     galleryAlt: {
       en: "Engineering case {index}",
@@ -1639,10 +1639,10 @@ const SITE_COPY = {
       ar: "أخبار الشركة وتحديثات القطاع",
     },
     heroDescription: {
-      en: "Product launches, project updates and exhibition news from ZYL Stone.",
+      en: "Product launches, project updates and exhibition news from ZYL Sintered Stone.",
       zh: "众岩联的产品发布、项目进展与展会信息。",
-      es: "Lanzamientos, actualizaciones de proyecto y noticias de exposiciones de ZYL Stone.",
-      ar: "إطلاقات المنتجات وتحديثات المشاريع وأخبار المعارض من ZYL Stone.",
+      es: "Lanzamientos, actualizaciones de proyecto y noticias de exposiciones de ZYL Sintered Stone.",
+      ar: "إطلاقات المنتجات وتحديثات المشاريع وأخبار المعارض من ZYL Sintered Stone.",
     },
     readLabel: {
       en: "Read",
@@ -1660,16 +1660,16 @@ const SITE_COPY = {
           ar: "تحديث الشركة",
         },
         title: {
-          en: "ZYL showcases zero-silica quartz at Verona Marmomac",
+          en: "ZYL Sintered Stone showcases zero-silica quartz at Verona Marmomac",
           zh: "众岩联在维罗纳 Marmomac 展出零硅石英石方案",
-          es: "ZYL presenta cuarzo sin sílice en Verona Marmomac",
-          ar: "ZYL تعرض كوارتزًا خاليًا من السيليكا في Marmomac فيرونا",
+          es: "ZYL Sintered Stone presenta cuarzo sin sílice en Verona Marmomac",
+          ar: "ZYL Sintered Stone تعرض كوارتزًا خاليًا من السيليكا في Marmomac فيرونا",
         },
         excerpt: {
-          en: "ZYL's silica-free engineered stone series drew attention at Marmomac from architects looking for safer interior surfaces.",
+          en: "ZYL Sintered Stone's silica-free engineered stone series drew attention at Marmomac from architects looking for safer interior surfaces.",
           zh: "零硅人造石系列在 Marmomac 展上引起了寻求更安全室内饰面的建筑师的关注。",
-          es: "La serie de piedra sin sílice de ZYL generó interés entre arquitectos que buscan superficies interiores más seguras.",
-          ar: "جذبت سلسلة ZYL الخالية من السيليكا اهتمام المعماريين الباحثين عن أسطح داخلية أكثر أمانا في Marmomac.",
+          es: "La serie de piedra sin sílice de ZYL Sintered Stone generó interés entre arquitectos que buscan superficies interiores más seguras.",
+          ar: "جذبت سلسلة ZYL Sintered Stone الخالية من السيليكا اهتمام المعماريين الباحثين عن أسطح داخلية أكثر أمانا في Marmomac.",
         },
         img: "https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&q=80",
         slug: "marmomac-zero-silica-showcase",
@@ -1753,10 +1753,10 @@ const SITE_COPY = {
       ar: "مجموعة المنتجات",
     },
     heroSubtitle: {
-      en: "Browse ZYL's core material systems for countertops, cladding, flooring and custom fabrication.",
+      en: "Browse ZYL Sintered Stone's core material systems for countertops, cladding, flooring and custom fabrication.",
       zh: "查看众岩联面向台面、墙面、地面与定制加工的核心材料体系。",
-      es: "Explore los sistemas de materiales de ZYL para encimeras, revestimientos, pisos y fabricación personalizada.",
-      ar: "استعرض أنظمة المواد الأساسية من ZYL لأسطح العمل والكسوة والأرضيات والتصنيع المخصص.",
+      es: "Explore los sistemas de materiales de ZYL Sintered Stone para encimeras, revestimientos, pisos y fabricación personalizada.",
+      ar: "استعرض أنظمة المواد الأساسية من ZYL Sintered Stone لأسطح العمل والكسوة والأرضيات والتصنيع المخصص.",
     },
     collectionLabel: {
       en: "Collection Overview",
@@ -1962,50 +1962,50 @@ const SITE_COPY = {
   metadata: {
     root: {
       title: {
-        en: "ZYL | Sintered Stone Supply Chain Platform",
+        en: "ZYL Sintered Stone | Sintered Stone Supply Chain Platform",
         zh: "众岩联 | 岩板供应链平台",
-        es: "ZYL Stone | Fabricante de piedra técnica",
-        ar: "ZYL Stone | مُصنّع الأحجار الهندسية",
+        es: "ZYL Sintered Stone | Fabricante de piedra técnica",
+        ar: "ZYL Sintered Stone | مُصنّع الأحجار الهندسية",
       },
       description: {
         en: "Guangdong ZYL Sintered Stone Technology Co., Ltd. provides ready-stock slabs, fabrication support and project supply services from Foshan, China.",
         zh: "广东众岩联岩板科技有限公司立足佛山，提供现货岩板、加工配套与工程供应服务。",
-        es: "ZYL suministra cuarzo, terrazo, piedra flexible, mármol, porcelánico y soluciones de piedra técnica para proyectos globales.",
-        ar: "توفر ZYL الكوارتز والتيرازو والحجر المرن والرخام وألواح البورسلان وحلول الأحجار الهندسية للمشاريع السكنية والتجارية العالمية.",
+        es: "ZYL Sintered Stone suministra cuarzo, terrazo, piedra flexible, mármol, porcelánico y soluciones de piedra técnica para proyectos globales.",
+        ar: "توفر ZYL Sintered Stone الكوارتز والتيرازو والحجر المرن والرخام وألواح البورسلان وحلول الأحجار الهندسية للمشاريع السكنية والتجارية العالمية.",
       },
       imageAlt: {
-        en: "ZYL Stone hero",
+        en: "ZYL Sintered Stone hero",
         zh: "众岩联石材主视觉",
-        es: "Imagen principal de ZYL Stone",
-        ar: "الصورة الرئيسية لـ ZYL Stone",
+        es: "Imagen principal de ZYL Sintered Stone",
+        ar: "الصورة الرئيسية لـ ZYL Sintered Stone",
       },
     },
     about: {
       title: {
-        en: "About ZYL | Sintered Stone Supply Chain & Manufacturing",
+        en: "About ZYL Sintered Stone | Supply Chain & Manufacturing",
         zh: "关于众岩联 | 岩板供应链与制造能力",
-        es: "Sobre ZYL Stone | Fabricación e ingeniería",
-        ar: "عن ZYL Stone | التصنيع والهندسة",
+        es: "Sobre ZYL Sintered Stone | Fabricación e ingeniería",
+        ar: "عن ZYL Sintered Stone | التصنيع والهندسة",
       },
       description: {
-        en: "Learn about ZYL's warehouse strength, production capacity, service team and manufacturing support for slab projects.",
+        en: "Learn about ZYL Sintered Stone's warehouse strength, production capacity, service team and manufacturing support for slab projects.",
         zh: "了解众岩联的仓储实力、产能布局、服务团队与岩板项目配套能力。",
-        es: "Conozca la red de fabricación, experiencia en ingeniería y capacidad de entrega global de ZYL.",
-        ar: "تعرف على شبكة التصنيع والخبرة الهندسية وقدرة ZYL على التسليم طويل الأمد في المشاريع العالمية.",
+        es: "Conozca la red de fabricación, experiencia en ingeniería y capacidad de entrega global de ZYL Sintered Stone.",
+        ar: "تعرف على شبكة التصنيع والخبرة الهندسية وقدرة ZYL Sintered Stone على التسليم طويل الأمد في المشاريع العالمية.",
       },
     },
     contact: {
       title: {
-        en: "Contact ZYL | Quotations, Stock & Project Support",
+        en: "Contact ZYL Sintered Stone | Quotations, Stock & Project Support",
         zh: "联系众岩联 | 报价、现货与项目支持",
-        es: "Contacto ZYL Stone | Ventas y soporte",
-        ar: "اتصل بـ ZYL Stone | المبيعات ودعم المشاريع",
+        es: "Contacto ZYL Sintered Stone | Ventas y soporte",
+        ar: "اتصل بـ ZYL Sintered Stone | المبيعات ودعم المشاريع",
       },
       description: {
-        en: "Reach ZYL for project quotation, ready-stock slab inquiry, fabrication support and factory cooperation.",
+        en: "Reach ZYL Sintered Stone for project quotation, ready-stock slab inquiry, fabrication support and factory cooperation.",
         zh: "联系众岩联，获取项目报价、现货咨询、加工配套与工厂合作支持。",
-        es: "Contacte con ZYL para cotizaciones, consultas de producto, cooperación de fábrica y soporte de ingeniería.",
-        ar: "تواصل مع ZYL للحصول على عروض الأسعار واستشارات المنتجات والتعاون الصناعي والدعم الهندسي.",
+        es: "Contacte con ZYL Sintered Stone para cotizaciones, consultas de producto, cooperación de fábrica y soporte de ingeniería.",
+        ar: "تواصل مع ZYL Sintered Stone للحصول على عروض الأسعار واستشارات المنتجات والتعاون الصناعي والدعم الهندسي.",
       },
     },
     solution: {
@@ -2016,10 +2016,10 @@ const SITE_COPY = {
         ar: "حلول الحجر | الأسطح والجدران والأرضيات",
       },
       description: {
-        en: "Explore ZYL application scenarios for finished products, wall systems, flooring and engineering projects.",
+        en: "Explore ZYL Sintered Stone application scenarios for finished products, wall systems, flooring and engineering projects.",
         zh: "查看众岩联在成品、墙面系统、地面系统及工程项目中的应用场景。",
-        es: "Explore los escenarios de aplicación de ZYL en productos terminados, muros, pisos y proyectos.",
-        ar: "استكشف سيناريوهات تطبيق ZYL في المنتجات النهائية وأنظمة الجدران والأرضيات والمشاريع.",
+        es: "Explore los escenarios de aplicación de ZYL Sintered Stone en productos terminados, muros, pisos y proyectos.",
+        ar: "استكشف سيناريوهات تطبيق ZYL Sintered Stone في المنتجات النهائية وأنظمة الجدران والأرضيات والمشاريع.",
       },
     },
     cases: {
@@ -2030,10 +2030,10 @@ const SITE_COPY = {
         ar: "دراسات المشاريع | تعاون المبيعات والمصانع",
       },
       description: {
-        en: "Explore ZYL cooperation cases for distributors, fabricators and factory partners across global stone projects.",
+        en: "Explore ZYL Sintered Stone cooperation cases for distributors, fabricators and factory partners across global stone projects.",
         zh: "查看众岩联面向经销商、加工厂与工厂伙伴的全球石材项目合作案例。",
-        es: "Explore casos de cooperación de ZYL para distribuidores, fabricantes y socios de fábrica en proyectos globales de piedra.",
-        ar: "استكشف حالات تعاون ZYL مع الموزعين والمصنعين وشركاء المصانع في مشاريع الحجر العالمية.",
+        es: "Explore casos de cooperación de ZYL Sintered Stone para distribuidores, fabricantes y socios de fábrica en proyectos globales de piedra.",
+        ar: "استكشف حالات تعاون ZYL Sintered Stone مع الموزعين والمصنعين وشركاء المصانع في مشاريع الحجر العالمية.",
       },
     },
     download: {
@@ -2044,10 +2044,10 @@ const SITE_COPY = {
         ar: "مركز التنزيل | الكتالوجات والملفات الفنية",
       },
       description: {
-        en: "Download ZYL product catalogs, specifications and installation documents for project planning and sourcing.",
+        en: "Download ZYL Sintered Stone product catalogs, specifications and installation documents for project planning and sourcing.",
         zh: "下载众岩联产品图册、规格参数和安装资料，用于项目规划与采购。",
-        es: "Descargue catálogos, especificaciones y documentos de instalación de ZYL para planificación y compras.",
-        ar: "قم بتنزيل كتالوجات ZYL والمواصفات والوثائق الفنية للتخطيط والشراء.",
+        es: "Descargue catálogos, especificaciones y documentos de instalación de ZYL Sintered Stone para planificación y compras.",
+        ar: "قم بتنزيل كتالوجات ZYL Sintered Stone والمواصفات والوثائق الفنية للتخطيط والشراء.",
       },
     },
     news: {
@@ -2058,10 +2058,10 @@ const SITE_COPY = {
         ar: "الأخبار | الإطلاقات وتحديثات الشركة",
       },
       description: {
-        en: "Track ZYL's latest product launches, exhibition highlights and manufacturing milestones.",
+        en: "Track ZYL Sintered Stone's latest product launches, exhibition highlights and manufacturing milestones.",
         zh: "跟踪众岩联最新产品发布、展会亮点与制造里程碑。",
-        es: "Siga los últimos lanzamientos, exposiciones y hitos de fabricación de ZYL.",
-        ar: "تابع أحدث إطلاقات المنتجات وأبرز المعارض ومحطات التصنيع لدى ZYL.",
+        es: "Siga los últimos lanzamientos, exposiciones y hitos de fabricación de ZYL Sintered Stone.",
+        ar: "تابع أحدث إطلاقات المنتجات وأبرز المعارض ومحطات التصنيع لدى ZYL Sintered Stone.",
       },
     },
     products: {
@@ -2072,24 +2072,24 @@ const SITE_COPY = {
         ar: "مجموعة المنتجات | كوارتز وتيرازو ورخام وأكثر",
       },
       description: {
-        en: "Browse ZYL's material portfolio across quartz, terrazzo, flexible stone, marble, artificial marble, porcelain slab and silica-free surfaces.",
+        en: "Browse ZYL Sintered Stone's material portfolio across quartz, terrazzo, flexible stone, marble, artificial marble, porcelain slab and silica-free surfaces.",
         zh: "查看众岩联石英石、水磨石、柔性石材、大理石、人造大理石、岩板与零硅表面材料组合。",
-        es: "Explore el portafolio de ZYL en cuarzo, terrazo, piedra flexible, mármol, mármol artificial, porcelánico y superficies sin sílice.",
-        ar: "تصفح مجموعة ZYL من الكوارتز والتيرازو والحجر المرن والرخام والرخام الصناعي وألواح البورسلان والأسطح الخالية من السيليكا.",
+        es: "Explore el portafolio de ZYL Sintered Stone en cuarzo, terrazo, piedra flexible, mármol, mármol artificial, porcelánico y superficies sin sílice.",
+        ar: "تصفح مجموعة ZYL Sintered Stone من الكوارتز والتيرازو والحجر المرن والرخام والرخام الصناعي وألواح البورسلان والأسطح الخالية من السيليكا.",
       },
     },
     productDetail: {
       title: {
-        en: "{title} | ZYL Stone",
+        en: "{title} | ZYL Sintered Stone",
         zh: "{title} | 众岩联石材",
-        es: "{title} | ZYL Stone",
-        ar: "{title} | ZYL Stone",
+        es: "{title} | ZYL Sintered Stone",
+        ar: "{title} | ZYL Sintered Stone",
       },
       description: {
-        en: "View specifications and application guidance for {title}, a {category} surface from ZYL Stone.",
+        en: "View specifications and application guidance for {title}, a {category} surface from ZYL Sintered Stone.",
         zh: "查看众岩联 {category} 产品 {title} 的规格参数与应用建议。",
-        es: "Consulte especificaciones y aplicaciones de {title}, una superficie de {category} de ZYL Stone.",
-        ar: "اطلع على مواصفات وتطبيقات {title}، وهي سطح من فئة {category} لدى ZYL Stone.",
+        es: "Consulte especificaciones y aplicaciones de {title}, una superficie de {category} de ZYL Sintered Stone.",
+        ar: "اطلع على مواصفات وتطبيقات {title}، وهي سطح من فئة {category} لدى ZYL Sintered Stone.",
       },
     },
   },

@@ -23,8 +23,8 @@ import { useDialogInteraction } from "./useDialogInteraction";
 const BRAND_ALT: Record<string, string> = {
   en: "ZYL Sintered Stone",
   zh: "岩联岩板",
-  es: "ZYL Piedra Sinterizada",
-  ar: "ZYL حجر ملبد",
+  es: "ZYL Sintered Stone",
+  ar: "ZYL Sintered Stone",
 };
 
 function resolveBaseHref(href: string): string {

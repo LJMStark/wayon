@@ -1,6 +1,6 @@
-# ZYL Stone Web (wayon-web)
+# ZYL Sintered Stone Web (wayon-web)
 
-ZYL Stone 多语言企业官网：Next.js 16 + Payload CMS 3 驱动的产品目录、新闻、解决方案与询盘站点。支持中 / 英 / 西 / 阿 四种语言，默认中文（zh）。
+ZYL Sintered Stone 多语言企业官网：Next.js 16 + Payload CMS 3 驱动的产品目录、新闻、解决方案与询盘站点。支持中 / 英 / 西 / 阿 四种语言，默认中文（zh）。
 
 ## 技术栈
 

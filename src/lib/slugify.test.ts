@@ -8,7 +8,7 @@ test("chineseSlugify converts pure Chinese titles to dashed pinyin", () => {
 });
 
 test("chineseSlugify lowercases and dashes ASCII input", () => {
-  expect(chineseSlugify("ZYL Stone v2")).toBe("zyl-stone-v2");
+  expect(chineseSlugify("ZYL Sintered Stone v2")).toBe("zyl-sintered-stone-v2");
   expect(chineseSlugify("Quartz_Pure-001")).toBe("quartz-pure-001");
 });
 

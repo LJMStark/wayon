@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A **Next.js 16.2.4 multilingual corporate website** for a stone/building materials company (ZYL Stone), backed by **Payload CMS 3.83** with a Postgres database and Cloudflare R2 for media storage. The site has 4 locales (en, zh, es, ar) and features a product catalog, news section, and contact forms.
+A **Next.js 16.2.4 multilingual corporate website** for a stone/building materials company (ZYL Sintered Stone), backed by **Payload CMS 3.83** with a Postgres database and Cloudflare R2 for media storage. The site has 4 locales (en, zh, es, ar) and features a product catalog, news section, and contact forms.
 
 **Production**: Deployed via **Zeabur** on a self-hosted server. Production domain: `zylsinteredstone.com`. This is **not** Vercel — there are no Serverless function size limits, no Edge Network behavior to assume, and `vercel.json` does not apply.
 

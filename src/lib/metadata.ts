@@ -71,7 +71,7 @@ export function buildPageMetadata({
       title,
       description,
       url: normalizeMetadataPath(locale, path),
-      siteName: "ZYL",
+      siteName: "ZYL Sintered Stone",
       locale: ogLocale,
       alternateLocale: alternateLocales,
       images: [

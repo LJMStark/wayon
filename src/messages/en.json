@@ -121,7 +121,7 @@
     "title2": "A MORE",
     "title3": "BEAUTIFUL",
     "title4": "WORLD",
-    "description": "Founded in 2014 in Foshan, ZYL is a professional sintered stone supply chain platform integrating R&D, design, sales and service. With a 53,000 sqm modern warehouse, more than 2,000,000 sqm of ready stock, two modern production bases and one-stop fabrication support, we provide efficient slab solutions for construction, commercial interiors and home customization.",
+    "description": "Founded in 2014 in Foshan, ZYL Sintered Stone is a professional sintered stone supply chain platform integrating R&D, design, sales and service. With a 53,000 sqm modern warehouse, more than 2,000,000 sqm of ready stock, two modern production bases and one-stop fabrication support, we provide efficient slab solutions for construction, commercial interiors and home customization.",
     "ourStory": "Our Story",
     "projectsGlobally": "Projects Globally",
     "countriesServed": "Countries Served",
@@ -181,7 +181,7 @@
     "news1Title": "The Future of Sustainable Stone: Silica-Free Innovations",
     "news1Desc": "Discover how our new generation of engineered stone is transforming the industry standard for environmental safety.",
     "news1Date": "Mar 15, 2026",
-    "news2Title": "ZYL Unveils New Terrazzo Collection for Commercial Spaces",
+    "news2Title": "ZYL Sintered Stone Unveils New Terrazzo Collection for Commercial Spaces",
     "news2Desc": "Our latest terrazzo lines blend traditional craftsmanship with modern eco-friendly materials.",
     "news2Date": "Feb 28, 2026",
     "news3Title": "Global Expansion: New Showroom Opens in Dubai",
@@ -202,15 +202,15 @@
   },
   "HomeData": {
     "AboutIntro": {
-      "title": "ABOUT\nZYL",
+      "title": "ABOUT\nZYL Sintered Stone",
       "p1": "Guangdong ZYL Sintered Stone Technology Co., Ltd. was founded in 2014 in Foshan as a professional sintered stone supply chain platform integrating R&D, design, sales and service. The company operates a 53,000 sqm modern warehouse with more than 2,000,000 sqm of ready-stock slabs.",
-      "p2": "Supported by two modern production bases, approximately 160,000,000 sqm of annual capacity and a professional marketing and service team of over 100 members, ZYL provides one-stop support from material selection to delivery.",
+      "p2": "Supported by two modern production bases, approximately 160,000,000 sqm of annual capacity and a professional marketing and service team of over 100 members, ZYL Sintered Stone provides one-stop support from material selection to delivery.",
       "cta": "Learn More About Us"
     },
     "AboutAlbum": {
       "item0": {
-        "title": "ZYL / Guangdong ZYL",
-        "text": "Founded in 2014, ZYL is a professional sintered stone supply chain platform integrating R&D, design, sales and service."
+        "title": "ZYL Sintered Stone / Guangdong ZYL Sintered Stone",
+        "text": "Founded in 2014, ZYL Sintered Stone is a professional sintered stone supply chain platform integrating R&D, design, sales and service."
       },
       "item1": {
         "title": "53,000 sqm Warehouse",
@@ -252,7 +252,7 @@
       },
       "item3": {
         "title": "Marble",
-        "description": "ZYL Marble features unique natural textures and elegant luxury..."
+        "description": "ZYL Sintered Stone marble features unique natural textures and elegant luxury..."
       },
       "item4": {
         "title": "Gem stone",
@@ -275,53 +275,53 @@
       "item0": {
         "label": "Kitchen Countertops",
         "title": "Kitchen Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
+        "description": "The ZYL Sintered Stone Processing Center boasts a 6,500-square-meter factory and is equipped with 12 Taiwanese bridge cutting machines..."
       },
       "item1": {
         "label": "Bathroom Spaces",
         "title": "Bathroom Spaces",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Sintered Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item2": {
         "label": "Furniture Tops",
         "title": "Furniture Tops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Sintered Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item3": {
         "label": "Wall & Floor",
         "title": "Wall & Floor",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Sintered Stone Processing Center boasts a 6,500-square-meter..."
       },
       "item4": {
         "label": "Cabinet Countertops",
         "title": "Cabinet Countertops",
-        "description": "The ZYL Stone Processing Center boasts a 6,500-square-meter..."
+        "description": "The ZYL Sintered Stone Processing Center boasts a 6,500-square-meter..."
       }
     },
     "Partners": {
       "item0": {
         "title": "Contractor",
-        "description": "ZYL Stone delivers reliable quality, precise engineering support..."
+        "description": "ZYL Sintered Stone delivers reliable quality, precise engineering support..."
       },
       "item1": {
         "title": "Designer",
-        "description": "Designers value ZYL Stone for its diverse material selection..."
+        "description": "Designers value ZYL Sintered Stone for its diverse material selection..."
       },
       "item2": {
         "title": "Wholesaler",
-        "description": "Wholesalers trust ZYL Stone for its high-quality materials..."
+        "description": "Wholesalers trust ZYL Sintered Stone for its high-quality materials..."
       },
       "item3": {
         "title": "Kitchen & Bathroom Company",
-        "description": "ZYL Stone provides consistent quality, accurate fabrication..."
+        "description": "ZYL Sintered Stone provides consistent quality, accurate fabrication..."
       },
       "item4": {
         "title": "Furniture Designer",
-        "description": "Furniture designers rely on ZYL Stone for its premium stone surfaces..."
+        "description": "Furniture designers rely on ZYL Sintered Stone for its premium stone surfaces..."
       },
       "item5": {
         "title": "Developer",
-        "description": "Developers choose ZYL Stone for its consistent quality, large-scale..."
+        "description": "Developers choose ZYL Sintered Stone for its consistent quality, large-scale..."
       }
     },
     "PartnerCloud": {

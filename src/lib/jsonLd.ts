@@ -17,7 +17,7 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
-    alternateName: ["ZYL", "广东众岩联岩板科技有限公司"],
+    alternateName: ["ZYL Sintered Stone", "广东众岩联岩板科技有限公司"],
     url: siteUrl,
     logo: `${siteUrl}/assets/brand/logo-wayon-stone-group.png`,
     foundingDate: "2014",
@@ -69,7 +69,7 @@ export function productJsonLd(input: {
     url: `${siteUrl}${input.url}`,
     brand: {
       "@type": "Organization",
-      name: input.brand ?? "ZYL",
+      name: input.brand ?? "ZYL Sintered Stone",
     },
   };
 
@@ -107,7 +107,7 @@ export function articleJsonLd(input: {
     url: absoluteUrl(input.url),
     author: {
       "@type": "Organization",
-      name: input.author ?? "ZYL",
+      name: input.author ?? "ZYL Sintered Stone",
     },
     publisher: {
       "@type": "Organization",

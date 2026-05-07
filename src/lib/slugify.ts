@@ -7,8 +7,8 @@ import { pinyin } from "pinyin-pro";
 // "意大利木纹" becomes "yi-da-li-mu-wen".
 //
 // Latin / digit / hyphen / underscore are passed through unchanged, so
-// English-only or mixed inputs ("ZYL Stone v2") still produce sensible
-// slugs ("zyl-stone-v2"). If the input has no resolvable characters at
+// English-only or mixed inputs ("ZYL Sintered Stone v2") still produce sensible
+// slugs ("zyl-sintered-stone-v2"). If the input has no resolvable characters at
 // all, an empty string is returned and the editor fills the slug
 // manually — never silently produce a colliding empty slug.
 
