@@ -9,12 +9,10 @@ import { useEffect, useState } from "react";
 import {
   LANGUAGES,
   NAV_ITEMS,
-  resolvePreviewProductTitle,
   type NavigationKey,
   type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
-import type { AppLocale } from "@/i18n/types";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 
@@ -123,19 +121,15 @@ function getMobileSectionChevronClassName(isExpanded: boolean): string {
 function PreviewProductGrid({
   products,
   titleClassName = "text-[#404040] group-hover:text-[color:var(--primary)]",
-  locale,
   onProductClick,
 }: {
   products: PreviewProduct[];
   titleClassName?: string;
-  locale: AppLocale;
   onProductClick?: () => void;
 }): React.JSX.Element {
   return (
     <ul className="grid gap-3 sm:grid-cols-2">
       {products.map((product) => {
-        const title = resolvePreviewProductTitle(product, locale);
-
         return (
           <li key={product.href}>
             <Link
@@ -146,7 +140,7 @@ function PreviewProductGrid({
               <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--surface)]">
                 <Image
                   src={product.imageSrc}
-                  alt={title}
+                  alt={product.title}
                   fill
                   sizes="(max-width: 1119px) 160px, 18vw"
                   className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
@@ -156,7 +150,7 @@ function PreviewProductGrid({
               <span
                 className={`mt-2 block text-[13px] leading-5 transition-colors ${titleClassName}`}
               >
-                {title}
+                {product.title}
               </span>
             </Link>
           </li>
@@ -173,8 +167,6 @@ export default function Header(): React.JSX.Element {
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
   const headerCopy = getHeaderCopy(locale);
-  const appLocale =
-    LANGUAGES.find((language) => language.locale === locale)?.locale ?? "en";
   const isRtl = locale === "ar";
   const mobilePanelClosedX = isRtl ? "-100%" : "100%";
   const translateNav = (key: NavigationKey): string => tNav(key);
@@ -305,7 +297,7 @@ export default function Header(): React.JSX.Element {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 12 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed left-0 right-0 top-[var(--header-height)] border-t border-[color:var(--border)] bg-white py-8 wayon-menu-shadow"
+                            className="fixed left-0 right-0 top-[var(--header-height)] whitespace-normal border-t border-[color:var(--border)] bg-white py-8 wayon-menu-shadow"
                           >
                             <div className="wayon-container-wide grid grid-cols-[1.05fr_0.9fr_1fr] gap-10">
                               <div className="relative aspect-[48/35] overflow-hidden bg-[color:var(--surface)]">
@@ -340,12 +332,12 @@ export default function Header(): React.JSX.Element {
                                 </ul>
                               </div>
 
-                              <div className="min-w-0">
+                              <div className="min-w-0 [overflow-wrap:anywhere]">
                                 <h3 className="mb-4 text-[24px] font-semibold text-[#1e1e1e]">
                                   {activeCollection?.label ? translateNav(activeCollection.label) : ""}
                                 </h3>
                                 {activeCollection?.description ? (
-                                  <p className="mb-6 text-[16px] leading-[1.7] text-[#4a4a4a]">
+                                  <p className="mb-6 max-w-full break-words text-[16px] leading-[1.7] text-[#4a4a4a]">
                                     {translateNav(activeCollection.description)}
                                   </p>
                                 ) : null}
@@ -370,7 +362,6 @@ export default function Header(): React.JSX.Element {
                                 ) : activeCollection?.previewProducts?.length ? (
                                   <PreviewProductGrid
                                     products={activeCollection.previewProducts}
-                                    locale={appLocale}
                                   />
                                 ) : (
                                   <Link
@@ -669,7 +660,6 @@ export default function Header(): React.JSX.Element {
                                 <div className="mt-3">
                                   <PreviewProductGrid
                                     products={subItem.previewProducts}
-                                    locale={appLocale}
                                     titleClassName="text-white/70 group-hover:text-white"
                                     onProductClick={closeMobileMenu}
                                   />
