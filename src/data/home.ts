@@ -41,6 +41,7 @@ export type CaseItem = {
   title: string;
   image: string;
   href: string;
+  objectPosition?: string;
 };
 
 export type PartnerItem = {
@@ -329,8 +330,9 @@ const ENGINEERING_CASE_CONFIG = [
   },
   {
     titleKey: "HomeData.EngineeringCases.item3.title",
-    image: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
-    href: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
+    image: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+    href: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+    objectPosition: "top center",
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
@@ -341,6 +343,7 @@ const ENGINEERING_CASE_CONFIG = [
     titleKey: "HomeData.EngineeringCases.item5.title",
     image: "/assets/cases/case-6-yuehai-yungang-city.png",
     href: "/assets/cases/case-6-yuehai-yungang-city.png",
+    objectPosition: "left bottom",
   },
 ] as const satisfies ReadonlyArray<{
   titleKey: AppMessageKey;
@@ -590,6 +593,7 @@ export function getEngineeringCases(t: AppTranslator): CaseItem[] {
     title: t(item.titleKey),
     image: item.image,
     href: item.href,
+    objectPosition: (item as any).objectPosition,
   }));
 }
 

@@ -39,6 +39,7 @@ function EngineeringCaseCard({
         fill
         sizes="(max-width: 767px) 78vw, (max-width: 1279px) 36vw, 28vw"
         className="engineering-case__image"
+        style={{ objectPosition: item.objectPosition }}
       />
       <span className="engineering-case__index" aria-hidden="true">
         {caseNumber}
