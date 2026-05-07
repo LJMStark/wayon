@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { AboutAlbumItem } from "@/data/home";
 import { formatCopy } from "@/data/siteCopy";
@@ -25,6 +25,8 @@ const NAVIGATION_BUTTONS = [
   },
 ] as const;
 
+const IMAGE_SLIDE_DURATION_MS = 5000;
+
 type AboutAlbumProps = {
   items: AboutAlbumItem[];
   copy: AboutAlbumCopy;
@@ -42,31 +44,64 @@ export function AboutAlbum({
   const [isPaused, setIsPaused] = useState(false);
   const shouldReduce = useReducedMotion();
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
+  const activeItem = items[activeIndex] || items[0];
 
-  useEffect(() => {
-    if (isPaused || items.length <= 1 || shouldReduce) {
+  const goToNextItem = useCallback(() => {
+    if (items.length <= 1 || shouldReduce) {
       return;
     }
 
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
-    }, 5000);
+    setActiveIndex((current) => getWrappedIndex(current, items.length, "next"));
+  }, [items.length, shouldReduce]);
 
-    return () => window.clearInterval(timer);
-  }, [items.length, isPaused, shouldReduce]);
+  useEffect(() => {
+    if (isPaused || items.length <= 1 || shouldReduce || activeItem?.video) {
+      return;
+    }
+
+    const timer = window.setTimeout(goToNextItem, IMAGE_SLIDE_DURATION_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [activeIndex, activeItem?.video, goToNextItem, isPaused, items.length, shouldReduce]);
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
       if (!video) return;
-      if (index === activeIndex) {
-        video.play().catch(() => {
-          // Autoplay may be blocked; safe to ignore — poster image stays visible.
-        });
-      } else {
-        video.pause();
+
+      video.pause();
+
+      if (index !== activeIndex) {
+        video.currentTime = 0;
       }
     });
   }, [activeIndex]);
+
+  useEffect(() => {
+    const activeVideo = videoRefs.current[activeIndex];
+
+    if (!activeVideo || !activeItem?.video) {
+      return;
+    }
+
+    if (isPaused) {
+      activeVideo.pause();
+      return;
+    }
+
+    activeVideo.play().catch(() => {
+      // Autoplay may be blocked; safe to ignore - poster image stays visible.
+    });
+  }, [activeIndex, activeItem?.video, isPaused]);
+
+  useEffect(() => {
+    if (isPaused) {
+      videoRefs.current.forEach((video) => {
+        if (!video) return;
+
+        video.pause();
+      });
+    }
+  }, [isPaused]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
@@ -99,9 +134,13 @@ export function AboutAlbum({
                 src={item.video}
                 poster={item.image}
                 muted
-                loop
                 playsInline
                 preload="metadata"
+                onEnded={() => {
+                  if (index === activeIndex && !isPaused) {
+                    goToNextItem();
+                  }
+                }}
                 className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[8s] ease-linear ${
                   isActive ? "scale-105 [will-change:transform]" : "scale-100"
                 }`}

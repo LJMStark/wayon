@@ -193,6 +193,7 @@ const ABOUT_ALBUM_CONFIG = [
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
     image: "/assets/about/guangdong-wayon.jpg",
+    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-core-equipment.mp4",
     href: "/about",
   },
   {

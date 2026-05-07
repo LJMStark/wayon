@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   useReducedMotion,
   motion,
@@ -22,6 +22,11 @@ type HeroProps = {
   slides: HeroSlide[];
 };
 
+type HeroVideoMetadata = {
+  src: string;
+  duration: number;
+};
+
 const HERO_TITLE_CONTAINER: Variants = {
   hidden: { opacity: 1 },
   show: {
@@ -38,6 +43,8 @@ const HERO_TITLE_LINE: Variants = {
   },
 };
 
+const IMAGE_SLIDE_DURATION_SECONDS = 6;
+
 export function Hero({ slides }: HeroProps): React.JSX.Element {
   const t = useTranslations("Hero");
   const lockMiddleDot = (text: string): string => text.replace(/ · /g, " · ");
@@ -45,8 +52,11 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const tagline = lockMiddleDot(t("tagline").trim());
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [activeVideoMetadata, setActiveVideoMetadata] =
+    useState<HeroVideoMetadata | null>(null);
   const shouldReduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const activeVideoRef = useRef<HTMLVideoElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -54,19 +64,48 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const heroContentY = useTransform(scrollYProgress, [0, 1], [0, -180]);
   const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1, 0]);
 
-  useEffect(() => {
-    if (isPaused || slides.length <= 1 || shouldReduce) {
+  const slide = slides[activeSlide] || slides[0];
+  const progressDuration =
+    slide?.type === "video" && activeVideoMetadata?.src === slide.src
+      ? activeVideoMetadata.duration
+      : IMAGE_SLIDE_DURATION_SECONDS;
+  const goToNextSlide = useCallback(() => {
+    if (slides.length <= 1 || shouldReduce) {
       return;
     }
 
-    const timer = window.setInterval(() => {
-      setActiveSlide((current) => getWrappedIndex(current, slides.length, "next"));
-    }, 6000);
+    setActiveSlide((current) => getWrappedIndex(current, slides.length, "next"));
+  }, [slides.length, shouldReduce]);
 
-    return () => window.clearInterval(timer);
-  }, [slides.length, isPaused, shouldReduce]);
+  useEffect(() => {
+    if (isPaused || slides.length <= 1 || shouldReduce || slide?.type === "video") {
+      return;
+    }
 
-  const slide = slides[activeSlide] || slides[0];
+    const timer = window.setTimeout(
+      () => goToNextSlide(),
+      IMAGE_SLIDE_DURATION_SECONDS * 1000
+    );
+
+    return () => window.clearTimeout(timer);
+  }, [slides.length, isPaused, shouldReduce, slide?.type, activeSlide, goToNextSlide]);
+
+  useEffect(() => {
+    const video = activeVideoRef.current;
+
+    if (!video || slide?.type !== "video") {
+      return;
+    }
+
+    if (isPaused) {
+      video.pause();
+      return;
+    }
+
+    video.play().catch(() => {
+      // Browsers can still block autoplay in edge cases; the poster frame remains visible.
+    });
+  }, [isPaused, slide?.src, slide?.type]);
 
   return (
     <section
@@ -87,12 +126,24 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
         >
           {slide?.type === "video" ? (
             <video
+              ref={activeVideoRef}
               className="size-full object-cover"
               autoPlay
               muted
-              loop
               playsInline
               src={slide?.src}
+              onEnded={() => {
+                if (!isPaused) {
+                  goToNextSlide();
+                }
+              }}
+              onLoadedMetadata={(event) => {
+                const { duration } = event.currentTarget;
+
+                if (Number.isFinite(duration) && duration > 0) {
+                  setActiveVideoMetadata({ src: slide.src, duration });
+                }
+              }}
             />
           ) : (
             <Image
@@ -180,7 +231,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                   className="absolute inset-y-0 left-0 w-full origin-left bg-white"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ duration: 6, ease: "linear" }}
+                  transition={{ duration: progressDuration, ease: "linear" }}
                 />
               )}
             </div>

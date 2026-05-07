@@ -19,6 +19,7 @@ const FILES = [
   { name: "about-showroom-interior.mp4", category: "showroom" },
   { name: "about-factory-production.mp4", category: "factory" },
   { name: "about-service-team.mp4", category: "other" },
+  { name: "about-core-equipment.mp4", category: "factory" },
 ];
 
 async function main() {
