@@ -292,10 +292,10 @@ const SITE_COPY = {
         ar: "منتجات ZYL",
       },
       description: {
-        en: "Explore quartz, terrazzo, flexible stone, marble, porcelain slab and other fabrication-ready materials tailored for global architectural projects.",
-        zh: "覆盖石英石、水磨石、柔性石材、大理石、岩板等多类可加工材料，面向全球建筑与室内项目提供稳定供应。",
-        es: "Explore cuarzo, terrazo, piedra flexible, mármol, porcelánico y otros materiales listos para fabricación para proyectos arquitectónicos globales.",
-        ar: "استكشف الكوارتز والتيرازو والحجر المرن والرخام وألواح البورسلان وغيرها من المواد الجاهزة للتصنيع للمشاريع المعمارية العالمية.",
+        en: "Our sintered stone is categorized by style series, covering texture, famous stone, travertine, wood-grain, wall panel, art, continuous-vein and creative trending series, combining the aesthetic texture of natural stone with the superior performance of sintered stone.",
+        zh: "我们的岩板按风格系列分类，涵盖质感、名石、洞石、木纹、护墙、艺术、连纹及创意网红系列，兼具天然石材的美学质感与岩板的优越性能。",
+        es: "Nuestras losas de piedra sinterizada se clasifican por series de estilo: textura, piedra noble, travertino, veta de madera, revestimiento mural, arte, veta continua y diseños creativos de tendencia, combinando la estética de la piedra natural con el rendimiento superior de la piedra sinterizada.",
+        ar: "نصنف ألواح الحجر الملبد لدينا حسب سلاسل الأنماط، وتشمل الملمس والحجر الفاخر والترافرتين ونقشة الخشب وتكسية الجدران والفن والعروق المتصلة والتصاميم الإبداعية الرائجة، مع الجمع بين جمالية الحجر الطبيعي وأداء الحجر الملبد المتفوق.",
       },
       detail: {
         en: "View Collection",
