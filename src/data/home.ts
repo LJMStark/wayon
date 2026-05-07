@@ -99,14 +99,9 @@ type AppMessageKey = Parameters<AppTranslator>[0];
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
-    type: "image",
-    src: "/assets/hero/hero-zyl-global.png",
+    type: "video",
+    src: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-pavilion-entrance.mp4",
     alt: "众岩联全球馆",
-  },
-  {
-    type: "image",
-    src: "/assets/hero/hero-lifestyle-slab.png",
-    alt: "众岩联为美好生活做好每一片岩板",
   },
 ];
 
@@ -161,13 +156,6 @@ const ABOUT_INTRO_CONFIG = {
 };
 
 const ABOUT_ALBUM_CONFIG = [
-  {
-    titleKey: "HomeData.AboutAlbum.item0.title",
-    textKey: "HomeData.AboutAlbum.item0.text",
-    image: "/assets/about/zyl-global-pavilion.png",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-pavilion-entrance.mp4",
-    href: "/about",
-  },
   {
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",

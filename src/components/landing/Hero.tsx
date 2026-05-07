@@ -51,7 +51,6 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const titleLine1 = lockMiddleDot(t("titleLine1").trim());
   const tagline = lockMiddleDot(t("tagline").trim());
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [activeVideoMetadata, setActiveVideoMetadata] =
     useState<HeroVideoMetadata | null>(null);
   const shouldReduce = useReducedMotion();
@@ -78,7 +77,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   }, [slides.length, shouldReduce]);
 
   useEffect(() => {
-    if (isPaused || slides.length <= 1 || shouldReduce || slide?.type === "video") {
+    if (slides.length <= 1 || shouldReduce || slide?.type === "video") {
       return;
     }
 
@@ -88,7 +87,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
     );
 
     return () => window.clearTimeout(timer);
-  }, [slides.length, isPaused, shouldReduce, slide?.type, activeSlide, goToNextSlide]);
+  }, [slides.length, shouldReduce, slide?.type, activeSlide, goToNextSlide]);
 
   useEffect(() => {
     const video = activeVideoRef.current;
@@ -97,22 +96,15 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
       return;
     }
 
-    if (isPaused) {
-      video.pause();
-      return;
-    }
-
     video.play().catch(() => {
       // Browsers can still block autoplay in edge cases; the poster frame remains visible.
     });
-  }, [isPaused, slide?.src, slide?.type]);
+  }, [slide?.src, slide?.type]);
 
   return (
     <section
       ref={sectionRef}
       className="wayon-home-hero relative -mt-[var(--header-height)] w-full overflow-hidden bg-[color:var(--primary)]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <AnimatePresence initial={false}>
         <motion.div
@@ -131,11 +123,10 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               autoPlay
               muted
               playsInline
+              loop={slides.length <= 1}
               src={slide?.src}
               onEnded={() => {
-                if (!isPaused) {
-                  goToNextSlide();
-                }
+                goToNextSlide();
               }}
               onLoadedMetadata={(event) => {
                 const { duration } = event.currentTarget;
@@ -225,15 +216,13 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
           <div className="flex items-center gap-4">
             <span className="text-white/40 text-xs font-medium tracking-widest">0{activeSlide + 1}</span>
             <div className="h-[1px] w-16 bg-white/20 relative overflow-hidden">
-              {!isPaused && (
-                <motion.div
-                  key={activeSlide}
-                  className="absolute inset-y-0 left-0 w-full origin-left bg-white"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: progressDuration, ease: "linear" }}
-                />
-              )}
+              <motion.div
+                key={activeSlide}
+                className="absolute inset-y-0 left-0 w-full origin-left bg-white"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: progressDuration, ease: "linear" }}
+              />
             </div>
             <span className="text-white/40 text-xs font-medium tracking-widest">0{slides.length}</span>
           </div>
