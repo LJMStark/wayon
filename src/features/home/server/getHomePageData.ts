@@ -5,6 +5,7 @@ import {
   getAboutAlbum,
   getAboutIntro,
   getEngineeringCases,
+  getFeaturedProductPoster,
   getHomeProducts,
   getPartners,
   getSolutions,
@@ -115,6 +116,7 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
       slides: HERO_SLIDES,
     },
     statsSummary: aboutCopy.stats,
+    featuredProductPoster: getFeaturedProductPoster(t),
     aboutIntro: getAboutIntro(t),
     aboutAlbum: {
       items: getAboutAlbum(t),

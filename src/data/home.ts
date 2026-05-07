@@ -22,6 +22,13 @@ export type ProductItem = {
   image: string;
 };
 
+export type FeaturedProductPosterData = {
+  eyebrow: string;
+  image: string;
+  imageAlt: string;
+  href: string;
+};
+
 export type SolutionItem = {
   label: string;
   title: string;
@@ -258,6 +265,18 @@ const HOME_PRODUCT_CONFIG = [
   href: string;
   image: string;
 }>;
+
+const FEATURED_PRODUCT_POSTER_CONFIG = {
+  eyebrowKey: "HomeData.FeaturedProductPoster.eyebrow",
+  image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
+  imageAltKey: "HomeData.FeaturedProductPoster.imageAlt",
+  href: `/products?section=process&value=${encodeURIComponent("定位彩晶")}`,
+} as const satisfies {
+  eyebrowKey: AppMessageKey;
+  image: string;
+  imageAltKey: AppMessageKey;
+  href: string;
+};
 
 const SOLUTION_CONFIG = [
   {
@@ -554,6 +573,17 @@ export function getHomeProducts(t: AppTranslator): ProductItem[] {
     href: item.href,
     image: item.image,
   }));
+}
+
+export function getFeaturedProductPoster(
+  t: AppTranslator
+): FeaturedProductPosterData {
+  return {
+    eyebrow: t(FEATURED_PRODUCT_POSTER_CONFIG.eyebrowKey),
+    image: FEATURED_PRODUCT_POSTER_CONFIG.image,
+    imageAlt: t(FEATURED_PRODUCT_POSTER_CONFIG.imageAltKey),
+    href: FEATURED_PRODUCT_POSTER_CONFIG.href,
+  };
 }
 
 export function getSolutions(t: AppTranslator): SolutionItem[] {

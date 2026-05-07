@@ -29,7 +29,7 @@ export function ProductsCarousel({
   };
 
   return (
-    <section className="wayon-home-section--after-stats relative z-0 overflow-hidden px-4">
+    <section className="wayon-home-section--compact relative z-0 overflow-hidden px-4">
       <div className="mx-auto max-w-[90rem]">
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_2.5fr] gap-12 lg:gap-16">
 

@@ -233,6 +233,10 @@
         "text": "Fundada en 1990 como la antigua Guangzhou Lixin Stone Craft Co., Ltd., especializada en cuarzo, terrazo y mármol natural..."
       }
     },
+    "FeaturedProductPoster": {
+      "eyebrow": "Nuevo destacado",
+      "imageAlt": "Póster de lanzamiento de incrustación de cristal posicionada con paisaje de hielo y tres patrones de losa cristalina"
+    },
     "HomeProducts": {
       "item0": {
         "title": "Piedra de cuarzo y piedra sin sílice",

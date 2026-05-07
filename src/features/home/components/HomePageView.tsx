@@ -1,6 +1,7 @@
 import { AboutAlbum } from "@/components/landing/AboutAlbum";
 import { AboutIntro } from "@/components/landing/AboutIntro";
 import { EngineeringCase } from "@/components/landing/EngineeringCase";
+import { FeaturedProductPoster } from "@/components/landing/FeaturedProductPoster";
 import { Hero } from "@/components/landing/Hero";
 import { NewsSection } from "@/components/landing/NewsSection";
 import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
@@ -13,6 +14,7 @@ import type { HomePageData, HomeStat } from "../types";
 export function HomePageView({
   hero,
   statsSummary,
+  featuredProductPoster,
   aboutIntro,
   aboutAlbum,
   productsCarousel,
@@ -40,6 +42,7 @@ export function HomePageView({
         </div>
       </section>
 
+      <FeaturedProductPoster data={featuredProductPoster} />
       <ProductsCarousel
         items={productsCarousel.items}
         copy={productsCarousel.copy}

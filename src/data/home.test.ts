@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 
 import zhMessages from "@/messages/zh.json";
 
-import { getEngineeringCases } from "./home";
+import { getEngineeringCases, getFeaturedProductPoster } from "./home";
 
 type EngineeringCaseTranslator = Parameters<typeof getEngineeringCases>[0];
 
@@ -49,4 +49,12 @@ test("home engineering cases keep source image names and Chinese titles aligned"
       href: "/assets/cases/case-6-yuehai-yungang-city.png",
     },
   ]);
+});
+
+test("featured product poster points to the positioned crystal process listing", () => {
+  expect(getFeaturedProductPoster(translate as EngineeringCaseTranslator)).toMatchObject({
+    eyebrow: "主推新品",
+    image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
+    href: "/products?section=process&value=%E5%AE%9A%E4%BD%8D%E5%BD%A9%E6%99%B6",
+  });
 });

@@ -2,6 +2,7 @@ import type {
   AboutAlbumItem,
   AboutIntroData,
   CaseItem,
+  FeaturedProductPosterData,
   HeroSlide,
   NewsFeature,
   NewsItem,
@@ -50,6 +51,8 @@ export type ProductsCarouselSectionData = {
   copy: ProductsCarouselCopy;
 };
 
+export type FeaturedProductPosterSectionData = FeaturedProductPosterData;
+
 export type SolutionTabsSectionData = {
   title: string;
   description: string;
@@ -85,6 +88,7 @@ export type HomeStat = {
 export type HomePageData = {
   hero: HomeHeroData;
   statsSummary: HomeStat[];
+  featuredProductPoster: FeaturedProductPosterSectionData;
   aboutIntro: AboutIntroData;
   aboutAlbum: AboutAlbumSectionData;
   productsCarousel: ProductsCarouselSectionData;

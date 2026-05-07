@@ -233,6 +233,10 @@
         "text": "100+ 专业营销与服务团队驻守众岩联时尚馆，为客户提供选材、报价、打样到交付的一站式支持。"
       }
     },
+    "FeaturedProductPoster": {
+      "eyebrow": "主推新品",
+      "imageAlt": "定位彩晶新品海报，展示冰晶背景与三款彩晶岩板纹理"
+    },
     "HomeProducts": {
       "item0": {
         "title": "质感岩板",
