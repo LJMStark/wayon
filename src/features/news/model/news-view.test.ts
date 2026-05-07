@@ -5,7 +5,12 @@ import sharp from "sharp";
 import { expect, test } from "vitest";
 
 import type { AppLocale } from "@/i18n/types";
-import type { NewsArticle } from "@/data/news";
+import {
+  getLocalizedNewsBody,
+  getLocalizedNewsValue,
+  type NewsArticleBody,
+  type NewsArticle,
+} from "@/data/news";
 
 import {
   buildNewsDetailPageData,
@@ -133,6 +138,56 @@ test("zyl 918 opening article keeps the cover plus all imported body images", ()
   expect(data.visuals.at(-1)?.src).toBe(
     "/assets/news/zyl-918-global-opening/19.jpg"
   );
+});
+
+test("zyl 918 opening visuals do not expose Chinese captions outside zh", () => {
+  const data = buildNewsDetailPageData(makeArticle("zyl-918-global-opening"), "en", {
+    backToNewsLabel: "Back to News",
+    contactCtaTitle: "Need pricing or sample support?",
+    contactLabel: "Contact Us",
+    contentComingSoonLabel: "Content coming soon.",
+  });
+
+  for (const visual of data.visuals) {
+    expect(`${visual.alt} ${visual.caption}`).not.toMatch(/[\u3400-\u9fff]/);
+  }
+});
+
+test("news value helpers do not fall back to Chinese outside zh", () => {
+  const zhBody = {
+    root: {
+      type: "root",
+      children: [],
+      direction: null,
+      format: "",
+      indent: 0,
+      version: 1,
+    },
+  } as unknown as NewsArticleBody;
+  const article = {
+    ...makeArticle("zh-only-news"),
+    title: {
+      en: "",
+      zh: "中文新闻标题",
+      es: "",
+      ar: "",
+    },
+    excerpt: {
+      en: "",
+      zh: "中文新闻摘要",
+      es: "",
+      ar: "",
+    },
+    body: {
+      zh: zhBody,
+    },
+  } satisfies NewsArticle;
+
+  expect(getLocalizedNewsValue(article, "en", "title")).toBe("");
+  expect(getLocalizedNewsValue(article, "en", "excerpt")).toBe("");
+  expect(getLocalizedNewsBody(article, "en")).toBeNull();
+  expect(getLocalizedNewsValue(article, "zh", "title")).toBe("中文新闻标题");
+  expect(getLocalizedNewsBody(article, "zh")).not.toBeNull();
 });
 
 function makeArticle(slug: string): NewsArticle {

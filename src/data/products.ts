@@ -4,7 +4,6 @@ import {
   mediaUrl,
   relationshipValue,
 } from "@/data/_payload";
-import { pinyin } from "pinyin-pro";
 import {
   selectProductCoverUrl,
   type DirectoryProduct,
@@ -12,6 +11,7 @@ import {
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 import type { AppLocale } from "@/i18n/types";
 import { localizeSeriesType } from "./productAttributeLabels";
+import { getLocalizedProductTitleDisplay } from "./productTitle";
 
 export type ProductMediaImage = {
   sourcePath: string;
@@ -382,21 +382,28 @@ export function getLocalizedProductValue(
     return localizedRecordValue(product.category, locale);
   }
   if (field === "description") {
-    return (
-      product.description?.[locale] ||
-      product.description?.en ||
-      product.description?.zh ||
-      ""
-    );
+    return localizedRecordValue(product.description, locale);
   }
-  return product.title?.[locale] || product.title?.en || product.title?.zh || "";
+  return getLocalizedProductTitleDisplay(product.title, locale, product.slug);
 }
 
 function localizedRecordValue(
   value: Record<AppLocale, string> | undefined,
   locale: AppLocale
 ): string {
-  return value?.[locale] || value?.en || value?.zh || value?.es || value?.ar || "";
+  if (hasLocaleValue(value, locale)) {
+    return value?.[locale]?.trim() ?? "";
+  }
+
+  if (isUsableLocalizedValue(value?.en, "en")) {
+    return value?.en.trim() ?? "";
+  }
+
+  if (locale === "zh" && value?.zh?.trim()) {
+    return value.zh.trim();
+  }
+
+  return "";
 }
 
 function hasLocaleValue(
@@ -423,44 +430,11 @@ function isUsableLocalizedValue(
   return true;
 }
 
-function toUppercasePinyin(value: string): string {
-  return pinyin(value, {
-    toneType: "none",
-    type: "string",
-    nonZh: "consecutive",
-    separator: " ",
-  })
-    .replace(/\s+/g, " ")
-    .trim()
-    .toUpperCase();
-}
-
 export function getProductDisplayTitle(
   product: Product,
   locale: AppLocale
 ): string {
-  if (locale === "zh") {
-    if (isUsableLocalizedValue(product.title?.zh, "zh")) {
-      return product.title.zh.trim();
-    }
-
-    if (isUsableLocalizedValue(product.title?.en, "en")) {
-      return product.title.en.trim();
-    }
-
-    return product.slug;
-  }
-
-  const chineseTitle = product.title?.zh?.trim();
-  if (chineseTitle) {
-    return toUppercasePinyin(chineseTitle);
-  }
-
-  if (isUsableLocalizedValue(product.title?.en, "en")) {
-    return product.title.en.trim();
-  }
-
-  return product.slug;
+  return getLocalizedProductTitleDisplay(product.title, locale, product.slug);
 }
 
 export function getProductDisplayDescription(

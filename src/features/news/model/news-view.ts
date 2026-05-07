@@ -28,33 +28,61 @@ const NEWS_ARTICLE_VISUALS: Record<
   }>
 > = {
   "zyl-918-global-opening": [
-    zyl918Visual("00-cover.jpg", "众岩联918馆、全球馆开业封面"),
-    zyl918Visual("01.jpg", "众岩联918馆、全球馆开业盛典现场图 1"),
-    zyl918Visual("02.jpg", "众岩联918馆、全球馆开业盛典现场图 2"),
-    zyl918Visual("03.jpg", "众岩联918馆、全球馆开业盛典现场图 3"),
-    zyl918Visual("04.jpg", "众岩联918馆、全球馆开业盛典现场图 4"),
-    zyl918Visual("05.jpg", "众岩联918馆、全球馆开业盛典现场图 5", "开业盛典现场"),
-    zyl918Visual("06.jpg", "众岩联董事长戴锦平", "众岩联董事长戴锦平"),
+    zyl918Visual("00-cover.jpg", "opening ceremony cover", "开业封面"),
+    zyl918Visual("01.jpg", "opening ceremony scene 1", "开业盛典现场图 1"),
+    zyl918Visual("02.jpg", "opening ceremony scene 2", "开业盛典现场图 2"),
+    zyl918Visual("03.jpg", "opening ceremony scene 3", "开业盛典现场图 3"),
+    zyl918Visual("04.jpg", "opening ceremony scene 4", "开业盛典现场图 4"),
+    zyl918Visual(
+      "05.jpg",
+      "opening ceremony scene 5",
+      "开业盛典现场图 5",
+      "Opening ceremony",
+      "开业盛典现场"
+    ),
+    zyl918Visual(
+      "06.jpg",
+      "chairman Dai Jinping",
+      "董事长戴锦平",
+      "Chairman Dai Jinping",
+      "众岩联董事长戴锦平"
+    ),
     zyl918Visual(
       "07.jpg",
+      "Foshan Ceramics Association secretary-general Pan Yongwen speaks",
       "佛山陶瓷协会秘书长潘勇文致辞",
+      "Pan Yongwen speaks",
       "佛山陶瓷协会秘书长潘勇文致辞"
     ),
-    zyl918Visual("08.jpg", "众岩联918馆、全球馆剪彩前现场"),
-    zyl918Visual("09.jpg", "众岩联918馆、全球馆剪彩仪式", "剪彩仪式"),
-    zyl918Visual("10.jpg", "众岩联918馆、全球馆开业现场图 10"),
-    zyl918Visual("11.jpg", "众岩联918馆、全球馆开业现场图 11"),
-    zyl918Visual("12.jpg", "众岩联918馆、全球馆开业大吉", "开业大吉"),
-    zyl918Visual("13.jpg", "众岩联918馆、全球馆展厅参观图 13"),
-    zyl918Visual("14.jpg", "众岩联918馆、全球馆展厅参观图 14"),
-    zyl918Visual("15.jpg", "众岩联918馆、全球馆展厅参观图 15"),
-    zyl918Visual("16.jpg", "众岩联918馆、全球馆展厅参观图 16"),
-    zyl918Visual("17.jpg", "众岩联918馆、全球馆展厅参观图 17"),
-    zyl918Visual("18.jpg", "众岩联918馆、全球馆展厅参观图 18"),
+    zyl918Visual("08.jpg", "scene before the ribbon cutting", "剪彩前现场"),
+    zyl918Visual(
+      "09.jpg",
+      "ribbon-cutting ceremony",
+      "剪彩仪式",
+      "Ribbon cutting",
+      "剪彩仪式"
+    ),
+    zyl918Visual("10.jpg", "opening ceremony scene 10", "开业现场图 10"),
+    zyl918Visual("11.jpg", "opening ceremony scene 11", "开业现场图 11"),
+    zyl918Visual(
+      "12.jpg",
+      "opening celebration display",
+      "开业大吉",
+      "Opening celebration",
+      "开业大吉"
+    ),
+    zyl918Visual("13.jpg", "showroom visit scene 13", "展厅参观图 13"),
+    zyl918Visual("14.jpg", "showroom visit scene 14", "展厅参观图 14"),
+    zyl918Visual("15.jpg", "showroom visit scene 15", "展厅参观图 15"),
+    zyl918Visual("16.jpg", "showroom visit scene 16", "展厅参观图 16"),
+    zyl918Visual("17.jpg", "showroom visit scene 17", "展厅参观图 17"),
+    zyl918Visual("18.jpg", "showroom visit scene 18", "展厅参观图 18"),
     zyl918Visual(
       "19.jpg",
-      "众岩联918馆、全球馆展厅内部",
-      "众岩联918馆、全球馆展厅内部"
+      "inside the ZYL 918 pavilion and global pavilion",
+      "展厅内部",
+      "Inside the showroom",
+      "展厅内部"
     ),
   ],
   "what-is-sintered-stone": [
@@ -219,14 +247,21 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
 };
 
-function localizedVisualText(value: string): Record<AppLocale, string> {
-  return { en: value, zh: value, es: value, ar: value };
+function localizedZyl918VisualText(value: string): Record<AppLocale, string> {
+  return {
+    en: `ZYL 918 pavilion and global pavilion ${value}`,
+    zh: `众岩联918馆、全球馆${value}`,
+    es: `Pabellon ZYL 918 y pabellon global ${value}`,
+    ar: `جناح ZYL 918 والجناح العالمي ${value}`,
+  };
 }
 
 function zyl918Visual(
   filename: string,
-  alt: string,
-  caption = ""
+  enAlt: string,
+  zhAlt: string,
+  enCaption = enAlt,
+  zhCaption = zhAlt
 ): {
   src: string;
   alt: Record<AppLocale, string>;
@@ -234,8 +269,14 @@ function zyl918Visual(
 } {
   return {
     src: `${ZYL_918_GLOBAL_OPENING_ASSET_BASE}/${filename}`,
-    alt: localizedVisualText(alt),
-    caption: localizedVisualText(caption || alt),
+    alt: {
+      ...localizedZyl918VisualText(enAlt),
+      zh: `众岩联918馆、全球馆${zhAlt}`,
+    },
+    caption: {
+      ...localizedZyl918VisualText(enCaption),
+      zh: `众岩联918馆、全球馆${zhCaption}`,
+    },
   };
 }
 
@@ -401,7 +442,7 @@ function resolveLocalized(
   value: Record<AppLocale, string>,
   locale: AppLocale
 ): string {
-  return value[locale] || value.en || value.zh || "";
+  return value[locale] || value.en || (locale === "zh" ? value.zh : "") || "";
 }
 
 // Keywords that identify a references/sources section heading in any supported locale.

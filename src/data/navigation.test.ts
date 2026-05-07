@@ -2,7 +2,9 @@ import { expect, test } from "vitest";
 
 import { TRADE_PROCESSES } from "@/features/products/lib/tradeCatalog";
 
-import { NAV_ITEMS } from "./navigation";
+import type { AppLocale } from "@/i18n/types";
+
+import { NAV_ITEMS, resolvePreviewProductTitle } from "./navigation";
 
 test("collection process menu exposes every supported process", () => {
   const collection = NAV_ITEMS.find((item) => item.label === "collection");
@@ -50,13 +52,43 @@ test("collection menu nests new series under slabs and previews special offers",
   expect(specialSeries?.children).toBeUndefined();
   expect(specialSeries?.previewProducts?.slice(0, 2)).toEqual([
     expect.objectContaining({
-      title: "ZYL1632L971雅诗兰黛",
+      title: expect.objectContaining({
+        zh: "雅诗兰黛",
+      }),
       href: "/products/zyl1632l971",
     }),
     expect.objectContaining({
-      title: "丝绸白",
+      title: expect.objectContaining({
+        zh: "丝绸白",
+      }),
       href: "/products/zl1224l936",
     }),
+  ]);
+});
+
+test("collection preview product titles are localized for non-Chinese locales", () => {
+  const collection = NAV_ITEMS.find((item) => item.label === "collection");
+  const specialSeries = collection?.subItems?.find(
+    (item) => item.label === "catalogSpecialSeries"
+  );
+  const products = specialSeries?.previewProducts ?? [];
+  const nonChineseLocales: AppLocale[] = ["en", "es", "ar"];
+
+  expect(products.length).toBeGreaterThan(0);
+
+  for (const locale of nonChineseLocales) {
+    for (const product of products) {
+      expect(resolvePreviewProductTitle(product, locale)).not.toMatch(
+        /[\u3400-\u9fff]/
+      );
+    }
+  }
+
+  expect(products.map((product) => resolvePreviewProductTitle(product, "en"))).toEqual([
+    "YA SHI LAN DAI",
+    "SI CHOU BAI",
+    "YI SHA BEI ER BAI",
+    "PEI LA FEN YU",
   ]);
 });
 

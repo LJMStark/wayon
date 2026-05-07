@@ -1,4 +1,8 @@
 import type { AppLocale, AppMessages } from "@/i18n/types";
+import {
+  getLocalizedProductTitleDisplay,
+  type LocalizedProductTitle,
+} from "./productTitle";
 
 
 
@@ -12,7 +16,7 @@ export type ChildLink = {
 };
 
 export type PreviewProduct = {
-  title: string;
+  title: LocalizedProductTitle;
   href: string;
   imageSrc: string;
 };
@@ -91,25 +95,33 @@ export const NAV_ITEMS: NavItem[] = [
           "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
         previewProducts: [
           {
-            title: "ZYL1632L971雅诗兰黛",
+            title: {
+              zh: "雅诗兰黛",
+            },
             href: "/products/zyl1632l971",
             imageSrc:
               "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
           },
           {
-            title: "丝绸白",
+            title: {
+              zh: "丝绸白",
+            },
             href: "/products/zl1224l936",
             imageSrc:
               "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1224L936%E4%B8%9D%E7%BB%B8%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
           },
           {
-            title: "伊莎贝尔白",
+            title: {
+              zh: "伊莎贝尔白",
+            },
             href: "/products/zl1632ls015",
             imageSrc:
               "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632LS015%E4%BC%8A%E8%8E%8E%E8%B4%9D%E5%B0%94%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
           },
           {
-            title: "佩拉粉玉",
+            title: {
+              zh: "佩拉粉玉",
+            },
             href: "/products/zl1632l982",
             imageSrc:
               "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632L982%E4%BD%A9%E6%8B%89%E7%B2%89%E7%8E%89%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
@@ -198,3 +210,14 @@ export const LANGUAGES: Array<{
   { code: "ES", label: "Español", locale: "es", icon: "ES" },
   { code: "AR", label: "العربية", locale: "ar", icon: "AR" },
 ];
+
+export function resolvePreviewProductTitle(
+  product: PreviewProduct,
+  locale: AppLocale
+): string {
+  return getLocalizedProductTitleDisplay(
+    product.title,
+    locale,
+    product.href.split("/").at(-1) || ""
+  );
+}

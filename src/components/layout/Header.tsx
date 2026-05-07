@@ -9,10 +9,12 @@ import { useEffect, useState } from "react";
 import {
   LANGUAGES,
   NAV_ITEMS,
+  resolvePreviewProductTitle,
   type NavigationKey,
   type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
+import type { AppLocale } from "@/i18n/types";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 
@@ -121,41 +123,45 @@ function getMobileSectionChevronClassName(isExpanded: boolean): string {
 function PreviewProductGrid({
   products,
   titleClassName = "text-[#404040] group-hover:text-[color:var(--primary)]",
-  translateTitle,
+  locale,
   onProductClick,
 }: {
   products: PreviewProduct[];
   titleClassName?: string;
-  translateTitle?: (title: string) => string;
+  locale: AppLocale;
   onProductClick?: () => void;
 }): React.JSX.Element {
   return (
     <ul className="grid gap-3 sm:grid-cols-2">
-      {products.map((product) => (
-        <li key={product.href}>
-          <Link
-            href={product.href}
-            onClick={onProductClick}
-            className="group block"
-          >
-            <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--surface)]">
-              <Image
-                src={product.imageSrc}
-                alt={translateTitle?.(product.title) ?? product.title}
-                fill
-                sizes="(max-width: 1119px) 160px, 18vw"
-                className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
-                unoptimized
-              />
-            </div>
-            <span
-              className={`mt-2 block text-[13px] leading-5 transition-colors ${titleClassName}`}
+      {products.map((product) => {
+        const title = resolvePreviewProductTitle(product, locale);
+
+        return (
+          <li key={product.href}>
+            <Link
+              href={product.href}
+              onClick={onProductClick}
+              className="group block"
             >
-              {translateTitle?.(product.title) ?? product.title}
-            </span>
-          </Link>
-        </li>
-      ))}
+              <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--surface)]">
+                <Image
+                  src={product.imageSrc}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 1119px) 160px, 18vw"
+                  className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
+                  unoptimized
+                />
+              </div>
+              <span
+                className={`mt-2 block text-[13px] leading-5 transition-colors ${titleClassName}`}
+              >
+                {title}
+              </span>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -167,6 +173,8 @@ export default function Header(): React.JSX.Element {
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
   const headerCopy = getHeaderCopy(locale);
+  const appLocale =
+    LANGUAGES.find((language) => language.locale === locale)?.locale ?? "en";
   const isRtl = locale === "ar";
   const mobilePanelClosedX = isRtl ? "-100%" : "100%";
   const translateNav = (key: NavigationKey): string => tNav(key);
@@ -362,6 +370,7 @@ export default function Header(): React.JSX.Element {
                                 ) : activeCollection?.previewProducts?.length ? (
                                   <PreviewProductGrid
                                     products={activeCollection.previewProducts}
+                                    locale={appLocale}
                                   />
                                 ) : (
                                   <Link
@@ -660,6 +669,7 @@ export default function Header(): React.JSX.Element {
                                 <div className="mt-3">
                                   <PreviewProductGrid
                                     products={subItem.previewProducts}
+                                    locale={appLocale}
                                     titleClassName="text-white/70 group-hover:text-white"
                                     onProductClick={closeMobileMenu}
                                   />

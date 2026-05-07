@@ -18,7 +18,7 @@ export type NewsArticle = {
   imageUrl: string;
   excerpt: Record<AppLocale, string>;
   category?: string;
-  body?: Record<AppLocale, NewsArticleBody>;
+  body?: Partial<Record<AppLocale, NewsArticleBody>>;
 };
 
 type RawNews = {
@@ -104,7 +104,7 @@ export function getLocalizedNewsValue(
   if (!article) return "";
   const value = article[field];
   if (typeof value === "string") return value;
-  return value?.[locale] || value?.["en"] || value?.["zh"] || "";
+  return value?.[locale] || value?.en || (locale === "zh" ? value?.zh : "") || "";
 }
 
 export function getLocalizedNewsBody(
@@ -112,7 +112,12 @@ export function getLocalizedNewsBody(
   locale: AppLocale
 ): NewsArticleBody | null {
   if (!article?.body) return null;
-  return article.body[locale] || article.body.en || article.body.zh || null;
+  return (
+    article.body[locale] ||
+    article.body.en ||
+    (locale === "zh" ? article.body.zh : null) ||
+    null
+  );
 }
 
 export function formatNewsDate(
