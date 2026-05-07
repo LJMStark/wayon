@@ -3,6 +3,7 @@ import Image from "next/image";
 type PageHeroProps = {
   imageSrc: string;
   imageAlt: string;
+  imageClassName?: string;
   title: string;
   subtitle?: string;
 };
@@ -16,6 +17,7 @@ type PageHeroProps = {
 export function PageHero({
   imageSrc,
   imageAlt,
+  imageClassName = "",
   title,
   subtitle,
 }: PageHeroProps): React.JSX.Element {
@@ -27,7 +29,7 @@ export function PageHero({
         fill
         sizes="100vw"
         priority
-        className="object-cover"
+        className={`object-cover ${imageClassName}`}
       />
       <div
         aria-hidden

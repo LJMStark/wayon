@@ -118,6 +118,7 @@ export default function AboutPage(): React.JSX.Element {
       <PageHero
         imageSrc={TRADE_YELLOW_PLACEHOLDER_IMAGE}
         imageAlt={aboutCopy.heroTitle}
+        imageClassName="object-[center_24%]"
         title={aboutCopy.heroTitle}
       />
 
