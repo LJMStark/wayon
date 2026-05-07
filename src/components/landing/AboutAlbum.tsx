@@ -83,25 +83,10 @@ export function AboutAlbum({
       return;
     }
 
-    if (isPaused) {
-      activeVideo.pause();
-      return;
-    }
-
     activeVideo.play().catch(() => {
       // Autoplay may be blocked; safe to ignore - poster image stays visible.
     });
-  }, [activeIndex, activeItem?.video, isPaused]);
-
-  useEffect(() => {
-    if (isPaused) {
-      videoRefs.current.forEach((video) => {
-        if (!video) return;
-
-        video.pause();
-      });
-    }
-  }, [isPaused]);
+  }, [activeIndex, activeItem?.video]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
@@ -137,7 +122,7 @@ export function AboutAlbum({
                 playsInline
                 preload="metadata"
                 onEnded={() => {
-                  if (index === activeIndex && !isPaused) {
+                  if (index === activeIndex) {
                     goToNextItem();
                   }
                 }}
