@@ -20,7 +20,7 @@ test("cases metadata uses dedicated cases copy", async () => {
 
   expect(metadata.title).toBe("Project Cases | Sales & Factory Cooperation");
   expect(metadata.description).toBe(
-    "Explore ZYL cooperation cases for distributors, fabricators and factory partners across global stone projects."
+    "Explore ZYL Sintered Stone cooperation cases for distributors, fabricators and factory partners across global stone projects."
   );
   expect(metadata.title).not.toBe("Stone Solutions | Countertops, Walls & Flooring");
 });

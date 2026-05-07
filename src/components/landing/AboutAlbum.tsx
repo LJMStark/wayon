@@ -32,6 +32,18 @@ type AboutAlbumProps = {
   copy: AboutAlbumCopy;
 };
 
+function shouldLoadVideo(
+  index: number,
+  activeIndex: number,
+  itemCount: number
+): boolean {
+  if (index === activeIndex) {
+    return true;
+  }
+
+  return index === getWrappedIndex(activeIndex, itemCount, "next");
+}
+
 function getCarouselActionLabel(copy: AboutAlbumCopy, key: "previous" | "next"): string {
   return key === "previous" ? copy.previousLabel : copy.nextLabel;
 }
@@ -42,7 +54,9 @@ export function AboutAlbum({
 }: AboutAlbumProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isMediaReady, setIsMediaReady] = useState(false);
   const shouldReduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const activeItem = items[activeIndex] || items[0];
 
@@ -77,16 +91,44 @@ export function AboutAlbum({
   }, [activeIndex]);
 
   useEffect(() => {
+    if (isMediaReady) {
+      return;
+    }
+
+    const section = sectionRef.current;
+
+    if (!section || typeof IntersectionObserver === "undefined") {
+      const timer = window.setTimeout(() => setIsMediaReady(true), 0);
+
+      return () => window.clearTimeout(timer);
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsMediaReady(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" }
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, [isMediaReady]);
+
+  useEffect(() => {
     const activeVideo = videoRefs.current[activeIndex];
 
-    if (!activeVideo || !activeItem?.video) {
+    if (!isMediaReady || !activeVideo || !activeItem?.video) {
       return;
     }
 
     activeVideo.play().catch(() => {
       // Autoplay may be blocked; safe to ignore - poster image stays visible.
     });
-  }, [activeIndex, activeItem?.video]);
+  }, [activeIndex, activeItem?.video, isMediaReady]);
 
   const changeActiveIndex = (direction: CarouselDirection): void => {
     setActiveIndex((current) => getWrappedIndex(current, items.length, direction));
@@ -94,6 +136,7 @@ export function AboutAlbum({
 
   return (
     <motion.section
+      ref={sectionRef}
       className="relative h-[80vh] min-h-[600px] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -104,6 +147,9 @@ export function AboutAlbum({
     >
       {items.map((item, index) => {
         const isActive = activeIndex === index;
+        const shouldLoad = isMediaReady && item.video
+          ? shouldLoadVideo(index, activeIndex, items.length)
+          : false;
         return (
           <div
             key={item.title}
@@ -116,7 +162,9 @@ export function AboutAlbum({
                 ref={(node) => {
                   videoRefs.current[index] = node;
                 }}
-                src={item.video}
+                src={
+                  shouldLoad && !item.videoSources?.length ? item.video : undefined
+                }
                 poster={item.image}
                 muted
                 playsInline
@@ -129,7 +177,18 @@ export function AboutAlbum({
                 className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[8s] ease-linear ${
                   isActive ? "scale-105 [will-change:transform]" : "scale-100"
                 }`}
-              />
+              >
+                {shouldLoad
+                  ? item.videoSources?.map((source) => (
+                      <source
+                        key={`${source.media || "default"}-${source.src}`}
+                        src={source.src}
+                        media={source.media}
+                        type={source.type}
+                      />
+                    ))
+                  : null}
+              </video>
             ) : (
               <Image
                 src={item.image}

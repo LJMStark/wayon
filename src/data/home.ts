@@ -4,7 +4,15 @@ import type { AppMessages } from "@/i18n/types";
 export type HeroSlide = {
   type: "video" | "image";
   src: string;
+  sources?: HomeVideoSource[];
+  poster?: string;
   alt: string;
+};
+
+export type HomeVideoSource = {
+  src: string;
+  media?: string;
+  type?: string;
 };
 
 export type AboutAlbumItem = {
@@ -12,6 +20,7 @@ export type AboutAlbumItem = {
   text: string;
   image: string;
   video?: string;
+  videoSources?: HomeVideoSource[];
   href: string;
 };
 
@@ -98,10 +107,70 @@ export type NewsFeature = {
 type AppTranslator = _Translator<AppMessages>;
 type AppMessageKey = Parameters<AppTranslator>[0];
 
+const DEFAULT_R2_PUBLIC_URL =
+  "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev";
+const HOME_MEDIA_BASE_URL = (
+  process.env.NEXT_PUBLIC_R2_PUBLIC_URL ||
+  process.env.R2_PUBLIC_URL ||
+  DEFAULT_R2_PUBLIC_URL
+).replace(/\/+$/, "");
+const HOME_VIDEO_VERSION = "v20260508";
+const DESKTOP_VIDEO_MEDIA = "(min-width: 1024px)";
+const VIDEO_MP4_TYPE = "video/mp4";
+
+function homeVideoUrl(filename: string): string {
+  return `${HOME_MEDIA_BASE_URL}/${filename}`;
+}
+
+function getHomeVideoSources(
+  filenameBase: string,
+  hasDesktopSource = true
+): { src: string; sources: HomeVideoSource[] } {
+  const mobileSrc = homeVideoUrl(
+    `${filenameBase}-720p-${HOME_VIDEO_VERSION}.mp4`
+  );
+  const desktopSrc = hasDesktopSource
+    ? homeVideoUrl(`${filenameBase}-1080p-${HOME_VIDEO_VERSION}.mp4`)
+    : mobileSrc;
+
+  return {
+    src: mobileSrc,
+    sources:
+      desktopSrc === mobileSrc
+        ? [{ src: mobileSrc, type: VIDEO_MP4_TYPE }]
+        : [
+            {
+              src: desktopSrc,
+              media: DESKTOP_VIDEO_MEDIA,
+              type: VIDEO_MP4_TYPE,
+            },
+            { src: mobileSrc, type: VIDEO_MP4_TYPE },
+          ],
+  };
+}
+
+const PAVILION_ENTRANCE_VIDEO = getHomeVideoSources(
+  "home-about-pavilion-entrance"
+);
+const WAREHOUSE_VIDEO = getHomeVideoSources("home-about-warehouse");
+const SHOWROOM_INTERIOR_VIDEO = getHomeVideoSources(
+  "home-about-showroom-interior"
+);
+const FACTORY_PRODUCTION_VIDEO = getHomeVideoSources(
+  "home-about-factory-production"
+);
+const CORE_EQUIPMENT_VIDEO = getHomeVideoSources(
+  "home-about-core-equipment",
+  false
+);
+const SERVICE_TEAM_VIDEO = getHomeVideoSources("home-about-service-team");
+
 export const HERO_SLIDES: HeroSlide[] = [
   {
     type: "video",
-    src: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-pavilion-entrance.mp4",
+    src: PAVILION_ENTRANCE_VIDEO.src,
+    sources: PAVILION_ENTRANCE_VIDEO.sources,
+    poster: "/assets/about/zyl-global-pavilion.png",
     alt: "众岩联全球馆",
   },
 ];
@@ -161,35 +230,40 @@ const ABOUT_ALBUM_CONFIG = [
     titleKey: "HomeData.AboutAlbum.item1.title",
     textKey: "HomeData.AboutAlbum.item1.text",
     image: "/assets/about/zyl-warehouse-aerial.webp",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-warehouse.mp4",
+    video: WAREHOUSE_VIDEO.src,
+    videoSources: WAREHOUSE_VIDEO.sources,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
     image: "/assets/about/zyl-aesthetic-pavilion.png",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-showroom-interior.mp4",
+    video: SHOWROOM_INTERIOR_VIDEO.src,
+    videoSources: SHOWROOM_INTERIOR_VIDEO.sources,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item3.title",
     textKey: "HomeData.AboutAlbum.item3.text",
     image: "/assets/about/yunfu-wayon.webp",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-factory-production.mp4",
+    video: FACTORY_PRODUCTION_VIDEO.src,
+    videoSources: FACTORY_PRODUCTION_VIDEO.sources,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
     image: "/assets/about/guangdong-wayon.jpg",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-core-equipment.mp4",
+    video: CORE_EQUIPMENT_VIDEO.src,
+    videoSources: CORE_EQUIPMENT_VIDEO.sources,
     href: "/about",
   },
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
     image: "/assets/about/zyl-fashion-pavilion.png",
-    video: "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/about-service-team.mp4",
+    video: SERVICE_TEAM_VIDEO.src,
+    videoSources: SERVICE_TEAM_VIDEO.sources,
     href: "/about",
   },
 ] as const satisfies ReadonlyArray<{
@@ -197,6 +271,7 @@ const ABOUT_ALBUM_CONFIG = [
   textKey: AppMessageKey;
   image: string;
   video?: string;
+  videoSources?: HomeVideoSource[];
   href: string;
 }>;
 
@@ -555,6 +630,7 @@ export function getAboutAlbum(t: AppTranslator): AboutAlbumItem[] {
     text: t(item.textKey),
     image: item.image,
     video: "video" in item ? item.video : undefined,
+    videoSources: "videoSources" in item ? item.videoSources : undefined,
     href: item.href,
   }));
 }

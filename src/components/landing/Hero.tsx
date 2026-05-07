@@ -27,6 +27,10 @@ type HeroVideoMetadata = {
   duration: number;
 };
 
+function getSlideVideoSourceKey(slide: HeroSlide | undefined): string {
+  return slide?.sources?.map((source) => source.src).join("|") || slide?.src || "";
+}
+
 const HERO_TITLE_CONTAINER: Variants = {
   hidden: { opacity: 1 },
   show: {
@@ -64,8 +68,9 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const heroContentOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1, 0]);
 
   const slide = slides[activeSlide] || slides[0];
+  const slideVideoSourceKey = getSlideVideoSourceKey(slide);
   const progressDuration =
-    slide?.type === "video" && activeVideoMetadata?.src === slide.src
+    slide?.type === "video" && activeVideoMetadata?.src === slideVideoSourceKey
       ? activeVideoMetadata.duration
       : IMAGE_SLIDE_DURATION_SECONDS;
   const goToNextSlide = useCallback(() => {
@@ -124,7 +129,8 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               muted
               playsInline
               loop={slides.length <= 1}
-              src={slide?.src}
+              poster={slide?.poster}
+              src={slide.sources ? undefined : slide?.src}
               onEnded={() => {
                 goToNextSlide();
               }}
@@ -132,10 +138,19 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                 const { duration } = event.currentTarget;
 
                 if (Number.isFinite(duration) && duration > 0) {
-                  setActiveVideoMetadata({ src: slide.src, duration });
+                  setActiveVideoMetadata({ src: slideVideoSourceKey, duration });
                 }
               }}
-            />
+            >
+              {slide.sources?.map((source) => (
+                <source
+                  key={`${source.media || "default"}-${source.src}`}
+                  src={source.src}
+                  media={source.media}
+                  type={source.type}
+                />
+              ))}
+            </video>
           ) : (
             <Image
               src={slide?.src || HOME_HERO_FALLBACK_IMAGE}

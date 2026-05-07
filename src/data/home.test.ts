@@ -2,7 +2,12 @@ import { expect, test } from "vitest";
 
 import zhMessages from "@/messages/zh.json";
 
-import { getEngineeringCases, getFeaturedProductPoster } from "./home";
+import {
+  HERO_SLIDES,
+  getAboutAlbum,
+  getEngineeringCases,
+  getFeaturedProductPoster,
+} from "./home";
 
 type EngineeringCaseTranslator = Parameters<typeof getEngineeringCases>[0];
 
@@ -59,4 +64,41 @@ test("featured product poster points to the positioned crystal process listing",
     image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
     href: "/products?section=process&value=%E5%AE%9A%E4%BD%8D%E5%BD%A9%E6%99%B6",
   });
+});
+
+test("home videos use versioned responsive CDN sources", () => {
+  expect(HERO_SLIDES[0]).toMatchObject({
+    type: "video",
+    poster: "/assets/about/zyl-global-pavilion.png",
+    src: expect.stringContaining(
+      "/home-about-pavilion-entrance-720p-v20260508.mp4"
+    ),
+    sources: [
+      expect.objectContaining({
+        src: expect.stringContaining(
+          "/home-about-pavilion-entrance-1080p-v20260508.mp4"
+        ),
+        media: "(min-width: 1024px)",
+        type: "video/mp4",
+      }),
+      expect.objectContaining({
+        src: expect.stringContaining(
+          "/home-about-pavilion-entrance-720p-v20260508.mp4"
+        ),
+        type: "video/mp4",
+      }),
+    ],
+  });
+
+  const aboutAlbum = getAboutAlbum(translate as EngineeringCaseTranslator);
+
+  expect(aboutAlbum[0]?.videoSources).toEqual([
+    expect.objectContaining({
+      src: expect.stringContaining("/home-about-warehouse-1080p-v20260508.mp4"),
+      media: "(min-width: 1024px)",
+    }),
+    expect.objectContaining({
+      src: expect.stringContaining("/home-about-warehouse-720p-v20260508.mp4"),
+    }),
+  ]);
 });

@@ -14,9 +14,13 @@ function redirect(source: string, destination: string): Redirect {
 const isDev = process.env.NODE_ENV === 'development';
 
 // Media is served from Cloudflare R2 through the configured public hostname.
-// The R2_PUBLIC_URL env var is the source of truth — used both for CSP and
-// next/image remotePatterns so there's no drift between them.
-const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? 'https://pub-placeholder.r2.dev';
+// NEXT_PUBLIC_R2_PUBLIC_URL lets client-side media code point at the same CDN
+// hostname that CSP and next/image allow. R2_PUBLIC_URL remains the server-side
+// fallback for existing deployments.
+const R2_PUBLIC_URL =
+  process.env.NEXT_PUBLIC_R2_PUBLIC_URL ??
+  process.env.R2_PUBLIC_URL ??
+  'https://pub-placeholder.r2.dev';
 const R2_HOSTNAME = new URL(R2_PUBLIC_URL).hostname;
 const R2_ORIGIN = `https://${R2_HOSTNAME}`;
 
