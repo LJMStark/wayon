@@ -294,7 +294,7 @@ export function ProductDetailPageView({
                       alt={heroMainImage.alt}
                       loading="eager"
                       decoding="async"
-                      className="block aspect-[2.3/1] w-full object-cover object-[center_42%]"
+                      className="block aspect-[2.05/1] w-full object-cover object-[center_42%] sm:aspect-[2/1] lg:aspect-[1.95/1]"
                     />
                   </div>
                 </figure>
@@ -304,7 +304,7 @@ export function ProductDetailPageView({
                 <div className="rounded-[calc(1.1rem-0.375rem)] bg-white/34 px-3.5 py-3.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.22)] rtl:[direction:rtl] md:px-4 md:py-4">
                   {heroProductLabel ? (
                     <div className="mb-2.5">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-black/58 md:text-[12px]">
+                      <span className="text-[14px] font-semibold uppercase leading-none tracking-[0.08em] text-black/58 md:text-[15px] xl:text-[16px]">
                         {heroProductLabel}
                       </span>
                     </div>
