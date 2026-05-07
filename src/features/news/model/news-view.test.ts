@@ -190,6 +190,59 @@ test("news value helpers do not fall back to Chinese outside zh", () => {
   expect(getLocalizedNewsBody(article, "zh")).not.toBeNull();
 });
 
+test("news value helpers reject Chinese text stored in non-Chinese locale fields", () => {
+  const chineseBody = {
+    root: {
+      type: "root",
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            {
+              type: "text",
+              text: "中文新闻正文",
+            },
+          ],
+        },
+      ],
+      direction: null,
+      format: "",
+      indent: 0,
+      version: 1,
+    },
+  } as unknown as NewsArticleBody;
+  const article = {
+    ...makeArticle("mislocalized-news"),
+    title: {
+      en: "众岩联全球馆盛大启幕",
+      zh: "众岩联全球馆盛大启幕",
+      es: "众岩联全球馆盛大启幕",
+      ar: "众岩联全球馆盛大启幕",
+    },
+    excerpt: {
+      en: "广东众岩联岩板科技有限公司全球馆开业盛典在佛山举行",
+      zh: "广东众岩联岩板科技有限公司全球馆开业盛典在佛山举行",
+      es: "广东众岩联岩板科技有限公司全球馆开业盛典在佛山举行",
+      ar: "广东众岩联岩板科技有限公司全球馆开业盛典在佛山举行",
+    },
+    body: {
+      en: chineseBody,
+      zh: chineseBody,
+      es: chineseBody,
+      ar: chineseBody,
+    },
+  } satisfies NewsArticle;
+
+  expect(getLocalizedNewsValue(article, "en", "title")).toBe("");
+  expect(getLocalizedNewsValue(article, "es", "excerpt")).toBe("");
+  expect(getLocalizedNewsBody(article, "en")).toBeNull();
+  expect(toNewsPreviewItem(article, "en")).toBeNull();
+  expect(getLocalizedNewsValue(article, "zh", "title")).toBe(
+    "众岩联全球馆盛大启幕"
+  );
+  expect(getLocalizedNewsBody(article, "zh")).not.toBeNull();
+});
+
 function makeArticle(slug: string): NewsArticle {
   return {
     _id: slug,

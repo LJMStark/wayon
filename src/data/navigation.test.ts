@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
 
 import { TRADE_PROCESSES } from "@/features/products/lib/tradeCatalog";
-
 import type { AppLocale } from "@/i18n/types";
 
 import { NAV_ITEMS, resolvePreviewProductTitle } from "./navigation";
@@ -64,9 +63,15 @@ test("collection menu nests new series under slabs and previews special offers",
       href: "/products/zl1224l936",
     }),
   ]);
+
+  expect(
+    specialSeries?.previewProducts?.some((product) =>
+      /^ZYL?\d|^ZL\d/i.test(product.title.zh ?? "")
+    )
+  ).toBe(false);
 });
 
-test("collection preview product titles are localized for non-Chinese locales", () => {
+test("collection preview product titles use pinyin outside Chinese", () => {
   const collection = NAV_ITEMS.find((item) => item.label === "collection");
   const specialSeries = collection?.subItems?.find(
     (item) => item.label === "catalogSpecialSeries"

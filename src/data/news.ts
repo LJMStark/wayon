@@ -102,9 +102,26 @@ export function getLocalizedNewsValue(
   field: "title" | "excerpt"
 ): string {
   if (!article) return "";
-  const value = article[field];
-  if (typeof value === "string") return value;
-  return value?.[locale] || value?.en || (locale === "zh" ? value?.zh : "") || "";
+  const value = article[field] as Record<AppLocale, string> | string;
+  if (typeof value === "string") {
+    const text = value.trim();
+    return isUsableNewsText(text, locale) ? text : "";
+  }
+
+  const localized = value?.[locale];
+  if (isUsableNewsText(localized, locale)) {
+    return localized.trim();
+  }
+
+  if (locale === "zh" && value?.zh?.trim()) {
+    return value.zh.trim();
+  }
+
+  if (locale !== "zh" && isUsableNewsText(value?.en, "en")) {
+    return value.en.trim();
+  }
+
+  return "";
 }
 
 export function getLocalizedNewsBody(
@@ -112,12 +129,20 @@ export function getLocalizedNewsBody(
   locale: AppLocale
 ): NewsArticleBody | null {
   if (!article?.body) return null;
-  return (
-    article.body[locale] ||
-    article.body.en ||
-    (locale === "zh" ? article.body.zh : null) ||
-    null
-  );
+  const localized = article.body[locale];
+  if (isUsableNewsBody(localized, locale)) {
+    return localized;
+  }
+
+  if (locale === "zh" && article.body.zh) {
+    return article.body.zh;
+  }
+
+  if (locale !== "zh" && isUsableNewsBody(article.body.en, "en")) {
+    return article.body.en;
+  }
+
+  return null;
 }
 
 export function formatNewsDate(
@@ -185,4 +210,58 @@ export function getNewsCategoryLabel(
 ): string {
   if (!category) return "";
   return NEWS_CATEGORY_LABELS[category]?.[locale] || category;
+}
+
+function isUsableNewsText(
+  value: string | undefined,
+  locale: AppLocale
+): value is string {
+  const text = value?.trim();
+  if (!text) {
+    return false;
+  }
+
+  if (locale !== "zh" && /[\u3400-\u9fff]/.test(text)) {
+    return false;
+  }
+
+  return true;
+}
+
+function isUsableNewsBody(
+  value: NewsArticleBody | undefined,
+  locale: AppLocale
+): value is NewsArticleBody {
+  if (!value) {
+    return false;
+  }
+
+  if (locale !== "zh" && /[\u3400-\u9fff]/.test(extractLexicalText(value))) {
+    return false;
+  }
+
+  return true;
+}
+
+function extractLexicalText(value: unknown): string {
+  if (!value || typeof value !== "object") {
+    return "";
+  }
+
+  const record = value as { root?: unknown; text?: unknown; children?: unknown };
+  const parts: string[] = [];
+
+  if (typeof record.text === "string") {
+    parts.push(record.text);
+  }
+
+  if (record.root) {
+    parts.push(extractLexicalText(record.root));
+  }
+
+  if (Array.isArray(record.children)) {
+    parts.push(...record.children.map((child) => extractLexicalText(child)));
+  }
+
+  return parts.filter(Boolean).join(" ").trim();
 }
