@@ -349,6 +349,7 @@ const ENGINEERING_CASE_CONFIG = [
   titleKey: AppMessageKey;
   image: string;
   href: string;
+  objectPosition?: string;
 }>;
 
 const PARTNER_CONFIG = [
@@ -593,7 +594,9 @@ export function getEngineeringCases(t: AppTranslator): CaseItem[] {
     title: t(item.titleKey),
     image: item.image,
     href: item.href,
-    objectPosition: (item as any).objectPosition,
+    ...("objectPosition" in item
+      ? { objectPosition: item.objectPosition }
+      : {}),
   }));
 }
 

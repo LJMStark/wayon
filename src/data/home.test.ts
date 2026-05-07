@@ -35,8 +35,9 @@ test("home engineering cases keep source image names and Chinese titles aligned"
     },
     {
       title: "林城山水酒店",
-      image: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
-      href: "/assets/cases/case-4-lincheng-shanshui-hotel.png",
+      image: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+      href: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+      objectPosition: "top center",
     },
     {
       title: "威豪PARTYK",
@@ -47,6 +48,7 @@ test("home engineering cases keep source image names and Chinese titles aligned"
       title: "粤海·云港城",
       image: "/assets/cases/case-6-yuehai-yungang-city.png",
       href: "/assets/cases/case-6-yuehai-yungang-city.png",
+      objectPosition: "left bottom",
     },
   ]);
 });
