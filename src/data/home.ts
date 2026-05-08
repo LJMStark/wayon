@@ -183,7 +183,7 @@ const ABOUT_INTRO_CONFIG = {
   secondaryHref: "/contact",
   secondaryCtaKey: "Navigation.contactUs",
   primaryImage: {
-    src: "/assets/about/zyl-global-pavilion.png",
+    src: "/assets/about/zyl-global-opening-ribbon-cutting.png",
     altKey: "HomeData.AboutAlbum.item0.title",
   },
   secondaryImage: {
