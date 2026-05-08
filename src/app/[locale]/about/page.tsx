@@ -161,9 +161,9 @@ export default function AboutPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section id="factory" className="mx-auto mb-24 hidden max-w-7xl px-6 md:block">
-        <div className="grid h-[400px] grid-cols-2">
-          <div className="relative h-full w-full bg-neutral-100">
+      <section id="factory" className="mx-auto mb-24 max-w-7xl px-6">
+        <div className="grid grid-cols-1 md:h-[400px] md:grid-cols-2">
+          <div className="relative aspect-[16/10] w-full bg-neutral-100 md:aspect-auto md:h-full">
             <Image
               src={TRADE_YELLOW_PLACEHOLDER_IMAGE}
               alt={aboutCopy.whyTitle}
@@ -171,9 +171,9 @@ export default function AboutPage(): React.JSX.Element {
               className="object-cover"
             />
           </div>
-          <div className="flex flex-col justify-center bg-[#122245] p-16 text-white">
+          <div className="flex flex-col justify-center bg-[#122245] p-8 text-white md:p-16">
             <h2 className="wayon-brand-title mb-6 text-3xl text-white">{aboutCopy.whyTitle}</h2>
-            <p className="mb-10 w-[80%] text-[15px] leading-relaxed text-white/85">
+            <p className="mb-10 w-full text-[15px] leading-relaxed text-white/85 md:w-[80%]">
               {aboutCopy.whyDescription}
             </p>
             <Link

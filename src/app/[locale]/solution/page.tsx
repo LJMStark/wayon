@@ -1,12 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+
 import { PageHero } from "@/components/layout/PageHero";
 import { Link } from "@/i18n/routing";
-import { useLocale, useTranslations } from "next-intl";
-
-import { getCommonCopy, getSolutionPageCopy } from "@/data/siteCopy";
+import {
+  getCommonCopy,
+  getMetadataCopy,
+  getSolutionPageCopy,
+} from "@/data/siteCopy";
+import { getLocaleParams } from "@/features/shared/server/locale";
+import { buildPageMetadata } from "@/lib/metadata";
 
 const SOLUTION_SCENES = [
   {
@@ -41,10 +45,26 @@ const SOLUTION_SCENES = [
   },
 ] as const;
 
-export default function SolutionPage(): React.JSX.Element {
-  const locale = useLocale();
-  const tNav = useTranslations("Navigation");
-  const t = useTranslations();
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/solution">): Promise<import("next").Metadata> {
+  const { locale } = await getLocaleParams(params);
+  const metadataCopy = getMetadataCopy(locale).solution;
+
+  return buildPageMetadata({
+    locale,
+    title: metadataCopy.title,
+    description: metadataCopy.description,
+    path: "/solution",
+  });
+}
+
+export default async function SolutionPage({
+  params,
+}: PageProps<"/[locale]/solution">): Promise<React.JSX.Element> {
+  const { locale } = await getLocaleParams(params);
+  const tNav = await getTranslations({ locale, namespace: "Navigation" });
+  const t = await getTranslations({ locale });
   const commonCopy = getCommonCopy(locale);
   const solutionCopy = getSolutionPageCopy(locale);
 

@@ -410,33 +410,33 @@ const ENGINEERING_CASE_CONFIG = [
   {
     titleKey: "HomeData.EngineeringCases.item0.title",
     image: "/assets/cases/case-1-weihao-hotel.png",
-    href: "/assets/cases/case-1-weihao-hotel.png",
+    href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item1.title",
     image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
-    href: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+    href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item2.title",
     image: "/assets/cases/case-3-qingyu-garden-hotel.png",
-    href: "/assets/cases/case-3-qingyu-garden-hotel.png",
+    href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item3.title",
     image: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
-    href: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+    href: "/cases",
     objectPosition: "top center",
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
     image: "/assets/cases/case-5-weihao-partyk.png",
-    href: "/assets/cases/case-5-weihao-partyk.png",
+    href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item5.title",
     image: "/assets/cases/case-6-yuehai-yungang-city.png",
-    href: "/assets/cases/case-6-yuehai-yungang-city.png",
+    href: "/cases",
     objectPosition: "left bottom",
   },
 ] as const satisfies ReadonlyArray<{

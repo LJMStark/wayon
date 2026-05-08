@@ -23,38 +23,38 @@ function translate(key: string): string {
   }, zhMessages) as string;
 }
 
-test("home engineering cases keep source image names and Chinese titles aligned", () => {
+test("home engineering cases keep source image names and route to /cases", () => {
   expect(getEngineeringCases(translate as EngineeringCaseTranslator)).toEqual([
     {
       title: "威豪酒店",
       image: "/assets/cases/case-1-weihao-hotel.png",
-      href: "/assets/cases/case-1-weihao-hotel.png",
+      href: "/cases",
     },
     {
       title: "广州粤海置地",
       image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
-      href: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+      href: "/cases",
     },
     {
       title: "青语花园酒店",
       image: "/assets/cases/case-3-qingyu-garden-hotel.png",
-      href: "/assets/cases/case-3-qingyu-garden-hotel.png",
+      href: "/cases",
     },
     {
       title: "林城山水酒店",
       image: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
-      href: "/assets/cases/case-4-lincheng-shanshui-hotel.jpg",
+      href: "/cases",
       objectPosition: "top center",
     },
     {
       title: "威豪PARTYK",
       image: "/assets/cases/case-5-weihao-partyk.png",
-      href: "/assets/cases/case-5-weihao-partyk.png",
+      href: "/cases",
     },
     {
       title: "粤海·云港城",
       image: "/assets/cases/case-6-yuehai-yungang-city.png",
-      href: "/assets/cases/case-6-yuehai-yungang-city.png",
+      href: "/cases",
       objectPosition: "left bottom",
     },
   ]);

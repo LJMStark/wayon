@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
 import type { CaseItem } from "@/data/home";
+import { Link } from "@/i18n/routing";
 import { RevealSection } from "./RevealSection";
 
 type EngineeringCaseProps = {
@@ -24,10 +25,8 @@ function EngineeringCaseCard({
   const caseNumber = String(index + 1).padStart(2, "0");
 
   return (
-    <a
+    <Link
       href={item.href}
-      target="_blank"
-      rel="noreferrer"
       role="listitem"
       tabIndex={isDuplicate ? -1 : undefined}
       aria-hidden={isDuplicate || undefined}
@@ -51,7 +50,7 @@ function EngineeringCaseCard({
           <ArrowUpRight className="size-5" />
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 

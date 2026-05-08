@@ -46,7 +46,7 @@ export const SOCIAL_LINKS = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/8613202957096",
+    href: "https://wa.me/8613229246894",
     platform: "whatsapp",
   },
 ] as const satisfies ReadonlyArray<SocialLink>;
