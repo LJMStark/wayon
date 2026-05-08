@@ -25,6 +25,7 @@ import { News } from "./payload/collections/News.ts";
 import { Products } from "./payload/collections/Products.ts";
 import { ProductVariants } from "./payload/collections/ProductVariants.ts";
 import { Users } from "./payload/collections/Users.ts";
+import { translateDocEndpoint } from "./payload/endpoints/translateDoc.ts";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -47,6 +48,7 @@ export default buildConfig({
     Inquiries,
   ],
   editor: lexicalEditor({}),
+  endpoints: [translateDocEndpoint],
   graphQL: { disable: true },
   i18n: {
     fallbackLanguage: "zh",

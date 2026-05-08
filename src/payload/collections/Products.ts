@@ -1,6 +1,8 @@
 import type { CollectionConfig } from "payload";
 
 import { TRADE_SERIES_TYPES } from "../../features/products/lib/tradeCatalog.ts";
+import { translationMetaField } from "../fields/translationMeta.ts";
+import { clearAutoTranslatedFlagsBeforeChange } from "../hooks/translationMeta.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const Products: CollectionConfig = {
@@ -19,6 +21,11 @@ export const Products: CollectionConfig = {
       "featured",
       "sortOrder",
     ],
+    components: {
+      beforeListTable: [
+        "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton",
+      ],
+    },
   },
   access: {
     // Public REST (/api/products) must not leak drafts. Authenticated users
@@ -29,8 +36,23 @@ export const Products: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
+    beforeChange: [
+      clearAutoTranslatedFlagsBeforeChange({
+        localizedFields: ["title", "description"],
+      }),
+    ],
   },
   fields: [
+    {
+      name: "translationActions",
+      type: "ui",
+      admin: {
+        components: {
+          Field:
+            "@/payload/components/TranslationActionsField#TranslationActionsField",
+        },
+      },
+    },
     {
       name: "title",
       label: "标题",
@@ -171,5 +193,6 @@ export const Products: CollectionConfig = {
       defaultValue: 0,
       index: true,
     },
+    translationMetaField,
   ],
 };

@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 
+import { translationMetaField } from "../fields/translationMeta.ts";
+import { clearAutoTranslatedFlagsBeforeChange } from "../hooks/translationMeta.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const News: CollectionConfig = {
@@ -11,6 +13,11 @@ export const News: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "publishedAt", "category"],
+    components: {
+      beforeListTable: [
+        "@/payload/components/NewsBatchTranslateButton#NewsBatchTranslateButton",
+      ],
+    },
   },
   access: {
     // Public REST (/api/news) must not leak future-dated posts. Authenticated
@@ -23,9 +30,24 @@ export const News: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
+    beforeChange: [
+      clearAutoTranslatedFlagsBeforeChange({
+        localizedFields: ["title", "excerpt", "body"],
+      }),
+    ],
   },
   defaultSort: "-publishedAt",
   fields: [
+    {
+      name: "translationActions",
+      type: "ui",
+      admin: {
+        components: {
+          Field:
+            "@/payload/components/TranslationActionsField#TranslationActionsField",
+        },
+      },
+    },
     {
       name: "title",
       label: "标题",
@@ -82,5 +104,6 @@ export const News: CollectionConfig = {
       type: "richText",
       localized: true,
     },
+    translationMetaField,
   ],
 };
