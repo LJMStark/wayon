@@ -7,6 +7,7 @@ import {
   getAboutAlbum,
   getEngineeringCases,
   getFeaturedProductPoster,
+  getSolutions,
 } from "./home";
 
 type EngineeringCaseTranslator = Parameters<typeof getEngineeringCases>[0];
@@ -63,6 +64,15 @@ test("featured product poster points to the positioned crystal process listing",
     eyebrow: "主推新品",
     image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
     href: "/products?section=process&value=%E5%AE%9A%E4%BD%8D%E5%BD%A9%E6%99%B6",
+  });
+});
+
+test("home solution wall-floor item uses the lobby image", () => {
+  const solutions = getSolutions(translate as EngineeringCaseTranslator);
+
+  expect(solutions[3]).toMatchObject({
+    title: "墙地一体建筑方案",
+    image: "/assets/hero/home-hero-lobby.jpg",
   });
 });
 

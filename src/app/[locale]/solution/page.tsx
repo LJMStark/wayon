@@ -31,7 +31,7 @@ const SOLUTION_SCENES = [
     labelKey: "HomeData.Solutions.item3.label" as const,
     titleKey: "HomeData.Solutions.item3.title" as const,
     descriptionKey: "HomeData.Solutions.item3.description" as const,
-    image: "/assets/solutions/scene-wall-floor.jpg",
+    image: "/assets/hero/home-hero-lobby.jpg",
   },
   {
     labelKey: "HomeData.Solutions.item4.label" as const,

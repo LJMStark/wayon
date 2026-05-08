@@ -370,7 +370,7 @@ const SOLUTION_CONFIG = [
     titleKey: "HomeData.Solutions.item3.title",
     descriptionKey: "HomeData.Solutions.item3.description",
     href: "/solution",
-    image: "/assets/solutions/scene-wall-floor.jpg",
+    image: "/assets/hero/home-hero-lobby.jpg",
   },
   {
     labelKey: "HomeData.Solutions.item4.label",
