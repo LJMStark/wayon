@@ -7,6 +7,7 @@ import {
   getAboutAlbum,
   getEngineeringCases,
   getFeaturedProductPoster,
+  getHeroSlides,
   getSolutions,
 } from "./home";
 
@@ -111,4 +112,19 @@ test("home videos use versioned responsive CDN sources", () => {
       src: expect.stringContaining("/home-about-warehouse-720p-v20260508.mp4"),
     }),
   ]);
+});
+
+test("home hero slide alt text is localized by page language", () => {
+  const enTranslate = ((key: string) =>
+    key === "HomeData.AboutAlbum.item0.title"
+      ? "ZYL Sintered Stone / Guangdong ZYL Sintered Stone"
+      : translate(key)) as EngineeringCaseTranslator;
+
+  expect(getHeroSlides(translate as EngineeringCaseTranslator)[0]?.alt).toBe(
+    "众岩联全球馆"
+  );
+  expect(getHeroSlides(enTranslate)[0]?.alt).toBe(
+    "ZYL Sintered Stone / Guangdong ZYL Sintered Stone"
+  );
+  expect(getHeroSlides(enTranslate)[0]?.alt).not.toMatch(/[\u3400-\u9fff]/);
 });

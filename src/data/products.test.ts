@@ -4,6 +4,7 @@ import type { AppLocale } from "@/i18n/types";
 
 import {
   getLocalizedProductValue,
+  getProductDisplayCategory,
   getProductDisplayTitle,
   type Product,
 } from "./products.ts";
@@ -90,5 +91,27 @@ test("getLocalizedProductValue does not return Chinese descriptions outside zh",
   expect(getLocalizedProductValue(product, "en", "description")).toBe("");
   expect(getLocalizedProductValue(product, "zh", "description")).toBe(
     "中文产品描述"
+  );
+});
+
+test("getProductDisplayCategory does not expose unknown Chinese series outside zh", () => {
+  const product: Product = {
+    ...makeProduct({
+      en: "",
+      zh: "未知产品",
+      es: "",
+      ar: "",
+    }),
+    category: {
+      en: "",
+      zh: "未知中文分类",
+      es: "",
+      ar: "",
+    },
+    seriesTypes: ["未知中文系列"],
+  };
+
+  expect(getProductDisplayCategory(product, "en", "Stone Surface")).toBe(
+    "Stone Surface"
   );
 });

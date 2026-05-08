@@ -70,6 +70,25 @@ test("contact page prefills email when ?email query is present", async ({ page }
   ).toHaveValue("visitor@example.com");
 });
 
+test("desktop language selector opens on click and switches locale", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/zh");
+
+  const header = page.getByRole("banner");
+  await header.getByRole("button", { name: "语言切换" }).click();
+
+  const englishLink = header.getByRole("link", { name: /English/ }).first();
+  await expect(englishLink).toBeVisible();
+  await englishLink.click();
+  await expect(page).toHaveURL(/\/en$/);
+
+  await page.getByRole("banner").getByRole("button", { name: "Language" }).click();
+  await expect(
+    page.getByRole("banner").getByRole("link", { name: /Chinese/ }).first()
+  ).toBeVisible();
+  await expect(page.getByRole("banner")).not.toContainText(/[\u3400-\u9fff]/);
+});
+
 test("payload admin UI is reachable without locale prefix", async ({ page }) => {
   test.skip(
     !hasPayloadBackedE2E,

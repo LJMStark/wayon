@@ -48,6 +48,7 @@ type ProductsPageSearchParams = {
 };
 
 const SIDEBAR_SERIES_VALUE_LINKS = ["特惠系列"] as const;
+const CJK_TEXT_PATTERN = /[\u3400-\u9fff]/u;
 
 function readSingleParam(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) {
@@ -195,6 +196,13 @@ function formatSizeLabel(size: string): string {
   return size.replace(/X/g, " × ");
 }
 
+function safeRawCatalogLabel(
+  value: string,
+  locale: AppLocale
+): string | null {
+  return locale !== "zh" && CJK_TEXT_PATTERN.test(value) ? null : value;
+}
+
 function getActiveValueLabel({
   activeSection,
   activeValue,
@@ -224,18 +232,27 @@ function getActiveValueLabel({
     case "size":
       return formatSizeLabel(activeValue);
     case "series":
-      return localizeSeriesType(activeValue, locale);
+      return (
+        localizeSeriesType(activeValue, locale) ??
+        safeRawCatalogLabel(activeValue, locale)
+      );
     case "color":
-      return localizeColorGroup(activeValue, locale) ?? activeValue;
+      return (
+        localizeColorGroup(activeValue, locale) ??
+        safeRawCatalogLabel(activeValue, locale)
+      );
     case "process":
-      return localizeProcess(activeValue, locale) ?? activeValue;
+      return (
+        localizeProcess(activeValue, locale) ??
+        safeRawCatalogLabel(activeValue, locale)
+      );
     case "custom":
       return (
         customCapabilities.find((capability) => capability.key === activeValue)
-          ?.title ?? activeValue
+          ?.title ?? safeRawCatalogLabel(activeValue, locale)
       );
     default:
-      return activeValue;
+      return safeRawCatalogLabel(activeValue, locale);
   }
 }
 
@@ -320,7 +337,7 @@ export async function getProductsPageData(
     seriesQuickLinks: SIDEBAR_SERIES_VALUE_LINKS.map((value) => ({
       key: value,
       value,
-      label: localizeSeriesType(value, locale),
+      label: localizeSeriesType(value, locale) ?? "",
       href: buildProductsHref("series", value),
     })),
     activeSection,

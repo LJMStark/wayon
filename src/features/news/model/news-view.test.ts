@@ -15,6 +15,7 @@ import {
 import {
   buildNewsDetailPageData,
   getNewsPreviewImage,
+  resolveNewsVisualText,
   toNewsPreviewItem,
 } from "./news-view";
 
@@ -151,6 +152,32 @@ test("zyl 918 opening visuals do not expose Chinese captions outside zh", () => 
   for (const visual of data.visuals) {
     expect(`${visual.alt} ${visual.caption}`).not.toMatch(/[\u3400-\u9fff]/);
   }
+});
+
+test("news visual text rejects Chinese stored in non-Chinese locale fields", () => {
+  const value = {
+    en: "众岩联全球馆开业现场",
+    zh: "众岩联全球馆开业现场",
+    es: "众岩联全球馆开业现场",
+    ar: "众岩联全球馆开业现场",
+  };
+
+  expect(resolveNewsVisualText(value, "en")).toBe("");
+  expect(resolveNewsVisualText(value, "es")).toBe("");
+  expect(resolveNewsVisualText(value, "ar")).toBe("");
+  expect(resolveNewsVisualText(value, "zh")).toBe("众岩联全球馆开业现场");
+});
+
+test("news visual text uses English instead of Chinese fallback outside zh", () => {
+  const value = {
+    en: "Opening ceremony scene",
+    zh: "开业盛典现场",
+    es: "",
+    ar: "",
+  };
+
+  expect(resolveNewsVisualText(value, "es")).toBe("Opening ceremony scene");
+  expect(resolveNewsVisualText(value, "ar")).toBe("Opening ceremony scene");
 });
 
 test("news value helpers do not fall back to Chinese outside zh", () => {

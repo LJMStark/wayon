@@ -360,8 +360,10 @@ export function buildProductDetailPageData(
     productSlug: product.slug,
     title,
     category,
-    seriesTypes: (product.seriesTypes ?? []).map((seriesType) =>
-      localizeSeriesType(seriesType, locale)
+    seriesTypes: uniqueStrings(
+      (product.seriesTypes ?? []).map((seriesType) =>
+        localizeSeriesType(seriesType, locale)
+      )
     ),
     descriptionParagraphs: buildProductDescriptionParagraphs(
       product,

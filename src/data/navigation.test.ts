@@ -1,8 +1,14 @@
 import { expect, test } from "vitest";
 
 import { TRADE_PROCESSES } from "@/features/products/lib/tradeCatalog";
+import type { AppLocale } from "@/i18n/types";
 
-import { NAV_ITEMS } from "./navigation";
+import {
+  LANGUAGES,
+  NAV_ITEMS,
+  resolveLanguageLabel,
+  resolvePreviewProductTitle,
+} from "./navigation";
 
 test("collection process menu exposes every supported process", () => {
   const collection = NAV_ITEMS.find((item) => item.label === "collection");
@@ -50,20 +56,68 @@ test("collection menu nests new series under slabs and previews special offers",
   expect(specialSeries?.children).toBeUndefined();
   expect(specialSeries?.previewProducts?.slice(0, 2)).toEqual([
     expect.objectContaining({
-      title: "雅诗兰黛",
+      title: expect.objectContaining({
+        zh: "雅诗兰黛",
+      }),
       href: "/products/zyl1632l971",
     }),
     expect.objectContaining({
-      title: "丝绸白",
+      title: expect.objectContaining({
+        zh: "丝绸白",
+      }),
       href: "/products/zl1224l936",
     }),
   ]);
 
   expect(
     specialSeries?.previewProducts?.some((product) =>
-      /^ZYL?\d|^ZL\d/i.test(product.title)
+      /^ZYL?\d|^ZL\d/i.test(product.title.zh ?? "")
     )
   ).toBe(false);
+});
+
+test("collection preview product titles use pinyin outside Chinese", () => {
+  const collection = NAV_ITEMS.find((item) => item.label === "collection");
+  const specialSeries = collection?.subItems?.find(
+    (item) => item.label === "catalogSpecialSeries"
+  );
+  const products = specialSeries?.previewProducts ?? [];
+  const nonChineseLocales: AppLocale[] = ["en", "es", "ar"];
+
+  expect(products.length).toBeGreaterThan(0);
+
+  for (const locale of nonChineseLocales) {
+    for (const product of products) {
+      expect(resolvePreviewProductTitle(product, locale)).not.toMatch(
+        /[\u3400-\u9fff]/
+      );
+    }
+  }
+
+  expect(products.map((product) => resolvePreviewProductTitle(product, "en"))).toEqual([
+    "YA SHI LAN DAI",
+    "SI CHOU BAI",
+    "YI SHA BEI ER BAI",
+    "PEI LA FEN YU",
+  ]);
+});
+
+test("language selector does not expose Chinese characters outside Chinese", () => {
+  const chineseLanguage = LANGUAGES.find((language) => language.locale === "zh");
+
+  expect(chineseLanguage).toBeDefined();
+  expect(resolveLanguageLabel(chineseLanguage!, "zh")).toBe("中文");
+  expect(resolveLanguageLabel(chineseLanguage!, "en")).toBe("Chinese");
+  expect(resolveLanguageLabel(chineseLanguage!, "es")).toBe("Chinese");
+  expect(resolveLanguageLabel(chineseLanguage!, "ar")).toBe("Chinese");
+
+  for (const locale of ["en", "es", "ar"] satisfies AppLocale[]) {
+    for (const language of LANGUAGES) {
+      expect(resolveLanguageLabel(language, locale)).not.toMatch(
+        /[\u3400-\u9fff]/
+      );
+    }
+  }
 });
 
 test("collection custom menu exposes customization links with contact fallbacks", () => {

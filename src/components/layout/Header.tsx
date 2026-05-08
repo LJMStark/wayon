@@ -9,10 +9,13 @@ import { useEffect, useState } from "react";
 import {
   LANGUAGES,
   NAV_ITEMS,
+  resolveLanguageLabel,
+  resolvePreviewProductTitle,
   type NavigationKey,
   type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
+import type { AppLocale } from "@/i18n/types";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 
@@ -121,15 +124,19 @@ function getMobileSectionChevronClassName(isExpanded: boolean): string {
 function PreviewProductGrid({
   products,
   titleClassName = "text-[#404040] group-hover:text-[color:var(--primary)]",
+  locale,
   onProductClick,
 }: {
   products: PreviewProduct[];
   titleClassName?: string;
+  locale: AppLocale;
   onProductClick?: () => void;
 }): React.JSX.Element {
   return (
     <ul className="grid gap-3 sm:grid-cols-2">
       {products.map((product) => {
+        const title = resolvePreviewProductTitle(product, locale);
+
         return (
           <li key={product.href}>
             <Link
@@ -140,7 +147,7 @@ function PreviewProductGrid({
               <div className="relative aspect-[4/3] overflow-hidden bg-[color:var(--surface)]">
                 <Image
                   src={product.imageSrc}
-                  alt={product.title}
+                  alt={title}
                   fill
                   sizes="(max-width: 1119px) 160px, 18vw"
                   className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.04]"
@@ -150,7 +157,7 @@ function PreviewProductGrid({
               <span
                 className={`mt-2 block text-[13px] leading-5 transition-colors ${titleClassName}`}
               >
-                {product.title}
+                {title}
               </span>
             </Link>
           </li>
@@ -167,11 +174,17 @@ export default function Header(): React.JSX.Element {
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
   const headerCopy = getHeaderCopy(locale);
+  const appLocale =
+    LANGUAGES.find((language) => language.locale === locale)?.locale ?? "en";
   const isRtl = locale === "ar";
   const mobilePanelClosedX = isRtl ? "-100%" : "100%";
   const translateNav = (key: NavigationKey): string => tNav(key);
   const currentLanguage =
     LANGUAGES.find((language) => language.locale === locale) ?? LANGUAGES[0];
+  const currentLanguageLabel = resolveLanguageLabel(
+    currentLanguage,
+    appLocale
+  );
   const collectionItem = NAV_ITEMS.find((item) => item.label === "collection");
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeCollection, setActiveCollection] = useState<SubItem | null>(
@@ -212,6 +225,11 @@ export default function Header(): React.JSX.Element {
 
   const toggleSearch = (): void => {
     setSearchOpen((value) => !value);
+  };
+
+  const openLanguageMenu = (): void => {
+    setSearchOpen(false);
+    setLangOpen(true);
   };
 
   const openMobileMenu = (): void => {
@@ -362,6 +380,7 @@ export default function Header(): React.JSX.Element {
                                 ) : activeCollection?.previewProducts?.length ? (
                                   <PreviewProductGrid
                                     products={activeCollection.previewProducts}
+                                    locale={appLocale}
                                   />
                                 ) : (
                                   <Link
@@ -465,13 +484,15 @@ export default function Header(): React.JSX.Element {
 
             <div
               className="relative"
-              onMouseEnter={() => setLangOpen(true)}
+              onMouseEnter={openLanguageMenu}
               onMouseLeave={() => setLangOpen(false)}
             >
               <button
                 type="button"
+                onClick={openLanguageMenu}
                 aria-label={tHeader("language")}
                 aria-expanded={langOpen}
+                aria-haspopup="menu"
                 className={`inline-flex items-center gap-2 text-[16px] font-semibold transition-colors ${
                   isTransparent
                     ? "text-white hover:text-white"
@@ -479,7 +500,7 @@ export default function Header(): React.JSX.Element {
                 }`}
               >
                 <Globe className="size-4" aria-hidden="true" />
-                <span>{currentLanguage.label}</span>
+                <span>{currentLanguageLabel}</span>
                 <ChevronDown className={getChevronClassName(langOpen)} aria-hidden="true" />
               </button>
 
@@ -490,21 +511,23 @@ export default function Header(): React.JSX.Element {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute end-0 top-[calc(100%+18px)] w-[220px] border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow"
+                    className="absolute end-0 top-full w-[220px] pt-[18px]"
                   >
-                    {LANGUAGES.map((language) => (
-                      <Link
-                        key={language.label}
-                        href={pathname}
-                        locale={language.locale}
-                        className="flex items-center gap-3 px-4 py-3 text-[16px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
-                      >
-                        <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
-                          {language.icon}
-                        </span>
-                        <span>{language.label}</span>
-                      </Link>
-                    ))}
+                    <div className="border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow">
+                      {LANGUAGES.map((language) => (
+                        <Link
+                          key={language.locale}
+                          href={pathname}
+                          locale={language.locale}
+                          className="flex items-center gap-3 px-4 py-3 text-[16px] text-[#404040] transition-colors hover:bg-[color:var(--surface)] hover:text-[color:var(--primary)]"
+                        >
+                          <span className="inline-flex h-6 w-7 items-center justify-center bg-[color:var(--surface)] text-[11px] font-semibold tracking-[0.08em] text-[color:var(--muted-foreground)]">
+                            {language.icon}
+                          </span>
+                          <span>{resolveLanguageLabel(language, appLocale)}</span>
+                        </Link>
+                      ))}
+                    </div>
                   </motion.div>
                 ) : null}
               </AnimatePresence>
@@ -660,6 +683,7 @@ export default function Header(): React.JSX.Element {
                                 <div className="mt-3">
                                   <PreviewProductGrid
                                     products={subItem.previewProducts}
+                                    locale={appLocale}
                                     titleClassName="text-white/70 group-hover:text-white"
                                     onProductClick={closeMobileMenu}
                                   />
@@ -679,7 +703,7 @@ export default function Header(): React.JSX.Element {
                 <div className="grid gap-2">
                   {LANGUAGES.map((language) => (
                     <Link
-                      key={language.label}
+                      key={language.locale}
                       href={pathname}
                       locale={language.locale}
                       onClick={closeMobileMenu}
@@ -688,7 +712,7 @@ export default function Header(): React.JSX.Element {
                       <span className="inline-flex h-6 w-7 items-center justify-center bg-white/10 text-[11px] font-semibold tracking-[0.08em] text-white/70">
                         {language.icon}
                       </span>
-                      <span>{language.label}</span>
+                      <span>{resolveLanguageLabel(language, appLocale)}</span>
                     </Link>
                   ))}
                 </div>

@@ -7,19 +7,36 @@ import type { ProductDirectoryItem, ProductCustomCapabilitySummary } from "../ty
 import type { ProductCustomCapability } from "@/data/products";
 import type { AppLocale } from "@/i18n/types";
 
+function hasChineseText(value: string | undefined): boolean {
+  return Boolean(value && /[\u3400-\u9fff]/.test(value));
+}
+
+function isUsableLocalizedText(
+  value: string | undefined,
+  locale: AppLocale
+): value is string {
+  const text = value?.trim();
+
+  if (!text) {
+    return false;
+  }
+
+  return locale === "zh" || !hasChineseText(text);
+}
+
 function pickLocalizedCmsValue(
   values: Record<AppLocale, string> | undefined,
   locale: AppLocale
 ): string | undefined {
   const localeValue = values?.[locale]?.trim();
 
-  if (localeValue) {
+  if (isUsableLocalizedText(localeValue, locale)) {
     return localeValue;
   }
 
   const englishValue = values?.en?.trim();
 
-  if (englishValue) {
+  if (locale !== "zh" && isUsableLocalizedText(englishValue, "en")) {
     return englishValue;
   }
 

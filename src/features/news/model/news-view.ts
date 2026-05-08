@@ -433,16 +433,43 @@ function getNewsArticleVisuals(
 ): NewsArticleVisual[] {
   return (NEWS_ARTICLE_VISUALS[slug] ?? []).map((visual) => ({
     src: visual.src,
-    alt: resolveLocalized(visual.alt, locale),
-    caption: resolveLocalized(visual.caption, locale),
+    alt: resolveNewsVisualText(visual.alt, locale),
+    caption: resolveNewsVisualText(visual.caption, locale),
   }));
 }
 
-function resolveLocalized(
+export function resolveNewsVisualText(
   value: Record<AppLocale, string>,
   locale: AppLocale
 ): string {
-  return value[locale] || value.en || (locale === "zh" ? value.zh : "") || "";
+  const localeValue = value[locale]?.trim();
+
+  if (isUsableNewsVisualText(localeValue, locale)) {
+    return localeValue;
+  }
+
+  const englishValue = value.en?.trim();
+
+  if (locale !== "zh" && isUsableNewsVisualText(englishValue, "en")) {
+    return englishValue;
+  }
+
+  if (locale === "zh") {
+    return value.zh?.trim() || englishValue || "";
+  }
+
+  return "";
+}
+
+function isUsableNewsVisualText(
+  value: string | undefined,
+  locale: AppLocale
+): value is string {
+  if (!value) {
+    return false;
+  }
+
+  return locale === "zh" || !/[\u3400-\u9fff]/u.test(value);
 }
 
 // Keywords that identify a references/sources section heading in any supported locale.

@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
 
 import {
-  HERO_SLIDES,
   getAboutAlbum,
   getAboutIntro,
   getEngineeringCases,
   getFeaturedProductPoster,
+  getHeroSlides,
   getHomeProducts,
   getPartners,
   getSolutions,
@@ -113,7 +113,7 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
 
   return {
     hero: {
-      slides: HERO_SLIDES,
+      slides: getHeroSlides(t),
     },
     statsSummary: aboutCopy.stats,
     featuredProductPoster: getFeaturedProductPoster(t),

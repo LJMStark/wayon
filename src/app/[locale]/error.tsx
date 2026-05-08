@@ -3,32 +3,12 @@
 import { useEffect, useSyncExternalStore } from "react";
 
 import { getCommonCopy } from "@/data/siteCopy";
-import type { AppLocale } from "@/i18n/types";
+import { getBrowserLocale, getServerLocale } from "./error-locale";
 
 type ErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
-
-const APP_LOCALES: AppLocale[] = ["en", "zh", "es", "ar"];
-
-function isAppLocale(value: string): value is AppLocale {
-  return APP_LOCALES.includes(value as AppLocale);
-}
-
-function getLocaleFromPathname(pathname: string): AppLocale {
-  const pathLocale = pathname.split("/")[1];
-
-  return isAppLocale(pathLocale) ? pathLocale : "zh";
-}
-
-function getBrowserLocale(): AppLocale {
-  return getLocaleFromPathname(window.location.pathname);
-}
-
-function getServerLocale(): AppLocale {
-  return "zh";
-}
 
 function subscribeToLocationChange(onStoreChange: () => void): () => void {
   window.addEventListener("popstate", onStoreChange);

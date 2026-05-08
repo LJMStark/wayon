@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { fontVariableClassName } from "./font-config";
+import {
+  resolveGlobalErrorLocale,
+  type GlobalErrorLocale,
+} from "./global-error-locale";
 
 type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -15,14 +19,11 @@ const MESSAGES = {
   ar: { title: "حدث خطأ ما", body: "فشل تحميل الموقع. يرجى تحديث الصفحة.", retry: "حاول مرة أخرى" },
 } as const;
 
-type SupportedLocale = keyof typeof MESSAGES;
+type SupportedLocale = GlobalErrorLocale;
 
 function getLocaleFromCookie(): SupportedLocale {
-  if (typeof document === "undefined") return "zh";
-  const match = document.cookie.match(/(?:^|;\s*)NEXT_LOCALE=([^;]+)/);
-  const value = match?.[1];
-  if (value && value in MESSAGES) return value as SupportedLocale;
-  return "zh";
+  if (typeof document === "undefined") return "en";
+  return resolveGlobalErrorLocale(document.cookie);
 }
 
 // Fallback rendered only when the root layout itself throws. It must own
@@ -34,7 +35,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     if (typeof document !== "undefined") {
       return getLocaleFromCookie();
     }
-    return "zh";
+    return "en";
   });
 
   useEffect(() => {

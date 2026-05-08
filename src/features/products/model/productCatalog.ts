@@ -57,6 +57,7 @@ export const PRODUCT_CATALOG_NAV_TRANSLATION_KEYS: Record<
 
 const PROMOTED_EMPTY_SERIES = new Set<string>(["新品系列", "特惠系列"]);
 const PROMOTED_EMPTY_SERIES_IMAGE = "/assets/showcases/showcase-1.jpg";
+const CJK_TEXT_PATTERN = /[\u3400-\u9fff]/u;
 
 type CatalogSearchParams = {
   section?: string | string[];
@@ -101,6 +102,10 @@ function mapDirectoryProduct(product: ProductDirectoryItem): DirectoryProduct {
 
 function formatSizeLabel(size: string): string {
   return size.replace(/X/g, " × ");
+}
+
+function safeRawLabel(value: string, locale: AppLocale): string {
+  return locale !== "zh" && CJK_TEXT_PATTERN.test(value) ? "" : value;
 }
 
 function getBaseProducts(
@@ -183,7 +188,7 @@ function buildSeriesTaxonomyCards(
     (value) => ({
       seriesType: value,
     }),
-    (value) => localizeSeriesType(value, locale)
+    (value) => localizeSeriesType(value, locale) ?? safeRawLabel(value, locale)
   );
   const cardByValue = new Map(
     populatedCards.map((card) => [card.value, card] as const)
@@ -204,7 +209,7 @@ function buildSeriesTaxonomyCards(
       {
         key: value,
         value,
-        label: localizeSeriesType(value, locale),
+        label: localizeSeriesType(value, locale) ?? safeRawLabel(value, locale),
         imageSrc: PROMOTED_EMPTY_SERIES_IMAGE,
         count: 0,
       },
@@ -271,7 +276,7 @@ export function buildProductTaxonomyCards(
         (value) => ({
           colorGroup: value,
         }),
-        (value) => localizeColorGroup(value, locale) ?? value
+        (value) => localizeColorGroup(value, locale) ?? safeRawLabel(value, locale)
       );
     case "process":
       return buildOrderedCards(
@@ -280,7 +285,7 @@ export function buildProductTaxonomyCards(
         (value) => ({
           process: value,
         }),
-        (value) => localizeProcess(value, locale) ?? value
+        (value) => localizeProcess(value, locale) ?? safeRawLabel(value, locale)
       );
     case "custom":
       return customCapabilities.map((capability) => ({

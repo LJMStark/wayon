@@ -53,6 +53,41 @@ test("buildCustomCapabilitySummaries falls back from missing locale to English b
   expect(summaries[0]?.description).toBe("Tailored surface systems.");
 });
 
+test("buildCustomCapabilitySummaries rejects Chinese text stored in non-Chinese locale fields", () => {
+  const summaries = buildCustomCapabilitySummaries(
+    [
+      {
+        _id: "capability-1",
+        capabilityKey: "custom-pattern-design",
+        title: {
+          en: "定制图案设计",
+          zh: "定制图案设计",
+          es: "定制图案设计",
+          ar: "定制图案设计",
+        },
+        description: {
+          en: "支持纹理开发、图案深化与连纹方案。",
+          zh: "支持纹理开发、图案深化与连纹方案。",
+          es: "支持纹理开发、图案深化与连纹方案。",
+          ar: "支持纹理开发、图案深化与连纹方案。",
+        },
+      },
+    ],
+    [
+      {
+        ...products[0],
+        customCapability: "custom-pattern-design",
+      },
+    ],
+    "en"
+  );
+
+  expect(summaries[0]?.title).toBe("Custom Pattern Design");
+  expect(summaries[0]?.description).toBe(
+    "Texture development, pattern refinement and book-matched solutions."
+  );
+});
+
 test("buildCustomCapabilitySummaries keeps Chinese copy for the Chinese locale", () => {
   const summaries = buildCustomCapabilitySummaries(
     [

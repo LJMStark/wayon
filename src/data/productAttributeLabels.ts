@@ -5,6 +5,7 @@ import type {
 } from "@/features/products/lib/tradeCatalog";
 
 type LocalizedLabel = Record<AppLocale, string>;
+const CJK_TEXT_PATTERN = /[\u3400-\u9fff]/u;
 
 // ---------------------------------------------------------------------------
 // Process (surface finish)
@@ -350,8 +351,48 @@ function lookupLabel(
   table: Record<string, LocalizedLabel>,
   key: string,
   locale: AppLocale
-): string {
-  return table[key]?.[locale] ?? table[key]?.en ?? key;
+): string | undefined {
+  const labels = table[key];
+  const trimmedKey = key.trim();
+
+  if (!labels) {
+    if (!trimmedKey) {
+      return undefined;
+    }
+
+    return locale === "zh" || !CJK_TEXT_PATTERN.test(trimmedKey)
+      ? trimmedKey
+      : undefined;
+  }
+
+  const localeValue = labels[locale]?.trim();
+
+  if (isUsableLabel(localeValue, locale)) {
+    return localeValue;
+  }
+
+  const englishValue = labels.en?.trim();
+
+  if (locale !== "zh" && isUsableLabel(englishValue, "en")) {
+    return englishValue;
+  }
+
+  if (locale === "zh" && labels.zh?.trim()) {
+    return labels.zh.trim();
+  }
+
+  return undefined;
+}
+
+function isUsableLabel(
+  value: string | undefined,
+  locale: AppLocale
+): value is string {
+  if (!value) {
+    return false;
+  }
+
+  return locale === "zh" || !CJK_TEXT_PATTERN.test(value);
 }
 
 export function localizeProcess(
@@ -373,7 +414,7 @@ export function localizeColorGroup(
 export function localizeSeriesType(
   value: string,
   locale: AppLocale
-): string {
+): string | undefined {
   return lookupLabel(SERIES_TYPE_LABELS, value, locale);
 }
 
@@ -398,7 +439,7 @@ export function localizeMediaAlt(
   mediaType: "element" | "space" | "real" | "video",
   locale: AppLocale
 ): string {
-  const suffix = MEDIA_ALT_SUFFIXES[mediaType]?.[locale] ?? mediaType;
+  const suffix = lookupLabel(MEDIA_ALT_SUFFIXES, mediaType, locale) ?? mediaType;
   return `${title} - ${suffix}`;
 }
 
@@ -410,19 +451,25 @@ export function localizeProcessOptions(
   options: string[],
   locale: AppLocale
 ): string[] {
-  return options.map((value) => lookupLabel(PROCESS_LABELS, value, locale));
+  return options
+    .map((value) => lookupLabel(PROCESS_LABELS, value, locale))
+    .filter((value): value is string => Boolean(value));
 }
 
 export function localizeColorGroupOptions(
   options: string[],
   locale: AppLocale
 ): string[] {
-  return options.map((value) => lookupLabel(COLOR_GROUP_LABELS, value, locale));
+  return options
+    .map((value) => lookupLabel(COLOR_GROUP_LABELS, value, locale))
+    .filter((value): value is string => Boolean(value));
 }
 
 export function localizeSeriesTypeOptions(
   options: string[],
   locale: AppLocale
 ): string[] {
-  return options.map((value) => lookupLabel(SERIES_TYPE_LABELS, value, locale));
+  return options
+    .map((value) => lookupLabel(SERIES_TYPE_LABELS, value, locale))
+    .filter((value): value is string => Boolean(value));
 }

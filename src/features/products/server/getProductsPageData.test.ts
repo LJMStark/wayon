@@ -69,3 +69,17 @@ test("keyword search scans the full product directory, including custom product 
     "custom-surface-sample",
   ]);
 });
+
+test("product page data does not expose Chinese category fallback outside zh", async () => {
+  const { getProductsPageData } = await import("./getProductsPageData");
+
+  const data = await getProductsPageData("en", {});
+
+  expect(data.products.map((product) => product.category)).not.toContain(
+    "岩板产品"
+  );
+  for (const product of data.products) {
+    expect(product.title).not.toMatch(/[\u3400-\u9fff]/);
+    expect(product.category).not.toMatch(/[\u3400-\u9fff]/);
+  }
+});

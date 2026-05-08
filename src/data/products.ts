@@ -477,7 +477,7 @@ export function getProductDisplayCategory(
 
   const primarySeries = product.seriesTypes?.[0];
   if (primarySeries) {
-    return localizeSeriesType(primarySeries, locale);
+    return localizeSeriesType(primarySeries, locale) ?? fallback;
   }
 
   return fallback;

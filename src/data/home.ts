@@ -165,15 +165,34 @@ const CORE_EQUIPMENT_VIDEO = getHomeVideoSources(
 );
 const SERVICE_TEAM_VIDEO = getHomeVideoSources("home-about-service-team");
 
-export const HERO_SLIDES: HeroSlide[] = [
+const HERO_SLIDE_CONFIG = [
   {
     type: "video",
     src: PAVILION_ENTRANCE_VIDEO.src,
     sources: PAVILION_ENTRANCE_VIDEO.sources,
     poster: "/assets/about/zyl-global-pavilion.png",
-    alt: "众岩联全球馆",
+    altKey: "HomeData.AboutAlbum.item0.title",
   },
-];
+] as const satisfies ReadonlyArray<
+  Omit<HeroSlide, "alt"> & { altKey: AppMessageKey }
+>;
+
+export const HERO_SLIDES: HeroSlide[] = HERO_SLIDE_CONFIG.map(
+  (slideConfig) => ({
+    type: slideConfig.type,
+    src: slideConfig.src,
+    sources: slideConfig.sources,
+    poster: slideConfig.poster,
+    alt: "ZYL Sintered Stone / Guangdong ZYL Sintered Stone",
+  })
+);
+
+export function getHeroSlides(t: AppTranslator): HeroSlide[] {
+  return HERO_SLIDE_CONFIG.map(({ altKey, ...slide }) => ({
+    ...slide,
+    alt: t(altKey),
+  }));
+}
 
 const ABOUT_INTRO_CONFIG = {
   titleKey: "HomeData.AboutIntro.title",
