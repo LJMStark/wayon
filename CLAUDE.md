@@ -123,8 +123,8 @@ Migration `20260427_233442` adds the column and backfills all pre-existing rows 
 
 Migration files live in `src/migrations/` (sequential `YYYYMMDD_HHMMSS.ts` + an `index.ts` registry).
 
-- **Auto-generation is broken on Node 25**: `npx payload migrate:create` errors with `ERR_REQUIRE_ASYNC_MODULE`. Until Payload supports Node 25 ESM, write migrations by hand using existing files as templates and append to `src/migrations/index.ts`
-- **Apply** with `npx payload migrate` (works fine even though generate doesn't)
+- Payload CLI must be run through the npm scripts (`npm run migrate`, `npm run generate:types`, `npm run generate:importmap`). The scripts pass `--disable-transpile`; direct `npx payload ...` can fail on Node 24+ because the default tsx loader cannot synchronously require Lexical's ESM graph with top-level await.
+- **Apply** migrations with `npm run migrate`. Do not run migrations from `npm start`; the web container start path should only start Next.
 - The `DATABASE_URL` in `.env.local` points at the **production** Postgres on Zeabur. Treat any `migrate` invocation as a production change — review the SQL, take a snapshot first, no dev push from the local toolchain
 
 ### Trade Media (legacy disk-backed proxy)

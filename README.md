@@ -61,6 +61,7 @@ npm run test:e2e              # Playwright E2E（需先 npm run dev）
 
 # Payload CMS
 npm run payload               # Payload CLI 直通
+npm run migrate               # 执行 Payload 数据库迁移（一次性操作，不放在 start 里）
 npm run generate:types        # 重新生成 src/payload-types.ts（改 schema 后运行）
 npm run generate:importmap    # 重新生成 Payload admin import map
 

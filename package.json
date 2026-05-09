@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "payload --disable-transpile migrate && next start",
+    "start": "next start",
     "migrate": "payload --disable-transpile migrate",
     "lint": "eslint",
     "test": "vitest run",
