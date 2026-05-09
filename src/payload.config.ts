@@ -2,7 +2,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { postgresAdapter } from "@payloadcms/db-postgres";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { zh } from "@payloadcms/translations/languages/zh";
 import { buildConfig } from "payload";
@@ -30,71 +29,77 @@ import { translateDocEndpoint } from "./payload/endpoints/translateDoc.ts";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-export default buildConfig({
-  admin: {
-    user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
+export default createPayloadConfig();
+
+async function createPayloadConfig() {
+  const { lexicalEditor } = await import("@payloadcms/richtext-lexical");
+
+  return buildConfig({
+    admin: {
+      user: Users.slug,
+      importMap: {
+        baseDir: path.resolve(dirname),
+      },
     },
-  },
-  collections: [
-    Users,
-    Media,
-    Categories,
-    CustomCapabilities,
-    Products,
-    ProductVariants,
-    News,
-    Inquiries,
-  ],
-  editor: lexicalEditor({}),
-  endpoints: [translateDocEndpoint],
-  graphQL: { disable: true },
-  i18n: {
-    fallbackLanguage: "zh",
-    supportedLanguages: { zh },
-  },
-  secret: payloadSecret,
-  typescript: {
-    outputFile: path.resolve(dirname, "payload-types.ts"),
-  },
-  db: postgresAdapter({
-    pool: {
-      connectionString: databaseUrl,
-      keepAlive: true,
-      idleTimeoutMillis: 0,
-    },
-    idType: "uuid",
-  }),
-  sharp,
-  localization: {
-    locales: [
-      { code: "zh", label: "中文" },
-      { code: "en", label: "English" },
-      { code: "es", label: "Español" },
-      { code: "ar", label: "العربية", rtl: true },
+    collections: [
+      Users,
+      Media,
+      Categories,
+      CustomCapabilities,
+      Products,
+      ProductVariants,
+      News,
+      Inquiries,
     ],
-    defaultLocale: "zh",
-    fallback: true,
-  },
-  plugins: [
-    s3Storage({
-      collections: {
-        media: {
-          generateFileURL: ({ filename, prefix }) =>
-            `${r2PublicUrl}/${prefix ? `${prefix}/` : ""}${filename}`,
-        },
+    editor: lexicalEditor({}),
+    endpoints: [translateDocEndpoint],
+    graphQL: { disable: true },
+    i18n: {
+      fallbackLanguage: "zh",
+      supportedLanguages: { zh },
+    },
+    secret: payloadSecret,
+    typescript: {
+      outputFile: path.resolve(dirname, "payload-types.ts"),
+    },
+    db: postgresAdapter({
+      pool: {
+        connectionString: databaseUrl,
+        keepAlive: true,
+        idleTimeoutMillis: 0,
       },
-      bucket: r2Bucket,
-      config: {
-        endpoint: r2Endpoint,
-        region: "auto",
-        forcePathStyle: true,
-        credentials: {
-          accessKeyId: r2AccessKeyId,
-          secretAccessKey: r2SecretAccessKey,
-        },
-      },
+      idType: "uuid",
     }),
-  ],
-});
+    sharp,
+    localization: {
+      locales: [
+        { code: "zh", label: "中文" },
+        { code: "en", label: "English" },
+        { code: "es", label: "Español" },
+        { code: "ar", label: "العربية", rtl: true },
+      ],
+      defaultLocale: "zh",
+      fallback: true,
+    },
+    plugins: [
+      s3Storage({
+        collections: {
+          media: {
+            generateFileURL: ({ filename, prefix }) =>
+              `${r2PublicUrl}/${prefix ? `${prefix}/` : ""}${filename}`,
+          },
+        },
+        bucket: r2Bucket,
+        config: {
+          endpoint: r2Endpoint,
+          region: "auto",
+          forcePathStyle: true,
+          credentials: {
+            accessKeyId: r2AccessKeyId,
+            secretAccessKey: r2SecretAccessKey,
+          },
+        },
+      }),
+    ],
+  });
+}
