@@ -2,6 +2,7 @@ import type { CollectionConfig, Field } from "payload";
 
 import {
   TRADE_COLOR_GROUPS,
+  TRADE_THICKNESSES,
   TRADE_PROCESSES,
   TRADE_SIZES,
 } from "../../features/products/lib/tradeCatalog.ts";
@@ -27,6 +28,7 @@ const imageMediaFields: Field[] = [
     label: "来源路径",
     type: "text",
     admin: {
+      hidden: true,
       description: "解码后的相对文件路径，作为旧数据导入识别键。",
     },
   },
@@ -35,6 +37,7 @@ const imageMediaFields: Field[] = [
     label: "公开 URL",
     type: "text",
     admin: {
+      hidden: true,
       description: "R2 公开 URL，或旧的 /api/trade-media/... URL。",
     },
   },
@@ -65,11 +68,13 @@ const videoMediaFields: Field[] = [
     name: "sourcePath",
     label: "来源路径",
     type: "text",
+    admin: { hidden: true },
   },
   {
     name: "publicUrl",
     label: "公开 URL",
     type: "text",
+    admin: { hidden: true },
   },
   {
     name: "posterUrl",
@@ -128,7 +133,23 @@ export const ProductVariants: CollectionConfig = {
     {
       name: "thickness",
       label: "厚度",
+      type: "select",
+      options: [
+        ...TRADE_THICKNESSES.map((value) => ({ label: value, value })),
+        { label: "自定义", value: "custom" },
+      ],
+      admin: {
+        description: "前台厚度筛选从这里读取。自定义厂度会归入其他分类。",
+      },
+    },
+    {
+      name: "thicknessCustom",
+      label: "自定义厂度值",
       type: "text",
+      admin: {
+        condition: (_, siblingData) => siblingData?.thickness === "custom",
+        description: "选了自定义后填写，如 20mm、30mm。仅用于展示，不影响筛选分组。",
+      },
     },
     {
       name: "process",

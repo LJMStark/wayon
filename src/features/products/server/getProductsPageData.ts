@@ -114,6 +114,7 @@ function buildDirectoryItems(
         code: variant.code,
         size: variant.size,
         thickness: variant.thickness,
+        thicknessCustom: variant.thicknessCustom,
         process: variant.process,
         colorGroup: variant.colorGroup,
       })),
@@ -128,7 +129,9 @@ function buildSummaryTags(
 ): string[] {
   const sizes = uniqueStrings(variants.map((variant) => variant.size));
   const thicknesses = uniqueStrings(
-    variants.map((variant) => variant.thickness)
+    variants.map((variant) =>
+      variant.thickness === "custom" ? variant.thicknessCustom : variant.thickness
+    )
   );
   const processes = uniqueStrings(
     variants.map((variant) =>

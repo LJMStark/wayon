@@ -16,11 +16,13 @@ export const Products: CollectionConfig = {
     defaultColumns: [
       "title",
       "slug",
-      "category",
+      "seriesTypes",
+      "catalogMode",
       "published",
-      "featured",
       "sortOrder",
     ],
+    description:
+      "前台产品目录主要读取“系列类型”“产品类型”和“产品规格”。旧的“产品分类”仅保留给历史数据，不再作为前台筛选依据。",
     components: {
       beforeListTable: [
         "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton",
@@ -73,12 +75,16 @@ export const Products: CollectionConfig = {
       label: "产品分类",
       type: "relationship",
       relationTo: "categories",
+      admin: {
+        hidden: true,
+      },
     },
     {
       name: "normalizedName",
       label: "标准化名称",
       type: "text",
       admin: {
+        hidden: true,
         description:
           "导入产品时生成的族系名称，用作导入识别键。不要手动修改。",
       },
@@ -99,6 +105,9 @@ export const Products: CollectionConfig = {
       label: "主图",
       type: "upload",
       relationTo: "media",
+      admin: {
+        description: "产品列表卡片和详情页首屏优先使用这张图。",
+      },
     },
     {
       name: "description",
@@ -112,6 +121,10 @@ export const Products: CollectionConfig = {
       type: "select",
       hasMany: true,
       options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
+      admin: {
+        description:
+          "前台左侧“岩板产品系列 / 特惠系列”从这里读取。需要进入“特惠系列”的产品，请在这里勾选“特惠系列”。",
+      },
     },
     {
       name: "catalogMode",
@@ -122,6 +135,10 @@ export const Products: CollectionConfig = {
         { label: "标准产品", value: "standard" },
         { label: "定制产品", value: "custom" },
       ],
+      admin: {
+        description:
+          "前台左侧“定制产品”从这里读取。常规现货产品保持“标准产品”。",
+      },
     },
     {
       name: "customCapability",
@@ -130,6 +147,8 @@ export const Products: CollectionConfig = {
       relationTo: "customCapabilities",
       admin: {
         condition: (_, siblingData) => siblingData?.catalogMode === "custom",
+        description:
+          "仅“定制产品”显示。前台“定制产品”栏目里的二级能力项从这里读取。",
       },
     },
     {
@@ -137,6 +156,7 @@ export const Products: CollectionConfig = {
       label: "封面图 URL",
       type: "text",
       admin: {
+        hidden: true,
         description:
           "导入脚本写入的 /api/trade-media/... URL。这里是字符串，不是媒体上传。",
       },
@@ -146,6 +166,7 @@ export const Products: CollectionConfig = {
       label: "封面视频海报 URL",
       type: "text",
       admin: {
+        hidden: true,
         description: "导入脚本写入的封面视频海报 URL。",
       },
     },
@@ -154,7 +175,9 @@ export const Products: CollectionConfig = {
       label: "厚度",
       type: "text",
       admin: {
-        description: "e.g. 15mm / 20mm / 30mm",
+        hidden: true,
+        description:
+          "旧字段。前台厚度筛选从“产品规格”集合读取，不再从产品主表读取。",
       },
     },
     {
@@ -168,13 +191,20 @@ export const Products: CollectionConfig = {
         { label: "拉丝", value: "brushed" },
         { label: "喷砂", value: "sandblasted" },
       ],
+      admin: {
+        hidden: true,
+        description:
+          "旧字段。前台表面工艺筛选从“产品规格”集合读取，不再从产品主表读取。",
+      },
     },
     {
       name: "size",
       label: "规格",
       type: "text",
       admin: {
-        description: "e.g. 3200x1600mm",
+        hidden: true,
+        description:
+          "旧字段。前台规格筛选从“产品规格”集合读取，不再从产品主表读取。",
       },
     },
     {
@@ -183,7 +213,8 @@ export const Products: CollectionConfig = {
       type: "checkbox",
       defaultValue: false,
       admin: {
-        description: "显示在首页轮播中",
+        position: "sidebar",
+        description: "显示在首页轮播中。前台数据层通过 featured=true 查询此字段，勿删。",
       },
     },
     {
@@ -192,6 +223,9 @@ export const Products: CollectionConfig = {
       type: "number",
       defaultValue: 0,
       index: true,
+      admin: {
+        position: "sidebar",
+      },
     },
     translationMetaField,
   ],

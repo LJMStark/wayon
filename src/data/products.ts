@@ -33,6 +33,7 @@ export type ProductVariant = {
   code: string;
   size?: string;
   thickness?: string;
+  thicknessCustom?: string;
   process?: string;
   colorGroup?: string;
   faceCount?: string;
@@ -100,6 +101,7 @@ type RawVariant = {
   code?: string | null;
   size?: string | null;
   thickness?: string | null;
+  thicknessCustom?: string | null;
   process?: string | null;
   colorGroup?: string | null;
   faceCount?: string | null;
@@ -158,6 +160,7 @@ function mapVariant(raw: RawVariant): ProductVariant {
     code: raw.code ?? "",
     size: raw.size ?? undefined,
     thickness: raw.thickness ?? undefined,
+    thicknessCustom: raw.thicknessCustom ?? undefined,
     process: raw.process ?? undefined,
     colorGroup: raw.colorGroup ?? undefined,
     faceCount: raw.faceCount ?? undefined,

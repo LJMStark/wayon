@@ -265,10 +265,32 @@ export function buildProductTaxonomyCards(
       );
     case "series":
       return buildSeriesTaxonomyCards(baseProducts, locale);
-    case "thickness":
-      return buildOrderedCards(baseProducts, TRADE_THICKNESSES, (value) => ({
-        thickness: value,
-      }));
+    case "thickness": {
+      const CUSTOM_THICKNESS_LABEL: Record<AppLocale, string> = {
+        zh: "其他",
+        en: "Other",
+        es: "Otros",
+        ar: "أخرى",
+      };
+      const standardCards = buildOrderedCards(
+        baseProducts,
+        TRADE_THICKNESSES,
+        (value) => ({ thickness: value })
+      );
+      const customProducts = baseProducts.filter((product) =>
+        product.variants.some((v) => v.thickness === "custom")
+      );
+      if (customProducts.length > 0) {
+        standardCards.push({
+          key: "custom",
+          value: "custom",
+          label: CUSTOM_THICKNESS_LABEL[locale] ?? "其他",
+          imageSrc: customProducts[0]?.coverImageUrl,
+          count: customProducts.length,
+        });
+      }
+      return standardCards;
+    }
     case "color":
       return buildOrderedCards(
         baseProducts,
@@ -357,8 +379,9 @@ function isKnownCatalogValue(
         value as (typeof TRADE_SERIES_TYPES)[number]
       );
     case "thickness":
-      return TRADE_THICKNESSES.includes(
-        value as (typeof TRADE_THICKNESSES)[number]
+      return (
+        TRADE_THICKNESSES.includes(value as (typeof TRADE_THICKNESSES)[number]) ||
+        value === "custom"
       );
     case "color":
       return TRADE_COLOR_GROUPS.includes(

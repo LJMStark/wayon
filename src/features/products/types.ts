@@ -50,6 +50,7 @@ export type ProductDirectoryVariantSummary = {
   code: string;
   size?: string;
   thickness?: string;
+  thicknessCustom?: string;
   process?: string;
   colorGroup?: string;
 };
