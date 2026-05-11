@@ -64,10 +64,6 @@ export type Product = {
   categorySlug?: string;
   imageUrl?: string;
   description?: Record<AppLocale, string>;
-  thickness?: string;
-  finish?: string;
-  size?: string;
-  featured?: boolean;
   sortOrder?: number;
   coverImageUrl?: string;
   coverVideoPosterUrl?: string;
@@ -122,10 +118,6 @@ type RawProduct = {
   published?: boolean | null;
   image?: unknown;
   description?: unknown;
-  thickness?: string | null;
-  finish?: string | null;
-  size?: string | null;
-  featured?: boolean | null;
   sortOrder?: number | null;
   coverImageUrl?: string | null;
   coverVideoPosterUrl?: string | null;
@@ -193,10 +185,6 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
     categorySlug: category?.slug ?? undefined,
     imageUrl: mediaUrl(raw.image),
     description: localizedString(raw.description),
-    thickness: raw.thickness ?? undefined,
-    finish: raw.finish ?? undefined,
-    size: raw.size ?? undefined,
-    featured: raw.featured ?? false,
     sortOrder: raw.sortOrder ?? undefined,
     coverImageUrl: raw.coverImageUrl ?? undefined,
     coverVideoPosterUrl: raw.coverVideoPosterUrl ?? undefined,
@@ -314,21 +302,6 @@ export async function getProductsByCategory(
 
 export async function getProductsDirectory(): Promise<Product[]> {
   return getProducts();
-}
-
-export async function getFeaturedProducts(): Promise<Product[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "products",
-    where: {
-      and: [{ featured: { equals: true } }, { published: { equals: true } }],
-    },
-    limit: 50,
-    sort: "sortOrder",
-    locale: "all",
-    depth: 2,
-  });
-  return hydrateProducts(docs as unknown as RawProduct[]);
 }
 
 export async function getCustomCapabilities(): Promise<ProductCustomCapability[]> {
@@ -486,60 +459,8 @@ export function getProductDisplayCategory(
   return fallback;
 }
 
-function mapLegacyFinishToProcess(value?: string): string | undefined {
-  const normalized = value?.trim().toLowerCase();
-
-  if (!normalized) {
-    return undefined;
-  }
-
-  if (normalized === "polished") {
-    return "亮光";
-  }
-
-  if (normalized === "honed") {
-    return "哑光";
-  }
-
-  return value;
-}
-
-function buildLegacyVariant(product: Product): ProductVariant[] {
-  const legacyImage = product.imageUrl
-    ? [
-        {
-          sourcePath: product.imageUrl,
-          publicUrl: product.imageUrl,
-          altZh: product.title?.zh,
-          sortOrder: 0,
-        },
-      ]
-    : [];
-
-  return [
-    {
-      code: product.slug,
-      size: product.size,
-      thickness: product.thickness,
-      process: mapLegacyFinishToProcess(product.finish),
-      sortOrder: 0,
-      colorGroup: undefined,
-      faceCount: undefined,
-      facePatternNote: undefined,
-      elementImages: [],
-      spaceImages: legacyImage,
-      realImages: [],
-      videos: [],
-    },
-  ];
-}
-
 export function getProductVariants(product: Product): ProductVariant[] {
-  if (product.variants && product.variants.length > 0) {
-    return product.variants;
-  }
-
-  return buildLegacyVariant(product);
+  return product.variants ?? [];
 }
 
 export function getProductImage(product: Product): string {

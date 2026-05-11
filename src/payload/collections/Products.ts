@@ -15,15 +15,17 @@ export const Products: CollectionConfig = {
     group: "产品管理",
     useAsTitle: "title",
     defaultColumns: [
+      "image",
       "title",
       "slug",
       "seriesTypes",
       "catalogMode",
       "published",
+      "variants",
       "sortOrder",
     ],
     description:
-      "前台产品目录主要读取“系列类型”“产品类型”和“产品规格”。旧的“产品分类”仅保留给历史数据，不再作为前台筛选依据。",
+      "前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。",
     components: {
       beforeListTable: [
         "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton",
@@ -73,11 +75,12 @@ export const Products: CollectionConfig = {
     },
     {
       name: "category",
-      label: "产品分类",
+      label: "产品分类（详情页副标题）",
       type: "relationship",
       relationTo: "categories",
       admin: {
-        hidden: true,
+        description:
+          "选填。前台详情页大标题下方会显示这里关联的分类名（例如“莱茵金府”）。可以从已有分类里选，也可以新建。不填则副标题留空。",
       },
     },
     {
@@ -107,7 +110,8 @@ export const Products: CollectionConfig = {
       type: "upload",
       relationTo: "media",
       admin: {
-        description: "产品列表卡片和详情页首屏优先使用这张图。",
+        description:
+          "产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图）。",
       },
     },
     {
@@ -138,7 +142,7 @@ export const Products: CollectionConfig = {
       ],
       admin: {
         description:
-          "前台左侧“定制产品”从这里读取。常规现货产品保持“标准产品”。",
+          "「标准产品」= 常规现货，进入官网“岩板产品系列”分类。「定制产品」= 客户按需定制的产品，选择后下方会出现“关联定制能力”字段。大部分情况保持「标准产品」。",
       },
     },
     {
@@ -149,7 +153,7 @@ export const Products: CollectionConfig = {
       admin: {
         condition: (_, siblingData) => siblingData?.catalogMode === "custom",
         description:
-          "仅“定制产品”显示。前台“定制产品”栏目里的二级能力项从这里读取。",
+          "仅在“产品类型”选了「定制产品」时显示。选一项定制能力（如“定制颜色”“定制图案设计”），前台“定制产品”栏目会把本产品归入对应能力分组下。",
       },
     },
     {
@@ -169,53 +173,6 @@ export const Products: CollectionConfig = {
       admin: {
         hidden: true,
         description: "导入脚本写入的封面视频海报 URL。",
-      },
-    },
-    {
-      name: "thickness",
-      label: "厚度",
-      type: "text",
-      admin: {
-        hidden: true,
-        description:
-          "旧字段。前台厚度筛选从“产品规格”集合读取，不再从产品主表读取。",
-      },
-    },
-    {
-      name: "finish",
-      label: "表面工艺",
-      type: "select",
-      options: [
-        { label: "亮光", value: "polished" },
-        { label: "哑光", value: "honed" },
-        { label: "皮纹", value: "leathered" },
-        { label: "拉丝", value: "brushed" },
-        { label: "喷砂", value: "sandblasted" },
-      ],
-      admin: {
-        hidden: true,
-        description:
-          "旧字段。前台表面工艺筛选从“产品规格”集合读取，不再从产品主表读取。",
-      },
-    },
-    {
-      name: "size",
-      label: "规格",
-      type: "text",
-      admin: {
-        hidden: true,
-        description:
-          "旧字段。前台规格筛选从“产品规格”集合读取，不再从产品主表读取。",
-      },
-    },
-    {
-      name: "featured",
-      label: "首页推荐",
-      type: "checkbox",
-      defaultValue: false,
-      admin: {
-        position: "sidebar",
-        description: "显示在首页轮播中。前台数据层通过 featured=true 查询此字段，勿删。",
       },
     },
     {

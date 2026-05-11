@@ -13,6 +13,7 @@ export const CustomCapabilities: CollectionConfig = {
   },
   admin: {
     group: "产品管理",
+    hidden: true,
     useAsTitle: "capabilityKey",
     defaultColumns: ["capabilityKey", "sortOrder"],
   },

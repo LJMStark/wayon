@@ -10,9 +10,10 @@ export const Categories: CollectionConfig = {
   },
   admin: {
     group: "产品管理",
-    hidden: true,
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "sortOrder"],
+    description:
+      "用于在产品详情页大标题下方显示一个自定义副标题（例如“莱茵金府”）。可选功能：如果不打算用，留空即可，产品也不必关联任何分类。",
   },
   access: {
     read: () => true,

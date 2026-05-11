@@ -80,7 +80,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    products: {
+      variants: 'productVariants';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -166,12 +170,15 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt?: string | null;
+  /**
+   * 图片的文字描述，用于 SEO 和无障碍访问，请简要说明图片内容。
+   */
+  alt: string;
   caption?: string | null;
   /**
    * 素材用途分类。产品图已由迁移脚本标记为“产品”，其他上传素材请选择对应分类。
    */
-  category?: ('product' | 'license' | 'showroom' | 'factory' | 'case-sales' | 'case-factory' | 'other') | null;
+  category: 'product' | 'license' | 'showroom' | 'factory' | 'case-sales' | 'case-factory' | 'other';
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -211,6 +218,8 @@ export interface Media {
   };
 }
 /**
+ * 用于在产品详情页大标题下方显示一个自定义副标题（例如“莱茵金府”）。可选功能：如果不打算用，留空即可，产品也不必关联任何分类。
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
@@ -247,7 +256,7 @@ export interface CustomCapability {
   createdAt: string;
 }
 /**
- * 前台产品目录主要读取“系列类型”“产品类型”和“产品规格”。旧的“产品分类”仅保留给历史数据，不再作为前台筛选依据。
+ * 前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
@@ -256,6 +265,9 @@ export interface Product {
   id: string;
   title: string;
   slug: string;
+  /**
+   * 选填。前台详情页大标题下方会显示这里关联的分类名（例如“莱茵金府”）。可以从已有分类里选，也可以新建。不填则副标题留空。
+   */
   category?: (string | null) | Category;
   /**
    * 导入产品时生成的族系名称，用作导入识别键。不要手动修改。
@@ -266,7 +278,7 @@ export interface Product {
    */
   published?: boolean | null;
   /**
-   * 产品列表卡片和详情页首屏优先使用这张图。
+   * 产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图）。
    */
   image?: (string | null) | Media;
   description?: string | null;
@@ -288,11 +300,11 @@ export interface Product {
       )[]
     | null;
   /**
-   * 前台左侧“定制产品”从这里读取。常规现货产品保持“标准产品”。
+   * 「标准产品」= 常规现货，进入官网“岩板产品系列”分类。「定制产品」= 客户按需定制的产品，选择后下方会出现“关联定制能力”字段。大部分情况保持「标准产品」。
    */
   catalogMode?: ('standard' | 'custom') | null;
   /**
-   * 仅“定制产品”显示。前台“定制产品”栏目里的二级能力项从这里读取。
+   * 仅在“产品类型”选了「定制产品」时显示。选一项定制能力（如“定制颜色”“定制图案设计”），前台“定制产品”栏目会把本产品归入对应能力分组下。
    */
   customCapability?: (string | null) | CustomCapability;
   /**
@@ -303,23 +315,15 @@ export interface Product {
    * 导入脚本写入的封面视频海报 URL。
    */
   coverVideoPosterUrl?: string | null;
-  /**
-   * 旧字段。前台厚度筛选从“产品规格”集合读取，不再从产品主表读取。
-   */
-  thickness?: string | null;
-  /**
-   * 旧字段。前台表面工艺筛选从“产品规格”集合读取，不再从产品主表读取。
-   */
-  finish?: ('polished' | 'honed' | 'leathered' | 'brushed' | 'sandblasted') | null;
-  /**
-   * 旧字段。前台规格筛选从“产品规格”集合读取，不再从产品主表读取。
-   */
-  size?: string | null;
-  /**
-   * 显示在首页轮播中。前台数据层通过 featured=true 查询此字段，勿删。
-   */
-  featured?: boolean | null;
   sortOrder?: number | null;
+  /**
+   * 该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。
+   */
+  variants?: {
+    docs?: (string | ProductVariant)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   /**
    * 记录哪些字段是 AI 从中文翻译来的。后台用来显示「AI 翻译」徽章，前端不读。
    */
@@ -354,7 +358,7 @@ export interface ProductVariant {
     | '1200X3200mm'
     | '1600X3200mm';
   /**
-   * 前台厚度筛选从这里读取。自定义厂度会归入其他分类。
+   * 前台厚度筛选从这里读取。自定义厚度会归入其他分类。
    */
   thickness?: ('3mm' | '6mm' | '9mm' | '12mm' | '15mm' | 'custom') | null;
   /**
@@ -386,10 +390,13 @@ export interface ProductVariant {
   faceCount?: string | null;
   facePatternNote?: string | null;
   sortOrder?: number | null;
+  /**
+   * 产品材质表面纹理特写图。详情页“顶部大背景”和“材质纹理”画廊从这里读取，优先级最高。
+   */
   elementImages?:
     | {
         /**
-         * Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。
+         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
          */
         mediaRef?: (string | null) | Media;
         /**
@@ -405,10 +412,13 @@ export interface ProductVariant {
         id?: string | null;
       }[]
     | null;
+  /**
+   * 产品在厨房、卫浴、客厅、背景墙等场景中的应用效果图。详情页“空间应用”画廊从这里读取。
+   */
   spaceImages?:
     | {
         /**
-         * Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。
+         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
          */
         mediaRef?: (string | null) | Media;
         /**
@@ -424,10 +434,13 @@ export interface ProductVariant {
         id?: string | null;
       }[]
     | null;
+  /**
+   * 工地、施工现场、样板房等真实拍摄的照片。详情页“实拍图”画廊从这里读取。
+   */
   realImages?:
     | {
         /**
-         * Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。
+         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
          */
         mediaRef?: (string | null) | Media;
         /**
@@ -443,10 +456,13 @@ export interface ProductVariant {
         id?: string | null;
       }[]
     | null;
+  /**
+   * 产品宣传视频或施工演示视频。详情页“视频”模块从这里读取。
+   */
   videos?:
     | {
         /**
-         * Payload 媒体记录。由 import422Catalog 导入时写入，优先级高于 publicUrl。
+         * 上传新视频或从已有媒体里选择。这是唯一需要填的字段。
          */
         mediaRef?: (string | null) | Media;
         sourcePath?: string | null;
@@ -467,9 +483,18 @@ export interface ProductVariant {
 export interface News {
   id: string;
   title: string;
+  /**
+   * 文章的网址 ID，留空时由标题自动生成。发布后请勿修改，否则旧链接会失效。
+   */
   slug: string;
+  /**
+   * 文章在前台显示的日期，用于排序。如需保存草稿，请使用右上角【保存草稿】按钮，无需修改此日期。
+   */
   publishedAt: string;
-  coverImage?: (string | null) | Media;
+  /**
+   * 新闻列表卡片和文章页顶部使用此图，建议横版 16:9。
+   */
+  coverImage: string | Media;
   excerpt?: string | null;
   category?: ('company' | 'industry' | 'exhibition' | 'product') | null;
   body?: {
@@ -501,6 +526,7 @@ export interface News {
     | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -510,6 +536,9 @@ export interface Inquiry {
   id: string;
   name: string;
   role: string;
+  /**
+   * 保存时自动转为小写，用于查重。
+   */
   email: string;
   company: string;
   /**
@@ -744,11 +773,8 @@ export interface ProductsSelect<T extends boolean = true> {
   customCapability?: T;
   coverImageUrl?: T;
   coverVideoPosterUrl?: T;
-  thickness?: T;
-  finish?: T;
-  size?: T;
-  featured?: T;
   sortOrder?: T;
+  variants?: T;
   translationMeta?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -827,6 +853,7 @@ export interface NewsSelect<T extends boolean = true> {
   translationMeta?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
