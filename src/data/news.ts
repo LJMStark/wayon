@@ -51,15 +51,9 @@ function emptyLocalized(): Record<AppLocale, string> {
 
 export async function getNewsArticles(): Promise<NewsArticle[]> {
   const payload = await getPayloadClient();
-  const nowIso = new Date().toISOString();
   const { docs } = await payload.find({
     collection: "news",
-    where: {
-      and: [
-        { publishedAt: { exists: true } },
-        { publishedAt: { less_than_equal: nowIso } },
-      ],
-    },
+    where: { _status: { equals: "published" } },
     limit: 200,
     sort: "-publishedAt",
     locale: "all",
@@ -72,14 +66,12 @@ export async function getNewsArticleBySlug(
   slug: string
 ): Promise<NewsArticle | null> {
   const payload = await getPayloadClient();
-  const nowIso = new Date().toISOString();
   const { docs } = await payload.find({
     collection: "news",
     where: {
       and: [
         { slug: { equals: slug } },
-        { publishedAt: { exists: true } },
-        { publishedAt: { less_than_equal: nowIso } },
+        { _status: { equals: "published" } },
       ],
     },
     limit: 1,

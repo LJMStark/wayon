@@ -19,14 +19,12 @@ export const News: CollectionConfig = {
       ],
     },
   },
+  versions: {
+    drafts: true,
+  },
   access: {
-    // Public REST (/api/news) must not leak future-dated posts. Authenticated
-    // users (CMS editors) see everything; anonymous callers are restricted to
-    // news whose publishedAt is in the past.
     read: ({ req }) =>
-      req.user
-        ? true
-        : { publishedAt: { less_than_equal: new Date().toISOString() } },
+      req.user ? true : { _status: { equals: "published" } },
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
@@ -76,7 +74,7 @@ export const News: CollectionConfig = {
         date: {
           pickerAppearance: "dayAndTime",
         },
-        description: "设为过去或当前时间 = 立即可见；设为未来时间 = 定时发布（到时间前对外不可见，可作为草稿保存）。",
+        description: "文章在前台显示的日期，用于排序。如需保存草稿，请使用右上角【保存草稿】按钮，无需修改此日期。",
       },
     },
     {
