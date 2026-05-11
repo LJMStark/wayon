@@ -12,6 +12,7 @@ export const Products: CollectionConfig = {
     plural: "产品",
   },
   admin: {
+    group: "产品管理",
     useAsTitle: "title",
     defaultColumns: [
       "title",

@@ -9,6 +9,8 @@ export const Categories: CollectionConfig = {
     plural: "产品分类",
   },
   admin: {
+    group: "产品管理",
+    hidden: true,
     useAsTitle: "title",
     defaultColumns: ["title", "slug", "sortOrder"],
   },

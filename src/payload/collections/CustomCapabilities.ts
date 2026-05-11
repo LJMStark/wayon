@@ -12,6 +12,7 @@ export const CustomCapabilities: CollectionConfig = {
     plural: "定制能力",
   },
   admin: {
+    group: "产品管理",
     useAsTitle: "capabilityKey",
     defaultColumns: ["capabilityKey", "sortOrder"],
   },
