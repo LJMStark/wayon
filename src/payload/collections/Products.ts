@@ -227,6 +227,16 @@ export const Products: CollectionConfig = {
         position: "sidebar",
       },
     },
+    {
+      name: "variants",
+      type: "join",
+      collection: "productVariants",
+      on: "productRef",
+      admin: {
+        description: "该产品的所有规格变体，可直接在此处新增或编辑，无需切换到【产品规格】集合。",
+        defaultColumns: ["code", "size", "thickness", "process", "colorGroup", "sortOrder"],
+      },
+    },
     translationMetaField,
   ],
 };

@@ -24,7 +24,9 @@ export const Inquiries: CollectionConfig = {
     create: () => false,
     read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
+    // Inquiries are sales leads — hard delete is disabled.
+    // Mark unwanted records as "垃圾信息" (spam) instead.
+    delete: () => false,
   },
   hooks: {
     beforeChange: [lowercaseEmail],
@@ -37,12 +39,14 @@ export const Inquiries: CollectionConfig = {
       label: "姓名",
       type: "text",
       required: true,
+      admin: { readOnly: true },
     },
     {
       name: "role",
       label: "职位",
       type: "text",
       required: true,
+      admin: { readOnly: true },
     },
     {
       name: "email",
@@ -50,12 +54,17 @@ export const Inquiries: CollectionConfig = {
       type: "email",
       required: true,
       index: true,
+      admin: {
+        readOnly: true,
+        description: "保存时自动转为小写，用于查重。",
+      },
     },
     {
       name: "company",
       label: "公司",
       type: "text",
       required: true,
+      admin: { readOnly: true },
     },
     {
       name: "contact",
@@ -63,6 +72,7 @@ export const Inquiries: CollectionConfig = {
       type: "text",
       required: true,
       admin: {
+        readOnly: true,
         description: "网站 / WhatsApp / 电话 / 微信",
       },
     },
@@ -71,12 +81,14 @@ export const Inquiries: CollectionConfig = {
       label: "国家或地区",
       type: "text",
       required: true,
+      admin: { readOnly: true },
     },
     {
       name: "message",
       label: "留言内容",
       type: "textarea",
       required: true,
+      admin: { readOnly: true },
     },
     {
       name: "status",
