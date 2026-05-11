@@ -102,6 +102,7 @@ export const ProductVariants: CollectionConfig = {
   },
   admin: {
     group: "产品管理",
+    hidden: true,
     useAsTitle: "code",
     defaultColumns: ["code", "productRef", "size", "process", "sortOrder"],
   },
