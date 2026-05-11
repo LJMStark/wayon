@@ -108,7 +108,7 @@ export const translateDocEndpoint: Endpoint = {
 
     const summary: Summary = { translated: [], skipped: [] };
     let nextMeta: TranslationMeta = readTranslationMeta(
-      (doc as Record<string, unknown>)[TRANSLATION_META_FIELD_NAME]
+      (doc as unknown as Record<string, unknown>)[TRANSLATION_META_FIELD_NAME]
     );
     const { model } = getGlmConfig();
     const translatedAt = new Date().toISOString();
