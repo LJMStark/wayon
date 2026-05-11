@@ -37,12 +37,6 @@ test("product detail data localizes catalog attributes and transliterates Chines
       es: "",
       ar: "",
     },
-    category: {
-      en: "",
-      zh: "特定厚度",
-      es: "",
-      ar: "",
-    },
     published: true,
     seriesTypes: ["质感岩板"],
     variants: [
@@ -87,12 +81,6 @@ test("product detail data uses product-level localized description before templa
       zh: "极光白",
       es: "Aurora White",
       ar: "Aurora White",
-    },
-    category: {
-      en: "Stone Surface",
-      zh: "岩板产品",
-      es: "Superficie mineral",
-      ar: "سطح حجري",
     },
     description: {
       en: "Soft white movement gives Aurora White a clean, luminous look.\nIt suits counters, walls and furniture surfaces.",
@@ -205,16 +193,9 @@ test("product detail data recommends similar products and excludes the current p
       es: "Quartz A",
       ar: "Quartz A",
     },
-    categorySlug: "quartz",
-    category: {
-      en: "Quartz",
-      zh: "石英石",
-      es: "Cuarzo",
-      ar: "كوارتز",
-    },
     published: true,
     sortOrder: 10,
-    seriesTypes: ["石英石"],
+    seriesTypes: ["名石岩板"],
     variants: [
       {
         code: "QA",
@@ -238,12 +219,10 @@ test("product detail data recommends similar products and excludes the current p
       es: "Quartz B",
       ar: "Quartz B",
     },
-    categorySlug: "quartz",
-    category: source.category,
     published: true,
     sortOrder: 20,
     coverImageUrl: "/quartz-b.jpg",
-    seriesTypes: ["石英石"],
+    seriesTypes: ["名石岩板"],
     variants: [
       {
         code: "QB",
@@ -266,10 +245,9 @@ test("product detail data recommends similar products and excludes the current p
       es: "Quartz C",
       ar: "Quartz C",
     },
-    categorySlug: "quartz",
-    category: source.category,
     published: true,
     sortOrder: 15,
+    seriesTypes: ["名石岩板"],
     variants: [
       {
         code: "QC",
@@ -290,10 +268,9 @@ test("product detail data recommends similar products and excludes the current p
       es: "Same Series",
       ar: "Same Series",
     },
-    categorySlug: "sintered-stone",
     published: true,
     sortOrder: 1,
-    seriesTypes: ["石英石"],
+    seriesTypes: ["名石岩板"],
     variants: [],
   };
   const unrelated: Product = {
@@ -305,10 +282,9 @@ test("product detail data recommends similar products and excludes the current p
       es: "Unrelated",
       ar: "Unrelated",
     },
-    categorySlug: "marble",
     published: true,
     sortOrder: 1,
-    seriesTypes: ["大理石"],
+    seriesTypes: ["艺术岩板"],
     variants: [],
   };
 
@@ -326,12 +302,12 @@ test("product detail data recommends similar products and excludes the current p
   expect(pageData.labels.relatedProducts).toBe("Similar Products");
   expect(pageData.relatedProducts.map((product) => product.slug)).toEqual([
     "quartz-b",
-    "quartz-c",
     "same-series",
+    "quartz-c",
   ]);
   expect(pageData.relatedProducts[0]).toMatchObject({
     title: "SHI YING SHI B",
-    category: "Quartz",
+    category: "Classic Stone Slab",
     coverImageUrl: "/quartz-b.jpg",
     summaryTags: ["1600X3200mm", "12mm", "Matte"],
   });

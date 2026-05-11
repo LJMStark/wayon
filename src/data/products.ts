@@ -60,8 +60,6 @@ export type Product = {
   normalizedName?: string;
   published?: boolean;
   slug: string;
-  category?: Record<AppLocale, string>;
-  categorySlug?: string;
   imageUrl?: string;
   description?: Record<AppLocale, string>;
   sortOrder?: number;
@@ -124,7 +122,6 @@ type RawProduct = {
   catalogMode?: "standard" | "custom" | null;
   customCapability?: unknown;
   seriesTypes?: string[] | null;
-  category?: unknown;
 };
 
 function mapImageMedia(value: RawImageMedia): ProductMediaImage {
@@ -166,11 +163,6 @@ function mapVariant(raw: RawVariant): ProductVariant {
 }
 
 function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
-  const category = relationshipValue<{
-    title?: unknown;
-    slug?: string | null;
-  }>(raw.category);
-
   const capability = relationshipValue<{ capabilityKey?: string | null }>(
     raw.customCapability
   );
@@ -181,8 +173,6 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
     normalizedName: raw.normalizedName ?? undefined,
     published: raw.published ?? false,
     slug: raw.slug ?? "",
-    category: localizedString(category?.title),
-    categorySlug: category?.slug ?? undefined,
     imageUrl: mediaUrl(raw.image),
     description: localizedString(raw.description),
     sortOrder: raw.sortOrder ?? undefined,
@@ -280,26 +270,6 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return hydrated ?? null;
 }
 
-export async function getProductsByCategory(
-  categorySlug: string
-): Promise<Product[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "products",
-    where: {
-      and: [
-        { published: { equals: true } },
-        { "category.slug": { equals: categorySlug } },
-      ],
-    },
-    limit: 1000,
-    sort: "sortOrder",
-    locale: "all",
-    depth: 2,
-  });
-  return hydrateProducts(docs as unknown as RawProduct[]);
-}
-
 export async function getProductsDirectory(): Promise<Product[]> {
   return getProducts();
 }
@@ -351,12 +321,9 @@ export async function getProductSlugs(): Promise<string[]> {
 export function getLocalizedProductValue(
   product: Product,
   locale: AppLocale,
-  field: "title" | "category" | "description"
+  field: "title" | "description"
 ): string {
   if (!product) return "";
-  if (field === "category") {
-    return localizedRecordValue(product.category, locale);
-  }
   if (field === "description") {
     return localizedRecordValue(product.description, locale);
   }
@@ -439,18 +406,6 @@ export function getProductDisplayCategory(
   locale: AppLocale,
   fallback = ""
 ): string {
-  if (hasLocaleValue(product.category, locale)) {
-    return product.category?.[locale]?.trim() ?? fallback;
-  }
-
-  if (isUsableLocalizedValue(product.category?.en, "en")) {
-    return product.category?.en.trim() ?? fallback;
-  }
-
-  if (locale === "zh" && product.category?.zh?.trim()) {
-    return product.category.zh.trim();
-  }
-
   const primarySeries = product.seriesTypes?.[0];
   if (primarySeries) {
     return localizeSeriesType(primarySeries, locale) ?? fallback;

@@ -74,16 +74,6 @@ export const Products: CollectionConfig = {
       index: true,
     },
     {
-      name: "category",
-      label: "产品分类（详情页副标题）",
-      type: "relationship",
-      relationTo: "categories",
-      admin: {
-        description:
-          "选填。前台详情页大标题下方会显示这里关联的分类名（例如“莱茵金府”）。可以从已有分类里选，也可以新建。不填则副标题留空。",
-      },
-    },
-    {
       name: "normalizedName",
       label: "标准化名称",
       type: "text",
@@ -111,7 +101,10 @@ export const Products: CollectionConfig = {
       relationTo: "media",
       admin: {
         description:
-          "产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图）。",
+          "产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。",
+        components: {
+          Cell: "@/payload/components/ProductCoverCell#ProductCoverCell",
+        },
       },
     },
     {

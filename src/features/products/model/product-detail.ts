@@ -158,14 +158,7 @@ function buildSummaryTags(
 }
 
 function productCategoryKey(product: Product): string {
-  return (
-    product.categorySlug ||
-    product.category?.en?.trim() ||
-    product.category?.zh?.trim() ||
-    product.category?.es?.trim() ||
-    product.category?.ar?.trim() ||
-    ""
-  );
+  return product.seriesTypes?.[0] ?? "";
 }
 
 function countSharedValues(

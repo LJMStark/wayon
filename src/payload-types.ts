@@ -69,7 +69,6 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    categories: Category;
     customCapabilities: CustomCapability;
     products: Product;
     productVariants: ProductVariant;
@@ -88,7 +87,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     customCapabilities: CustomCapabilitiesSelect<false> | CustomCapabilitiesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     productVariants: ProductVariantsSelect<false> | ProductVariantsSelect<true>;
@@ -218,22 +216,6 @@ export interface Media {
   };
 }
 /**
- * 用于在产品详情页大标题下方显示一个自定义副标题（例如“莱茵金府”）。可选功能：如果不打算用，留空即可，产品也不必关联任何分类。
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: string;
-  title: string;
-  slug: string;
-  description?: string | null;
-  coverImage?: (string | null) | Media;
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customCapabilities".
  */
@@ -266,10 +248,6 @@ export interface Product {
   title: string;
   slug: string;
   /**
-   * 选填。前台详情页大标题下方会显示这里关联的分类名（例如“莱茵金府”）。可以从已有分类里选，也可以新建。不填则副标题留空。
-   */
-  category?: (string | null) | Category;
-  /**
    * 导入产品时生成的族系名称，用作导入识别键。不要手动修改。
    */
   normalizedName?: string | null;
@@ -278,7 +256,7 @@ export interface Product {
    */
   published?: boolean | null;
   /**
-   * 产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图）。
+   * 产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。
    */
   image?: (string | null) | Media;
   description?: string | null;
@@ -588,10 +566,6 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'categories';
-        value: string | Category;
-      } | null)
-    | ({
         relationTo: 'customCapabilities';
         value: string | CustomCapability;
       } | null)
@@ -732,19 +706,6 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  coverImage?: T;
-  sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "customCapabilities_select".
  */
 export interface CustomCapabilitiesSelect<T extends boolean = true> {
@@ -763,7 +724,6 @@ export interface CustomCapabilitiesSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  category?: T;
   normalizedName?: T;
   published?: T;
   image?: T;

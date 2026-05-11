@@ -59,7 +59,6 @@ export type ProductDirectoryItem = {
   slug: string;
   title: string;
   category: string;
-  categorySlug?: string;
   catalogMode: ProductCatalogMode;
   customCapability?: string;
   seriesTypes: string[];

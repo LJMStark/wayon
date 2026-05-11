@@ -102,12 +102,6 @@ test("getProductDisplayCategory does not expose unknown Chinese series outside z
       es: "",
       ar: "",
     }),
-    category: {
-      en: "",
-      zh: "未知中文分类",
-      es: "",
-      ar: "",
-    },
     seriesTypes: ["未知中文系列"],
   };
 

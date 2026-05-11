@@ -22,7 +22,6 @@ import {
   r2PublicUrl,
   r2SecretAccessKey,
 } from "./lib/server-env.ts";
-import { Categories } from "./payload/collections/Categories.ts";
 import { CustomCapabilities } from "./payload/collections/CustomCapabilities.ts";
 import { Inquiries } from "./payload/collections/Inquiries.ts";
 import { Media } from "./payload/collections/Media.ts";
@@ -45,7 +44,6 @@ export default buildConfig({
   collections: [
     Users,
     Media,
-    Categories,
     CustomCapabilities,
     Products,
     ProductVariants,
