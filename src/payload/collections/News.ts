@@ -62,6 +62,9 @@ export const News: CollectionConfig = {
       unique: true,
       required: true,
       index: true,
+      admin: {
+        description: "文章的网址 ID，留空时由标题自动生成。发布后请勿修改，否则旧链接会失效。",
+      },
     },
     {
       name: "publishedAt",
@@ -73,6 +76,7 @@ export const News: CollectionConfig = {
         date: {
           pickerAppearance: "dayAndTime",
         },
+        description: "设为过去或当前时间 = 立即可见；设为未来时间 = 定时发布（到时间前对外不可见，可作为草稿保存）。",
       },
     },
     {
@@ -80,6 +84,10 @@ export const News: CollectionConfig = {
       label: "封面图",
       type: "upload",
       relationTo: "media",
+      required: true,
+      admin: {
+        description: "新闻列表卡片和文章页顶部使用此图，建议横版 16:9。",
+      },
     },
     {
       name: "excerpt",

@@ -2,7 +2,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { postgresAdapter } from "@payloadcms/db-postgres";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  BlockquoteFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  lexicalEditor,
+} from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { zh } from "@payloadcms/translations/languages/zh";
 import { buildConfig } from "payload";
@@ -47,7 +52,14 @@ export default buildConfig({
     News,
     Inquiries,
   ],
-  editor: lexicalEditor({}),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      ...defaultFeatures,
+      HeadingFeature({ enabledHeadingSizes: ["h2", "h3", "h4"] }),
+      BlockquoteFeature(),
+      HorizontalRuleFeature(),
+    ],
+  }),
   endpoints: [translateDocEndpoint],
   graphQL: { disable: true },
   i18n: {

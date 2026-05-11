@@ -24,6 +24,10 @@ export const Media: CollectionConfig = {
       label: "替代文本",
       type: "text",
       localized: true,
+      required: true,
+      admin: {
+        description: "图片的文字描述，用于 SEO 和无障碍访问，请简要说明图片内容。",
+      },
     },
     {
       name: "caption",
@@ -35,6 +39,8 @@ export const Media: CollectionConfig = {
       name: "category",
       label: "素材分类",
       type: "select",
+      required: true,
+      defaultValue: "other",
       options: [
         { label: "产品", value: "product" },
         { label: "资质 / 证书", value: "license" },
