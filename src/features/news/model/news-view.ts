@@ -364,6 +364,7 @@ export function buildNewsDetailPageData(
     visuals: detailVisuals,
     contentBlocks,
     publishedAt: article.publishedAt,
+    updatedAt: article.updatedAt,
     dateLabel: formatNewsDate(article.publishedAt, locale).full,
     categoryLabel: getNewsCategoryLabel(article.category, locale),
   };

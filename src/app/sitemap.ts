@@ -13,6 +13,8 @@ const STATIC_ROUTES = [
   '/news',
   '/contact',
   '/download',
+  '/privacy',
+  '/terms',
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -22,9 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const locale of routing.locales) {
       entries.push({
         url: `${siteUrl}${normalizeMetadataPath(locale, route === '' ? '/' : route)}`,
-        lastModified: new Date(),
+        lastModified: new Date('2025-04-01'),
         changeFrequency: route === '' ? 'weekly' : 'monthly',
-        priority: route === '' ? 1.0 : 0.8,
+        priority: route === '' ? 1.0 : (['/privacy', '/terms'].includes(route) ? 0.3 : 0.8),
       })
     }
   }
@@ -49,14 +51,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 async function getDynamicEntries(
   pathPrefix: string,
   priority: number,
-  fetchSlugs: () => Promise<string[]>,
+  fetchSlugs: () => Promise<{ slug: string; updatedAt: string }[]>,
 ): Promise<MetadataRoute.Sitemap> {
   try {
-    const slugs = await fetchSlugs()
-    return slugs.flatMap((slug) =>
+    const items = await fetchSlugs()
+    return items.flatMap(({ slug, updatedAt }) =>
       routing.locales.map((locale) => ({
         url: `${siteUrl}${normalizeMetadataPath(locale, `${pathPrefix}/${slug}`)}`,
-        lastModified: new Date(),
+        lastModified: new Date(updatedAt),
         changeFrequency: 'monthly' as const,
         priority,
       })),

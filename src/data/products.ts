@@ -304,7 +304,7 @@ export async function getCustomCapabilities(): Promise<ProductCustomCapability[]
   });
 }
 
-export async function getProductSlugs(): Promise<string[]> {
+export async function getProductSlugs(): Promise<{ slug: string; updatedAt: string }[]> {
   const payload = await getPayloadClient();
   const { docs } = await payload.find({
     collection: "products",
@@ -314,8 +314,14 @@ export async function getProductSlugs(): Promise<string[]> {
     depth: 0,
   });
   return docs
-    .map((doc) => (doc as { slug?: string | null }).slug)
-    .filter((slug): slug is string => typeof slug === "string" && slug.length > 0);
+    .filter((doc): doc is typeof doc & { slug: string } => {
+      const slug = (doc as { slug?: string | null }).slug;
+      return typeof slug === "string" && slug.length > 0;
+    })
+    .map((doc) => ({
+      slug: (doc as { slug: string }).slug,
+      updatedAt: doc.updatedAt,
+    }));
 }
 
 export function getLocalizedProductValue(

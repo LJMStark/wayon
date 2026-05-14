@@ -50,6 +50,7 @@ export type NewsDetailPageData = {
   visuals: NewsArticleVisual[];
   contentBlocks: NewsArticleContentBlock[];
   publishedAt: string;
+  updatedAt: string;
   dateLabel: string;
   categoryLabel: string;
 };

@@ -39,7 +39,7 @@ export function buildPageMetadata({
   locale,
   title,
   description,
-  image = "/assets/hero/home-hero-slide-2.png",
+  image = "/assets/brand/og-default.jpg",
   imageAlt,
   path = "/",
   includeIcons = false,
@@ -47,8 +47,8 @@ export function buildPageMetadata({
   const canonical = normalizeMetadataPath(locale, path);
 
   // Build hreflang languages map: each locale → its localized path
-  const defaultLocalePath = normalizeMetadataPath(routing.defaultLocale, path);
-  const languages: Record<string, string> = { "x-default": defaultLocalePath };
+  // x-default points to English — the primary language for international B2B traffic
+  const languages: Record<string, string> = { "x-default": normalizeMetadataPath("en", path) };
   for (const loc of routing.locales) {
     languages[loc] = normalizeMetadataPath(loc, path);
   }
@@ -62,7 +62,12 @@ export function buildPageMetadata({
     metadataBase: METADATA_BASE,
     title,
     description,
-    icons: includeIcons ? { icon: "/assets/brand/favicon-wayon.jpg" } : undefined,
+    icons: includeIcons
+      ? {
+          icon: [{ url: "/assets/brand/favicon.png", sizes: "32x32", type: "image/png" }],
+          apple: [{ url: "/assets/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+        }
+      : undefined,
     alternates: {
       canonical,
       languages,
@@ -77,8 +82,8 @@ export function buildPageMetadata({
       images: [
         {
           url: image,
-          width: 1920,
-          height: 1080,
+          width: 1200,
+          height: 630,
           alt: imageAlt ?? title,
         },
       ],

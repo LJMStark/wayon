@@ -123,7 +123,7 @@ function FeaturedNewsCard({
         <div className="relative aspect-[16/10] overflow-hidden bg-[#002b50]">
           <Image
             src={item.image}
-            alt=""
+            alt={item.title}
             fill
             loading="eager"
             fetchPriority="high"
@@ -215,7 +215,7 @@ function NewsIndexRow({
         <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-[#f7fafd] md:block">
           <Image
             src={item.image}
-            alt=""
+            alt={item.title}
             fill
             loading={priority ? "eager" : "lazy"}
             sizes="(max-width: 768px) 100vw, 220px"

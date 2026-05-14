@@ -276,6 +276,7 @@ function makeArticle(slug: string): NewsArticle {
     title: LOCALES,
     slug,
     publishedAt: "2026-04-10T09:30:00.000Z",
+    updatedAt: "2026-04-10T09:30:00.000Z",
     imageUrl: "",
     excerpt: LOCALES,
     category: "industry",

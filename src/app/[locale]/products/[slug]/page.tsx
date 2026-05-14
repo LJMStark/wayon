@@ -17,8 +17,8 @@ import { ProductDetailPageView } from "@/features/products/components/ProductDet
 export const revalidate = 3600;
 import { getProductDetailPageData } from "@/features/products/server/getProductDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
-import { buildPageMetadata } from "@/lib/metadata";
-import { productJsonLd } from "@/lib/jsonLd";
+import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
+import { productJsonLd, productBreadcrumbJsonLd } from "@/lib/jsonLd";
 
 export async function generateMetadata({
   params,
@@ -76,19 +76,25 @@ export default async function ProductDetailPage({
     .filter(Boolean)
     .slice(0, 10);
 
+  const productUrl = normalizeMetadataPath(locale, `/products/${slug}`);
   const jsonLd = productJsonLd({
     name: pageData.title,
     description: pageData.descriptionParagraphs.join(" "),
     image: variantImages,
     category: pageData.category,
-    url: `/products/${slug}`,
+    url: productUrl,
   });
+  const breadcrumbLd = productBreadcrumbJsonLd(locale, pageData.title, productUrl);
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c") }}
       />
       <ProductDetailPageView {...pageData} />
     </>
