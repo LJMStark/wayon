@@ -56,7 +56,7 @@ async function main() {
 
   // Step 1: find all variants with a texture process
   const { docs: variants } = await payload.find({
-    collection: "product-variants",
+    collection: "productVariants",
     where: { process: { in: TEXTURE_PROCESSES } },
     limit: 10000,
     depth: 0,
