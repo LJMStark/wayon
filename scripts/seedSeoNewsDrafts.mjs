@@ -5,7 +5,9 @@
 // in the future (2099-01-01) so anonymous traffic on /news cannot see them —
 // admin editors can review, edit, and shift publishedAt to publish.
 //
-// Cover images are picked from existing R2 media (showroom / case-sales).
+// Cover images are picked from existing R2 media. When a slug has a curated
+// local article visual in the app code, leave the CMS cover empty instead of
+// forcing an unrelated showroom / case image into the news card.
 //
 // Usage:
 //   node --env-file=.env.local scripts/seedSeoNewsDrafts.mjs            # dry-run
@@ -37,18 +39,18 @@ const PUBLISHED_AT = {
 };
 
 // Article slug → cover image filename (from R2 / media collection).
-// Empty string means no cover assigned at seed time — admin to pick one later.
+// Empty string means the frontend will use the curated article visual.
 const COVER_IMAGES = {
   "what-is-sintered-stone": "showroom-001.jpg",
   "sintered-stone-vs-quartz-vs-marble": "case-sales-002.jpg",
   "sintered-slab-thickness-guide": "showroom-005.jpg",
   "sourcing-sintered-slabs-from-china": "showroom-008.jpg",
   "sintered-slab-architectural-applications": "case-sales-006.jpg",
-  "seo-luxury-sintered-stone-vs-tile": "showroom-001.jpg",
-  "seo-sintered-stone-marble-replication": "showroom-005.jpg",
-  "seo-wall-floor-application-sintered-stone": "case-sales-006.jpg",
-  "seo-fireproof-sintered-stone-grade": "showroom-008.jpg",
-  "seo-marble-too-expensive-sintered-stone": "case-sales-002.jpg",
+  "seo-luxury-sintered-stone-vs-tile": "",
+  "seo-sintered-stone-marble-replication": "",
+  "seo-wall-floor-application-sintered-stone": "",
+  "seo-fireproof-sintered-stone-grade": "",
+  "seo-marble-too-expensive-sintered-stone": "",
 };
 
 const SLUGS = [

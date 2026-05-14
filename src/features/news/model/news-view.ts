@@ -245,6 +245,86 @@ const NEWS_ARTICLE_VISUALS: Record<
       },
     },
   ],
+  "seo-luxury-sintered-stone-vs-tile": [
+    articleVisual(
+      "/assets/solutions/scene-kitchen-countertops.jpg",
+      "Luxury sintered stone kitchen island with a full-height backsplash",
+      "奢石岩板厨房岛台和整面背景墙",
+      "Large-format slabs separate themselves from regular tiles by seam count, edge detailing, and the ability to wrap counters and backsplashes as one material.",
+      "奢石岩板和普通瓷砖的差别，先看缝线数量、收边方式，以及能不能把台面和背景墙做成一体。"
+    ),
+    articleVisual(
+      "/assets/solutions/scene-wall-floor.jpg",
+      "Large-format sintered stone floor laid continuously through an interior",
+      "室内连续铺开的岩板地面",
+      "Once the material starts running continuously across walls, floors, and furniture tops, it stops behaving like a standard tile category.",
+      "当同一材料开始连续用在墙面、地面和家具台面上，它就已经不是普通瓷砖那一类东西了。"
+    ),
+  ],
+  "seo-sintered-stone-marble-replication": [
+    articleVisual(
+      "/assets/solutions/scene-commercial-showcase.jpg",
+      "Black marble-look sintered stone bar with dramatic veining",
+      "黑白大理石纹奢石岩板吧台",
+      "What buyers call '1:1 marble replication' lives in the continuity of veining, panel scale, and the way the surface reads at full installation.",
+      "市场上说的“1:1 还原大理石”，关键看的是纹理连续性、板面尺度和整装后的观感。"
+    ),
+    articleVisual(
+      "/assets/solutions/cabinet-countertops.webp",
+      "Green marble-look sintered stone kitchen countertop and waterfall island",
+      "绿色大理石纹岩板厨房台面和瀑布岛台",
+      "A convincing marble look has to hold up on edges, waterfall ends, and reflected light, not only on a flat sample board.",
+      "像不像大理石，不能只看一块平样板，还要看收边、瀑布边和光线下的整体表现。"
+    ),
+  ],
+  "seo-wall-floor-application-sintered-stone": [
+    articleVisual(
+      "/assets/solutions/scene-wall-floor.jpg",
+      "Large-format sintered stone floor laid continuously through an interior",
+      "室内连续铺开的岩板地面",
+      "Sintered stone works on walls and floors because thickness, slip rating, adhesive system, and movement joints can all be tuned by scenario.",
+      "岩板能上墙下地，不是靠一句口号，而是靠厚度、防滑等级、粘结系统和伸缩缝做场景化配置。"
+    ),
+    articleVisual(
+      "/assets/solutions/scene-furniture-tops.jpg",
+      "Dining room using sintered stone across wall, floor, and round table top",
+      "墙面、地面和圆桌台面连续使用岩板的餐厅空间",
+      "Furniture tops are where the same slab family extends beyond architectural cladding and starts unifying the whole room.",
+      "当同系列岩板继续用到餐桌和家具台面上，材料才真正从饰面变成整个空间的统一语言。"
+    ),
+  ],
+  "seo-fireproof-sintered-stone-grade": [
+    articleVisual(
+      "/assets/solutions/scene-commercial-showcase.jpg",
+      "Sintered stone bar cladding used in a commercial hospitality interior",
+      "商业空间里使用岩板包覆的吧台",
+      "Fire rating matters most in hospitality, transit, healthcare, and other public interiors where decorative finishes still have to clear A1 non-combustible specs.",
+      "A1 不燃等级最有分量的场景，是酒店、交通枢纽、医疗和其他公共空间里的饰面选材。"
+    ),
+    articleVisual(
+      "/assets/solutions/scene-wall-floor.jpg",
+      "Large-format slab wall and floor system inside a public interior",
+      "公共室内空间里的大规格岩板墙地系统",
+      "The real procurement question is not whether the slab looks premium, but whether the installed system can pass the project's fire-compliance checklist.",
+      "工程采购真正要看的，不只是好不好看，而是整套材料系统能不能过项目的防火合规清单。"
+    ),
+  ],
+  "seo-marble-too-expensive-sintered-stone": [
+    articleVisual(
+      "/assets/solutions/cabinet-countertops.webp",
+      "Luxury sintered stone kitchen island with a bold marble-like pattern",
+      "带强烈石纹的奢石岩板厨房岛台",
+      "Luxury sintered stone enters the conversation when buyers want marble drama but need lower maintenance and more predictable project cost.",
+      "当采购方想要大理石的气场，又想把维护成本和项目预算控住，奢石岩板就会进到候选名单里。"
+    ),
+    articleVisual(
+      "/assets/solutions/scene-kitchen-countertops.jpg",
+      "Marble-look slab used continuously on the countertop and backsplash",
+      "大理石纹岩板连续用在台面和背景墙上",
+      "The comparison is never just about purchase price; fabrication risk, replacement rate, upkeep, and installation waste all belong in the same budget sheet.",
+      "这类材料比较不能只看买价，加工风险、补板率、维护成本和施工损耗都要一起算。"
+    ),
+  ],
 };
 
 function localizedZyl918VisualText(value: string): Record<AppLocale, string> {
@@ -277,6 +357,36 @@ function zyl918Visual(
       ...localizedZyl918VisualText(enCaption),
       zh: `众岩联918馆、全球馆${zhCaption}`,
     },
+  };
+}
+
+function articleVisual(
+  src: string,
+  enAlt: string,
+  zhAlt: string,
+  enCaption = enAlt,
+  zhCaption = zhAlt
+): {
+  src: string;
+  alt: Record<AppLocale, string>;
+  caption: Record<AppLocale, string>;
+} {
+  return {
+    src,
+    alt: localizedEnZhText(enAlt, zhAlt),
+    caption: localizedEnZhText(enCaption, zhCaption),
+  };
+}
+
+function localizedEnZhText(
+  en: string,
+  zh: string
+): Record<AppLocale, string> {
+  return {
+    en,
+    zh,
+    es: "",
+    ar: "",
   };
 }
 

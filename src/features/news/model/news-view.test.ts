@@ -33,6 +33,11 @@ const NEWS_SLUGS = [
   "sintered-slab-thickness-guide",
   "sourcing-sintered-slabs-from-china",
   "sintered-slab-architectural-applications",
+  "seo-luxury-sintered-stone-vs-tile",
+  "seo-sintered-stone-marble-replication",
+  "seo-wall-floor-application-sintered-stone",
+  "seo-fireproof-sintered-stone-grade",
+  "seo-marble-too-expensive-sintered-stone",
 ] as const;
 
 test("news article visuals use real local assets instead of yellow placeholders", async () => {
@@ -103,6 +108,66 @@ test("home news entries can reuse the same subject-matched preview image", () =>
   );
 
   expect(image).toBe("/assets/solutions/scene-commercial-showcase.jpg");
+});
+
+test("latest SEO news previews use article-matched visuals instead of generic showroom covers", () => {
+  const previews = [
+    {
+      slug: "seo-luxury-sintered-stone-vs-tile",
+      imageUrl: "https://example.com/showroom-001.jpg",
+      expected: "/assets/solutions/scene-kitchen-countertops.jpg",
+    },
+    {
+      slug: "seo-sintered-stone-marble-replication",
+      imageUrl: "https://example.com/showroom-005.jpg",
+      expected: "/assets/solutions/scene-commercial-showcase.jpg",
+    },
+    {
+      slug: "seo-wall-floor-application-sintered-stone",
+      imageUrl: "https://example.com/case-sales-006.jpg",
+      expected: "/assets/solutions/scene-wall-floor.jpg",
+    },
+    {
+      slug: "seo-fireproof-sintered-stone-grade",
+      imageUrl: "https://example.com/showroom-008.jpg",
+      expected: "/assets/solutions/scene-commercial-showcase.jpg",
+    },
+    {
+      slug: "seo-marble-too-expensive-sintered-stone",
+      imageUrl: "https://example.com/case-sales-002.jpg",
+      expected: "/assets/solutions/cabinet-countertops.webp",
+    },
+  ] as const;
+
+  for (const { slug, imageUrl, expected } of previews) {
+    const item = toNewsPreviewItem(
+      {
+        ...makeArticle(slug),
+        imageUrl,
+      },
+      "zh"
+    );
+
+    expect(item?.image, slug).toBe(expected);
+  }
+});
+
+test("latest SEO news detail pages use the matched article visual as hero", () => {
+  const image = buildNewsDetailPageData(
+    {
+      ...makeArticle("seo-marble-too-expensive-sintered-stone"),
+      imageUrl: "https://example.com/case-sales-002.jpg",
+    },
+    "zh",
+    {
+      backToNewsLabel: "返回新闻",
+      contactCtaTitle: "需要报价或样品支持？",
+      contactLabel: "联系我们",
+      contentComingSoonLabel: "内容即将上线",
+    }
+  ).imageUrl;
+
+  expect(image).toBe("/assets/solutions/cabinet-countertops.webp");
 });
 
 test("news detail page uses the matched primary visual as hero without duplicating it", () => {
