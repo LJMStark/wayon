@@ -182,39 +182,52 @@ function buildSeriesTaxonomyCards(
   products: ProductDirectoryItem[],
   locale: AppLocale
 ): ProductTaxonomyCard[] {
-  const populatedCards = buildOrderedCards(
-    products,
-    TRADE_SERIES_TYPES,
-    (value) => ({
-      seriesType: value,
-    }),
-    (value) => localizeSeriesType(value, locale) ?? safeRawLabel(value, locale)
-  );
-  const cardByValue = new Map(
-    populatedCards.map((card) => [card.value, card] as const)
-  );
+  const usedImages = new Set<string>();
+  const cards: ProductTaxonomyCard[] = [];
 
-  return TRADE_SERIES_TYPES.flatMap((value) => {
-    const populatedCard = cardByValue.get(value);
+  for (const value of TRADE_SERIES_TYPES) {
+    const label =
+      localizeSeriesType(value, locale) ?? safeRawLabel(value, locale);
+    const matching = products.filter((product) =>
+      matchesDirectoryFilters(mapDirectoryProduct(product), {
+        seriesType: value,
+      })
+    );
 
-    if (populatedCard) {
-      return [populatedCard];
-    }
+    if (matching.length === 0) {
+      if (!PROMOTED_EMPTY_SERIES.has(value)) {
+        continue;
+      }
 
-    if (!PROMOTED_EMPTY_SERIES.has(value)) {
-      return [];
-    }
-
-    return [
-      {
+      cards.push({
         key: value,
         value,
-        label: localizeSeriesType(value, locale) ?? safeRawLabel(value, locale),
+        label,
         imageSrc: PROMOTED_EMPTY_SERIES_IMAGE,
         count: 0,
-      },
-    ];
-  });
+      });
+      continue;
+    }
+
+    const representative =
+      matching.find(
+        (p) => p.coverImageUrl != null && !usedImages.has(p.coverImageUrl)
+      ) ?? matching[0];
+
+    if (representative?.coverImageUrl) {
+      usedImages.add(representative.coverImageUrl);
+    }
+
+    cards.push({
+      key: value,
+      value,
+      label,
+      imageSrc: representative?.coverImageUrl,
+      count: matching.length,
+    });
+  }
+
+  return cards;
 }
 
 export function resolveProductCatalogSection(
