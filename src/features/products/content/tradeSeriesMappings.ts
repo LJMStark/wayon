@@ -24,6 +24,16 @@ const SERIES_RULES: Array<{
   },
 ];
 
+// Processes that indicate a textured-surface (质感) product,
+// regardless of which other series the product belongs to.
+const TEXTURE_PROCESSES = new Set<TradeProcess>([
+  "数码模具面",
+  "火烧面",
+  "精雕",
+  "复刻釉",
+  "定位彩晶",
+]);
+
 export function inferTradeSeriesTypes({
   displayName,
   process,
@@ -43,6 +53,10 @@ export function inferTradeSeriesTypes({
 
   if (process === "透光石") {
     inferred.add("艺术岩板");
+  }
+
+  if (process && TEXTURE_PROCESSES.has(process)) {
+    inferred.add("质感岩板");
   }
 
   return [...inferred];

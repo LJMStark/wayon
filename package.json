@@ -17,6 +17,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "import:trade-catalog": "node --env-file=.env.local scripts/importTradeCatalog.mjs",
     "import:422-catalog": "node --env-file=.env.local scripts/import422Catalog.mjs",
+    "backfill:texture-series": "node --env-file=.env.local scripts/backfillTextureSeriesType.mjs",
     "generate:product-copy": "node --env-file=.env.local scripts/generateProductCopy.mjs",
     "generate:product-copy:gemini": "node --env-file=.env.local scripts/generateProductCopyGemini.mjs",
     "apply:first-wave-copy": "node --env-file=.env.local scripts/applyFirstWaveCopy.mjs",
