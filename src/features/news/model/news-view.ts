@@ -247,11 +247,11 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "seo-luxury-sintered-stone-vs-tile": [
     articleVisual(
-      "/assets/solutions/scene-kitchen-countertops.jpg",
-      "Luxury sintered stone kitchen island with a full-height backsplash",
-      "奢石岩板厨房岛台和整面背景墙",
-      "Large-format slabs separate themselves from regular tiles by seam count, edge detailing, and the ability to wrap counters and backsplashes as one material.",
-      "奢石岩板和普通瓷砖的差别，先看缝线数量、收边方式，以及能不能把台面和背景墙做成一体。"
+      "/assets/solutions/furniture-tops.webp",
+      "Luxury sintered stone wall panels used as a seamless living room backdrop",
+      "奢石岩板做成整面客厅背景墙",
+      "Large-format slabs separate themselves from regular tiles by seam count, edge detailing, and the ability to turn a full wall into one continuous surface.",
+      "奢石岩板和普通瓷砖的差别，先看缝线数量、收边方式，以及能不能把整面墙做成一体。"
     ),
     articleVisual(
       "/assets/solutions/scene-wall-floor.jpg",
@@ -263,10 +263,10 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "seo-sintered-stone-marble-replication": [
     articleVisual(
-      "/assets/solutions/scene-commercial-showcase.jpg",
-      "Black marble-look sintered stone bar with dramatic veining",
-      "黑白大理石纹奢石岩板吧台",
-      "What buyers call '1:1 marble replication' lives in the continuity of veining, panel scale, and the way the surface reads at full installation.",
+      "/assets/solutions/scene-bathroom-spaces.jpg",
+      "Black marble-look sintered stone installed across a luxury bathroom interior",
+      "黑色大理石纹岩板用在整套浴室空间里",
+      "What buyers call '1:1 marble replication' lives in the continuity of veining, panel scale, and the way the surface reads after full installation.",
       "市场上说的“1:1 还原大理石”，关键看的是纹理连续性、板面尺度和整装后的观感。"
     ),
     articleVisual(
@@ -295,9 +295,9 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "seo-fireproof-sintered-stone-grade": [
     articleVisual(
-      "/assets/solutions/scene-commercial-showcase.jpg",
-      "Sintered stone bar cladding used in a commercial hospitality interior",
-      "商业空间里使用岩板包覆的吧台",
+      "/assets/cases/case-5-weihao-partyk.png",
+      "Stone floor and table surfaces installed in a public entertainment venue",
+      "公共娱乐空间里的石材地面和台面",
       "Fire rating matters most in hospitality, transit, healthcare, and other public interiors where decorative finishes still have to clear A1 non-combustible specs.",
       "A1 不燃等级最有分量的场景，是酒店、交通枢纽、医疗和其他公共空间里的饰面选材。"
     ),
@@ -311,9 +311,9 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "seo-marble-too-expensive-sintered-stone": [
     articleVisual(
-      "/assets/solutions/cabinet-countertops.webp",
-      "Luxury sintered stone kitchen island with a bold marble-like pattern",
-      "带强烈石纹的奢石岩板厨房岛台",
+      "/assets/solutions/kitchen-countertops.webp",
+      "Marble-look sintered stone staircase installed as a premium architectural feature",
+      "大理石纹岩板做成的楼梯整装",
       "Luxury sintered stone enters the conversation when buyers want marble drama but need lower maintenance and more predictable project cost.",
       "当采购方想要大理石的气场，又想把维护成本和项目预算控住，奢石岩板就会进到候选名单里。"
     ),

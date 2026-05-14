@@ -115,12 +115,12 @@ test("latest SEO news previews use article-matched visuals instead of generic sh
     {
       slug: "seo-luxury-sintered-stone-vs-tile",
       imageUrl: "https://example.com/showroom-001.jpg",
-      expected: "/assets/solutions/scene-kitchen-countertops.jpg",
+      expected: "/assets/solutions/furniture-tops.webp",
     },
     {
       slug: "seo-sintered-stone-marble-replication",
       imageUrl: "https://example.com/showroom-005.jpg",
-      expected: "/assets/solutions/scene-commercial-showcase.jpg",
+      expected: "/assets/solutions/scene-bathroom-spaces.jpg",
     },
     {
       slug: "seo-wall-floor-application-sintered-stone",
@@ -130,12 +130,12 @@ test("latest SEO news previews use article-matched visuals instead of generic sh
     {
       slug: "seo-fireproof-sintered-stone-grade",
       imageUrl: "https://example.com/showroom-008.jpg",
-      expected: "/assets/solutions/scene-commercial-showcase.jpg",
+      expected: "/assets/cases/case-5-weihao-partyk.png",
     },
     {
       slug: "seo-marble-too-expensive-sintered-stone",
       imageUrl: "https://example.com/case-sales-002.jpg",
-      expected: "/assets/solutions/cabinet-countertops.webp",
+      expected: "/assets/solutions/kitchen-countertops.webp",
     },
   ] as const;
 
@@ -167,7 +167,27 @@ test("latest SEO news detail pages use the matched article visual as hero", () =
     }
   ).imageUrl;
 
-  expect(image).toBe("/assets/solutions/cabinet-countertops.webp");
+  expect(image).toBe("/assets/solutions/kitchen-countertops.webp");
+});
+
+test("subject-matched news preview heroes stay unique across evergreen and latest SEO news", () => {
+  const slugs = NEWS_SLUGS.filter((slug) => slug !== "zyl-918-global-opening");
+  const images: string[] = [];
+
+  for (const slug of slugs) {
+    const image = getNewsPreviewImage(
+      {
+        ...makeArticle(slug),
+        imageUrl: `https://example.com/${slug}.jpg`,
+      },
+      "zh"
+    );
+
+    expect(image, slug).toBeTruthy();
+    images.push(image as string);
+  }
+
+  expect(new Set(images).size).toBe(images.length);
 });
 
 test("news detail page uses the matched primary visual as hero without duplicating it", () => {
