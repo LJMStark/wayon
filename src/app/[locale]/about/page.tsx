@@ -10,6 +10,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { getAboutPageCopy, getCommonCopy } from "@/data/siteCopy";
 import { TRADE_YELLOW_PLACEHOLDER_IMAGE } from "@/features/products/model/productExposure";
 import { CountUpStat } from "@/components/ui/CountUpStat";
+import {
+  CertificationsSection,
+  type CertificateItem,
+} from "@/components/about/CertificationsSection";
 
 type AboutStat = {
   value: string;
@@ -335,6 +339,24 @@ export default function AboutPage(): React.JSX.Element {
           </div>
         </div>
       </section>
+
+      <CertificationsSection
+        sectionTitle={String(aboutCopy.certificationsTitle)}
+        description={String(aboutCopy.certificationsDescription)}
+        viewLabel={String(aboutCopy.certificationsViewLabel)}
+        downloadLabel={String(aboutCopy.certificationsDownloadLabel)}
+        certifications={
+          (aboutCopy.certifications as CertificateItem[]).map((c) => ({
+            previewSrc: c.previewSrc,
+            downloadUrl: c.downloadUrl,
+            type: c.type,
+            title: String(c.title),
+            number: String(c.number),
+            year: String(c.year),
+            issuer: String(c.issuer),
+          }))
+        }
+      />
     </main>
   );
 }

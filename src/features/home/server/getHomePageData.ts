@@ -152,6 +152,10 @@ export async function getHomePageData(locale: AppLocale): Promise<HomePageData> 
       subtitle: t("Hero.subtitle") || DEFAULT_CASE_SUBTITLE,
       items: getEngineeringCases(t),
     },
+    trustBadges: {
+      title: landingCopy.trustBadges.title,
+      viewAllLabel: landingCopy.trustBadges.viewAll,
+    },
     partnerCarousel: {
       title: t("PartnerCarousel.industryPartners"),
       description: t("PartnerCarousel.trustedGlobal"),
