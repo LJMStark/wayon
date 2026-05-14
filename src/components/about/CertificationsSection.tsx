@@ -45,14 +45,14 @@ function CertCard({
         type="button"
         aria-label={viewLabel}
         onClick={() => onZoom(cert)}
-        className="relative aspect-[3/4] w-full cursor-pointer overflow-hidden bg-gray-50"
+        className="relative aspect-[4/3] w-full cursor-pointer overflow-hidden bg-gray-100"
       >
         <Image
           src={cert.previewSrc}
           alt={cert.title}
           fill
-          sizes="(min-width: 1280px) 20vw, (min-width: 768px) 33vw, 50vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+          className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
         />
         <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
           <ZoomIn className="h-8 w-8 text-white opacity-0 drop-shadow transition-opacity duration-300 group-hover:opacity-100" />
@@ -140,10 +140,10 @@ function Lightbox({
           <Image
             src={cert.previewSrc}
             alt={cert.title}
-            width={900}
-            height={1200}
+            width={1200}
+            height={900}
             className="max-h-[80vh] w-auto object-contain"
-            style={{ maxWidth: "100%" }}
+            style={{ maxWidth: "min(100%, 1200px)" }}
           />
         </div>
       </div>
@@ -177,7 +177,7 @@ export function CertificationsSection({
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {certifications.map((cert) => (
             <CertCard
               key={cert.previewSrc}
