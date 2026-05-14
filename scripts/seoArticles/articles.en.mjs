@@ -399,4 +399,473 @@ export const articles_en = {
       },
     ],
   },
+
+  "seo-luxury-sintered-stone-vs-tile": {
+    title: "What Is Luxury Sintered Stone? 5 Key Differences from Regular Tiles",
+    excerpt:
+      "Luxury sintered stone is the term you'll see on spec sheets next to Calacatta, Statuario, and Bvlgari Grey. It's not natural marble. It's not a regular tile. It's a large-format sintered slab engineered to reproduce premium stone at 1:1 visual fidelity. Here are the five real differences from a regular tile.",
+    blocks: [
+      {
+        type: "p",
+        text: "A client points at a spec sheet: \"What's the actual difference between this 'luxury sintered stone' and the porcelain tile in my kitchen? The salesperson says it can go on walls, floors, countertops, and it's fireproof. Is that real?\"",
+      },
+      {
+        type: "p",
+        text: "Worth a proper answer. **Luxury stone** is the category of rare, expensive natural marbles — Calacatta, Statuario, Bvlgari Grey, Onyx — defined by scarce veining patterns and premium prices. **Luxury sintered stone** is a sintered slab engineered to reproduce those exact visual codes at 1:1 fidelity: panel sizes up to 1600×3200mm, thicknesses from 6mm to 15mm, vein patterns continuous from slab to slab, and colour that runs through the body rather than living on a printed surface.",
+      },
+      {
+        type: "p",
+        text: "Versus a regular porcelain tile, the differences are structural — five of them.",
+      },
+      { type: "h2", text: "1. Density and hardness are in a different bracket" },
+      {
+        type: "p",
+        text: "A regular porcelain tile has water absorption between 0.5% and 3%, Mohs hardness 4–6. A luxury sintered stone slab is classified as gauged porcelain by the engineering specs: water absorption ≤0.1%, Mohs hardness 6–7 — comparable to quartz and granite.",
+      },
+      {
+        type: "p",
+        text: "That hardness gap changes the PEI abrasion rating, the modulus of rupture, and the impact behaviour. On family kitchen floors, commercial corridors, exterior paving — anywhere with sustained loading — tiles wear visibly within a few years. A properly specified sintered slab will read the same after ten.",
+      },
+      { type: "h2", text: "2. Pattern is printed on, or built through" },
+      {
+        type: "p",
+        text: "Regular tile gets its pattern from a printed glaze layer at modest resolution. Lay twenty tiles on a wall and you'll see the same pattern repeat — \"clone faces.\"",
+      },
+      {
+        type: "p",
+        text: "Luxury sintered stone uses two layered techniques. First, high-resolution continuous inkjet: a scanned block of natural marble is rendered as a single oversized vein file and segmented across adjacent slabs, so two 1600×3200mm panels can be installed as a book-matched mirror with no visible seam. Second, through-body colour: pigmented mineral powders are layered into the press die so colour runs 3–8mm deep into the slab body. Mitre an edge, drill a hole, mill a channel — the exposed cut shows stone colour, not a white biscuit.",
+      },
+      { type: "h2", text: "3. Walls, floors, countertops — one spec sheet" },
+      {
+        type: "p",
+        text: "Regular tiles ship in role-specific lines: wall tile is thinner, floor tile is thicker, exterior tile is its own category. They don't substitute.",
+      },
+      {
+        type: "p",
+        text: "Sintered slab thicknesses are spec'd by structural need on the same colour: 3mm for cladding (TV walls, shower interiors), 6mm for residential floors and oversized wall panels, 9mm for furniture and shower trays, 12mm as the kitchen-countertop standard, 15mm for commercial floors, façades, and pool decks. The same colour batch can ship as 6mm wall and 12mm counter — colour match guaranteed batch-to-batch. That's what \"one material for walls and floors\" actually means.",
+      },
+      { type: "h2", text: "4. Fireproof by composition: native A1 rating" },
+      {
+        type: "p",
+        text: "Regular tiles are generally non-combustible, but how non-combustible — A1 versus A2, plus smoke-emission grading — depends on each product's test report. Sintered stone is made from natural mineral powders (feldspar, quartz, clay, mineral pigments) with zero organic binder or resin, fired at 1200°C — hotter than any structural fire reaches. Per EN 13501-1, **luxury sintered stone is natively A1 non-combustible**: the top European fire rating, with no combustion, no smoke, no flaming droplets.",
+      },
+      {
+        type: "p",
+        text: "For procurement teams writing specs for hospitals, schools, metro stations, airports, and high-rises where A1 is a hard requirement, sintered stone is one of the few materials that delivers premium stone visuals and a clean A1 certificate.",
+      },
+      { type: "h2", text: "5. The long-run cost math is different" },
+      {
+        type: "p",
+        text: "Regular tiles are cheap up front. Sintered stone runs 2–4× the unit cost — but it replaces wall tile, floor tile, countertop, splashback, furniture top, and exterior cladding with one material, no transitions, no grout lines, no colour breaks. Run the numbers on an 8m feature wall: tiled at 800×800mm you get 60-plus pieces, visible grout, and surface wear at five years; sintered at 1600×3200mm you get two panels, no joints, and visual integrity at ten years. If the slab is luxury sintered with bookmatched veining, the wall reads as continuous marble.",
+      },
+      {
+        type: "p",
+        text: "Material plus labour plus maintenance plus service life lined up in a spreadsheet, the per-year cost of luxury sintered stone in mid-to-high-end residential and commercial projects often comes out lower than the tile-plus-marble combination it replaces.",
+      },
+      { type: "h2", text: "Bottom line" },
+      {
+        type: "p",
+        text: "Regular tile is a finishing material. Luxury sintered stone is a building material with the visuals of premium marble, the durability of porcelain, and an A1 fire rating native to the composition. The first solves \"affordable to install.\" The second solves \"valuable to install.\"",
+      },
+      {
+        type: "p",
+        text: "To see how the major luxury patterns — Calacatta, Statuario, Bvlgari Grey — render at large-format scale, the [product catalog](/en/products) is filtered by colour family, thickness, and surface finish.",
+      },
+    ],
+  },
+
+  "seo-sintered-stone-marble-replication": {
+    title: "Does Sintered Stone Really Replicate Marble 1:1? A Technical Breakdown",
+    excerpt:
+      "\"1:1 marble replication\" is the most-used phrase in luxury sintered stone marketing. Is it a slogan, or can the material actually pass for marble at touching distance? We break down the two techniques that determine the answer — continuous inkjet and through-body colour — and what to check before you buy.",
+    blocks: [
+      {
+        type: "p",
+        text: "Walk into any premium stone showroom and you'll see \"1:1 marble replication\" on the signage. Ask how, exactly, and most salespeople can't tell you.",
+      },
+      {
+        type: "p",
+        text: "The phrase isn't pure marketing. It corresponds to two real techniques — **high-resolution continuous inkjet printing** and **through-body colouring** — and once you understand both, you can tell whether the slab in front of you actually replicates marble or just wears a printed photo of it.",
+      },
+      { type: "h2", text: "Technique 1: Continuous inkjet and book-matched veining" },
+      {
+        type: "p",
+        text: "The hardest thing about natural marble to replicate is vein continuity. Cut a block sequentially into adjacent slabs and the veining flows across the saw line; open the slabs as a pair and the pattern mirrors. Ten years ago no tile process could match this — every \"marble look\" tile printed the same source image, so installing a wall meant repeating that image dozens of times.",
+      },
+      {
+        type: "p",
+        text: "Modern luxury sintered stone uses digital printers at 360+ dpi. A photographed marble block becomes one oversized vein file, which is then segmented into continuous scenes printed onto adjacent slabs in sequence. Two 1600×3200mm slabs installed side-by-side can be a mirrored pair, a forward continuation, or both — and at viewing distance the seam disappears.",
+      },
+      {
+        type: "p",
+        text: "How to tell whether a factory actually produces bookmatched slabs: ask how many non-repeating continuous scenes a single production run yields (a real continuous-print line produces 8+), and ask for slab-pairing documentation at shipment. Factories that can't answer either are selling printed marble-pattern tile under a luxury label.",
+      },
+      { type: "h2", text: "Technique 2: Through-body colouring" },
+      {
+        type: "p",
+        text: "Natural marble's colour and veining come from the rock body itself. Cut, mitre, drill, mill — the colour follows the cut. A standard sintered slab can't do this: the pattern lives in a thin ink layer on the surface, and any exposed cut reveals the white biscuit underneath.",
+      },
+      {
+        type: "p",
+        text: "Through-body sintered slabs use a layered powder feed at the press stage, distributing pigmented minerals through the slab body to a depth of 3–5mm — and on premium production, up to 8mm. Mitre a 30mm visual edge, machine a rounded vanity rim, route an LED groove: the exposed surface reads as stone, not as ink-on-biscuit. This is the difference between sintered stone that holds up to close visual inspection at edges and sintered stone that doesn't.",
+      },
+      {
+        type: "p",
+        text: "Through-body production runs 30–50% above standard sintered slab pricing and prices accordingly. For surfaces where the edge is seen — furniture tops, vanities with rounded basins, mitred countertops, exposed end-caps — the upgrade is the difference between a \"real replication\" and a \"close approximation.\"",
+      },
+      { type: "h2", text: "Standard thickness range" },
+      {
+        type: "p",
+        text: "1:1 marble-replication luxury sintered stone is produced in the standard thickness ladder: 6mm (cladding), 9mm (furniture, shower trays), 12mm (countertops, splashbacks), 15mm (high-load floors, exterior). Standard panel format is 1600×3200mm; select factories produce 1800×3600mm for lobbies and façade applications that natural marble can't supply at scale.",
+      },
+      { type: "h2", text: "Where each application fits" },
+      {
+        type: "ul",
+        items: [
+          "**Hotel lobby bookmatched walls**: 1:1 Calacatta replication, two slabs floor-to-ceiling, mirrored veining across the seam",
+          "**Residential TV / fireplace walls**: 6mm continuous-print slabs, full wall in two pieces, no grout",
+          "**Monolithic bathrooms**: same colour batch in 6mm (walls) + 12mm (counter) + 9mm (shower tray)",
+          "**Furniture and dining tables**: through-body 9mm with 60mm mitred edge, visually indistinguishable from marble",
+          "**Ventilated façades**: continuous-vein 6mm slabs, one-third the weight of natural stone cladding",
+        ],
+      },
+      { type: "h2", text: "Three checks before you buy" },
+      {
+        type: "p",
+        text: "**First, ask for the pairing documentation.** A real bookmatch product ships with paired slab numbers and an installation diagram. A vendor who says \"any two pieces will match\" is selling a repeat-pattern print job.",
+      },
+      {
+        type: "p",
+        text: "**Second, see a cut sample.** Ask for an edge cut to expose the slab body. Through-body slabs show stone colour through the cut. Standard sintered slabs show white biscuit. The visual is unmistakable.",
+      },
+      {
+        type: "p",
+        text: "**Third, see the test reports.** Water absorption ≤0.1%, Mohs hardness ≥6, modulus of rupture ≥35 N/mm², EN 13501-1 fire rating A1. A serious factory hands these over without negotiation. A vendor missing any of them is worth pushing for an explanation before placing an order.",
+      },
+      { type: "h2", text: "Bottom line" },
+      {
+        type: "p",
+        text: "\"1:1 marble replication\" isn't a slogan — but it depends on the **combination** of continuous inkjet print and through-body colouring. Either technique in isolation falls short. Confirm both before signing the PO, and what arrives on site will read as marble at touching distance.",
+      },
+      {
+        type: "p",
+        text: "To see the luxury patterns we produce — Calacatta, Statuario, Onyx, Bvlgari Grey — across thicknesses with bookmatch documentation, browse the [product catalog](/en/products) filtered by colour series.",
+      },
+    ],
+  },
+
+  "seo-wall-floor-application-sintered-stone": {
+    title: "One Material for Walls and Floors: How Sintered Stone Covers Every Surface",
+    excerpt:
+      "One building material that handles walls, floors, façades, countertops, and furniture is something the construction industry didn't have a decade ago. Sintered stone is the closest thing to it now. We break it down by application — interior walls, floors, exterior cladding, surfaces — and cover slip ratings, installation, and fire-rating implications in each.",
+    blocks: [
+      {
+        type: "p",
+        text: "Traditional finishing materials are sold by location. Floor tile, wall tile, exterior tile, countertop slab, furniture board — five product lines, five colour ranges, five suppliers, and a job site filled with transition strips reconciling them.",
+      },
+      {
+        type: "p",
+        text: "Luxury sintered stone is one of the few building materials that crosses these silos. A single colour, in one production batch, can supply nearly every horizontal and vertical surface in a project — by varying thickness rather than changing product line. That's the substance behind the phrase \"one material for walls and floors.\" Here's what it looks like by application.",
+      },
+      { type: "h2", text: "Interior walls" },
+      {
+        type: "p",
+        text: "Walls are sintered stone's strongest application. The 3mm and 6mm thicknesses both work as wall cladding — 3mm for light-duty interior surfaces (elevator interiors, wardrobe panels, cabinet fronts), 6mm as the workhorse for residential and commercial wall installations.",
+      },
+      {
+        type: "p",
+        text: "The advantage over tile is **continuous coverage**. A 6m living-room TV wall installed in 800×800mm porcelain takes 60+ tiles with visible grid; the same wall in 1600×3200mm sintered slab takes two panels, no visible joint. With bookmatched luxury patterns, the wall reads as a single open block of marble.",
+      },
+      {
+        type: "p",
+        text: "Installation: thin-set polymer adhesive on level substrate for thin formats; for 6mm large-format walls, either full-bed adhesive or mechanical hanging with rear-anchored hardware on aluminium subframe — the latter used for façades and tall feature walls.",
+      },
+      { type: "h2", text: "Floors" },
+      {
+        type: "p",
+        text: "Recommended floor thickness: 6mm for residential (with proper substrate prep), 9mm or 12mm for commercial, 12mm or 15mm for high-traffic public spaces — malls, airports, metros — and 15mm for exterior paving and pool decks.",
+      },
+      {
+        type: "p",
+        text: "**Slip rating is critical.** Indoor dry areas can use polished finishes; anywhere water is present — kitchens, bathrooms, balconies, exteriors — needs R10 or R11 slip class. Reputable factories certify slip ratings to DIN 51130.",
+      },
+      {
+        type: "p",
+        text: "Floor installation follows large-format porcelain protocols: semi-dry mortar bed plus back-buttered adhesive (or specialty large-format thinset), 1.5–2mm joints, and cross-spacers to prevent lippage on oversized panels.",
+      },
+      { type: "h2", text: "Façades and exterior cladding" },
+      {
+        type: "p",
+        text: "6mm through-body sintered slab on aluminium rainscreen subframe is now the standard ventilated façade system across premium European and Middle East construction. Versus natural stone cladding, sintered slab offers larger panel formats (1500×3000mm widely available), one-third the weight per square metre, complete UV stability, and zero efflorescence.",
+      },
+      {
+        type: "p",
+        text: "Façade detailing: rear-anchored undercut anchors set into the slab back, hung on aluminium rails, with controlled ventilation gaps between panels. Wind load, seismic, and thermal envelope performance are coordinated by the façade engineer; the slab manufacturer supplies the structural test data.",
+      },
+      { type: "h2", text: "Surfaces: countertops, splashbacks, furniture" },
+      {
+        type: "p",
+        text: "12mm is the kitchen-countertop standard. Visual edge depth is built up via 45° mitre joints: 12mm+12mm produces a 30mm edge, 12mm+12mm+12mm a 60mm edge. Islands, splashbacks behind cooktops, cabinet door fronts can all share one colour batch for a continuous visual.",
+      },
+      {
+        type: "p",
+        text: "Furniture has become a growth application. 9mm through-body slab dining tables and vanities with 60mm mitred edges are visually indistinguishable from marble furniture at roughly one-third the budget and one-fifth the weight.",
+      },
+      { type: "h2", text: "Fire rating: an upgrade in every application" },
+      {
+        type: "p",
+        text: "Sintered stone is natively A1 non-combustible per EN 13501-1. In hospitals, schools, metros, airports, and high-rises where mandatory fire-rating specs apply, sintered stone delivers the same A1 compliance across walls, floors, surfaces, and furniture — no need to re-certify by application.",
+      },
+      { type: "h2", text: "Installation essentials: substrate and joints" },
+      {
+        type: "p",
+        text: "Substrate flatness tolerances are stricter than for standard tile. With a 2m straightedge, the substrate must read within 3mm — beyond that, large slabs hollow-bond and stress-crack. Wet-set installations require C2TE-grade large-format adhesive, not standard mortar.",
+      },
+      {
+        type: "p",
+        text: "Joint width: 1.5mm indoors, 3mm outdoors (to allow for thermal movement). Sintered stone's coefficient of thermal expansion is low, but joints accommodate substrate movement regardless.",
+      },
+      { type: "h2", text: "A real project: hospitality lobby" },
+      {
+        type: "p",
+        text: "A Shenzhen boutique hotel lobby last year used a single-colour sintered stone scheme: 12mm polished floor, 6mm bookmatched feature wall, 12mm reception counter with 30mm mitred edge, 6mm-wrapped columns. Entry to elevator hall as one continuous visual, one colour, two thicknesses, zero colour break. Total cost came in 60% below the natural-marble equivalent.",
+      },
+      { type: "h2", text: "Bottom line" },
+      {
+        type: "p",
+        text: "\"One material for walls and floors\" isn't a slogan when you spec it right. It's a practical outcome of one material producing every thickness from 3mm to 15mm in a colour-matched batch. The delivery requires a designer who specs well, a factory that produces consistently, and an installer trained on large-format porcelain. All three matter.",
+      },
+      {
+        type: "p",
+        text: "For application-specific case studies — residential, commercial, hospitality, façade — see the [case gallery](/en/cases). Spec sheets by thickness and finish are on the [product page](/en/products).",
+      },
+    ],
+  },
+
+  "seo-fireproof-sintered-stone-grade": {
+    title: "Fireproof Sintered Stone: What Is A1 Non-Combustible Certification and Why It Matters",
+    excerpt:
+      "Fire-rating compliance is the hardest gate in commercial procurement. Sintered stone is natively A1 non-combustible — the top European rating — which makes it one of the few premium finishing materials that satisfies hospitals, metros, airports, and high-rise specs without compromise. Here's what A1 means, how it's certified, and how to verify it.",
+    blocks: [
+      {
+        type: "p",
+        text: "Every commercial procurement team has been here: spec gets halfway approved, fire consultant returns the drawings, \"this material doesn't meet the fire rating — choose something else.\" Designer reselects, schedule slips, budget moves.",
+      },
+      {
+        type: "p",
+        text: "Fire-rating compliance is the hardest threshold in commercial materials procurement. The moment a project lands in a hospital, school, metro station, airport, or high-rise, the wall and floor specs typically require **A1 non-combustible** — the highest rating in the European classification system. The list of materials that combine A1 compliance with premium stone visuals is short. Sintered stone is on it.",
+      },
+      { type: "h2", text: "The international standard: EN 13501-1" },
+      {
+        type: "p",
+        text: "Building-materials fire classification under EN 13501-1 ranks reaction-to-fire performance from A1 (highest) through A2, B, C, D, E, to F (lowest, essentially no fire resistance).",
+      },
+      {
+        type: "p",
+        text: "**Class A1** means the material does not burn under any standardised fire test, produces no smoke, generates no flaming droplets, releases no toxic gases, and contributes nothing to fire spread. A1 needs no additional smoke or droplet sub-classification — those default to best-in-class.",
+      },
+      {
+        type: "p",
+        text: "**Class A2** is close to A1 visually but allows minor combustible content (typically organic binders). A2 ratings require explicit smoke (s1/s2/s3) and droplet (d0/d1/d2) sub-classifications. An A2-s1, d0 product is low-smoke and no-droplet; an A2-s3, d2 product is anything but. Procurement specs that say \"A2\" without sub-classification are unsafe — always demand the full string.",
+      },
+      { type: "h2", text: "Why sintered stone is natively A1" },
+      {
+        type: "p",
+        text: "Fire rating is determined by composition. **Materials containing organic compounds** — resins, plastics, rubber, wood, paper — undergo thermal decomposition under fire, releasing heat, smoke, and gases. **Inorganic mineral materials** have no combustible component and physically cannot burn.",
+      },
+      {
+        type: "p",
+        text: "Sintered slab is made from natural mineral powders: feldspar, quartz, clay, mineral pigments. All inorganic. Fired at 1200°C — above the maximum sustained temperature any structural fire reaches (typical building fires peak between 800°C and 1100°C). The slab contains zero combustible material and physically cannot burn. A1 is the inherent rating, not a treatment.",
+      },
+      {
+        type: "p",
+        text: "Counter-examples for context: engineered quartz countertops (7–10% polymer resin), hardwood flooring, acrylic solid surface, PVC decorative panels — all contain organic content, all rate B-class or lower, none qualify as A non-combustible.",
+      },
+      { type: "h2", text: "Procurement requirements by application" },
+      {
+        type: "p",
+        text: "Per GB 50016 (Chinese Code for Fire Protection Design of Buildings) and GB 8624 (Classification for Burning Behaviour of Building Materials), minimum fire ratings by application:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Underground construction, metro platforms, hospital surgical zones, high-rise core walls**: A1 non-combustible required",
+          "**Airport terminals, super-high-rise lobbies, school public areas**: A1 or A2-s1,d0",
+          "**General office spaces, residential public areas**: A2 or B1 (difficult-to-burn)",
+          "**Standard residential interiors**: B1 acceptable",
+        ],
+      },
+      {
+        type: "p",
+        text: "The harder the egress, the higher the occupancy, the more public the space — the stricter the rating. Sintered stone caps out at A1, meaning it satisfies any specification on this list with margin to spare.",
+      },
+      { type: "h2", text: "Verifying the certification" },
+      {
+        type: "p",
+        text: "Procurement teams should never accept verbal claims of A1 status. What you need on file are **third-party test reports** and **type-approval certifications**.",
+      },
+      {
+        type: "p",
+        text: "**Third-party test reports** are issued by accredited laboratories (CMA/CNAS in China; SGS, TÜV, Intertek, Bureau Veritas internationally) and identify the test sample, the testing standard (EN 13501-1 or GB 8624), the test procedure, and the result classification.",
+      },
+      {
+        type: "p",
+        text: "**Type-approval certifications** verify that a specific production batch meets the declared classification. Serious factories renew type approvals annually to demonstrate the current production still meets the stated rating.",
+      },
+      {
+        type: "p",
+        text: "When reviewing the paperwork, confirm: report date is within the last 1–2 years, the sample matches the colour and thickness you're ordering, the test was conducted under EN 13501-1 or GB 8624, and the conclusion explicitly states A1 classification. Any ambiguity on any of these — push for clean documentation before placing the order.",
+      },
+      { type: "h2", text: "A common trap: A1 does not equal A1 system" },
+      {
+        type: "p",
+        text: "Some products claim A1 only for the surface material, while the bonding adhesive, the substrate, and the support framework carry lower ratings. Sintered stone is clean on this — the slab itself is A1 with no system dependency. But on installation, the adhesive, the subframe, and the joint sealants must also meet A-class requirements. Specify the **complete system**, not just the finish.",
+      },
+      { type: "h2", text: "Bottom line" },
+      {
+        type: "p",
+        text: "A1 non-combustible is the top building-materials fire rating, meaning the material physically cannot burn under any standardised fire test. Sintered stone achieves this natively through its inorganic mineral composition, making it one of the very few premium finishing materials that satisfies mandatory fire-rating specs in high-rise, public, and underground construction.",
+      },
+      {
+        type: "p",
+        text: "For project-specific certification packages and compliance documentation, request through the [contact page](/en/contact). Standard fire-rating certificates and product specs are listed on the [product page](/en/products).",
+      },
+    ],
+  },
+
+  "seo-marble-too-expensive-sintered-stone": {
+    title: "Marble Too Expensive? A Full Cost-Performance Analysis of Luxury Sintered Stone",
+    excerpt:
+      "Natural marble has been the ceiling of high-end residential and commercial projects for centuries. Its three real problems — price, maintenance, natural radioactivity — are pushing more procurement teams toward luxury sintered stone. We break down the full lifecycle cost, performance comparison, and supply reliability side by side.",
+    blocks: [
+      {
+        type: "p",
+        text: "Owner reviews the design package: \"The feature wall is spec'd in Calacatta marble. The quote is terrifying. Is there another way?\"",
+      },
+      {
+        type: "p",
+        text: "It's the most common question we've heard for three years running. Premium natural marble has unmatched visual depth — but three structural problems push more and more projects to look for an alternative: **price, maintenance, and natural radioactivity**. Luxury sintered stone is the alternative the market has converged on. Here's the cost math.",
+      },
+      { type: "h2", text: "Problem 1: Unit price" },
+      {
+        type: "p",
+        text: "Approximate 2026 unit pricing for natural marble (delivered, before installation):",
+      },
+      {
+        type: "ul",
+        items: [
+          "Carrara White: $200–500/m²",
+          "Statuario White: $550–1100/m²",
+          "Calacatta Gold, Calacatta Grey: $900–2100/m²",
+          "Bvlgari Grey, Onyx, Rosso Levanto: $1500–4500+/m² (block-cut, prices volatile)",
+        ],
+      },
+      {
+        type: "p",
+        text: "Equivalent visual effect in luxury sintered stone:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Mid-tier continuous-print sintered slab: $130–320/m²",
+          "Premium through-body luxury sintered stone (Calacatta / Statuario / Bvlgari series): $250–650/m²",
+        ],
+      },
+      {
+        type: "p",
+        text: "Mid-to-premium sintered slab runs roughly **15%–40% of the unit cost** of the equivalent natural marble. On a 100m² feature wall project, that's an $80k to $20k swing in material cost. For many projects, this gap is the difference between \"approved\" and \"value-engineered out.\"",
+      },
+      { type: "h2", text: "Problem 2: Maintenance burden" },
+      {
+        type: "p",
+        text: "Natural marble's structural weakness is **porosity**. The calcite crystal matrix has microscopic pores; porosity typically runs 0.3% to 1.5%, and water, oils, wine, coffee, and acidic foods all penetrate. A glass of red wine spilled on white marble overnight leaves a permanent purple-red stain.",
+      },
+      {
+        type: "p",
+        text: "High-end projects schedule **resealing and polishing maintenance** every 6–12 months: clean, hone, seal, dry, polish. Cost per visit on a 100m² lobby floor is $4,000–$11,000 per cycle. Over a 10-year service life, cumulative maintenance: $40,000–$110,000.",
+      },
+      {
+        type: "p",
+        text: "Sintered stone has ≤0.1% water absorption — effectively non-porous, **zero maintenance**. Daily cleaning is a neutral-pH wipe-down. Ten-year cumulative maintenance: essentially zero.",
+      },
+      { type: "h2", text: "Problem 3: Natural radioactivity" },
+      {
+        type: "p",
+        text: "Natural stone is a geological product and inevitably contains trace radioactive elements (uranium, thorium, potassium-40). The Chinese GB 6566 standard (Limits of Radionuclides in Building Materials) classifies materials into Class A (unrestricted use), Class B (exterior use only), and Class C (decorative exterior wall only).",
+      },
+      {
+        type: "p",
+        text: "Most marbles qualify as Class A, but **certain dark granites and certain premium imported marbles** fall into Class B or even Class C depending on source quarry. Indoor environments — homes, schools, hospitals — have low tolerance for radioactive exposure over sustained periods. Procuring premium natural stone requires reviewing radioactivity test reports per batch.",
+      },
+      {
+        type: "p",
+        text: "Sintered stone is engineered from controlled-composition mineral powders fired at 1200°C; radionuclide content is negligible across all tested samples, all classifying as Class A, and the consistency is batch-stable in a way natural stone is not.",
+      },
+      { type: "h2", text: "Performance comparison" },
+      {
+        type: "p",
+        text: "Side-by-side on the core specs:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Stain resistance**: marble stains easily; sintered stone zero absorption",
+          "**Heat tolerance**: marble withstands 300°C; sintered stone withstands 800°C+",
+          "**Abrasion**: marble Mohs 3–5; sintered stone Mohs 6–7",
+          "**Impact**: marble brittle, chips at edges; sintered stone outperforms on impact strength",
+          "**Fire rating**: marble A1; sintered stone A1 (equivalent)",
+          "**Max panel size**: marble limited by block (typically ≤1200×2400mm); sintered stone 1600×3200mm standard, up to 1800×3600mm available",
+          "**Weight**: marble 28–30 kg/m² (10mm); sintered stone 24 kg/m² (12mm)",
+          "**Colour variation**: every marble slab differs; sintered stone same batch holds ΔE<1.5",
+        ],
+      },
+      { type: "h2", text: "Supply lead time and reliability" },
+      {
+        type: "p",
+        text: "Natural marble supply is volatile. Premium patterns — Calacatta, Bvlgari Grey, Onyx — require block sourcing, sequential cutting, and finishing; 3–6 months from order to delivery is typical. Worse, batch-to-batch colour matching is impossible: a top-up order six months later will not match the original.",
+      },
+      {
+        type: "p",
+        text: "Sintered stone has stable supply timing. Standard patterns ship in 4–6 weeks; custom prints in 8–10 weeks. Same-batch colour matching holds within ΔE<1.5, so commercial projects can confidently re-order against the original spec.",
+      },
+      { type: "h2", text: "5-year total cost comparison: 100m² luxury feature wall" },
+      {
+        type: "p",
+        text: "Assume a 100m² lobby feature wall in Calacatta pattern:",
+      },
+      {
+        type: "ul",
+        items: [
+          "**Natural Calacatta marble**: material $85k + installation $8k + 5-yr maintenance $20k = **$113k**",
+          "**Premium through-body luxury sintered stone**: material $32k + installation $6k + 5-yr maintenance ~$0 = **$38k**",
+        ],
+      },
+      {
+        type: "p",
+        text: "Roughly $75k delta on a single wall. And in 90% of viewing conditions, the visual outcome is indistinguishable.",
+      },
+      { type: "h2", text: "When natural marble still wins" },
+      {
+        type: "p",
+        text: "Fair disclosure — luxury sintered stone is not a 100% replacement. Natural marble retains the edge in two scenarios:",
+      },
+      {
+        type: "p",
+        text: "**Ultra-premium projects with extreme demands on vein depth and translucency.** Real Calacatta and Onyx have an internal light-transmission quality at raking angles that sintered stone can't fully reproduce.",
+      },
+      {
+        type: "p",
+        text: "**Heavily sculpted edge profiles.** Natural marble fabricates easily into ogees, bullnoses, and curved decorative profiles. Sintered slab fabrication centres on mitre joints; complex curved edges are technically possible but expensive and craft-dependent.",
+      },
+      { type: "h2", text: "Bottom line" },
+      {
+        type: "p",
+        text: "If the brief reads \"looks like marble, low-maintenance, easy to source, holds visual integrity at five years\" — luxury sintered stone is the rational choice. If the brief reads \"must be natural marble, willing to accept the full cost of ownership\" — then specify the marble. These are not competitors in the same category; they're two delivery methods for the same visual ambition.",
+      },
+      {
+        type: "p",
+        text: "For real-world installation comparisons and luxury pattern photography, the [product catalog](/en/products) sorts by colour series and the [case gallery](/en/cases) shows completed projects in Calacatta and Statuario sintered stone.",
+      },
+    ],
+  },
 };
