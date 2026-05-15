@@ -344,11 +344,9 @@ export default function AboutPage(): React.JSX.Element {
         sectionTitle={String(aboutCopy.certificationsTitle)}
         description={String(aboutCopy.certificationsDescription)}
         viewLabel={String(aboutCopy.certificationsViewLabel)}
-        downloadLabel={String(aboutCopy.certificationsDownloadLabel)}
         certifications={
           (aboutCopy.certifications as CertificateItem[]).map((c) => ({
             previewSrc: c.previewSrc,
-            downloadUrl: c.downloadUrl,
             type: c.type,
             title: String(c.title),
             number: String(c.number),

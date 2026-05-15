@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Download, ZoomIn } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 export type CertificateItem = {
   previewSrc: string;
-  downloadUrl: string;
   type: string;
   title: string;
   number: string;
@@ -18,7 +17,6 @@ type CertificationsSectionProps = {
   sectionTitle: string;
   description: string;
   viewLabel: string;
-  downloadLabel: string;
   certifications: CertificateItem[];
 };
 
@@ -31,12 +29,10 @@ const TYPE_LABEL: Record<string, string> = {
 function CertCard({
   cert,
   viewLabel,
-  downloadLabel,
   onZoom,
 }: {
   cert: CertificateItem;
   viewLabel: string;
-  downloadLabel: string;
   onZoom: (cert: CertificateItem) => void;
 }) {
   return (
@@ -70,17 +66,6 @@ function CertCard({
           <p className="font-mono text-[11px] text-gray-400">{cert.number}</p>
         )}
         <p className="mt-auto text-[11px] text-gray-400">{cert.issuer}</p>
-
-        {cert.downloadUrl && (
-          <a
-            href={cert.downloadUrl}
-            download
-            className="mt-2 flex items-center gap-1.5 text-[11px] text-[#0f2858] transition-opacity hover:opacity-70"
-          >
-            <Download className="h-3 w-3" />
-            {downloadLabel}
-          </a>
-        )}
       </div>
     </div>
   );
@@ -88,11 +73,9 @@ function CertCard({
 
 function Lightbox({
   cert,
-  downloadLabel,
   onClose,
 }: {
   cert: CertificateItem;
-  downloadLabel: string;
   onClose: () => void;
 }) {
   return (
@@ -115,16 +98,6 @@ function Lightbox({
             )}
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            {cert.downloadUrl && (
-              <a
-                href={cert.downloadUrl}
-                download
-                className="flex items-center gap-1.5 rounded border border-white/30 px-3 py-1.5 text-xs text-white transition-colors hover:bg-white/10"
-              >
-                <Download className="h-3.5 w-3.5" />
-                {downloadLabel}
-              </a>
-            )}
             <button
               type="button"
               aria-label="Close"
@@ -155,7 +128,6 @@ export function CertificationsSection({
   sectionTitle,
   description,
   viewLabel,
-  downloadLabel,
   certifications,
 }: CertificationsSectionProps) {
   const [activeCert, setActiveCert] = useState<CertificateItem | null>(null);
@@ -181,7 +153,6 @@ export function CertificationsSection({
               key={cert.previewSrc}
               cert={cert}
               viewLabel={viewLabel}
-              downloadLabel={downloadLabel}
               onZoom={setActiveCert}
             />
           ))}
@@ -191,7 +162,6 @@ export function CertificationsSection({
       {activeCert && (
         <Lightbox
           cert={activeCert}
-          downloadLabel={downloadLabel}
           onClose={() => setActiveCert(null)}
         />
       )}
