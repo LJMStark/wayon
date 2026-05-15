@@ -11,7 +11,7 @@
  * Writes: public/assets/certificates/  (--apply only)
  */
 
-import { execSync, spawnSync } from "child_process";
+import { spawnSync } from "child_process";
 import { readdirSync, copyFileSync, existsSync, mkdirSync } from "fs";
 import path from "path";
 
@@ -53,11 +53,10 @@ for (const [filename, slug] of Object.entries(FILE_MAP)) {
   }
 
   if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
-    const destName = slug;
-    const destPath = path.join(OUT_DIR, destName);
-    console.log(`JPG  ${filename} → /assets/certificates/${destName}`);
+    const destPath = path.join(OUT_DIR, slug);
+    console.log(`JPG  ${filename} → /assets/certificates/${slug}`);
     if (!DRY_RUN) copyFileSync(srcPath, destPath);
-    produced.push({ slug: path.basename(destName, path.extname(destName)), file: destName });
+    produced.push({ slug: path.basename(slug, path.extname(slug)), file: slug });
     continue;
   }
 

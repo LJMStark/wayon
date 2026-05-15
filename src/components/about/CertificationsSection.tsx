@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { X, Download, ZoomIn } from "lucide-react";
 
@@ -160,8 +160,6 @@ export function CertificationsSection({
 }: CertificationsSectionProps) {
   const [activeCert, setActiveCert] = useState<CertificateItem | null>(null);
 
-  const handleClose = useCallback(() => setActiveCert(null), []);
-
   return (
     <>
       <section
@@ -194,7 +192,7 @@ export function CertificationsSection({
         <Lightbox
           cert={activeCert}
           downloadLabel={downloadLabel}
-          onClose={handleClose}
+          onClose={() => setActiveCert(null)}
         />
       )}
     </>
