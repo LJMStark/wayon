@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
 
 type ProductCoverCellProps = {
@@ -13,6 +14,10 @@ type VariantDoc = {
   elementImages?: ImageMediaItem[] | null;
   spaceImages?: ImageMediaItem[] | null;
   realImages?: ImageMediaItem[] | null;
+};
+type VariantImageResult = {
+  productId: string;
+  url: string | null;
 };
 
 function readUrlFromMediaRef(value: unknown): string | null {
@@ -39,16 +44,15 @@ export function ProductCoverCell({ cellData, rowData }: ProductCoverCellProps) {
   const directUrl = readUrlFromMediaRef(cellData);
   const productId = rowData?.id;
 
-  const [variantUrl, setVariantUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(!directUrl && Boolean(productId));
+  const [variantImage, setVariantImage] = useState<VariantImageResult | null>(
+    null,
+  );
 
   useEffect(() => {
     if (directUrl || !productId) {
-      setLoading(false);
       return;
     }
     let cancelled = false;
-    setLoading(true);
     const url =
       `/api/productVariants?where[productRef][equals]=${encodeURIComponent(productId)}` +
       `&limit=1&sort=sortOrder&depth=1`;
@@ -56,20 +60,24 @@ export function ProductCoverCell({ cellData, rowData }: ProductCoverCellProps) {
       .then((response) => (response.ok ? response.json() : null))
       .then((payload: { docs?: VariantDoc[] } | null) => {
         if (cancelled) return;
-        setVariantUrl(pickFirstImageUrl(payload?.docs?.[0]));
+        setVariantImage({
+          productId,
+          url: pickFirstImageUrl(payload?.docs?.[0]),
+        });
       })
       .catch(() => {
-        if (!cancelled) setVariantUrl(null);
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setVariantImage({ productId, url: null });
       });
     return () => {
       cancelled = true;
     };
   }, [directUrl, productId]);
 
+  const hasLoadedVariant =
+    variantImage != null && variantImage.productId === productId;
+  const variantUrl = hasLoadedVariant ? variantImage.url : null;
   const finalUrl = directUrl ?? variantUrl;
+  const loading = !directUrl && Boolean(productId) && !hasLoadedVariant;
 
   if (loading && !finalUrl) {
     return <span style={{ color: "var(--theme-elevation-400)" }}>…</span>;

@@ -37,8 +37,68 @@ const dirname = path.dirname(filename);
 export default buildConfig({
   admin: {
     user: Users.slug,
+    theme: "light",
+    meta: {
+      titleSuffix: "- Wayon CMS",
+      description: "Wayon Stone Group website administration.",
+      icons: [
+        { rel: "icon", type: "image/png", url: "/assets/brand/favicon.png" },
+      ],
+    },
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    components: {
+      beforeLogin: ["@/payload/components/AdminBrand#AdminLoginIntro"],
+      beforeNav: ["@/payload/components/AdminBrand#AdminNavBrand"],
+      graphics: {
+        Icon: "@/payload/components/AdminBrand#AdminIcon",
+        Logo: "@/payload/components/AdminBrand#AdminLogo",
+      },
+    },
+    dashboard: {
+      defaultLayout: [
+        { widgetSlug: "wayon-overview", width: "full" },
+        { widgetSlug: "wayon-quick-actions", width: "medium" },
+        { widgetSlug: "wayon-latest-inquiries", width: "medium" },
+        { widgetSlug: "wayon-latest-news", width: "medium" },
+        { widgetSlug: "wayon-workflow", width: "medium" },
+      ],
+      widgets: [
+        {
+          slug: "wayon-overview",
+          label: "运营概览",
+          Component: "@/payload/components/AdminDashboard#AdminOverviewWidget",
+          minWidth: "full",
+        },
+        {
+          slug: "wayon-quick-actions",
+          label: "常用入口",
+          Component:
+            "@/payload/components/AdminDashboard#AdminQuickActionsWidget",
+          minWidth: "medium",
+        },
+        {
+          slug: "wayon-latest-inquiries",
+          label: "最新询盘",
+          Component:
+            "@/payload/components/AdminDashboard#AdminLatestInquiriesWidget",
+          minWidth: "medium",
+        },
+        {
+          slug: "wayon-latest-news",
+          label: "最近新闻",
+          Component:
+            "@/payload/components/AdminDashboard#AdminLatestNewsWidget",
+          minWidth: "medium",
+        },
+        {
+          slug: "wayon-workflow",
+          label: "编辑顺序",
+          Component: "@/payload/components/AdminDashboard#AdminWorkflowWidget",
+          minWidth: "medium",
+        },
+      ],
     },
   },
   collections: [

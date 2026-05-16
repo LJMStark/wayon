@@ -28,6 +28,7 @@ export const Products: CollectionConfig = {
       "前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。",
     components: {
       beforeListTable: [
+        "@/payload/components/ProductListToolbar#ProductListToolbar",
         "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton",
       ],
     },
@@ -36,8 +37,7 @@ export const Products: CollectionConfig = {
     // Public REST (/api/products) must not leak drafts. Authenticated users
     // (CMS editors) see everything; anonymous callers get a where-filter
     // limiting results to published documents.
-    read: ({ req }) =>
-      req.user ? true : { published: { equals: true } },
+    read: ({ req }) => (req.user ? true : { published: { equals: true } }),
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
@@ -79,8 +79,7 @@ export const Products: CollectionConfig = {
       type: "text",
       admin: {
         hidden: true,
-        description:
-          "导入产品时生成的族系名称，用作导入识别键。不要手动修改。",
+        description: "导入产品时生成的族系名称，用作导入识别键。不要手动修改。",
       },
     },
     {
@@ -185,8 +184,16 @@ export const Products: CollectionConfig = {
       collection: "productVariants",
       on: "productRef",
       admin: {
-        description: "该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。",
-        defaultColumns: ["code", "size", "thickness", "process", "colorGroup", "sortOrder"],
+        description:
+          "该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。",
+        defaultColumns: [
+          "code",
+          "size",
+          "thickness",
+          "process",
+          "colorGroup",
+          "sortOrder",
+        ],
       },
     },
     translationMetaField,

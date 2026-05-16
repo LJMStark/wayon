@@ -110,6 +110,11 @@ export interface Config {
   globalsSelect: {};
   locale: 'zh' | 'en' | 'es' | 'ar';
   widgets: {
+    'wayon-overview': WayonOverviewWidget;
+    'wayon-quick-actions': WayonQuickActionsWidget;
+    'wayon-latest-inquiries': WayonLatestInquiriesWidget;
+    'wayon-latest-news': WayonLatestNewsWidget;
+    'wayon-workflow': WayonWorkflowWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -871,6 +876,56 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wayon-overview_widget".
+ */
+export interface WayonOverviewWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wayon-quick-actions_widget".
+ */
+export interface WayonQuickActionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wayon-latest-inquiries_widget".
+ */
+export interface WayonLatestInquiriesWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wayon-latest-news_widget".
+ */
+export interface WayonLatestNewsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wayon-workflow_widget".
+ */
+export interface WayonWorkflowWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'medium' | 'large' | 'x-large' | 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
