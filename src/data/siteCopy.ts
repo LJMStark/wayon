@@ -1743,6 +1743,54 @@ const SITE_COPY = {
     certifications: [
       {
         title: {
+          en: "Porcelain Slab — Certificate of Conformity",
+          zh: "岩板产品检验合格证书",
+          es: "Losa porcelánica — Certificado de conformidad",
+          ar: "ألواح البورسلان — شهادة مطابقة المنتج",
+        },
+        description: {
+          en: "Certificate for 1000mm x 3000mm x 9mm porcelain slabs under GB/T 4100-2015 and GB 6566-2010, confirming the inspected items meet the required standards.",
+          zh: "适用于 1000mm x 3000mm x 9mm 岩板，执行 GB/T 4100-2015 与 GB 6566-2010，确认所检项目符合标准要求。",
+          es: "Certificado para losas porcelánicas de 1000mm x 3000mm x 9mm según GB/T 4100-2015 y GB 6566-2010; confirma que los ensayos cumplen los requisitos.",
+          ar: "شهادة لألواح بورسلان 1000mm x 3000mm x 9mm وفق GB/T 4100-2015 وGB 6566-2010، تؤكد مطابقة البنود المفحوصة للمتطلبات.",
+        },
+        issuer: {
+          en: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+          zh: "广东华迅陶瓷产品检测有限公司",
+          es: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+          ar: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+        },
+        reportNumber: "T23-WT2893-C",
+        year: "2023",
+        size: "634 KB",
+        downloadUrl: "/downloads/porcelain-slab-conformity-certificate-T23-WT2893.pdf",
+      },
+      {
+        title: {
+          en: "Porcelain Slab — Test Report T23-WT2893",
+          zh: "岩板检验报告 T23-WT2893",
+          es: "Losa porcelánica — Informe de ensayo T23-WT2893",
+          ar: "ألواح البورسلان — تقرير اختبار T23-WT2893",
+        },
+        description: {
+          en: "Inspection report for 1000mm x 3000mm x 9mm porcelain slabs, covering dimensional deviation, flatness, water absorption, breaking strength, modulus of rupture, stain resistance and radionuclide limits. Result: passed.",
+          zh: "适用于 1000mm x 3000mm x 9mm 岩板，检测尺寸偏差、平整度、吸水率、破坏强度、断裂模数、耐污染性、放射性核素限量等项目，结论为合格。",
+          es: "Informe para losas porcelánicas de 1000mm x 3000mm x 9mm; cubre desviación dimensional, planeidad, absorción de agua, resistencia a rotura, módulo de rotura, resistencia a manchas y límites de radionúclidos. Resultado: aprobado.",
+          ar: "تقرير فحص لألواح بورسلان 1000mm x 3000mm x 9mm يشمل انحراف الأبعاد والاستواء وامتصاص الماء وقوة الكسر ومعامل الكسر ومقاومة البقع وحدود النويدات المشعة. النتيجة: مطابق.",
+        },
+        issuer: {
+          en: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+          zh: "广东华迅陶瓷产品检测有限公司",
+          es: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+          ar: "Guangdong Huaxun Ceramic Products Testing Co., Ltd.",
+        },
+        reportNumber: "T23-WT2893",
+        year: "2023",
+        size: "1.6 MB",
+        downloadUrl: "/downloads/porcelain-slab-test-report-T23-WT2893.pdf",
+      },
+      {
+        title: {
           en: "Porcelain Slab — Inspection Report",
           zh: "岩板质量检验报告",
           es: "Losa porcelánica — Informe de inspección",
