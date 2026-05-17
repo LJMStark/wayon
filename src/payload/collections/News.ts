@@ -47,6 +47,16 @@ export const News: CollectionConfig = {
       },
     },
     {
+      name: "frontendLinks",
+      type: "ui",
+      admin: {
+        components: {
+          Field:
+            "@/payload/components/NewsFrontendLinksField#NewsFrontendLinksField",
+        },
+      },
+    },
+    {
       name: "title",
       label: "标题",
       type: "text",

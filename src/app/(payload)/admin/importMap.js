@@ -2,6 +2,7 @@ import { TranslationActionsField as TranslationActionsField_4b0ce3e9f966daa96b45
 import { ProductCoverCell as ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819 } from '@/payload/components/ProductCoverCell'
 import { ProductListToolbar as ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f } from '@/payload/components/ProductListToolbar'
 import { ProductsBatchTranslateButton as ProductsBatchTranslateButton_ad07c281853f22027dfeefee5c285af1 } from '@/payload/components/ProductsBatchTranslateButton'
+import { NewsFrontendLinksField as NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2 } from '@/payload/components/NewsFrontendLinksField'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -44,6 +45,7 @@ export const importMap = {
   "@/payload/components/ProductCoverCell#ProductCoverCell": ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819,
   "@/payload/components/ProductListToolbar#ProductListToolbar": ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f,
   "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton": ProductsBatchTranslateButton_ad07c281853f22027dfeefee5c285af1,
+  "@/payload/components/NewsFrontendLinksField#NewsFrontendLinksField": NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
