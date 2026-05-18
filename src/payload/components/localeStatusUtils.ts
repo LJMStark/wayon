@@ -104,10 +104,43 @@ export function computeLocaleStatus(
 
   for (const locale of LOCALES) {
     result[locale] = requiredFields.every((field) =>
-      hasLocalizedContent(readLocaleValue(doc[field], locale), locale)
+      hasRequiredFieldContent(doc, collection, field, locale)
     );
   }
   return result;
+}
+
+function hasRequiredFieldContent(
+  doc: Record<string, unknown>,
+  collection: string,
+  field: string,
+  locale: AppLocale
+): boolean {
+  if (collection === "products" && field === "title") {
+    return hasProductTitleContent(doc.title, locale);
+  }
+
+  return hasLocalizedContent(readLocaleValue(doc[field], locale), locale);
+}
+
+function hasProductTitleContent(title: unknown, locale: AppLocale): boolean {
+  const zhTitle = readLocaleValue(title, "zh");
+
+  if (locale === "zh") {
+    return hasLocalizedContent(zhTitle, "zh");
+  }
+
+  // Client requirement: non-Chinese product names display the Chinese title as
+  // uppercase pinyin. If zh exists, EN/ES/AR title fields are not manually
+  // required for the public product name to render correctly.
+  if (hasLocalizedContent(zhTitle, "zh")) {
+    return true;
+  }
+
+  return (
+    hasLocalizedContent(readLocaleValue(title, locale), locale) ||
+    hasLocalizedContent(readLocaleValue(title, "en"), "en")
+  );
 }
 
 export function localesMissing(

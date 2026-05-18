@@ -31,14 +31,16 @@ function pickSource(data: SlugSourcePayload): string {
 // same value is used across all locales.
 export const slugifyBeforeValidate: CollectionBeforeValidateHook = async ({
   data,
+  operation,
 }) => {
   if (!data) return data;
 
   const payload = data as SlugSourcePayload;
 
-  // undefined means slug was not submitted (e.g. a locale-only update that
-  // only carries localized fields). Leave the stored slug untouched.
-  if (payload.slug === undefined) {
+  // On updates, undefined means slug was not submitted (e.g. a locale-only
+  // update that only carries localized fields). Leave the stored slug untouched.
+  // On creates, Payload may omit empty fields, so still generate from title.
+  if (operation === "update" && payload.slug === undefined) {
     return data;
   }
 

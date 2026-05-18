@@ -444,7 +444,7 @@ function buildPrompt(context, imageWarningCount) {
   return `
 Write product-specific marketing copy for a stone surface product.
 
-Use the product name, variant data, product imagery, and web search findings. Search the web for the product name, normalized name, variant codes, and ZYL/Wayon context when useful.
+Use the product name, variant data, product imagery, and web search findings. Search the web for the product name, normalized name, variant codes, and ZYL Sintered Stone context when useful.
 
 Do not mention product categories, collection names, or any forbidden term listed below. Do not claim certifications, origin, price, inventory, test reports, delivery time, or exclusive performance unless the provided data or search results directly support it.
 

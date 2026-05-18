@@ -200,20 +200,13 @@ async function upsertProduct(payload, slug, title, normalizedName, dryRun) {
 
   if (dryRun) return `dry-run-${slug}`;
 
-  // Create with zh locale first, then patch en locale separately.
-  // Passing { title: { zh, en } } without locale causes Payload to store the
-  // entire object as a JSON string in the default locale field.
+  // Create with zh locale only. Products auto-fill EN/ES/AR titles as pinyin
+  // from the zh title via the Products afterChange hook; writing the raw
+  // Chinese title into non-zh locales would fight the client naming rule.
   const created = await payload.create({
     collection: "products",
     locale: "zh",
     data: { slug, title, normalizedName, published: false },
-    overrideAccess: true,
-  });
-  await payload.update({
-    collection: "products",
-    id: created.id,
-    locale: "en",
-    data: { title },
     overrideAccess: true,
   });
   return created.id;
