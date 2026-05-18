@@ -36,6 +36,12 @@ export const slugifyBeforeValidate: CollectionBeforeValidateHook = async ({
 
   const payload = data as SlugSourcePayload;
 
+  // undefined means slug was not submitted (e.g. a locale-only update that
+  // only carries localized fields). Leave the stored slug untouched.
+  if (payload.slug === undefined) {
+    return data;
+  }
+
   if (payload.slug && payload.slug.trim().length > 0) {
     return data;
   }
