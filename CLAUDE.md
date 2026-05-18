@@ -33,9 +33,10 @@ npm run migrate:existing-media    # Move /api/trade-media/* references → R2 vi
 npm run backfill:texture-series   # Backfill texture/series type field on variants
 npm run generate:product-copy     # AI-generate EN/ES/AR product copy via OpenAI
 npm run generate:product-copy:gemini  # Same, via Gemini
+# Most DB-writing one-shot scripts default to dry-run. Add `-- --apply` only after checking the target DB and expected writes.
 ```
 
-**Tests** are Vitest, co-located next to the code they cover (`*.test.ts(x)` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. There is no jsdom setup — tests assume pure-function models; do not import `.tsx` components.
+**Tests** are Vitest, co-located next to the code they cover (`*.test.ts` and `*.test.tsx` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. Tests run in the Node environment with no jsdom setup. Prefer pure-function tests where possible; component/page tests are allowed when they can run without a browser DOM by directly calling components or mocking Next/i18n dependencies.
 
 **Payload Admin** is embedded at `/admin` (requires running dev server + valid `DATABASE_URL`).
 
@@ -176,7 +177,7 @@ Earlier sub-directories (`docs/4.22_待补关键图/`, `docs/4.22_错误规格�
 One-shot scripts. Shared conventions:
 
 - Loaded via `node --env-file=.env.local`
-- Default to **dry-run**, require `--apply` to write (e.g., `migrate:existing-media`)
+- Most DB-writing scripts default to **dry-run** and require `--apply` to write (for npm scripts, pass it after `--`, e.g. `npm run migrate:existing-media -- --apply`). Check each script header before running: some maintenance scripts default to apply mode with an optional `--dry-run`, and local file processors write files rather than database rows.
 - Use `getPayload({ config })` to talk to Payload, never raw SQL
 - Idempotent — re-runs of an already-migrated record are no-ops
 - Batch sizes 50–100 for large-collection traversals
@@ -188,6 +189,8 @@ Active scripts:
 - `compressMedia.mjs` — local pre-deploy compression. Reads `docs/4.22/` + `docs/海盛/`, writes mirror to `docs.compressed/` (mozjpeg q=85 / oxipng / sharp PNG max-effort / ffmpeg libx264 CRF 23). Idempotent. Already run; results were swapped in (originals preserved as `docs.original/`)
 - `uploadCompanyAssets.mjs` — one-shot uploader. Walks `docs/海盛/{营业执照, 展厅图片, 工厂图片, 合作案例(...)/{销售合作案例, 工厂合作案例}}` and uploads each file to Payload `media` (R2), renamed to `{prefix}-NNN.{ext}` and tagged with the matching `category`. Default dry-run; `--apply` to write. Run once after the migration that adds `media.category` is applied
 - `scanLegacyMediaReferences.mjs` — read-only sanity check. Greps Payload records (products, productVariants, media, news) for any leftover `.mov` / `.heic` URLs; expected to return 0 after the compression swap
+- `generateProductCopy.mjs` / `generateProductCopyGemini.mjs` — AI-generate EN/ES/AR product descriptions from product data and images. Default dry-run drafts; `--apply` writes to Payload. OpenAI uses `OPENAI_API_KEY`; Gemini uses `GEMINI_API_KEY`
+- `applyFirstWaveCopy.mjs` / `applyGeminiDrafts.mjs` / `verifyCopyCompleteness.mjs` — apply or verify prepared product-copy batches. Default dry-run for apply scripts; `verifyCopyCompleteness.mjs` is read-only
 - `seedSeoNewsDrafts.mjs` + `seoArticles/` — content pipeline for SEO long-form articles. `seoArticles/articles.{en,zh,es,ar}.mjs` carry the per-locale prose as `{type,text}` blocks; `seoArticles/lexical.mjs` converts them into Payload's Lexical SerializedEditorState (handles `**bold**`, `*italic*`, and `[text](url)` for internal links). The seeder is idempotent — looks up existing news by slug and updates all four locales. `--apply` to write
 - `listMediaByCategory.mjs` / `verifySeoDrafts.mjs` — read-only helpers used alongside the SEO pipeline (pick covers from `media.category`, verify locale completeness)
 
@@ -198,7 +201,7 @@ Active scripts:
 - **Frontend locales**: `["en", "zh", "es", "ar"]` (4)
 - **Payload locales**: `["zh", "en", "es", "ar"]` (4)
 - Navigation helpers: `Link`, `redirect`, `useRouter` from `src/i18n/routing.ts` (not `next/link`)
-- **next-intl middleware lives at `src/proxy.ts`** (not the conventional `src/middleware.ts`) and is re-exported via `src/middleware.ts` — edit `proxy.ts` for locale routing rules
+- **next-intl middleware lives at `src/proxy.ts`** (not the conventional `src/middleware.ts`) — edit `proxy.ts` for locale routing rules
 
 #### Two static-content sources
 
@@ -249,9 +252,10 @@ INQUIRY_NOTIFY_TO=sales@company.com         # comma-separated for multiple recip
 # Optional: src/lib/env.ts falls back to the production domain
 NEXT_PUBLIC_SITE_URL=https://zylsinteredstone.com
 
-# AI product copy generation — used only by npm run generate:product-copy
+# AI product copy generation — used only by product-copy scripts
 OPENAI_API_KEY=sk-...
 OPENAI_PRODUCT_COPY_MODEL=gpt-5.4-mini
+GEMINI_API_KEY=...
 ```
 
 Sanity is **no longer used** — any reference to `SANITY_*` env vars, `@sanity/*` imports, or `src/sanity/` paths in older docs/scripts is historical. The previous Sanity → Payload migration is complete; do not reintroduce Sanity.
