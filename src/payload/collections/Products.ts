@@ -1,8 +1,6 @@
 import type { CollectionConfig } from "payload";
 
 import { TRADE_SERIES_TYPES } from "../../features/products/lib/tradeCatalog.ts";
-import { translationMetaField } from "../fields/translationMeta.ts";
-import { clearAutoTranslatedFlagsBeforeChange } from "../hooks/translationMeta.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const Products: CollectionConfig = {
@@ -23,13 +21,13 @@ export const Products: CollectionConfig = {
       "published",
       "variants",
       "sortOrder",
+      "localeStatus",
     ],
     description:
-      "前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。",
+      "前台产品目录主要读取“前台所属分类”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选前台所属分类 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。标题与描述为多语言字段，请使用页面右上角的语言切换器，按 4 个语种分别填写。某语种留空时，前台会自动回落显示英文；英文也为空时，对应语种页面会显示空白。",
     components: {
       beforeListTable: [
         "@/payload/components/ProductListToolbar#ProductListToolbar",
-        "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton",
       ],
     },
   },
@@ -41,20 +39,15 @@ export const Products: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
-    beforeChange: [
-      clearAutoTranslatedFlagsBeforeChange({
-        localizedFields: ["title", "description"],
-      }),
-    ],
   },
   fields: [
     {
-      name: "translationActions",
+      name: "localeCompletenessWarning",
       type: "ui",
       admin: {
         components: {
           Field:
-            "@/payload/components/TranslationActionsField#TranslationActionsField",
+            "@/payload/components/LocaleCompletenessWarning#LocaleCompletenessWarning",
         },
       },
     },
@@ -64,6 +57,9 @@ export const Products: CollectionConfig = {
       type: "text",
       localized: true,
       required: true,
+      admin: {
+        description: "中文标题为主字段。注意：产品前台非中文页（英/西/阿语）始终显示中文标题的大写拼音转写（如「花开富贵」→ HUA KAI FU GUI），不会读取英/西/阿语 title。英/西/阿语 title 仅在中文为空时作为兜底用，且不能含中文字符（否则徽章/警告判为未填）。",
+      },
     },
     {
       name: "slug",
@@ -111,16 +107,19 @@ export const Products: CollectionConfig = {
       label: "描述",
       type: "textarea",
       localized: true,
+      admin: {
+        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。",
+      },
     },
     {
       name: "seriesTypes",
-      label: "系列类型",
+      label: "前台所属分类（可多选）",
       type: "select",
       hasMany: true,
       options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
       admin: {
         description:
-          "前台左侧“岩板产品系列 / 特惠系列”从这里读取。需要进入“特惠系列”的产品，请在这里勾选“特惠系列”。",
+          "勾选后产品会出现在对应的前台分类下，可同时勾选多项。映射关系：「特惠系列」→ 前台顶级菜单「特惠系列」；其余 9 项（质感岩板、名石岩板、洞石岩板、木纹岩板、护墙岩板、艺术岩板、连纹岩板、创意网红、新品系列）→ 前台「岩板产品系列」分类下的子分类。",
       },
     },
     {
@@ -196,6 +195,15 @@ export const Products: CollectionConfig = {
         ],
       },
     },
-    translationMetaField,
+    {
+      name: "localeStatus",
+      label: "语言",
+      type: "ui",
+      admin: {
+        components: {
+          Cell: "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell",
+        },
+      },
+    },
   ],
 };

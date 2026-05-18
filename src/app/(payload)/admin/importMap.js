@@ -1,7 +1,7 @@
-import { TranslationActionsField as TranslationActionsField_4b0ce3e9f966daa96b45a8cdf2a93bcd } from '@/payload/components/TranslationActionsField'
+import { LocaleCompletenessWarning as LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248 } from '@/payload/components/LocaleCompletenessWarning'
 import { ProductCoverCell as ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819 } from '@/payload/components/ProductCoverCell'
+import { ProductLocaleStatusCell as ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
 import { ProductListToolbar as ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f } from '@/payload/components/ProductListToolbar'
-import { ProductsBatchTranslateButton as ProductsBatchTranslateButton_ad07c281853f22027dfeefee5c285af1 } from '@/payload/components/ProductsBatchTranslateButton'
 import { NewsFrontendLinksField as NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2 } from '@/payload/components/NewsFrontendLinksField'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -26,7 +26,7 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { NewsBatchTranslateButton as NewsBatchTranslateButton_0e29ad0aecf745e2cd365a064c6b3289 } from '@/payload/components/NewsBatchTranslateButton'
+import { NewsLocaleStatusCell as NewsLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
 import { AdminIcon as AdminIcon_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
 import { AdminLogo as AdminLogo_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
 import { AdminLoginIntro as AdminLoginIntro_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
@@ -41,10 +41,10 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 
 /** @type import('payload').ImportMap */
 export const importMap = {
-  "@/payload/components/TranslationActionsField#TranslationActionsField": TranslationActionsField_4b0ce3e9f966daa96b45a8cdf2a93bcd,
+  "@/payload/components/LocaleCompletenessWarning#LocaleCompletenessWarning": LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248,
   "@/payload/components/ProductCoverCell#ProductCoverCell": ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819,
+  "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell": ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,
   "@/payload/components/ProductListToolbar#ProductListToolbar": ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f,
-  "@/payload/components/ProductsBatchTranslateButton#ProductsBatchTranslateButton": ProductsBatchTranslateButton_ad07c281853f22027dfeefee5c285af1,
   "@/payload/components/NewsFrontendLinksField#NewsFrontendLinksField": NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -69,7 +69,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/payload/components/NewsBatchTranslateButton#NewsBatchTranslateButton": NewsBatchTranslateButton_0e29ad0aecf745e2cd365a064c6b3289,
+  "@/payload/components/LocaleStatusCell#NewsLocaleStatusCell": NewsLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,
   "@/payload/components/AdminBrand#AdminIcon": AdminIcon_6bead8c34d8d6e56b3a52a7b24fa16c4,
   "@/payload/components/AdminBrand#AdminLogo": AdminLogo_6bead8c34d8d6e56b3a52a7b24fa16c4,
   "@/payload/components/AdminBrand#AdminLoginIntro": AdminLoginIntro_6bead8c34d8d6e56b3a52a7b24fa16c4,

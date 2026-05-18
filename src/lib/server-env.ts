@@ -54,21 +54,3 @@ export const inquiryNotifyTo = assertValue(
   process.env.INQUIRY_NOTIFY_TO,
   "Missing environment variable: INQUIRY_NOTIFY_TO"
 );
-
-// Lazy validation: GLM only required when an admin actually triggers translation.
-// Reading the variable at module import time would force every dev / CI environment
-// to set it even when nobody intends to translate.
-export function getGlmConfig(): {
-  apiKey: string;
-  baseUrl: string;
-  model: string;
-} {
-  return {
-    apiKey: assertValue(
-      process.env.GLM_API_KEY,
-      "Missing environment variable: GLM_API_KEY"
-    ),
-    baseUrl: process.env.GLM_BASE_URL ?? "https://open.bigmodel.cn/api/paas/v4",
-    model: process.env.GLM_MODEL ?? "glm-4-flash",
-  };
-}

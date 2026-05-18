@@ -301,9 +301,9 @@ export async function AdminLatestNewsWidget({ req }: WidgetServerProps) {
 export function AdminWorkflowWidget() {
   const steps = [
     "先上传媒体素材，并补齐替代文本。",
-    "新增产品或新闻，先保存草稿。",
-    "确认中文内容后，使用翻译按钮生成其他语言。",
-    "人工检查英文、西语、阿语内容后再发布。",
+    "新增产品或新闻，先填写中文内容并保存草稿。",
+    "页面右上角切换语言（中文 / English / Español / العربية），分别录入 4 个语种的内容。每次切换保存只会保存当前语言。",
+    "确认 4 个语种内容齐全后再发布。某语种留空时前台会自动回落显示英文；英文也为空时该语种页面会显示空白。",
   ];
 
   return (

@@ -243,13 +243,16 @@ export interface CustomCapability {
   createdAt: string;
 }
 /**
- * 前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。
+ * 前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。标题与描述为多语言字段，请使用页面右上角的语言切换器，按 4 个语种分别填写。某语种留空时，前台会自动回落显示英文；英文也为空时，对应语种页面会显示空白。
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
   id: string;
+  /**
+   * 多语言字段，请在每个语言下分别填写。
+   */
   title: string;
   slug: string;
   /**
@@ -264,6 +267,9 @@ export interface Product {
    * 产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。
    */
   image?: (string | null) | Media;
+  /**
+   * 多语言字段，请在每个语言下分别填写。
+   */
   description?: string | null;
   /**
    * 前台左侧“岩板产品系列 / 特惠系列”从这里读取。需要进入“特惠系列”的产品，请在这里勾选“特惠系列”。
@@ -307,18 +313,6 @@ export interface Product {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  /**
-   * 记录哪些字段是 AI 从中文翻译来的。后台用来显示「AI 翻译」徽章，前端不读。
-   */
-  translationMeta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -460,11 +454,16 @@ export interface ProductVariant {
   createdAt: string;
 }
 /**
+ * 多语言新闻：标题、摘要、正文需要按 4 个语种分别填写。请使用页面右上角的语言切换器逐个语言录入内容；切换语言后保存只会保存当前语言的内容。某语种留空时，前台会自动回落显示英文；若英文也为空，该语种页面不会展示这条新闻。
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
 export interface News {
   id: string;
+  /**
+   * 多语言字段，请在每个语言下分别填写。
+   */
   title: string;
   /**
    * 文章的网址 ID，留空时由标题自动生成。发布后请勿修改，否则旧链接会失效。
@@ -478,8 +477,14 @@ export interface News {
    * 新闻列表卡片和文章页顶部使用此图，建议横版 16:9。
    */
   coverImage: string | Media;
+  /**
+   * 多语言字段，请在每个语言下分别填写。某语种留空时回落显示英文摘要；英文也为空时前台不显示摘要。
+   */
   excerpt?: string | null;
   category?: ('company' | 'industry' | 'exhibition' | 'product') | null;
+  /**
+   * 多语言字段，请在每个语言下分别填写。
+   */
   body?: {
     root: {
       type: string;
@@ -495,18 +500,6 @@ export interface News {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * 记录哪些字段是 AI 从中文翻译来的。后台用来显示「AI 翻译」徽章，前端不读。
-   */
-  translationMeta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -740,7 +733,6 @@ export interface ProductsSelect<T extends boolean = true> {
   coverVideoPosterUrl?: T;
   sortOrder?: T;
   variants?: T;
-  translationMeta?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -815,7 +807,6 @@ export interface NewsSelect<T extends boolean = true> {
   excerpt?: T;
   category?: T;
   body?: T;
-  translationMeta?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

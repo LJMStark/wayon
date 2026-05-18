@@ -1,7 +1,5 @@
 import type { CollectionConfig } from "payload";
 
-import { translationMetaField } from "../fields/translationMeta.ts";
-import { clearAutoTranslatedFlagsBeforeChange } from "../hooks/translationMeta.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const News: CollectionConfig = {
@@ -12,12 +10,9 @@ export const News: CollectionConfig = {
   },
   admin: {
     useAsTitle: "title",
-    defaultColumns: ["title", "slug", "publishedAt", "category"],
-    components: {
-      beforeListTable: [
-        "@/payload/components/NewsBatchTranslateButton#NewsBatchTranslateButton",
-      ],
-    },
+    defaultColumns: ["title", "slug", "publishedAt", "category", "localeStatus"],
+    description:
+      "多语言新闻：标题、摘要、正文需要按 4 个语种分别填写。请使用页面右上角的语言切换器逐个语言录入内容；切换语言后保存只会保存当前语言的内容。某语种留空时，前台会自动回落显示英文；若英文也为空，该语种页面不会展示这条新闻。",
   },
   versions: {
     drafts: true,
@@ -28,21 +23,16 @@ export const News: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
-    beforeChange: [
-      clearAutoTranslatedFlagsBeforeChange({
-        localizedFields: ["title", "excerpt", "body"],
-      }),
-    ],
   },
   defaultSort: "-publishedAt",
   fields: [
     {
-      name: "translationActions",
+      name: "localeCompletenessWarning",
       type: "ui",
       admin: {
         components: {
           Field:
-            "@/payload/components/TranslationActionsField#TranslationActionsField",
+            "@/payload/components/LocaleCompletenessWarning#LocaleCompletenessWarning",
         },
       },
     },
@@ -62,6 +52,9 @@ export const News: CollectionConfig = {
       type: "text",
       localized: true,
       required: true,
+      admin: {
+        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段，前台会判定为未翻译并自动回落英文）。",
+      },
     },
     {
       name: "slug",
@@ -102,6 +95,9 @@ export const News: CollectionConfig = {
       label: "摘要",
       type: "textarea",
       localized: true,
+      admin: {
+        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。某语种留空或仅含中文时回落显示英文摘要；英文也为空时前台不显示摘要。",
+      },
     },
     {
       name: "category",
@@ -119,7 +115,19 @@ export const News: CollectionConfig = {
       label: "正文",
       type: "richText",
       localized: true,
+      admin: {
+        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段，前台会判定为未翻译）。",
+      },
     },
-    translationMetaField,
+    {
+      name: "localeStatus",
+      label: "语言",
+      type: "ui",
+      admin: {
+        components: {
+          Cell: "@/payload/components/LocaleStatusCell#NewsLocaleStatusCell",
+        },
+      },
+    },
   ],
 };
