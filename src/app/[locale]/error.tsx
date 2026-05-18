@@ -26,7 +26,7 @@ export default function LocaleError({ error, reset }: ErrorProps) {
   const homeHref = `/${locale}`;
 
   useEffect(() => {
-    // Surface the error with its digest so Vercel function logs can be
+    // Surface the error with its digest so Zeabur container logs can be
     // correlated with what the visitor saw.
     console.error("Locale error boundary caught:", error);
   }, [error]);

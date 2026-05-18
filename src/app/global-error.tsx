@@ -46,7 +46,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
   }, []);
 
   useEffect(() => {
-    // Emergency boundary: surface the crash in Vercel function logs so we
+    // Emergency boundary: surface the crash in Zeabur container logs so we
     // have at least one signal before a real error tracker is wired in.
     console.error("global-error boundary:", error);
   }, [error]);

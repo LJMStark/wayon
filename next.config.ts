@@ -73,7 +73,7 @@ function buildSiteCsp(dev: boolean): string {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     `img-src ${imgSrc}`,
     "font-src 'self' data: https://fonts.gstatic.com",
-    "frame-src 'self' https://www.google.com https://*.google.com",
+    "frame-src 'self' https://www.google.com",
     `connect-src ${connectSrc}`,
     `media-src 'self' ${R2_ORIGIN}`,
     "worker-src 'self' blob:",

@@ -30,7 +30,6 @@ npm run generate:importmap        # Regenerate Payload admin import map
 # Data migrations (one-shot scripts, see "Migration Scripts" below)
 npm run import:422-catalog        # Import current product catalog from docs/4.22/
 npm run migrate:existing-media    # Move /api/trade-media/* references → R2 via Payload
-# DO NOT RUN: import:trade-catalog — targets docs/外贸出口资料/ which no longer exists
 ```
 
 **Tests** are Vitest, co-located next to the code they cover (`*.test.ts(x)` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. There is no jsdom setup — tests assume pure-function models; do not import `.tsx` components.
@@ -151,7 +150,7 @@ Shared utilities live in **`src/data/productTitle.ts`**:
 
 - The route is **strict**: extension whitelist enforced (`.jpg .jpeg .png .webp .gif .heic .mp4 .mov`) before any `stat()` call. Hidden files and unrelated formats 404
 - `Cache-Control: public, max-age=31536000, immutable` — the file at a given path is treated as immutable. If you replace a file in-place at the same path, browsers and any CDN in front of Zeabur will keep serving the stale version. Either change the path or rename the file
-- Active source directories on disk are `docs/4.22/` and `docs/海盛/`. The historical `docs/外贸出口资料/产品/众岩联标准素材集合/` no longer exists, but `scripts/importTradeCatalog.mjs` and parts of CLAUDE.md history may reference it — treat any such reference as legacy
+- Active source directories on disk are `docs/4.22/` and `docs/海盛/`. The historical `docs/外贸出口资料/产品/众岩联标准素材集合/` no longer exists.
 
 ### `docs/` directory layout
 
@@ -188,9 +187,6 @@ Active scripts:
 - `scanLegacyMediaReferences.mjs` — read-only sanity check. Greps Payload records (products, productVariants, media, news) for any leftover `.mov` / `.heic` URLs; expected to return 0 after the compression swap
 - `seedSeoNewsDrafts.mjs` + `seoArticles/` — content pipeline for SEO long-form articles. `seoArticles/articles.{en,zh,es,ar}.mjs` carry the per-locale prose as `{type,text}` blocks; `seoArticles/lexical.mjs` converts them into Payload's Lexical SerializedEditorState (handles `**bold**`, `*italic*`, and `[text](url)` for internal links). The seeder is idempotent — looks up existing news by slug and updates all four locales. `--apply` to write
 - `listMediaByCategory.mjs` / `verifySeoDrafts.mjs` — read-only helpers used alongside the SEO pipeline (pick covers from `media.category`, verify locale completeness)
-
-Dead/legacy:
-- `importTradeCatalog.mjs` — references the no-longer-existing `docs/外贸出口资料/`. The npm script `import:trade-catalog` still points at it; do not run
 
 ### Internationalization
 

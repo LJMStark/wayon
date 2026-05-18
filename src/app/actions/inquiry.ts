@@ -148,7 +148,7 @@ async function sendInquiryNotification(data: InquiryPayload): Promise<void> {
       from: resendFromEmail,
       to: recipients,
       replyTo: data.email,
-      subject: `[Inquiry] ${data.name} — ${data.company}`,
+      subject: `[Inquiry] ${data.name.replace(/[\r\n]/g, " ")} — ${data.company.replace(/[\r\n]/g, " ")}`,
       text: buildInquiryEmailText(data),
     });
 

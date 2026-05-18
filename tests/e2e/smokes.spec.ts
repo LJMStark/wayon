@@ -8,7 +8,7 @@ test("root path redirects to a supported locale", async ({ page }) => {
   await page.goto("/");
   // next-intl picks the locale via Accept-Language; the test just
   // confirms we land on a prefixed route rather than a bare /.
-  await expect(page).toHaveURL(/\/(en|zh|es|ar|ru)(\/|$)/);
+  await expect(page).toHaveURL(/\/(en|zh|es|ar)(\/|$)/);
   await expect(page.locator("body")).toBeVisible();
 });
 

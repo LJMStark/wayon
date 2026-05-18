@@ -4,7 +4,7 @@ import Script from "next/script";
 
 export function GoogleAnalytics() {
   const id = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-  if (!id) return null;
+  if (!id || !/^G-[A-Z0-9]+$/.test(id)) return null;
 
   return (
     <>

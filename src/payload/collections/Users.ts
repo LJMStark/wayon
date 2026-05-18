@@ -7,6 +7,9 @@ export const Users: CollectionConfig = {
     plural: "管理员",
   },
   auth: true,
+  access: {
+    delete: () => false,
+  },
   admin: {
     useAsTitle: "email",
     defaultColumns: ["email", "name"],

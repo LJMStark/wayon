@@ -17,6 +17,8 @@ const STATIC_ROUTES = [
   '/terms',
 ]
 
+const STATIC_LAST_MODIFIED = new Date('2025-04-01')
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []
 
@@ -24,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const locale of routing.locales) {
       entries.push({
         url: `${siteUrl}${normalizeMetadataPath(locale, route === '' ? '/' : route)}`,
-        lastModified: new Date('2025-04-01'),
+        lastModified: STATIC_LAST_MODIFIED,
         changeFrequency: route === '' ? 'weekly' : 'monthly',
         priority: route === '' ? 1.0 : (['/privacy', '/terms'].includes(route) ? 0.3 : 0.8),
       })
@@ -66,7 +68,7 @@ async function getDynamicEntries(
   } catch (error) {
     // Swallowing silently used to hide SEO regressions during CMS
     // outages (empty sitemap = de-indexing risk). Emit a structured
-    // error so the Vercel Functions log shows which prefix failed and
+    // error so the Zeabur container log shows which prefix failed and
     // why; the sitemap still completes with whatever static routes
     // were already collected.
     console.error(
