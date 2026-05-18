@@ -3,7 +3,6 @@ import { AboutIntro } from "@/components/landing/AboutIntro";
 import { EngineeringCase } from "@/components/landing/EngineeringCase";
 import { FeaturedProductPoster } from "@/components/landing/FeaturedProductPoster";
 import { Hero } from "@/components/landing/Hero";
-import { NewsSection } from "@/components/landing/NewsSection";
 import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
 import { ProductsCarousel } from "@/components/landing/ProductsCarousel";
 import { SolutionTabs } from "@/components/landing/SolutionTabs";
@@ -23,7 +22,6 @@ export function HomePageView({
   engineeringCase,
   trustBadges,
   partnerCarousel,
-  newsSection,
 }: HomePageData): React.JSX.Element {
   return (
     <div className="zyl-home zyl-stone-bg text-[#242424]">
@@ -71,11 +69,6 @@ export function HomePageView({
         description={partnerCarousel.description}
         items={partnerCarousel.items}
         copy={partnerCarousel.copy}
-      />
-      <NewsSection
-        title={newsSection.title}
-        feature={newsSection.feature}
-        items={newsSection.items}
       />
     </div>
   );

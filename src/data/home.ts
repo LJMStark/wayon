@@ -62,13 +62,6 @@ export type PartnerItem = {
   delay: number;
 };
 
-export type NewsItem = {
-  title: string;
-  href: string;
-  day: string;
-  yearMonth: string;
-};
-
 export type SocialPost = {
   title: string;
   href: string;
@@ -95,13 +88,6 @@ export type AboutIntroData = {
   primaryImage: AboutIntroImage;
   secondaryImage: AboutIntroImage;
   features: AboutIntroFeature[];
-};
-
-export type NewsFeature = {
-  title: string;
-  excerpt: string;
-  href: string;
-  image: string;
 };
 
 type AppTranslator = _Translator<AppMessages>;
@@ -576,50 +562,6 @@ const PARTNER_CONFIG = [
   delay: number;
 }>;
 
-const NEWS_FEATURE_CONFIG = {
-  titleKey: "HomeData.NewsFeature.title",
-  excerptKey: "HomeData.NewsFeature.excerpt",
-  href: "/news",
-  image: "/assets/news/news-feature.jpg",
-} as const satisfies {
-  titleKey: AppMessageKey;
-  excerptKey: AppMessageKey;
-  href: string;
-  image: string;
-};
-
-const NEWS_ITEM_CONFIG = [
-  {
-    titleKey: "HomeData.NewsItems.item0.title",
-    href: "/news",
-    day: "24",
-    yearMonth: "2025-11",
-  },
-  {
-    titleKey: "HomeData.NewsItems.item1.title",
-    href: "/news",
-    day: "17",
-    yearMonth: "2025-11",
-  },
-  {
-    titleKey: "HomeData.NewsItems.item2.title",
-    href: "/news",
-    day: "10",
-    yearMonth: "2025-11",
-  },
-  {
-    titleKey: "HomeData.NewsItems.item3.title",
-    href: "/news",
-    day: "31",
-    yearMonth: "2025-10",
-  },
-] as const satisfies ReadonlyArray<{
-  titleKey: AppMessageKey;
-  href: string;
-  day: string;
-  yearMonth: string;
-}>;
-
 export function getAboutIntro(t: AppTranslator): AboutIntroData {
   return {
     title: t(ABOUT_INTRO_CONFIG.titleKey),
@@ -703,23 +645,5 @@ export function getPartners(t: AppTranslator): PartnerItem[] {
     x: item.x,
     y: item.y,
     delay: item.delay,
-  }));
-}
-
-export function getNewsFeature(t: AppTranslator): NewsFeature {
-  return {
-    title: t(NEWS_FEATURE_CONFIG.titleKey),
-    excerpt: t(NEWS_FEATURE_CONFIG.excerptKey),
-    href: NEWS_FEATURE_CONFIG.href,
-    image: NEWS_FEATURE_CONFIG.image,
-  };
-}
-
-export function getNewsItems(t: AppTranslator): NewsItem[] {
-  return NEWS_ITEM_CONFIG.map((item) => ({
-    title: t(item.titleKey),
-    href: item.href,
-    day: item.day,
-    yearMonth: item.yearMonth,
   }));
 }

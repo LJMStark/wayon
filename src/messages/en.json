@@ -176,20 +176,6 @@
     "industryPartners": "INDUSTRY PARTNERS",
     "trustedGlobal": "Trusted Globally"
   },
-  "NewsSection": {
-    "latestNews": "LATEST NEWS",
-    "industryUpdates": "Industry Updates",
-    "news1Title": "The Future of Sustainable Stone: Silica-Free Innovations",
-    "news1Desc": "Discover how our new generation of engineered stone is transforming the industry standard for environmental safety.",
-    "news1Date": "Mar 15, 2026",
-    "news2Title": "ZYL Sintered Stone Unveils New Terrazzo Collection for Commercial Spaces",
-    "news2Desc": "Our latest terrazzo lines blend traditional craftsmanship with modern eco-friendly materials.",
-    "news2Date": "Feb 28, 2026",
-    "news3Title": "Global Expansion: New Showroom Opens in Dubai",
-    "news3Desc": "Strengthening our presence in the Middle East with a state-of-the-art interactive showroom.",
-    "news3Date": "Jan 12, 2026",
-    "discoverMore": "DISCOVER MORE"
-  },
   "SocialTabs": {
     "socialMedia": "SOCIAL MEDIA",
     "connectWithUs": "Connect With Us",
@@ -390,24 +376,6 @@
       },
       "item5": {
         "title": "Yuehai · Yungang City"
-      }
-    },
-    "NewsFeature": {
-      "title": "Why Inorganic Terrazzo Flooring Is Ideal for High-Traffic Commercial Spaces",
-      "excerpt": "Nowadays, modern commercial projects place far higher expectations on flooring materials than before. Whether it's a mall with nonstop foot traffic, a hospital that requires strict air-quality control, or a transport hub facing constant abrasion, the wrong material choice quickly becomes a maintenance problem."
-    },
-    "NewsItems": {
-      "item0": {
-        "title": "From Flooring to Facades: How Flexible Stone is Changing Construction Trends"
-      },
-      "item1": {
-        "title": "How to Source Premium Marble Solutions for Commercial Projects"
-      },
-      "item2": {
-        "title": "Custom Quartz Countertops: Key Trends to Follow in 2026"
-      },
-      "item3": {
-        "title": "White Quartz Countertops for Minimalist Kitchens in Commercial Projects"
       }
     }
   }

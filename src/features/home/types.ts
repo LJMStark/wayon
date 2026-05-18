@@ -4,8 +4,6 @@ import type {
   CaseItem,
   FeaturedProductPosterData,
   HeroSlide,
-  NewsFeature,
-  NewsItem,
   PartnerItem,
   ProductItem,
   SolutionItem,
@@ -73,12 +71,6 @@ export type PartnerCarouselSectionData = {
   copy: PartnerCarouselCopy;
 };
 
-export type NewsSectionData = {
-  title: string;
-  feature: NewsFeature | null;
-  items: NewsItem[];
-};
-
 export type HomeStat = {
   value: string;
   suffix: string;
@@ -101,5 +93,4 @@ export type HomePageData = {
   engineeringCase: EngineeringCaseSectionData;
   trustBadges: TrustBadgesSectionData;
   partnerCarousel: PartnerCarouselSectionData;
-  newsSection: NewsSectionData;
 };

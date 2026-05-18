@@ -364,14 +364,6 @@ const SITE_COPY = {
         ar: "تابع أحدث تحديثات المشاريع وإطلاقات المنتجات وأخبار المصنع عبر جميع المنصات.",
       },
     },
-    newsSection: {
-      title: {
-        en: "News",
-        zh: "新闻动态",
-        es: "Noticias",
-        ar: "الأخبار",
-      },
-    },
     productCard: {
       viewDetails: {
         en: "View Details",

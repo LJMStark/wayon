@@ -176,20 +176,6 @@
     "industryPartners": "SOCIOS DE LA INDUSTRIA",
     "trustedGlobal": "Confianza Mundial"
   },
-  "NewsSection": {
-    "latestNews": "ÚLTIMAS NOTICIAS",
-    "industryUpdates": "Actualizaciones de la Industria",
-    "news1Title": "El Futuro Sostenible: Sin Sílice",
-    "news1Desc": "Descubre cómo las superficies libres de sílice cuidan el medio ambiente y a los tuyos.",
-    "news1Date": "15 Mar 2026",
-    "news2Title": "Nuevo Catálogo de Terrazo Comercial",
-    "news2Desc": "Líneas de terrazo que mezclan artesanía tradicional y eco-materiales.",
-    "news2Date": "28 Feb 2026",
-    "news3Title": "Expansión en Dubái",
-    "news3Desc": "Más fuerte presencia en el Medio Oriente con una enorme sala de exhibición interactiva.",
-    "news3Date": "12 Ene 2026",
-    "discoverMore": "DESCUBRIR MÁS"
-  },
   "SocialTabs": {
     "socialMedia": "REDES SOCIALES",
     "connectWithUs": "Conecta con Nosotros",
@@ -390,24 +376,6 @@
       },
       "item5": {
         "title": "Yuehai · Ciudad Yungang"
-      }
-    },
-    "NewsFeature": {
-      "title": "Por qué el terrazo inorgánico es ideal para espacios comerciales de alto tránsito",
-      "excerpt": "Los proyectos comerciales modernos exigen mucho más a los materiales de pavimento que antes. Ya sea un centro comercial con tráfico constante, un hospital con requisitos estrictos de calidad del aire o un nodo de transporte sometido a desgaste continuo, una mala elección termina pronto en un problema de mantenimiento."
-    },
-    "NewsItems": {
-      "item0": {
-        "title": "De los suelos a las fachadas: cómo la piedra flexible está cambiando la construcción"
-      },
-      "item1": {
-        "title": "Cómo elegir soluciones de mármol premium para proyectos comerciales"
-      },
-      "item2": {
-        "title": "Encimeras de cuarzo a medida: tendencias clave para 2026"
-      },
-      "item3": {
-        "title": "Encimeras blancas de cuarzo para cocinas minimalistas en proyectos comerciales"
       }
     }
   }
