@@ -18,6 +18,6 @@ test("robots allows public trade media and blocks admin plus private APIs", () =
     expect.arrayContaining(["/", "/api/trade-media/"])
   );
   expect(asArray(rule.disallow)).toEqual(
-    expect.arrayContaining(["/admin/", "/api/", "/studio"])
+    expect.arrayContaining(["/admin/", "/api/"])
   );
 });

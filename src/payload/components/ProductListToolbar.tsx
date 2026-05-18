@@ -83,10 +83,10 @@ export function ProductListToolbar() {
   }));
 
   return (
-    <section className="wayon-list-toolbar" aria-label="产品快捷筛选">
-      <div className="wayon-list-toolbar__group">
+    <section className="zyl-list-toolbar" aria-label="产品快捷筛选">
+      <div className="zyl-list-toolbar__group">
         <span>快捷筛选</span>
-        <div className="wayon-list-toolbar__links">
+        <div className="zyl-list-toolbar__links">
           {PRIMARY_FILTERS.map((filter) => (
             <a
               aria-current={
@@ -100,9 +100,9 @@ export function ProductListToolbar() {
           ))}
         </div>
       </div>
-      <div className="wayon-list-toolbar__group">
+      <div className="zyl-list-toolbar__group">
         <span>系列类型</span>
-        <div className="wayon-list-toolbar__links">
+        <div className="zyl-list-toolbar__links">
           {seriesFilters.map((filter) => (
             <a
               aria-current={

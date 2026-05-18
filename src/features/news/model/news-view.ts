@@ -183,7 +183,7 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "sourcing-sintered-slabs-from-china": [
     {
-      src: "/assets/about/yunfu-wayon.webp",
+      src: "/assets/about/yunfu.webp",
       alt: {
         en: "Sintered slab production line inside a Guangdong factory",
         zh: "广东工厂内的岩板生产线",
@@ -198,7 +198,7 @@ const NEWS_ARTICLE_VISUALS: Record<
       },
     },
     {
-      src: "/assets/about/guangdong-wayon.jpg",
+      src: "/assets/about/guangdong.jpg",
       alt: {
         en: "Roller kiln and production equipment for slab manufacturing",
         zh: "用于板材制造的辊道窑和生产设备",

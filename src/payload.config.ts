@@ -38,8 +38,8 @@ export default buildConfig({
     user: Users.slug,
     theme: "light",
     meta: {
-      titleSuffix: "- Wayon CMS",
-      description: "Wayon Stone Group website administration.",
+      titleSuffix: "- 众岩联岩板 CMS",
+      description: "众岩联岩板官网后台管理。",
       icons: [
         { rel: "icon", type: "image/png", url: "/assets/brand/favicon.png" },
       ],
@@ -57,42 +57,42 @@ export default buildConfig({
     },
     dashboard: {
       defaultLayout: [
-        { widgetSlug: "wayon-overview", width: "full" },
-        { widgetSlug: "wayon-quick-actions", width: "medium" },
-        { widgetSlug: "wayon-latest-inquiries", width: "medium" },
-        { widgetSlug: "wayon-latest-news", width: "medium" },
-        { widgetSlug: "wayon-workflow", width: "medium" },
+        { widgetSlug: "zyl-overview", width: "full" },
+        { widgetSlug: "zyl-quick-actions", width: "medium" },
+        { widgetSlug: "zyl-latest-inquiries", width: "medium" },
+        { widgetSlug: "zyl-latest-news", width: "medium" },
+        { widgetSlug: "zyl-workflow", width: "medium" },
       ],
       widgets: [
         {
-          slug: "wayon-overview",
+          slug: "zyl-overview",
           label: "运营概览",
           Component: "@/payload/components/AdminDashboard#AdminOverviewWidget",
           minWidth: "full",
         },
         {
-          slug: "wayon-quick-actions",
+          slug: "zyl-quick-actions",
           label: "常用入口",
           Component:
             "@/payload/components/AdminDashboard#AdminQuickActionsWidget",
           minWidth: "medium",
         },
         {
-          slug: "wayon-latest-inquiries",
+          slug: "zyl-latest-inquiries",
           label: "最新询盘",
           Component:
             "@/payload/components/AdminDashboard#AdminLatestInquiriesWidget",
           minWidth: "medium",
         },
         {
-          slug: "wayon-latest-news",
+          slug: "zyl-latest-news",
           label: "最近新闻",
           Component:
             "@/payload/components/AdminDashboard#AdminLatestNewsWidget",
           minWidth: "medium",
         },
         {
-          slug: "wayon-workflow",
+          slug: "zyl-workflow",
           label: "编辑顺序",
           Component: "@/payload/components/AdminDashboard#AdminWorkflowWidget",
           minWidth: "medium",

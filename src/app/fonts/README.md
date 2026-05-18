@@ -9,8 +9,8 @@ coherent script.
 
 ## Fonts
 
-- `NotoSansSC-WayonSubset.woff2`: primary UI font for Chinese and basic Latin (subset of Noto Sans SC, regular + bold).
-- `GeourceSansCHS-Regular-WayonSubset.woff2`, `GeourceSansCHS-Medium-WayonSubset.woff2`, `GeourceSansCHS-Bold-WayonSubset.woff2`: YuanGou / Geource Sans subsets (GB2312, ~1MB each) for CJK headings and the home hero.
+- `NotoSansSC-Subset.woff2`: primary UI font for Chinese and basic Latin (subset of Noto Sans SC, regular + bold).
+- `GeourceSansCHS-Regular-Subset.woff2`, `GeourceSansCHS-Medium-Subset.woff2`, `GeourceSansCHS-Bold-Subset.woff2`: YuanGou / Geource Sans subsets (GB2312, ~1MB each) for CJK headings and the home hero.
 - `PlayfairDisplay.ttf`: editorial Latin heading font.
 - `Cairo.woff2`: Arabic UI font (variable, weight 200–1000).
 - Inter (loaded via `next/font/google`): extended-Latin body fallback for `en` / `es` glyphs outside the NotoSansSC subset.

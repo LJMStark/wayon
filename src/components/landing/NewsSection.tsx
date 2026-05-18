@@ -21,10 +21,10 @@ export function NewsSection({
   }
 
   return (
-    <RevealSection className="wayon-home-section border-t border-[#002b50]/10 px-4 lg:px-8">
+    <RevealSection className="zyl-home-section border-t border-[#002b50]/10 px-4 lg:px-8">
       <div className="mx-auto max-w-[90rem]">
         <header className="mb-16 md:mb-20">
-          <h2 className="wayon-brand-title text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-none text-[color:var(--primary)]">
+          <h2 className="zyl-brand-title text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-none text-[color:var(--primary)]">
             {title}
           </h2>
         </header>
@@ -56,7 +56,7 @@ export function NewsSection({
           <div>
             <ul className="border-t border-[#002b50]/10">
               {items.map((item) => (
-                <li key={item.title} className="wayon-reveal-up-soft">
+                <li key={item.title} className="zyl-reveal-up-soft">
                   <Link
                     href={item.href}
                     className="group flex flex-col items-start justify-between gap-6 border-b border-[#002b50]/10 px-2 py-8 transition-colors hover:bg-white/45 md:flex-row md:items-center md:gap-12 md:px-6 md:py-10"

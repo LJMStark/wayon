@@ -54,7 +54,6 @@
     --style-radius-s: 6px;
     --style-radius-m: 8px;
     --style-radius-l: 8px;
-    --nav-width: 292px;
   }
 
   html[data-theme="dark"] {
@@ -67,7 +66,6 @@
   body {
     color: #111827;
     background: #ffffff;
-    font-size: 16px;
   }
 
   html[data-theme="dark"] body {
@@ -116,8 +114,6 @@
     width: 100%;
     border-radius: 6px;
     color: rgba(247, 239, 226, 0.78);
-    padding: 9px 12px;
-    font-size: 15px;
     transition:
       background-color 160ms ease,
       color 160ms ease,
@@ -151,19 +147,19 @@
     color: rgba(247, 239, 226, 0.76);
   }
 
-  .wayon-admin-logo {
+  .zyl-admin-logo {
     display: flex;
     justify-content: center;
   }
 
-  .wayon-admin-logo img {
+  .zyl-admin-logo img {
     display: block;
     width: min(220px, 72vw);
     height: auto;
     object-fit: contain;
   }
 
-  .wayon-admin-icon {
+  .zyl-admin-icon {
     display: inline-flex;
     width: 34px;
     height: 34px;
@@ -178,7 +174,7 @@
     line-height: 1;
   }
 
-  .wayon-admin-nav-brand {
+  .zyl-admin-nav-brand {
     display: flex;
     width: 100%;
     align-items: center;
@@ -189,38 +185,38 @@
     background: rgba(255, 255, 255, 0.06);
   }
 
-  .wayon-admin-nav-brand strong,
-  .wayon-admin-nav-brand span {
+  .zyl-admin-nav-brand strong,
+  .zyl-admin-nav-brand span {
     display: block;
   }
 
-  .wayon-admin-nav-brand strong {
+  .zyl-admin-nav-brand strong {
     color: #ffffff;
     font-size: 15px;
     font-weight: 800;
     line-height: 1.2;
   }
 
-  .wayon-admin-nav-brand span {
+  .zyl-admin-nav-brand span {
     margin-top: 3px;
     color: rgba(247, 239, 226, 0.64);
     font-size: 13px;
     line-height: 1.3;
   }
 
-  .wayon-admin-login-intro {
+  .zyl-admin-login-intro {
     margin: -8px 0 22px;
     text-align: center;
   }
 
-  .wayon-admin-login-intro p {
+  .zyl-admin-login-intro p {
     margin: 0;
     color: #111827;
     font-size: 22px;
     font-weight: 800;
   }
 
-  .wayon-admin-login-intro span {
+  .zyl-admin-login-intro span {
     display: block;
     margin-top: 6px;
     color: #4b5563;
@@ -278,33 +274,17 @@
   .table {
     border-radius: 8px;
     background: #ffffff;
-    font-size: 16px;
   }
 
   .table thead {
     color: #111827;
-    font-size: 16px;
-    font-weight: 800;
+    font-weight: 700;
   }
 
   .table th,
   .table td {
-    min-height: 58px;
-    padding-top: 14px;
-    padding-bottom: 14px;
     color: #111827;
     vertical-align: middle;
-  }
-
-  .table th button,
-  .table th a,
-  .table td button,
-  .table td a {
-    font-size: 16px;
-  }
-
-  .table tbody {
-    font-size: 16px;
   }
 
   .table tbody tr {
@@ -323,60 +303,19 @@
     backdrop-filter: blur(16px);
   }
 
-  .dashboard {
-    padding-top: calc(var(--base) * 0.9);
-  }
-
-  .collection-list__wrap,
-  .collection-list__main,
-  .list-controls,
-  .list-selection,
-  .pagination,
-  .page-controls,
-  .render-fields,
-  .form-field,
-  .field-type {
-    font-size: 16px;
-  }
-
   .collection-list__wrap h1,
   .doc-header h1 {
     color: #111827;
-    font-size: clamp(30px, 3vw, 42px);
-    line-height: 1.15;
   }
 
   .collection-list__wrap .description,
   .view-description,
   .field-description {
     color: #4b5563;
-    font-size: 15px;
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
-  .btn,
-  button,
-  input,
-  textarea,
-  select,
-  .rs__control {
-    font-size: 15px;
-  }
-
-  .btn,
-  .popup-button,
-  .list-controls__buttons .btn {
-    min-height: 40px;
-  }
-
-  .search-filter input,
-  .text-input,
-  .textarea-outer textarea,
-  .field-type input {
-    min-height: 42px;
-  }
-
-  .wayon-list-toolbar {
+  .zyl-list-toolbar {
     display: grid;
     gap: 14px;
     margin: 18px 0 20px;
@@ -387,24 +326,24 @@
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
   }
 
-  .wayon-list-toolbar__group {
+  .zyl-list-toolbar__group {
     display: grid;
     gap: 9px;
   }
 
-  .wayon-list-toolbar__group > span {
+  .zyl-list-toolbar__group > span {
     color: #334155;
     font-size: 15px;
     font-weight: 800;
   }
 
-  .wayon-list-toolbar__links {
+  .zyl-list-toolbar__links {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
 
-  .wayon-list-toolbar__links a {
+  .zyl-list-toolbar__links a {
     display: inline-flex;
     min-height: 38px;
     align-items: center;
@@ -424,22 +363,21 @@
       color 140ms ease;
   }
 
-  .wayon-list-toolbar__links a:hover,
-  .wayon-list-toolbar__links a:focus-visible {
+  .zyl-list-toolbar__links a:hover,
+  .zyl-list-toolbar__links a:focus-visible {
     border-color: #334155;
     background: #ffffff;
     color: #111827;
     text-decoration: none;
   }
 
-  .wayon-list-toolbar__links a[aria-current="page"] {
+  .zyl-list-toolbar__links a[aria-current="page"] {
     border-color: #111827;
     background: #111827;
     color: #ffffff;
   }
 
   .modular-dashboard {
-    gap: 18px !important;
     margin-top: 18px;
   }
 
@@ -454,13 +392,13 @@
     padding: 0;
   }
 
-  .wayon-admin-overview,
-  .wayon-admin-widget {
+  .zyl-admin-overview,
+  .zyl-admin-widget {
     padding: 22px;
   }
 
-  .wayon-admin-overview__header,
-  .wayon-admin-widget__header {
+  .zyl-admin-overview__header,
+  .zyl-admin-widget__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -468,19 +406,19 @@
     margin-bottom: 18px;
   }
 
-  .wayon-admin-overview__header p,
-  .wayon-admin-overview__header h2 {
+  .zyl-admin-overview__header p,
+  .zyl-admin-overview__header h2 {
     margin: 0;
   }
 
-  .wayon-admin-overview__header p,
-  .wayon-admin-widget__header span {
+  .zyl-admin-overview__header p,
+  .zyl-admin-widget__header span {
     color: #334155;
     font-size: 15px;
     font-weight: 800;
   }
 
-  .wayon-admin-overview__header h2 {
+  .zyl-admin-overview__header h2 {
     margin-top: 4px;
     color: #111827;
     font-size: clamp(24px, 3vw, 34px);
@@ -488,8 +426,8 @@
     line-height: 1.1;
   }
 
-  .wayon-admin-overview__header a,
-  .wayon-admin-widget__header a {
+  .zyl-admin-overview__header a,
+  .zyl-admin-widget__header a {
     flex: 0 0 auto;
     border-bottom: 1px solid currentColor;
     color: #1d4ed8;
@@ -498,13 +436,13 @@
     text-decoration: none;
   }
 
-  .wayon-admin-stats {
+  .zyl-admin-stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
   }
 
-  .wayon-admin-stat {
+  .zyl-admin-stat {
     min-height: 128px;
     padding: 16px;
     border: 1px solid var(--theme-border-color);
@@ -518,26 +456,26 @@
       box-shadow 160ms ease;
   }
 
-  .wayon-admin-stat:hover,
-  .wayon-admin-stat:focus-visible {
+  .zyl-admin-stat:hover,
+  .zyl-admin-stat:focus-visible {
     border-color: rgba(179, 138, 58, 0.42);
     box-shadow: 0 14px 32px rgba(56, 45, 36, 0.1);
     transform: translateY(-2px);
   }
 
-  .wayon-admin-stat span,
-  .wayon-admin-stat small,
-  .wayon-admin-stat strong {
+  .zyl-admin-stat span,
+  .zyl-admin-stat small,
+  .zyl-admin-stat strong {
     display: block;
   }
 
-  .wayon-admin-stat span {
+  .zyl-admin-stat span {
     color: #334155;
     font-size: 15px;
     font-weight: 700;
   }
 
-  .wayon-admin-stat strong {
+  .zyl-admin-stat strong {
     margin-top: 12px;
     color: #111827;
     font-variant-numeric: tabular-nums;
@@ -546,25 +484,25 @@
     line-height: 1;
   }
 
-  .wayon-admin-stat small {
+  .zyl-admin-stat small {
     margin-top: 10px;
     color: #4b5563;
     font-size: 14px;
   }
 
-  .wayon-admin-stat.urgent {
+  .zyl-admin-stat.urgent {
     background: #fff7ed;
     border-color: rgba(234, 88, 12, 0.28);
   }
 
-  .wayon-admin-action-list,
-  .wayon-admin-feed {
+  .zyl-admin-action-list,
+  .zyl-admin-feed {
     display: grid;
     gap: 10px;
   }
 
-  .wayon-admin-action-list a,
-  .wayon-admin-feed a {
+  .zyl-admin-action-list a,
+  .zyl-admin-feed a {
     display: flex;
     min-height: 64px;
     align-items: center;
@@ -578,21 +516,21 @@
     text-decoration: none;
   }
 
-  .wayon-admin-action-list a:hover,
-  .wayon-admin-feed a:hover {
+  .zyl-admin-action-list a:hover,
+  .zyl-admin-feed a:hover {
     border-color: rgba(179, 138, 58, 0.38);
   }
 
-  .wayon-admin-action-list strong,
-  .wayon-admin-feed strong {
+  .zyl-admin-action-list strong,
+  .zyl-admin-feed strong {
     display: block;
     color: #111827;
     font-size: 15px;
     font-weight: 800;
   }
 
-  .wayon-admin-action-list span,
-  .wayon-admin-feed span {
+  .zyl-admin-action-list span,
+  .zyl-admin-feed span {
     display: block;
     margin-top: 4px;
     color: #4b5563;
@@ -600,7 +538,7 @@
     line-height: 1.45;
   }
 
-  .wayon-admin-feed small {
+  .zyl-admin-feed small {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -614,19 +552,19 @@
     white-space: nowrap;
   }
 
-  .wayon-admin-feed small[data-status="pending"],
-  .wayon-admin-feed small[data-status="draft"] {
+  .zyl-admin-feed small[data-status="pending"],
+  .zyl-admin-feed small[data-status="draft"] {
     background: #fff1cf;
     color: #755117;
   }
 
-  .wayon-admin-feed small[data-status="published"],
-  .wayon-admin-feed small[data-status="resolved"] {
+  .zyl-admin-feed small[data-status="published"],
+  .zyl-admin-feed small[data-status="resolved"] {
     background: #dff2e8;
     color: #145b40;
   }
 
-  .wayon-admin-empty {
+  .zyl-admin-empty {
     margin: 0;
     padding: 18px;
     border: 1px dashed var(--theme-border-color);
@@ -635,16 +573,16 @@
     font-size: 15px;
   }
 
-  .wayon-admin-workflow ol {
+  .zyl-admin-workflow ol {
     display: grid;
     gap: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
-    counter-reset: wayon-workflow;
+    counter-reset: zyl-workflow;
   }
 
-  .wayon-admin-workflow li {
+  .zyl-admin-workflow li {
     display: grid;
     grid-template-columns: 28px 1fr;
     gap: 10px;
@@ -652,11 +590,11 @@
     color: #334155;
     font-size: 15px;
     line-height: 1.55;
-    counter-increment: wayon-workflow;
+    counter-increment: zyl-workflow;
   }
 
-  .wayon-admin-workflow li:before {
-    content: counter(wayon-workflow);
+  .zyl-admin-workflow li:before {
+    content: counter(zyl-workflow);
     display: inline-flex;
     width: 24px;
     height: 24px;
@@ -670,7 +608,7 @@
   }
 
   @media (max-width: 1180px) {
-    .wayon-admin-stats {
+    .zyl-admin-stats {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -684,12 +622,12 @@
       padding: 24px;
     }
 
-    .wayon-admin-stats {
+    .zyl-admin-stats {
       grid-template-columns: 1fr;
     }
 
-    .wayon-admin-overview,
-    .wayon-admin-widget {
+    .zyl-admin-overview,
+    .zyl-admin-widget {
       padding: 18px;
     }
   }

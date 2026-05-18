@@ -41,7 +41,7 @@ function renderNoBreakMeasurements(text: string): React.ReactNode[] {
 export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
   return (
     <RevealSection
-      className="wayon-home-section--compact relative z-0 overflow-hidden text-[#242424]"
+      className="zyl-home-section--compact relative z-0 overflow-hidden text-[#242424]"
       amount={0.2}
     >
       <div className="absolute inset-x-0 top-[18%] h-[58%] bg-white/64" />
@@ -55,7 +55,7 @@ export function AboutIntro({ data }: AboutIntroProps): React.JSX.Element {
             </div>
 
             <div className="relative">
-              <h2 className="wayon-brand-title max-w-4xl whitespace-pre-line text-[clamp(2.1rem,4.2vw,4.95rem)] uppercase leading-[1.02] text-[color:var(--primary)]">
+              <h2 className="zyl-brand-title max-w-4xl whitespace-pre-line text-[clamp(2.1rem,4.2vw,4.95rem)] uppercase leading-[1.02] text-[color:var(--primary)]">
                 {data.title}
               </h2>
 

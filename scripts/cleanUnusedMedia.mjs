@@ -93,7 +93,7 @@ function collectLexicalUploadIds(node, sink) {
 
 function grepCodebaseForFilenames(filenames) {
   if (filenames.length === 0) return new Set();
-  const dir = mkdtempSync(join(tmpdir(), "wayon-media-grep-"));
+  const dir = mkdtempSync(join(tmpdir(), "zyl-media-grep-"));
   const listFile = join(dir, "filenames.txt");
   writeFileSync(listFile, filenames.join("\n"), "utf8");
   // -F: fixed strings, -h: no filename prefix, -o: only matched part,

@@ -29,7 +29,7 @@ export function NewsDetailPageView({
   const hasContentBlocks = contentBlocks.length > 0;
 
   return (
-    <article className="min-h-screen wayon-stone-bg">
+    <article className="min-h-screen zyl-stone-bg">
       {imageUrl ? (
         <section className="relative -mt-[var(--header-height)] h-[360px] w-full overflow-hidden bg-neutral-900 md:h-[480px]">
           <Image
@@ -67,7 +67,7 @@ export function NewsDetailPageView({
                 {categoryLabel}
               </span>
             ) : null}
-            <h1 className="wayon-page-title wayon-brand-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
+            <h1 className="zyl-page-title zyl-brand-title mb-4 text-3xl font-normal text-primary md:text-4xl lg:text-5xl">
               {title}
             </h1>
             <div className="flex items-center justify-center text-sm text-[#666666]">
@@ -102,7 +102,7 @@ export function NewsDetailPageView({
 
       <section className="bg-primary px-6 pb-6 pt-10 md:pb-8 md:pt-14">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="wayon-brand-title mb-5 text-2xl text-white">
+          <h2 className="zyl-brand-title mb-5 text-2xl text-white">
             {contactCtaTitle}
           </h2>
           <Link
@@ -179,7 +179,7 @@ function ArticleProse({
   }
 
   const proseBase =
-    "wayon-article-prose text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6";
+    "zyl-article-prose text-[17px] leading-9 text-gray-700 [&_a]:font-medium [&_a]:text-gold [&_a:hover]:text-primary [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:font-heading [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:text-primary [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:font-heading [&_h3]:text-xl [&_h3]:font-semibold [&_li]:mb-2 [&_strong]:font-semibold [&_strong]:text-primary [&_ul]:mb-8 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:ps-6";
 
   return (
     <div

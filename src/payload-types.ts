@@ -110,11 +110,11 @@ export interface Config {
   globalsSelect: {};
   locale: 'zh' | 'en' | 'es' | 'ar';
   widgets: {
-    'wayon-overview': WayonOverviewWidget;
-    'wayon-quick-actions': WayonQuickActionsWidget;
-    'wayon-latest-inquiries': WayonLatestInquiriesWidget;
-    'wayon-latest-news': WayonLatestNewsWidget;
-    'wayon-workflow': WayonWorkflowWidget;
+    'zyl-overview': ZylOverviewWidget;
+    'zyl-quick-actions': ZylQuickActionsWidget;
+    'zyl-latest-inquiries': ZylLatestInquiriesWidget;
+    'zyl-latest-news': ZylLatestNewsWidget;
+    'zyl-workflow': ZylWorkflowWidget;
     collections: CollectionsWidget;
   };
   user: User;
@@ -870,9 +870,9 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wayon-overview_widget".
+ * via the `definition` "zyl-overview_widget".
  */
-export interface WayonOverviewWidget {
+export interface ZylOverviewWidget {
   data?: {
     [k: string]: unknown;
   };
@@ -880,9 +880,9 @@ export interface WayonOverviewWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wayon-quick-actions_widget".
+ * via the `definition` "zyl-quick-actions_widget".
  */
-export interface WayonQuickActionsWidget {
+export interface ZylQuickActionsWidget {
   data?: {
     [k: string]: unknown;
   };
@@ -890,9 +890,9 @@ export interface WayonQuickActionsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wayon-latest-inquiries_widget".
+ * via the `definition` "zyl-latest-inquiries_widget".
  */
-export interface WayonLatestInquiriesWidget {
+export interface ZylLatestInquiriesWidget {
   data?: {
     [k: string]: unknown;
   };
@@ -900,9 +900,9 @@ export interface WayonLatestInquiriesWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wayon-latest-news_widget".
+ * via the `definition` "zyl-latest-news_widget".
  */
-export interface WayonLatestNewsWidget {
+export interface ZylLatestNewsWidget {
   data?: {
     [k: string]: unknown;
   };
@@ -910,9 +910,9 @@ export interface WayonLatestNewsWidget {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "wayon-workflow_widget".
+ * via the `definition` "zyl-workflow_widget".
  */
-export interface WayonWorkflowWidget {
+export interface ZylWorkflowWidget {
   data?: {
     [k: string]: unknown;
   };

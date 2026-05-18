@@ -14,8 +14,8 @@
   --color-border: var(--border);
   --color-footer: var(--footer);
 
-  --font-sans: var(--wayon-font-sans);
-  --font-heading: var(--wayon-font-heading);
+  --font-sans: var(--zyl-font-sans);
+  --font-heading: var(--zyl-font-heading);
 }
 
 :root {
@@ -43,10 +43,10 @@
   --home-section-y-after-stats: clamp(4.5rem, 6.5vw, 7rem);
   --shadow-soft: 0 0 1rem rgba(0, 0, 0, 0.1);
   --shadow-menu: 0 0 1.5rem rgba(0, 0, 0, 0.15);
-  --wayon-font-sans: var(--font-noto-sans-sc), var(--font-inter), system-ui, sans-serif;
-  --wayon-font-heading: var(--font-playfair), var(--font-geource-sans), var(--font-noto-sans-sc), sans-serif;
-  --wayon-font-hero: var(--font-geource-sans), sans-serif;
-  --wayon-font-arabic: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
+  --zyl-font-sans: var(--font-noto-sans-sc), var(--font-inter), system-ui, sans-serif;
+  --zyl-font-heading: var(--font-playfair), var(--font-geource-sans), var(--font-noto-sans-sc), sans-serif;
+  --zyl-font-hero: var(--font-geource-sans), sans-serif;
+  --zyl-font-arabic: var(--font-cairo), "Segoe UI Arabic", "Noto Naskh Arabic", system-ui, sans-serif;
 }
 
 @media (max-width: 1279px) {
@@ -84,7 +84,7 @@
     padding-top: var(--header-height);
     background-color: var(--background);
     color: var(--foreground);
-    font-family: var(--wayon-font-sans);
+    font-family: var(--zyl-font-sans);
     font-size: 16px;
     line-height: 1.875;
     text-rendering: optimizeLegibility;
@@ -109,7 +109,7 @@
   }
 
   html[dir="rtl"] body {
-    font-family: var(--wayon-font-arabic);
+    font-family: var(--zyl-font-arabic);
   }
 
   a {
@@ -120,7 +120,7 @@
   /* Tailwind v4 doesn't compile arbitrary `:visited` descendant variants for
      browser-security reasons, so the news article prose component opts in via
      this class instead of `[&_a:visited]:text-amber-800`. amber-800 = #92400e. */
-  .wayon-article-prose a:visited {
+  .zyl-article-prose a:visited {
     color: #92400e;
   }
 
@@ -138,7 +138,7 @@
   h5,
   h6 {
     color: #242424;
-    font-family: var(--wayon-font-heading);
+    font-family: var(--zyl-font-heading);
     letter-spacing: 0;
     line-height: 1.1;
   }
@@ -164,39 +164,39 @@
 }
 
 @layer components {
-  .wayon-container {
+  .zyl-container {
     width: min(var(--site-width), calc(100% - 30px));
     margin-inline: auto;
   }
 
-  .wayon-container-wide {
+  .zyl-container-wide {
     width: min(var(--site-width-wide), calc(100% - 30px));
     margin-inline: auto;
   }
 
-  .wayon-section {
+  .zyl-section {
     padding-top: var(--section-gap);
   }
 
-  .wayon-home-section {
+  .zyl-home-section {
     padding-block: var(--home-section-y);
   }
 
-  .wayon-home-section--compact {
+  .zyl-home-section--compact {
     padding-block: var(--home-section-y-compact);
   }
 
-  .wayon-home-section--after-stats {
+  .zyl-home-section--after-stats {
     padding-top: var(--home-section-y-after-stats);
     padding-bottom: var(--home-section-y-compact);
   }
 
-  .wayon-home-immersive {
+  .zyl-home-immersive {
     margin-top: 0;
   }
 
   /* color intentionally omitted — let utilities (text-white etc.) control it */
-  .wayon-title {
+  .zyl-title {
     font-size: clamp(3rem, 4vw, 5.04rem);
     font-weight: 500;
     letter-spacing: 0;
@@ -204,13 +204,13 @@
     text-wrap: balance;
   }
 
-  .wayon-title strong {
+  .zyl-title strong {
     position: relative;
     display: inline-block;
     font-weight: 600;
   }
 
-  .wayon-title strong::after {
+  .zyl-title strong::after {
     content: "";
     position: absolute;
     inset-inline-start: 0;
@@ -224,20 +224,20 @@
     transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .wayon-copy {
+  .zyl-copy {
     color: var(--muted-foreground);
     font-size: 16px;
     font-weight: 400;
     line-height: 1.85;
   }
 
-  .wayon-brand-title {
-    font-family: var(--wayon-font-hero);
+  .zyl-brand-title {
+    font-family: var(--zyl-font-hero);
     font-weight: 700;
     letter-spacing: 0;
   }
 
-  .wayon-button-link {
+  .zyl-button-link {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -249,7 +249,7 @@
     transition: opacity 0.2s ease-out;
   }
 
-  .wayon-button-link::after {
+  .zyl-button-link::after {
     display: block;
     width: 100%;
     height: 1px;
@@ -261,11 +261,11 @@
     transform-origin: left center;
   }
 
-  .wayon-button-link:hover {
+  .zyl-button-link:hover {
     opacity: 0.8;
   }
 
-  .wayon-card-shadow {
+  .zyl-card-shadow {
     box-shadow: var(--shadow-soft);
   }
 
@@ -274,15 +274,15 @@
      they don't paint over it — keeping the class as a no-op marker preserves
      the styling contract while avoiding a second `background-attachment: fixed`
      paint. */
-  .wayon-stone-bg {
+  .zyl-stone-bg {
     background-color: transparent;
   }
 
-  .wayon-menu-shadow {
+  .zyl-menu-shadow {
     box-shadow: var(--shadow-menu);
   }
 
-  .wayon-eyebrow {
+  .zyl-eyebrow {
     display: inline-block;
     font-size: 0.6875rem;
     font-weight: 600;
@@ -291,7 +291,7 @@
     color: var(--muted-foreground);
   }
 
-  .wayon-cta-primary {
+  .zyl-cta-primary {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -310,13 +310,13 @@
       color 220ms ease-out;
   }
 
-  .wayon-cta-primary:hover {
+  .zyl-cta-primary:hover {
     background-color: transparent;
     color: var(--primary);
     border-color: var(--primary);
   }
 
-  .wayon-cta-ghost {
+  .zyl-cta-ghost {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -335,7 +335,7 @@
       border-color 220ms ease-out;
   }
 
-  .wayon-cta-ghost:hover {
+  .zyl-cta-ghost:hover {
     background-color: currentColor;
     color: var(--primary);
   }
@@ -558,7 +558,7 @@
     border: 1px solid rgba(255, 255, 255, 0.34);
     background: rgba(0, 43, 80, 0.24);
     color: rgba(255, 255, 255, 0.88);
-    font-family: var(--wayon-font-sans);
+    font-family: var(--zyl-font-sans);
     font-size: 0.76rem;
     line-height: 1;
     backdrop-filter: blur(14px);
@@ -681,34 +681,34 @@
     }
   }
 
-  :lang(zh) .wayon-title,
-  :lang(zh) .wayon-cta-primary,
-  :lang(zh) .wayon-cta-ghost {
+  :lang(zh) .zyl-title,
+  :lang(zh) .zyl-cta-primary,
+  :lang(zh) .zyl-cta-ghost {
     text-transform: none;
   }
 
-  :lang(zh) .wayon-eyebrow {
+  :lang(zh) .zyl-eyebrow {
     letter-spacing: 0.08em;
     text-transform: none;
   }
 
-  :lang(zh) .wayon-cta-primary,
-  :lang(zh) .wayon-cta-ghost {
+  :lang(zh) .zyl-cta-primary,
+  :lang(zh) .zyl-cta-ghost {
     letter-spacing: 0.04em;
   }
 
   @media (max-width: 480px) {
-    .wayon-title {
+    .zyl-title {
       font-size: 2.55rem;
       line-height: 1.04;
     }
 
-    .wayon-eyebrow {
+    .zyl-eyebrow {
       letter-spacing: 0.24em;
     }
 
-    .wayon-cta-primary,
-    .wayon-cta-ghost {
+    .zyl-cta-primary,
+    .zyl-cta-ghost {
       width: 100%;
       min-height: 3rem;
       justify-content: center;
@@ -719,17 +719,17 @@
   }
 
   @media (max-width: 360px) {
-    .wayon-title {
+    .zyl-title {
       font-size: 2.35rem;
     }
 
-    .wayon-copy {
+    .zyl-copy {
       font-size: 14px;
       line-height: 1.65;
     }
 
-    .wayon-cta-primary,
-    .wayon-cta-ghost {
+    .zyl-cta-primary,
+    .zyl-cta-ghost {
       padding-inline: 1rem;
       font-size: 0.75rem;
       letter-spacing: 0.12em;
@@ -1046,31 +1046,31 @@
   }
 }
 
-.wayon-title,
-.wayon-page-title,
-.wayon-hero-title {
+.zyl-title,
+.zyl-page-title,
+.zyl-hero-title {
   font-family: var(--font-playfair), serif;
   font-weight: 400;
   font-variant-ligatures: common-ligatures;
 }
 
-.wayon-title {
+.zyl-title {
   line-height: 0.98;
 }
 
-.wayon-hero-title {
+.zyl-hero-title {
   text-wrap: balance;
   text-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.3);
 }
 
-.wayon-home-hero {
-  font-family: var(--wayon-font-hero);
+.zyl-home-hero {
+  font-family: var(--zyl-font-hero);
   height: 100vh;
   height: 100svh;
   min-height: 620px;
 }
 
-.wayon-home-hero__content {
+.zyl-home-hero__content {
   padding-block-start: calc(var(--header-height) + clamp(1rem, 4vh, 2.5rem));
   padding-block-start: calc(var(--header-height) + clamp(1rem, 4svh, 2.5rem));
   padding-inline: clamp(1.5rem, 5vw, 6rem);
@@ -1078,19 +1078,19 @@
   padding-block-end: clamp(5.5rem, 10svh, 9rem);
 }
 
-.wayon-home-hero__inner {
+.zyl-home-hero__inner {
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 3vh, 2rem);
   gap: clamp(1.25rem, 3svh, 2rem);
 }
 
-.wayon-home-hero__tagline-wrap {
+.zyl-home-hero__tagline-wrap {
   margin-top: clamp(0.6rem, 1.6vh, 1.5rem);
   margin-top: clamp(0.6rem, 1.6svh, 1.5rem);
 }
 
-.wayon-home-hero__tagline {
+.zyl-home-hero__tagline {
   font-size: clamp(1.05rem, 3.4vw, 2.5rem);
   font-size: clamp(1.05rem, min(3.4vw, 4.4svh), 2.5rem);
   font-weight: 500;
@@ -1099,72 +1099,72 @@
   white-space: nowrap;
 }
 
-.wayon-home-hero__title-line {
+.zyl-home-hero__title-line {
   font-size: clamp(2.25rem, 11.6vw, 8rem);
   font-size: clamp(2.25rem, min(11.6vw, 13svh), 8rem);
   letter-spacing: 0;
   line-height: 1.04;
 }
 
-.wayon-home-hero__title-line--single {
+.zyl-home-hero__title-line--single {
   font-size: clamp(2.05rem, 6.4vw, 4.85rem);
   font-size: clamp(2.05rem, min(6.4vw, 8svh), 4.85rem);
   line-height: 1.08;
 }
 
-.wayon-home-hero__actions {
+.zyl-home-hero__actions {
   gap: clamp(1.25rem, 3vw, 2rem);
   padding-top: clamp(0.5rem, 2vh, 1.25rem);
   padding-top: clamp(0.5rem, 2svh, 1.25rem);
 }
 
 @media (max-width: 480px) {
-  .wayon-hero-title {
+  .zyl-hero-title {
     line-height: 1.03;
   }
 }
 
 @media (max-width: 360px) {
-  .wayon-hero-title {
+  .zyl-hero-title {
     line-height: 1.05;
   }
 }
 
-.wayon-hero-title strong {
+.zyl-hero-title strong {
   font-weight: 600;
 }
 
-:lang(zh) .wayon-title,
-:lang(zh) .wayon-page-title,
-:lang(zh) .wayon-hero-title,
-:lang(zh) .wayon-brand-title {
-  font-family: var(--wayon-font-hero);
+:lang(zh) .zyl-title,
+:lang(zh) .zyl-page-title,
+:lang(zh) .zyl-hero-title,
+:lang(zh) .zyl-brand-title {
+  font-family: var(--zyl-font-hero);
   font-weight: 700;
 }
 
-:lang(zh) .wayon-hero-title strong {
+:lang(zh) .zyl-hero-title strong {
   font-weight: 700;
 }
 
-.wayon-home-hero .wayon-hero-title,
-:lang(zh) .wayon-home-hero .wayon-hero-title {
-  font-family: var(--wayon-font-hero);
+.zyl-home-hero .zyl-hero-title,
+:lang(zh) .zyl-home-hero .zyl-hero-title {
+  font-family: var(--zyl-font-hero);
   font-weight: 700;
 }
 
 html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--wayon-font-arabic);
+  font-family: var(--zyl-font-arabic);
 }
 
-:lang(ar) .wayon-home-hero .wayon-hero-title,
-:lang(ar) .wayon-hero-title {
-  font-family: var(--wayon-font-arabic);
+:lang(ar) .zyl-home-hero .zyl-hero-title,
+:lang(ar) .zyl-hero-title {
+  font-family: var(--zyl-font-arabic);
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: 0;
 }
 
-:lang(ar) .wayon-home-hero__title-line--single {
+:lang(ar) .zyl-home-hero__title-line--single {
   line-height: 1.35;
 }
 
@@ -1258,29 +1258,29 @@ html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
 }
 
 @supports (animation-timeline: view()) {
-  .wayon-reveal-up {
-    animation: wayon-reveal-up linear both;
+  .zyl-reveal-up {
+    animation: zyl-reveal-up linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 60%;
     will-change: transform, opacity;
   }
 
-  .wayon-reveal-up-soft {
-    animation: wayon-reveal-up-soft linear both;
+  .zyl-reveal-up-soft {
+    animation: zyl-reveal-up-soft linear both;
     animation-timeline: view();
     animation-range: entry 0% entry 80%;
     will-change: transform, opacity;
   }
 
-  .wayon-image-zoom-in {
-    animation: wayon-image-zoom linear both;
+  .zyl-image-zoom-in {
+    animation: zyl-image-zoom linear both;
     animation-timeline: view();
     animation-range: cover 0% cover 100%;
     transform-origin: center center;
     will-change: transform;
   }
 
-  @keyframes wayon-reveal-up {
+  @keyframes zyl-reveal-up {
     from {
       opacity: 0;
       transform: translateY(40px);
@@ -1291,7 +1291,7 @@ html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
     }
   }
 
-  @keyframes wayon-reveal-up-soft {
+  @keyframes zyl-reveal-up-soft {
     from {
       opacity: 0;
       transform: translateY(24px);
@@ -1302,7 +1302,7 @@ html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
     }
   }
 
-  @keyframes wayon-image-zoom {
+  @keyframes zyl-image-zoom {
     from {
       transform: scale(1.12);
     }
@@ -1313,14 +1313,14 @@ html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
 }
 
 @supports (animation-timeline: view(inline)) {
-  .wayon-snap-card {
-    animation: wayon-snap-focus linear both;
+  .zyl-snap-card {
+    animation: zyl-snap-focus linear both;
     animation-timeline: view(inline);
     animation-range: cover 0% cover 100%;
     will-change: transform, opacity;
   }
 
-  @keyframes wayon-snap-focus {
+  @keyframes zyl-snap-focus {
     0%,
     100% {
       opacity: 0.55;
@@ -1333,15 +1333,15 @@ html[dir="rtl"] :is(h1, h2, h3, h4, h5, h6) {
   }
 }
 
-.wayon-sparkle {
+.zyl-sparkle {
   color: #c79430;
   filter: drop-shadow(0 0 4px rgba(212, 168, 58, 0.45));
-  animation: wayon-sparkle-pulse 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: zyl-sparkle-pulse 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   transform-origin: center;
   will-change: transform, filter;
 }
 
-@keyframes wayon-sparkle-pulse {
+@keyframes zyl-sparkle-pulse {
   0%,
   100% {
     transform: scale(1) rotate(0deg);

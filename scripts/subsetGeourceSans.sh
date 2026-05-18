@@ -16,9 +16,9 @@
 #   3. Run:    bash scripts/subsetGeourceSans.sh /tmp/geource/chs
 #
 # The script writes:
-#   src/app/fonts/GeourceSansCHS-Regular-WayonSubset.woff2
-#   src/app/fonts/GeourceSansCHS-Medium-WayonSubset.woff2
-#   src/app/fonts/GeourceSansCHS-Bold-WayonSubset.woff2
+#   src/app/fonts/GeourceSansCHS-Regular-Subset.woff2
+#   src/app/fonts/GeourceSansCHS-Medium-Subset.woff2
+#   src/app/fonts/GeourceSansCHS-Bold-Subset.woff2
 
 set -euo pipefail
 
@@ -33,7 +33,7 @@ fi
 
 for weight in Regular Medium Bold; do
   src="$SRC_DIR/GeourceSansCHS-$weight.ttf"
-  out="$OUT_DIR/GeourceSansCHS-$weight-WayonSubset.woff2"
+  out="$OUT_DIR/GeourceSansCHS-$weight-Subset.woff2"
   if [[ ! -f "$src" ]]; then
     echo "missing source: $src" >&2
     exit 1

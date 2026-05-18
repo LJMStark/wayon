@@ -163,8 +163,8 @@ export async function AdminOverviewWidget({ req }: WidgetServerProps) {
   ];
 
   return (
-    <section className="wayon-admin-overview">
-      <div className="wayon-admin-overview__header">
+    <section className="zyl-admin-overview">
+      <div className="zyl-admin-overview__header">
         <div>
           <p>运营概览</p>
           <h2>今天先看这些</h2>
@@ -173,11 +173,11 @@ export async function AdminOverviewWidget({ req }: WidgetServerProps) {
           查看官网
         </a>
       </div>
-      <div className="wayon-admin-stats">
+      <div className="zyl-admin-stats">
         {stats.map((item) => (
           <a
             className={
-              item.urgent ? "wayon-admin-stat urgent" : "wayon-admin-stat"
+              item.urgent ? "zyl-admin-stat urgent" : "zyl-admin-stat"
             }
             href={item.href}
             key={item.label}
@@ -217,11 +217,11 @@ export function AdminQuickActionsWidget() {
   ];
 
   return (
-    <section className="wayon-admin-widget wayon-admin-quick-actions">
-      <div className="wayon-admin-widget__header">
+    <section className="zyl-admin-widget zyl-admin-quick-actions">
+      <div className="zyl-admin-widget__header">
         <span>常用入口</span>
       </div>
-      <div className="wayon-admin-action-list">
+      <div className="zyl-admin-action-list">
         {actions.map((action) => (
           <a href={action.href} key={action.href}>
             <strong>{action.label}</strong>
@@ -237,13 +237,13 @@ export async function AdminLatestInquiriesWidget({ req }: WidgetServerProps) {
   const inquiries = await findLatestInquiries(req.payload).catch(() => []);
 
   return (
-    <section className="wayon-admin-widget">
-      <div className="wayon-admin-widget__header">
+    <section className="zyl-admin-widget">
+      <div className="zyl-admin-widget__header">
         <span>最新询盘</span>
         <a href={`${ADMIN_BASE}/collections/inquiries`}>全部</a>
       </div>
       {inquiries.length > 0 ? (
-        <div className="wayon-admin-feed">
+        <div className="zyl-admin-feed">
           {inquiries.map((item) => (
             <a
               href={`${ADMIN_BASE}/collections/inquiries/${item.id}`}
@@ -262,7 +262,7 @@ export async function AdminLatestInquiriesWidget({ req }: WidgetServerProps) {
           ))}
         </div>
       ) : (
-        <p className="wayon-admin-empty">暂无询盘。</p>
+        <p className="zyl-admin-empty">暂无询盘。</p>
       )}
     </section>
   );
@@ -272,13 +272,13 @@ export async function AdminLatestNewsWidget({ req }: WidgetServerProps) {
   const news = await findLatestNews(req.payload).catch(() => []);
 
   return (
-    <section className="wayon-admin-widget">
-      <div className="wayon-admin-widget__header">
+    <section className="zyl-admin-widget">
+      <div className="zyl-admin-widget__header">
         <span>最近新闻</span>
         <a href={`${ADMIN_BASE}/collections/news`}>全部</a>
       </div>
       {news.length > 0 ? (
-        <div className="wayon-admin-feed">
+        <div className="zyl-admin-feed">
           {news.map((item) => (
             <a href={`${ADMIN_BASE}/collections/news/${item.id}`} key={item.id}>
               <div>
@@ -292,7 +292,7 @@ export async function AdminLatestNewsWidget({ req }: WidgetServerProps) {
           ))}
         </div>
       ) : (
-        <p className="wayon-admin-empty">暂无新闻。</p>
+        <p className="zyl-admin-empty">暂无新闻。</p>
       )}
     </section>
   );
@@ -307,8 +307,8 @@ export function AdminWorkflowWidget() {
   ];
 
   return (
-    <section className="wayon-admin-widget wayon-admin-workflow">
-      <div className="wayon-admin-widget__header">
+    <section className="zyl-admin-widget zyl-admin-workflow">
+      <div className="zyl-admin-widget__header">
         <span>编辑顺序</span>
       </div>
       <ol>

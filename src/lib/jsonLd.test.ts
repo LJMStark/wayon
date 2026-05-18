@@ -18,10 +18,10 @@ test("articleJsonLd emits a complete Article with absolute image and page URLs",
     description: "ZYL Sintered Stone introduces a safer engineered stone option.",
     datePublished: "2026-04-20T08:00:00.000Z",
     image: [
-      "https://www.zylsinteredstone.com/assets/news/news-feature.jpg",
+      "https://zylsinteredstone.com/assets/news/news-feature.jpg",
       "https://cdn.example.com/news.jpg",
     ],
-    url: "https://www.zylsinteredstone.com/news/silica-free-launch",
+    url: "https://zylsinteredstone.com/news/silica-free-launch",
     author: {
       "@type": "Organization",
       name: "ZYL Sintered Stone",

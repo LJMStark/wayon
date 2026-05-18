@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="wayon-container px-[15px] py-24">
+    <div className="zyl-container px-[15px] py-24">
       {/* Hero skeleton */}
       <div className="aspect-[16/7] w-full animate-pulse bg-[color:var(--muted)]/20" />
       <div className="mt-10 h-10 w-1/2 animate-pulse bg-[color:var(--muted)]/20" />

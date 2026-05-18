@@ -193,10 +193,10 @@ export default async function PrivacyPage({
   const copy = COPY[locale];
 
   return (
-    <div className="min-h-screen wayon-stone-bg">
+    <div className="min-h-screen zyl-stone-bg">
       <section className="bg-[#1a1a1a] py-20">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-          <h1 className="wayon-page-title mb-4 text-4xl font-normal uppercase tracking-wide text-white md:text-5xl">
+          <h1 className="zyl-page-title mb-4 text-4xl font-normal uppercase tracking-wide text-white md:text-5xl">
             {copy.title}
           </h1>
           <p className="text-sm font-normal text-[#666666]">{copy.updated}</p>

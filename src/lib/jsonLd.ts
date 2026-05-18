@@ -26,7 +26,7 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
     name: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
     alternateName: ["ZYL Sintered Stone", "广东众岩联岩板科技有限公司"],
     url: siteUrl,
-    logo: `${siteUrl}/assets/brand/logo-wayon-stone-group.png`,
+    logo: `${siteUrl}/assets/brand/logo-yanlian-yanban.jpg`,
     foundingDate: "2014",
     address: {
       "@type": "PostalAddress",

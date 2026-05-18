@@ -29,7 +29,7 @@ export function ProductsCarousel({
   };
 
   return (
-    <section className="wayon-home-section--compact relative z-0 overflow-hidden px-4">
+    <section className="zyl-home-section--compact relative z-0 overflow-hidden px-4">
       <div className="mx-auto max-w-[90rem]">
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_2.5fr] gap-12 lg:gap-16">
 
@@ -39,7 +39,7 @@ export function ProductsCarousel({
               initial={shouldReduce ? false : { opacity: 0, x: -30 }}
               whileInView={shouldReduce ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="wayon-brand-title mb-6 whitespace-pre-line text-[clamp(3rem,5.8vw,5rem)] uppercase leading-[1.12] text-[color:var(--primary)]"
+              className="zyl-brand-title mb-6 whitespace-pre-line text-[clamp(3rem,5.8vw,5rem)] uppercase leading-[1.12] text-[color:var(--primary)]"
             >
               {copy.title}
             </motion.h2>
@@ -168,7 +168,7 @@ export function ProductsCarousel({
                 <Link
                   key={product.title}
                   href={product.href}
-                  className="wayon-snap-card group relative aspect-[3/4] w-[85vw] shrink-0 snap-center overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] md:w-[60vw]"
+                  className="zyl-snap-card group relative aspect-[3/4] w-[85vw] shrink-0 snap-center overflow-hidden border border-[#002b50]/10 bg-white shadow-[0_24px_80px_-56px_rgba(0,43,80,0.42)] md:w-[60vw]"
                 >
                   <Image
                     src={product.image}

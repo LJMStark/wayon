@@ -109,7 +109,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   return (
     <section
       ref={sectionRef}
-      className="wayon-home-hero relative -mt-[var(--header-height)] w-full overflow-hidden bg-[color:var(--primary)]"
+      className="zyl-home-hero relative -mt-[var(--header-height)] w-full overflow-hidden bg-[color:var(--primary)]"
     >
       <AnimatePresence initial={false}>
         <motion.div
@@ -167,10 +167,10 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
       </AnimatePresence>
 
       <motion.div
-        className="wayon-home-hero__content absolute inset-0 z-10 flex flex-col justify-end"
+        className="zyl-home-hero__content absolute inset-0 z-10 flex flex-col justify-end"
         style={shouldReduce ? undefined : { y: heroContentY, opacity: heroContentOpacity, willChange: "transform, opacity" }}
       >
-        <div className="wayon-home-hero__inner mx-auto w-full max-w-[90rem]">
+        <div className="zyl-home-hero__inner mx-auto w-full max-w-[90rem]">
           <motion.div
             variants={HERO_TITLE_CONTAINER}
             initial={shouldReduce ? false : "hidden"}
@@ -178,21 +178,21 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
           >
             <h1
               aria-label={[titleLine1, tagline].filter(Boolean).join(" — ")}
-              className="wayon-hero-title text-white"
+              className="zyl-hero-title text-white"
             >
               <span className="block overflow-hidden">
                 <motion.span
                   variants={HERO_TITLE_LINE}
-                  className="wayon-home-hero__title-line wayon-home-hero__title-line--single block"
+                  className="zyl-home-hero__title-line zyl-home-hero__title-line--single block"
                 >
                   {titleLine1}
                 </motion.span>
               </span>
               {tagline ? (
-                <span className="wayon-home-hero__tagline-wrap block overflow-hidden">
+                <span className="zyl-home-hero__tagline-wrap block overflow-hidden">
                   <motion.span
                     variants={HERO_TITLE_LINE}
-                    className="wayon-home-hero__tagline block opacity-90"
+                    className="zyl-home-hero__tagline block opacity-90"
                   >
                     {tagline}
                   </motion.span>
@@ -205,7 +205,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="wayon-home-hero__actions flex flex-col items-start sm:flex-row sm:items-center"
+            className="zyl-home-hero__actions flex flex-col items-start sm:flex-row sm:items-center"
           >
             <Link
               href="/products"

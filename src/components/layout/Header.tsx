@@ -50,7 +50,7 @@ function BrandLogo({
   return (
     <div className={className}>
       <Image
-        src="/assets/brand/logo-wayon-white.png"
+        src="/assets/brand/logo-yanlian-yanban-white.png"
         alt={BRAND_ALT[locale] ?? BRAND_ALT.en}
         fill
         sizes={sizes}
@@ -315,9 +315,9 @@ export default function Header(): React.JSX.Element {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 12 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed left-0 right-0 top-[var(--header-height)] whitespace-normal border-t border-[color:var(--border)] bg-white py-8 wayon-menu-shadow"
+                            className="fixed left-0 right-0 top-[var(--header-height)] whitespace-normal border-t border-[color:var(--border)] bg-white py-8 zyl-menu-shadow"
                           >
-                            <div className="wayon-container-wide grid grid-cols-[1.05fr_0.9fr_1fr] gap-10">
+                            <div className="zyl-container-wide grid grid-cols-[1.05fr_0.9fr_1fr] gap-10">
                               <div className="relative aspect-[48/35] overflow-hidden bg-[color:var(--surface)]">
                                 {activeCollection?.previewImage ? (
                                   <Image
@@ -369,7 +369,7 @@ export default function Header(): React.JSX.Element {
                                         >
                                           <span>{translateNav(child.label)}</span>
                                           {child.label === "catalogCustomPatternDesign" ? (
-                                            <span className="wayon-sparkle inline-flex shrink-0" aria-hidden="true">
+                                            <span className="zyl-sparkle inline-flex shrink-0" aria-hidden="true">
                                               <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} />
                                             </span>
                                           ) : null}
@@ -407,7 +407,7 @@ export default function Header(): React.JSX.Element {
                             transition={{ duration: 0.2 }}
                             className="absolute left-1/2 top-[calc(var(--header-height)-2px)] z-50 w-[260px] -translate-x-1/2 pt-4"
                           >
-                            <div className="border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow">
+                            <div className="border border-[color:var(--border)] bg-white py-2 zyl-menu-shadow">
                               {item.subItems.map((subItem) => (
                                 <Link
                                   key={translateNav(subItem.label)}
@@ -450,7 +450,7 @@ export default function Header(): React.JSX.Element {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute end-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 wayon-menu-shadow"
+                    className="absolute end-0 top-[calc(100%+18px)] w-[320px] border-t-[3px] border-[color:var(--primary)] bg-white p-4 zyl-menu-shadow"
                   >
                     <form
                       className="flex gap-3"
@@ -513,7 +513,7 @@ export default function Header(): React.JSX.Element {
                     transition={{ duration: 0.18 }}
                     className="absolute end-0 top-full w-[220px] pt-[18px]"
                   >
-                    <div className="border border-[color:var(--border)] bg-white py-2 wayon-menu-shadow">
+                    <div className="border border-[color:var(--border)] bg-white py-2 zyl-menu-shadow">
                       {LANGUAGES.map((language) => (
                         <Link
                           key={language.locale}
@@ -671,7 +671,7 @@ export default function Header(): React.JSX.Element {
                                       >
                                         <span>{translateNav(child.label)}</span>
                                         {child.label === "catalogCustomPatternDesign" ? (
-                                          <span className="wayon-sparkle inline-flex shrink-0" aria-hidden="true">
+                                          <span className="zyl-sparkle inline-flex shrink-0" aria-hidden="true">
                                             <Sparkles className="h-3 w-3" strokeWidth={1.75} />
                                           </span>
                                         ) : null}

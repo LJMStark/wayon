@@ -6,7 +6,7 @@ import {
   resolveTradeMediaPath,
 } from "./tradeMedia.ts";
 
-const ROOT = "/Users/demon/vibecoding/wayon/docs/外贸出口资料";
+const ROOT = "/tmp/trade-media-root";
 
 test("buildTradeMediaPublicUrl encodes every path segment", () => {
   const url = buildTradeMediaPublicUrl(
@@ -22,7 +22,7 @@ test("resolveTradeMediaPath resolves files inside the trade materials root", () 
     "2023-04-15 102614.mov",
   ]);
 
-  expect(resolved).toBe("/Users/demon/vibecoding/wayon/docs/外贸出口资料/展厅视频/2023-04-15 102614.mov");
+  expect(resolved).toBe("/tmp/trade-media-root/展厅视频/2023-04-15 102614.mov");
 });
 
 test("resolveTradeMediaPath blocks path traversal and absolute paths", () => {

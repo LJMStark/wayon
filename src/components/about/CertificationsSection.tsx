@@ -139,7 +139,7 @@ export function CertificationsSection({
         className="mx-auto max-w-7xl px-6 pb-24 pt-20"
       >
         <div className="mb-12 text-center">
-          <h2 className="wayon-brand-title mb-4 text-3xl font-normal uppercase tracking-widest text-[#1a1a1a] md:text-4xl">
+          <h2 className="zyl-brand-title mb-4 text-3xl font-normal uppercase tracking-widest text-[#1a1a1a] md:text-4xl">
             {sectionTitle}
           </h2>
           <p className="mx-auto max-w-2xl text-[15px] leading-relaxed text-gray-600">

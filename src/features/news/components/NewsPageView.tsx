@@ -21,7 +21,7 @@ export function NewsPageView({
   const heroImage = featured?.image ?? NEWS_FALLBACK_HERO;
 
   return (
-    <div className="min-h-screen wayon-stone-bg">
+    <div className="min-h-screen zyl-stone-bg">
       <section className="relative -mt-[var(--header-height)] overflow-hidden bg-[#031f36] text-white">
         <Image
           src={heroImage}
@@ -42,12 +42,12 @@ export function NewsPageView({
           className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.1))]"
         />
 
-        <div className="wayon-container-wide relative grid min-h-[600px] items-end gap-10 pb-14 pt-[calc(var(--header-height)+5rem)] md:pb-16 md:pt-[calc(var(--header-height)+6rem)] xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] xl:items-center">
+        <div className="zyl-container-wide relative grid min-h-[600px] items-end gap-10 pb-14 pt-[calc(var(--header-height)+5rem)] md:pb-16 md:pt-[calc(var(--header-height)+6rem)] xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] xl:items-center">
           <div className="max-w-3xl pb-2">
             <span className="text-sm font-semibold text-[#d9b45b]">
               {eyebrow}
             </span>
-            <h1 className="wayon-page-title wayon-brand-title mt-6 text-4xl font-normal leading-tight text-white md:text-5xl lg:text-6xl">
+            <h1 className="zyl-page-title zyl-brand-title mt-6 text-4xl font-normal leading-tight text-white md:text-5xl lg:text-6xl">
               {heroTitle}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">
@@ -61,13 +61,13 @@ export function NewsPageView({
 
       {allNews.length > 0 ? (
         <section className="bg-white/94 py-20 md:py-28">
-          <div className="wayon-container-wide grid gap-12 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
+          <div className="zyl-container-wide grid gap-12 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
             <aside className="lg:sticky lg:top-32 lg:self-start">
               <div className="border-s border-[#002b50]/15 ps-6">
                 <span className="text-sm font-semibold text-[#d9b45b]">
                   {eyebrow}
                 </span>
-                <h2 className="wayon-brand-title mt-4 text-3xl font-normal leading-tight text-[#002b50] md:text-4xl">
+                <h2 className="zyl-brand-title mt-4 text-3xl font-normal leading-tight text-[#002b50] md:text-4xl">
                   {recentUpdatesLabel}
                 </h2>
                 <div className="mt-8 flex items-end gap-3 text-[#002b50]">
@@ -92,9 +92,9 @@ export function NewsPageView({
         </section>
       ) : (
         <section className="bg-white/94 py-24">
-          <div className="wayon-container-wide">
+          <div className="zyl-container-wide">
             <div className="border border-[#002b50]/12 bg-white px-6 py-16 text-center shadow-[0_24px_70px_-52px_rgba(0,43,80,0.45)]">
-              <h2 className="wayon-brand-title text-3xl font-normal text-[#002b50]">
+              <h2 className="zyl-brand-title text-3xl font-normal text-[#002b50]">
                 {recentUpdatesLabel}
               </h2>
               <p className="mt-4 text-[#4a4a4a]">{emptyMessage}</p>

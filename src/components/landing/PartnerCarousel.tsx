@@ -43,14 +43,14 @@ export function PartnerCarousel({
   items,
 }: PartnerCarouselProps): React.JSX.Element {
   return (
-    <section className="partner-cloud wayon-home-section--compact overflow-hidden border-t border-[#002b50]/10">
+    <section className="partner-cloud zyl-home-section--compact overflow-hidden border-t border-[#002b50]/10">
       <div className="mx-auto max-w-[90rem] px-4 md:px-8">
         <div className="partner-cloud__canvas">
-          <header className="wayon-reveal-up-soft relative z-10 mx-auto max-w-3xl text-center">
+          <header className="zyl-reveal-up-soft relative z-10 mx-auto max-w-3xl text-center">
             <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/65">
               {description}
             </p>
-            <h2 className="wayon-brand-title mt-6 text-[clamp(2rem,4vw,3.5rem)] uppercase leading-none text-[#242424]">
+            <h2 className="zyl-brand-title mt-6 text-[clamp(2rem,4vw,3.5rem)] uppercase leading-none text-[#242424]">
               {title}
             </h2>
           </header>

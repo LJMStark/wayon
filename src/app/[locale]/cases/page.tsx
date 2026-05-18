@@ -50,7 +50,7 @@ export default function CasesPage(): React.JSX.Element {
   };
 
   return (
-    <main className="min-h-screen wayon-stone-bg text-[#1a1a1a]">
+    <main className="min-h-screen zyl-stone-bg text-[#1a1a1a]">
       <PageHero
         imageSrc="/assets/hero/hero-2.jpg"
         imageAlt={casesCopy.heroTitle}
@@ -68,7 +68,7 @@ export default function CasesPage(): React.JSX.Element {
 
       <div className="mx-auto max-w-[1400px] px-6 pb-24">
         <div className="mt-8">
-          <h2 className="wayon-brand-title mb-8 text-2xl text-[#1a1a1a]">
+          <h2 className="zyl-brand-title mb-8 text-2xl text-[#1a1a1a]">
             {commonCopy.allCases}
           </h2>
 

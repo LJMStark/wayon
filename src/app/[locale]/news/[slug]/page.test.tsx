@@ -54,6 +54,6 @@ test("news article JSON-LD URL uses the active locale path", async () => {
   }
 
   expect(JSON.parse(script.props.dangerouslySetInnerHTML.__html)).toMatchObject({
-    url: "https://www.zylsinteredstone.com/en/news/silica-free-launch",
+    url: "https://zylsinteredstone.com/en/news/silica-free-launch",
   });
 });

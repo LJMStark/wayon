@@ -62,12 +62,12 @@ export function EngineeringCase({
   return (
     <RevealSection
       id="case"
-      className="engineering-case wayon-home-section overflow-hidden"
+      className="engineering-case zyl-home-section overflow-hidden"
     >
       <div className="mx-auto max-w-[1920px] px-4 md:px-8">
         <header className="engineering-case__header mb-10 flex flex-col justify-between gap-8 border-b border-[#002b50]/12 pb-8 md:mb-14 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <h2 className="wayon-brand-title mb-6 text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-[1.1] text-[color:var(--primary)]">
+            <h2 className="zyl-brand-title mb-6 text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-[1.1] text-[color:var(--primary)]">
               {title}
             </h2>
             <p className="max-w-md text-[15px] leading-relaxed text-[#4a4a4a]">

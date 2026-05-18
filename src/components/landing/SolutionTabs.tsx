@@ -93,7 +93,7 @@ export function SolutionTabs({
       style={
         scrollDriven ? { height: `${items.length * 100}vh` } : undefined
       }
-      className="wayon-home-immersive relative w-full bg-[color:var(--primary)]"
+      className="zyl-home-immersive relative w-full bg-[color:var(--primary)]"
     >
       <motion.div
         className="relative h-screen min-h-[700px] w-full overflow-hidden lg:sticky lg:top-0"
@@ -140,7 +140,7 @@ export function SolutionTabs({
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="max-w-3xl"
             >
-              <h3 className="wayon-brand-title mb-6 text-[clamp(2.5rem,6vw,5.5rem)] uppercase leading-[1.1] text-white drop-shadow-[0_4px_18px_rgba(0,43,80,0.45)]">
+              <h3 className="zyl-brand-title mb-6 text-[clamp(2.5rem,6vw,5.5rem)] uppercase leading-[1.1] text-white drop-shadow-[0_4px_18px_rgba(0,43,80,0.45)]">
                 {activeItem.title}
               </h3>
               <p className="mb-10 max-w-xl text-[15px] leading-[1.8] text-white/90 drop-shadow-[0_2px_10px_rgba(0,43,80,0.45)] lg:text-[16px]">

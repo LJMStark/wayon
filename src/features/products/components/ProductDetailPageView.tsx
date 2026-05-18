@@ -260,7 +260,7 @@ export function ProductDetailPageView({
   const useTabPills = variants.length > 1 && variants.length <= 8;
 
   return (
-    <div className="min-h-screen wayon-stone-bg pb-32">
+    <div className="min-h-screen zyl-stone-bg pb-32">
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       {heroImage ? (
         <section className="relative -mt-[var(--header-height)] h-[58svh] min-h-[520px] max-h-[760px] w-full overflow-hidden sm:h-[62svh] sm:min-h-[690px] md:min-h-[720px] lg:h-[66svh] lg:min-h-[640px] xl:max-h-[800px]">
@@ -309,7 +309,7 @@ export function ProductDetailPageView({
                       </span>
                     </div>
                   ) : null}
-                  <h1 className="wayon-brand-title break-words text-[1.18rem] leading-[1.08] text-[#1a1a1a] [overflow-wrap:anywhere] md:text-[1.3rem] xl:text-[1.42rem]">
+                  <h1 className="zyl-brand-title break-words text-[1.18rem] leading-[1.08] text-[#1a1a1a] [overflow-wrap:anywhere] md:text-[1.3rem] xl:text-[1.42rem]">
                     {title}
                   </h1>
                 </div>
@@ -320,7 +320,7 @@ export function ProductDetailPageView({
       ) : null}
 
       {/* ─── CONTENT ──────────────────────────────────────────────────── */}
-      <div className="wayon-container-wide pt-10">
+      <div className="zyl-container-wide pt-10">
         <Link
           href="/products"
           className="mb-12 inline-flex items-center gap-2.5 rounded-full border border-[#002b50]/10 bg-white/70 px-5 py-2.5 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#888888] backdrop-blur-sm transition-[color,border-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[#002b50]/25 hover:text-[#002b50]"
@@ -332,10 +332,10 @@ export function ProductDetailPageView({
         {/* No-hero fallback title */}
         {!heroImage ? (
           <div className="mb-16 flex flex-col items-center text-center">
-            <span className="wayon-eyebrow mb-5 text-[15px] tracking-[0.08em]">
+            <span className="zyl-eyebrow mb-5 text-[15px] tracking-[0.08em]">
               {category}
             </span>
-            <h1 className="wayon-brand-title mb-4 text-[2.4rem] text-[#242424] md:text-[3.2rem]">
+            <h1 className="zyl-brand-title mb-4 text-[2.4rem] text-[#242424] md:text-[3.2rem]">
               {title}
             </h1>
           </div>
@@ -354,7 +354,7 @@ export function ProductDetailPageView({
         {/* ─── VARIANT SELECTOR ─────────────────────────────────────── */}
         {variants.length > 1 ? (
           <div className="mb-16">
-            <p className="wayon-eyebrow mb-5 text-center text-[15px] tracking-[0.08em]">
+            <p className="zyl-eyebrow mb-5 text-center text-[15px] tracking-[0.08em]">
               {labels.variantSelector}
             </p>
 

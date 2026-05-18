@@ -69,7 +69,7 @@ export default async function SolutionPage({
   const solutionCopy = getSolutionPageCopy(locale);
 
   return (
-    <main className="min-h-screen wayon-stone-bg text-[#1a1a1a]">
+    <main className="min-h-screen zyl-stone-bg text-[#1a1a1a]">
       <PageHero
         imageSrc="/assets/solutions/solution-hero-zl826gy905.jpg"
         imageAlt={solutionCopy.heroTitle}
@@ -116,7 +116,7 @@ export default async function SolutionPage({
                     <span className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--primary)]/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <h2 className="wayon-brand-title mb-4 text-[28px] font-medium leading-tight text-[#1a1a1a] md:text-[34px]">
+                    <h2 className="zyl-brand-title mb-4 text-[28px] font-medium leading-tight text-[#1a1a1a] md:text-[34px]">
                       {t(scene.titleKey)}
                     </h2>
                     <p className="mb-6 text-[15px] leading-[1.8] text-[#555]">
@@ -137,7 +137,7 @@ export default async function SolutionPage({
         </div>
 
         <div className="mt-24 border-t border-gray-100 pt-12 text-center">
-          <h3 className="wayon-brand-title mb-4 text-2xl text-[#1a1a1a]">
+          <h3 className="zyl-brand-title mb-4 text-2xl text-[#1a1a1a]">
             {commonCopy.contactUs}
           </h3>
           <p className="mx-auto mb-8 max-w-xl text-[15px] leading-relaxed text-[#666]">

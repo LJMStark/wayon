@@ -53,7 +53,7 @@ export function TrustBadgesStrip({
     <section className="border-y border-gray-100 bg-[#fafafa] py-14">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-8 flex items-end justify-between">
-          <h2 className="wayon-brand-title text-xl font-normal uppercase tracking-widest text-[#1a1a1a]">
+          <h2 className="zyl-brand-title text-xl font-normal uppercase tracking-widest text-[#1a1a1a]">
             {title}
           </h2>
           <Link

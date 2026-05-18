@@ -15,7 +15,7 @@ export function FeaturedProductPoster({
     <section className="relative z-10 px-4 py-12 sm:px-6 lg:py-[4.5rem]">
       <div className="mx-auto max-w-[90rem]">
         <div className="mb-8 text-center">
-          <h2 className="wayon-brand-title text-[clamp(2.125rem,4vw,3.5rem)] uppercase leading-[1.12] text-[color:var(--primary)]">
+          <h2 className="zyl-brand-title text-[clamp(2.125rem,4vw,3.5rem)] uppercase leading-[1.12] text-[color:var(--primary)]">
             {data.eyebrow}
           </h2>
         </div>

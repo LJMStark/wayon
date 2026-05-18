@@ -133,7 +133,7 @@ export default function ProductGrid({
       {!showProductResults ? (
         <div className="space-y-10">
           <div className="flex items-baseline gap-4 border-b border-[color:var(--border)] pb-5">
-            <span className="wayon-eyebrow">{activeSectionLabel}</span>
+            <span className="zyl-eyebrow">{activeSectionLabel}</span>
             <span
               aria-hidden
               className="h-px flex-1 bg-[color:var(--border)]"
@@ -180,7 +180,7 @@ export default function ProductGrid({
                 </svg>
               </Link>
               <div className="flex flex-col gap-1">
-                <span className="wayon-eyebrow">{resultEyebrow}</span>
+                <span className="zyl-eyebrow">{resultEyebrow}</span>
                 <h3 className="font-heading text-[1.75rem] font-medium tracking-[-0.01em] text-[#242424]">
                   {resultTitle}
                 </h3>

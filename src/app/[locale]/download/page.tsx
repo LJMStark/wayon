@@ -145,10 +145,10 @@ export default async function DownloadPage({
   const downloadCopy = getDownloadPageCopy(locale);
 
   return (
-    <div className="min-h-screen wayon-stone-bg">
+    <div className="min-h-screen zyl-stone-bg">
       <section className="bg-[#1a1a1a] -mt-[var(--header-height)] pb-20 pt-[calc(var(--header-height)+80px)]">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-          <h1 className="wayon-page-title mb-4 text-4xl font-normal uppercase tracking-wide text-white md:text-5xl">
+          <h1 className="zyl-page-title mb-4 text-4xl font-normal uppercase tracking-wide text-white md:text-5xl">
             {downloadCopy.heroTitle}
           </h1>
           <p className="max-w-xl text-sm font-normal text-[#666666]">
@@ -172,7 +172,7 @@ export default async function DownloadPage({
       <section className="border-t border-gray-100 py-16">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h2 className="wayon-brand-title mb-3 text-2xl uppercase text-[#1a1a1a]">
+            <h2 className="zyl-brand-title mb-3 text-2xl uppercase text-[#1a1a1a]">
               {downloadCopy.certificationsTitle}
             </h2>
             <p className="max-w-xl text-sm font-normal text-[#555555]">
@@ -193,9 +193,9 @@ export default async function DownloadPage({
         </div>
       </section>
 
-      <section className="wayon-stone-bg border-t border-gray-100 py-16">
+      <section className="zyl-stone-bg border-t border-gray-100 py-16">
         <div className="mx-auto max-w-[1400px] px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="wayon-brand-title mb-4 text-2xl uppercase text-[#1a1a1a]">
+          <h2 className="zyl-brand-title mb-4 text-2xl uppercase text-[#1a1a1a]">
             {downloadCopy.ctaTitle}
           </h2>
           <p className="mx-auto mb-8 max-w-md text-sm font-normal text-[#555555]">

@@ -76,7 +76,7 @@ export default function Footer(): React.JSX.Element {
       className="relative overflow-hidden bg-[color:var(--footer)] text-white"
       style={footerBackgroundStyle}
     >
-      <div className="wayon-container px-[15px] pb-10 pt-6 sm:pb-12 sm:pt-8 md:pb-14 md:pt-8 xl:pb-16 xl:pt-10">
+      <div className="zyl-container px-[15px] pb-10 pt-6 sm:pb-12 sm:pt-8 md:pb-14 md:pt-8 xl:pb-16 xl:pt-10">
         {/* Main grid */}
         <div className="grid gap-10 border-b border-white/10 pb-10 md:grid-cols-[minmax(260px,0.9fr)_minmax(0,1.1fr)] md:items-start md:gap-12 xl:grid-cols-[minmax(300px,0.95fr)_minmax(0,2.05fr)] xl:gap-16 xl:pb-12">
 
@@ -84,8 +84,8 @@ export default function Footer(): React.JSX.Element {
           <div className="flex max-w-[720px] flex-col gap-6 md:max-w-none">
             <Link href="/">
               <Image
-                src="/assets/brand/logo-wayon-white.png"
-                alt="Wayon Stone"
+                src="/assets/brand/logo-yanlian-yanban-white.png"
+                alt="众岩联岩板"
                 width={160}
                 height={98}
                 className="h-auto w-40 object-contain object-left"

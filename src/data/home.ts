@@ -264,7 +264,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item3.title",
     textKey: "HomeData.AboutAlbum.item3.text",
-    image: "/assets/about/yunfu-wayon.webp",
+    image: "/assets/about/yunfu.webp",
     video: FACTORY_PRODUCTION_VIDEO.src,
     videoSources: FACTORY_PRODUCTION_VIDEO.sources,
     href: "/about",
@@ -272,7 +272,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item4.title",
     textKey: "HomeData.AboutAlbum.item4.text",
-    image: "/assets/about/guangdong-wayon.jpg",
+    image: "/assets/about/guangdong.jpg",
     video: CORE_EQUIPMENT_VIDEO.src,
     videoSources: CORE_EQUIPMENT_VIDEO.sources,
     href: "/about",
