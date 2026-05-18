@@ -161,17 +161,20 @@
 
   .zyl-admin-icon {
     display: inline-flex;
-    width: 34px;
-    height: 34px;
+    height: 28px;
+    padding: 0 10px;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    border-radius: 7px;
+    border-radius: 6px;
     background: #d2a650;
     color: #2f2921;
-    font-size: 15px;
+    font-family: var(--font-geource-sans), "Segoe UI", system-ui, sans-serif;
+    font-size: 13px;
     font-weight: 800;
+    letter-spacing: 0.06em;
     line-height: 1;
+    white-space: nowrap;
   }
 
   .zyl-admin-nav-brand {

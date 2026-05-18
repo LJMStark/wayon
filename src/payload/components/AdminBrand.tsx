@@ -19,8 +19,8 @@ export function AdminLogo() {
 
 export function AdminIcon() {
   return (
-    <span className="zyl-admin-icon" aria-hidden="true">
-      众
+    <span className="zyl-admin-icon" aria-label={BRAND_NAME}>
+      ZYL
     </span>
   );
 }
