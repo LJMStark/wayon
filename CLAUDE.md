@@ -127,6 +127,24 @@ Migration files live in `src/migrations/` (sequential `YYYYMMDD_HHMMSS.ts` + an 
 - **Apply** migrations with `npm run migrate`. Do not run migrations from `npm start`; the web container start path should only start Next.
 - The `DATABASE_URL` in `.env.local` points at the **production** Postgres on Zeabur. Treat any `migrate` invocation as a production change — review the SQL, take a snapshot first, no dev push from the local toolchain
 
+### Product Title & Pinyin
+
+Product titles follow a bilingual convention:
+- **zh locale**: raw Chinese title, often prefixed with a product code (`LV826Y053JD 意大利灰洞`)
+- **EN / ES / AR locales**: uppercase pinyin of the Chinese portion, with the product code prefix stripped (`YI DA LI HUI DONG`)
+
+Shared utilities live in **`src/data/productTitle.ts`**:
+- `hasChineseText(value)` — detects Chinese characters
+- `stripLeadingProductCode(value)` — removes leading product code prefix
+- `toUppercasePinyin(value)` — converts Chinese to uppercase pinyin via `pinyin-pro`
+- `getLocalizedProductTitleDisplay(title, locale)` — main consumer-facing resolver; always call this instead of reading `title[locale]` directly
+
+**`src/payload/hooks/autoPinyin.ts`** is an `afterChange` hook registered on the `Products` collection. When zh locale is saved, it automatically updates EN/ES/AR titles to the correct pinyin value. It fires only on `req.locale === "zh"` to avoid update loops.
+
+**`src/payload/hooks/slug.ts`** (`slugifyBeforeValidate`): returns early when `data.slug === undefined` — locale-only updates don't submit the slug field, and without this guard the hook would regenerate the slug from the locale title.
+
+**`ProductVariants`** — the relationship field linking a variant to its parent product is named **`productRef`** (not `product`). Use `where: { productRef: { equals: id } }` when querying variants by product.
+
 ### Trade Media (legacy disk-backed proxy)
 
 `/api/trade-media/[...path]/route.ts` serves files from `docs/` on the running server's disk. It exists for backward compatibility — older `productVariant` documents may still hold `/api/trade-media/...` URLs, and `migrateExistingMediaToR2.mjs` walks them and uploads to R2.
