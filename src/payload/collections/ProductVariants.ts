@@ -1,11 +1,16 @@
 import type { CollectionConfig, Field } from "payload";
 
+import { PRODUCT_CACHE_TAG } from "../../data/cacheTags.ts";
 import {
   TRADE_COLOR_GROUPS,
   TRADE_THICKNESSES,
   TRADE_PROCESSES,
   TRADE_SIZES,
 } from "../../features/products/lib/tradeCatalog.ts";
+import {
+  revalidateSiteCacheAfterChange,
+  revalidateSiteCacheAfterDelete,
+} from "../hooks/revalidateSiteCache.ts";
 
 // The 4 media arrays on ProductVariant keep the exact same field shape as
 // the legacy Sanity externalImageMedia / externalVideoMedia object types so
@@ -111,6 +116,10 @@ export const ProductVariants: CollectionConfig = {
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
+  },
+  hooks: {
+    afterChange: [revalidateSiteCacheAfterChange([PRODUCT_CACHE_TAG])],
+    afterDelete: [revalidateSiteCacheAfterDelete([PRODUCT_CACHE_TAG])],
   },
   fields: [
     {

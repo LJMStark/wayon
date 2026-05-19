@@ -1,5 +1,10 @@
 import type { CollectionConfig } from "payload";
 
+import { NEWS_CACHE_TAG } from "../../data/cacheTags.ts";
+import {
+  revalidateSiteCacheAfterChange,
+  revalidateSiteCacheAfterDelete,
+} from "../hooks/revalidateSiteCache.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const News: CollectionConfig = {
@@ -23,6 +28,8 @@ export const News: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
+    afterChange: [revalidateSiteCacheAfterChange([NEWS_CACHE_TAG])],
+    afterDelete: [revalidateSiteCacheAfterDelete([NEWS_CACHE_TAG])],
   },
   defaultSort: "-publishedAt",
   fields: [

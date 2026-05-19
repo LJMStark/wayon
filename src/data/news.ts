@@ -1,4 +1,5 @@
 import type { SerializedEditorState } from "lexical";
+import { unstable_cache } from "next/cache";
 
 import {
   getPayloadClient,
@@ -6,6 +7,7 @@ import {
   localizedString,
   mediaUrl,
 } from "@/data/_payload";
+import { NEWS_CACHE_TAG } from "@/data/cacheTags";
 import type { AppLocale } from "@/i18n/types";
 
 export type NewsArticleBody = SerializedEditorState;
@@ -34,6 +36,9 @@ type RawNews = {
   body?: unknown;
 };
 
+const NEWS_CACHE_SECONDS = 300;
+const NEWS_DETAIL_CACHE_SECONDS = 3600;
+
 function mapNews(raw: RawNews): NewsArticle {
   return {
     _id: raw.id,
@@ -53,58 +58,95 @@ function emptyLocalized(): Record<AppLocale, string> {
 }
 
 export async function getNewsArticles(): Promise<NewsArticle[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "news",
-    where: { _status: { equals: "published" } },
-    limit: 200,
-    sort: "-publishedAt",
-    locale: "all",
-    depth: 2,
-  });
-  return docs.map((doc) => mapNews(doc as unknown as RawNews));
+  return getCachedNewsArticles();
 }
+
+const getCachedNewsArticles = unstable_cache(
+  async function loadPublishedNewsArticles(): Promise<NewsArticle[]> {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "news",
+      where: { _status: { equals: "published" } },
+      limit: 200,
+      sort: "-publishedAt",
+      locale: "all",
+      depth: 2,
+    });
+    return docs.map((doc) => mapNews(doc as unknown as RawNews));
+  },
+  ["published-news-articles"],
+  {
+    tags: [NEWS_CACHE_TAG],
+    revalidate: NEWS_CACHE_SECONDS,
+  }
+);
 
 export async function getNewsArticleBySlug(
   slug: string
 ): Promise<NewsArticle | null> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "news",
-    where: {
-      and: [
-        { slug: { equals: slug } },
-        { _status: { equals: "published" } },
-      ],
-    },
-    limit: 1,
-    locale: "all",
-    depth: 2,
-  });
-  const [first] = docs;
-  if (!first) return null;
-  return mapNews(first as unknown as RawNews);
+  return getCachedNewsArticleBySlug(slug);
 }
 
+const getCachedNewsArticleBySlug = unstable_cache(
+  async function loadPublishedNewsArticleBySlug(
+    slug: string
+  ): Promise<NewsArticle | null> {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "news",
+      where: {
+        and: [
+          { slug: { equals: slug } },
+          { _status: { equals: "published" } },
+        ],
+      },
+      limit: 1,
+      locale: "all",
+      depth: 2,
+    });
+    const [first] = docs;
+    if (!first) return null;
+    return mapNews(first as unknown as RawNews);
+  },
+  ["published-news-article-by-slug"],
+  {
+    tags: [NEWS_CACHE_TAG],
+    revalidate: NEWS_DETAIL_CACHE_SECONDS,
+  }
+);
+
 export async function getNewsSlugs(): Promise<{ slug: string; updatedAt: string }[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "news",
-    where: { _status: { equals: "published" } },
-    limit: 200,
-    sort: "-publishedAt",
-    depth: 0,
-  });
-  return docs
-    .filter((doc): doc is typeof doc & { slug: string } => {
-      const slug = (doc as { slug?: string | null }).slug;
-      return typeof slug === "string" && slug.length > 0;
-    })
-    .map((doc) => ({
-      slug: (doc as { slug: string }).slug,
-      updatedAt: doc.updatedAt,
-    }));
+  return getCachedNewsSlugs();
 }
+
+const getCachedNewsSlugs = unstable_cache(
+  async function loadPublishedNewsSlugs(): Promise<
+    { slug: string; updatedAt: string }[]
+  > {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "news",
+      where: { _status: { equals: "published" } },
+      limit: 200,
+      sort: "-publishedAt",
+      depth: 0,
+    });
+    return docs
+      .filter((doc): doc is typeof doc & { slug: string } => {
+        const slug = (doc as { slug?: string | null }).slug;
+        return typeof slug === "string" && slug.length > 0;
+      })
+      .map((doc) => ({
+        slug: (doc as { slug: string }).slug,
+        updatedAt: doc.updatedAt,
+      }));
+  },
+  ["published-news-slugs"],
+  {
+    tags: [NEWS_CACHE_TAG],
+    revalidate: NEWS_CACHE_SECONDS,
+  }
+);
 
 export function getLocalizedNewsValue(
   article: NewsArticle,

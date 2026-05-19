@@ -13,6 +13,11 @@ import { getLocaleParams } from "@/features/shared/server/locale";
 import { organizationJsonLd } from "@/lib/jsonLd";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
+import { routing } from "@/i18n/routing";
+
+export function generateStaticParams(): Array<{ locale: string }> {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params,

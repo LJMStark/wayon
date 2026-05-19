@@ -23,7 +23,7 @@ type SupportedLocale = GlobalErrorLocale;
 
 function getLocaleFromCookie(): SupportedLocale {
   if (typeof document === "undefined") return "en";
-  return resolveGlobalErrorLocale(document.cookie);
+  return resolveGlobalErrorLocale(document.cookie, window.location.pathname);
 }
 
 // Fallback rendered only when the root layout itself throws. It must own

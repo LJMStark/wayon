@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, Menu, Search, Sparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   LANGUAGES,
@@ -27,6 +27,7 @@ const BRAND_ALT: Record<string, string> = {
   es: "ZYL Sintered Stone",
   ar: "ZYL Sintered Stone",
 };
+const HEADER_SOLID_SCROLL_THRESHOLD_PX = 24;
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
@@ -195,18 +196,39 @@ export default function Header(): React.JSX.Element {
   const [langOpen, setLangOpen] = useState(false);
   const [mobileOpenSections, setMobileOpenSections] = useState<string[]>([]);
   const [isScrolled, setIsScrolled] = useState(false);
+  const isScrolledRef = useRef(false);
 
   // Scroll-aware transparent header: starts transparent over the page hero,
   // becomes solid white after the user scrolls past the fold so nav text stays
   // legible against the underlying page content.
   useEffect(() => {
-    const handleScroll = (): void => {
-      setIsScrolled(window.scrollY > 24);
+    let frame: number | null = null;
+
+    const updateScrolledState = (): void => {
+      frame = null;
+      const nextScrolled = window.scrollY > HEADER_SOLID_SCROLL_THRESHOLD_PX;
+      if (isScrolledRef.current === nextScrolled) {
+        return;
+      }
+      isScrolledRef.current = nextScrolled;
+      setIsScrolled(nextScrolled);
     };
 
-    handleScroll();
+    const handleScroll = (): void => {
+      if (frame !== null) {
+        return;
+      }
+      frame = window.requestAnimationFrame(updateScrolledState);
+    };
+
+    updateScrolledState();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame !== null) {
+        window.cancelAnimationFrame(frame);
+      }
+    };
   }, []);
 
   // Treat any open dropdown / mega menu the same as scrolled — those panels

@@ -1,9 +1,17 @@
 import type { CollectionConfig } from "payload";
 
 import {
+  CUSTOM_CAPABILITY_CACHE_TAG,
+  PRODUCT_CACHE_TAG,
+} from "../../data/cacheTags.ts";
+import {
   CUSTOM_CAPABILITIES,
   CUSTOM_CAPABILITY_KEYS,
 } from "../../features/products/content/customCapabilities.ts";
+import {
+  revalidateSiteCacheAfterChange,
+  revalidateSiteCacheAfterDelete,
+} from "../hooks/revalidateSiteCache.ts";
 
 export const CustomCapabilities: CollectionConfig = {
   slug: "customCapabilities",
@@ -19,6 +27,20 @@ export const CustomCapabilities: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [
+      revalidateSiteCacheAfterChange([
+        CUSTOM_CAPABILITY_CACHE_TAG,
+        PRODUCT_CACHE_TAG,
+      ]),
+    ],
+    afterDelete: [
+      revalidateSiteCacheAfterDelete([
+        CUSTOM_CAPABILITY_CACHE_TAG,
+        PRODUCT_CACHE_TAG,
+      ]),
+    ],
   },
   fields: [
     {

@@ -128,6 +128,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               autoPlay
               muted
               playsInline
+              preload="metadata"
               loop={slides.length <= 1}
               poster={slide?.poster}
               src={slide.sources ? undefined : slide?.src}

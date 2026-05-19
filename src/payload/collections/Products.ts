@@ -1,7 +1,12 @@
 import type { CollectionConfig } from "payload";
 
+import { PRODUCT_CACHE_TAG } from "../../data/cacheTags.ts";
 import { TRADE_SERIES_TYPES } from "../../features/products/lib/tradeCatalog.ts";
 import { autoPinyinTitleAfterChange } from "../hooks/autoPinyin.ts";
+import {
+  revalidateSiteCacheAfterChange,
+  revalidateSiteCacheAfterDelete,
+} from "../hooks/revalidateSiteCache.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const Products: CollectionConfig = {
@@ -40,7 +45,11 @@ export const Products: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
-    afterChange: [autoPinyinTitleAfterChange],
+    afterChange: [
+      autoPinyinTitleAfterChange,
+      revalidateSiteCacheAfterChange([PRODUCT_CACHE_TAG]),
+    ],
+    afterDelete: [revalidateSiteCacheAfterDelete([PRODUCT_CACHE_TAG])],
   },
   fields: [
     {

@@ -1,9 +1,14 @@
+import { unstable_cache } from "next/cache";
 import {
   getPayloadClient,
   localizedString,
   mediaUrl,
   relationshipValue,
 } from "@/data/_payload";
+import {
+  CUSTOM_CAPABILITY_CACHE_TAG,
+  PRODUCT_CACHE_TAG,
+} from "@/data/cacheTags";
 import {
   selectProductCoverUrl,
   type DirectoryProduct,
@@ -124,6 +129,8 @@ type RawProduct = {
   seriesTypes?: string[] | null;
 };
 
+const PRODUCT_CACHE_SECONDS = 3600;
+
 function mapImageMedia(value: RawImageMedia): ProductMediaImage {
   return {
     sourcePath: value.sourcePath ?? "",
@@ -241,33 +248,32 @@ async function hydrateProducts(rawProducts: RawProduct[]): Promise<Product[]> {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "products",
-    where: { published: { equals: true } },
-    limit: 1000,
-    sort: "sortOrder",
-    locale: "all",
-    depth: 2,
-  });
-  return hydrateProducts(docs as unknown as RawProduct[]);
+  return getCachedProducts();
 }
 
+const getCachedProducts = unstable_cache(
+  async function loadPublishedProducts(): Promise<Product[]> {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "products",
+      where: { published: { equals: true } },
+      limit: 1000,
+      sort: "sortOrder",
+      locale: "all",
+      depth: 2,
+    });
+    return hydrateProducts(docs as unknown as RawProduct[]);
+  },
+  ["published-products-directory"],
+  {
+    tags: [PRODUCT_CACHE_TAG],
+    revalidate: PRODUCT_CACHE_SECONDS,
+  }
+);
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "products",
-    where: {
-      and: [{ slug: { equals: slug } }, { published: { equals: true } }],
-    },
-    limit: 1,
-    locale: "all",
-    depth: 2,
-  });
-  const [first] = docs;
-  if (!first) return null;
-  const [hydrated] = await hydrateProducts([first as unknown as RawProduct]);
-  return hydrated ?? null;
+  const products = await getProducts();
+  return products.find((product) => product.slug === slug) ?? null;
 }
 
 export async function getProductsDirectory(): Promise<Product[]> {
@@ -275,54 +281,78 @@ export async function getProductsDirectory(): Promise<Product[]> {
 }
 
 export async function getCustomCapabilities(): Promise<ProductCustomCapability[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "customCapabilities",
-    limit: 200,
-    sort: "sortOrder",
-    locale: "all",
-    depth: 1,
-  });
-
-  return docs.map((doc) => {
-    const raw = doc as {
-      id: string;
-      capabilityKey?: string | null;
-      title?: unknown;
-      description?: unknown;
-      coverImage?: unknown;
-      sortOrder?: number | null;
-    };
-    return {
-      _id: raw.id,
-      capabilityKey: raw.capabilityKey ?? "",
-      title: localizedString(raw.title),
-      description: localizedString(raw.description),
-      coverImageUrl: mediaUrl(raw.coverImage),
-      sortOrder: raw.sortOrder ?? undefined,
-    };
-  });
+  return getCachedCustomCapabilities();
 }
+
+const getCachedCustomCapabilities = unstable_cache(
+  async function loadCustomCapabilities(): Promise<ProductCustomCapability[]> {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "customCapabilities",
+      limit: 200,
+      sort: "sortOrder",
+      locale: "all",
+      depth: 1,
+    });
+
+    return docs.map((doc) => {
+      const raw = doc as {
+        id: string;
+        capabilityKey?: string | null;
+        title?: unknown;
+        description?: unknown;
+        coverImage?: unknown;
+        sortOrder?: number | null;
+      };
+      return {
+        _id: raw.id,
+        capabilityKey: raw.capabilityKey ?? "",
+        title: localizedString(raw.title),
+        description: localizedString(raw.description),
+        coverImageUrl: mediaUrl(raw.coverImage),
+        sortOrder: raw.sortOrder ?? undefined,
+      };
+    });
+  },
+  ["product-custom-capabilities"],
+  {
+    tags: [CUSTOM_CAPABILITY_CACHE_TAG],
+    revalidate: PRODUCT_CACHE_SECONDS,
+  }
+);
 
 export async function getProductSlugs(): Promise<{ slug: string; updatedAt: string }[]> {
-  const payload = await getPayloadClient();
-  const { docs } = await payload.find({
-    collection: "products",
-    where: { published: { equals: true } },
-    limit: 1000,
-    sort: "sortOrder",
-    depth: 0,
-  });
-  return docs
-    .filter((doc): doc is typeof doc & { slug: string } => {
-      const slug = (doc as { slug?: string | null }).slug;
-      return typeof slug === "string" && slug.length > 0;
-    })
-    .map((doc) => ({
-      slug: (doc as { slug: string }).slug,
-      updatedAt: doc.updatedAt,
-    }));
+  return getCachedProductSlugs();
 }
+
+const getCachedProductSlugs = unstable_cache(
+  async function loadPublishedProductSlugs(): Promise<
+    { slug: string; updatedAt: string }[]
+  > {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "products",
+      where: { published: { equals: true } },
+      limit: 1000,
+      sort: "sortOrder",
+      depth: 0,
+    });
+    return docs
+      .filter((doc): doc is typeof doc & { slug: string } => {
+        const slug = (doc as { slug?: string | null }).slug;
+        return typeof slug === "string" && slug.length > 0;
+      })
+      .map((doc) => ({
+        slug: (doc as { slug: string }).slug,
+        updatedAt: doc.updatedAt,
+      }));
+  },
+  ["published-product-slugs"],
+  {
+    tags: [PRODUCT_CACHE_TAG],
+    revalidate: PRODUCT_CACHE_SECONDS,
+  }
+);
 
 export function getLocalizedProductValue(
   product: Product,

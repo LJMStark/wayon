@@ -107,7 +107,6 @@ export function ProductsCarousel({
                     fill
                     className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:transform-none"
                     sizes={isActive ? "40vw" : "10vw"}
-                    priority={isActive}
                   />
 
                   {/* Content */}
