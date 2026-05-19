@@ -71,6 +71,14 @@ npm run migrate:existing-media # 将旧 /api/trade-media/* 引用迁移到 R2
 npm run generate:product-copy # 生成产品多语言文案草稿（默认 dry-run）
 ```
 
+### 4.22 产品导入规则
+
+- 产品编号是唯一产品身份：一个编号对应一个产品；中文名只做展示，同名不同编号必须录成不同产品，不能合并。
+- 导入脚本默认 dry-run。正式写库前先核对新增、跳过、无法解析和媒体数量，再追加 `-- --apply`。
+- 新品素材补录只跑缺失编号：`npm run import:422-catalog -- --only-category=新品素材 --only-missing`，确认后再加 `--apply`。
+- 媒体通过 Payload `media` collection 上传，现有 `@payloadcms/storage-s3` 配置会把文件写入 Cloudflare R2。优先读取 `docs.compressed/4.22`；如果该目录不存在，则读取当前 `docs/4.22`，该目录必须已经是压缩后的生产素材。
+- 导入、迁移和补数据都是一次性操作，不能放进 `npm start`、构建脚本或 Zeabur 启动命令。
+
 ## 项目结构
 
 ```

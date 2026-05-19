@@ -55,12 +55,14 @@ test("extractTradeDisplayName strips codes, suffix markers and extensions", () =
   expect(extractTradeDisplayName("LV930L902维多利亚.jpg")).toBe("维多利亚");
   expect(extractTradeDisplayName("ZL1030L901维多利亚-ABCD四面上下左右连.jpg")).toBe("维多利亚");
   expect(extractTradeDisplayName("洛可可卡其 ZF120-005一石面.jpg")).toBe("洛可可卡其");
+  expect(extractTradeDisplayName("270966雪山银狐")).toBe("雪山银狐");
 });
 
 test("extractTradeCode extracts the stable product code from common naming styles", () => {
   expect(extractTradeCode("LV930L902维多利亚.jpg")).toBe("LV930L902");
   expect(extractTradeCode("ZL1030L901维多利亚-ABCD四面上下左右连.jpg")).toBe("ZL1030L901");
   expect(extractTradeCode("洛可可卡其 ZF120-005一石面.jpg")).toBe("ZF120-005");
+  expect(extractTradeCode("270966雪山银狐")).toBe("270966");
 });
 
 test("inferTradeColorGroup maps explicit high-confidence color phrases", () => {

@@ -1,20 +1,21 @@
 /**
  * import422Catalog.mjs
  *
- * Scans docs/4.22/ and imports all product media directly into Payload CMS.
+ * Scans docs/4.22/ and imports product media directly into Payload CMS.
  * Each file is uploaded to the `media` collection → stored in Cloudflare R2
- * automatically via @payloadcms/storage-s3. Images are compressed and resized
- * by sharp (thumbnail/card/feature). Videos are stored as-is on R2.
+ * automatically via @payloadcms/storage-s3. Use the compressed catalog mirror
+ * when it exists; otherwise this reads docs/4.22/, which is expected to be the
+ * already-compressed production media set.
  *
  * Usage (run from project root):
- *   npm run import:422-catalog                          # dry-run (default)
- *   npm run import:422-catalog -- --apply               # execute
- *   npm run import:422-catalog -- --apply --limit=5     # first 5 products only
+ *   npm run import:422-catalog
+ *   npm run import:422-catalog -- --only-category=新品素材 --only-missing
+ *   npm run import:422-catalog -- --only-category=新品素材 --only-missing --apply
  *
  * npm script uses --env-file=.env.local so env vars are loaded automatically.
  */
 
-import { readdir, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { getPayload } from "payload";
@@ -29,7 +30,14 @@ import {
 } from "../src/features/products/lib/tradeCatalog.ts";
 import { buildStableTradeFamilySlug } from "../src/features/products/lib/tradeImportIdentity.ts";
 
-const CATALOG_ROOT = path.join(process.cwd(), "docs/4.22");
+const REPO_ROOT = process.cwd();
+const DEFAULT_CATALOG_ROOT = path.join(REPO_ROOT, "docs/4.22");
+const COMPRESSED_CATALOG_ROOT = path.join(REPO_ROOT, "docs.compressed/4.22");
+
+const CATEGORY_SERIES_TYPES = {
+  新品素材: ["新品系列"],
+  促销特惠款: ["特惠系列"],
+};
 
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 const VIDEO_EXTENSIONS = new Set([".mp4", ".mov"]);
@@ -44,17 +52,48 @@ const MIME_TYPES = {
 };
 
 function parseArgs(argv) {
+  const valuesFor = (prefix) =>
+    argv
+      .filter((a) => a.startsWith(prefix))
+      .map((f) => f.slice(prefix.length))
+      .filter(Boolean);
+
+  const mediaRootFlag = argv.find((a) => a.startsWith("--media-root="));
+
   return {
     dryRun: !argv.includes("--apply"),
+    onlyMissing: argv.includes("--only-missing"),
+    mediaRoot: mediaRootFlag
+      ? path.resolve(mediaRootFlag.slice("--media-root=".length))
+      : null,
     limit: (() => {
       const flag = argv.find((a) => a.startsWith("--limit="));
       return flag ? parseInt(flag.slice("--limit=".length), 10) : null;
     })(),
-    skipCategories: (() => {
-      const flags = argv.filter((a) => a.startsWith("--skip-category="));
-      return flags.map((f) => f.slice("--skip-category=".length));
-    })(),
+    onlyCategories: valuesFor("--only-category="),
+    skipCategories: valuesFor("--skip-category="),
   };
+}
+
+async function pathExists(targetPath) {
+  try {
+    await access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolveCatalogRoot(args) {
+  if (args.mediaRoot) {
+    return args.mediaRoot;
+  }
+
+  if (await pathExists(COMPRESSED_CATALOG_ROOT)) {
+    return COMPRESSED_CATALOG_ROOT;
+  }
+
+  return DEFAULT_CATALOG_ROOT;
 }
 
 // Detect media files in a directory (non-recursive)
@@ -106,9 +145,9 @@ function classifyFile(filename) {
   const ext = path.extname(filename).toLowerCase();
 
   if (VIDEO_EXTENSIONS.has(ext)) return "videos";
-  if (base.includes("元素图")) return "elementImages";
-  if (base.includes("空间图")) return "spaceImages";
-  if (base.includes("实拍图")) return "realImages";
+  if (/元素图|素材图/u.test(base)) return "elementImages";
+  if (/空间图|效果图|空图/u.test(base)) return "spaceImages";
+  if (/实拍图|实物图|实物/u.test(base)) return "realImages";
 
   // Unknown image type — default to realImages
   return "realImages";
@@ -119,8 +158,8 @@ function isCustomPatternProduct(segments) {
 }
 
 // Parse metadata from the directory path
-function parsePathMetadata(leafDir) {
-  const rel = path.relative(CATALOG_ROOT, leafDir);
+function parsePathMetadata(catalogRoot, leafDir) {
+  const rel = path.relative(catalogRoot, leafDir);
   const segments = rel.split(path.sep);
 
   const fullPath = segments.join("/");
@@ -172,7 +211,8 @@ async function uploadMedia(payload, filePath, altText, dryRun) {
 
   const media = await payload.create({
     collection: "media",
-    data: { alt: altText },
+    locale: "zh",
+    data: { alt: altText, category: "product" },
     file: {
       data,
       name: filename,
@@ -185,8 +225,7 @@ async function uploadMedia(payload, filePath, altText, dryRun) {
   return { id: media.id, url: media.url ?? "" };
 }
 
-// Upsert a product by slug; return the product id
-async function upsertProduct(payload, slug, title, normalizedName, dryRun) {
+async function findProductBySlug(payload, slug) {
   const existing = await payload.find({
     collection: "products",
     where: { slug: { equals: slug } },
@@ -194,11 +233,31 @@ async function upsertProduct(payload, slug, title, normalizedName, dryRun) {
     overrideAccess: true,
   });
 
-  if (existing.docs.length > 0) {
-    return existing.docs[0].id;
+  return existing.docs[0] ?? null;
+}
+
+async function findExistingVariantByCode(payload, code) {
+  const result = await payload.find({
+    collection: "productVariants",
+    where: { code: { equals: code } },
+    limit: 1,
+    overrideAccess: true,
+  });
+
+  return result.docs[0] ?? null;
+}
+
+// Upsert a product by slug; return the product id
+async function upsertProduct(payload, productData, dryRun) {
+  const existing = await findProductBySlug(payload, productData.slug);
+
+  if (existing) {
+    return { id: existing.id, created: false };
   }
 
-  if (dryRun) return `dry-run-${slug}`;
+  if (dryRun) {
+    return { id: `dry-run-${productData.slug}`, created: true };
+  }
 
   // Create with zh locale only. Products auto-fill EN/ES/AR titles as pinyin
   // from the zh title via the Products afterChange hook; writing the raw
@@ -206,10 +265,10 @@ async function upsertProduct(payload, slug, title, normalizedName, dryRun) {
   const created = await payload.create({
     collection: "products",
     locale: "zh",
-    data: { slug, title, normalizedName, published: false },
+    data: productData,
     overrideAccess: true,
   });
-  return created.id;
+  return { id: created.id, created: true };
 }
 
 // Check if a variant already exists for this product + code
@@ -232,23 +291,41 @@ async function processLeafDir(payload, leafDir, uploadCache, args, stats) {
   const dirName = path.basename(leafDir);
   const code = extractCode(dirName);
   const name = extractName(dirName);
+  const relDir = path.relative(args.catalogRoot, leafDir);
 
   if (!code) {
-    stats.skipped.push({ dir: leafDir, reason: "Cannot extract product code" });
+    stats.skipped.push({ dir: relDir, reason: "Cannot extract product code" });
     return;
+  }
+
+  const slug = buildStableTradeFamilySlug(code);
+  const existingVariantForCode = await findExistingVariantByCode(payload, code);
+
+  if (args.onlyMissing && existingVariantForCode) {
+    stats.skippedExisting += 1;
+    console.log(`[skip-existing] ${code} ${name} — variant code already exists`);
+    return;
+  }
+
+  if (args.onlyMissing) {
+    const existingProduct = await findProductBySlug(payload, slug);
+    if (existingProduct) {
+      stats.existingProductsMissingVariant += 1;
+      console.log(`[complete-existing-product] ${code} ${name} — product exists, variant is missing`);
+    }
   }
 
   const mediaFiles = await listMediaFiles(leafDir);
   if (mediaFiles.length === 0) {
-    stats.skipped.push({ dir: leafDir, reason: "No media files" });
+    stats.skipped.push({ dir: relDir, reason: "No media files" });
     return;
   }
 
-  const { size, thickness, process: mfgProcess } = parsePathMetadata(leafDir);
+  const { topCategory, size, thickness, process: mfgProcess } = parsePathMetadata(args.catalogRoot, leafDir);
 
-  const normalizedName = name;
-  const slug = buildStableTradeFamilySlug(code);
+  const normalizedName = `4.22:${code}`;
   const colorGroup = inferTradeColorGroup(name) ?? null;
+  const seriesTypes = CATEGORY_SERIES_TYPES[topCategory] ?? [];
 
   // Group files by category
   const grouped = { elementImages: [], spaceImages: [], realImages: [], videos: [] };
@@ -312,7 +389,18 @@ async function processLeafDir(payload, leafDir, uploadCache, args, stats) {
   const videos = await buildVideoItems(grouped.videos);
 
   // Upsert product
-  const productId = await upsertProduct(payload, slug, name, normalizedName, args.dryRun);
+  const productResult = await upsertProduct(
+    payload,
+    {
+      slug,
+      title: name,
+      normalizedName,
+      published: true,
+      seriesTypes,
+    },
+    args.dryRun
+  );
+  const productId = productResult.id;
 
   // Check for existing variant
   const existingVariant = await findExistingVariant(payload, productId, code);
@@ -348,7 +436,16 @@ async function processLeafDir(payload, leafDir, uploadCache, args, stats) {
     }
   }
 
-  stats.productsProcessed += 1;
+  if (existingVariant) {
+    stats.variantsUpdated += 1;
+  } else {
+    stats.variantsCreated += 1;
+  }
+  if (productResult.created) {
+    stats.productsCreated += 1;
+  } else {
+    stats.productsUpdated += 1;
+  }
   console.log(
     `[${args.dryRun ? "dry" : "ok"}] ${code} ${name} — ${mediaFiles.length} files (elem:${grouped.elementImages.length} space:${grouped.spaceImages.length} real:${grouped.realImages.length} vid:${grouped.videos.length})`
   );
@@ -370,7 +467,22 @@ async function main() {
 
   console.log(`Mode: ${args.dryRun ? "DRY-RUN (pass --apply to write)" : "APPLY"}`);
   if (args.limit) console.log(`Limit: first ${args.limit} product directories`);
+  if (args.onlyMissing) console.log("Only missing: yes");
+  if (args.onlyCategories.length) console.log(`Only categories: ${args.onlyCategories.join(", ")}`);
   if (args.skipCategories.length) console.log(`Skip categories: ${args.skipCategories.join(", ")}`);
+
+  const catalogRoot = await resolveCatalogRoot(args);
+  if (!(await pathExists(catalogRoot))) {
+    throw new Error(`Catalog media root does not exist: ${catalogRoot}`);
+  }
+  args.catalogRoot = catalogRoot;
+
+  console.log(`Media source: ${path.relative(REPO_ROOT, catalogRoot) || catalogRoot}`);
+  if (catalogRoot === DEFAULT_CATALOG_ROOT && !(await pathExists(COMPRESSED_CATALOG_ROOT))) {
+    console.log(
+      "Compressed mirror docs.compressed/4.22 not found; using docs/4.22 (expected compressed production media set)."
+    );
+  }
 
   const config = (await import("../src/payload.config.ts")).default;
   const payload = await getPayload({ config });
@@ -386,15 +498,24 @@ async function main() {
     });
   }
 
-  console.log("Scanning docs/4.22/ for product directories...");
-  let leafDirs = await findLeafDirs(CATALOG_ROOT);
+  console.log(`Scanning ${path.relative(REPO_ROOT, catalogRoot) || catalogRoot} for product directories...`);
+  let leafDirs = await findLeafDirs(catalogRoot);
   leafDirs.sort();
 
   console.log(`Found ${leafDirs.length} product directories`);
 
+  if (args.onlyCategories.length) {
+    leafDirs = leafDirs.filter((d) => {
+      const rel = path.relative(catalogRoot, d);
+      const topCategory = rel.split(path.sep)[0];
+      return args.onlyCategories.includes(topCategory);
+    });
+    console.log(`After only-category filter: ${leafDirs.length} directories`);
+  }
+
   if (args.skipCategories.length) {
     leafDirs = leafDirs.filter((d) => {
-      const rel = path.relative(CATALOG_ROOT, d);
+      const rel = path.relative(catalogRoot, d);
       const topCategory = rel.split(path.sep)[0];
       return !args.skipCategories.includes(topCategory);
     });
@@ -408,17 +529,24 @@ async function main() {
 
   const uploadCache = new Map(); // absFilePath → { id, url }
   const stats = {
-    productsProcessed: 0,
+    productsCreated: 0,
+    productsUpdated: 0,
+    variantsCreated: 0,
+    variantsUpdated: 0,
+    skippedExisting: 0,
+    existingProductsMissingVariant: 0,
     filesUploaded: 0,
     skipped: [],
+    conflicts: [],
   };
 
   for (const leafDir of leafDirs) {
     try {
       await processLeafDir(payload, leafDir, uploadCache, args, stats);
     } catch (err) {
-      console.error(`ERROR processing ${leafDir}:`, err.message);
-      stats.skipped.push({ dir: leafDir, reason: err.message });
+      const relDir = path.relative(catalogRoot, leafDir);
+      console.error(`ERROR processing ${relDir}:`, err.message);
+      stats.skipped.push({ dir: relDir, reason: err.message });
     }
   }
 
@@ -427,11 +555,19 @@ async function main() {
     JSON.stringify(
       {
         dryRun: args.dryRun,
+        mediaSource: path.relative(REPO_ROOT, catalogRoot) || catalogRoot,
         totalDirectories: leafDirs.length,
-        productsProcessed: stats.productsProcessed,
+        productsCreated: stats.productsCreated,
+        productsUpdated: stats.productsUpdated,
+        variantsCreated: stats.variantsCreated,
+        variantsUpdated: stats.variantsUpdated,
+        skippedExisting: stats.skippedExisting,
+        existingProductsMissingVariant: stats.existingProductsMissingVariant,
         filesUploaded: stats.filesUploaded,
         skipped: stats.skipped.length,
         skippedDetails: stats.skipped,
+        conflicts: stats.conflicts.length,
+        conflictDetails: stats.conflicts,
       },
       null,
       2

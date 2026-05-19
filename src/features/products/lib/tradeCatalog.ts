@@ -244,10 +244,12 @@ function stripTrailingViewMarkers(input: string): string {
 
 function stripCodes(input: string): string {
   return input
+    .replace(/(?:^|[\s_-])(\d{4,})(?=[\u4E00-\u9FFF]|[\s_-]|$)/gu, " ")
     .replace(
       /(?:^|[\s_-])((?:ZL|LV|ZF|ZH|TT|TG|GA|MK|ZS|LD|E\d+SM)[A-Z0-9-]*)(?=[\u4E00-\u9FFF]|[\s_-]|$)/giu,
       " "
     )
+    .replace(/^(\d{4,})(?=[\u4E00-\u9FFF])/u, "")
     .replace(
       /^((?:ZL|LV|ZF|ZH|TT|TG|GA|MK|ZS|LD|E\d+SM)[A-Z0-9-]*)(?=[\u4E00-\u9FFF])/iu,
       ""
@@ -281,7 +283,7 @@ export function extractTradeDisplayName(input: string): string | null {
 export function extractTradeCode(input: string): string | null {
   const basename = stripExtension(input.split("/").pop() ?? input);
   const directMatch = basename.match(
-    /((?:ZYL|ZL|ZF|ZH|ZS|LV|TT|TG|GA|MK|LD|CJ|FK|NL|SM|E\d+SM|V(?=\d)|Z(?=[0-9]))[A-Z0-9-]*)/iu
+    /((?:ZYL|ZL|ZF|ZH|ZS|LV|TT|TG|GA|MK|LD|CJ|FK|NL|SM|E\d+SM|V(?=\d)|Z(?=[0-9]))[A-Z0-9-]*|\d{4,}(?=[\u4E00-\u9FFF]|[\s_-]|$))/iu
   );
 
   return directMatch?.[1] ?? null;

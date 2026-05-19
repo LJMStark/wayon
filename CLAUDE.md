@@ -36,6 +36,8 @@ npm run generate:product-copy:gemini  # Same, via Gemini
 # Most DB-writing one-shot scripts default to dry-run. Add `-- --apply` only after checking the target DB and expected writes.
 ```
 
+`docs/4.22` product identity rule: **one product code equals one product**. Chinese display names are not identity keys. Same Chinese name with different codes must remain separate products, and import scripts must never merge by display name.
+
 **Tests** are Vitest, co-located next to the code they cover (`*.test.ts` and `*.test.tsx` under `src/`). Run a single file with `npx vitest run path/to/file.test.ts`. Tests run in the Node environment with no jsdom setup. Prefer pure-function tests where possible; component/page tests are allowed when they can run without a browser DOM by directly calling components or mocking Next/i18n dependencies.
 
 **Payload Admin** is embedded at `/admin` (requires running dev server + valid `DATABASE_URL`).
@@ -183,7 +185,7 @@ One-shot scripts. Shared conventions:
 - Batch sizes 50–100 for large-collection traversals
 
 Active scripts:
-- `import422Catalog.mjs` — read `docs/4.22/{category}/{spec}/{product}/...`, create products + variants in Payload (uses `/api/trade-media/` URLs initially)
+- `import422Catalog.mjs` — read the compressed 4.22 media catalog, create products + variants in Payload, and upload files through the `media` collection to R2. Product identity is the product code only: the script builds the product slug from the code, writes `normalizedName` as `4.22:<code>`, and never merges by Chinese display name. It defaults to dry-run; for the new-products backfill use `npm run import:422-catalog -- --only-category=新品素材 --only-missing`, review the summary, then append `--apply`. The script prefers `docs.compressed/4.22` when present; otherwise it reads `docs/4.22`, which must already be the compressed production media set.
 - `migrateExistingMediaToR2.mjs` — sweep variants whose media still references `/api/trade-media/`, upload source bytes to R2 via Payload `media` collection, patch `mediaRef` + `publicUrl`. Also covers product cover images
 - `pruneStaleTradeMedia.mjs` — remove broken/stale variant media references
 - `compressMedia.mjs` — local pre-deploy compression. Reads `docs/4.22/` + `docs/海盛/`, writes mirror to `docs.compressed/` (mozjpeg q=85 / oxipng / sharp PNG max-effort / ffmpeg libx264 CRF 23). Idempotent. Already run; results were swapped in (originals preserved as `docs.original/`)
