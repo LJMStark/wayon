@@ -334,10 +334,20 @@
     gap: 9px;
   }
 
+  .zyl-list-toolbar__group--nested {
+    padding-top: 14px;
+    border-top: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
   .zyl-list-toolbar__group > span {
     color: #334155;
     font-size: 15px;
     font-weight: 800;
+  }
+
+  .zyl-list-toolbar__group--nested > span {
+    color: #64748b;
+    font-size: 14px;
   }
 
   .zyl-list-toolbar__links {
