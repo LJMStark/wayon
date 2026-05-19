@@ -1,11 +1,22 @@
 import { notFound } from "next/navigation";
 
+import { getNewsSlugs } from "@/data/news";
 import { NewsDetailPageView } from "@/features/news/components/NewsDetailPageView";
 import { getNewsDetailPageData } from "@/features/news/server/getNewsDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { articleJsonLd, newsBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
 import { lexicalToPlainText } from "@/lib/lexicalText";
+
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  try {
+    const slugs = await getNewsSlugs();
+    return slugs.map(({ slug }) => ({ slug }));
+  } catch (error) {
+    console.error("generateStaticParams: failed to fetch news slugs", error);
+    return [];
+  }
+}
 
 // Published articles rarely change; hourly refresh is plenty.
 export const revalidate = 3600;
