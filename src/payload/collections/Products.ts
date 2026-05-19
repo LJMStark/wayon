@@ -20,7 +20,6 @@ export const Products: CollectionConfig = {
     useAsTitle: "title",
     defaultColumns: [
       "title",
-      "image",
       "slug",
       "published",
       "variants",
@@ -107,28 +106,29 @@ export const Products: CollectionConfig = {
         description:
           "产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。",
         components: {
-          Cell: "@/payload/components/ProductCoverCell#ProductCoverCell",
+          afterInput: [
+            "@/payload/components/ProductAdminFields#ProductCoverPreviewField",
+          ],
         },
       },
     },
     {
-      name: "description",
-      label: "描述",
-      type: "textarea",
-      localized: true,
-      admin: {
-        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。",
-      },
-    },
-    {
-      name: "seriesTypes",
-      label: "岩板产品系列小类（可多选）",
-      type: "select",
-      hasMany: true,
-      options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
+      name: "variants",
+      label: "产品型号",
+      type: "join",
+      collection: "productVariants",
+      on: "productRef",
       admin: {
         description:
-          "这里填的是前台「岩板产品系列」里的小类，例如质感岩板、名石岩板、洞石岩板、木纹岩板等，可同时勾选多项。前台左侧的「规格 / 岩板产品系列 / 特惠系列 / 厚度 / 颜色 / 表面工艺 / 定制产品」是大类入口，不需要在这里重复填写。",
+          "该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。",
+        defaultColumns: [
+          "code",
+          "size",
+          "thickness",
+          "process",
+          "colorGroup",
+          "sortOrder",
+        ],
       },
     },
     {
@@ -154,6 +154,32 @@ export const Products: CollectionConfig = {
         condition: (_, siblingData) => siblingData?.catalogMode === "custom",
         description:
           "仅在“产品类型”选了「定制产品」时显示。选一项定制能力（如“定制颜色”“定制图案设计”），前台“定制产品”栏目会把本产品归入对应能力分组下。",
+      },
+    },
+    {
+      name: "description",
+      label: "描述",
+      type: "textarea",
+      localized: true,
+      admin: {
+        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。",
+      },
+    },
+    {
+      name: "seriesTypes",
+      label: "岩板产品系列小类（可多选）",
+      type: "select",
+      hasMany: true,
+      options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
+      admin: {
+        placeholder: "选择一个或多个小类",
+        description:
+          "这里填的是前台「岩板产品系列」里的小类，例如质感岩板、名石岩板、洞石岩板、木纹岩板等，可同时勾选多项。前台左侧的「规格 / 岩板产品系列 / 特惠系列 / 厚度 / 颜色 / 表面工艺 / 定制产品」是大类入口，不需要在这里重复填写。",
+        components: {
+          afterInput: [
+            "@/payload/components/ProductAdminFields#ProductSeriesTypesSummaryField",
+          ],
+        },
       },
     },
     {
@@ -183,25 +209,6 @@ export const Products: CollectionConfig = {
       index: true,
       admin: {
         position: "sidebar",
-      },
-    },
-    {
-      name: "variants",
-      label: "产品型号",
-      type: "join",
-      collection: "productVariants",
-      on: "productRef",
-      admin: {
-        description:
-          "该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。",
-        defaultColumns: [
-          "code",
-          "size",
-          "thickness",
-          "process",
-          "colorGroup",
-          "sortOrder",
-        ],
       },
     },
     {

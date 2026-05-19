@@ -1,5 +1,6 @@
 import { LocaleCompletenessWarning as LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248 } from '@/payload/components/LocaleCompletenessWarning'
-import { ProductCoverCell as ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819 } from '@/payload/components/ProductCoverCell'
+import { ProductCoverPreviewField as ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
+import { ProductSeriesTypesSummaryField as ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
 import { ProductLocaleStatusCell as ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
 import { ProductListToolbar as ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f } from '@/payload/components/ProductListToolbar'
 import { NewsFrontendLinksField as NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2 } from '@/payload/components/NewsFrontendLinksField'
@@ -42,7 +43,8 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 /** @type import('payload').ImportMap */
 export const importMap = {
   "@/payload/components/LocaleCompletenessWarning#LocaleCompletenessWarning": LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248,
-  "@/payload/components/ProductCoverCell#ProductCoverCell": ProductCoverCell_7f32dfaaac01e1b7989544cc49f51819,
+  "@/payload/components/ProductAdminFields#ProductCoverPreviewField": ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609,
+  "@/payload/components/ProductAdminFields#ProductSeriesTypesSummaryField": ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609,
   "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell": ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,
   "@/payload/components/ProductListToolbar#ProductListToolbar": ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f,
   "@/payload/components/NewsFrontendLinksField#NewsFrontendLinksField": NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2,
