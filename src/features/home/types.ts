@@ -77,11 +77,6 @@ export type HomeStat = {
   label: string;
 };
 
-export type TrustBadgesSectionData = {
-  title: string;
-  viewAllLabel: string;
-};
-
 export type HomePageData = {
   hero: HomeHeroData;
   statsSummary: HomeStat[];
@@ -91,6 +86,5 @@ export type HomePageData = {
   productsCarousel: ProductsCarouselSectionData;
   solutionTabs: SolutionTabsSectionData;
   engineeringCase: EngineeringCaseSectionData;
-  trustBadges: TrustBadgesSectionData;
   partnerCarousel: PartnerCarouselSectionData;
 };

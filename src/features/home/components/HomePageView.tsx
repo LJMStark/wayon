@@ -6,7 +6,6 @@ import { Hero } from "@/components/landing/Hero";
 import { PartnerCarousel } from "@/components/landing/PartnerCarousel";
 import { ProductsCarousel } from "@/components/landing/ProductsCarousel";
 import { SolutionTabs } from "@/components/landing/SolutionTabs";
-import { TrustBadgesStrip } from "@/components/landing/TrustBadgesStrip";
 import { CountUpStat } from "@/components/ui/CountUpStat";
 
 import type { HomePageData, HomeStat } from "../types";
@@ -20,7 +19,6 @@ export function HomePageView({
   productsCarousel,
   solutionTabs,
   engineeringCase,
-  trustBadges,
   partnerCarousel,
 }: HomePageData): React.JSX.Element {
   return (
@@ -59,10 +57,6 @@ export function HomePageView({
         title={engineeringCase.title}
         subtitle={engineeringCase.subtitle}
         items={engineeringCase.items}
-      />
-      <TrustBadgesStrip
-        title={trustBadges.title}
-        viewAllLabel={trustBadges.viewAllLabel}
       />
       <PartnerCarousel
         title={partnerCarousel.title}
