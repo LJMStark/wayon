@@ -1,4 +1,5 @@
 import { LocaleCompletenessWarning as LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248 } from '@/payload/components/LocaleCompletenessWarning'
+import { ProductCodeCell as ProductCodeCell_40b2925cd756df0a49fb85eee1d2ea28 } from '@/payload/components/ProductCodeCell'
 import { ProductCoverPreviewField as ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
 import { ProductSeriesTypesSummaryField as ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
 import { ProductLocaleStatusCell as ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
@@ -43,6 +44,7 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 /** @type import('payload').ImportMap */
 export const importMap = {
   "@/payload/components/LocaleCompletenessWarning#LocaleCompletenessWarning": LocaleCompletenessWarning_0e6cafefca543a3f90a4f87888c68248,
+  "@/payload/components/ProductCodeCell#ProductCodeCell": ProductCodeCell_40b2925cd756df0a49fb85eee1d2ea28,
   "@/payload/components/ProductAdminFields#ProductCoverPreviewField": ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609,
   "@/payload/components/ProductAdminFields#ProductSeriesTypesSummaryField": ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609,
   "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell": ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,

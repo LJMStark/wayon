@@ -17,12 +17,11 @@ export const Products: CollectionConfig = {
   },
   admin: {
     group: "产品管理",
-    useAsTitle: "title",
+    useAsTitle: "slug",
     defaultColumns: [
-      "title",
       "slug",
+      "title",
       "published",
-      "variants",
       "sortOrder",
       "localeStatus",
     ],
@@ -71,11 +70,18 @@ export const Products: CollectionConfig = {
     },
     {
       name: "slug",
-      label: "链接标识",
+      label: "产品型号",
       type: "text",
       unique: true,
       required: true,
       index: true,
+      admin: {
+        description:
+          "产品唯一型号（同时作为前台 URL 标识）。一个产品对应一个型号；列表页以大写形式显示（如 LV930R45），数据库中按小写存储用于 URL（/products/lv930r45）。搜索时大小写不敏感，输入大写或小写都能匹配。",
+        components: {
+          Cell: "@/payload/components/ProductCodeCell#ProductCodeCell",
+        },
+      },
     },
     {
       name: "normalizedName",
@@ -114,13 +120,13 @@ export const Products: CollectionConfig = {
     },
     {
       name: "variants",
-      label: "产品型号",
+      label: "型号规格",
       type: "join",
       collection: "productVariants",
       on: "productRef",
       admin: {
         description:
-          "该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。",
+          "该产品下的所有规格（尺寸 / 厚度 / 工艺 / 颜色 / 图片）。可直接在此处新增或编辑，无需跳转到【产品规格】集合。",
         defaultColumns: [
           "code",
           "size",
