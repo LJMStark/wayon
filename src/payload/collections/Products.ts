@@ -19,8 +19,8 @@ export const Products: CollectionConfig = {
     group: "产品管理",
     useAsTitle: "title",
     defaultColumns: [
-      "image",
       "title",
+      "image",
       "slug",
       "published",
       "variants",
