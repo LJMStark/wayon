@@ -32,14 +32,6 @@ type CatalogLink = FilterLink & {
 const PRIMARY_FILTERS: FilterLink[] = [
   { label: "全部产品" },
   {
-    label: "仅标准产品",
-    params: { "where[catalogMode][equals]": "standard" },
-  },
-  {
-    label: "仅定制产品",
-    params: { "where[catalogMode][equals]": "custom" },
-  },
-  {
     label: "已发布",
     params: { "where[published][equals]": "true" },
   },
