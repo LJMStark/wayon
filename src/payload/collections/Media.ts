@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 
+import { compressMediaUpload } from "../hooks/compressMediaUpload.ts";
+
 export const Media: CollectionConfig = {
   slug: "media",
   labels: {
@@ -12,8 +14,14 @@ export const Media: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
+  hooks: {
+    beforeOperation: [compressMediaUpload],
+  },
   upload: {
     mimeTypes: ["image/*", "video/mp4", "video/quicktime"],
+    // Size variants are all consumed: `card` (products grid covers),
+    // `feature` (detail hero + galleries), `thumbnail` (Payload admin
+    // list-view previews). See src/data/products.ts mapImageMedia.
     imageSizes: [
       { name: "thumbnail", width: 400 },
       { name: "card", width: 768 },

@@ -114,3 +114,33 @@ test("selectProductCoverUrl respects product cover, then element, then space, th
       "/placeholder.jpg"
     )).toBe("/placeholder.jpg");
 });
+
+test("selectProductCoverUrl prefers the card size variant, falling back to the original", () => {
+  const withCard: DirectoryProduct = {
+    ...baseProduct,
+    variants: [
+      {
+        ...baseProduct.variants[0],
+        elementImages: [
+          {
+            publicUrl: "/element-1.jpg",
+            cardUrl: "/element-1-card.jpg",
+            sourcePath: "a",
+            sortOrder: 0,
+          },
+        ],
+        spaceImages: [],
+        realImages: [],
+      },
+    ],
+  };
+
+  expect(selectProductCoverUrl(withCard, "/placeholder.jpg")).toBe(
+    "/element-1-card.jpg"
+  );
+
+  // baseProduct's cover media carries no card variant → original is used.
+  expect(selectProductCoverUrl(baseProduct, "/placeholder.jpg")).toBe(
+    "/element-1.jpg"
+  );
+});

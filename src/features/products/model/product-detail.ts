@@ -61,7 +61,10 @@ function buildMediaImage(
   locale: AppLocale
 ): ProductDetailMediaImage {
   return {
-    publicUrl: image.publicUrl,
+    // Detail hero + galleries render large (≤1600px). Prefer the `feature`
+    // size variant to cap dimensions while staying crisp on retina, falling
+    // back to the original when no feature variant exists (narrow/tall images).
+    publicUrl: image.featureUrl ?? image.publicUrl,
     alt: locale === "zh" && image.altZh ? image.altZh : fallbackAlt,
   };
 }

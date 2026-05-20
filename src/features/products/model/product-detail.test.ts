@@ -147,6 +147,47 @@ test("product detail data does not fall back to Chinese descriptions outside zh"
   ]);
 });
 
+test("product detail media images prefer the feature size variant, falling back to the original", () => {
+  const product: Product = {
+    _id: "p-feature",
+    slug: "feature-sized",
+    title: {
+      en: "Feature Sized",
+      zh: "特征尺寸",
+      es: "Feature Sized",
+      ar: "Feature Sized",
+    },
+    published: true,
+    seriesTypes: [],
+    variants: [
+      {
+        code: "FS",
+        elementImages: [
+          {
+            sourcePath: "e1",
+            publicUrl: "/e1.jpg",
+            featureUrl: "/e1-feature.jpg",
+          },
+          { sourcePath: "e2", publicUrl: "/e2.jpg" },
+        ],
+        spaceImages: [],
+        realImages: [],
+        videos: [],
+      },
+    ],
+  };
+
+  const pageData = buildProductDetailPageData(product, "en", {
+    backLabel: "Back",
+    requestSampleLabel: "Request sample",
+    detail: detailCopy,
+  });
+
+  const images = pageData.variants[0]?.elementImages ?? [];
+  expect(images[0]?.publicUrl).toBe("/e1-feature.jpg");
+  expect(images[1]?.publicUrl).toBe("/e2.jpg");
+});
+
 test("product metadata description uses product copy before category template", () => {
   const product: Product = {
     _id: "p4",

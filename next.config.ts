@@ -179,6 +179,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Catalog PDFs and inspection reports under /public/downloads. Like
+      // /assets they change rarely and otherwise inherit Next's default
+      // `max-age=0`, forcing the browser and Cloudflare to re-validate every
+      // request. Rename or purge Cloudflare if a file is replaced in place.
+      {
+        source: '/downloads/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
     ];
   },
 };

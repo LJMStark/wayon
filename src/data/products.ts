@@ -22,6 +22,12 @@ import { getLocalizedProductTitleDisplay } from "./productTitle";
 export type ProductMediaImage = {
   sourcePath: string;
   publicUrl: string;
+  // Payload-generated size variants (media.sizes.{card,feature}.url). Absent
+  // when the source is smaller than the target (Payload skips upscaling, e.g.
+  // no feature for a <1600px-wide image) or when the media is a plain
+  // publicUrl with no media relation. Consumers fall back to publicUrl.
+  cardUrl?: string;
+  featureUrl?: string;
   altZh?: string;
   sortOrder?: number;
 };
@@ -77,7 +83,14 @@ export type Product = {
   variants?: ProductVariant[];
 };
 
-type RawMediaRef = { url?: string | null } | null | undefined;
+type RawMediaSize = { url?: string | null } | null | undefined;
+type RawMediaRef =
+  | {
+      url?: string | null;
+      sizes?: { card?: RawMediaSize; feature?: RawMediaSize } | null;
+    }
+  | null
+  | undefined;
 
 type RawImageMedia = {
   mediaRef?: RawMediaRef;
@@ -129,9 +142,14 @@ type RawProduct = {
 const PRODUCT_CACHE_SECONDS = 3600;
 
 function mapImageMedia(value: RawImageMedia): ProductMediaImage {
+  const ref = value.mediaRef;
+  const cardUrl = ref?.sizes?.card?.url;
+  const featureUrl = ref?.sizes?.feature?.url;
   return {
     sourcePath: value.sourcePath ?? "",
-    publicUrl: encodeMediaUrl(value.mediaRef?.url ?? value.publicUrl ?? ""),
+    publicUrl: encodeMediaUrl(ref?.url ?? value.publicUrl ?? ""),
+    cardUrl: cardUrl ? encodeMediaUrl(cardUrl) : undefined,
+    featureUrl: featureUrl ? encodeMediaUrl(featureUrl) : undefined,
     altZh: value.altZh ?? undefined,
     sortOrder: value.sortOrder ?? undefined,
   };

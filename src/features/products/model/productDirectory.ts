@@ -2,6 +2,9 @@ type DirectoryMedia = {
   publicUrl: string;
   sourcePath: string;
   sortOrder?: number | null;
+  // Match ProductMediaImage: mapImageMedia only ever emits string | undefined.
+  cardUrl?: string;
+  featureUrl?: string;
 };
 
 export type DirectoryVariant = {
@@ -45,12 +48,16 @@ function countVariantMedia(variant: DirectoryVariant): number {
   );
 }
 
+// Cover images render in the products grid (small cards), so prefer the
+// Payload-generated `card` size (~768px, ~70% smaller than the original) and
+// fall back to the original when no size variant exists.
 function pickFirstMediaUrl(
   variants: DirectoryVariant[],
   field: "elementImages" | "spaceImages" | "realImages"
 ): string | null {
   for (const variant of variants) {
-    const url = variant[field][0]?.publicUrl;
+    const media = variant[field][0];
+    const url = media?.cardUrl ?? media?.publicUrl;
 
     if (url) {
       return url;
