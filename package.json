@@ -15,8 +15,6 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "next typegen && tsc --noEmit",
-    "apply:first-wave-copy": "node --env-file=.env.local scripts/applyFirstWaveCopy.mjs",
-    "apply:gemini-drafts": "node --env-file=.env.local scripts/applyGeminiDrafts.mjs",
     "verify:copy-completeness": "node --env-file=.env.local scripts/verifyCopyCompleteness.mjs",
     "payload": "payload --disable-transpile",
     "generate:types": "payload --disable-transpile generate:types",
