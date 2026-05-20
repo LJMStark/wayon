@@ -3,7 +3,6 @@
 import { useLocale } from "next-intl";
 
 import { getCommonCopy } from "@/data/siteCopy";
-import type { AppLocale } from "@/i18n/types";
 
 // Client component on purpose: loading.tsx is the Suspense fallback for the
 // whole [locale] segment and receives no `params`, so it cannot use
@@ -12,7 +11,7 @@ import type { AppLocale } from "@/i18n/types";
 // NextIntlClientProvider (set with an explicit, static locale in the layout),
 // keeping every route statically renderable.
 export default function LocaleLoading() {
-  const locale = useLocale() as AppLocale;
+  const locale = useLocale();
   const copy = getCommonCopy(locale);
 
   return (
