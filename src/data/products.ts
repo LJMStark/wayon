@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
 import {
+  encodeMediaUrl,
   getPayloadClient,
   localizedString,
   mediaUrl,
@@ -130,7 +131,7 @@ const PRODUCT_CACHE_SECONDS = 3600;
 function mapImageMedia(value: RawImageMedia): ProductMediaImage {
   return {
     sourcePath: value.sourcePath ?? "",
-    publicUrl: value.mediaRef?.url ?? value.publicUrl ?? "",
+    publicUrl: encodeMediaUrl(value.mediaRef?.url ?? value.publicUrl ?? ""),
     altZh: value.altZh ?? undefined,
     sortOrder: value.sortOrder ?? undefined,
   };
@@ -139,8 +140,8 @@ function mapImageMedia(value: RawImageMedia): ProductMediaImage {
 function mapVideoMedia(value: RawVideoMedia): ProductMediaVideo {
   return {
     sourcePath: value.sourcePath ?? "",
-    publicUrl: value.mediaRef?.url ?? value.publicUrl ?? "",
-    posterUrl: value.posterUrl ?? undefined,
+    publicUrl: encodeMediaUrl(value.mediaRef?.url ?? value.publicUrl ?? ""),
+    posterUrl: value.posterUrl ? encodeMediaUrl(value.posterUrl) : undefined,
     titleZh: value.titleZh ?? undefined,
     sortOrder: value.sortOrder ?? undefined,
   };
@@ -181,8 +182,10 @@ function mapProduct(raw: RawProduct, variants: ProductVariant[]): Product {
     imageUrl: mediaUrl(raw.image),
     description: localizedString(raw.description),
     sortOrder: raw.sortOrder ?? undefined,
-    coverImageUrl: raw.coverImageUrl ?? undefined,
-    coverVideoPosterUrl: raw.coverVideoPosterUrl ?? undefined,
+    coverImageUrl: raw.coverImageUrl ? encodeMediaUrl(raw.coverImageUrl) : undefined,
+    coverVideoPosterUrl: raw.coverVideoPosterUrl
+      ? encodeMediaUrl(raw.coverVideoPosterUrl)
+      : undefined,
     catalogMode: raw.catalogMode ?? "standard",
     customCapability: capability?.capabilityKey ?? undefined,
     seriesTypes: raw.seriesTypes ?? [],

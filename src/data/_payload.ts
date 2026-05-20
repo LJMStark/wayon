@@ -61,13 +61,27 @@ export function localizedRich<T>(value: unknown): Record<AppLocale, T> | undefin
   return hasAny ? result : undefined;
 }
 
+// R2 object keys can contain CJK characters (e.g. "LV927L175翡翠白元素图.jpg").
+// Left raw, such a URL is valid in HTML but breaks Next's `Link: rel=preload`
+// HTTP header for priority images — HTTP headers are Latin-1, so a CJK code
+// point throws "Cannot convert argument to a ByteString". Percent-encode only
+// the non-ASCII runs: URL structure and any existing %-escapes stay intact, so
+// this is safe to apply unconditionally and is idempotent.
+export function encodeMediaUrl(url: string): string {
+  let out = "";
+  for (const ch of url) {
+    out += (ch.codePointAt(0) ?? 0) > 127 ? encodeURIComponent(ch) : ch;
+  }
+  return out;
+}
+
 export function mediaUrl(value: unknown): string | undefined {
   if (!value || typeof value !== "object") {
     return undefined;
   }
 
   const url = (value as { url?: string | null }).url;
-  return typeof url === "string" && url.length > 0 ? url : undefined;
+  return typeof url === "string" && url.length > 0 ? encodeMediaUrl(url) : undefined;
 }
 
 export function relationshipValue<T>(value: unknown): T | undefined {
