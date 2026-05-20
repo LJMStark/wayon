@@ -74,7 +74,7 @@ for (const rel of files) {
   let meta;
   try {
     meta = await sharp(abs).metadata();
-  } catch (e) {
+  } catch {
     rows.push({ rel, from: kb(size), to: "SKIP", note: "unreadable by sharp" });
     continue;
   }

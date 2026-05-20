@@ -7,12 +7,10 @@ import {
   TRADE_THICKNESSES,
 } from "../../features/products/lib/tradeCatalog.ts";
 
-// Shared variant field definitions used by both Products (new direct columns
-// added in Deploy 1) and ProductVariants (legacy join table, kept alive until
-// Deploy 2). Importing from this single source prevents schema drift between
-// the two collections during the migration window. Each variant attribute and
-// media array has identical shape, labels, and description on both sides; once
-// ProductVariants is dropped in Deploy 2, only Products consumes this module.
+// Variant field definitions (size, thickness, process, color, and the 4 media
+// arrays) for the Products collection. These attributes were merged onto
+// Products from the former ProductVariants table (2026-05-20); ProductVariants
+// no longer exists, so Products is the only consumer of this module.
 
 export const imageMediaFields: Field[] = [
   {
@@ -107,16 +105,15 @@ export const videoMediaFields: Field[] = [
   },
 ];
 
-// 7 plain attribute fields. During Deploy 1 these live on both Products and
-// ProductVariants; Deploy 2 drops ProductVariants entirely.
+// 7 plain attribute fields, defined directly on the Products collection.
 export const variantAttributeFields: Field[] = [
   {
     name: "size",
     label: "规格尺寸",
     type: "select",
-    // Required on ProductVariants; on Products we relax to optional during
-    // Deploy 1 backfill window, then re-tighten to required after the data
-    // migration sets NOT NULL via Stage 5 migration.
+    // Optional on Products: not every product row carries a full variant
+    // spec (size etc.), and the variants → products backfill left some rows
+    // without one.
     options: TRADE_SIZES.map((value) => ({ label: value, value })),
     admin: {
       description: "板材的长×宽（毫米）。官网「规格」筛选从这里读取。",
@@ -180,7 +177,7 @@ export const variantAttributeFields: Field[] = [
   },
 ];
 
-// 4 media array fields. Same layout on both Products and ProductVariants.
+// 4 media array fields on the Products collection.
 export const variantMediaFields: Field[] = [
   {
     name: "elementImages",
