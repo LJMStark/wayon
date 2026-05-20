@@ -112,16 +112,13 @@ const nextConfig: NextConfig = {
     staticGenerationRetryCount: 3,
   },
   images: {
-    // 开发阶段跳过图片优化缓存，换图即刷新可见
-    // 生产构建仍然启用优化
-    unoptimized: isDev,
-    // Cache optimized images (/_next/image) for 30 days at the browser and any
-    // CDN in front (Cloudflare). Next's default is 60s, which on a self-hosted
-    // Zeabur box forces frequent re-optimization and re-fetch of the source
-    // bytes from R2. Product/news imagery rarely changes, and a changed image
-    // gets a new /_next/image URL (different `url` param), so a long TTL is safe
-    // and cuts origin load + repeat-visit latency.
-    minimumCacheTTL: 2592000,
+    // Disable Next's image optimizer in every environment. On this self-hosted
+    // (Zeabur) deployment the /_next/image optimizer returns 500 for remote R2
+    // images, and even when it worked it only added a Zeabur→R2 round trip for
+    // no benefit: R2 is fronted by Cloudflare's CDN and the stored images are
+    // already web-sized (~200KB). Serve them directly from R2/Cloudflare instead.
+    // (Matches the sibling jinxin project's self-hosted setup.)
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: R2_HOSTNAME, pathname: '/**' },
     ],
