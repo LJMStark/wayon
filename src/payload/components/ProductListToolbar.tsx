@@ -195,16 +195,16 @@ function readCatalogSection(params: URLSearchParams): CatalogSection | null {
   if (params.has("where[seriesTypes][contains]")) {
     return "series";
   }
-  if (params.has("where[variants.size][equals]")) {
+  if (params.has("where[size][equals]")) {
     return "size";
   }
-  if (params.has("where[variants.thickness][equals]")) {
+  if (params.has("where[thickness][equals]")) {
     return "thickness";
   }
-  if (params.has("where[variants.colorGroup][equals]")) {
+  if (params.has("where[colorGroup][equals]")) {
     return "color";
   }
-  if (params.has("where[variants.process][equals]")) {
+  if (params.has("where[process][equals]")) {
     return "process";
   }
   if (
@@ -240,7 +240,7 @@ function buildSubcategoryLinks(
             params: {
               [CATALOG_SECTION_PARAM]: "size",
               ...STANDARD_PRODUCT_PARAMS,
-              "where[variants.size][equals]": size,
+              "where[size][equals]": size,
             },
           })),
         ],
@@ -282,7 +282,7 @@ function buildSubcategoryLinks(
             params: {
               [CATALOG_SECTION_PARAM]: "thickness",
               ...STANDARD_PRODUCT_PARAMS,
-              "where[variants.thickness][equals]": thickness,
+              "where[thickness][equals]": thickness,
             },
           })),
           {
@@ -290,7 +290,7 @@ function buildSubcategoryLinks(
             params: {
               [CATALOG_SECTION_PARAM]: "thickness",
               ...STANDARD_PRODUCT_PARAMS,
-              "where[variants.thickness][equals]": "custom",
+              "where[thickness][equals]": "custom",
             },
           },
         ],
@@ -311,7 +311,7 @@ function buildSubcategoryLinks(
             params: {
               [CATALOG_SECTION_PARAM]: "color",
               ...STANDARD_PRODUCT_PARAMS,
-              "where[variants.colorGroup][equals]": colorGroup,
+              "where[colorGroup][equals]": colorGroup,
             },
           })),
         ],
@@ -332,7 +332,7 @@ function buildSubcategoryLinks(
             params: {
               [CATALOG_SECTION_PARAM]: "process",
               ...STANDARD_PRODUCT_PARAMS,
-              "where[variants.process][equals]": process,
+              "where[process][equals]": process,
             },
           })),
         ],

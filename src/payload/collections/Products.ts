@@ -1,13 +1,31 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, Field } from "payload";
 
 import { PRODUCT_CACHE_TAG } from "../../data/cacheTags.ts";
 import { TRADE_SERIES_TYPES } from "../../features/products/lib/tradeCatalog.ts";
 import { autoPinyinTitleAfterChange } from "../hooks/autoPinyin.ts";
 import {
+  variantAttributeFields,
+  variantMediaFields,
+} from "../lib/variantFields.ts";
+import {
   revalidateSiteCacheAfterChange,
   revalidateSiteCacheAfterDelete,
 } from "../hooks/revalidateSiteCache.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
+
+// Hide newly added variant fields from the admin edit form during Deploy 1.
+// They exist in schema for the data backfill and dual-read code path, but
+// editors keep using the existing "产品规格" join panel to avoid confusion
+// about which side is the source of truth. Deploy 2 unhides these fields
+// and drops the join panel + ProductVariants collection.
+function hideDuringDeploy1(field: Field): Field {
+  if (field.type === "ui") return field;
+  const existingAdmin = "admin" in field && field.admin ? field.admin : {};
+  return {
+    ...field,
+    admin: { ...existingAdmin, hidden: true },
+  } as Field;
+}
 
 export const Products: CollectionConfig = {
   slug: "products",
@@ -83,6 +101,20 @@ export const Products: CollectionConfig = {
         },
       },
     },
+    // productCode mirrors slug.toUpperCase() and is populated by the
+    // mergeVariantsIntoProducts.mjs backfill script + future Payload save
+    // hooks. Hidden during Deploy 1 so editors don't see redundant fields.
+    {
+      name: "productCode",
+      label: "产品编号",
+      type: "text",
+      index: true,
+      admin: {
+        hidden: true,
+        description:
+          "产品的大写编号，例如 LV930R45。由系统从「产品型号」自动派生，请勿手动修改。",
+      },
+    },
     {
       name: "normalizedName",
       label: "系统识别码",
@@ -137,6 +169,12 @@ export const Products: CollectionConfig = {
         ],
       },
     },
+    // Deploy 1: hidden mirror copies of the variant attribute and media
+    // fields. Populated by the backfill script + dual-write importers; read
+    // by src/data/products.ts via the fallback path. Deploy 2 will unhide
+    // these and remove the `variants` join field above.
+    ...variantAttributeFields.map(hideDuringDeploy1),
+    ...variantMediaFields.map(hideDuringDeploy1),
     {
       name: "catalogMode",
       label: "产品分类",

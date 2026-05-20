@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   pickVariantCoverUrl,
   readUrlFromMediaRef,
+  type ImageMediaItem,
   type VariantDoc,
 } from "./productAdminUtils";
 
@@ -15,9 +16,21 @@ type VariantImageResult = {
   url: string | null;
 };
 
+// Read variant media arrays from the product's own form fields (Deploy 1+:
+// these are hidden but populated on Products itself). Returns null when the
+// product has no self-media, signalling the caller to fall back to fetching
+// the legacy productVariants table.
+function readSelfImageArray(value: unknown): ImageMediaItem[] {
+  return Array.isArray(value) ? (value as ImageMediaItem[]) : [];
+}
+
 export function ProductCoverPreviewField() {
   const { collectionSlug, data, id, savedDocumentData } = useDocumentInfo();
   const directImage = useFormFields(([fields]) => fields?.image?.value);
+  const selfElementImages = useFormFields(([fields]) => fields?.elementImages?.value);
+  const selfSpaceImages = useFormFields(([fields]) => fields?.spaceImages?.value);
+  const selfRealImages = useFormFields(([fields]) => fields?.realImages?.value);
+
   const hiddenCoverUrl =
     readStringUrl(data?.coverImageUrl) ??
     readStringUrl(savedDocumentData?.coverImageUrl);
@@ -27,12 +40,40 @@ export function ProductCoverPreviewField() {
     readUrlFromMediaRef(data?.image) ??
     readUrlFromMediaRef(savedDocumentData?.image);
   const productId = id ? String(id) : "";
+
+  // Primary source (Deploy 1+): read media arrays directly off the product's
+  // form fields. Synthesise a single VariantDoc so we can reuse the existing
+  // pickVariantCoverUrl picker without a parallel implementation.
+  const selfCoverUrl = useMemo(() => {
+    if (collectionSlug !== "products") return null;
+    const elementImages = readSelfImageArray(selfElementImages);
+    const spaceImages = readSelfImageArray(selfSpaceImages);
+    const realImages = readSelfImageArray(selfRealImages);
+    if (elementImages.length === 0 && spaceImages.length === 0 && realImages.length === 0) {
+      return null;
+    }
+    const synthetic: VariantDoc = {
+      code: null,
+      elementImages,
+      spaceImages,
+      realImages,
+      videos: [],
+      sortOrder: 0,
+    };
+    return pickVariantCoverUrl([synthetic]);
+  }, [collectionSlug, selfElementImages, selfSpaceImages, selfRealImages]);
+
   const [variantImage, setVariantImage] = useState<VariantImageResult | null>(
     null
   );
 
   useEffect(() => {
-    if (collectionSlug !== "products" || directUrl || !productId) {
+    // Fallback source: only fetch the legacy productVariants table if both
+    // the direct image and the self media arrays are empty. During Deploy 2
+    // (productVariants collection removed) the fetch will 404 — surfaced via
+    // console.error rather than swallowed, so silent failures don't hide
+    // upstream bugs.
+    if (collectionSlug !== "products" || directUrl || selfCoverUrl || !productId) {
       return;
     }
 
@@ -50,27 +91,31 @@ export function ProductCoverPreviewField() {
           url: pickVariantCoverUrl(payload?.docs ?? []),
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("[ProductCoverPreviewField] variant fallback fetch failed", err);
         if (!cancelled) setVariantImage({ productId, url: null });
       });
 
     return () => {
       cancelled = true;
     };
-  }, [collectionSlug, directUrl, productId]);
+  }, [collectionSlug, directUrl, selfCoverUrl, productId]);
 
   if (collectionSlug !== "products") return null;
 
   const hasLoadedVariant =
     variantImage != null && variantImage.productId === productId;
   const variantUrl = hasLoadedVariant ? variantImage.url : null;
-  const finalUrl = directUrl ?? variantUrl;
+  const finalUrl = directUrl ?? selfCoverUrl ?? variantUrl;
   const sourceLabel = hiddenCoverUrl
     ? "来自隐藏封面 URL"
     : directUrl
       ? "来自主图字段"
-      : "来自产品型号图片";
-  const loading = !directUrl && Boolean(productId) && !hasLoadedVariant;
+      : selfCoverUrl
+        ? "来自产品规格图片"
+        : "来自产品型号图片";
+  const loading =
+    !directUrl && !selfCoverUrl && Boolean(productId) && !hasLoadedVariant;
 
   return (
     <div

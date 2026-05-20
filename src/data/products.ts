@@ -127,6 +127,23 @@ type RawProduct = {
   catalogMode?: "standard" | "custom" | null;
   customCapability?: unknown;
   seriesTypes?: string[] | null;
+  // Deploy 1: optional variant fields living directly on products. Populated
+  // by the backfill script + dual-write importers. Read here as the primary
+  // source; fall back to loadVariantsByProductIds() only when these are null
+  // (i.e. for any row that somehow didn't get backfilled). Deploy 2 removes
+  // the fallback path entirely.
+  productCode?: string | null;
+  size?: string | null;
+  thickness?: string | null;
+  thicknessCustom?: string | null;
+  process?: string | null;
+  colorGroup?: string | null;
+  faceCount?: string | null;
+  facePatternNote?: string | null;
+  elementImages?: RawImageMedia[] | null;
+  spaceImages?: RawImageMedia[] | null;
+  realImages?: RawImageMedia[] | null;
+  videos?: RawVideoMedia[] | null;
 };
 
 const PRODUCT_CACHE_SECONDS = 3600;
@@ -162,6 +179,30 @@ function mapVariant(raw: RawVariant): ProductVariant {
     faceCount: raw.faceCount ?? undefined,
     facePatternNote: raw.facePatternNote ?? undefined,
     sortOrder: raw.sortOrder ?? undefined,
+    elementImages: (raw.elementImages ?? []).map(mapImageMedia),
+    spaceImages: (raw.spaceImages ?? []).map(mapImageMedia),
+    realImages: (raw.realImages ?? []).map(mapImageMedia),
+    videos: (raw.videos ?? []).map(mapVideoMedia),
+  };
+}
+
+// Deploy 1: produces a single synthesized variant from the product's own
+// columns. Returns null when the product hasn't been backfilled yet (no
+// `size` value), letting the caller fall back to loadVariantsByProductIds().
+// Deploy 2 will keep this function and drop the fallback path.
+function mapProductSelfAsVariant(raw: RawProduct): ProductVariant | null {
+  if (!raw.size) return null;
+  return {
+    _id: raw.id,
+    code: raw.productCode ?? (raw.slug ?? "").toUpperCase(),
+    size: raw.size ?? undefined,
+    thickness: raw.thickness ?? undefined,
+    thicknessCustom: raw.thicknessCustom ?? undefined,
+    process: raw.process ?? undefined,
+    colorGroup: raw.colorGroup ?? undefined,
+    faceCount: raw.faceCount ?? undefined,
+    facePatternNote: raw.facePatternNote ?? undefined,
+    sortOrder: undefined,
     elementImages: (raw.elementImages ?? []).map(mapImageMedia),
     spaceImages: (raw.spaceImages ?? []).map(mapImageMedia),
     realImages: (raw.realImages ?? []).map(mapImageMedia),
@@ -241,10 +282,34 @@ async function loadVariantsByProductIds(
 }
 
 async function hydrateProducts(rawProducts: RawProduct[]): Promise<Product[]> {
-  const variantMap = await loadVariantsByProductIds(
-    rawProducts.map((doc) => doc.id)
-  );
-  return rawProducts.map((doc) => mapProduct(doc, variantMap.get(doc.id) ?? []));
+  // Deploy 1 strategy: prefer variant data from the product's own columns
+  // (size / thickness / elementImages / etc., populated by the backfill).
+  // For any product missing self-data (size IS NULL), fall back to the
+  // legacy productVariants join. Most rows will hit the fast path; the
+  // fallback exists purely as a safety net during the migration window.
+  const selfVariants = new Map<string, ProductVariant>();
+  const needsFallback: string[] = [];
+  for (const doc of rawProducts) {
+    const synthesized = mapProductSelfAsVariant(doc);
+    if (synthesized) {
+      selfVariants.set(doc.id, synthesized);
+    } else {
+      needsFallback.push(doc.id);
+    }
+  }
+
+  const fallbackMap =
+    needsFallback.length > 0
+      ? await loadVariantsByProductIds(needsFallback)
+      : new Map<string, ProductVariant[]>();
+
+  return rawProducts.map((doc) => {
+    const self = selfVariants.get(doc.id);
+    if (self) {
+      return mapProduct(doc, [self]);
+    }
+    return mapProduct(doc, fallbackMap.get(doc.id) ?? []);
+  });
 }
 
 export async function getProducts(): Promise<Product[]> {

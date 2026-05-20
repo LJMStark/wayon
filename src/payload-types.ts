@@ -243,7 +243,7 @@ export interface CustomCapability {
   createdAt: string;
 }
 /**
- * 前台产品目录主要读取“系列类型”“产品类型”和“产品规格（型号）”。新增产品时建议顺序：填标题 → 选系列类型 → 上传主图 → 在下方“产品型号”里添加规格 → 打开“发布到前台”。标题与描述为多语言字段，请使用页面右上角的语言切换器，按 4 个语种分别填写。某语种留空时，前台会自动回落显示英文；英文也为空时，对应语种页面会显示空白。
+ * 管理官网展示的所有产品。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 在「产品规格」里补尺寸、厚度、颜色、工艺 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
@@ -251,97 +251,64 @@ export interface CustomCapability {
 export interface Product {
   id: string;
   /**
-   * 多语言字段，请在每个语言下分别填写。
+   * 中文产品名（如「鱼肚金」）。英文、西班牙语、阿拉伯语版的官网页会自动用中文名的大写拼音显示（如「花开富贵」→「HUA KAI FU GUI」），外语栏一般可以留空。如需自定义外语名，在外语栏填写对应翻译，且不能含中文字符。
    */
   title: string;
+  /**
+   * 产品的唯一编号，例如 LV930R45。一个编号对应一个产品。列表页用大写显示，官网网址用小写。搜索时大小写都能匹配。
+   */
   slug: string;
   /**
-   * 导入产品时生成的族系名称，用作导入识别键。不要手动修改。
+   * 产品的大写编号，例如 LV930R45。由系统从「产品型号」自动派生，请勿手动修改。
+   */
+  productCode?: string | null;
+  /**
+   * 导入工具自动生成的识别码，请勿手动修改。
    */
   normalizedName?: string | null;
   /**
-   * 控制产品是否在官网显示。导入产品会自动发布，手动新建产品默认不发布，内容准备好后再打开。
+   * 打开后官网会展示该产品。新建产品默认是关闭的，等图片、文案准备好再打开。
    */
   published?: boolean | null;
   /**
-   * 产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。
+   * 官网产品列表卡片和详情页首屏的封面图。留空时官网会自动从下方「产品规格」的材质纹理图、实景应用图、工地实拍图里依次挑一张兜底。
    */
   image?: (string | null) | Media;
   /**
-   * 多语言字段，请在每个语言下分别填写。
-   */
-  description?: string | null;
-  /**
-   * 前台左侧“岩板产品系列 / 特惠系列”从这里读取。需要进入“特惠系列”的产品，请在这里勾选“特惠系列”。
-   */
-  seriesTypes?:
-    | (
-        | '质感岩板'
-        | '名石岩板'
-        | '洞石岩板'
-        | '木纹岩板'
-        | '护墙岩板'
-        | '艺术岩板'
-        | '连纹岩板'
-        | '创意网红'
-        | '新品系列'
-        | '特惠系列'
-      )[]
-    | null;
-  /**
-   * 「标准产品」= 常规现货，进入官网“岩板产品系列”分类。「定制产品」= 客户按需定制的产品，选择后下方会出现“关联定制能力”字段。大部分情况保持「标准产品」。
-   */
-  catalogMode?: ('standard' | 'custom') | null;
-  /**
-   * 仅在“产品类型”选了「定制产品」时显示。选一项定制能力（如“定制颜色”“定制图案设计”），前台“定制产品”栏目会把本产品归入对应能力分组下。
-   */
-  customCapability?: (string | null) | CustomCapability;
-  /**
-   * 导入脚本写入的 /api/trade-media/... URL。这里是字符串，不是媒体上传。
-   */
-  coverImageUrl?: string | null;
-  /**
-   * 导入脚本写入的封面视频海报 URL。
-   */
-  coverVideoPosterUrl?: string | null;
-  sortOrder?: number | null;
-  /**
-   * 该产品下的所有型号，可直接在此处新增或编辑，无需跳转到【产品型号】集合。
+   * 该产品的规格信息（尺寸、厚度、工艺、颜色、产品图片）。可以直接在这里新增或修改。
    */
   variants?: {
     docs?: (string | ProductVariant)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productVariants".
- */
-export interface ProductVariant {
-  id: string;
-  productRef: string | Product;
-  code: string;
-  size:
-    | '800X2600mm'
-    | '900X2700mm'
-    | '900X3000mm'
-    | '900X1800mm'
-    | '1000X3000mm'
-    | '1200X2400mm'
-    | '1200X2700mm'
-    | '1200X3200mm'
-    | '1600X3200mm';
   /**
-   * 前台厚度筛选从这里读取。自定义厚度会归入其他分类。
+   * 板材的长×宽（毫米）。官网「规格」筛选从这里读取。
+   */
+  size?:
+    | (
+        | '800X2600mm'
+        | '900X2700mm'
+        | '900X3000mm'
+        | '900X1800mm'
+        | '1000X3000mm'
+        | '1200X2400mm'
+        | '1200X2700mm'
+        | '1200X3200mm'
+        | '1600X3200mm'
+      )
+    | null;
+  /**
+   * 官网「厚度」筛选从这里读取。常见厚度选下拉项；其他厚度选「自定义」并在下方填写。
    */
   thickness?: ('3mm' | '6mm' | '9mm' | '12mm' | '15mm' | 'custom') | null;
   /**
-   * 选了自定义后填写，如 20mm、30mm。仅用于展示，不影响筛选分组。
+   * 如 20mm、30mm 等非标厚度。仅在板材厚度选了「自定义」后出现。
    */
   thicknessCustom?: string | null;
+  /**
+   * 板材表面处理工艺。官网「表面工艺」筛选从这里读取。
+   */
   process?:
     | (
         | '亮光'
@@ -358,94 +325,348 @@ export interface ProductVariant {
         | '定位彩晶'
       )
     | null;
+  /**
+   * 官网「颜色」筛选从这里读取。
+   */
   colorGroup?:
     | ('白色' | '米白' | '黑色' | '灰色' | '米黄' | '棕色' | '金黄色' | '素色' | '蓝色' | '绿色' | '紫色' | '红色')
     | null;
   /**
-   * 例如：单面 / 多面 / 四面
+   * 例如：单面 / 多面 / 四面。可留空。
    */
   faceCount?: string | null;
-  facePatternNote?: string | null;
-  sortOrder?: number | null;
   /**
-   * 产品材质表面纹理特写图。详情页“顶部大背景”和“材质纹理”画廊从这里读取，优先级最高。
+   * 对纹理的简短描述，可留空。
+   */
+  facePatternNote?: string | null;
+  /**
+   * 板材表面纹理的特写照片。官网详情页的顶部大背景和「材质纹理」画廊从这里读取，是产品最重要的展示图。
    */
   elementImages?:
     | {
         /**
-         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
          */
         mediaRef?: (string | null) | Media;
         /**
-         * 解码后的相对文件路径，作为旧数据导入识别键。
+         * 系统导入时自动填写，请勿手动修改。
          */
         sourcePath?: string | null;
         /**
-         * R2 公开 URL，或旧的 /api/trade-media/... URL。
+         * 系统自动填写。
          */
         publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
         altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
         sortOrder?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * 产品在厨房、卫浴、客厅、背景墙等场景中的应用效果图。详情页“空间应用”画廊从这里读取。
+   * 板材在厨房、卫浴、客厅、背景墙等场景中的应用效果图。官网详情页的「空间应用」画廊从这里读取。
    */
   spaceImages?:
     | {
         /**
-         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
          */
         mediaRef?: (string | null) | Media;
         /**
-         * 解码后的相对文件路径，作为旧数据导入识别键。
+         * 系统导入时自动填写，请勿手动修改。
          */
         sourcePath?: string | null;
         /**
-         * R2 公开 URL，或旧的 /api/trade-media/... URL。
+         * 系统自动填写。
          */
         publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
         altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
         sortOrder?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * 工地、施工现场、样板房等真实拍摄的照片。详情页“实拍图”画廊从这里读取。
+   * 工地、施工现场、样板房的真实照片。官网详情页的「实拍图」画廊从这里读取。
    */
   realImages?:
     | {
         /**
-         * 上传新图片或从已有媒体里选择。这是唯一需要填的字段。
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
          */
         mediaRef?: (string | null) | Media;
         /**
-         * 解码后的相对文件路径，作为旧数据导入识别键。
+         * 系统导入时自动填写，请勿手动修改。
          */
         sourcePath?: string | null;
         /**
-         * R2 公开 URL，或旧的 /api/trade-media/... URL。
+         * 系统自动填写。
          */
         publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
         altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
         sortOrder?: number | null;
         id?: string | null;
       }[]
     | null;
   /**
-   * 产品宣传视频或施工演示视频。详情页“视频”模块从这里读取。
+   * 产品宣传视频或施工演示视频。官网详情页的「视频」模块从这里读取。
    */
   videos?:
     | {
         /**
-         * 上传新视频或从已有媒体里选择。这是唯一需要填的字段。
+         * 上传新视频或从媒体库里选一个。只需填这一项即可。
          */
         mediaRef?: (string | null) | Media;
         sourcePath?: string | null;
         publicUrl?: string | null;
+        /**
+         * 视频未播放时显示的封面图，可留空。
+         */
         posterUrl?: string | null;
         titleZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * 常规现货选「常规产品」（归入官网「岩板系列」入口），客户定制款选「定制产品」（选了之后下方会出现「定制类型」字段）。多数情况选常规。
+   */
+  catalogMode?: ('standard' | 'custom') | null;
+  /**
+   * 仅「定制产品」时填写。选一种定制类型（如「定制颜色」「定制图案」），官网「定制产品」栏目会把本产品归入对应分组。
+   */
+  customCapability?: (string | null) | CustomCapability;
+  /**
+   * 多语言字段。请用页面右上角的语言切换分别填写中/英/西/阿四种语言的真实翻译，不要把中文复制到外语栏。
+   */
+  description?: string | null;
+  /**
+   * 官网「岩板系列」里的子分类（质感岩板、名石岩板、洞石岩板、木纹岩板等），可多选。尺寸、厚度、颜色、工艺这些是官网另外的筛选入口，会从「产品规格」自动归类，不在这里填。
+   */
+  seriesTypes?:
+    | (
+        | '质感岩板'
+        | '名石岩板'
+        | '洞石岩板'
+        | '木纹岩板'
+        | '护墙岩板'
+        | '艺术岩板'
+        | '连纹岩板'
+        | '创意网红'
+        | '新品系列'
+        | '特惠系列'
+      )[]
+    | null;
+  /**
+   * 系统导入时自动填写，请勿手动修改。
+   */
+  coverImageUrl?: string | null;
+  /**
+   * 系统导入时自动填写，请勿手动修改。
+   */
+  coverVideoPosterUrl?: string | null;
+  /**
+   * 数字越小越靠前。默认 0。
+   */
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * 产品的规格信息（尺寸、厚度、表面工艺、颜色、产品图片、视频）。每个产品对应一条规格。产品名称、产品介绍、封面图等通用信息在「产品」集合编辑。
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "productVariants".
+ */
+export interface ProductVariant {
+  id: string;
+  /**
+   * 这条规格属于哪个产品。
+   */
+  productRef: string | Product;
+  /**
+   * 对应产品的唯一编号，例如 LV930R45。
+   */
+  code: string;
+  /**
+   * 板材的长×宽（毫米）。官网「规格」筛选从这里读取。
+   */
+  size:
+    | '800X2600mm'
+    | '900X2700mm'
+    | '900X3000mm'
+    | '900X1800mm'
+    | '1000X3000mm'
+    | '1200X2400mm'
+    | '1200X2700mm'
+    | '1200X3200mm'
+    | '1600X3200mm';
+  /**
+   * 官网「厚度」筛选从这里读取。常见厚度选下拉项；其他厚度选「自定义」并在下方填写。
+   */
+  thickness?: ('3mm' | '6mm' | '9mm' | '12mm' | '15mm' | 'custom') | null;
+  /**
+   * 如 20mm、30mm 等非标厚度。仅在板材厚度选了「自定义」后出现。
+   */
+  thicknessCustom?: string | null;
+  /**
+   * 板材表面处理工艺。官网「表面工艺」筛选从这里读取。
+   */
+  process?:
+    | (
+        | '亮光'
+        | '哑光'
+        | '亮面(奢石釉)'
+        | '真石镜面釉'
+        | '肌肤釉'
+        | '透光石'
+        | '高白'
+        | '数码模具面'
+        | '火烧面'
+        | '精雕'
+        | '复刻釉'
+        | '定位彩晶'
+      )
+    | null;
+  /**
+   * 官网「颜色」筛选从这里读取。
+   */
+  colorGroup?:
+    | ('白色' | '米白' | '黑色' | '灰色' | '米黄' | '棕色' | '金黄色' | '素色' | '蓝色' | '绿色' | '紫色' | '红色')
+    | null;
+  /**
+   * 例如：单面 / 多面 / 四面。可留空。
+   */
+  faceCount?: string | null;
+  /**
+   * 对纹理的简短描述，可留空。
+   */
+  facePatternNote?: string | null;
+  /**
+   * 数字越小越靠前。默认 0。
+   */
+  sortOrder?: number | null;
+  /**
+   * 板材表面纹理的特写照片。官网详情页的顶部大背景和「材质纹理」画廊从这里读取，是产品最重要的展示图。
+   */
+  elementImages?:
+    | {
+        /**
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
+         */
+        mediaRef?: (string | null) | Media;
+        /**
+         * 系统导入时自动填写，请勿手动修改。
+         */
+        sourcePath?: string | null;
+        /**
+         * 系统自动填写。
+         */
+        publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
+        altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * 板材在厨房、卫浴、客厅、背景墙等场景中的应用效果图。官网详情页的「空间应用」画廊从这里读取。
+   */
+  spaceImages?:
+    | {
+        /**
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
+         */
+        mediaRef?: (string | null) | Media;
+        /**
+         * 系统导入时自动填写，请勿手动修改。
+         */
+        sourcePath?: string | null;
+        /**
+         * 系统自动填写。
+         */
+        publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
+        altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * 工地、施工现场、样板房的真实照片。官网详情页的「实拍图」画廊从这里读取。
+   */
+  realImages?:
+    | {
+        /**
+         * 上传新图片或从媒体库里选一张。只需填这一项即可。
+         */
+        mediaRef?: (string | null) | Media;
+        /**
+         * 系统导入时自动填写，请勿手动修改。
+         */
+        sourcePath?: string | null;
+        /**
+         * 系统自动填写。
+         */
+        publicUrl?: string | null;
+        /**
+         * 用于无障碍阅读和 SEO，可留空。
+         */
+        altZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
+        sortOrder?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * 产品宣传视频或施工演示视频。官网详情页的「视频」模块从这里读取。
+   */
+  videos?:
+    | {
+        /**
+         * 上传新视频或从媒体库里选一个。只需填这一项即可。
+         */
+        mediaRef?: (string | null) | Media;
+        sourcePath?: string | null;
+        publicUrl?: string | null;
+        /**
+         * 视频未播放时显示的封面图，可留空。
+         */
+        posterUrl?: string | null;
+        titleZh?: string | null;
+        /**
+         * 数字越小越靠前。默认 0。
+         */
         sortOrder?: number | null;
         id?: string | null;
       }[]
@@ -462,7 +683,7 @@ export interface ProductVariant {
 export interface News {
   id: string;
   /**
-   * 多语言字段，请在每个语言下分别填写。
+   * 多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段，前台会判定为未翻译并自动回落英文）。
    */
   title: string;
   /**
@@ -478,12 +699,12 @@ export interface News {
    */
   coverImage: string | Media;
   /**
-   * 多语言字段，请在每个语言下分别填写。某语种留空时回落显示英文摘要；英文也为空时前台不显示摘要。
+   * 多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。某语种留空或仅含中文时回落显示英文摘要；英文也为空时前台不显示摘要。
    */
   excerpt?: string | null;
   category?: ('company' | 'industry' | 'exhibition' | 'product') | null;
   /**
-   * 多语言字段，请在每个语言下分别填写。
+   * 多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段，前台会判定为未翻译）。
    */
   body?: {
     root: {
@@ -722,17 +943,66 @@ export interface CustomCapabilitiesSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  productCode?: T;
   normalizedName?: T;
   published?: T;
   image?: T;
-  description?: T;
-  seriesTypes?: T;
+  variants?: T;
+  size?: T;
+  thickness?: T;
+  thicknessCustom?: T;
+  process?: T;
+  colorGroup?: T;
+  faceCount?: T;
+  facePatternNote?: T;
+  elementImages?:
+    | T
+    | {
+        mediaRef?: T;
+        sourcePath?: T;
+        publicUrl?: T;
+        altZh?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  spaceImages?:
+    | T
+    | {
+        mediaRef?: T;
+        sourcePath?: T;
+        publicUrl?: T;
+        altZh?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  realImages?:
+    | T
+    | {
+        mediaRef?: T;
+        sourcePath?: T;
+        publicUrl?: T;
+        altZh?: T;
+        sortOrder?: T;
+        id?: T;
+      };
+  videos?:
+    | T
+    | {
+        mediaRef?: T;
+        sourcePath?: T;
+        publicUrl?: T;
+        posterUrl?: T;
+        titleZh?: T;
+        sortOrder?: T;
+        id?: T;
+      };
   catalogMode?: T;
   customCapability?: T;
+  description?: T;
+  seriesTypes?: T;
   coverImageUrl?: T;
   coverVideoPosterUrl?: T;
   sortOrder?: T;
-  variants?: T;
   updatedAt?: T;
   createdAt?: T;
 }
