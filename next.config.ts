@@ -103,6 +103,13 @@ const nextConfig: NextConfig = {
     // 开发阶段跳过图片优化缓存，换图即刷新可见
     // 生产构建仍然启用优化
     unoptimized: isDev,
+    // Cache optimized images (/_next/image) for 30 days at the browser and any
+    // CDN in front (Cloudflare). Next's default is 60s, which on a self-hosted
+    // Zeabur box forces frequent re-optimization and re-fetch of the source
+    // bytes from R2. Product/news imagery rarely changes, and a changed image
+    // gets a new /_next/image URL (different `url` param), so a long TTL is safe
+    // and cuts origin load + repeat-visit latency.
+    minimumCacheTTL: 2592000,
     remotePatterns: [
       { protocol: 'https', hostname: R2_HOSTNAME, pathname: '/**' },
     ],
@@ -146,6 +153,22 @@ const nextConfig: NextConfig = {
       {
         source: '/((?!admin(?:/|$)|api(?:/|$)).*)',
         headers: [{ key: 'Content-Security-Policy', value: SITE_CSP }],
+      },
+      // Long-lived caching for /public/assets design imagery. Next serves
+      // /public with `Cache-Control: public, max-age=0` by default, so without
+      // this both the browser and Cloudflare re-validate these files on every
+      // request. They change rarely; if you replace one in place, purge
+      // Cloudflare or rename it. (HTML pages already get correct per-route
+      // Cache-Control from Next; making Cloudflare honor it for HTML is a
+      // dashboard Cache Rule, not a code change.)
+      {
+        source: '/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
       },
     ];
   },
