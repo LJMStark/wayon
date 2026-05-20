@@ -1,8 +1,9 @@
 // DEPRECATED: This route serves files from docs/ on disk as a fallback for
-// legacy variant media URLs that have not yet been migrated to Cloudflare R2.
-// Once migrateExistingMediaToR2.mjs has been run to completion and all
-// /api/trade-media/* references are gone from Payload records, this route
-// should be removed (return 410 Gone).
+// legacy variant media URLs. The migration that moved /api/trade-media/*
+// references to Cloudflare R2 has been completed in production and its
+// helper script removed. This route remains only as a safety net for any
+// stray legacy URLs; replace with 410 Gone after confirming no Payload
+// records still reference /api/trade-media/.
 import {createReadStream} from 'node:fs'
 import {stat} from 'node:fs/promises'
 import path from 'node:path'

@@ -87,9 +87,12 @@ export const Products: CollectionConfig = {
         },
       },
     },
-    // productCode mirrors slug.toUpperCase() and is populated by the
-    // mergeVariantsIntoProducts.mjs backfill script + future Payload save
-    // hooks. Hidden during Deploy 1 so editors don't see redundant fields.
+    // productCode mirrors slug.toUpperCase(). Existing rows were populated by
+    // the variants → products backfill (2026-05-20). New products currently
+    // save with productCode = NULL because no save hook maintains it yet; the
+    // frontend falls back to slug.toUpperCase() at read time. Hidden in admin
+    // so editors don't see a redundant field. TODO: add a beforeChange hook
+    // before any query/constraint relies on product_code being non-null.
     {
       name: "productCode",
       label: "产品编号",

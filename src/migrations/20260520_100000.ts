@@ -1,11 +1,13 @@
 import { type MigrateUpArgs, type MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-// Deploy 1 of the ProductVariants → Products merge (expand step).
+// ProductVariants → Products schema migration (expand step).
 // Adds variant attribute columns + 4 media array sub-tables to `products`,
-// reusing the existing enum types created for product_variants. The legacy
-// product_variants tables are left untouched here; data is backfilled by
-// scripts/mergeVariantsIntoProducts.mjs and the old tables are dropped in the
-// Deploy 2 contract migration. This migration is additive and reversible.
+// reusing the existing enum types created for product_variants. The
+// production backfill and the legacy `product_variants` table drop were
+// completed out-of-band on 2026-05-20, and the backfill helper script has
+// since been removed. Fresh environments running this migration on an empty
+// database will get the new columns/tables empty; the variant data is no
+// longer reachable without restoring from the pre-merge dump.
 
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`SET lock_timeout = '10s';`)
@@ -152,10 +154,10 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
 }
 
 export async function down({ db }: MigrateDownArgs): Promise<void> {
-  // Reversible only before the backfill runs. After
-  // mergeVariantsIntoProducts.mjs has populated these columns/tables, running
-  // this down() discards the merged data — restore from the backup snapshot
-  // instead (see merge plan, A.1).
+  // Production was already migrated and the legacy `product_variants` tables
+  // were dropped (2026-05-20). Running down() now discards the live variant
+  // data that lives in these columns/tables — restore from the pre-merge
+  // dump before running this in production.
   await db.execute(sql`
     DROP TABLE IF EXISTS "products_element_images" CASCADE;
     DROP TABLE IF EXISTS "products_space_images" CASCADE;

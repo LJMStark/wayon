@@ -27,13 +27,8 @@ npm run payload                   # Payload CLI passthrough
 npm run generate:types            # Regenerate src/payload-types.ts
 npm run generate:importmap        # Regenerate Payload admin import map
 
-# Data migrations (one-shot scripts, see "Migration Scripts" below)
-npm run import:422-catalog        # Import current product catalog from docs/4.22/
-npm run migrate:existing-media    # Move /api/trade-media/* references → R2 via Payload
-npm run backfill:texture-series   # Backfill texture/series type field on variants
-npm run generate:product-copy     # AI-generate EN/ES/AR product copy via OpenAI
-npm run generate:product-copy:gemini  # Same, via Gemini
-# Most DB-writing one-shot scripts default to dry-run. Add `-- --apply` only after checking the target DB and expected writes.
+# One-shot maintenance scripts live in scripts/ (see "Migration Scripts" below).
+# DB-writing scripts default to dry-run; pass `-- --apply` only after reviewing the target DB and expected writes.
 ```
 
 `docs/4.22` product identity rule: **one product code equals one product**. Chinese display names are not identity keys. Same Chinese name with different codes must remain separate products, and import scripts must never merge by display name.
@@ -185,13 +180,9 @@ One-shot scripts. Shared conventions:
 - Batch sizes 50–100 for large-collection traversals
 
 Active scripts:
-- `import422Catalog.mjs` — read the compressed 4.22 media catalog, create products + variants in Payload, and upload files through the `media` collection to R2. Product identity is the product code only: the script builds the product slug from the code, writes `normalizedName` as `4.22:<code>`, and never merges by Chinese display name. It defaults to dry-run; for the new-products backfill use `npm run import:422-catalog -- --only-category=新品素材 --only-missing`, review the summary, then append `--apply`. The script prefers `docs.compressed/4.22` when present; otherwise it reads `docs/4.22`, which must already be the compressed production media set.
-- `migrateExistingMediaToR2.mjs` — sweep variants whose media still references `/api/trade-media/`, upload source bytes to R2 via Payload `media` collection, patch `mediaRef` + `publicUrl`. Also covers product cover images
-- `pruneStaleTradeMedia.mjs` — remove broken/stale variant media references
 - `compressMedia.mjs` — local pre-deploy compression. Reads `docs/4.22/` + `docs/海盛/`, writes mirror to `docs.compressed/` (mozjpeg q=85 / oxipng / sharp PNG max-effort / ffmpeg libx264 CRF 23). Idempotent. Already run; results were swapped in (originals preserved as `docs.original/`)
+- `compressPublicAssets.mjs` — one-shot compression for committed `/public/assets/*` (JPEG resize+recompress; no-alpha PNG → WebP; deletes verified orphans). Originals backed up to gitignored `/.image-backups/`. Default dry-run; `--apply` to write.
 - `uploadCompanyAssets.mjs` — one-shot uploader. Walks `docs/海盛/{营业执照, 展厅图片, 工厂图片, 合作案例(...)/{销售合作案例, 工厂合作案例}}` and uploads each file to Payload `media` (R2), renamed to `{prefix}-NNN.{ext}` and tagged with the matching `category`. Default dry-run; `--apply` to write. Run once after the migration that adds `media.category` is applied
-- `scanLegacyMediaReferences.mjs` — read-only sanity check. Greps Payload records (products, productVariants, media, news) for any leftover `.mov` / `.heic` URLs; expected to return 0 after the compression swap
-- `generateProductCopy.mjs` / `generateProductCopyGemini.mjs` — AI-generate EN/ES/AR product descriptions from product data and images. Default dry-run drafts; `--apply` writes to Payload. OpenAI uses `OPENAI_API_KEY`; Gemini uses `GEMINI_API_KEY`
 - `applyFirstWaveCopy.mjs` / `applyGeminiDrafts.mjs` / `verifyCopyCompleteness.mjs` — apply or verify prepared product-copy batches. Default dry-run for apply scripts; `verifyCopyCompleteness.mjs` is read-only
 - `seedSeoNewsDrafts.mjs` + `seoArticles/` — content pipeline for SEO long-form articles. `seoArticles/articles.{en,zh,es,ar}.mjs` carry the per-locale prose as `{type,text}` blocks; `seoArticles/lexical.mjs` converts them into Payload's Lexical SerializedEditorState (handles `**bold**`, `*italic*`, and `[text](url)` for internal links). The seeder is idempotent — looks up existing news by slug and updates all four locales. `--apply` to write
 - `listMediaByCategory.mjs` / `verifySeoDrafts.mjs` — read-only helpers used alongside the SEO pipeline (pick covers from `media.category`, verify locale completeness)
