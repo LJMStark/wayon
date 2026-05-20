@@ -23,10 +23,9 @@ export const Products: CollectionConfig = {
       "title",
       "published",
       "sortOrder",
-      "localeStatus",
     ],
     description:
-      "前台产品目录按大类入口展示：规格、岩板产品系列、特惠系列、厚度、颜色、表面工艺、定制产品。新增产品时建议顺序：填标题 → 选择“岩板产品系列小类”或“产品类型/关联定制能力” → 上传主图 → 在下方“产品型号”里补规格、厚度、颜色、表面工艺 → 打开“发布到前台”。标题与描述为多语言字段，请使用页面右上角的语言切换器，按 4 个语种分别填写。某语种留空时，前台会自动回落显示英文；英文也为空时，对应语种页面会显示空白。",
+      "管理官网展示的所有产品。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 在「产品规格」里补尺寸、厚度、颜色、工艺 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。",
     components: {
       beforeListTable: [
         "@/payload/components/ProductListToolbar#ProductListToolbar",
@@ -60,12 +59,13 @@ export const Products: CollectionConfig = {
     },
     {
       name: "title",
-      label: "标题",
+      label: "产品名称",
       type: "text",
       localized: true,
       required: true,
       admin: {
-        description: "中文标题为主字段。注意：产品前台非中文页（英/西/阿语）始终显示中文标题的大写拼音转写（如「花开富贵」→ HUA KAI FU GUI），不会读取英/西/阿语 title。英/西/阿语 title 仅在中文为空时作为兜底用，且不能含中文字符（否则徽章/警告判为未填）。",
+        description:
+          "中文产品名（如「鱼肚金」）。英文、西班牙语、阿拉伯语版的官网页会自动用中文名的大写拼音显示（如「花开富贵」→「HUA KAI FU GUI」），外语栏一般可以留空。如需自定义外语名，在外语栏填写对应翻译，且不能含中文字符。",
       },
     },
     {
@@ -77,7 +77,7 @@ export const Products: CollectionConfig = {
       index: true,
       admin: {
         description:
-          "产品唯一型号（同时作为前台 URL 标识）。一个产品对应一个型号；列表页以大写形式显示（如 LV930R45），数据库中按小写存储用于 URL（/products/lv930r45）。搜索时大小写不敏感，输入大写或小写都能匹配。",
+          "产品的唯一编号，例如 LV930R45。一个编号对应一个产品。列表页用大写显示，官网网址用小写。搜索时大小写都能匹配。",
         components: {
           Cell: "@/payload/components/ProductCodeCell#ProductCodeCell",
         },
@@ -85,32 +85,32 @@ export const Products: CollectionConfig = {
     },
     {
       name: "normalizedName",
-      label: "标准化名称",
+      label: "系统识别码",
       type: "text",
       admin: {
         hidden: true,
-        description: "导入产品时生成的族系名称，用作导入识别键。不要手动修改。",
+        description: "导入工具自动生成的识别码，请勿手动修改。",
       },
     },
     {
       name: "published",
-      label: "发布到前台",
+      label: "发布到官网",
       type: "checkbox",
       defaultValue: false,
       index: true,
       admin: {
         description:
-          "控制产品是否在官网显示。导入产品会自动发布，手动新建产品默认不发布，内容准备好后再打开。",
+          "打开后官网会展示该产品。新建产品默认是关闭的，等图片、文案准备好再打开。",
       },
     },
     {
       name: "image",
-      label: "主图",
+      label: "产品封面图",
       type: "upload",
       relationTo: "media",
       admin: {
         description:
-          "产品列表卡片和详情页首屏优先使用这张图。如果留空，前台会自动从该产品的第一个型号里取图（优先级：元素图 → 空间图 → 实拍图），列表页的“封面”列也会显示该兜底图。",
+          "官网产品列表卡片和详情页首屏的封面图。留空时官网会自动从下方「产品规格」的材质纹理图、实景应用图、工地实拍图里依次挑一张兜底。",
         components: {
           afterInput: [
             "@/payload/components/ProductAdminFields#ProductCoverPreviewField",
@@ -120,13 +120,13 @@ export const Products: CollectionConfig = {
     },
     {
       name: "variants",
-      label: "型号规格",
+      label: "产品规格",
       type: "join",
       collection: "productVariants",
       on: "productRef",
       admin: {
         description:
-          "该产品下的所有规格（尺寸 / 厚度 / 工艺 / 颜色 / 图片）。可直接在此处新增或编辑，无需跳转到【产品规格】集合。",
+          "该产品的规格信息（尺寸、厚度、工艺、颜色、产品图片）。可以直接在这里新增或修改。",
         defaultColumns: [
           "code",
           "size",
@@ -139,48 +139,49 @@ export const Products: CollectionConfig = {
     },
     {
       name: "catalogMode",
-      label: "产品类型",
+      label: "产品分类",
       type: "select",
       defaultValue: "standard",
       options: [
-        { label: "标准产品", value: "standard" },
+        { label: "常规产品", value: "standard" },
         { label: "定制产品", value: "custom" },
       ],
       admin: {
         description:
-          "「标准产品」= 常规现货，进入官网“岩板产品系列”分类。「定制产品」= 客户按需定制的产品，选择后下方会出现“关联定制能力”字段。大部分情况保持「标准产品」。",
+          "常规现货选「常规产品」（归入官网「岩板系列」入口），客户定制款选「定制产品」（选了之后下方会出现「定制类型」字段）。多数情况选常规。",
       },
     },
     {
       name: "customCapability",
-      label: "关联定制能力",
+      label: "定制类型",
       type: "relationship",
       relationTo: "customCapabilities",
       admin: {
         condition: (_, siblingData) => siblingData?.catalogMode === "custom",
         description:
-          "仅在“产品类型”选了「定制产品」时显示。选一项定制能力（如“定制颜色”“定制图案设计”），前台“定制产品”栏目会把本产品归入对应能力分组下。",
+          "仅「定制产品」时填写。选一种定制类型（如「定制颜色」「定制图案」），官网「定制产品」栏目会把本产品归入对应分组。",
       },
     },
     {
       name: "description",
-      label: "描述",
+      label: "产品介绍",
       type: "textarea",
       localized: true,
       admin: {
-        description: "多语言字段，请在每个语言下分别填写真实的目标语言翻译（不要把中文复制到英文/西语/阿语字段）。",
+        description:
+          "多语言字段。请用页面右上角的语言切换分别填写中/英/西/阿四种语言的真实翻译，不要把中文复制到外语栏。",
       },
     },
     {
       name: "seriesTypes",
-      label: "岩板产品系列小类（可多选）",
+      label: "产品系列（可多选）",
       type: "select",
       hasMany: true,
       options: TRADE_SERIES_TYPES.map((value) => ({ label: value, value })),
       admin: {
-        placeholder: "选择一个或多个小类",
+        placeholder: "选一项或多项",
         description:
-          "这里填的是前台「岩板产品系列」里的小类，例如质感岩板、名石岩板、洞石岩板、木纹岩板等，可同时勾选多项。前台左侧的「规格 / 岩板产品系列 / 特惠系列 / 厚度 / 颜色 / 表面工艺 / 定制产品」是大类入口，不需要在这里重复填写。",
+          "官网「岩板系列」里的子分类（质感岩板、名石岩板、洞石岩板、木纹岩板等），可多选。尺寸、厚度、颜色、工艺这些是官网另外的筛选入口，会从「产品规格」自动归类，不在这里填。",
         components: {
           afterInput: [
             "@/payload/components/ProductAdminFields#ProductSeriesTypesSummaryField",
@@ -190,41 +191,31 @@ export const Products: CollectionConfig = {
     },
     {
       name: "coverImageUrl",
-      label: "封面图 URL",
+      label: "备用封面图地址",
       type: "text",
       admin: {
         hidden: true,
-        description:
-          "导入脚本写入的 /api/trade-media/... URL。这里是字符串，不是媒体上传。",
+        description: "系统导入时自动填写，请勿手动修改。",
       },
     },
     {
       name: "coverVideoPosterUrl",
-      label: "封面视频海报 URL",
+      label: "备用视频封面地址",
       type: "text",
       admin: {
         hidden: true,
-        description: "导入脚本写入的封面视频海报 URL。",
+        description: "系统导入时自动填写，请勿手动修改。",
       },
     },
     {
       name: "sortOrder",
-      label: "排序",
+      label: "列表顺序",
       type: "number",
       defaultValue: 0,
       index: true,
       admin: {
         position: "sidebar",
-      },
-    },
-    {
-      name: "localeStatus",
-      label: "语言",
-      type: "ui",
-      admin: {
-        components: {
-          Cell: "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell",
-        },
+        description: "数字越小越靠前。默认 0。",
       },
     },
   ],

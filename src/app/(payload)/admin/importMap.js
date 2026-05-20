@@ -2,7 +2,6 @@ import { LocaleCompletenessWarning as LocaleCompletenessWarning_0e6cafefca543a3f
 import { ProductCodeCell as ProductCodeCell_40b2925cd756df0a49fb85eee1d2ea28 } from '@/payload/components/ProductCodeCell'
 import { ProductCoverPreviewField as ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
 import { ProductSeriesTypesSummaryField as ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609 } from '@/payload/components/ProductAdminFields'
-import { ProductLocaleStatusCell as ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
 import { ProductListToolbar as ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f } from '@/payload/components/ProductListToolbar'
 import { NewsFrontendLinksField as NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2 } from '@/payload/components/NewsFrontendLinksField'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -28,7 +27,6 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { NewsLocaleStatusCell as NewsLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9 } from '@/payload/components/LocaleStatusCell'
 import { AdminIcon as AdminIcon_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
 import { AdminLogo as AdminLogo_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
 import { AdminLoginIntro as AdminLoginIntro_6bead8c34d8d6e56b3a52a7b24fa16c4 } from '@/payload/components/AdminBrand'
@@ -47,7 +45,6 @@ export const importMap = {
   "@/payload/components/ProductCodeCell#ProductCodeCell": ProductCodeCell_40b2925cd756df0a49fb85eee1d2ea28,
   "@/payload/components/ProductAdminFields#ProductCoverPreviewField": ProductCoverPreviewField_8b8214187a9b9e0ae1f43537763e0609,
   "@/payload/components/ProductAdminFields#ProductSeriesTypesSummaryField": ProductSeriesTypesSummaryField_8b8214187a9b9e0ae1f43537763e0609,
-  "@/payload/components/LocaleStatusCell#ProductLocaleStatusCell": ProductLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,
   "@/payload/components/ProductListToolbar#ProductListToolbar": ProductListToolbar_c222c76c171ed2bd0e7d9d862c4ffc0f,
   "@/payload/components/NewsFrontendLinksField#NewsFrontendLinksField": NewsFrontendLinksField_86d39da081809fdbb0b6f10599f4fde2,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -73,7 +70,6 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/payload/components/LocaleStatusCell#NewsLocaleStatusCell": NewsLocaleStatusCell_15bda73dbd1c6951e34248808a430cb9,
   "@/payload/components/AdminBrand#AdminIcon": AdminIcon_6bead8c34d8d6e56b3a52a7b24fa16c4,
   "@/payload/components/AdminBrand#AdminLogo": AdminLogo_6bead8c34d8d6e56b3a52a7b24fa16c4,
   "@/payload/components/AdminBrand#AdminLoginIntro": AdminLoginIntro_6bead8c34d8d6e56b3a52a7b24fa16c4,
