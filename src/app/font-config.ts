@@ -21,7 +21,7 @@ export const cairo = localFont({
 });
 
 export const playfair = localFont({
-  src: "./fonts/PlayfairDisplay.ttf",
+  src: "./fonts/PlayfairDisplay.woff2",
   variable: "--font-playfair",
   weight: "400 900",
   style: "normal",

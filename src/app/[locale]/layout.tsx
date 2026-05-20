@@ -19,6 +19,23 @@ export function generateStaticParams(): Array<{ locale: string }> {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Open the TCP/TLS connection to the R2 (Cloudflare) media origin early. The
+// home hero videos and other media are served directly from R2, so preconnecting
+// shaves the connection setup off the first media request. Null-safe: emits no
+// tag if the public R2 URL is unset.
+const R2_PRECONNECT_ORIGIN = (() => {
+  try {
+    // Same resolution order as the media URL builder (src/data/home.ts): the
+    // public var is preferred, but only R2_PUBLIC_URL is set in this project's
+    // env. Read server-side and baked into the SSR HTML (the R2 domain is public).
+    const url =
+      process.env.NEXT_PUBLIC_R2_PUBLIC_URL ?? process.env.R2_PUBLIC_URL;
+    return url ? new URL(url).origin : null;
+  } catch {
+    return null;
+  }
+})();
+
 export async function generateMetadata({
   params,
 }: LayoutProps<"/[locale]">): Promise<Metadata> {
@@ -52,6 +69,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {R2_PRECONNECT_ORIGIN ? (
+          <link rel="preconnect" href={R2_PRECONNECT_ORIGIN} />
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale)).replace(/</g, "\\u003c") }}
