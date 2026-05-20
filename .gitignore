@@ -44,6 +44,9 @@ docs.compressed/
 # scratch dir for one-shot media work
 /tmp/
 
+# local backups of original (pre-compression) /public assets
+/.image-backups/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

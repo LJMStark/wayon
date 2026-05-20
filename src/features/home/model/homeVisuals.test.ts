@@ -15,5 +15,5 @@ test("home case placeholder href points to the cases page", () => {
 });
 
 test("home hero fallback image points to a real hero asset", () => {
-  expect(HOME_HERO_FALLBACK_IMAGE).toBe("/assets/hero/hero-zyl-global.png");
+  expect(HOME_HERO_FALLBACK_IMAGE).toBe("/assets/hero/hero-zyl-global.webp");
 });

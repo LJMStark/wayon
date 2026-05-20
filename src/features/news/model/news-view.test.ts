@@ -72,7 +72,7 @@ test("news previews prefer subject-matched article visuals over CMS cover images
   const item = toNewsPreviewItem(
     {
       ...makeArticle("sintered-slab-architectural-applications"),
-      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.webp",
     },
     "zh"
   );
@@ -130,7 +130,7 @@ test("latest SEO news previews use article-matched visuals instead of generic sh
     {
       slug: "seo-fireproof-sintered-stone-grade",
       imageUrl: "https://example.com/showroom-008.jpg",
-      expected: "/assets/cases/case-5-weihao-partyk.png",
+      expected: "/assets/cases/case-5-weihao-partyk.webp",
     },
     {
       slug: "seo-marble-too-expensive-sintered-stone",
@@ -194,7 +194,7 @@ test("news detail page uses the matched primary visual as hero without duplicati
   const data = buildNewsDetailPageData(
     {
       ...makeArticle("sintered-slab-architectural-applications"),
-      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+      imageUrl: "/assets/cases/case-2-guangzhou-yuehai-land.webp",
     },
     "zh",
     {

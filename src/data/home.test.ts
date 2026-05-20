@@ -27,17 +27,17 @@ test("home engineering cases keep source image names and route to /cases", () =>
   expect(getEngineeringCases(translate as EngineeringCaseTranslator)).toEqual([
     {
       title: "威豪酒店",
-      image: "/assets/cases/case-1-weihao-hotel.png",
+      image: "/assets/cases/case-1-weihao-hotel.webp",
       href: "/cases",
     },
     {
       title: "广州粤海置地",
-      image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+      image: "/assets/cases/case-2-guangzhou-yuehai-land.webp",
       href: "/cases",
     },
     {
       title: "青语花园酒店",
-      image: "/assets/cases/case-3-qingyu-garden-hotel.png",
+      image: "/assets/cases/case-3-qingyu-garden-hotel.webp",
       href: "/cases",
     },
     {
@@ -48,12 +48,12 @@ test("home engineering cases keep source image names and route to /cases", () =>
     },
     {
       title: "威豪PARTYK",
-      image: "/assets/cases/case-5-weihao-partyk.png",
+      image: "/assets/cases/case-5-weihao-partyk.webp",
       href: "/cases",
     },
     {
       title: "粤海·云港城",
-      image: "/assets/cases/case-6-yuehai-yungang-city.png",
+      image: "/assets/cases/case-6-yuehai-yungang-city.webp",
       href: "/cases",
       objectPosition: "left bottom",
     },
@@ -80,7 +80,7 @@ test("home solution wall-floor item uses the lobby image", () => {
 test("home videos use versioned responsive CDN sources", () => {
   expect(HERO_SLIDES[0]).toMatchObject({
     type: "video",
-    poster: "/assets/about/zyl-global-pavilion.png",
+    poster: "/assets/about/zyl-global-pavilion.webp",
     src: expect.stringContaining(
       "/home-about-pavilion-entrance-720p-v20260508.mp4"
     ),

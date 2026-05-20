@@ -295,7 +295,7 @@ const NEWS_ARTICLE_VISUALS: Record<
   ],
   "seo-fireproof-sintered-stone-grade": [
     articleVisual(
-      "/assets/cases/case-5-weihao-partyk.png",
+      "/assets/cases/case-5-weihao-partyk.webp",
       "Stone floor and table surfaces installed in a public entertainment venue",
       "公共娱乐空间里的石材地面和台面",
       "Fire rating matters most in hospitality, transit, healthcare, and other public interiors where decorative finishes still have to clear A1 non-combustible specs.",

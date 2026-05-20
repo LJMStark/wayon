@@ -156,7 +156,7 @@ const HERO_SLIDE_CONFIG = [
     type: "video",
     src: PAVILION_ENTRANCE_VIDEO.src,
     sources: PAVILION_ENTRANCE_VIDEO.sources,
-    poster: "/assets/about/zyl-global-pavilion.png",
+    poster: "/assets/about/zyl-global-pavilion.webp",
     altKey: "HomeData.AboutAlbum.item0.title",
   },
 ] as const satisfies ReadonlyArray<
@@ -188,11 +188,11 @@ const ABOUT_INTRO_CONFIG = {
   secondaryHref: "/contact",
   secondaryCtaKey: "Navigation.contactUs",
   primaryImage: {
-    src: "/assets/about/zyl-global-opening-ribbon-cutting.png",
+    src: "/assets/about/zyl-global-opening-ribbon-cutting.webp",
     altKey: "HomeData.AboutAlbum.item0.title",
   },
   secondaryImage: {
-    src: "/assets/about/zyl-aesthetic-pavilion.png",
+    src: "/assets/about/zyl-aesthetic-pavilion.webp",
     altKey: "HomeData.AboutAlbum.item2.title",
   },
   featureKeys: [
@@ -242,7 +242,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item2.title",
     textKey: "HomeData.AboutAlbum.item2.text",
-    image: "/assets/about/zyl-aesthetic-pavilion.png",
+    image: "/assets/about/zyl-aesthetic-pavilion.webp",
     video: SHOWROOM_INTERIOR_VIDEO.src,
     videoSources: SHOWROOM_INTERIOR_VIDEO.sources,
     href: "/about",
@@ -266,7 +266,7 @@ const ABOUT_ALBUM_CONFIG = [
   {
     titleKey: "HomeData.AboutAlbum.item5.title",
     textKey: "HomeData.AboutAlbum.item5.text",
-    image: "/assets/about/zyl-fashion-pavilion.png",
+    image: "/assets/about/zyl-fashion-pavilion.webp",
     video: SERVICE_TEAM_VIDEO.src,
     videoSources: SERVICE_TEAM_VIDEO.sources,
     href: "/about",
@@ -395,17 +395,17 @@ const SOLUTION_CONFIG = [
 const ENGINEERING_CASE_CONFIG = [
   {
     titleKey: "HomeData.EngineeringCases.item0.title",
-    image: "/assets/cases/case-1-weihao-hotel.png",
+    image: "/assets/cases/case-1-weihao-hotel.webp",
     href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item1.title",
-    image: "/assets/cases/case-2-guangzhou-yuehai-land.png",
+    image: "/assets/cases/case-2-guangzhou-yuehai-land.webp",
     href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item2.title",
-    image: "/assets/cases/case-3-qingyu-garden-hotel.png",
+    image: "/assets/cases/case-3-qingyu-garden-hotel.webp",
     href: "/cases",
   },
   {
@@ -416,12 +416,12 @@ const ENGINEERING_CASE_CONFIG = [
   },
   {
     titleKey: "HomeData.EngineeringCases.item4.title",
-    image: "/assets/cases/case-5-weihao-partyk.png",
+    image: "/assets/cases/case-5-weihao-partyk.webp",
     href: "/cases",
   },
   {
     titleKey: "HomeData.EngineeringCases.item5.title",
-    image: "/assets/cases/case-6-yuehai-yungang-city.png",
+    image: "/assets/cases/case-6-yuehai-yungang-city.webp",
     href: "/cases",
     objectPosition: "left bottom",
   },
