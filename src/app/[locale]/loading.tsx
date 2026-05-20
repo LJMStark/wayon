@@ -1,9 +1,18 @@
-import { getLocale } from "next-intl/server";
+"use client";
+
+import { useLocale } from "next-intl";
 
 import { getCommonCopy } from "@/data/siteCopy";
+import type { AppLocale } from "@/i18n/types";
 
-export default async function LocaleLoading() {
-  const locale = await getLocale();
+// Client component on purpose: loading.tsx is the Suspense fallback for the
+// whole [locale] segment and receives no `params`, so it cannot use
+// setRequestLocale. The server `getLocale()` reads request headers, which opts
+// the entire segment into dynamic rendering. useLocale() reads the locale from
+// NextIntlClientProvider (set with an explicit, static locale in the layout),
+// keeping every route statically renderable.
+export default function LocaleLoading() {
+  const locale = useLocale() as AppLocale;
   const copy = getCommonCopy(locale);
 
   return (

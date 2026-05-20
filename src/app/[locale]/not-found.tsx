@@ -1,10 +1,17 @@
-import { getLocale } from "next-intl/server";
+"use client";
+
+import { useLocale } from "next-intl";
 
 import { Link } from "@/i18n/routing";
 import { getCommonCopy } from "@/data/siteCopy";
+import type { AppLocale } from "@/i18n/types";
 
-export default async function LocaleNotFound() {
-  const locale = await getLocale();
+// Client component on purpose: not-found.tsx receives no `params`, so the server
+// `getLocale()` reads request headers and opts the segment into dynamic
+// rendering. useLocale() reads from NextIntlClientProvider (static locale set in
+// the layout), keeping routes statically renderable.
+export default function LocaleNotFound() {
+  const locale = useLocale() as AppLocale;
   const copy = getCommonCopy(locale);
 
   return (
