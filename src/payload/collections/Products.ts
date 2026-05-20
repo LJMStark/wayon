@@ -1,4 +1,4 @@
-import type { CollectionConfig, Field } from "payload";
+import type { CollectionConfig } from "payload";
 
 import { PRODUCT_CACHE_TAG } from "../../data/cacheTags.ts";
 import { TRADE_SERIES_TYPES } from "../../features/products/lib/tradeCatalog.ts";
@@ -12,20 +12,6 @@ import {
   revalidateSiteCacheAfterDelete,
 } from "../hooks/revalidateSiteCache.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
-
-// Hide newly added variant fields from the admin edit form during Deploy 1.
-// They exist in schema for the data backfill and dual-read code path, but
-// editors keep using the existing "产品规格" join panel to avoid confusion
-// about which side is the source of truth. Deploy 2 unhides these fields
-// and drops the join panel + ProductVariants collection.
-function hideDuringDeploy1(field: Field): Field {
-  if (field.type === "ui") return field;
-  const existingAdmin = "admin" in field && field.admin ? field.admin : {};
-  return {
-    ...field,
-    admin: { ...existingAdmin, hidden: true },
-  } as Field;
-}
 
 export const Products: CollectionConfig = {
   slug: "products",
@@ -43,7 +29,7 @@ export const Products: CollectionConfig = {
       "sortOrder",
     ],
     description:
-      "管理官网展示的所有产品。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 在「产品规格」里补尺寸、厚度、颜色、工艺 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。",
+      "管理官网展示的所有产品，一个产品的全部信息都在这一页编辑。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 往下填尺寸、厚度、工艺、颜色，并上传材质纹理图、实景应用图、工地实拍图、视频 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。",
     components: {
       beforeListTable: [
         "@/payload/components/ProductListToolbar#ProductListToolbar",
@@ -150,31 +136,10 @@ export const Products: CollectionConfig = {
         },
       },
     },
-    {
-      name: "variants",
-      label: "产品规格",
-      type: "join",
-      collection: "productVariants",
-      on: "productRef",
-      admin: {
-        description:
-          "该产品的规格信息（尺寸、厚度、工艺、颜色、产品图片）。可以直接在这里新增或修改。",
-        defaultColumns: [
-          "code",
-          "size",
-          "thickness",
-          "process",
-          "colorGroup",
-          "sortOrder",
-        ],
-      },
-    },
-    // Deploy 1: hidden mirror copies of the variant attribute and media
-    // fields. Populated by the backfill script + dual-write importers; read
-    // by src/data/products.ts via the fallback path. Deploy 2 will unhide
-    // these and remove the `variants` join field above.
-    ...variantAttributeFields.map(hideDuringDeploy1),
-    ...variantMediaFields.map(hideDuringDeploy1),
+    // One product = one set of specs + media, edited inline on this page.
+    // 规格（尺寸/厚度/工艺/颜色/纹理）紧跟封面图，下面是各类产品图片与视频。
+    ...variantAttributeFields,
+    ...variantMediaFields,
     {
       name: "catalogMode",
       label: "产品分类",

@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useDocumentInfo, useFormFields } from "@payloadcms/ui";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import {
   pickVariantCoverUrl,
@@ -11,21 +11,13 @@ import {
   type VariantDoc,
 } from "./productAdminUtils";
 
-type VariantImageResult = {
-  productId: string;
-  url: string | null;
-};
-
-// Read variant media arrays from the product's own form fields (Deploy 1+:
-// these are hidden but populated on Products itself). Returns null when the
-// product has no self-media, signalling the caller to fall back to fetching
-// the legacy productVariants table.
+// Read media arrays directly off the product's own form fields.
 function readSelfImageArray(value: unknown): ImageMediaItem[] {
   return Array.isArray(value) ? (value as ImageMediaItem[]) : [];
 }
 
 export function ProductCoverPreviewField() {
-  const { collectionSlug, data, id, savedDocumentData } = useDocumentInfo();
+  const { collectionSlug, data, savedDocumentData } = useDocumentInfo();
   const directImage = useFormFields(([fields]) => fields?.image?.value);
   const selfElementImages = useFormFields(([fields]) => fields?.elementImages?.value);
   const selfSpaceImages = useFormFields(([fields]) => fields?.spaceImages?.value);
@@ -39,11 +31,9 @@ export function ProductCoverPreviewField() {
     readUrlFromMediaRef(directImage) ??
     readUrlFromMediaRef(data?.image) ??
     readUrlFromMediaRef(savedDocumentData?.image);
-  const productId = id ? String(id) : "";
 
-  // Primary source (Deploy 1+): read media arrays directly off the product's
-  // form fields. Synthesise a single VariantDoc so we can reuse the existing
-  // pickVariantCoverUrl picker without a parallel implementation.
+  // Synthesise a single VariantDoc from the product's own media arrays so we
+  // can reuse the existing pickVariantCoverUrl picker.
   const selfCoverUrl = useMemo(() => {
     if (collectionSlug !== "products") return null;
     const elementImages = readSelfImageArray(selfElementImages);
@@ -63,59 +53,14 @@ export function ProductCoverPreviewField() {
     return pickVariantCoverUrl([synthetic]);
   }, [collectionSlug, selfElementImages, selfSpaceImages, selfRealImages]);
 
-  const [variantImage, setVariantImage] = useState<VariantImageResult | null>(
-    null
-  );
-
-  useEffect(() => {
-    // Fallback source: only fetch the legacy productVariants table if both
-    // the direct image and the self media arrays are empty. During Deploy 2
-    // (productVariants collection removed) the fetch will 404 — surfaced via
-    // console.error rather than swallowed, so silent failures don't hide
-    // upstream bugs.
-    if (collectionSlug !== "products" || directUrl || selfCoverUrl || !productId) {
-      return;
-    }
-
-    let cancelled = false;
-    const url =
-      `/api/productVariants?where[productRef][equals]=${encodeURIComponent(productId)}` +
-      `&limit=20&sort=sortOrder&depth=1`;
-
-    fetch(url, { credentials: "include" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((payload: { docs?: VariantDoc[] } | null) => {
-        if (cancelled) return;
-        setVariantImage({
-          productId,
-          url: pickVariantCoverUrl(payload?.docs ?? []),
-        });
-      })
-      .catch((err) => {
-        console.error("[ProductCoverPreviewField] variant fallback fetch failed", err);
-        if (!cancelled) setVariantImage({ productId, url: null });
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [collectionSlug, directUrl, selfCoverUrl, productId]);
-
   if (collectionSlug !== "products") return null;
 
-  const hasLoadedVariant =
-    variantImage != null && variantImage.productId === productId;
-  const variantUrl = hasLoadedVariant ? variantImage.url : null;
-  const finalUrl = directUrl ?? selfCoverUrl ?? variantUrl;
+  const finalUrl = directUrl ?? selfCoverUrl;
   const sourceLabel = hiddenCoverUrl
     ? "来自隐藏封面 URL"
     : directUrl
       ? "来自主图字段"
-      : selfCoverUrl
-        ? "来自产品规格图片"
-        : "来自产品型号图片";
-  const loading =
-    !directUrl && !selfCoverUrl && Boolean(productId) && !hasLoadedVariant;
+      : "来自产品图片";
 
   return (
     <div
@@ -138,9 +83,7 @@ export function ProductCoverPreviewField() {
         当前前台列表封面
       </div>
 
-      {loading ? (
-        <div style={mutedTextStyle}>正在读取产品型号图片…</div>
-      ) : finalUrl ? (
+      {finalUrl ? (
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <img
             alt=""
@@ -167,13 +110,13 @@ export function ProductCoverPreviewField() {
               {sourceLabel}
             </div>
             <div style={mutedTextStyle}>
-              前台列表优先使用隐藏封面 URL，其次使用主图；都为空时，再从产品型号里的元素图、空间图、实拍图里取一张。
+              前台列表优先使用隐藏封面 URL，其次使用主图；都为空时，再从下方的材质纹理图、实景应用图、工地实拍图里取一张。
             </div>
           </div>
         </div>
       ) : (
         <div style={mutedTextStyle}>
-          还没有可用列表封面。可以上传主图，或在产品型号里添加元素图、空间图、实拍图。
+          还没有可用列表封面。可以上传主图，或在下方添加材质纹理图、实景应用图、工地实拍图。
         </div>
       )}
     </div>

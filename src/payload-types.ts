@@ -71,7 +71,6 @@ export interface Config {
     media: Media;
     customCapabilities: CustomCapability;
     products: Product;
-    productVariants: ProductVariant;
     news: News;
     inquiries: Inquiry;
     'payload-kv': PayloadKv;
@@ -79,17 +78,12 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {
-    products: {
-      variants: 'productVariants';
-    };
-  };
+  collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     customCapabilities: CustomCapabilitiesSelect<false> | CustomCapabilitiesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
-    productVariants: ProductVariantsSelect<false> | ProductVariantsSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     inquiries: InquiriesSelect<false> | InquiriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -243,7 +237,7 @@ export interface CustomCapability {
   createdAt: string;
 }
 /**
- * 管理官网展示的所有产品。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 在「产品规格」里补尺寸、厚度、颜色、工艺 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。
+ * 管理官网展示的所有产品，一个产品的全部信息都在这一页编辑。新增产品的推荐顺序：① 填中文产品名 → ② 选产品系列 + 产品分类 → ③ 上传产品封面图 → ④ 往下填尺寸、厚度、工艺、颜色，并上传材质纹理图、实景应用图、工地实拍图、视频 → ⑤ 打开「发布到官网」。产品名称、产品介绍是多语言字段，用页面右上角的语言切换按 4 种语言分别填写；外语留空时官网会自动用英文兜底。
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
@@ -274,14 +268,6 @@ export interface Product {
    * 官网产品列表卡片和详情页首屏的封面图。留空时官网会自动从下方「产品规格」的材质纹理图、实景应用图、工地实拍图里依次挑一张兜底。
    */
   image?: (string | null) | Media;
-  /**
-   * 该产品的规格信息（尺寸、厚度、工艺、颜色、产品图片）。可以直接在这里新增或修改。
-   */
-  variants?: {
-    docs?: (string | ProductVariant)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   /**
    * 板材的长×宽（毫米）。官网「规格」筛选从这里读取。
    */
@@ -491,190 +477,6 @@ export interface Product {
   createdAt: string;
 }
 /**
- * 产品的规格信息（尺寸、厚度、表面工艺、颜色、产品图片、视频）。每个产品对应一条规格。产品名称、产品介绍、封面图等通用信息在「产品」集合编辑。
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productVariants".
- */
-export interface ProductVariant {
-  id: string;
-  /**
-   * 这条规格属于哪个产品。
-   */
-  productRef: string | Product;
-  /**
-   * 对应产品的唯一编号，例如 LV930R45。
-   */
-  code: string;
-  /**
-   * 板材的长×宽（毫米）。官网「规格」筛选从这里读取。
-   */
-  size:
-    | '800X2600mm'
-    | '900X2700mm'
-    | '900X3000mm'
-    | '900X1800mm'
-    | '1000X3000mm'
-    | '1200X2400mm'
-    | '1200X2700mm'
-    | '1200X3200mm'
-    | '1600X3200mm';
-  /**
-   * 官网「厚度」筛选从这里读取。常见厚度选下拉项；其他厚度选「自定义」并在下方填写。
-   */
-  thickness?: ('3mm' | '6mm' | '9mm' | '12mm' | '15mm' | 'custom') | null;
-  /**
-   * 如 20mm、30mm 等非标厚度。仅在板材厚度选了「自定义」后出现。
-   */
-  thicknessCustom?: string | null;
-  /**
-   * 板材表面处理工艺。官网「表面工艺」筛选从这里读取。
-   */
-  process?:
-    | (
-        | '亮光'
-        | '哑光'
-        | '亮面(奢石釉)'
-        | '真石镜面釉'
-        | '肌肤釉'
-        | '透光石'
-        | '高白'
-        | '数码模具面'
-        | '火烧面'
-        | '精雕'
-        | '复刻釉'
-        | '定位彩晶'
-      )
-    | null;
-  /**
-   * 官网「颜色」筛选从这里读取。
-   */
-  colorGroup?:
-    | ('白色' | '米白' | '黑色' | '灰色' | '米黄' | '棕色' | '金黄色' | '素色' | '蓝色' | '绿色' | '紫色' | '红色')
-    | null;
-  /**
-   * 例如：单面 / 多面 / 四面。可留空。
-   */
-  faceCount?: string | null;
-  /**
-   * 对纹理的简短描述，可留空。
-   */
-  facePatternNote?: string | null;
-  /**
-   * 数字越小越靠前。默认 0。
-   */
-  sortOrder?: number | null;
-  /**
-   * 板材表面纹理的特写照片。官网详情页的顶部大背景和「材质纹理」画廊从这里读取，是产品最重要的展示图。
-   */
-  elementImages?:
-    | {
-        /**
-         * 上传新图片或从媒体库里选一张。只需填这一项即可。
-         */
-        mediaRef?: (string | null) | Media;
-        /**
-         * 系统导入时自动填写，请勿手动修改。
-         */
-        sourcePath?: string | null;
-        /**
-         * 系统自动填写。
-         */
-        publicUrl?: string | null;
-        /**
-         * 用于无障碍阅读和 SEO，可留空。
-         */
-        altZh?: string | null;
-        /**
-         * 数字越小越靠前。默认 0。
-         */
-        sortOrder?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * 板材在厨房、卫浴、客厅、背景墙等场景中的应用效果图。官网详情页的「空间应用」画廊从这里读取。
-   */
-  spaceImages?:
-    | {
-        /**
-         * 上传新图片或从媒体库里选一张。只需填这一项即可。
-         */
-        mediaRef?: (string | null) | Media;
-        /**
-         * 系统导入时自动填写，请勿手动修改。
-         */
-        sourcePath?: string | null;
-        /**
-         * 系统自动填写。
-         */
-        publicUrl?: string | null;
-        /**
-         * 用于无障碍阅读和 SEO，可留空。
-         */
-        altZh?: string | null;
-        /**
-         * 数字越小越靠前。默认 0。
-         */
-        sortOrder?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * 工地、施工现场、样板房的真实照片。官网详情页的「实拍图」画廊从这里读取。
-   */
-  realImages?:
-    | {
-        /**
-         * 上传新图片或从媒体库里选一张。只需填这一项即可。
-         */
-        mediaRef?: (string | null) | Media;
-        /**
-         * 系统导入时自动填写，请勿手动修改。
-         */
-        sourcePath?: string | null;
-        /**
-         * 系统自动填写。
-         */
-        publicUrl?: string | null;
-        /**
-         * 用于无障碍阅读和 SEO，可留空。
-         */
-        altZh?: string | null;
-        /**
-         * 数字越小越靠前。默认 0。
-         */
-        sortOrder?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * 产品宣传视频或施工演示视频。官网详情页的「视频」模块从这里读取。
-   */
-  videos?:
-    | {
-        /**
-         * 上传新视频或从媒体库里选一个。只需填这一项即可。
-         */
-        mediaRef?: (string | null) | Media;
-        sourcePath?: string | null;
-        publicUrl?: string | null;
-        /**
-         * 视频未播放时显示的封面图，可留空。
-         */
-        posterUrl?: string | null;
-        titleZh?: string | null;
-        /**
-         * 数字越小越靠前。默认 0。
-         */
-        sortOrder?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * 多语言新闻：标题、摘要、正文需要按 4 个语种分别填写。请使用页面右上角的语言切换器逐个语言录入内容；切换语言后保存只会保存当前语言的内容。某语种留空时，前台会自动回落显示英文；若英文也为空，该语种页面不会展示这条新闻。
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -791,10 +593,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: string | Product;
-      } | null)
-    | ({
-        relationTo: 'productVariants';
-        value: string | ProductVariant;
       } | null)
     | ({
         relationTo: 'news';
@@ -947,7 +745,6 @@ export interface ProductsSelect<T extends boolean = true> {
   normalizedName?: T;
   published?: T;
   image?: T;
-  variants?: T;
   size?: T;
   thickness?: T;
   thicknessCustom?: T;
@@ -1003,65 +800,6 @@ export interface ProductsSelect<T extends boolean = true> {
   coverImageUrl?: T;
   coverVideoPosterUrl?: T;
   sortOrder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "productVariants_select".
- */
-export interface ProductVariantsSelect<T extends boolean = true> {
-  productRef?: T;
-  code?: T;
-  size?: T;
-  thickness?: T;
-  thicknessCustom?: T;
-  process?: T;
-  colorGroup?: T;
-  faceCount?: T;
-  facePatternNote?: T;
-  sortOrder?: T;
-  elementImages?:
-    | T
-    | {
-        mediaRef?: T;
-        sourcePath?: T;
-        publicUrl?: T;
-        altZh?: T;
-        sortOrder?: T;
-        id?: T;
-      };
-  spaceImages?:
-    | T
-    | {
-        mediaRef?: T;
-        sourcePath?: T;
-        publicUrl?: T;
-        altZh?: T;
-        sortOrder?: T;
-        id?: T;
-      };
-  realImages?:
-    | T
-    | {
-        mediaRef?: T;
-        sourcePath?: T;
-        publicUrl?: T;
-        altZh?: T;
-        sortOrder?: T;
-        id?: T;
-      };
-  videos?:
-    | T
-    | {
-        mediaRef?: T;
-        sourcePath?: T;
-        publicUrl?: T;
-        posterUrl?: T;
-        titleZh?: T;
-        sortOrder?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
 }

@@ -27,7 +27,6 @@ import { Inquiries } from "./payload/collections/Inquiries.ts";
 import { Media } from "./payload/collections/Media.ts";
 import { News } from "./payload/collections/News.ts";
 import { Products } from "./payload/collections/Products.ts";
-import { ProductVariants } from "./payload/collections/ProductVariants.ts";
 import { Users } from "./payload/collections/Users.ts";
 
 const filename = fileURLToPath(import.meta.url);
@@ -105,7 +104,6 @@ export default buildConfig({
     Media,
     CustomCapabilities,
     Products,
-    ProductVariants,
     News,
     Inquiries,
   ],
