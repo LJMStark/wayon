@@ -99,6 +99,18 @@ const SECURITY_HEADERS_BASE = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    // Static generation prerenders ~2,200 product/news pages against the
+    // production Postgres at deploy time. Next spawns one worker per CPU, each
+    // with its own pg pool, so the default fan-out (cpus × maxConcurrency)
+    // opened enough connections to get dropped ("Connection terminated
+    // unexpectedly"), failing the build. Bound concurrent DB connections and
+    // retry transient drops so a deploy never fails on a single dropped
+    // connection.
+    cpus: 2,
+    staticGenerationMaxConcurrency: 4,
+    staticGenerationRetryCount: 3,
+  },
   images: {
     // 开发阶段跳过图片优化缓存，换图即刷新可见
     // 生产构建仍然启用优化
