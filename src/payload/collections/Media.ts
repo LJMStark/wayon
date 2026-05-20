@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 
+import { asciifyMediaFilename } from "../hooks/asciifyMediaFilename.ts";
 import { compressMediaUpload } from "../hooks/compressMediaUpload.ts";
 
 export const Media: CollectionConfig = {
@@ -15,7 +16,9 @@ export const Media: CollectionConfig = {
     delete: ({ req }) => Boolean(req.user),
   },
   hooks: {
-    beforeOperation: [compressMediaUpload],
+    // asciify first (renames req.file.name), then compress (rewrites the
+    // buffer). Independent, but keep filename normalization ahead of byte work.
+    beforeOperation: [asciifyMediaFilename, compressMediaUpload],
   },
   upload: {
     mimeTypes: ["image/*", "video/mp4", "video/quicktime"],
