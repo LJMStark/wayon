@@ -11,6 +11,7 @@ import {
   revalidateSiteCacheAfterChange,
   revalidateSiteCacheAfterDelete,
 } from "../hooks/revalidateSiteCache.ts";
+import { setProductCodeFromSlug } from "../hooks/productCode.ts";
 import { slugifyBeforeValidate } from "../hooks/slug.ts";
 
 export const Products: CollectionConfig = {
@@ -44,6 +45,7 @@ export const Products: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [slugifyBeforeValidate],
+    beforeChange: [setProductCodeFromSlug],
     afterChange: [
       autoPinyinTitleAfterChange,
       revalidateSiteCacheAfterChange([PRODUCT_CACHE_TAG]),
@@ -87,12 +89,11 @@ export const Products: CollectionConfig = {
         },
       },
     },
-    // productCode mirrors slug.toUpperCase(). Existing rows were populated by
-    // the variants → products backfill (2026-05-20). New products currently
-    // save with productCode = NULL because no save hook maintains it yet; the
-    // frontend falls back to slug.toUpperCase() at read time. Hidden in admin
-    // so editors don't see a redundant field. TODO: add a beforeChange hook
-    // before any query/constraint relies on product_code being non-null.
+    // productCode mirrors slug.toUpperCase(). Maintained by the
+    // setProductCodeFromSlug beforeChange hook so every save (create or
+    // slug-changing update) refreshes it; existing rows were populated by the
+    // variants → products backfill (2026-05-20). Hidden in admin since
+    // editors should never need to set it by hand.
     {
       name: "productCode",
       label: "产品编号",
