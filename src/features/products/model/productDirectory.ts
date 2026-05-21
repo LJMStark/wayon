@@ -1,3 +1,5 @@
+import { isUsableMediaUrl } from "../lib/mediaUrls.ts";
+
 type DirectoryMedia = {
   publicUrl: string;
   sourcePath: string;
@@ -57,7 +59,7 @@ function pickFirstMediaUrl(
 ): string | null {
   for (const variant of variants) {
     const media = variant[field][0];
-    const url = media?.cardUrl ?? media?.publicUrl;
+    const url = [media?.cardUrl, media?.publicUrl].find(isUsableMediaUrl);
 
     if (url) {
       return url;
@@ -141,7 +143,7 @@ export function selectProductCoverUrl(
   product: DirectoryProduct,
   placeholderUrl: string
 ): string {
-  if (product.coverImageUrl) {
+  if (isUsableMediaUrl(product.coverImageUrl)) {
     return product.coverImageUrl;
   }
 

@@ -1,3 +1,5 @@
+import { isUsableMediaUrl } from "../../features/products/lib/mediaUrls.ts";
+
 type MediaRef = { url?: string | null } | string | null | undefined;
 
 export type ImageMediaItem = {
@@ -15,7 +17,7 @@ export type VariantDoc = {
 };
 
 export function readUrlFromMediaRef(value: unknown): string | null {
-  if (typeof value === "string" && isLikelyUrl(value)) {
+  if (typeof value === "string" && isLikelyUrl(value) && isUsableMediaUrl(value)) {
     return value;
   }
 
@@ -24,7 +26,7 @@ export function readUrlFromMediaRef(value: unknown): string | null {
   }
 
   const url = (value as { url?: unknown }).url;
-  return typeof url === "string" && url.length > 0 ? url : null;
+  return typeof url === "string" && isUsableMediaUrl(url) ? url : null;
 }
 
 function isLikelyUrl(value: string): boolean {
@@ -43,7 +45,7 @@ function readUrlFromImageMediaItem(item: ImageMediaItem | undefined): string | n
   const mediaRefUrl = readUrlFromMediaRef(item.mediaRef);
   if (mediaRefUrl) return mediaRefUrl;
 
-  return typeof item.publicUrl === "string" && item.publicUrl.length > 0
+  return typeof item.publicUrl === "string" && isUsableMediaUrl(item.publicUrl)
     ? item.publicUrl
     : null;
 }

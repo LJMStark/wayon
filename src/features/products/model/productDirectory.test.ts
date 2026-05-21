@@ -144,3 +144,59 @@ test("selectProductCoverUrl prefers the card size variant, falling back to the o
     "/element-1.jpg"
   );
 });
+
+test("selectProductCoverUrl skips retired Payload media-file URLs", () => {
+  expect(
+    selectProductCoverUrl(
+      {
+        ...baseProduct,
+        coverImageUrl: "/api/media/file/broken.jpg",
+        variants: [
+          {
+            ...baseProduct.variants[0],
+            elementImages: [
+              {
+                publicUrl: "/api/media/file/old-element.jpg",
+                cardUrl: "https://media.example.com/element-card.jpg",
+                sourcePath: "a",
+                sortOrder: 0,
+              },
+            ],
+            spaceImages: [],
+            realImages: [],
+          },
+        ],
+      },
+      "/placeholder.jpg"
+    )
+  ).toBe("https://media.example.com/element-card.jpg");
+
+  expect(
+    selectProductCoverUrl(
+      {
+        ...baseProduct,
+        variants: [
+          {
+            ...baseProduct.variants[0],
+            elementImages: [
+              {
+                publicUrl: "https://zylsinteredstone.com/api/media/file/broken.jpg",
+                sourcePath: "a",
+                sortOrder: 0,
+              },
+            ],
+            spaceImages: [
+              {
+                publicUrl: "https://media.example.com/space.jpg",
+                sourcePath: "b",
+                sortOrder: 0,
+              },
+            ],
+            realImages: [],
+          },
+        ],
+      },
+      "/placeholder.jpg"
+    )
+  ).toBe("https://media.example.com/space.jpg");
+});

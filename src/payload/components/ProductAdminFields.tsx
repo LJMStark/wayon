@@ -10,6 +10,7 @@ import {
   type ImageMediaItem,
   type VariantDoc,
 } from "./productAdminUtils";
+import { isUsableMediaUrl } from "../../features/products/lib/mediaUrls";
 
 // Read media arrays directly off the product's own form fields.
 function readSelfImageArray(value: unknown): ImageMediaItem[] {
@@ -202,5 +203,5 @@ function normalizeStringArray(value: unknown): string[] {
 }
 
 function readStringUrl(value: unknown): string | null {
-  return typeof value === "string" && value.length > 0 ? value : null;
+  return typeof value === "string" && isUsableMediaUrl(value) ? value : null;
 }
