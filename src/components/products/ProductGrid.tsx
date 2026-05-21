@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 import { formatCopy } from "@/data/siteCopy";
-import { Link } from "@/i18n/routing";
 import type {
   ProductCatalogSectionKey,
   ProductDirectoryItem,
@@ -29,6 +28,8 @@ type ProductGridProps = {
   emptyTaxonomyTemplate: string;
   backToCategoriesLabel: string;
   productCountTemplate: string;
+  onCatalogNavigate?: (href: string) => void;
+  catalogBasePath?: string;
 };
 
 const GRID_ITEM_INITIAL = { opacity: 0, y: 12 } as const;
@@ -41,7 +42,8 @@ const GRID_ITEM_TRANSITION = {
 
 function buildProductsHref(
   section: ProductCatalogSectionKey,
-  value?: string | null
+  value?: string | null,
+  catalogBasePath = "/products"
 ): string {
   const params = new URLSearchParams();
   params.set("section", section);
@@ -50,7 +52,7 @@ function buildProductsHref(
     params.set("value", value);
   }
 
-  return `/products?${params.toString()}`;
+  return `${catalogBasePath}?${params.toString()}`;
 }
 
 function EmptyTaxonomyState({
@@ -70,13 +72,27 @@ function EmptyTaxonomyState({
 function TaxonomyCard({
   activeSection,
   card,
+  catalogBasePath,
+  onCatalogNavigate,
 }: {
   activeSection: ProductCatalogSectionKey;
   card: ProductTaxonomyCard;
+  catalogBasePath?: string;
+  onCatalogNavigate?: (href: string) => void;
 }): React.JSX.Element {
+  const href = buildProductsHref(activeSection, card.value, catalogBasePath);
+
   return (
-    <Link
-      href={buildProductsHref(activeSection, card.value)}
+    <a
+      href={href}
+      onClick={
+        onCatalogNavigate
+          ? (event) => {
+              event.preventDefault();
+              onCatalogNavigate(href);
+            }
+          : undefined
+      }
       className="group flex flex-col gap-4"
     >
       <div className="relative aspect-[3/2] w-full overflow-hidden bg-[color:var(--surface)]">
@@ -98,7 +114,7 @@ function TaxonomyCard({
       <div className="text-center text-[15px] font-medium tracking-[0.04em] text-[#242424] transition-colors duration-300 group-hover:text-[color:var(--primary)]">
         {card.label}
       </div>
-    </Link>
+    </a>
   );
 }
 
@@ -118,6 +134,8 @@ export default function ProductGrid({
   emptyTaxonomyTemplate,
   backToCategoriesLabel,
   productCountTemplate,
+  onCatalogNavigate,
+  catalogBasePath,
 }: ProductGridProps): React.JSX.Element {
   const selectedCard =
     taxonomyCards.find((card) => card.value === activeValue) ?? null;
@@ -127,6 +145,7 @@ export default function ProductGrid({
     ? formatCopy(searchResultsForTemplate, { query: searchQuery })
     : selectedCard?.label || activeValueLabel || allLabel;
   const resultEyebrow = isSearchMode ? searchResultsLabel : activeSectionLabel;
+  const backHref = buildProductsHref(activeSection, null, catalogBasePath);
 
   return (
     <section>
@@ -159,7 +178,12 @@ export default function ProductGrid({
                     exit={GRID_ITEM_EXIT}
                     transition={GRID_ITEM_TRANSITION}
                   >
-                    <TaxonomyCard activeSection={activeSection} card={card} />
+                    <TaxonomyCard
+                      activeSection={activeSection}
+                      catalogBasePath={catalogBasePath}
+                      card={card}
+                      onCatalogNavigate={onCatalogNavigate}
+                    />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -170,15 +194,23 @@ export default function ProductGrid({
         <div className="space-y-8">
           <div className="flex flex-col gap-3 border-b border-[color:var(--border)] pb-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex items-center gap-4">
-              <Link
-                href={buildProductsHref(activeSection)}
+              <a
+                href={backHref}
+                onClick={
+                  onCatalogNavigate
+                    ? (event) => {
+                        event.preventDefault();
+                        onCatalogNavigate(backHref);
+                      }
+                    : undefined
+                }
                 className="inline-flex size-10 items-center justify-center border border-[color:var(--border)] text-[color:var(--muted-foreground)] transition-colors duration-200 hover:border-[color:var(--primary)] hover:text-[color:var(--primary)] rtl:rotate-180"
                 aria-label={backToCategoriesLabel}
               >
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
                 </svg>
-              </Link>
+              </a>
               <div className="flex flex-col gap-1">
                 <span className="zyl-eyebrow">{resultEyebrow}</span>
                 <h3 className="font-heading text-[1.75rem] font-medium tracking-[-0.01em] text-[#242424]">

@@ -24,6 +24,7 @@ export default function ProductCard({
     <div className={CARD_CLASS_NAME}>
       <Link
         href={detailsHref}
+        prefetch={false}
         className="relative block aspect-[4/3] cursor-pointer overflow-hidden bg-[color:var(--surface)]"
       >
         {image ? (
@@ -70,4 +71,3 @@ export default function ProductCard({
     </div>
   );
 }
-

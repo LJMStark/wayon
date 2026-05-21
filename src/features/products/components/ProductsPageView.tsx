@@ -1,28 +1,19 @@
+import { Suspense } from "react";
 import Image from "next/image";
 
-import ProductGrid from "@/components/products/ProductGrid";
 import { Link } from "@/i18n/routing";
 
-import type { ProductsPageData, ProductCatalogSectionKey } from "../types";
+import {
+  ProductsCatalogClient,
+  ProductsCatalogFallback,
+} from "./ProductsCatalogClient";
+import type { ProductsPageData } from "../types";
 
 const PRODUCTS_HERO_IMAGE_SRC =
   "/assets/products/products-hero-lauren-black-gold.jpg";
 
-function buildProductsHref(
-  section: ProductCatalogSectionKey,
-  value?: string | null
-): string {
-  const params = new URLSearchParams();
-  params.set("section", section);
-
-  if (value) {
-    params.set("value", value);
-  }
-
-  return `/products?${params.toString()}`;
-}
-
 export function ProductsPageView({
+  locale,
   heroTitle,
   heroSubtitle,
   breadcrumbLabel,
@@ -42,17 +33,36 @@ export function ProductsPageView({
   activeValue,
   activeValueLabel,
   taxonomyCards,
+  customCapabilities,
+  allProducts,
   products,
   searchQuery,
   searchResultsLabel,
   searchResultsForTemplate,
 }: ProductsPageData): React.JSX.Element {
   const hasCollectionLabel = collectionLabel.trim().length > 0;
-  const activeSectionLabel =
-    navSections.find((section) => section.key === activeSection)?.label ??
-    collectionLabel;
   const showDirectoryDescription =
     directoryDescription.trim() !== collectionDescription.trim();
+  const catalogProps = {
+    allLabel,
+    backToCategoriesLabel,
+    customCapabilities,
+    emptyTaxonomyTemplate,
+    initialActiveSection: activeSection,
+    initialActiveValue: activeValue,
+    initialActiveValueLabel: activeValueLabel,
+    initialProducts: products,
+    initialSearchQuery: searchQuery,
+    initialTaxonomyCards: taxonomyCards,
+    locale,
+    navSections,
+    noProductsFoundLabel,
+    productCountTemplate,
+    products: allProducts,
+    searchResultsForTemplate,
+    searchResultsLabel,
+    seriesQuickLinks,
+  };
 
   return (
     <main className="min-h-screen zyl-stone-bg">
@@ -119,80 +129,9 @@ export function ProductsPageView({
       </section>
 
       <section className="zyl-container-wide pb-24">
-        <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="lg:sticky lg:top-28 lg:self-start">
-            <nav className="flex flex-col border-s border-[color:var(--border)] py-2 ps-0 lg:min-h-[500px]">
-              {seriesQuickLinks.map((link) => {
-                const isLinkActive =
-                  activeSection === "series" && activeValue === link.value;
-
-                return (
-                  <Link
-                    key={link.key}
-                    href={link.href}
-                    aria-current={isLinkActive ? "page" : undefined}
-                    className={`relative flex items-center px-7 py-5 text-[15px] font-medium tracking-[0.02em] transition-colors duration-200 ${
-                      isLinkActive
-                        ? "text-[color:var(--primary)]"
-                        : "text-[#333333] hover:text-[color:var(--primary)]"
-                    }`}
-                  >
-                    <span
-                      aria-hidden
-                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center bg-[color:var(--primary)] transition-transform duration-300 ease-out ${
-                        isLinkActive ? "scale-y-100" : "scale-y-0"
-                      }`}
-                    />
-                    {link.label}
-                  </Link>
-                );
-              })}
-              {navSections.map((section) => {
-                const isActive = section.key === activeSection && !activeValue;
-
-                return (
-                  <Link
-                    key={section.key}
-                    href={buildProductsHref(section.key)}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`relative flex items-center px-7 py-5 text-[15px] font-medium tracking-[0.02em] transition-colors duration-200 ${
-                      isActive
-                        ? "text-[color:var(--primary)]"
-                        : "text-[#333333] hover:text-[color:var(--primary)]"
-                    }`}
-                  >
-                    <span
-                      aria-hidden
-                      className={`absolute inset-y-2 start-[-1px] w-[2px] origin-center bg-[color:var(--primary)] transition-transform duration-300 ease-out ${
-                        isActive ? "scale-y-100" : "scale-y-0"
-                      }`}
-                    />
-                    {section.label}
-                  </Link>
-                );
-              })}
-            </nav>
-          </aside>
-
-          <div className="space-y-8">
-            <ProductGrid
-              activeSection={activeSection}
-              activeSectionLabel={activeSectionLabel}
-              activeValue={activeValue}
-              activeValueLabel={activeValueLabel}
-              allLabel={allLabel}
-              taxonomyCards={taxonomyCards}
-              products={products}
-              searchQuery={searchQuery}
-              searchResultsLabel={searchResultsLabel}
-              searchResultsForTemplate={searchResultsForTemplate}
-              noProductsFoundLabel={noProductsFoundLabel}
-              emptyTaxonomyTemplate={emptyTaxonomyTemplate}
-              backToCategoriesLabel={backToCategoriesLabel}
-              productCountTemplate={productCountTemplate}
-            />
-          </div>
-        </div>
+        <Suspense fallback={<ProductsCatalogFallback {...catalogProps} />}>
+          <ProductsCatalogClient {...catalogProps} />
+        </Suspense>
       </section>
     </main>
   );

@@ -1,3 +1,5 @@
+import type { AppLocale } from "@/i18n/types";
+
 export type ProductCategoryShowcase = {
   slug: string;
   title: string;
@@ -68,6 +70,7 @@ export type ProductDirectoryItem = {
 };
 
 export type ProductsPageData = {
+  locale: AppLocale;
   heroTitle: string;
   heroSubtitle: string;
   breadcrumbLabel: string;
@@ -88,6 +91,7 @@ export type ProductsPageData = {
   activeValueLabel: string | null;
   taxonomyCards: ProductTaxonomyCard[];
   customCapabilities: ProductCustomCapabilitySummary[];
+  allProducts: ProductDirectoryItem[];
   products: ProductDirectoryItem[];
   searchQuery: string;
   searchResultsLabel: string;

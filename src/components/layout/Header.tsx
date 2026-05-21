@@ -263,8 +263,8 @@ export default function Header(): React.JSX.Element {
   };
 
   // Search submits route to the products page carrying a `q` param.
-  // getProductsPageData resolves it server-side by filtering the
-  // directory against the query — no additional GROQ round-trip needed.
+  // The products page is statically prerendered; its catalog client reads the
+  // query string and filters the directory already loaded with the page.
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
