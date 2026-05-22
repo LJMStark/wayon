@@ -6,8 +6,11 @@
 //   { type: "p",  text: "..." }   // bold via **...**, italic via *...*
 //   { type: "ul", items: ["...", "..."] }
 //   { type: "quote", text: "..." }
+//   { type: "image", mediaId: "..." }  // Payload upload node, mediaId from media collection
 //
 // Output: { root: { ... children: [...] } } — Payload's default Lexical shape.
+
+import { randomUUID } from "node:crypto";
 
 const FORMAT_BOLD = 1;
 const FORMAT_ITALIC = 2;
@@ -150,6 +153,18 @@ function quote(text, direction = "ltr") {
   };
 }
 
+function uploadImage(mediaId) {
+  return {
+    type: "upload",
+    format: "",
+    version: 3,
+    relationTo: "media",
+    value: mediaId,
+    fields: {},
+    id: randomUUID(),
+  };
+}
+
 export function buildLexicalDoc(blocks, { rtl = false } = {}) {
   const direction = rtl ? "rtl" : "ltr";
   const children = blocks.map((b) => {
@@ -158,6 +173,7 @@ export function buildLexicalDoc(blocks, { rtl = false } = {}) {
     if (b.type === "p") return paragraph(b.text, direction);
     if (b.type === "ul") return unorderedList(b.items, direction);
     if (b.type === "quote") return quote(b.text, direction);
+    if (b.type === "image") return uploadImage(b.mediaId);
     throw new Error(`Unknown block type: ${b.type}`);
   });
   return {

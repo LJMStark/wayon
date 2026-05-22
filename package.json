@@ -16,6 +16,7 @@
     "test:e2e": "playwright test",
     "typecheck": "next typegen && tsc --noEmit",
     "verify:copy-completeness": "node --env-file=.env.local scripts/verifyCopyCompleteness.mjs",
+    "news:from-wechat": "node --env-file=.env.local scripts/wechatToNews.mjs",
     "payload": "payload --disable-transpile",
     "generate:types": "payload --disable-transpile generate:types",
     "generate:importmap": "payload --disable-transpile generate:importmap"
