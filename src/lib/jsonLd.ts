@@ -47,6 +47,32 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
   };
 }
 
+function localizedListUrl(locale: AppLocale, path: "/products" | "/news"): string {
+  return `${siteUrl}${locale === "zh" ? path : `/${locale}${path}`}`;
+}
+
+export function productsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unknown> {
+  const labels = NAV_LABELS[locale];
+  return breadcrumbJsonLd(
+    [
+      { name: labels.home, url: siteUrl },
+      { name: labels.products, url: localizedListUrl(locale, "/products") },
+    ],
+    locale,
+  );
+}
+
+export function newsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unknown> {
+  const labels = NAV_LABELS[locale];
+  return breadcrumbJsonLd(
+    [
+      { name: labels.home, url: siteUrl },
+      { name: labels.news, url: localizedListUrl(locale, "/news") },
+    ],
+    locale,
+  );
+}
+
 export function productBreadcrumbJsonLd(
   locale: AppLocale,
   productName: string,
@@ -56,7 +82,7 @@ export function productBreadcrumbJsonLd(
   return breadcrumbJsonLd(
     [
       { name: labels.home, url: siteUrl },
-      { name: labels.products, url: `${siteUrl}${locale === "zh" ? "/products" : `/${locale}/products`}` },
+      { name: labels.products, url: localizedListUrl(locale, "/products") },
       { name: productName, url: absoluteUrl(productUrl) },
     ],
     locale,
@@ -72,7 +98,7 @@ export function newsBreadcrumbJsonLd(
   return breadcrumbJsonLd(
     [
       { name: labels.home, url: siteUrl },
-      { name: labels.news, url: `${siteUrl}${locale === "zh" ? "/news" : `/${locale}/news`}` },
+      { name: labels.news, url: localizedListUrl(locale, "/news") },
       { name: articleTitle, url: absoluteUrl(articleUrl) },
     ],
     locale,
@@ -132,14 +158,13 @@ export function productJsonLd(input: {
     result.category = input.category;
   }
 
-  result.offers = {
-    "@type": "Offer",
-    availability: "https://schema.org/InStock",
-    seller: {
-      "@type": "Organization",
-      name: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
-    },
-  };
+  // Intentionally no `offers` block. Google's Product structured-data spec
+  // requires `offers.price` + `offers.priceCurrency` (or AggregateOffer with
+  // lowPrice/highPrice). This is a B2B catalog with quote-based pricing — we
+  // do not publish a list price — so any Offer node we could emit would fail
+  // Rich Results validation and drop the Product snippet entirely. Better to
+  // ship a clean Product entity than a broken Offer. If we ever publish list
+  // prices, add `offers: AggregateOffer` with lowPrice/highPrice/priceCurrency.
 
   return result;
 }
@@ -155,6 +180,8 @@ export function articleJsonLd(input: {
 }): Record<string, unknown> {
   const absoluteImages = input.image.filter(Boolean).map((img) => absoluteUrl(img));
 
+  const absoluteArticleUrl = absoluteUrl(input.url);
+
   const result: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -162,7 +189,14 @@ export function articleJsonLd(input: {
     description: input.description,
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
-    url: absoluteUrl(input.url),
+    url: absoluteArticleUrl,
+    // Anchors the structured data to the canonical article page so Google
+    // doesn't have to guess which URL the Article describes when the same
+    // headline appears across locales or syndication targets.
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteArticleUrl,
+    },
     author: {
       "@type": "Organization",
       name: input.author ?? "ZYL Sintered Stone",
@@ -170,6 +204,10 @@ export function articleJsonLd(input: {
     publisher: {
       "@type": "Organization",
       name: "Guangdong ZYL Sintered Stone Technology Co., Ltd.",
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/assets/brand/logo-yanlian-yanban.jpg`,
+      },
     },
   };
 

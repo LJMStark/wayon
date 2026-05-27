@@ -21,6 +21,10 @@ type BuildPageMetadataOptions = {
   imageAlt?: string;
   path?: string;
   includeIcons?: boolean;
+  // Open Graph type. Defaults to "website"; news detail pages pass "article".
+  // Product pages stay on "website" because schema.org/Product covers product
+  // semantics via JSON-LD (Facebook removed og:type=product support in 2014).
+  type?: "website" | "article";
 };
 
 export function normalizeMetadataPath(locale: AppLocale, path: string): string {
@@ -43,6 +47,7 @@ export function buildPageMetadata({
   imageAlt,
   path = "/",
   includeIcons = false,
+  type = "website",
 }: BuildPageMetadataOptions): Metadata {
   const canonical = normalizeMetadataPath(locale, path);
 
@@ -73,6 +78,7 @@ export function buildPageMetadata({
       languages,
     },
     openGraph: {
+      type,
       title,
       description,
       url: normalizeMetadataPath(locale, path),
