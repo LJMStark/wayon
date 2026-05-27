@@ -120,7 +120,6 @@ export function SolutionTabs({
             fill
             className="object-cover"
             sizes="100vw"
-            priority={activeIndex === 0}
           />
           <div className="absolute inset-0 bg-[#002b50]/10" />
           <div className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-[#002b50]/34 via-[#002b50]/12 to-transparent" />
