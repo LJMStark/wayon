@@ -7,7 +7,7 @@
 //   2. Hard-fail if the article contains zero images (cover is required).
 //   3. Download each image (with WeChat Referer) and upload to Payload media (R2).
 //      The first image becomes the cover; all images stay inline in body order.
-//   4. Call OpenRouter (default: openai/gpt-4o-mini) to rewrite zh and translate
+//   4. Call Gemini (default: gemini-3.1-flash-lite) to rewrite zh and translate
 //      to en/es/ar. Output is structured JSON: title, excerpt, paragraphs[].
 //   5. Build Lexical doc per locale, interleaving image upload nodes back into
 //      the original paragraph positions.
@@ -22,7 +22,8 @@
 // Optional flags:
 //   --slug my-custom-slug         (default: derived from rewritten zh title)
 //   --category industry           (default: industry; allowed: company/industry/exhibition/product)
-//   --model openai/gpt-4o-mini    (default; any OpenRouter model id)
+//   --model gemini-3.1-flash-lite (default; any Gemini model id from
+//                                  https://generativelanguage.googleapis.com/v1beta/models)
 
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -36,8 +37,8 @@ const ALLOWED_CATEGORIES = ["company", "industry", "exhibition", "product"];
 const ALLOWED_LOCALES = ["zh", "en", "es", "ar"];
 const RTL_LOCALES = new Set(["ar"]);
 
-const DEFAULT_MODEL = "openai/gpt-4o-mini";
-const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+const DEFAULT_MODEL = "gemini-3.1-flash-lite";
+const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 
 // Images smaller than this are almost always WeChat decorations (separator
 // lines, 1px placeholders, emoji-sized graphics). Drop them entirely — they
@@ -70,6 +71,7 @@ function parseArgs(argv) {
     console.error("ERROR: --url is required");
     console.error("Usage: node --env-file=.env.local scripts/wechatToNews.mjs --url <wechat-url> [--apply]");
     console.error("       Optional: --skip-images \"2,11\"  (1-based indices from a prior dry-run)");
+    console.error("       Optional: --model gemini-3.1-pro-preview  (default: gemini-3.1-flash-lite)");
     process.exit(2);
   }
   args.category ||= "industry";
@@ -111,9 +113,15 @@ async function fetchArticleHtml(url) {
 //   { type: "img", src }
 //   { type: "ul", items: [string] }
 // Inline formatting is dropped — the LLM rewrite stage produces fresh prose.
-function extractRawBlocks($) {
+function extractRawBlocks($, html) {
   const $content = $("#js_content");
   if ($content.length === 0) {
+    // Fallback: WeChat "share_content_page" / image-message format.
+    // The article has no #js_content DOM; the title is in <meta og:title>,
+    // the body text lives in <meta og:description>, and the images sit in a
+    // cgiDataNew JSON blob as `cdn_url: '...'` entries.
+    const shareBlocks = extractShareContentBlocks($, html);
+    if (shareBlocks) return shareBlocks;
     throw new Error(
       "Could not find #js_content in the WeChat HTML — the page layout may have changed, or this is not a standard MP article URL.",
     );
@@ -199,6 +207,176 @@ function extractRawBlocks($) {
   return out;
 }
 
+// Fallback parser for WeChat "share_content_page" / image-message format.
+// These posts have no #js_content DOM; instead the body text is stuffed into
+// <meta og:description> and the images live as `cdn_url: '...'` entries inside
+// a cgiDataNew JSON blob. Returns the same `{ type, text|src|items }[]` shape
+// as extractRawBlocks so the rest of the pipeline doesn't care which format
+// the source was in. Returns null if the HTML doesn't look like a share page.
+function extractShareContentBlocks($, html) {
+  if ($("#js_article.share_content_page").length === 0) return null;
+
+  const desc =
+    $('meta[property="og:description"]').attr("content") ||
+    $('meta[name="description"]').attr("content") ||
+    "";
+  if (!desc.trim()) return null;
+
+  // 1) Build the image list.
+  //    - cover URL comes from <meta og:image>.
+  //    - body images come from `cdn_url: '...'` entries that include the
+  //      `from=appmsg` marker — that flag identifies images explicitly cited
+  //      by the article (matching the in-message numbering P1, P2, ...). All
+  //      other cdn_url entries are thumbnails / low-res duplicates / popup
+  //      share assets, which would otherwise blow up the image list with
+  //      near-duplicates that the user can't visually tell apart.
+  //    cdnUrls[0] is reserved for the cover; cdnUrls[1..] are P1, P2, ...
+  const ogImage = $('meta[property="og:image"]').attr("content") || "";
+  const cdnRegex = /cdn_url\s*:\s*'(https?:\/\/[^']+from=appmsg[^']*)'/g;
+  const cdnUrls = [];
+  const seen = new Set();
+  if (ogImage) {
+    cdnUrls.push(ogImage);
+    seen.add(ogImage);
+  }
+  let m;
+  while ((m = cdnRegex.exec(html)) !== null) {
+    const raw = m[1].replace(/\\x26amp;/g, "&").replace(/\\x26/g, "&");
+    if (seen.has(raw)) continue;
+    seen.add(raw);
+    cdnUrls.push(raw);
+  }
+  if (cdnUrls.length === 0) return null;
+
+  // 2) Decode the description. WeChat stuffs literal JS-style escapes into the
+  //    meta content (`\x0a` for newline, `\x26lt;` for `&lt;`, etc.) — these
+  //    aren't HTML entities, so cheerio leaves them as literal text. Decode
+  //    `\xNN` first (→ raw char), then HTML entities. Order matters: `\x26`
+  //    must become `&` before we try to resolve `&lt;` → `<`.
+  const decoded = desc
+    .replace(/\\x([0-9a-fA-F]{2})/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16)),
+    )
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+
+  // 3) Walk paragraphs. Each `\n\n`-separated block becomes one or more blocks.
+  //    Lines starting with `🔹` get split into an h3 + a p. `——XXX——` lines
+  //    become h3. Hashtag-only paragraphs are dropped. The `data-seq="N"`
+  //    markers inside `<a class="wx_img_refer_link">` tell us which image
+  //    indices to insert after that paragraph (N corresponds to cdnUrls[N],
+  //    since cdnUrls[0] is the cover image and P1...PN are body images).
+  const out = [];
+  const usedImg = new Set();
+
+  function emitImagesForSeqs(seqNums) {
+    for (const n of seqNums) {
+      if (n < cdnUrls.length && !usedImg.has(n)) {
+        out.push({ type: "img", src: cdnUrls[n] });
+        usedImg.add(n);
+      }
+    }
+  }
+
+  function pushClean(type, text) {
+    const cleaned = text.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    if (cleaned.length > 0) out.push({ type, text: cleaned });
+  }
+
+  // Cover always goes first (matches existing #js_content behaviour: the first
+  // image block becomes the News.coverImage and also appears at the top of the
+  // body).
+  out.push({ type: "img", src: cdnUrls[0] });
+  usedImg.add(0);
+
+  const paragraphs = decoded.split(/\n\s*\n/);
+  for (const rawPara of paragraphs) {
+    // Two patterns to collect image indices:
+    //   range:  <a ...data-seq="1"...>P1</a>-<a ...data-seq="3"...>P3</a>
+    //           → expand to [1, 2, 3]
+    //   single: <a ...data-seq="N"...>PN</a>  → [N]
+    // Ranges take precedence so the implicit middle indices aren't lost.
+    const rangeRegex =
+      /data-seq=["']?(\d+)["']?[^<]*<\/a>\s*[-–—]\s*<a[^>]*data-seq=["']?(\d+)["']?/g;
+    const seqNums = [];
+    const seenInPara = new Set();
+    const consumed = new Set();
+    let rm;
+    while ((rm = rangeRegex.exec(rawPara)) !== null) {
+      const lo = parseInt(rm[1], 10);
+      const hi = parseInt(rm[2], 10);
+      const [a, b] = lo <= hi ? [lo, hi] : [hi, lo];
+      for (let k = a; k <= b; k++) {
+        if (!seenInPara.has(k)) {
+          seenInPara.add(k);
+          seqNums.push(k);
+        }
+      }
+      consumed.add(lo);
+      consumed.add(hi);
+    }
+    for (const sm of rawPara.matchAll(/data-seq=["']?(\d+)["']?/g)) {
+      const n = parseInt(sm[1], 10);
+      if (consumed.has(n)) continue;
+      if (!seenInPara.has(n)) {
+        seenInPara.add(n);
+        seqNums.push(n);
+      }
+    }
+    seqNums.sort((a, b) => a - b);
+
+    // Split by single newlines — each line is its own potential block.
+    const lines = rawPara
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    let emittedTextInPara = false;
+    for (const line of lines) {
+      const plain = line.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      if (!plain) continue;
+
+      // Hashtag-only line (after stripping tags): `#xxx #yyy ...`
+      if (/^(#\S+\s*)+$/.test(plain)) continue;
+
+      // Image-reference-only line: `【P1-P3】` or `P1` standalone after tag strip.
+      if (/^[【\[]?\s*P\d+(\s*[-–]\s*P\d+)?\s*[】\]]?$/.test(plain)) continue;
+
+      // Decorated section header: `—— PRODUCT·产品信息 ——`
+      if (/^[—–-]{2,}.+[—–-]{2,}$/.test(plain)) {
+        pushClean("h3", plain);
+        emittedTextInPara = true;
+        continue;
+      }
+
+      // Product header: `🔹 SM1232MJ09002 新古驰红`
+      if (/^🔹/.test(plain)) {
+        pushClean("h3", plain.replace(/^🔹\s*/, ""));
+        emittedTextInPara = true;
+        continue;
+      }
+
+      pushClean("p", plain);
+      emittedTextInPara = true;
+    }
+
+    // Attach images referenced by data-seq markers to the end of the paragraph,
+    // but only if the paragraph actually emitted text (avoid orphaned images).
+    if (emittedTextInPara) emitImagesForSeqs(seqNums);
+  }
+
+  // 4) Append any leftover images (not referenced by data-seq) at the end so
+  //    nothing is lost.
+  for (let i = 1; i < cdnUrls.length; i++) {
+    if (!usedImg.has(i)) out.push({ type: "img", src: cdnUrls[i] });
+  }
+
+  return out;
+}
+
 function extractTitle($) {
   const fromMeta = $('meta[property="og:title"]').attr("content");
   if (fromMeta) return fromMeta.trim();
@@ -211,7 +389,7 @@ function extractTitle($) {
 function parseArticle(html) {
   const $ = cheerio.load(html);
   const title = extractTitle($);
-  const blocks = extractRawBlocks($);
+  const blocks = extractRawBlocks($, html);
   const imageCount = blocks.filter((b) => b.type === "img").length;
   return { title, blocks, imageCount };
 }
@@ -279,55 +457,66 @@ async function uploadImageToPayload(payload, { buf, ext, mime }, { slug, index, 
   return { id: created.id, filename, url: created.url };
 }
 
-// --- 3. LLM rewriting via OpenRouter ---------------------------------------
+// --- 3. LLM rewriting (Gemini) ---------------------------------------------
 
 function requireEnv(name) {
   const v = process.env[name];
   if (!v) {
     throw new Error(
       `Missing ${name}. Add it to .env.local. ` +
-        (name === "OPENROUTER_API_KEY"
-          ? "Get a key at https://openrouter.ai/keys"
+        (name === "GEMINI_API_KEY"
+          ? "Get a key at https://aistudio.google.com/apikey"
           : ""),
     );
   }
   return v;
 }
 
-async function callOpenRouter({ model, system, user, expectJson = true }) {
-  const apiKey = requireEnv("OPENROUTER_API_KEY");
+async function callGemini({ model, system, user, expectJson = true }) {
+  const apiKey = requireEnv("GEMINI_API_KEY");
+  const url = `${GEMINI_BASE_URL}/${encodeURIComponent(model)}:generateContent?key=${apiKey}`;
   const body = {
-    model,
-    messages: [
-      { role: "system", content: system },
-      { role: "user", content: user },
-    ],
-    temperature: 0.5,
-  };
-  if (expectJson) body.response_format = { type: "json_object" };
-
-  const res = await fetch(OPENROUTER_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "https://zylsinteredstone.com",
-      "X-Title": "ZYL Sintered Stone - News Importer",
+    systemInstruction: { parts: [{ text: system }] },
+    contents: [{ role: "user", parts: [{ text: user }] }],
+    generationConfig: {
+      temperature: 0.5,
     },
+  };
+  if (expectJson) body.generationConfig.responseMimeType = "application/json";
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
   if (!res.ok) {
     const errText = await res.text().catch(() => "");
-    throw new Error(`OpenRouter HTTP ${res.status}: ${errText.slice(0, 500)}`);
+    throw new Error(`Gemini HTTP ${res.status}: ${errText.slice(0, 500)}`);
   }
   const data = await res.json();
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error(`OpenRouter returned empty content. Full response: ${JSON.stringify(data).slice(0, 500)}`);
-  if (!expectJson) return content;
+  const candidate = data?.candidates?.[0];
+  if (!candidate) {
+    throw new Error(
+      `Gemini returned no candidate. Full response: ${JSON.stringify(data).slice(0, 500)}`,
+    );
+  }
+  // Gemini can finish with reason "SAFETY", "RECITATION", "MAX_TOKENS" with
+  // no text content — surface that explicitly so we don't silently get an
+  // empty payload.
+  const parts = candidate?.content?.parts || [];
+  const text = parts.map((p) => p.text || "").join("").trim();
+  if (!text) {
+    throw new Error(
+      `Gemini returned empty content. finishReason=${candidate.finishReason}. Full response: ${JSON.stringify(data).slice(0, 500)}`,
+    );
+  }
+  if (!expectJson) return text;
   try {
-    return JSON.parse(content);
+    return JSON.parse(text);
   } catch (err) {
-    throw new Error(`OpenRouter response was not valid JSON: ${err.message}. Raw: ${content.slice(0, 500)}`);
+    throw new Error(
+      `Gemini response was not valid JSON: ${err.message}. Raw: ${text.slice(0, 500)}`,
+    );
   }
 }
 
@@ -424,7 +613,7 @@ Rules:
 
 async function rewriteAndTranslate({ model, rawTitle, textBlocks }) {
   console.log(`  LLM: rewriting zh via ${model}...`);
-  const zh = await callOpenRouter({
+  const zh = await callGemini({
     model,
     system: REWRITE_SYSTEM_ZH,
     user: buildZhRewriteUserMessage(rawTitle, textBlocks),
@@ -434,7 +623,7 @@ async function rewriteAndTranslate({ model, rawTitle, textBlocks }) {
   const result = { zh };
   for (const loc of ["en", "es", "ar"]) {
     console.log(`  LLM: translating → ${loc}...`);
-    const out = await callOpenRouter({
+    const out = await callGemini({
       model,
       system: TRANSLATE_SYSTEM(loc),
       user: buildTranslateUserMessage(zh, loc),
@@ -584,7 +773,7 @@ async function main() {
 
   // Step 3: rewrite + translate (this runs before image upload so a model failure
   // doesn't waste R2 writes).
-  console.log("\n→ Rewriting + translating via OpenRouter...");
+  console.log(`\n→ Rewriting + translating via Gemini (${args.model})...`);
   const localized = await rewriteAndTranslate({
     model: args.model,
     rawTitle,
