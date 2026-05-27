@@ -2,6 +2,7 @@ import { getMetadataCopy } from "@/data/siteCopy";
 import { ProductsPageView } from "@/features/products/components/ProductsPageView";
 import { getProductsPageData } from "@/features/products/server/getProductsPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
+import { productsListBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { buildPageMetadata } from "@/lib/metadata";
 
 // Catalog data refreshes hourly. Mitigates the heavy variant+media join
@@ -29,6 +30,17 @@ export default async function CollectionsPage({
 }: PageProps<"/[locale]/products">): Promise<React.JSX.Element> {
   const { locale } = await getLocaleParams(params);
   const pageData = await getProductsPageData(locale, await searchParams);
+  const breadcrumbLd = productsListBreadcrumbJsonLd(locale);
 
-  return <ProductsPageView {...pageData} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <ProductsPageView {...pageData} />
+    </>
+  );
 }

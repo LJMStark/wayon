@@ -62,11 +62,28 @@ export async function generateMetadata({
     metadataCopy.description
   );
 
+  // Pick the most representative product image for og:image and twitter card.
+  // Order: product cover → first element image → first real image → fall back
+  // to the brand default inside buildPageMetadata. The image arrays are typed
+  // as non-optional, but the data comes from Payload via hydration where the
+  // mapping uses `(raw.elementImages ?? []).map(...)`; we still guard with
+  // `?.[0]` so a future schema/cache anomaly returning `null` cannot 500 the
+  // route.
+  const firstVariant = product.variants?.[0];
+  const ogImage =
+    product.coverImageUrl ??
+    product.imageUrl ??
+    firstVariant?.elementImages?.[0]?.publicUrl ??
+    firstVariant?.realImages?.[0]?.publicUrl ??
+    undefined;
+
   return buildPageMetadata({
     locale,
     title: formatCopy(metadataCopy.title, { title: localizedTitle }),
     description,
     path: `/products/${slug}`,
+    image: ogImage,
+    imageAlt: localizedTitle,
   });
 }
 

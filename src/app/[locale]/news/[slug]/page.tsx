@@ -43,6 +43,7 @@ export async function generateMetadata({
     image: pageData.imageUrl ?? undefined,
     imageAlt: pageData.title,
     path: `/news/${slug}`,
+    type: "article",
   });
 }
 
