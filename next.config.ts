@@ -163,13 +163,77 @@ const nextConfig: NextConfig = {
         source: '/((?!admin(?:/|$)|api(?:/|$)).*)',
         headers: [{ key: 'Content-Security-Policy', value: SITE_CSP }],
       },
+      // X-Robots-Tag for the Payload admin. robots.txt already disallows
+      // /admin, but external links into the admin URL could still cause
+      // Google to index the URL itself (without crawling content). This
+      // header is a belt-and-braces signal that the URL must not appear in
+      // search results at all.
+      {
+        source: '/admin/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      // Short edge cache for HTML routes and crawler-facing files. Measured
+      // 2026-05-27: /products/[slug] and /news/[slug] currently ship NO
+      // Cache-Control header at all, so Cloudflare Cache Rule "Short cache
+      // for HTML" (which keys off origin TTL signals) ends up BYPASS for
+      // every ISR route. The result is a ~1s TTFB for every request — felt
+      // most by international B2B traffic crossing the ocean to Zeabur.
+      // Pinning `s-maxage=300` forces a 5-minute edge TTL, dropping TTFB
+      // to ~50ms once the cache warms; `stale-while-revalidate=86400` lets
+      // CF serve a slightly-stale copy while it fetches a fresh one in the
+      // background for the next 24h, so an expired cache never costs a
+      // user wait.
+      //
+      // Trade-off: Payload publish → visible page delay can be up to ~5
+      // minutes. Acceptable for a quote-based B2B catalog. If we need
+      // instant publish later, add a Payload afterChange hook that POSTs
+      // to Cloudflare's purge_cache API.
+      //
+      // Allowlist by design. The obvious denylist
+      // `/((?!admin|api|_next|assets|downloads).*)` would also match the
+      // unprefixed root `/` and unprefixed default-locale paths like
+      // `/about`. With next-intl's default `localePrefix: 'as-needed'`
+      // (defaultLocale `zh` carries no prefix; en/es/ar do), the middleware
+      // content-negotiates those unprefixed paths via `Accept-Language` and
+      // may emit a 307 redirect to a locale-prefixed URL. Caching that 307
+      // at the CDN would lock the next 5 minutes of visitors into the first
+      // visitor's detected locale.
+      //
+      // Known side effect: the default-locale-without-prefix (zh) pages
+      // (`/about`, `/products`, `/news/...`) do NOT sit on the edge cache.
+      // The international B2B audience this site targets reaches us through
+      // en/es/ar — where TTFB matters most — and the en/es/ar surface IS
+      // covered below. Bringing zh under the same TTL would mean flipping
+      // next-intl to `localePrefix: 'always'`, a user-visible URL change
+      // intentionally out of scope for this PR.
+      //
+      // The `:path*` quantifier is zero-or-more, so this single rule covers
+      // bare `/zh`, `/en/about`, and `/ar/products/foo-bar` alike.
+      {
+        source: '/:locale(en|zh|es|ar)/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        source: '/:file(robots.txt|sitemap.xml)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=86400',
+          },
+        ],
+      },
       // Long-lived caching for /public/assets design imagery. Next serves
       // /public with `Cache-Control: public, max-age=0` by default, so without
       // this both the browser and Cloudflare re-validate these files on every
       // request. They change rarely; if you replace one in place, purge
-      // Cloudflare or rename it. (HTML pages already get correct per-route
-      // Cache-Control from Next; making Cloudflare honor it for HTML is a
-      // dashboard Cache Rule, not a code change.)
+      // Cloudflare or rename it. This rule is declared AFTER the short-cache
+      // rule above so the longer TTL wins by Next.js header-merge semantics
+      // (later rule overrides earlier on the same key).
       {
         source: '/assets/:path*',
         headers: [
