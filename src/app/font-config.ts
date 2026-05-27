@@ -41,8 +41,8 @@ export const notoSansSc = localFont({
 });
 
 export const geourceSans = localFont({
-  // Bold listed first so next/font emits <link rel="preload"> for the LCP weight
-  // used by the home Hero (.zyl-hero-title at font-weight: 700).
+  // Bold listed first so if preload is ever turned back on, next/font emits
+  // <link rel="preload"> for the LCP weight (.zyl-hero-title at font-weight: 700).
   src: [
     {
       path: "./fonts/GeourceSansCHS-Bold-Subset.woff2",
@@ -62,7 +62,15 @@ export const geourceSans = localFont({
   ],
   variable: "--font-geource-sans",
   display: "swap",
-  preload: true,
+  // Disabled 2026-05-28 after PSI flagged 3 woff2 preloads as the single
+  // largest render-blocking request on mobile home — ~2,850 ms of LCP
+  // budget gated on font download. With `display: swap` and next/font's
+  // default localFont fallback-metrics adjustment, the browser paints
+  // with sans-serif immediately and seamlessly swaps to GeourceSans once
+  // the font lands (~1-2s on slow 4G). Stable-state typography is
+  // unchanged — only the first-visit cold-start sees the temporary
+  // system-font frame.
+  preload: false,
 });
 
 export const fontVariableClassName = [
