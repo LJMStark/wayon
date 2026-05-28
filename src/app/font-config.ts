@@ -64,13 +64,24 @@ export const geourceSans = localFont({
   display: "swap",
   // Disabled 2026-05-28 after PSI flagged 3 woff2 preloads as the single
   // largest render-blocking request on mobile home — ~2,850 ms of LCP
-  // budget gated on font download. With `display: swap` and next/font's
-  // default localFont fallback-metrics adjustment, the browser paints
-  // with sans-serif immediately and seamlessly swaps to GeourceSans once
-  // the font lands (~1-2s on slow 4G). Stable-state typography is
-  // unchanged — only the first-visit cold-start sees the temporary
-  // system-font frame.
+  // budget gated on font download. With `display: swap` the browser
+  // paints with the CJK fallback immediately and seamlessly swaps to
+  // GeourceSans once the font lands (~1-2s on slow 4G). Stable-state
+  // typography is unchanged — only the first-visit cold-start sees the
+  // temporary system-font frame.
   preload: false,
+  // Disable next/font's default Latin Arial fallback. Without this, the
+  // generated --font-geource-sans variable resolves to
+  // `"geourceSans", "geourceSans Fallback"` where the Fallback face is
+  // `local(Arial)` with metrics tuned for Latin glyphs. Arial almost
+  // always matches on the user's system, so the browser uses it during
+  // the swap window — but Arial has no CJK coverage AND its metrics do
+  // not match Chinese characters, producing the CLS we measured at 0.303.
+  // Turning this off lets our hand-rolled "GeourceSansFallback" @font-face
+  // (declared in globals.css with CJK-tuned override metrics) become the
+  // real fallback, dramatically reducing layout shift on font swap.
+  // The other locale fonts already pass `false` for the same reason.
+  adjustFontFallback: false,
 });
 
 export const fontVariableClassName = [
