@@ -1,8 +1,14 @@
 import type { AppLocale, AppMessages } from "@/i18n/types";
-import {
-  getLocalizedProductTitleDisplay,
-  type LocalizedProductTitle,
-} from "./productTitle";
+
+// Locally defined to keep this module — which is imported by the client
+// Header component — free of `pinyin-pro` (~200KB gzipped pulled in via
+// src/data/productTitle.ts). The full Pinyin transliteration pipeline
+// stays on the server side for CMS-driven product pages; the navigation
+// preview products below are a hand-curated short list, so their
+// per-locale strings are inlined statically.
+export type LocalizedProductTitle = Partial<Record<AppLocale, string>> & {
+  zh?: string;
+};
 
 type NavigationMessages = AppMessages["Navigation"];
 
@@ -93,8 +99,14 @@ export const NAV_ITEMS: NavItem[] = [
           "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
         previewProducts: [
           {
+            // Non-zh strings inlined (matching getLocalizedProductTitleDisplay
+            // output) so this curated list does not pull pinyin-pro into the
+            // client bundle through the Header component.
             title: {
               zh: "雅诗兰黛",
+              en: "YA SHI LAN DAI",
+              es: "YA SHI LAN DAI",
+              ar: "YA SHI LAN DAI",
             },
             href: "/products/zyl1632l971",
             imageSrc:
@@ -103,6 +115,9 @@ export const NAV_ITEMS: NavItem[] = [
           {
             title: {
               zh: "丝绸白",
+              en: "SI CHOU BAI",
+              es: "SI CHOU BAI",
+              ar: "SI CHOU BAI",
             },
             href: "/products/zl1224l936",
             imageSrc:
@@ -111,6 +126,9 @@ export const NAV_ITEMS: NavItem[] = [
           {
             title: {
               zh: "伊莎贝尔白",
+              en: "YI SHA BEI ER BAI",
+              es: "YI SHA BEI ER BAI",
+              ar: "YI SHA BEI ER BAI",
             },
             href: "/products/zl1632ls015",
             imageSrc:
@@ -119,6 +137,9 @@ export const NAV_ITEMS: NavItem[] = [
           {
             title: {
               zh: "佩拉粉玉",
+              en: "PEI LA FEN YU",
+              es: "PEI LA FEN YU",
+              ar: "PEI LA FEN YU",
             },
             href: "/products/zl1632l982",
             imageSrc:
@@ -233,9 +254,16 @@ export function resolvePreviewProductTitle(
   product: PreviewProduct,
   locale: AppLocale
 ): string {
-  return getLocalizedProductTitleDisplay(
-    product.title,
-    locale,
-    product.href.split("/").at(-1) || ""
+  const fallbackSlug = product.href.split("/").at(-1) || "";
+  if (locale === "zh") {
+    return product.title.zh ?? fallbackSlug;
+  }
+  // Non-zh locales display the inlined Pinyin string. Fall back to en
+  // (always populated for the curated nav list above) then zh then slug.
+  return (
+    product.title[locale] ??
+    product.title.en ??
+    product.title.zh ??
+    fallbackSlug
   );
 }

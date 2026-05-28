@@ -8,28 +8,11 @@ export default async function Home({
   const { locale } = await getLocaleParams(params);
   const homePageData = await getHomePageData(locale);
 
-  // The home hero is a <video> with a poster frame. That poster image is the
-  // LCP element on mobile (where the 720p hero video can take 10+ seconds on
-  // throttled 4G). Surface the poster URL as a high-priority preload so the
-  // browser starts the fetch during HTML parse instead of waiting to discover
-  // the <video poster="..."> attribute. React 19 hoists this <link> into
-  // <head> automatically when rendered inside any component. For image slides
-  // we preload the slide image directly.
-  const firstSlide = homePageData.hero.slides[0];
-  const heroLcpImage =
-    firstSlide?.type === "video" ? firstSlide.poster : firstSlide?.src;
-
-  return (
-    <>
-      {heroLcpImage ? (
-        <link
-          rel="preload"
-          as="image"
-          href={heroLcpImage}
-          fetchPriority="high"
-        />
-      ) : null}
-      <HomePageView {...homePageData} />
-    </>
-  );
+  // The home hero is a <video> whose poster image is the LCP element. The
+  // poster preload is declared statically in src/app/[locale]/layout.tsx
+  // <head> so the browser's preload scanner discovers it in the first HTML
+  // chunk. Keeping the preload here (in a server component that awaits
+  // data) emitted the <link> too late — the head had already been flushed
+  // to the client by the time React streamed the body containing it.
+  return <HomePageView {...homePageData} />;
 }

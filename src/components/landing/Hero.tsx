@@ -48,6 +48,13 @@ const HERO_TITLE_LINE: Variants = {
 };
 
 const IMAGE_SLIDE_DURATION_SECONDS = 6;
+// Defer loading the hero MP4 sources until ~the LCP frame has painted so
+// the 720p/1080p video bytes (1.77MB / 9.37MB) don't compete with the
+// poster image for first-paint bandwidth on slow 4G. `requestIdleCallback`
+// fires when the main thread is idle, which on mobile networks lands well
+// after first paint; the `timeout` fallback caps the wait so video still
+// arrives quickly on a fast connection.
+const VIDEO_LOAD_IDLE_TIMEOUT_MS = 2500;
 
 export function Hero({ slides }: HeroProps): React.JSX.Element {
   const t = useTranslations("Hero");
@@ -57,6 +64,11 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeVideoMetadata, setActiveVideoMetadata] =
     useState<HeroVideoMetadata | null>(null);
+  // Gates rendering of <video> src / <source> children. False on first
+  // paint (so the browser only fetches the poster image, not the MP4),
+  // then flipped true once the main thread idles. See
+  // VIDEO_LOAD_IDLE_TIMEOUT_MS above for the fast-network cap.
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const shouldReduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const activeVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -94,17 +106,56 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
     return () => window.clearTimeout(timer);
   }, [slides.length, shouldReduce, slide?.type, activeSlide, goToNextSlide]);
 
+  // Wait for the main thread to idle before allowing the <video> sources
+  // to mount. On slow 4G this keeps the 1.77MB MP4 from racing the 156KB
+  // poster image for first-paint bandwidth, which was the dominant LCP
+  // pressure measured 2026-05-28 (PSI mobile LCP 11.3s, hero video the
+  // identified LCP element / network blocker). requestIdleCallback fires
+  // after first paint completes; the 2.5s timeout caps the wait on fast
+  // networks where idle time arrives late. Server-rendered output is
+  // unaffected — shouldLoadVideo is hydration-only state.
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const trigger = () => setShouldLoadVideo(true);
+    const idleApi = (
+      window as Window & {
+        requestIdleCallback?: (
+          cb: IdleRequestCallback,
+          opts?: IdleRequestOptions
+        ) => number;
+        cancelIdleCallback?: (handle: number) => void;
+      }
+    );
+    if (typeof idleApi.requestIdleCallback === "function") {
+      const id = idleApi.requestIdleCallback(trigger, {
+        timeout: VIDEO_LOAD_IDLE_TIMEOUT_MS,
+      });
+      return () => {
+        idleApi.cancelIdleCallback?.(id);
+      };
+    }
+    const id = window.setTimeout(trigger, 1500);
+    return () => {
+      window.clearTimeout(id);
+    };
+  }, []);
+
   useEffect(() => {
     const video = activeVideoRef.current;
 
-    if (!video || slide?.type !== "video") {
+    // Video sources only mount once shouldLoadVideo flips true; calling
+    // play() before that is a no-op the browser logs as an error. Wait
+    // for both conditions before triggering playback.
+    if (!video || slide?.type !== "video" || !shouldLoadVideo) {
       return;
     }
 
     video.play().catch(() => {
       // Browsers can still block autoplay in edge cases; the poster frame remains visible.
     });
-  }, [slide?.src, slide?.type]);
+  }, [slide?.src, slide?.type, shouldLoadVideo]);
 
   return (
     <section
@@ -128,10 +179,16 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               autoPlay
               muted
               playsInline
-              preload="metadata"
+              // preload="none" + gating src/<source> on shouldLoadVideo
+              // keeps the MP4 byte stream off the LCP critical path.
+              // Browser paints the poster (preloaded from layout <head>)
+              // immediately; video starts streaming once main thread idles.
+              preload="none"
               loop={slides.length <= 1}
               poster={slide?.poster}
-              src={slide.sources ? undefined : slide?.src}
+              src={
+                shouldLoadVideo && !slide.sources ? slide?.src : undefined
+              }
               onEnded={() => {
                 goToNextSlide();
               }}
@@ -143,14 +200,15 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                 }
               }}
             >
-              {slide.sources?.map((source) => (
-                <source
-                  key={`${source.media || "default"}-${source.src}`}
-                  src={source.src}
-                  media={source.media}
-                  type={source.type}
-                />
-              ))}
+              {shouldLoadVideo &&
+                slide.sources?.map((source) => (
+                  <source
+                    key={`${source.media || "default"}-${source.src}`}
+                    src={source.src}
+                    media={source.media}
+                    type={source.type}
+                  />
+                ))}
             </video>
           ) : (
             <Image
