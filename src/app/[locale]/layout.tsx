@@ -72,6 +72,22 @@ export default async function RootLayout({
         {R2_PRECONNECT_ORIGIN ? (
           <link rel="preconnect" href={R2_PRECONNECT_ORIGIN} />
         ) : null}
+        {/* Preload the home hero video poster image. This is the LCP element
+         * on the home page. Declared statically in <head> so the browser's
+         * preload scanner discovers it in the first HTML chunk, before the
+         * streamed body containing the actual <video poster="..."> tag is
+         * flushed (Next 16 + React 19 stream the body after the head, so a
+         * <link> rendered from a server component in page.tsx arrives at the
+         * client too late to race with the critical CSS). The URL matches
+         * HERO_SLIDE_CONFIG[0].poster in src/data/home.ts — if that changes,
+         * update here. Wasted bandwidth on non-home pages (~157KB) is offset
+         * by the 30-day /assets cache header. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/about/zyl-global-pavilion.webp"
+          fetchPriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale)).replace(/</g, "\\u003c") }}
