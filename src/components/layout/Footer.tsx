@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMessages, useTranslations } from "next-intl";
+import { useLocale, useMessages, useTranslations } from "next-intl";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 
@@ -19,6 +19,39 @@ type FooterLink = {
 };
 
 type FooterLegalKey = "privacyPolicy" | "termsOfService";
+
+const BRAND_ALT: Record<string, string> = {
+  en: "ZYL Sintered Stone",
+  zh: "岩联岩板",
+  es: "ZYL Sintered Stone",
+  ar: "ZYL Sintered Stone",
+};
+
+const BRAND_LOGO: Record<
+  string,
+  { height: number; src: string; width: number }
+> = {
+  en: {
+    height: 127,
+    src: "/assets/brand/logo-zylsinteredstone-white.png",
+    width: 160,
+  },
+  zh: {
+    height: 98,
+    src: "/assets/brand/logo-yanlian-yanban-white.png",
+    width: 160,
+  },
+  es: {
+    height: 127,
+    src: "/assets/brand/logo-zylsinteredstone-white.png",
+    width: 160,
+  },
+  ar: {
+    height: 127,
+    src: "/assets/brand/logo-zylsinteredstone-white.png",
+    width: 160,
+  },
+};
 
 const ABOUT_LINKS = [
   { label: "whoAreWe", href: "/about#who-are-we" },
@@ -56,6 +89,7 @@ const footerBackgroundStyle = {
 };
 
 export default function Footer(): React.JSX.Element {
+  const locale = useLocale();
   const tFooter = useTranslations("Footer");
   const tNav = useTranslations("Navigation");
   const messages = useMessages();
@@ -63,6 +97,7 @@ export default function Footer(): React.JSX.Element {
   const translateNav = (key: NavigationKey): string => tNav(key);
   const [contactValue, setContactValue] = useState("");
   const router = useRouter();
+  const brandLogo = BRAND_LOGO[locale] ?? BRAND_LOGO.en;
 
   const handleSubscribeSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -84,10 +119,10 @@ export default function Footer(): React.JSX.Element {
           <div className="flex max-w-[720px] flex-col gap-6 md:max-w-none">
             <Link href="/">
               <Image
-                src="/assets/brand/logo-yanlian-yanban-white.png"
-                alt="众岩联岩板"
-                width={160}
-                height={98}
+                src={brandLogo.src}
+                alt={BRAND_ALT[locale] ?? BRAND_ALT.en}
+                width={brandLogo.width}
+                height={brandLogo.height}
                 className="h-auto w-40 object-contain object-left"
               />
             </Link>

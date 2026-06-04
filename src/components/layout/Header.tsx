@@ -27,6 +27,12 @@ const BRAND_ALT: Record<string, string> = {
   es: "ZYL Sintered Stone",
   ar: "ZYL Sintered Stone",
 };
+const BRAND_LOGO_SRC: Record<string, string> = {
+  en: "/assets/brand/logo-zylsinteredstone-white.png",
+  zh: "/assets/brand/logo-yanlian-yanban-white.png",
+  es: "/assets/brand/logo-zylsinteredstone-white.png",
+  ar: "/assets/brand/logo-zylsinteredstone-white.png",
+};
 const HEADER_SOLID_SCROLL_THRESHOLD_PX = 24;
 
 function resolveBaseHref(href: string): string {
@@ -51,7 +57,7 @@ function BrandLogo({
   return (
     <div className={className}>
       <Image
-        src="/assets/brand/logo-yanlian-yanban-white.png"
+        src={BRAND_LOGO_SRC[locale] ?? BRAND_LOGO_SRC.en}
         alt={BRAND_ALT[locale] ?? BRAND_ALT.en}
         fill
         sizes={sizes}
@@ -178,6 +184,17 @@ export default function Header(): React.JSX.Element {
   const appLocale =
     LANGUAGES.find((language) => language.locale === locale)?.locale ?? "en";
   const isRtl = locale === "ar";
+  const isChineseLocale = locale === "zh";
+  const desktopLogoClassName = isChineseLocale
+    ? "relative h-[60px] w-[98px] sm:h-[64px] sm:w-[104px] md:h-[76px] md:w-[123px] xl:h-[82px] xl:w-[133px] 2xl:h-[90px] 2xl:w-[146px]"
+    : "relative h-[66px] w-[84px] sm:h-[70px] sm:w-[88px] md:h-[82px] md:w-[103px] xl:h-[88px] xl:w-[111px] 2xl:h-[96px] 2xl:w-[121px]";
+  const desktopLogoSizes = isChineseLocale
+    ? "(max-width: 640px) 98px, (max-width: 768px) 104px, (max-width: 1280px) 123px, (max-width: 1536px) 133px, 146px"
+    : "(max-width: 640px) 84px, (max-width: 768px) 88px, (max-width: 1280px) 103px, (max-width: 1536px) 111px, 121px";
+  const mobileLogoClassName = isChineseLocale
+    ? "relative h-[55px] w-[82px]"
+    : "relative h-[62px] w-[78px]";
+  const mobileLogoSizes = isChineseLocale ? "82px" : "78px";
   const mobilePanelClosedX = isRtl ? "-100%" : "100%";
   const translateNav = (key: NavigationKey): string => tNav(key);
   const currentLanguage =
@@ -293,13 +310,13 @@ export default function Header(): React.JSX.Element {
             className="block shrink-0"
           >
             <BrandLogo
-              className="relative h-[60px] w-[98px] sm:h-[64px] sm:w-[104px] md:h-[76px] md:w-[123px] xl:h-[82px] xl:w-[133px] 2xl:h-[90px] 2xl:w-[146px]"
+              className={desktopLogoClassName}
               imageClassName={`object-contain transition-[filter] duration-300 ease-out ${
                 isTransparent ? "" : ""
               }`}
               locale={locale}
               preload
-              sizes="(max-width: 640px) 98px, (max-width: 768px) 104px, (max-width: 1280px) 123px, (max-width: 1536px) 133px, 146px"
+              sizes={desktopLogoSizes}
             />
           </Link>
 
@@ -606,10 +623,10 @@ export default function Header(): React.JSX.Element {
                   onClick={closeMobileMenu}
                 >
                   <BrandLogo
-                    className="relative h-[55px] w-[82px]"
+                    className={mobileLogoClassName}
                     imageClassName="object-contain"
                     locale={locale}
-                    sizes="82px"
+                    sizes={mobileLogoSizes}
                   />
                 </Link>
                 <button
