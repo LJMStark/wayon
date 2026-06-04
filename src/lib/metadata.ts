@@ -13,6 +13,28 @@ const LOCALE_OG_MAP: Record<AppLocale, string> = {
   ar: "ar_AE",
 };
 
+const LOCALE_ICON_MAP: Record<
+  AppLocale,
+  { apple: string; icon: string }
+> = {
+  zh: {
+    apple: "/assets/brand/apple-touch-icon.png",
+    icon: "/assets/brand/favicon.png",
+  },
+  en: {
+    apple: "/assets/brand/apple-touch-icon-zylsinteredstone.png",
+    icon: "/assets/brand/favicon-zylsinteredstone.png",
+  },
+  es: {
+    apple: "/assets/brand/apple-touch-icon-zylsinteredstone.png",
+    icon: "/assets/brand/favicon-zylsinteredstone.png",
+  },
+  ar: {
+    apple: "/assets/brand/apple-touch-icon-zylsinteredstone.png",
+    icon: "/assets/brand/favicon-zylsinteredstone.png",
+  },
+};
+
 type BuildPageMetadataOptions = {
   locale: AppLocale;
   title: string;
@@ -59,6 +81,7 @@ export function buildPageMetadata({
   }
 
   const ogLocale = LOCALE_OG_MAP[locale];
+  const localeIcon = LOCALE_ICON_MAP[locale];
   const alternateLocales = routing.locales
     .filter((loc) => loc !== locale)
     .map((loc) => LOCALE_OG_MAP[loc]);
@@ -69,8 +92,8 @@ export function buildPageMetadata({
     description,
     icons: includeIcons
       ? {
-          icon: [{ url: "/assets/brand/favicon.png", sizes: "32x32", type: "image/png" }],
-          apple: [{ url: "/assets/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+          icon: [{ url: localeIcon.icon, sizes: "32x32", type: "image/png" }],
+          apple: [{ url: localeIcon.apple, sizes: "180x180", type: "image/png" }],
         }
       : undefined,
     alternates: {
