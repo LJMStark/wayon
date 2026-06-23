@@ -188,6 +188,17 @@ Active scripts:
 - `listMediaByCategory.mjs` / `verifySeoDrafts.mjs` — read-only helpers used alongside the SEO pipeline (pick covers from `media.category`, verify locale completeness)
 - `wechatToNews.mjs` — fetch a WeChat MP article URL and turn it into a 4-locale News draft. Pipeline: cheerio-parses `#js_content` for ordered paragraphs + images, calls OpenRouter (default `openai/gpt-4o-mini`) to rewrite zh + translate en/es/ar in structured JSON, downloads images with WeChat Referer, uploads to Payload media (category=`other`), interleaves upload nodes back into the original positions, creates a News doc with `draft: true`. Hard-fails when the article has zero images (cover is required). Reads `OPENROUTER_API_KEY` from `.env.local`. Default dry-run; `--apply` to write. Full flag list and failure modes in `scripts/wechatToNews.md`
 
+The `4.22` trade-product import pipeline (one-shot, run during the 2026-06 catalog import; the `output/images` scrape source has since been removed):
+- `match-scraped.mjs` — read-only: match scraped products against existing Payload products by extracted code (已上传 / 待上传 / 无法识别编码)
+- `split-and-archive.mjs` — split scraped products into importable (coded + enum sizes) vs deferred (no code / non-enum sizes)
+- `restore-importable.mjs` — move wrongly-archived (coded + enum-size) products back into the importable set
+- `generate-import-manifest.mjs` — read-only: emit the full import manifest (local paths, codes, derived size/thickness/color/process/series)
+- `import-trade-products.mjs` — the importer: upload images to `media` (R2, auto-compress + sized variants), create products, dedupe by slug
+- `verify-imported.mjs` — read-only: re-fetch imported products by slug, print fields + HTTP-HEAD-verify the real image URLs
+- `query-existing-products.mjs` — read-only: snapshot every existing Payload product (no secrets)
+- `fillDescriptionsSQL.mjs` — direct-Postgres backfill of empty `description` locales, bypassing Payload's per-row hooks; idempotent (only fills `NULL`/`''`)
+- `build-haiku-manifest.mjs` + `applyHaikuDrafts.mjs` — Haiku copy pipeline: build a "products still missing descriptions" manifest, feed it to the external Haiku workflow, then apply the resulting `/tmp/hb-out/out-*.json` drafts after 4-locale purity validation (idempotent — fills only still-empty products)
+
 ### Internationalization
 
 - Configured via `src/i18n/routing.ts` using `next-intl`

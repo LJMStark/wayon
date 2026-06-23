@@ -47,6 +47,9 @@ docs.compressed/
 # local backups of original (pre-compression) /public assets
 /.image-backups/
 
+# local backups of deleted one-shot scripts (safety net; not committed)
+/.scripts-archive/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
