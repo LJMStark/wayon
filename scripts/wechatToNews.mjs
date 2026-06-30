@@ -24,6 +24,9 @@
 //   --category industry           (default: industry; allowed: company/industry/exhibition/product)
 //   --model gemini-3.1-flash-lite (default; any Gemini model id from
 //                                  https://generativelanguage.googleapis.com/v1beta/models)
+//   --provider gemini|openai      (default: inferred from --model; gpt-*/o-* → openai).
+//                                  OpenAI-wire endpoints read WECHAT_OPENAI_API_KEY and
+//                                  WECHAT_OPENAI_BASE_URL (e.g. --model gpt-5.5).
 
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -39,6 +42,17 @@ const RTL_LOCALES = new Set(["ar"]);
 
 const DEFAULT_MODEL = "gemini-3.1-flash-lite";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
+
+// OpenAI-compatible provider (e.g. an OpenAI-wire proxy). The default model is
+// only used when --provider openai is selected without an explicit --model.
+// Base URL is read from WECHAT_OPENAI_BASE_URL and the standard OpenAI host is
+// the fallback. The script appends `/v1/chat/completions`.
+const OPENAI_DEFAULT_MODEL = "gpt-5.5";
+const OPENAI_DEFAULT_BASE_URL = "https://api.openai.com";
+// Generous completion budget so reasoning models don't truncate the JSON body
+// of a long article's per-locale payload.
+const OPENAI_MAX_COMPLETION_TOKENS = 16_000;
+const ALLOWED_PROVIDERS = ["gemini", "openai"];
 
 // Images smaller than this are almost always WeChat decorations (separator
 // lines, 1px placeholders, emoji-sized graphics). Drop them entirely — they
@@ -58,6 +72,7 @@ function parseArgs(argv) {
     else if (a === "--slug") args.slug = argv[++i];
     else if (a === "--category") args.category = argv[++i];
     else if (a === "--model") args.model = argv[++i];
+    else if (a === "--provider") args.provider = argv[++i];
     else if (a === "--debug-dir") args.debugDir = argv[++i];
     else if (a === "--skip-images") {
       const raw = argv[++i] || "";
@@ -75,7 +90,20 @@ function parseArgs(argv) {
     process.exit(2);
   }
   args.category ||= "industry";
-  args.model ||= DEFAULT_MODEL;
+  // Resolve provider + model. Priority: explicit --provider, else infer from the
+  // --model id (gpt-*/o1/o3/o4/chatgpt-* → openai), else gemini. Then fill the
+  // per-provider default model only when --model wasn't given.
+  if (!args.provider) {
+    args.provider = inferProvider(args.model);
+  }
+  args.provider = args.provider.toLowerCase();
+  if (!ALLOWED_PROVIDERS.includes(args.provider)) {
+    console.error(`ERROR: --provider must be one of: ${ALLOWED_PROVIDERS.join(", ")}`);
+    process.exit(2);
+  }
+  if (!args.model) {
+    args.model = args.provider === "openai" ? OPENAI_DEFAULT_MODEL : DEFAULT_MODEL;
+  }
   if (!ALLOWED_CATEGORIES.includes(args.category)) {
     console.error(`ERROR: --category must be one of: ${ALLOWED_CATEGORIES.join(", ")}`);
     process.exit(2);
@@ -457,19 +485,113 @@ async function uploadImageToPayload(payload, { buf, ext, mime }, { slug, index, 
   return { id: created.id, filename, url: created.url };
 }
 
-// --- 3. LLM rewriting (Gemini) ---------------------------------------------
+// --- 3. LLM rewriting (Gemini or OpenAI-compatible) ------------------------
+
+// Infer the provider from a model id. gpt-*/o1/o3/o4/chatgpt-* are OpenAI-wire;
+// everything else (and the unset default) is treated as Gemini.
+function inferProvider(model) {
+  if (model && /^(gpt[-.]?|o[134][-_]?|chatgpt)/i.test(model)) return "openai";
+  return "gemini";
+}
 
 function requireEnv(name) {
   const v = process.env[name];
   if (!v) {
-    throw new Error(
-      `Missing ${name}. Add it to .env.local. ` +
-        (name === "GEMINI_API_KEY"
-          ? "Get a key at https://aistudio.google.com/apikey"
-          : ""),
-    );
+    const hint =
+      name === "GEMINI_API_KEY"
+        ? "Get a key at https://aistudio.google.com/apikey"
+        : name === "WECHAT_OPENAI_API_KEY"
+          ? "Set the API key for your OpenAI-compatible endpoint (provider=openai)."
+          : "";
+    throw new Error(`Missing ${name}. Add it to .env.local. ${hint}`);
   }
   return v;
+}
+
+// Tolerant JSON parse for chat models: accept raw JSON, ```json fenced blocks,
+// or a JSON object embedded in surrounding prose.
+function parseJsonLoose(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    /* fall through */
+  }
+  const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) {
+    try {
+      return JSON.parse(fence[1].trim());
+    } catch {
+      /* fall through */
+    }
+  }
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start !== -1 && end > start) {
+    return JSON.parse(text.slice(start, end + 1));
+  }
+  throw new Error("no JSON object found in response");
+}
+
+// Dispatch to the selected provider. Both providers return either parsed JSON
+// (expectJson) or raw text, so the callers don't care which backend ran.
+async function callLLM({ provider, model, system, user, expectJson = true }) {
+  if (provider === "openai") {
+    return callOpenAI({ model, system, user, expectJson });
+  }
+  return callGemini({ model, system, user, expectJson });
+}
+
+async function callOpenAI({ model, system, user, expectJson = true }) {
+  const apiKey = requireEnv("WECHAT_OPENAI_API_KEY");
+  const base = (process.env.WECHAT_OPENAI_BASE_URL || OPENAI_DEFAULT_BASE_URL).replace(/\/+$/, "");
+  const url = `${base}/v1/chat/completions`;
+  const body = {
+    model,
+    messages: [
+      { role: "system", content: system },
+      { role: "user", content: user },
+    ],
+    max_completion_tokens: OPENAI_MAX_COMPLETION_TOKENS,
+  };
+  // Request strict JSON mode when we expect a JSON payload. (The prompts already
+  // contain the word "JSON", which OpenAI's json_object mode requires.)
+  if (expectJson) body.response_format = { type: "json_object" };
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`OpenAI HTTP ${res.status}: ${errText.slice(0, 500)}`);
+  }
+  const data = await res.json();
+  const choice = data?.choices?.[0];
+  if (!choice) {
+    throw new Error(`OpenAI returned no choice. Full response: ${JSON.stringify(data).slice(0, 500)}`);
+  }
+  if (choice.finish_reason === "length") {
+    throw new Error(
+      `OpenAI response was truncated (finish_reason=length). The model hit the ${OPENAI_MAX_COMPLETION_TOKENS}-token limit ` +
+        "before completing the JSON. Retry, or split the article into a shorter source.",
+    );
+  }
+  const text = (choice?.message?.content || "").trim();
+  if (!text) {
+    throw new Error(
+      `OpenAI returned empty content. finish_reason=${choice.finish_reason}. Full response: ${JSON.stringify(data).slice(0, 500)}`,
+    );
+  }
+  if (!expectJson) return text;
+  try {
+    return parseJsonLoose(text);
+  } catch (err) {
+    throw new Error(`OpenAI response was not valid JSON: ${err.message}. Raw: ${text.slice(0, 500)}`);
+  }
 }
 
 async function callGemini({ model, system, user, expectJson = true }) {
@@ -611,9 +733,10 @@ Rules:
 - Output JSON only, no surrounding text.`;
 }
 
-async function rewriteAndTranslate({ model, rawTitle, textBlocks }) {
-  console.log(`  LLM: rewriting zh via ${model}...`);
-  const zh = await callGemini({
+async function rewriteAndTranslate({ provider, model, rawTitle, textBlocks }) {
+  console.log(`  LLM: rewriting zh via ${provider}/${model}...`);
+  const zh = await callLLM({
+    provider,
     model,
     system: REWRITE_SYSTEM_ZH,
     user: buildZhRewriteUserMessage(rawTitle, textBlocks),
@@ -623,7 +746,8 @@ async function rewriteAndTranslate({ model, rawTitle, textBlocks }) {
   const result = { zh };
   for (const loc of ["en", "es", "ar"]) {
     console.log(`  LLM: translating → ${loc}...`);
-    const out = await callGemini({
+    const out = await callLLM({
+      provider,
       model,
       system: TRANSLATE_SYSTEM(loc),
       user: buildTranslateUserMessage(zh, loc),
@@ -739,6 +863,7 @@ async function main() {
   const apply = args.apply;
   console.log(`Mode: ${apply ? "APPLY" : "DRY-RUN"}`);
   console.log(`URL: ${args.url}`);
+  console.log(`Provider: ${args.provider}`);
   console.log(`Model: ${args.model}`);
   console.log(`Category: ${args.category}\n`);
 
@@ -773,8 +898,9 @@ async function main() {
 
   // Step 3: rewrite + translate (this runs before image upload so a model failure
   // doesn't waste R2 writes).
-  console.log(`\n→ Rewriting + translating via Gemini (${args.model})...`);
+  console.log(`\n→ Rewriting + translating via ${args.provider} (${args.model})...`);
   const localized = await rewriteAndTranslate({
+    provider: args.provider,
     model: args.model,
     rawTitle,
     textBlocks,
