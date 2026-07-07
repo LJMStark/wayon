@@ -30,7 +30,8 @@ node --env-file=.env.local scripts/wechatToNews.mjs --url <wechat-url> --apply
 | `--apply` | 否 | `false` | 不加只 dry-run，加了才写库 |
 | `--slug` | 否 | LLM 生成 / 拼音回落 | 自定义文章 URL slug |
 | `--category` | 否 | `industry` | `company` / `industry` / `exhibition` / `product` |
-| `--model` | 否 | `openai/gpt-4o-mini` | 任意 OpenRouter model id |
+| `--provider` | 否 | 从 `--model` 推断，默认 `gemini` | `gemini` / `openai`（openai 走 `WECHAT_OPENAI_BASE_URL` 指定的 OpenAI 兼容端点） |
+| `--model` | 否 | gemini: `gemini-3.1-flash-lite`；openai: `gpt-5.5` | 模型 id；`gpt-*` / `o1|o3|o4` / `chatgpt-*` 自动推断为 openai |
 | `--skip-images` | 否 | - | 逗号分隔的 1-based 图片索引，例如 `"2,11"` |
 | `--debug-dir` | 否 | - | 保存原 HTML 和解析后的 blocks JSON |
 
@@ -43,7 +44,7 @@ node --env-file=.env.local scripts/wechatToNews.mjs --url <wechat-url> --apply
 5. 用户确认后加 `--apply`。
 6. 去 Payload admin 检查草稿的 zh/en/es/ar 标题、摘要、正文、封面和图片顺序。
 
-`--apply` 会重新跑全流程，包括重新调用一次 OpenRouter。它会创建 media 记录和 news 草稿；失败时不会自动清理已经上传的图片，所以不要跳过 dry-run。
+`--apply` 会重新跑全流程，包括重新调用一次 LLM。它会创建 media 记录和 news 草稿；失败时不会自动清理已经上传的图片，所以不要跳过 dry-run。
 
 ## 输出与状态
 
@@ -71,8 +72,10 @@ node --env-file=.env.local scripts/setNewsStatus.mjs --id <uuid> --status draft
 | `Could not find #js_content` | 不是标准公众号文章页 | 换文章链接 |
 | `This article has no images` | 全文无图，无法自动选封面 | 换有图文章，或手工在 admin 创建 |
 | `News slug "..." already exists` | 同 slug 已存在 | 用 `--slug <different-slug>` 重跑 |
-| `OpenRouter HTTP 401` | API key 无效或余额问题 | 检查 `OPENROUTER_API_KEY` |
-| `OpenRouter response was not valid JSON` | 模型没有按 JSON 输出 | 换更强模型或重跑 |
+| `Gemini HTTP 4xx/5xx` | `GEMINI_API_KEY` 无效或限流 | 检查 key，或改走 `--provider openai` |
+| `OpenAI HTTP 401` | `WECHAT_OPENAI_API_KEY` 无效或端点错误 | 检查 `WECHAT_OPENAI_API_KEY` / `WECHAT_OPENAI_BASE_URL` |
+| `OpenAI response was truncated (finish_reason=length)` | 文章过长超出补全预算 | 换更短文章或更大上下文的模型 |
+| `... response was not valid JSON` | 模型没有按 JSON 输出 | 换更强模型或重跑 |
 | 图片下载失败 | 微信图片 CDN 或 Referer 问题 | 脚本会跳过失败图片；如果没有可用封面会中止 |
 
 ## 图片检查重点
