@@ -3,8 +3,6 @@ import path from "node:path";
 import { getPayload } from "payload";
 import { hasAnyLocalizedDescription } from "../src/features/products/lib/productCopyGeneration.mts";
 const SC = "/Users/demon/vibecoding/miniprogram-scraper";
-const org = await import(`${SC}/src/organize.mjs`);
-const { sizeDir, thicknessDir, finishDir, prdDir } = org;
 const myCode = (t) => { const m = String(t||"").match(/^[A-Za-z0-9][A-Za-z0-9‐‑-]*/); return m ? m[0].replace(/[‐‑]/g,"-").toLowerCase() : null; };
 // 1) DB 中无描述的产品
 const p = await getPayload({ config: (await import("../src/payload.config.ts")).default });

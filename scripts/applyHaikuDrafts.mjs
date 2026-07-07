@@ -6,6 +6,8 @@
  *   node --env-file=.env.local scripts/applyHaikuDrafts.mjs            # dry-run(只校验+统计)
  *   node --env-file=.env.local scripts/applyHaikuDrafts.mjs --apply
  *   ...flags: --overwrite  --dir=/tmp/hb-out
+ * 语义注意：产品只要「任一 locale 已有描述」就整体跳过（--overwrite 才覆盖），保护存量；
+ * 要「逐 locale 只填空行」（zh-only 产品补齐其余语言），用 fillDescriptionsSQL.mjs。
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -14,6 +16,7 @@ import {
   PRODUCT_COPY_LOCALES,
   hasAnyLocalizedDescription,
 } from "../src/features/products/lib/productCopyGeneration.mts";
+import { validateCopyPurity } from "../src/features/products/lib/copyPurity.ts";
 
 const args = process.argv.slice(2);
 const APPLY = args.includes("--apply");
@@ -21,17 +24,7 @@ const OVERWRITE = args.includes("--overwrite");
 const DIR = (args.find((a) => a.startsWith("--dir=")) || "").split("=")[1] || "/tmp/hb-out";
 const OUT = path.join(process.cwd(), "docs/copywriting/haiku-drafts.json");
 
-const hasCJK = (s) => /[一-鿿]/.test(s || "");
-const hasArabic = (s) => /[؀-ۿ]/.test(s || "");
-function validate(o) {
-  for (const l of PRODUCT_COPY_LOCALES) if (!o[l] || String(o[l]).trim().length < 10) return `${l}空/过短`;
-  if (!hasCJK(o.zh)) return "zh无中文";
-  if (hasCJK(o.en)) return "en混中文";
-  if (hasCJK(o.es)) return "es混中文";
-  if (hasCJK(o.ar)) return "ar混中文";
-  if (!hasArabic(o.ar)) return "ar非阿拉伯文";
-  return null;
-}
+// 纯净度校验共享自 src/features/products/lib/copyPurity.ts（与 fillDescriptionsSQL.mjs 同源）
 
 // 1) 汇总草稿 —— 同 slug 多副本时「合格版本」优先, 不让坏副本覆盖好副本
 const drafts = new Map(); // slug -> {o, good}
@@ -45,7 +38,7 @@ for (const f of fs.readdirSync(DIR)) {
     if (!d || !d.slug) continue;
     const slug = d.slug.toLowerCase();
     const cand = { zh: d.zh, en: d.en, es: d.es, ar: d.ar };
-    const good = !validate(cand);
+    const good = !validateCopyPurity(cand);
     const ex = drafts.get(slug);
     if (!ex || (good && !ex.good)) drafts.set(slug, { o: cand, good }); // 空槽或用合格替换不合格
   }
@@ -55,7 +48,7 @@ console.log(`读入 ${files} 个批文件, 去重后草稿 ${drafts.size} 条`);
 // 2) 校验
 const valid = new Map(), invalid = [];
 for (const [slug, { o }] of drafts) {
-  const bad = validate(o);
+  const bad = validateCopyPurity(o);
   if (bad) invalid.push({ slug, reason: bad });
   else valid.set(slug, { zh: o.zh.trim(), en: o.en.trim(), es: o.es.trim(), ar: o.ar.trim() });
 }
@@ -69,9 +62,11 @@ for (let a = 1; ; a++) {
   try { payload = await getPayload({ config }); break; }
   catch (e) { if (a >= 6) throw e; console.log(`  连接DB失败(${a}/6): ${e.message}, 5s后重试`); await new Promise((r) => setTimeout(r, 5000)); }
 }
-// pg 连接被休眠/网络掐断时, 空闲客户端会 emit 'error'; 无监听则进程崩溃 → 兜住, 让重试逻辑接管
-process.on("uncaughtException", (e) => console.error("WARN uncaught:", e.message));
-process.on("unhandledRejection", (e) => console.error("WARN rejection:", e?.message || e));
+// pg 连接被休眠/网络掐断时, 空闲客户端会 emit 'error'; 无监听则进程崩溃 → 兜住, 让重试逻辑接管。
+// 但吞掉≠没发生：计数并在收尾以非零码退出，避免"看起来全成功"。
+let uncaught = 0;
+process.on("uncaughtException", (e) => { uncaught++; console.error("WARN uncaught:", e.message); });
+process.on("unhandledRejection", (e) => { uncaught++; console.error("WARN rejection:", e?.message || e); });
 const withTimeout = (p, ms, l) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error(`超时 ${l}`)), ms))]);
 // 瞬时 DB 断开后 pg 池会按需重连; 重试退避即可恢复
 const withRetry = async (fn, label, tries = 5) => {
@@ -112,4 +107,4 @@ fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify({ mode: APPLY ? "apply" : "dry-run", files, drafts: drafts.size, valid: valid.size, invalid, stats, report }, null, 2));
 console.log(`\n${APPLY ? "✅ APPLY" : "🔍 DRY-RUN"} 完成: 写库 ${stats.updated}, 跳过已有 ${stats.skipExist}, 未找到 ${stats.notFound}, 失败 ${stats.failed}`);
 console.log(`报告 → ${OUT}`);
-process.exit(0);
+process.exit(stats.failed || uncaught ? 1 : 0);

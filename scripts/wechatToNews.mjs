@@ -35,6 +35,7 @@ import { pinyin } from "pinyin-pro";
 import { getPayload } from "payload";
 
 import { buildLexicalDoc } from "./seoArticles/lexical.mjs";
+import { parseJsonLoose } from "../src/features/news/lib/looseJson.ts";
 
 const ALLOWED_CATEGORIES = ["company", "industry", "exhibition", "product"];
 const ALLOWED_LOCALES = ["zh", "en", "es", "ar"];
@@ -449,19 +450,50 @@ function inferExtFromUrl(url) {
   return null;
 }
 
+// SSRF 围栏：文章 HTML 是不可信输入，img src 可以指向内网/任意主机，而下载的
+// 字节会被发布到公开 R2。只允许微信系 CDN 域名；fetch 默认跟随重定向，所以
+// 最终落点也要复检。命中围栏的图片按"下载失败"处理（调用方逐图 try/catch 跳过）。
+const IMAGE_HOST_ALLOWLIST = /(^|\.)(qpic\.cn|qlogo\.cn|wx\.qq\.com|weixin\.qq\.com)$/i;
+const IMAGE_MAX_BYTES = 15 * 1024 * 1024; // 微信正文图远小于 15MB
+const IMAGE_FETCH_TIMEOUT_MS = 30_000;
+
+function assertAllowedImageHost(rawUrl, phase) {
+  const { protocol, hostname } = new URL(rawUrl);
+  if (protocol !== "https:" && protocol !== "http:") {
+    throw new Error(`blocked non-http(s) image URL (${phase}): ${rawUrl}`);
+  }
+  if (!IMAGE_HOST_ALLOWLIST.test(hostname)) {
+    throw new Error(`blocked non-WeChat image host "${hostname}" (SSRF guard, ${phase}): ${rawUrl}`);
+  }
+}
+
 async function downloadImage(url) {
+  assertAllowedImageHost(url, "request");
   const res = await fetch(url, {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
       Referer: "https://mp.weixin.qq.com/",
     },
+    signal: AbortSignal.timeout(IMAGE_FETCH_TIMEOUT_MS),
   });
+  if (res.url) assertAllowedImageHost(res.url, "redirect target");
   if (!res.ok) {
     throw new Error(`HTTP ${res.status} fetching ${url}`);
   }
-  const buf = Buffer.from(await res.arrayBuffer());
   const mimeFromHeader = res.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase();
+  // 拦下明显非图片的响应（HTML/JSON 等）；octet-stream/缺头交给扩展名推断兜底。
+  if (mimeFromHeader && !mimeFromHeader.startsWith("image/") && mimeFromHeader !== "application/octet-stream") {
+    throw new Error(`blocked non-image content-type "${mimeFromHeader}": ${url}`);
+  }
+  const declaredLen = Number(res.headers.get("content-length") || 0);
+  if (declaredLen > IMAGE_MAX_BYTES) {
+    throw new Error(`image exceeds ${IMAGE_MAX_BYTES} bytes (content-length=${declaredLen}): ${url}`);
+  }
+  const buf = Buffer.from(await res.arrayBuffer());
+  if (buf.length > IMAGE_MAX_BYTES) {
+    throw new Error(`image exceeds ${IMAGE_MAX_BYTES} bytes (actual=${buf.length}): ${url}`);
+  }
   const ext = inferExtFromMime(mimeFromHeader) || inferExtFromUrl(url) || "jpg";
   const mime = IMAGE_MIME[ext] || "image/jpeg";
   return { buf, ext, mime };
@@ -487,10 +519,13 @@ async function uploadImageToPayload(payload, { buf, ext, mime }, { slug, index, 
 
 // --- 3. LLM rewriting (Gemini or OpenAI-compatible) ------------------------
 
-// Infer the provider from a model id. gpt-*/o1/o3/o4/chatgpt-* are OpenAI-wire;
-// everything else (and the unset default) is treated as Gemini.
+// Infer the provider from a model id. gpt-*/o<N>/chatgpt-* are OpenAI-wire;
+// provider-prefixed ids like "openai/gpt-4o-mini" are matched on the segment
+// after the last "/". Everything else (and the unset default) is Gemini.
 function inferProvider(model) {
-  if (model && /^(gpt[-.]?|o[134][-_]?|chatgpt)/i.test(model)) return "openai";
+  if (!model) return "gemini";
+  const bare = String(model).split("/").pop();
+  if (/^(gpt[-.]?|o\d[-_.]?|chatgpt)/i.test(bare)) return "openai";
   return "gemini";
 }
 
@@ -506,30 +541,6 @@ function requireEnv(name) {
     throw new Error(`Missing ${name}. Add it to .env.local. ${hint}`);
   }
   return v;
-}
-
-// Tolerant JSON parse for chat models: accept raw JSON, ```json fenced blocks,
-// or a JSON object embedded in surrounding prose.
-function parseJsonLoose(text) {
-  try {
-    return JSON.parse(text);
-  } catch {
-    /* fall through */
-  }
-  const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fence) {
-    try {
-      return JSON.parse(fence[1].trim());
-    } catch {
-      /* fall through */
-    }
-  }
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start !== -1 && end > start) {
-    return JSON.parse(text.slice(start, end + 1));
-  }
-  throw new Error("no JSON object found in response");
 }
 
 // Dispatch to the selected provider. Both providers return either parsed JSON

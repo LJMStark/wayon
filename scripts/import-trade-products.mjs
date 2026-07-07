@@ -86,10 +86,8 @@ const plans = leaves.map(planFor).filter(Boolean).slice(0, LIMIT);
 
 if (!APPLY) {
   console.log(`[DRY-RUN] 规范产品 ${leaves.length}，本次计划 ${plans.length}（发布=${PUBLISH}）`);
-  let imgs = 0;
   for (const pl of plans.slice(0, 12)) {
     const g = pl.groups;
-    imgs += g.element.length + g.space.length + g.real.length + g.video.length;
     console.log(`  ${pl.slug} | ${pl.display} | ${pl.data.size}/${pl.data.thickness || "-"}/${pl.data.process || "-"}/${pl.data.colorGroup || "-"}/[${(pl.data.seriesTypes || []).join(",") || "-"}] | 元${g.element.length}空${g.space.length}拍${g.real.length}视${g.video.length}`);
   }
   const totalImgs = plans.reduce((s, pl) => s + pl.groups.element.length + pl.groups.space.length + pl.groups.real.length + pl.groups.video.length, 0);
@@ -100,7 +98,9 @@ if (!APPLY) {
 
 const config = (await import("../src/payload.config.ts")).default;
 const payload = await getPayload({ config });
-process.on("uncaughtException", (e) => console.error("WARN uncaught:", e.message));
+// 吞掉≠没发生：计数并在收尾以非零码退出，避免"看起来全成功"
+let uncaught = 0;
+process.on("uncaughtException", (e) => { uncaught++; console.error("WARN uncaught:", e.message); });
 
 // 单操作超时：网络/SSL 抖动后套接字会无限挂起，超时即抛错→被产品级 try/catch 接住→继续(幂等重跑可补)
 const withTimeout = (promise, ms, label) =>
@@ -118,21 +118,29 @@ async function uploadMedia(absFile, alt) {
 }
 
 const stats = { created: 0, skipped: 0, failed: 0, media: 0, variant: 0 };
-const usedThisRun = new Set();
+const createdThisRun = new Map(); // slug -> display（防同一批内同码同名重复建）
 for (const [i, pl] of plans.entries()) {
   try {
-    // 解析 slug：同名(同产品)→跳过；同码不同产品→追加后缀保留(不丢数据)
+    // 解析 slug：同名(同产品)→跳过（含本批已建）；同码不同产品→追加后缀保留(不丢数据)；
+    // 后缀 -2..-9 试尽仍冲突 → 报错进 failed，绝不静默当"跳过"。
     let slug = null;
+    let dupFound = false;
     for (let n = 1; n <= 9; n++) {
       const trySlug = n === 1 ? pl.slug : `${pl.slug}-${n}`;
-      if (usedThisRun.has(trySlug)) continue;
+      if (createdThisRun.has(trySlug)) {
+        if (createdThisRun.get(trySlug) === pl.display) { dupFound = true; break; } // 本批已建同名 → 跳过
+        continue; // 本批同码不同名 → 试下一个后缀
+      }
       const ex = await withTimeout(payload.find({ collection: "products", where: { slug: { equals: trySlug } }, limit: 1, depth: 0 }), 30000, `查slug ${trySlug}`);
       if (!ex.docs.length) { slug = trySlug; if (n > 1) stats.variant++; break; }
       const exTitle = typeof ex.docs[0].title === "string" ? ex.docs[0].title : ex.docs[0].title?.zh;
-      if (exTitle === pl.display) { slug = null; break; } // 同产品已存在 → 跳过
+      if (exTitle === pl.display) { dupFound = true; break; } // 同产品已存在 → 跳过
     }
-    if (slug === null) { stats.skipped++; continue; }
-    usedThisRun.add(slug);
+    if (slug === null) {
+      if (dupFound) { stats.skipped++; continue; }
+      throw new Error(`slug 后缀 -2..-9 试尽仍冲突：${pl.slug}（${pl.display}）需人工处理`);
+    }
+    createdThisRun.set(slug, pl.display);
 
     const mkArr = async (files, type) => {
       const arr = [];
@@ -179,4 +187,4 @@ for (const [i, pl] of plans.entries()) {
   }
 }
 console.log(`\n✅ 完成：新建 ${stats.created}，跳过 ${stats.skipped}，变体 ${stats.variant}，失败 ${stats.failed}，上传图片 ${stats.media}`);
-process.exit(0);
+process.exit(stats.failed || uncaught ? 1 : 0);
