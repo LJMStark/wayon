@@ -15,28 +15,32 @@ vi.mock("@/data/products", () => ({
 }));
 
 vi.mock("@/data/news", () => ({
-  getNewsSlugs: vi.fn(),
+  getNewsSitemapEntries: vi.fn(),
 }));
 
 import sitemap from "./sitemap";
 import { getProductSlugs } from "@/data/products";
-import { getNewsSlugs } from "@/data/news";
+import { getNewsSitemapEntries } from "@/data/news";
 
 const mockedProductSlugs = vi.mocked(getProductSlugs);
-const mockedNewsSlugs = vi.mocked(getNewsSlugs);
+const mockedNewsSitemapEntries = vi.mocked(getNewsSitemapEntries);
 
 describe("sitemap", () => {
   beforeEach(() => {
     mockedProductSlugs.mockReset();
-    mockedNewsSlugs.mockReset();
+    mockedNewsSitemapEntries.mockReset();
   });
 
   it("emits one <url> entry per (locale × content path) with full hreflang alternates per Google spec", async () => {
     mockedProductSlugs.mockResolvedValue([
       { slug: "lv927l175", updatedAt: "2026-01-15T00:00:00.000Z" },
     ]);
-    mockedNewsSlugs.mockResolvedValue([
-      { slug: "spring-launch", updatedAt: "2026-04-01T00:00:00.000Z" },
+    mockedNewsSitemapEntries.mockResolvedValue([
+      {
+        slug: "spring-launch",
+        updatedAt: "2026-04-01T00:00:00.000Z",
+        locales: ["en", "zh", "es", "ar"],
+      },
     ]);
 
     const entries = await sitemap();
@@ -60,7 +64,7 @@ describe("sitemap", () => {
 
   it("emits hreflang URLs with the correct locale prefix per Google's spec", async () => {
     mockedProductSlugs.mockResolvedValue([]);
-    mockedNewsSlugs.mockResolvedValue([]);
+    mockedNewsSitemapEntries.mockResolvedValue([]);
 
     const entries = await sitemap();
     const aboutZh = entries.find(
@@ -90,7 +94,7 @@ describe("sitemap", () => {
     mockedProductSlugs.mockResolvedValue([
       { slug: "yi-da-li-hui-dong", updatedAt: "2026-02-20T10:30:00.000Z" },
     ]);
-    mockedNewsSlugs.mockResolvedValue([]);
+    mockedNewsSitemapEntries.mockResolvedValue([]);
 
     const entries = await sitemap();
     const productEntries = entries.filter((e) =>
@@ -119,8 +123,12 @@ describe("sitemap", () => {
 
   it("emits one dynamic news entry per locale, all sharing hreflang + lastModified", async () => {
     mockedProductSlugs.mockResolvedValue([]);
-    mockedNewsSlugs.mockResolvedValue([
-      { slug: "spring-launch", updatedAt: "2026-04-01T12:00:00.000Z" },
+    mockedNewsSitemapEntries.mockResolvedValue([
+      {
+        slug: "spring-launch",
+        updatedAt: "2026-04-01T12:00:00.000Z",
+        locales: ["en", "zh", "es", "ar"],
+      },
     ]);
 
     const entries = await sitemap();
@@ -141,12 +149,53 @@ describe("sitemap", () => {
     }
   });
 
+  it("emits dynamic news only for locales where the article is available", async () => {
+    mockedProductSlugs.mockResolvedValue([]);
+    mockedNewsSitemapEntries.mockResolvedValue([
+      {
+        slug: "ai-training-series",
+        updatedAt: "2026-07-09T08:00:00.000Z",
+        locales: ["en", "es", "ar"],
+      },
+    ]);
+
+    const entries = await sitemap();
+    const newsEntries = entries.filter((e) =>
+      e.url.endsWith("/news/ai-training-series"),
+    );
+
+    expect(newsEntries).toHaveLength(3);
+    expect(
+      newsEntries.some(
+        (entry) =>
+          entry.url === "https://zylsinteredstone.com/news/ai-training-series",
+      ),
+    ).toBe(false);
+
+    for (const entry of newsEntries) {
+      const langs = entry.alternates!.languages!;
+      expect(langs["x-default"]).toBe(
+        "https://zylsinteredstone.com/en/news/ai-training-series",
+      );
+      expect(langs["en"]).toBe(
+        "https://zylsinteredstone.com/en/news/ai-training-series",
+      );
+      expect(langs["es"]).toBe(
+        "https://zylsinteredstone.com/es/news/ai-training-series",
+      );
+      expect(langs["ar"]).toBe(
+        "https://zylsinteredstone.com/ar/news/ai-training-series",
+      );
+      expect(langs["zh"]).toBeUndefined();
+    }
+  });
+
   it("falls back to module-load timestamp when CMS returns an invalid updatedAt", async () => {
     mockedProductSlugs.mockResolvedValue([
       { slug: "bad-date", updatedAt: "not-a-date" },
       { slug: "empty-date", updatedAt: "" },
     ]);
-    mockedNewsSlugs.mockResolvedValue([]);
+    mockedNewsSitemapEntries.mockResolvedValue([]);
 
     const entries = await sitemap();
     const badDateEntries = entries.filter((e) =>
@@ -170,7 +219,7 @@ describe("sitemap", () => {
 
   it("falls back to static routes when the CMS throws", async () => {
     mockedProductSlugs.mockRejectedValue(new Error("CMS unreachable"));
-    mockedNewsSlugs.mockRejectedValue(new Error("CMS unreachable"));
+    mockedNewsSitemapEntries.mockRejectedValue(new Error("CMS unreachable"));
 
     // Suppress the expected console.error to keep test output clean.
     const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});

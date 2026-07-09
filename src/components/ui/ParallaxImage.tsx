@@ -1,8 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image, { type ImageProps } from "next/image";
 import { useRef } from "react";
+
+import { useCanAnimate } from "@/components/landing/useCanAnimate";
 
 type ParallaxImageProps = Omit<ImageProps, "ref" | "fill" | "placeholder"> & {
   /**
@@ -21,7 +23,8 @@ export function ParallaxImage({
   ...imageProps
 }: ParallaxImageProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
-  const shouldReduce = useReducedMotion();
+  // Scroll-linked y only after mount so SSR/client static styles match.
+  const canAnimate = useCanAnimate();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -30,6 +33,7 @@ export function ParallaxImage({
 
   const y = useTransform(scrollYProgress, [0, 1], [-intensity, intensity]);
 
+  // Static layout box is always the same; only `y` / willChange attach post-mount.
   return (
     <div
       ref={containerRef}
@@ -39,14 +43,18 @@ export function ParallaxImage({
       <motion.div
         className="inset-x-0"
         style={
-          shouldReduce
-            ? { position: "absolute", top: 0, bottom: 0 }
-            : {
+          canAnimate
+            ? {
                 position: "absolute",
                 top: -intensity,
                 bottom: -intensity,
                 y,
                 willChange: "transform",
+              }
+            : {
+                position: "absolute",
+                top: 0,
+                bottom: 0,
               }
         }
       >

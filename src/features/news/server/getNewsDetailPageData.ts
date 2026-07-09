@@ -1,6 +1,6 @@
 import { cache } from "react";
 
-import { getNewsArticleBySlug } from "@/data/news";
+import { getNewsArticleBySlug, isNewsAvailableInLocale } from "@/data/news";
 import { getCommonCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
 
@@ -17,7 +17,7 @@ export const getNewsDetailPageData = cache(async function getNewsDetailPageData(
 ): Promise<NewsDetailPageData | null> {
   const article = await getNewsArticleRecord(slug);
 
-  if (!article) {
+  if (!article || !isNewsAvailableInLocale(article, locale)) {
     return null;
   }
 

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { routing } from '@/i18n/routing'
+import type { AppLocale } from '@/i18n/types'
 import { siteUrl } from '@/lib/env'
 import { normalizeMetadataPath } from '@/lib/metadata'
 
@@ -36,11 +37,21 @@ const STATIC_LAST_MODIFIED = new Date()
 // requires every language version to appear as its own <url> entry AND for
 // every <url> to list every alternate (including itself). That is why we emit
 // one entry per locale below, sharing the same languages map.
-function buildLanguagesMap(path: string): Record<string, string> {
+type DynamicEntry = {
+  slug: string
+  updatedAt: string
+  locales?: readonly AppLocale[]
+}
+
+function buildLanguagesMap(
+  path: string,
+  locales: readonly AppLocale[] = routing.locales,
+): Record<string, string> {
+  const defaultLocale = locales.includes('en') ? 'en' : locales[0]
   const languages: Record<string, string> = {
-    'x-default': `${siteUrl}${normalizeMetadataPath('en', path)}`,
+    'x-default': `${siteUrl}${normalizeMetadataPath(defaultLocale, path)}`,
   }
-  for (const locale of routing.locales) {
+  for (const locale of locales) {
     languages[locale] = `${siteUrl}${normalizeMetadataPath(locale, path)}`
   }
   return languages
@@ -83,8 +94,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   )
   entries.push(
     ...(await getDynamicEntries('/news', 0.6, async () => {
-      const { getNewsSlugs } = await import('@/data/news')
-      return getNewsSlugs()
+      const { getNewsSitemapEntries } = await import('@/data/news')
+      return getNewsSitemapEntries()
     })),
   )
 
@@ -94,15 +105,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 async function getDynamicEntries(
   pathPrefix: string,
   priority: number,
-  fetchSlugs: () => Promise<{ slug: string; updatedAt: string }[]>,
+  fetchSlugs: () => Promise<DynamicEntry[]>,
 ): Promise<MetadataRoute.Sitemap> {
   try {
     const items = await fetchSlugs()
-    return items.flatMap(({ slug, updatedAt }) => {
+    return items.flatMap(({ slug, updatedAt, locales = routing.locales }) => {
       const path = `${pathPrefix}/${slug}`
-      const languages = buildLanguagesMap(path)
+      const languages = buildLanguagesMap(path, locales)
       const lastModified = safeLastModified(updatedAt)
-      return routing.locales.map((locale) => ({
+      return locales.map((locale) => ({
         url: `${siteUrl}${normalizeMetadataPath(locale, path)}`,
         lastModified,
         changeFrequency: 'monthly' as const,

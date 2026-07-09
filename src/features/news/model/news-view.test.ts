@@ -8,6 +8,7 @@ import type { AppLocale } from "@/i18n/types";
 import {
   getLocalizedNewsBody,
   getLocalizedNewsValue,
+  isNewsAvailableInLocale,
   type NewsArticleBody,
   type NewsArticle,
 } from "@/data/news";
@@ -25,6 +26,22 @@ const LOCALES: Record<AppLocale, string> = {
   es: "Titulo de noticia",
   ar: "عنوان الخبر",
 };
+
+const BODY = {
+  root: {
+    type: "root",
+    children: [
+      {
+        type: "paragraph",
+        children: [{ type: "text", text: "News body" }],
+      },
+    ],
+    direction: null,
+    format: "",
+    indent: 0,
+    version: 1,
+  },
+} as unknown as NewsArticleBody;
 
 const NEWS_SLUGS = [
   "zyl-918-global-opening",
@@ -302,6 +319,44 @@ test("news value helpers do not fall back to Chinese outside zh", () => {
   expect(getLocalizedNewsBody(article, "zh")).not.toBeNull();
 });
 
+test("news availability requires locale title and body without zh fallback to English", () => {
+  const article = {
+    ...makeArticle("en-only-news"),
+    title: {
+      en: "English only news",
+      zh: "",
+      es: "",
+      ar: "",
+    },
+    excerpt: {
+      en: "English excerpt",
+      zh: "",
+      es: "",
+      ar: "",
+    },
+    body: {
+      en: BODY,
+    },
+  } satisfies NewsArticle;
+
+  expect(isNewsAvailableInLocale(article, "en")).toBe(true);
+  expect(isNewsAvailableInLocale(article, "es")).toBe(true);
+  expect(isNewsAvailableInLocale(article, "ar")).toBe(true);
+  expect(isNewsAvailableInLocale(article, "zh")).toBe(false);
+  expect(toNewsPreviewItem(article, "zh")).toBeNull();
+  expect(toNewsPreviewItem(article, "en")?.title).toBe("English only news");
+});
+
+test("news previews hide articles that have a title but no usable body", () => {
+  const article = {
+    ...makeArticle("title-only-news"),
+    body: {},
+  } satisfies NewsArticle;
+
+  expect(isNewsAvailableInLocale(article, "zh")).toBe(false);
+  expect(toNewsPreviewItem(article, "zh")).toBeNull();
+});
+
 test("news value helpers reject Chinese text stored in non-Chinese locale fields", () => {
   const chineseBody = {
     root: {
@@ -365,5 +420,11 @@ function makeArticle(slug: string): NewsArticle {
     imageUrl: "",
     excerpt: LOCALES,
     category: "industry",
+    body: {
+      en: BODY,
+      zh: BODY,
+      es: BODY,
+      ar: BODY,
+    },
   };
 }

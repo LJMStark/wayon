@@ -3,6 +3,7 @@ import {
   getLocalizedNewsBody,
   getLocalizedNewsValue,
   getNewsCategoryLabel,
+  isNewsAvailableInLocale,
   type NewsArticleBody,
   type NewsArticle,
 } from "@/data/news";
@@ -408,6 +409,10 @@ export function toNewsPreviewItem(
   locale: AppLocale
 ): NewsPreviewItem | null {
   if (!article.slug) {
+    return null;
+  }
+
+  if (!isNewsAvailableInLocale(article, locale)) {
     return null;
   }
 

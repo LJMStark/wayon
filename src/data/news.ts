@@ -148,6 +148,35 @@ const getCachedNewsSlugs = unstable_cache(
   }
 );
 
+export async function getNewsSitemapEntries(): Promise<
+  { slug: string; updatedAt: string; locales: AppLocale[] }[]
+> {
+  return getCachedNewsSitemapEntries();
+}
+
+const getCachedNewsSitemapEntries = unstable_cache(
+  async function loadPublishedNewsSitemapEntries(): Promise<
+    { slug: string; updatedAt: string; locales: AppLocale[] }[]
+  > {
+    const articles = await getCachedNewsArticles();
+    return articles
+      .map((article) => ({
+        slug: article.slug,
+        updatedAt: article.updatedAt,
+        locales: getAvailableNewsLocales(article),
+      }))
+      .filter(
+        (entry): entry is { slug: string; updatedAt: string; locales: AppLocale[] } =>
+          entry.slug.length > 0 && entry.locales.length > 0
+      );
+  },
+  ["published-news-sitemap-entries"],
+  {
+    tags: [NEWS_CACHE_TAG],
+    revalidate: NEWS_CACHE_SECONDS,
+  }
+);
+
 export function getLocalizedNewsValue(
   article: NewsArticle,
   locale: AppLocale,
@@ -195,6 +224,21 @@ export function getLocalizedNewsBody(
   }
 
   return null;
+}
+
+export function isNewsAvailableInLocale(
+  article: NewsArticle,
+  locale: AppLocale
+): boolean {
+  return (
+    getLocalizedNewsValue(article, locale, "title").length > 0 &&
+    getLocalizedNewsBody(article, locale) !== null
+  );
+}
+
+function getAvailableNewsLocales(article: NewsArticle): AppLocale[] {
+  const locales: AppLocale[] = ["zh", "en", "es", "ar"];
+  return locales.filter((locale) => isNewsAvailableInLocale(article, locale));
 }
 
 export function formatNewsDate(

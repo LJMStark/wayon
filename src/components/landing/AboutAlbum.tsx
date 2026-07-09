@@ -11,6 +11,7 @@ import type { AboutAlbumCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex, type CarouselDirection } from "./carouselUtils";
+import { useMotionTransition } from "./useCanAnimate";
 
 const NAVIGATION_BUTTONS = [
   {
@@ -56,6 +57,7 @@ export function AboutAlbum({
   const [isPaused, setIsPaused] = useState(false);
   const [isMediaReady, setIsMediaReady] = useState(false);
   const shouldReduce = useReducedMotion();
+  const revealTransition = useMotionTransition({ duration: 1 });
   const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const activeItem = items[activeIndex] || items[0];
@@ -140,10 +142,10 @@ export function AboutAlbum({
       className="relative h-[80vh] min-h-[600px] w-full overflow-hidden bg-[color:var(--primary)]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      initial={shouldReduce ? false : { opacity: 0 }}
-      whileInView={shouldReduce ? undefined : { opacity: 1 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 1 }}
+      transition={revealTransition}
     >
       {items.map((item, index) => {
         const isActive = activeIndex === index;

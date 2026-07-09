@@ -17,6 +17,7 @@ import { HOME_HERO_FALLBACK_IMAGE } from "@/features/home/model/homeVisuals";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex } from "./carouselUtils";
+import { useCanAnimate, useMotionTransition } from "./useCanAnimate";
 
 type HeroProps = {
   slides: HeroSlide[];
@@ -41,10 +42,7 @@ const HERO_TITLE_CONTAINER: Variants = {
 
 const HERO_TITLE_LINE: Variants = {
   hidden: { y: "110%" },
-  show: {
-    y: "0%",
-    transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
-  },
+  show: { y: "0%" },
 };
 
 const IMAGE_SLIDE_DURATION_SECONDS = 6;
@@ -70,6 +68,12 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
   // VIDEO_LOAD_IDLE_TIMEOUT_MS above for the fast-network cap.
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const shouldReduce = useReducedMotion();
+  // SSR-safe: false until after mount so initial styles match the server HTML.
+  const canAnimate = useCanAnimate();
+  const titleLineTransition = useMotionTransition({
+    duration: 1.1,
+    ease: [0.16, 1, 0.3, 1] as const,
+  });
   const sectionRef = useRef<HTMLElement>(null);
   const activeVideoRef = useRef<HTMLVideoElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -166,11 +170,16 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
         <motion.div
           key={`${activeSlide}-${slide?.src}`}
           className="absolute inset-0 z-0"
-          style={{ willChange: "transform, opacity" }}
+          // AnimatePresence initial={false}: first paint skips enter styles so
+          // SSR/client both show the active slide at full opacity.
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={
+            shouldReduce
+              ? { duration: 0 }
+              : { duration: 1.8, ease: [0.25, 0.1, 0.25, 1] }
+          }
         >
           {slide?.type === "video" ? (
             <video
@@ -227,13 +236,25 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
 
       <motion.div
         className="zyl-home-hero__content absolute inset-0 z-10 flex flex-col justify-end"
-        style={shouldReduce ? undefined : { y: heroContentY, opacity: heroContentOpacity, willChange: "transform, opacity" }}
+        style={
+          // Only attach scroll MotionValues after mount — identical absence on
+          // SSR and first client paint avoids style attribute mismatches.
+          canAnimate
+            ? { y: heroContentY, opacity: heroContentOpacity, willChange: "transform, opacity" }
+            : undefined
+        }
       >
         <div className="zyl-home-hero__inner mx-auto w-full max-w-[90rem]">
           <motion.div
             variants={HERO_TITLE_CONTAINER}
-            initial={shouldReduce ? false : "hidden"}
+            // Same initial on server + client (never branch on useReducedMotion).
+            initial="hidden"
             animate="show"
+            transition={
+              shouldReduce
+                ? { duration: 0, staggerChildren: 0, delayChildren: 0 }
+                : undefined
+            }
           >
             <h1
               aria-label={[titleLine1, tagline].filter(Boolean).join(" — ")}
@@ -242,6 +263,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
               <span className="block overflow-hidden">
                 <motion.span
                   variants={HERO_TITLE_LINE}
+                  transition={titleLineTransition}
                   className="zyl-home-hero__title-line zyl-home-hero__title-line--single block"
                 >
                   {titleLine1}
@@ -251,6 +273,7 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                 <span className="zyl-home-hero__tagline-wrap block overflow-hidden">
                   <motion.span
                     variants={HERO_TITLE_LINE}
+                    transition={titleLineTransition}
                     className="zyl-home-hero__tagline block opacity-90"
                   >
                     {tagline}
@@ -263,7 +286,9 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
+            transition={
+              shouldReduce ? { duration: 0 } : { duration: 1, delay: 0.8 }
+            }
             className="zyl-home-hero__actions flex flex-col items-start sm:flex-row sm:items-center"
           >
             <Link
@@ -295,7 +320,11 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                 className="absolute inset-y-0 left-0 w-full origin-left bg-white"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: progressDuration, ease: "linear" }}
+                transition={
+                  shouldReduce
+                    ? { duration: 0 }
+                    : { duration: progressDuration, ease: "linear" }
+                }
               />
             </div>
             <span className="text-white/40 text-xs font-medium tracking-widest">0{slides.length}</span>

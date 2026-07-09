@@ -17,6 +17,7 @@ import { formatCopy } from "@/data/siteCopy";
 import { Link } from "@/i18n/routing";
 
 import { getWrappedIndex } from "./carouselUtils";
+import { useCanAnimate, useMotionTransition } from "./useCanAnimate";
 
 type SolutionTabsProps = {
   title: string;
@@ -45,9 +46,20 @@ export function SolutionTabs({
   const [isPaused, setIsPaused] = useState(false);
   const activeItem = items[activeIndex];
   const shouldReduce = useReducedMotion();
+  const canAnimate = useCanAnimate();
+  const revealTransition = useMotionTransition({ duration: 1 });
+  const crossfadeTransition = useMotionTransition({
+    duration: 1.5,
+    ease: [0.16, 1, 0.3, 1] as const,
+  });
+  const tabContentTransition = useMotionTransition({
+    duration: 0.5,
+    ease: [0.16, 1, 0.3, 1] as const,
+  });
   const isLargeViewport = useMatchMedia("(min-width: 1024px)");
   const sectionRef = useRef<HTMLElement>(null);
-  const scrollDriven = isLargeViewport && !shouldReduce && items.length > 1;
+  // After mount only — isLargeViewport is false during SSR/hydration via useSyncExternalStore.
+  const scrollDriven = isLargeViewport && canAnimate && items.length > 1;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -97,22 +109,22 @@ export function SolutionTabs({
     >
       <motion.div
         className="relative h-screen min-h-[700px] w-full overflow-hidden lg:sticky lg:top-0"
-        initial={shouldReduce ? false : { opacity: 0 }}
-        whileInView={shouldReduce ? undefined : { opacity: 1 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: 1 }}
+        transition={revealTransition}
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
       {/* Background Images */}
-      <AnimatePresence mode="sync">
+      <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={activeItem.label}
           className="absolute inset-0"
           initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={crossfadeTransition}
         >
           <Image
             src={activeItem.image}
@@ -136,7 +148,7 @@ export function SolutionTabs({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              transition={tabContentTransition}
               className="max-w-3xl"
             >
               <h3 className="zyl-brand-title mb-6 text-[clamp(2.5rem,6vw,5.5rem)] uppercase leading-[1.1] text-white drop-shadow-[0_4px_18px_rgba(0,43,80,0.45)]">

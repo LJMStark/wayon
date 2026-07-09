@@ -1,6 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
+import { motion, type HTMLMotionProps } from "framer-motion";
+
+import { useMotionTransition } from "./useCanAnimate";
 
 type RevealSectionProps = Omit<HTMLMotionProps<"section">, "initial" | "whileInView" | "viewport" | "transition"> & {
   amount?: number;
@@ -14,13 +16,15 @@ export function RevealSection({
   amount = 0.15,
   ...rest
 }: RevealSectionProps): React.JSX.Element {
-  const shouldReduce = useReducedMotion();
+  // Keep `initial` identical on server and client — never branch it on
+  // useReducedMotion (null vs boolean). Only shorten the transition.
+  const transition = useMotionTransition(REVEAL_TRANSITION);
   return (
     <motion.section
-      initial={shouldReduce ? false : REVEAL_INITIAL}
-      whileInView={shouldReduce ? undefined : REVEAL_TARGET}
+      initial={REVEAL_INITIAL}
+      whileInView={REVEAL_TARGET}
       viewport={{ once: true, amount }}
-      transition={REVEAL_TRANSITION}
+      transition={transition}
       {...rest}
     />
   );

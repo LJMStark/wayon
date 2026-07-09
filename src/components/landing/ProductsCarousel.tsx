@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -10,6 +10,7 @@ import type { ProductsCarouselCopy } from "@/features/home/types";
 import { Link } from "@/i18n/routing";
 
 import { scrollContainerByDirection } from "./carouselUtils";
+import { useMotionTransition } from "./useCanAnimate";
 
 type ProductsCarouselProps = {
   items: ProductItem[];
@@ -22,7 +23,9 @@ export function ProductsCarousel({
 }: ProductsCarouselProps): React.JSX.Element {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const shouldReduce = useReducedMotion();
+  const titleTransition = useMotionTransition({ duration: 0.6 });
+  const bodyTransition = useMotionTransition({ duration: 0.6, delay: 0.2 });
+  const ctaTransition = useMotionTransition({ duration: 0.6, delay: 0.3 });
 
   const scrollByAmount = (direction: "prev" | "next"): void => {
     scrollContainerByDirection(scrollerRef.current, direction, 320);
@@ -36,28 +39,29 @@ export function ProductsCarousel({
           {/* Sticky Header */}
           <div className="flex flex-col xl:sticky xl:top-32 h-fit z-10">
             <motion.h2
-              initial={shouldReduce ? false : { opacity: 0, x: -30 }}
-              whileInView={shouldReduce ? undefined : { opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
+              transition={titleTransition}
               className="zyl-brand-title mb-6 whitespace-pre-line text-[clamp(3rem,5.8vw,5rem)] uppercase leading-[1.12] text-[color:var(--primary)]"
             >
               {copy.title}
             </motion.h2>
             <motion.p
-              initial={shouldReduce ? false : { opacity: 0, y: 20 }}
-              whileInView={shouldReduce ? undefined : { opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={bodyTransition}
               className="mb-12 max-w-md text-[15px] leading-[1.8] text-[#4a4a4a]"
             >
               {copy.description}
             </motion.p>
 
             <motion.div
-              initial={shouldReduce ? false : { opacity: 0 }}
-              whileInView={shouldReduce ? undefined : { opacity: 1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              transition={ctaTransition}
               className="hidden xl:block"
             >
               <Link href="/products" className="group relative inline-flex w-fit items-center gap-4 pb-3 text-sm uppercase tracking-[0.2em] text-[color:var(--primary)]">
