@@ -166,6 +166,25 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
       ref={sectionRef}
       className="zyl-home-hero relative -mt-[var(--header-height)] w-full overflow-hidden bg-[color:var(--primary)]"
     >
+      {/*
+        Poster base layer. Paints the hero image immediately as a real, always-
+        opaque element that consumes the layout <head> preload of the 156KB
+        WebP, so first paint never depends on the video (a <video poster> both
+        loads late and is not an LCP candidate in Chrome). Kept OUTSIDE
+        AnimatePresence so its opacity never starts at 0; the <video> mounts on
+        top and covers it once it plays. (The LCP element itself is the heading
+        text — see the initial={false} note below.)
+      */}
+      {slide?.type === "video" && slide.poster ? (
+        <Image
+          src={slide.poster}
+          alt={slide.alt || ""}
+          fill
+          sizes="100vw"
+          priority
+          className="z-0 object-cover"
+        />
+      ) : null}
       <AnimatePresence initial={false}>
         <motion.div
           key={`${activeSlide}-${slide?.src}`}
@@ -182,35 +201,37 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
           }
         >
           {slide?.type === "video" ? (
-            <video
-              ref={activeVideoRef}
-              className="size-full object-cover"
-              autoPlay
-              muted
-              playsInline
-              // preload="none" + gating src/<source> on shouldLoadVideo
-              // keeps the MP4 byte stream off the LCP critical path.
-              // Browser paints the poster (preloaded from layout <head>)
-              // immediately; video starts streaming once main thread idles.
-              preload="none"
-              loop={slides.length <= 1}
-              poster={slide?.poster}
-              src={
-                shouldLoadVideo && !slide.sources ? slide?.src : undefined
-              }
-              onEnded={() => {
-                goToNextSlide();
-              }}
-              onLoadedMetadata={(event) => {
-                const { duration } = event.currentTarget;
+            // The <video> element is not rendered until shouldLoadVideo flips
+            // (main-thread idle / 2.5s). Rendering it up front — even transparent
+            // with a deferred src — puts a <video> on top of the poster <img>,
+            // and Chrome then excludes the covered <img> as an LCP candidate,
+            // which pushed LCP onto the late-painting heading text (24.5s on
+            // slow 4G). Mounting the video only after first paint keeps the
+            // poster <img> as the topmost visible element, so it is the LCP.
+            shouldLoadVideo ? (
+              <video
+                ref={activeVideoRef}
+                className="size-full object-cover"
+                autoPlay
+                muted
+                playsInline
+                preload="none"
+                loop={slides.length <= 1}
+                // No `poster`: the base <img> above already shows it and is the
+                // LCP element. The video paints real frames on top once ready.
+                src={!slide.sources ? slide?.src : undefined}
+                onEnded={() => {
+                  goToNextSlide();
+                }}
+                onLoadedMetadata={(event) => {
+                  const { duration } = event.currentTarget;
 
-                if (Number.isFinite(duration) && duration > 0) {
-                  setActiveVideoMetadata({ src: slideVideoSourceKey, duration });
-                }
-              }}
-            >
-              {shouldLoadVideo &&
-                slide.sources?.map((source) => (
+                  if (Number.isFinite(duration) && duration > 0) {
+                    setActiveVideoMetadata({ src: slideVideoSourceKey, duration });
+                  }
+                }}
+              >
+                {slide.sources?.map((source) => (
                   <source
                     key={`${source.media || "default"}-${source.src}`}
                     src={source.src}
@@ -218,7 +239,8 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
                     type={source.type}
                   />
                 ))}
-            </video>
+              </video>
+            ) : null
           ) : (
             <Image
               src={slide?.src || HOME_HERO_FALLBACK_IMAGE}
@@ -247,8 +269,14 @@ export function Hero({ slides }: HeroProps): React.JSX.Element {
         <div className="zyl-home-hero__inner mx-auto w-full max-w-[90rem]">
           <motion.div
             variants={HERO_TITLE_CONTAINER}
-            // Same initial on server + client (never branch on useReducedMotion).
-            initial="hidden"
+            // Render the heading at its final position on the server (initial
+            // === animate target) instead of `initial="hidden"`. With "hidden"
+            // the lines were SSR'd at translateY(110%) and clipped by the
+            // overflow-hidden wrapper, so the heading — the hero's largest
+            // element and the actual LCP — only became visible once framer-motion
+            // hydrated. On slow 4G hydration lands very late, which is what
+            // pushed LCP to 24.5s. `initial={false}` paints the text at FCP.
+            initial={false}
             animate="show"
             transition={
               shouldReduce
