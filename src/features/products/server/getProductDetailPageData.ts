@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { getTranslations } from "next-intl/server";
 
-import { getProductsDirectory } from "@/data/products";
+import { getProductBySlug, getProductsDirectory } from "@/data/products";
 import { isPublishedProduct } from "@/features/products/model/productExposure";
 import { getCommonCopy, getProductDetailPageCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
@@ -19,8 +19,13 @@ export const getProductDetailPageData = cache(async function getProductDetailPag
   locale: AppLocale,
   slug: string
 ): Promise<ProductDetailPageData | null> {
-  const products = await getProductDirectoryRecords();
-  const product = products.find((candidate) => candidate.slug === slug);
+  // The main product carries the full media (element/space/real images, videos)
+  // and is fetched on its own; the directory is light (no heavy media) and only
+  // feeds related-product scoring.
+  const [product, products] = await Promise.all([
+    getProductBySlug(slug),
+    getProductDirectoryRecords(),
+  ]);
 
   if (!product || !isPublishedProduct(product)) {
     return null;

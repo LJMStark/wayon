@@ -221,6 +221,35 @@ function hydrateProducts(rawProducts: RawProduct[]): Product[] {
   );
 }
 
+// The products directory (listing page + related-products) only ever reads each
+// product's resolved cover image and variant *attributes* (size, thickness,
+// process, colour) — never the full element/space/real image arrays or videos.
+// Those heavy arrays are fetched per product by getProductBySlug on the detail
+// page instead. Caching them for every product made the single directory cache
+// entry overflow Next.js' 2MB data-cache limit (~2.9MB once the 4.22 catalog +
+// sized-variant media landed); the oversized write was silently rejected, so
+// every product page re-ran the full directory query at build time and blew the
+// build up from ~10 min to 30 min+ (eventually timing out / exhausting the DB
+// pool). Resolving the cover up front lets us drop the heavy media safely.
+export function stripDirectoryMedia(product: Product): Product {
+  const coverImageUrl = getProductImage(product);
+  return {
+    ...product,
+    coverImageUrl,
+    variants: (product.variants ?? []).map((variant) => ({
+      ...variant,
+      elementImages: [],
+      spaceImages: [],
+      realImages: [],
+      videos: [],
+    })),
+  };
+}
+
+function hydrateDirectoryProducts(rawProducts: RawProduct[]): Product[] {
+  return hydrateProducts(rawProducts).map(stripDirectoryMedia);
+}
+
 export async function getProducts(): Promise<Product[]> {
   return getCachedProducts();
 }
@@ -236,7 +265,7 @@ const getCachedProducts = unstable_cache(
       locale: "all",
       depth: 2,
     });
-    return hydrateProducts(docs as unknown as RawProduct[]);
+    return hydrateDirectoryProducts(docs as unknown as RawProduct[]);
   },
   ["published-products-directory"],
   {
@@ -246,9 +275,33 @@ const getCachedProducts = unstable_cache(
 );
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const products = await getProducts();
-  return products.find((product) => product.slug === slug) ?? null;
+  return getCachedProductBySlug(slug);
 }
+
+// Fetch a single product (with its full element/space/real image arrays and
+// videos) by slug. The detail page is the only surface that needs this heavy
+// media, so it is cached per slug — each entry stays tens of KB, well under
+// Next.js' 2MB data-cache limit. See stripDirectoryMedia for why the directory
+// deliberately does NOT carry this media.
+const getCachedProductBySlug = unstable_cache(
+  async function loadProductBySlug(slug: string): Promise<Product | null> {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "products",
+      where: { slug: { equals: slug }, published: { equals: true } },
+      limit: 1,
+      locale: "all",
+      depth: 2,
+    });
+    const [raw] = hydrateProducts(docs as unknown as RawProduct[]);
+    return raw ?? null;
+  },
+  ["published-product-by-slug"],
+  {
+    tags: [PRODUCT_CACHE_TAG],
+    revalidate: PRODUCT_CACHE_SECONDS,
+  }
+);
 
 export async function getProductsDirectory(): Promise<Product[]> {
   return getProducts();
