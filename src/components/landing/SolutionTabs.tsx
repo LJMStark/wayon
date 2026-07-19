@@ -9,7 +9,13 @@ import {
 } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  type CSSProperties,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 import type { SolutionItem } from "@/data/home";
 import type { SolutionTabsCopy } from "@/features/home/types";
@@ -24,6 +30,10 @@ type SolutionTabsProps = {
   description: string;
   items: SolutionItem[];
   copy: SolutionTabsCopy;
+};
+
+type SolutionScrollHeightStyle = CSSProperties & {
+  "--solution-scroll-height": string;
 };
 
 function useMatchMedia(query: string): boolean {
@@ -60,6 +70,12 @@ export function SolutionTabs({
   const sectionRef = useRef<HTMLElement>(null);
   // After mount only — isLargeViewport is false during SSR/hydration via useSyncExternalStore.
   const scrollDriven = isLargeViewport && canAnimate && items.length > 1;
+  // The matching CSS media query reserves this height before hydration. Keep
+  // the value in server-rendered markup rather than adding it when
+  // `scrollDriven` becomes true, otherwise the content below jumps down.
+  const scrollHeightStyle: SolutionScrollHeightStyle = {
+    "--solution-scroll-height": `${items.length * 100}vh`,
+  };
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -102,10 +118,8 @@ export function SolutionTabs({
   return (
     <section
       ref={sectionRef}
-      style={
-        scrollDriven ? { height: `${items.length * 100}vh` } : undefined
-      }
-      className="zyl-home-immersive relative w-full bg-[color:var(--primary)]"
+      style={scrollHeightStyle}
+      className="zyl-home-immersive zyl-home-immersive--scroll relative w-full bg-[color:var(--primary)]"
     >
       <motion.div
         className="relative h-screen min-h-[700px] w-full overflow-hidden lg:sticky lg:top-0"

@@ -25,32 +25,32 @@ function EngineeringCaseCard({
   const caseNumber = String(index + 1).padStart(2, "0");
 
   return (
-    <Link
-      href={item.href}
-      role="listitem"
-      tabIndex={isDuplicate ? -1 : undefined}
-      aria-hidden={isDuplicate || undefined}
-      className="engineering-case__card group"
-    >
-      <Image
-        src={item.image}
-        alt={item.title}
-        fill
-        sizes="(max-width: 767px) 78vw, (max-width: 1279px) 36vw, 28vw"
-        className="engineering-case__image"
-        style={{ objectPosition: item.objectPosition }}
-      />
-      <span className="engineering-case__index" aria-hidden="true">
-        {caseNumber}
-      </span>
-      <span className="engineering-case__rail" aria-hidden="true" />
-      <div className="engineering-case__caption">
-        <h3>{item.title}</h3>
-        <span className="engineering-case__button" aria-hidden="true">
-          <ArrowUpRight className="size-5" />
+    <li className="engineering-case__item">
+      <Link
+        href={item.href}
+        tabIndex={isDuplicate ? -1 : undefined}
+        className="engineering-case__card group"
+      >
+        <Image
+          src={item.image}
+          alt={item.title}
+          fill
+          sizes="(max-width: 767px) 78vw, (max-width: 1279px) 36vw, 28vw"
+          className="engineering-case__image"
+          style={{ objectPosition: item.objectPosition }}
+        />
+        <span className="engineering-case__index" aria-hidden="true">
+          {caseNumber}
         </span>
-      </div>
-    </Link>
+        <span className="engineering-case__rail" aria-hidden="true" />
+        <div className="engineering-case__caption">
+          <h3>{item.title}</h3>
+          <span className="engineering-case__button" aria-hidden="true">
+            <ArrowUpRight className="size-5" />
+          </span>
+        </div>
+      </Link>
+    </li>
   );
 }
 
@@ -77,9 +77,9 @@ export function EngineeringCase({
         </header>
       </div>
 
-      <div className="engineering-case__marquee" aria-label={title}>
+      <div className="engineering-case__marquee">
         <div className="engineering-case__track">
-          <div className="engineering-case__group" aria-hidden="true">
+          <ul className="engineering-case__group" aria-hidden="true">
             {items.map((item, index) => (
               <EngineeringCaseCard
                 key={`duplicate-${item.title}`}
@@ -88,9 +88,9 @@ export function EngineeringCase({
                 isDuplicate
               />
             ))}
-          </div>
+          </ul>
 
-          <div className="engineering-case__group" role="list">
+          <ul className="engineering-case__group" aria-label={title}>
             {items.map((item, index) => (
               <EngineeringCaseCard
                 key={item.title}
@@ -98,7 +98,7 @@ export function EngineeringCase({
                 index={index}
               />
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </RevealSection>

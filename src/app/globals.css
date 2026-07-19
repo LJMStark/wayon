@@ -220,6 +220,15 @@
     margin-top: 0;
   }
 
+  /* Reserve the sticky desktop sequence before client hydration. The client
+     still decides whether to drive the active item from scroll, but it must
+     not be responsible for changing the section's document-flow height. */
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .zyl-home-immersive--scroll {
+      height: var(--solution-scroll-height);
+    }
+  }
+
   /* color intentionally omitted — let utilities (text-white etc.) control it */
   .zyl-title {
     font-size: clamp(3rem, 4vw, 5.04rem);
@@ -462,7 +471,14 @@
     flex: 0 0 auto;
     align-items: center;
     gap: var(--case-gap);
+    margin: 0;
+    padding: 0;
     padding-inline-end: var(--case-gap);
+    list-style: none;
+  }
+
+  .engineering-case__item {
+    flex: 0 0 auto;
   }
 
   .engineering-case__card {
@@ -487,11 +503,11 @@
       transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .engineering-case__card:nth-child(3n + 2) {
+  .engineering-case__item:nth-child(3n + 2) .engineering-case__card {
     --case-lift: clamp(1.15rem, 2vw, 2.2rem);
   }
 
-  .engineering-case__card:nth-child(3n) {
+  .engineering-case__item:nth-child(3n) .engineering-case__card {
     --case-lift: clamp(-1.35rem, -1.2vw, -0.65rem);
   }
 
@@ -696,7 +712,7 @@
       transform: none;
     }
 
-    .engineering-case__card:nth-child(n) {
+    .engineering-case__item:nth-child(n) .engineering-case__card {
       --case-lift: 0rem;
     }
 

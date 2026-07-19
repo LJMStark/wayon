@@ -12,6 +12,75 @@ test("root path redirects to a supported locale", async ({ page }) => {
   await expect(page.locator("body")).toBeVisible();
 });
 
+test("home startup stays within the CLS budget", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "Desktop Chrome",
+    "LayoutShift entries are asserted with Chromium's PerformanceObserver implementation"
+  );
+
+  await page.addInitScript(() => {
+    let cumulativeLayoutShift = 0;
+
+    new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        const layoutShift = entry as PerformanceEntry & {
+          hadRecentInput: boolean;
+          value: number;
+        };
+
+        if (!layoutShift.hadRecentInput) {
+          cumulativeLayoutShift += layoutShift.value;
+        }
+      }
+    }).observe({ type: "layout-shift", buffered: true });
+
+    Object.defineProperty(window, "__wayonCumulativeLayoutShift", {
+      get: () => cumulativeLayoutShift,
+    });
+  });
+
+  await page.goto("/zh", { waitUntil: "networkidle" });
+
+  const cls = await page.evaluate(
+    () =>
+      (
+        window as Window & {
+          __wayonCumulativeLayoutShift?: number;
+        }
+      ).__wayonCumulativeLayoutShift ?? 0
+  );
+
+  expect(cls).toBeLessThan(0.1);
+});
+
+test("desktop solution tabs reserve their scroll height before hydration", async ({
+  browser,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "Desktop Chrome",
+    "The no-JavaScript SSR check runs once in Chromium"
+  );
+
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 1280, height: 900 },
+  });
+  const page = await context.newPage();
+
+  try {
+    await page.goto(`${process.env.BASE_URL ?? "http://localhost:3000"}/zh`, {
+      waitUntil: "networkidle",
+    });
+
+    await expect(page.locator(".zyl-home-immersive--scroll")).toHaveCSS(
+      "height",
+      "4500px"
+    );
+  } finally {
+    await context.close();
+  }
+});
+
 test("products directory loads with taxonomy filter tabs", async ({ page }) => {
   test.skip(
     !hasPayloadBackedE2E,
