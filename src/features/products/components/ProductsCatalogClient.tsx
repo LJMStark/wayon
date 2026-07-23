@@ -3,6 +3,10 @@
 import { useSearchParams } from "next/navigation";
 
 import ProductGrid from "@/components/products/ProductGrid";
+import {
+  buildCatalogHref,
+  CATALOG_URL_SECTION_KEYS,
+} from "@/features/products/model/catalogUrl";
 import { buildProductsPageState } from "@/features/products/model/productsPageState";
 
 import type { AppLocale } from "@/i18n/types";
@@ -41,30 +45,21 @@ type ProductsCatalogClientProps = Pick<
   products: ProductDirectoryItem[];
 };
 
-function buildProductsHref(
-  section: ProductCatalogSectionKey,
-  locale: AppLocale,
-  value?: string | null
-): string {
-  const params = new URLSearchParams();
-  params.set("section", section);
-
-  if (value) {
-    params.set("value", value);
-  }
-
-  return `${getCatalogBasePath(locale)}?${params.toString()}`;
-}
-
 function readCurrentSearchParams(
   searchParams: ReturnType<typeof useSearchParams>
 ) {
-  return {
+  const currentParams: Record<string, string | undefined> = {
     category: searchParams.get("category") ?? undefined,
     q: searchParams.get("q") ?? undefined,
     section: searchParams.get("section") ?? undefined,
     value: searchParams.get("value") ?? undefined,
   };
+
+  for (const section of CATALOG_URL_SECTION_KEYS) {
+    currentParams[section] = searchParams.get(section) ?? undefined;
+  }
+
+  return currentParams;
 }
 
 function pushCatalogState(href: string): void {
@@ -162,12 +157,22 @@ function ProductsCatalogView({
             return (
               <a
                 key={section.key}
-                href={buildProductsHref(section.key, locale)}
+                href={buildCatalogHref(
+                  section.key,
+                  null,
+                  getCatalogBasePath(locale)
+                )}
                 onClick={
                   onCatalogNavigate
                     ? (event) => {
                         event.preventDefault();
-                        onCatalogNavigate(buildProductsHref(section.key, locale));
+                        onCatalogNavigate(
+                          buildCatalogHref(
+                            section.key,
+                            null,
+                            getCatalogBasePath(locale)
+                          )
+                        );
                       }
                     : undefined
                 }

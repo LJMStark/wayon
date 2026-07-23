@@ -1,6 +1,9 @@
 import { expect, test } from "vitest";
 
-import { buildProductsPageState } from "./productsPageState";
+import {
+  buildProductsPageState,
+  resolveProductsPageSearchParams,
+} from "./productsPageState";
 import type {
   ProductCustomCapabilitySummary,
   ProductDirectoryItem,
@@ -79,6 +82,54 @@ test("legacy category aliases resolve to the canonical series filter", () => {
   expect(state.activeSection).toBe("series");
   expect(state.activeValue).toBe("质感岩板");
   expect(state.activeValueLabel).toBe("Texture Slab");
+  expect(state.filteredProducts.map((product) => product.slug)).toEqual([
+    "plain-quartz",
+  ]);
+});
+
+test("legacy category aliases redirect to the canonical ASCII URL", () => {
+  expect(
+    resolveProductsPageSearchParams(
+      { category: "quartz" },
+      "/en/products"
+    )
+  ).toMatchObject({
+    section: "series",
+    value: "质感岩板",
+    invalid: false,
+    redirectHref: "/en/products?series=texture-slab",
+  });
+});
+
+test("unknown legacy categories are rejected", () => {
+  expect(
+    resolveProductsPageSearchParams(
+      { category: "unknown-category" },
+      "/en/products"
+    ).invalid
+  ).toBe(true);
+});
+
+test("legacy category aliases cannot be combined with canonical filters", () => {
+  expect(
+    resolveProductsPageSearchParams(
+      { category: "quartz", color: "white" },
+      "/en/products"
+    ).invalid
+  ).toBe(true);
+});
+
+test("ASCII catalog URL identifiers resolve to stored filter values", () => {
+  const state = buildProductsPageState({
+    customCapabilities,
+    locale: "en",
+    products,
+    searchParams: { color: "white" },
+  });
+
+  expect(state.activeSection).toBe("color");
+  expect(state.activeValue).toBe("白色");
+  expect(state.activeValueLabel).toBe("White");
   expect(state.filteredProducts.map((product) => product.slug)).toEqual([
     "plain-quartz",
   ]);

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 import { formatCopy } from "@/data/siteCopy";
+import { buildCatalogHref } from "@/features/products/model/catalogUrl";
 import type {
   ProductCatalogSectionKey,
   ProductDirectoryItem,
@@ -40,21 +41,6 @@ const GRID_ITEM_TRANSITION = {
   ease: [0.16, 1, 0.3, 1] as const,
 };
 
-function buildProductsHref(
-  section: ProductCatalogSectionKey,
-  value?: string | null,
-  catalogBasePath = "/products"
-): string {
-  const params = new URLSearchParams();
-  params.set("section", section);
-
-  if (value) {
-    params.set("value", value);
-  }
-
-  return `${catalogBasePath}?${params.toString()}`;
-}
-
 function EmptyTaxonomyState({
   activeSectionLabel,
   emptyTaxonomyTemplate,
@@ -80,7 +66,7 @@ function TaxonomyCard({
   catalogBasePath?: string;
   onCatalogNavigate?: (href: string) => void;
 }): React.JSX.Element {
-  const href = buildProductsHref(activeSection, card.value, catalogBasePath);
+  const href = buildCatalogHref(activeSection, card.value, catalogBasePath);
 
   return (
     <a
@@ -145,7 +131,7 @@ export default function ProductGrid({
     ? formatCopy(searchResultsForTemplate, { query: searchQuery })
     : selectedCard?.label || activeValueLabel || allLabel;
   const resultEyebrow = isSearchMode ? searchResultsLabel : activeSectionLabel;
-  const backHref = buildProductsHref(activeSection, null, catalogBasePath);
+  const backHref = buildCatalogHref(activeSection, null, catalogBasePath);
 
   return (
     <section>

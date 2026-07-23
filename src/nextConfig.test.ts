@@ -19,10 +19,11 @@ test("legacy redirects are permanent for SEO migration", async () => {
 
   expect(redirects.length).toBeGreaterThan(0);
   expect(redirects).toContainEqual(
-    expect.objectContaining({
+    {
       source: "/products/quartz.html",
+      destination: "/products?series=texture-slab",
       permanent: true,
-    })
+    }
   );
   expect(redirects.every((redirect) => redirect.permanent)).toBe(true);
 });

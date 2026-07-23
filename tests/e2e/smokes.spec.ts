@@ -100,6 +100,17 @@ test("products directory loads with taxonomy filter tabs", async ({ page }) => {
   ).toBeVisible({ timeout: 15_000 });
 });
 
+test("invalid product filters render the localized not-found page", async ({
+  page,
+}) => {
+  const response = await page.goto("/en/products?color=unknown");
+
+  expect(response?.status()).toBe(404);
+  await expect(
+    page.getByRole("heading", { name: "Page not found" })
+  ).toBeVisible();
+});
+
 test("product detail page resolves from the current directory", async ({ page }) => {
   test.skip(
     !hasPayloadBackedE2E,
@@ -107,7 +118,7 @@ test("product detail page resolves from the current directory", async ({ page })
   );
 
   await page.goto(
-    `/zh/products?section=series&value=${encodeURIComponent("质感岩板")}`
+    "/zh/products?series=texture-slab"
   );
   const detailLink = page
     .locator('#main-content a[href^="/zh/products/"]:not([href*="?"])')

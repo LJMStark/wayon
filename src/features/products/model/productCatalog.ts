@@ -18,6 +18,7 @@ import type {
   ProductDirectoryItem,
   ProductTaxonomyCard,
 } from "../types";
+import { CATALOG_URL_SECTION_KEYS } from "./catalogUrl";
 import {
   matchesDirectoryFilters,
   type DirectoryFilters,
@@ -27,12 +28,7 @@ import {
 export const DEFAULT_PRODUCT_CATALOG_SECTION: ProductCatalogSectionKey = "size";
 
 export const PRODUCT_CATALOG_SECTION_KEYS: ProductCatalogSectionKey[] = [
-  "size",
-  "series",
-  "thickness",
-  "color",
-  "process",
-  "custom",
+  ...CATALOG_URL_SECTION_KEYS,
 ];
 
 type CatalogNavTranslationKey =

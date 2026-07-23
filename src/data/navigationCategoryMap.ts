@@ -1,4 +1,5 @@
-import type { TradeSeriesType } from "@/features/products/lib/tradeCatalog";
+import type { TradeSeriesType } from "../features/products/lib/tradeCatalog";
+import { buildCatalogHref } from "../features/products/model/catalogUrl";
 
 // The Collection mega-menu uses marketing-friendly category slugs
 // (quartz, terrazzo, marble, ...) that pre-date the trade catalog import.
@@ -7,16 +8,15 @@ import type { TradeSeriesType } from "@/features/products/lib/tradeCatalog";
 // independent, which left the nav links pointing at `?category=...` —
 // a query the products page silently ignored.
 //
-// This map is the explicit bridge: nav hrefs go through
-// buildCategoryProductsHref() to emit the canonical
-// `?section=series&value=<series>` URL the products page understands.
+// This map is the explicit bridge: nav hrefs use a stable ASCII identifier
+// while the products page maps it back to the stored supplier value.
 //
 // When a category has no corresponding series in the imported dataset,
 // pick the closest visual neighbor (or fall back to "质感岩板" — the
 // generic textured family). The page renders the standard "no products"
 // empty state if the chosen series happens to be empty after filtering;
 // that is a content gap, not a routing bug.
-const NAVIGATION_CATEGORY_TO_SERIES: Readonly<Record<string, TradeSeriesType>> = {
+const NAVIGATION_CATEGORY_TO_SERIES = {
   quartz: "质感岩板",
   terrazzo: "艺术岩板",
   "flexible-stone": "质感岩板",
@@ -26,24 +26,51 @@ const NAVIGATION_CATEGORY_TO_SERIES: Readonly<Record<string, TradeSeriesType>> =
   "artificial-marble": "名石岩板",
   "porcelain-slab": "质感岩板",
   "silica-free": "质感岩板",
-};
+} as const satisfies Readonly<Record<string, TradeSeriesType>>;
 
 export type NavigationCategorySlug = keyof typeof NAVIGATION_CATEGORY_TO_SERIES;
 
 const PRODUCTS_BASE_PATH = "/products";
 
+const LEGACY_PRODUCT_CATEGORY_PATHS = [
+  { source: "/products/quartz", category: "quartz" },
+  { source: "/products/terrazzo", category: "terrazzo" },
+  { source: "/products/flexible-stone", category: "flexible-stone" },
+  { source: "/products/marble", category: "marble" },
+  { source: "/products/gem-stone", category: "gem-stone" },
+  { source: "/products/silica-free", category: "silica-free" },
+  { source: "/products/quartz.html", category: "quartz" },
+  {
+    source: "/products/flexible-stone.html",
+    category: "flexible-stone",
+  },
+] as const satisfies ReadonlyArray<{
+  source: string;
+  category: NavigationCategorySlug;
+}>;
+
 export function getSeriesForCategory(slug: string): TradeSeriesType | null {
-  return NAVIGATION_CATEGORY_TO_SERIES[slug] ?? null;
+  if (!(slug in NAVIGATION_CATEGORY_TO_SERIES)) {
+    return null;
+  }
+
+  return NAVIGATION_CATEGORY_TO_SERIES[slug as NavigationCategorySlug];
 }
 
-// Canonical href emitter for navigation links. Browsers and React's Link
-// handle the encoding when rendering anchors, so the encoded form goes
-// onto the wire safely.
 export function buildCategoryProductsHref(slug: string): string {
   const series = getSeriesForCategory(slug);
   if (!series) {
     return PRODUCTS_BASE_PATH;
   }
-  return `${PRODUCTS_BASE_PATH}?section=series&value=${encodeURIComponent(series)}`;
+  return buildCatalogHref("series", series, PRODUCTS_BASE_PATH);
 }
 
+export function buildLegacyProductCategoryRedirects(): Array<{
+  source: string;
+  destination: string;
+}> {
+  return LEGACY_PRODUCT_CATEGORY_PATHS.map(({ source, category }) => ({
+    source,
+    destination: buildCategoryProductsHref(category),
+  }));
+}

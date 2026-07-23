@@ -1,4 +1,3 @@
-import { getSeriesForCategory } from "@/data/navigationCategoryMap";
 import {
   localizeColorGroup,
   localizeProcess,
@@ -13,6 +12,10 @@ import {
   resolveProductCatalogSection,
   resolveProductCatalogValue,
 } from "./productCatalog";
+import {
+  resolveProductsPageSearchParams,
+  type ProductsPageSearchParams,
+} from "./productsSearchParams";
 import type {
   ProductCatalogSectionKey,
   ProductCustomCapabilitySummary,
@@ -20,18 +23,10 @@ import type {
   ProductTaxonomyCard,
 } from "../types";
 
-export type ProductsPageSearchParams = {
-  section?: string | string[];
-  value?: string | string[];
-  // Legacy alias: previous CMS used `?category=quartz` to filter by family.
-  // Inbound traffic from search engines and the next.config redirect chain
-  // still arrives with this. We translate it through navigationCategoryMap so
-  // the page always operates on the canonical section/value pair internally.
-  category?: string | string[];
-  // Free-text keyword from the Header search form. Filters the directory
-  // by substring match against the localized title.
-  q?: string | string[];
-};
+export {
+  resolveProductsPageSearchParams,
+  type ProductsPageSearchParams,
+} from "./productsSearchParams";
 
 export type ProductsPageStateInput = {
   customCapabilities: ProductCustomCapabilitySummary[];
@@ -56,28 +51,6 @@ function readSingleParam(value: string | string[] | undefined): string | undefin
     return value[0];
   }
   return value;
-}
-
-function applyLegacyCategoryAlias(
-  params: ProductsPageSearchParams
-): ProductsPageSearchParams {
-  // Canonical params win — only fall back to the alias when the page
-  // explicitly received neither section nor value.
-  if (params.section || params.value) {
-    return params;
-  }
-
-  const categorySlug = readSingleParam(params.category);
-  if (!categorySlug) {
-    return params;
-  }
-
-  const series = getSeriesForCategory(categorySlug);
-  if (!series) {
-    return params;
-  }
-
-  return { ...params, section: "series", value: series };
 }
 
 function formatSizeLabel(size: string): string {
@@ -198,7 +171,8 @@ export function buildProductsPageState({
   products,
   searchParams = {},
 }: ProductsPageStateInput): ProductsPageState {
-  const resolvedParams = applyLegacyCategoryAlias(searchParams);
+  const { searchParams: resolvedParams } =
+    resolveProductsPageSearchParams(searchParams);
   const activeSection = resolveProductCatalogSection(resolvedParams);
   const taxonomyCards = buildProductTaxonomyCards(
     products,

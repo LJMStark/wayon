@@ -8,6 +8,7 @@ import {
   getEngineeringCases,
   getFeaturedProductPoster,
   getHeroSlides,
+  getHomeProducts,
   getSolutions,
 } from "./home";
 
@@ -64,8 +65,20 @@ test("featured product poster points to the positioned crystal process listing",
   expect(getFeaturedProductPoster(translate as EngineeringCaseTranslator)).toMatchObject({
     eyebrow: "主推新品",
     image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
-    href: "/products?section=process&value=%E5%AE%9A%E4%BD%8D%E5%BD%A9%E6%99%B6",
+    href: "/products?process=positioned-crystal-inlay",
   });
+});
+
+test("home product links use ASCII-only URL identifiers", () => {
+  const links = getHomeProducts(
+    translate as EngineeringCaseTranslator
+  ).map((product) => product.href);
+
+  expect(links).toHaveLength(8);
+  for (const href of links) {
+    expect(href).not.toMatch(/[\u3400-\u9fff]/u);
+    expect(decodeURI(href)).not.toMatch(/[\u3400-\u9fff]/u);
+  }
 });
 
 test("home solution wall-floor item uses the lobby image", () => {

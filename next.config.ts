@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withPayload } from "@payloadcms/next/withPayload";
+import { buildLegacyProductCategoryRedirects } from "./src/data/navigationCategoryMap";
 
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
@@ -124,23 +125,13 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // Legacy URLs from the previous CMS keep using the ASCII-only
-    // `?category=<slug>` alias. The new canonical URL is
-    // `?section=series&value=<chinese>`, but Next.js cannot emit a
-    // Location header containing multi-byte UTF-8 (Node's HTTP layer
-    // rejects it). The products page resolves `category=<slug>` via
-    // navigationCategoryMap so the visitor still lands on the right
-    // filter view; navigation menu links use the canonical query
-    // because the browser handles encoding for anchor hrefs.
+    // Legacy CMS category paths now land directly on the stable ASCII
+    // catalog identifiers. The products page also accepts old `category`
+    // and Chinese `section`/`value` queries and permanently redirects them.
     return [
-      redirect('/products/quartz', '/products?category=quartz'),
-      redirect('/products/terrazzo', '/products?category=terrazzo'),
-      redirect('/products/flexible-stone', '/products?category=flexible-stone'),
-      redirect('/products/marble', '/products?category=marble'),
-      redirect('/products/gem-stone', '/products?category=gem-stone'),
-      redirect('/products/silica-free', '/products?category=silica-free'),
-      redirect('/products/quartz.html', '/products?category=quartz'),
-      redirect('/products/flexible-stone.html', '/products?category=flexible-stone'),
+      ...buildLegacyProductCategoryRedirects().map(({ source, destination }) =>
+        redirect(source, destination)
+      ),
       redirect('/page/about-us.html', '/about'),
       redirect('/page/contact-us.html', '/contact'),
       redirect('/solutions/engineering-case.html', '/solution'),

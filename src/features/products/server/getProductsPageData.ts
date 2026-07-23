@@ -14,6 +14,7 @@ import {
   localizeSeriesType,
 } from "@/data/productAttributeLabels";
 import type { AppLocale } from "@/i18n/types";
+import { buildCatalogHref } from "../model/catalogUrl";
 
 import {
   PRODUCT_CATALOG_NAV_TRANSLATION_KEYS,
@@ -24,28 +25,9 @@ import {
   buildProductsPageState,
   type ProductsPageSearchParams,
 } from "../model/productsPageState";
-import type {
-  ProductCatalogSectionKey,
-  ProductDirectoryItem,
-  ProductsPageData,
-} from "../types";
+import type { ProductDirectoryItem, ProductsPageData } from "../types";
 
 const SIDEBAR_SERIES_VALUE_LINKS = ["特惠系列"] as const;
-
-function buildProductsHref(
-  section: ProductCatalogSectionKey,
-  locale: AppLocale,
-  value?: string
-): string {
-  const params = new URLSearchParams();
-  params.set("section", section);
-
-  if (value) {
-    params.set("value", value);
-  }
-
-  return `/${locale}/products?${params.toString()}`;
-}
 
 function buildDirectoryItems(
   products: Awaited<ReturnType<typeof getProductsDirectory>>,
@@ -159,7 +141,7 @@ export async function getProductsPageData(
       key: value,
       value,
       label: localizeSeriesType(value, locale) ?? "",
-      href: buildProductsHref("series", locale, value),
+      href: buildCatalogHref("series", value, `/${locale}/products`),
     })),
     activeSection,
     activeValue,

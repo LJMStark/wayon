@@ -19,10 +19,24 @@ test("collection process menu exposes every supported process", () => {
   const values =
     processSection?.children?.map((child) => {
       const url = new URL(child.href, "https://example.com");
-      return url.searchParams.get("value");
+      return url.searchParams.get("process");
     }) ?? [];
 
-  expect(values).toEqual([...TRADE_PROCESSES]);
+  expect(values).toEqual([
+    "high-gloss",
+    "matte",
+    "luxury-stone-glaze",
+    "real-stone-mirror-glaze",
+    "skin-touch-glaze",
+    "translucent-slab",
+    "super-white",
+    "digital-mould-texture",
+    "flamed-finish",
+    "precision-carved",
+    "replica-glaze",
+    "positioned-crystal-inlay",
+  ]);
+  expect(values).toHaveLength(TRADE_PROCESSES.length);
 });
 
 test("collection menu nests new series under slabs and previews special offers", () => {
@@ -46,7 +60,7 @@ test("collection menu nests new series under slabs and previews special offers",
   );
 
   expect(hrefs.get("catalogSpecialSeries")).toBe(
-    "/products?section=series&value=%E7%89%B9%E6%83%A0%E7%B3%BB%E5%88%97"
+    "/products?series=special-offers"
   );
 
   const specialSeries = collection?.subItems?.find(
@@ -120,6 +134,20 @@ test("language selector does not expose Chinese characters outside Chinese", () 
   }
 });
 
+test("collection filter links use ASCII-only URL identifiers", () => {
+  const collection = NAV_ITEMS.find((item) => item.label === "collection");
+  const filterLinks =
+    collection?.subItems?.flatMap((item) => [
+      item.href,
+      ...(item.children?.map((child) => child.href) ?? []),
+    ]) ?? [];
+
+  for (const href of filterLinks) {
+    expect(href).not.toMatch(/[\u3400-\u9fff]/u);
+    expect(decodeURI(href)).not.toMatch(/[\u3400-\u9fff]/u);
+  }
+});
+
 test("collection custom menu exposes customization links with contact fallbacks", () => {
   const collection = NAV_ITEMS.find((item) => item.label === "collection");
   const customSection = collection?.subItems?.find(
@@ -143,8 +171,7 @@ test("collection custom menu exposes customization links with contact fallbacks"
 
     if (child.label === "catalogCustomPatternDesign") {
       expect(url.pathname).toBe("/products");
-      expect(url.searchParams.get("section")).toBe("custom");
-      expect(url.searchParams.get("value")).toBe("custom-pattern-design");
+      expect(url.searchParams.get("custom")).toBe("custom-pattern-design");
       continue;
     }
 

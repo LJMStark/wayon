@@ -1,4 +1,5 @@
 import type { _Translator } from "use-intl";
+import { buildCatalogHref } from "@/features/products/model/catalogUrl";
 import type { AppMessages } from "@/i18n/types";
 
 export type HeroSlide = {
@@ -284,49 +285,49 @@ const HOME_PRODUCT_CONFIG = [
   {
     titleKey: "HomeData.HomeProducts.item0.title",
     descriptionKey: "HomeData.HomeProducts.item0.description",
-    href: `/products?section=series&value=${encodeURIComponent("质感岩板")}`,
+    href: buildCatalogHref("series", "质感岩板"),
     image: "/assets/home-products/prod-0.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item1.title",
     descriptionKey: "HomeData.HomeProducts.item1.description",
-    href: `/products?section=series&value=${encodeURIComponent("名石岩板")}`,
+    href: buildCatalogHref("series", "名石岩板"),
     image: "/assets/home-products/prod-1.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item2.title",
     descriptionKey: "HomeData.HomeProducts.item2.description",
-    href: `/products?section=series&value=${encodeURIComponent("洞石岩板")}`,
+    href: buildCatalogHref("series", "洞石岩板"),
     image: "/assets/home-products/prod-2.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item3.title",
     descriptionKey: "HomeData.HomeProducts.item3.description",
-    href: `/products?section=series&value=${encodeURIComponent("木纹岩板")}`,
+    href: buildCatalogHref("series", "木纹岩板"),
     image: "/assets/home-products/prod-3.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item4.title",
     descriptionKey: "HomeData.HomeProducts.item4.description",
-    href: `/products?section=series&value=${encodeURIComponent("护墙岩板")}`,
+    href: buildCatalogHref("series", "护墙岩板"),
     image: "/assets/home-products/prod-4.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item5.title",
     descriptionKey: "HomeData.HomeProducts.item5.description",
-    href: `/products?section=series&value=${encodeURIComponent("艺术岩板")}`,
+    href: buildCatalogHref("series", "艺术岩板"),
     image: "/assets/home-products/prod-5.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item6.title",
     descriptionKey: "HomeData.HomeProducts.item6.description",
-    href: `/products?section=series&value=${encodeURIComponent("连纹岩板")}`,
+    href: buildCatalogHref("series", "连纹岩板"),
     image: "/assets/home-products/prod-6.jpg",
   },
   {
     titleKey: "HomeData.HomeProducts.item7.title",
     descriptionKey: "HomeData.HomeProducts.item7.description",
-    href: `/products?section=series&value=${encodeURIComponent("创意网红")}`,
+    href: buildCatalogHref("series", "创意网红"),
     image: "/assets/home-products/prod-7.jpg",
   },
 ] as const satisfies ReadonlyArray<{
@@ -340,7 +341,7 @@ const FEATURED_PRODUCT_POSTER_CONFIG = {
   eyebrowKey: "HomeData.FeaturedProductPoster.eyebrow",
   image: "/assets/home-products/featured-positioned-crystal-glaze.jpg",
   imageAltKey: "HomeData.FeaturedProductPoster.imageAlt",
-  href: `/products?section=process&value=${encodeURIComponent("定位彩晶")}`,
+  href: buildCatalogHref("process", "定位彩晶"),
 } as const satisfies {
   eyebrowKey: AppMessageKey;
   image: string;
