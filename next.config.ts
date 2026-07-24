@@ -101,13 +101,11 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   experimental: {
-    // Static generation prerenders ~2,200 product/news pages against the
-    // production Postgres at deploy time. Next spawns one worker per CPU, each
-    // with its own pg pool, so the default fan-out (cpus × maxConcurrency)
-    // opened enough connections to get dropped ("Connection terminated
-    // unexpectedly"), failing the build. Bound concurrent DB connections and
-    // retry transient drops so a deploy never fails on a single dropped
-    // connection.
+    // CMS-backed static pages and sitemap generation query production Postgres
+    // during deploys. Next spawns one worker per CPU, each with its own pg pool,
+    // so the default fan-out (cpus × maxConcurrency) opened enough connections
+    // to get dropped ("Connection terminated unexpectedly"), failing builds.
+    // Bound concurrent DB connections and retry transient drops.
     cpus: 2,
     staticGenerationMaxConcurrency: 4,
     staticGenerationRetryCount: 3,

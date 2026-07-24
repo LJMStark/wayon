@@ -18,9 +18,19 @@ vi.mock("@/data/_payload", () => ({
 
 import { getProducts, getProductSlugs } from "./products";
 
-const rawProducts = Array.from({ length: 1001 }, (_, index) => ({
+const PRODUCT_COUNT = 1905;
+const NEXT_DATA_CACHE_MAX_BYTES = 2 * 1024 * 1024;
+const localizedDescription = {
+  en: "x".repeat(400),
+  zh: "中".repeat(400),
+  es: "x".repeat(400),
+  ar: "x".repeat(400),
+};
+
+const rawProducts = Array.from({ length: PRODUCT_COUNT }, (_, index) => ({
   id: `product-${index}`,
   title: { en: `Product ${index}`, zh: "", es: "", ar: "" },
+  description: localizedDescription,
   slug: `product-${index}`,
   productCode: `CODE-${index}`,
   published: true,
@@ -46,14 +56,21 @@ beforeEach(() => {
 });
 
 test("the product directory is not truncated at 1000 products", async () => {
-  await expect(getProducts()).resolves.toHaveLength(1001);
+  await expect(getProducts()).resolves.toHaveLength(PRODUCT_COUNT);
   expect(find).toHaveBeenCalledWith(
     expect.objectContaining({ pagination: false })
   );
 });
 
+test("the complete product directory fits in one Next.js data cache entry", async () => {
+  const products = await getProducts();
+  const serializedBytes = Buffer.byteLength(JSON.stringify(products));
+
+  expect(serializedBytes).toBeLessThan(NEXT_DATA_CACHE_MAX_BYTES);
+});
+
 test("the product sitemap is not truncated at 1000 products", async () => {
-  await expect(getProductSlugs()).resolves.toHaveLength(1001);
+  await expect(getProductSlugs()).resolves.toHaveLength(PRODUCT_COUNT);
   expect(find).toHaveBeenCalledWith(
     expect.objectContaining({ pagination: false })
   );

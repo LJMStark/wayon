@@ -4,7 +4,6 @@ import {
   getProductBySlug,
   getProductDisplayCategory,
   getProductDisplayTitle,
-  getProductSlugs,
 } from "@/data/products";
 import { isPublishedProduct } from "@/features/products/model/productExposure";
 import { buildProductMetadataDescription } from "@/features/products/model/product-detail";
@@ -19,17 +18,11 @@ import { getLocaleParams } from "@/features/shared/server/locale";
 import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
 import { productJsonLd, productBreadcrumbJsonLd } from "@/lib/jsonLd";
 
-// Pre-build all known product slugs at deploy time so first-time visitors
-// never wait for an on-demand render. dynamicParams stays true (default) so
-// products added after the last build are still reachable.
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  try {
-    const slugs = await getProductSlugs();
-    return slugs.map(({ slug }) => ({ slug }));
-  } catch (error) {
-    console.error("generateStaticParams: failed to fetch product slugs", error);
-    return [];
-  }
+// The catalog contains thousands of products across four locales. Returning an
+// empty list keeps deploys bounded; dynamicParams defaults to true, so each
+// detail page is generated on first request and then revalidated hourly.
+export function generateStaticParams(): { slug: string }[] {
+  return [];
 }
 
 export const revalidate = 3600;

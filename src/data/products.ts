@@ -221,23 +221,32 @@ function hydrateProducts(rawProducts: RawProduct[]): Product[] {
   );
 }
 
-// The products directory (listing page + related-products) only ever reads each
-// product's resolved cover image and variant *attributes* (size, thickness,
-// process, colour) — never the full element/space/real image arrays or videos.
-// Those heavy arrays are fetched per product by getProductBySlug on the detail
-// page instead. Caching them for every product made the single directory cache
-// entry overflow Next.js' 2MB data-cache limit (~2.9MB once the 4.22 catalog +
-// sized-variant media landed); the oversized write was silently rejected, so
-// every product page re-ran the full directory query at build time and blew the
-// build up from ~10 min to 30 min+ (eventually timing out / exhausting the DB
-// pool). Resolving the cover up front lets us drop the heavy media safely.
+// The products directory (listing page + related-products) only needs identity,
+// localized titles, catalog grouping, a resolved cover and variant attributes.
+// Descriptions, detail-only fields and media arrays are fetched per product by
+// getProductBySlug instead. Keep this as an explicit projection: returning the
+// full hydrated Product made the 1905-product directory cache exceed Next.js'
+// 2MB per-entry limit, so every generated product page repeated the same query.
 export function stripDirectoryMedia(product: Product): Product {
   const coverImageUrl = getProductImage(product);
+
   return {
-    ...product,
+    _id: product._id,
+    title: product.title,
+    slug: product.slug,
+    sortOrder: product.sortOrder,
     coverImageUrl,
+    catalogMode: product.catalogMode,
+    customCapability: product.customCapability,
+    seriesTypes: product.seriesTypes,
     variants: (product.variants ?? []).map((variant) => ({
-      ...variant,
+      code: variant.code,
+      size: variant.size,
+      thickness: variant.thickness,
+      thicknessCustom: variant.thicknessCustom,
+      process: variant.process,
+      colorGroup: variant.colorGroup,
+      sortOrder: variant.sortOrder,
       elementImages: [],
       spaceImages: [],
       realImages: [],
