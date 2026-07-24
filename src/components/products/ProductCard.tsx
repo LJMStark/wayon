@@ -21,12 +21,13 @@ export default function ProductCard({
   const detailsHref = `/products/${slug}`;
 
   return (
-    <div className={CARD_CLASS_NAME}>
-      <Link
-        href={detailsHref}
-        prefetch={false}
-        className="relative block aspect-[4/3] cursor-pointer overflow-hidden bg-[color:var(--surface)]"
-      >
+    <Link
+      href={detailsHref}
+      prefetch={false}
+      aria-label={title}
+      className={CARD_CLASS_NAME}
+    >
+      <div className="relative block aspect-[4/3] cursor-pointer overflow-hidden bg-[color:var(--surface)]">
         {image ? (
           <Image
             src={image}
@@ -48,7 +49,7 @@ export default function ProductCard({
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/15 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         />
-      </Link>
+      </div>
 
       <div className="flex grow flex-col p-6 md:p-7">
         <h3 className="mb-5 font-heading text-[1.5rem] font-medium leading-[1.15] tracking-[-0.01em] text-[#242424]">
@@ -68,6 +69,6 @@ export default function ProductCard({
           </div>
         ) : null}
       </div>
-    </div>
+    </Link>
   );
 }

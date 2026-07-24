@@ -260,7 +260,7 @@ const getCachedProducts = unstable_cache(
     const { docs } = await payload.find({
       collection: "products",
       where: { published: { equals: true } },
-      limit: 1000,
+      pagination: false,
       sort: "sortOrder",
       locale: "all",
       depth: 2,
@@ -360,7 +360,7 @@ const getCachedProductSlugs = unstable_cache(
     const { docs } = await payload.find({
       collection: "products",
       where: { published: { equals: true } },
-      limit: 1000,
+      pagination: false,
       sort: "sortOrder",
       depth: 0,
     });
