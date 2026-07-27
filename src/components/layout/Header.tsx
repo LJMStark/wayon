@@ -41,7 +41,6 @@ const BRAND_LOGO_SRC: Record<string, string> = {
   ar: "/assets/brand/logo-zylsinteredstone-white.png",
 };
 const HEADER_SOLID_SCROLL_THRESHOLD_PX = 24;
-const WHATSAPP_LABEL = `WhatsApp: ${WHATSAPP_NUMBER}`;
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
@@ -77,24 +76,28 @@ function BrandLogo({
 }
 
 type ContactLinksProps = {
+  emailLabel: string;
   emailTextClassName: string;
   iconClassName: string;
   linkClassName: string;
   showTitles?: boolean;
+  whatsappLabel: string;
 };
 
 function ContactLinks({
+  emailLabel,
   emailTextClassName,
   iconClassName,
   linkClassName,
   showTitles = false,
+  whatsappLabel,
 }: ContactLinksProps): React.JSX.Element {
   return (
     <>
       <a
         href={CONTACT_EMAIL_HREF}
-        aria-label={`Email: ${CONTACT_EMAIL}`}
-        title={showTitles ? CONTACT_EMAIL : undefined}
+        aria-label={emailLabel}
+        title={showTitles ? emailLabel : undefined}
         className={linkClassName}
       >
         <Mail className={iconClassName} strokeWidth={1.8} aria-hidden="true" />
@@ -106,8 +109,8 @@ function ContactLinks({
         href={WHATSAPP_HREF}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={WHATSAPP_LABEL}
-        title={showTitles ? WHATSAPP_LABEL : undefined}
+        aria-label={whatsappLabel}
+        title={showTitles ? whatsappLabel : undefined}
         className={linkClassName}
       >
         <SocialIcon
@@ -235,6 +238,12 @@ export default function Header(): React.JSX.Element {
   const locale = useLocale();
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
+  const emailContactLabel = tHeader("emailContactLabel", {
+    email: CONTACT_EMAIL,
+  });
+  const whatsappContactLabel = tHeader("whatsappContactLabel", {
+    number: WHATSAPP_NUMBER,
+  });
   const headerCopy = getHeaderCopy(locale);
   const appLocale =
     LANGUAGES.find((language) => language.locale === locale)?.locale ?? "en";
@@ -652,10 +661,12 @@ export default function Header(): React.JSX.Element {
         className="absolute inset-y-0 end-10 hidden w-[240px] flex-col justify-center gap-1 not-italic min-[1880px]:flex"
       >
         <ContactLinks
+          emailLabel={emailContactLabel}
           emailTextClassName="whitespace-nowrap"
           iconClassName="size-4 shrink-0"
           linkClassName="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
           showTitles
+          whatsappLabel={whatsappContactLabel}
         />
       </address>
 
@@ -810,9 +821,11 @@ export default function Header(): React.JSX.Element {
                 </h3>
                 <div className="grid gap-2">
                   <ContactLinks
+                    emailLabel={emailContactLabel}
                     emailTextClassName="break-all"
                     iconClassName="size-5 shrink-0"
                     linkClassName="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                    whatsappLabel={whatsappContactLabel}
                   />
                 </div>
               </address>

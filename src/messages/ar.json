@@ -88,7 +88,9 @@
   "Header": {
     "searchPlaceholder": "ابحث عن المنتجات...",
     "back": "رجوع",
-    "language": "تغيير اللغة"
+    "language": "تغيير اللغة",
+    "emailContactLabel": "البريد الإلكتروني: {email}",
+    "whatsappContactLabel": "واتساب: {number}"
   },
   "Footer": {
     "address": "العنوان",

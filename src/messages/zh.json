@@ -88,7 +88,9 @@
   "Header": {
     "searchPlaceholder": "搜索产品...",
     "back": "返回",
-    "language": "语言切换"
+    "language": "语言切换",
+    "emailContactLabel": "邮箱：{email}",
+    "whatsappContactLabel": "WhatsApp：{number}"
   },
   "Footer": {
     "address": "联系地址",

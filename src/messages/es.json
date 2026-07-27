@@ -88,7 +88,9 @@
   "Header": {
     "searchPlaceholder": "Buscar productos...",
     "back": "Volver",
-    "language": "Idioma"
+    "language": "Idioma",
+    "emailContactLabel": "Correo electrónico: {email}",
+    "whatsappContactLabel": "WhatsApp: {number}"
   },
   "Footer": {
     "address": "Dirección",

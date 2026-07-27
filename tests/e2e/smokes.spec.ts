@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 const hasPayloadBackedE2E =
   process.env.PAYLOAD_E2E === "1" ||
@@ -169,44 +169,151 @@ test("desktop language selector opens on click and switches locale", async ({ pa
   await expect(page.getByRole("banner")).not.toContainText(/[\u3400-\u9fff]/);
 });
 
-test("header contact links are usable on ultra-wide desktop and mobile", async ({
+const RESPONSIVE_VIEWPORTS = [
+  { width: 390, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1440, height: 900 },
+  { width: 1920, height: 768 },
+] as const;
+
+async function expectNoOverlap(first: Locator, second: Locator): Promise<void> {
+  const [firstBox, secondBox] = await Promise.all([
+    first.boundingBox(),
+    second.boundingBox(),
+  ]);
+
+  if (!firstBox || !secondBox) {
+    throw new Error("Expected both elements to have a visible bounding box");
+  }
+
+  const overlaps =
+    firstBox.x < secondBox.x + secondBox.width &&
+    firstBox.x + firstBox.width > secondBox.x &&
+    firstBox.y < secondBox.y + secondBox.height &&
+    firstBox.y + firstBox.height > secondBox.y;
+
+  expect(overlaps).toBe(false);
+}
+
+async function expectInsideViewport(
+  locator: Locator,
+  width: number,
+  height: number
+): Promise<void> {
+  const box = await locator.boundingBox();
+
+  if (!box) {
+    throw new Error("Expected element to have a visible bounding box");
+  }
+
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.y).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(width);
+  expect(box.y + box.height).toBeLessThanOrEqual(height);
+}
+
+test("header contacts and floating social links fit every supported viewport", async ({
+  page,
+}) => {
+  for (const viewport of RESPONSIVE_VIEWPORTS) {
+    await test.step(`${viewport.width}x${viewport.height}`, async () => {
+      await page.setViewportSize(viewport);
+      await page.goto("/en");
+
+      const header = page.getByRole("banner");
+      const floatingSocialLinks = page.getByRole("navigation", {
+        name: "Social media links",
+      });
+      const menuButton = header.getByRole("button", { name: "Open navigation" });
+      const desktopEmail = header.locator(
+        'a[href="mailto:zyl.stone.slab@gmail.com"]'
+      );
+      const desktopWhatsapp = header.locator(
+        'a[href="https://wa.me/8613229246894"]'
+      );
+
+      await expect(floatingSocialLinks).toBeVisible();
+      await expectInsideViewport(
+        floatingSocialLinks,
+        viewport.width,
+        viewport.height
+      );
+
+      if (viewport.width < 1120) {
+        await expect(menuButton).toBeVisible();
+        await expectNoOverlap(menuButton, floatingSocialLinks);
+        await menuButton.click();
+        await expect(
+          header.getByRole("link", {
+            name: "Email: zyl.stone.slab@gmail.com",
+          })
+        ).toBeVisible();
+        await expect(
+          header.getByRole("link", {
+            name: "WhatsApp: +86 132 2924 6894",
+          })
+        ).toBeVisible();
+        return;
+      }
+
+      await expect(menuButton).toBeHidden();
+
+      if (viewport.width < 1880) {
+        await expect(desktopEmail).toBeHidden();
+        await expect(desktopWhatsapp).toBeHidden();
+        return;
+      }
+
+      const languageButton = header.getByRole("button", { name: "Language" });
+      await expect(desktopEmail).toBeVisible();
+      await expect(desktopWhatsapp).toBeVisible();
+      await expect(desktopWhatsapp).toHaveAttribute("target", "_blank");
+      await expect(desktopWhatsapp).toHaveAttribute("rel", "noopener noreferrer");
+      await expectNoOverlap(languageButton, desktopEmail);
+      await expectInsideViewport(desktopEmail, viewport.width, viewport.height);
+      await expectInsideViewport(desktopWhatsapp, viewport.width, viewport.height);
+    });
+  }
+});
+
+test("header contact accessible names follow the active locale", async ({
   page,
 }, testInfo) => {
   test.skip(
     testInfo.project.name !== "Desktop Chrome",
-    "Responsive header contact behavior is covered once in Chromium"
+    "Locale interpolation is browser-independent"
   );
 
-  await page.setViewportSize({ width: 1944, height: 910 });
-  await page.goto("/en");
-
-  const header = page.getByRole("banner");
-  const desktopEmail = header.locator(
-    'a[href="mailto:zyl.stone.slab@gmail.com"]'
-  );
-  const desktopWhatsapp = header.locator(
-    'a[href="https://wa.me/8613229246894"]'
-  );
-
-  await expect(desktopEmail).toBeVisible();
-  await expect(desktopEmail).toContainText("zyl.stone.slab@gmail.com");
-  await expect(desktopWhatsapp).toBeVisible();
-  await expect(desktopWhatsapp).toContainText("+86 132 2924 6894");
-  await expect(desktopWhatsapp).toHaveAttribute("target", "_blank");
-  await expect(desktopWhatsapp).toHaveAttribute("rel", "noopener noreferrer");
+  const labels = [
+    {
+      locale: "zh",
+      openNavigation: "打开导航菜单",
+      email: "邮箱：zyl.stone.slab@gmail.com",
+      whatsapp: "WhatsApp：+86 132 2924 6894",
+    },
+    {
+      locale: "es",
+      openNavigation: "Abrir navegación",
+      email: "Correo electrónico: zyl.stone.slab@gmail.com",
+      whatsapp: "WhatsApp: +86 132 2924 6894",
+    },
+    {
+      locale: "ar",
+      openNavigation: "فتح التنقل",
+      email: "البريد الإلكتروني: zyl.stone.slab@gmail.com",
+      whatsapp: "واتساب: +86 132 2924 6894",
+    },
+  ] as const;
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await header.getByRole("button", { name: "Open navigation" }).click();
 
-  const mobileEmail = header
-    .locator('a[href="mailto:zyl.stone.slab@gmail.com"]')
-    .last();
-  const mobileWhatsapp = header
-    .locator('a[href="https://wa.me/8613229246894"]')
-    .last();
-
-  await expect(mobileEmail).toBeVisible();
-  await expect(mobileWhatsapp).toBeVisible();
+  for (const { locale, openNavigation, email, whatsapp } of labels) {
+    await page.goto(`/${locale}`);
+    const header = page.getByRole("banner");
+    await header.getByRole("button", { name: openNavigation }).click();
+    await expect(header.getByRole("link", { name: email })).toBeVisible();
+    await expect(header.getByRole("link", { name: whatsapp })).toBeVisible();
+  }
 });
 
 test("payload admin UI is reachable without locale prefix", async ({ page }) => {
