@@ -229,6 +229,7 @@ export default function ProductGrid({
                   >
                     <ProductCard
                       title={product.title}
+                      code={product.variants[0]?.code}
                       slug={product.slug}
                       image={product.coverImageUrl}
                       summaryTags={product.summaryTags ?? []}

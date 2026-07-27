@@ -36,6 +36,7 @@ test("the whole product card links to its detail page", () => {
     renderToStaticMarkup(
       <ProductCard
         title="Sinai Gold"
+        code="LV826L064"
         image="/sinai-gold.jpg"
         slug="sinai-gold"
         summaryTags={["800 × 2600mm"]}
@@ -48,5 +49,6 @@ test("the whole product card links to its detail page", () => {
   expect(cardLink.attr("aria-label")).toBe("Sinai Gold");
   expect(cardLink.find('img[alt="Sinai Gold"]')).toHaveLength(1);
   expect(cardLink.find("h3").text()).toBe("Sinai Gold");
+  expect(cardLink.find("h3").prev("span").text()).toBe("LV826L064");
   expect(cardLink.text()).toContain("800 × 2600mm");
 });

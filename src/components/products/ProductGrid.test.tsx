@@ -41,26 +41,31 @@ const taxonomyCards: ProductTaxonomyCard[] = [
   },
 ];
 
-function findProductCardTitles(node: unknown): string[] {
+type ProductCardProps = {
+  title?: string;
+  code?: string;
+};
+
+function findProductCards(node: unknown): ProductCardProps[] {
   if (!node || typeof node !== "object") {
     return [];
   }
 
   if (Array.isArray(node)) {
-    return node.flatMap(findProductCardTitles);
+    return node.flatMap(findProductCards);
   }
 
   const element = node as {
     type?: { name?: string };
-    props?: { title?: string; children?: unknown };
+    props?: ProductCardProps & { children?: unknown };
   };
 
-  const ownTitle =
-    element.type?.name === "ProductCard" && typeof element.props?.title === "string"
-      ? [element.props.title]
+  const ownCard =
+    element.type?.name === "ProductCard" && element.props
+      ? [{ title: element.props.title, code: element.props.code }]
       : [];
 
-  return [...ownTitle, ...findProductCardTitles(element.props?.children)];
+  return [...ownCard, ...findProductCards(element.props?.children)];
 }
 
 test("search mode renders product result cards without a selected taxonomy value", () => {
@@ -81,7 +86,9 @@ test("search mode renders product result cards without a selected taxonomy value
     searchResultsForTemplate: "“{query}”的搜索结果",
   };
 
-  expect(findProductCardTitles(ProductGrid(props))).toEqual(["西奈金"]);
+  expect(findProductCards(ProductGrid(props))).toEqual([
+    { title: "西奈金", code: "LV826L064" },
+  ]);
 });
 
 test("missing search props fall back to the taxonomy card view", () => {
@@ -103,7 +110,7 @@ test("missing search props fall back to the taxonomy card view", () => {
     ProductGrid(props as React.ComponentProps<typeof ProductGrid>)
   ).not.toThrow();
   expect(
-    findProductCardTitles(
+    findProductCards(
       ProductGrid(props as React.ComponentProps<typeof ProductGrid>)
     )
   ).toEqual([]);

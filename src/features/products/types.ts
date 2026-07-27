@@ -115,6 +115,7 @@ export type ProductDetailMediaVideo = {
 export type ProductRelatedProduct = {
   slug: string;
   title: string;
+  code: string;
   category: string;
   coverImageUrl?: string;
   summaryTags: string[];

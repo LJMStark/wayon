@@ -201,6 +201,7 @@ function RelatedProductsSection({
           <ProductCard
             key={product.slug}
             title={product.title}
+            code={product.code}
             slug={product.slug}
             image={product.coverImageUrl}
             summaryTags={product.summaryTags}

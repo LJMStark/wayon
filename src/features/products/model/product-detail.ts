@@ -266,6 +266,7 @@ function buildRelatedProducts(
       return {
         slug: relatedProduct.slug,
         title: getProductDisplayTitle(relatedProduct, locale),
+        code: variants[0]?.code ?? "",
         category: getProductDisplayCategory(
           relatedProduct,
           locale,

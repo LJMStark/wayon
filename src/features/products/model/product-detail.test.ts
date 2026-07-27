@@ -348,6 +348,7 @@ test("product detail data recommends similar products and excludes the current p
   ]);
   expect(pageData.relatedProducts[0]).toMatchObject({
     title: "SHI YING SHI B",
+    code: "QB",
     category: "Classic Stone Slab",
     coverImageUrl: "/quartz-b.jpg",
     summaryTags: ["1600X3200mm", "12mm", "Matte"],

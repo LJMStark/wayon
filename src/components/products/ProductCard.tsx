@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 
 type ProductCardProps = {
   title: string;
+  code?: string;
   image?: string;
   slug: string;
   summaryTags: string[];
@@ -14,6 +15,7 @@ const CARD_CLASS_NAME =
 
 export default function ProductCard({
   title,
+  code,
   image,
   slug,
   summaryTags,
@@ -52,9 +54,16 @@ export default function ProductCard({
       </div>
 
       <div className="flex grow flex-col p-6 md:p-7">
-        <h3 className="mb-5 font-heading text-[1.5rem] font-medium leading-[1.15] tracking-[-0.01em] text-[#242424]">
-          {title}
-        </h3>
+        <div className="mb-5">
+          {code ? (
+            <span className="mb-1.5 block whitespace-nowrap text-[13px] font-medium uppercase leading-4 tracking-[0.08em] text-[color:var(--muted-foreground)]">
+              {code}
+            </span>
+          ) : null}
+          <h3 className="font-heading text-[1.5rem] font-medium leading-[1.15] tracking-[-0.01em] text-[#242424]">
+            {title}
+          </h3>
+        </div>
 
         {summaryTags.length > 0 ? (
           <div className="flex flex-wrap gap-2">
