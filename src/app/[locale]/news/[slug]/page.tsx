@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 
 import { getNewsSlugs } from "@/data/news";
 import { NewsDetailPageView } from "@/features/news/components/NewsDetailPageView";
-import { getNewsDetailPageData } from "@/features/news/server/getNewsDetailPageData";
+import {
+  getNewsAvailableLocales,
+  getNewsDetailPageData,
+} from "@/features/news/server/getNewsDetailPageData";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { articleJsonLd, newsBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
@@ -25,7 +28,10 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/news/[slug]">): Promise<import("next").Metadata> {
   const { slug, locale } = await getLocaleParams(params);
-  const pageData = await getNewsDetailPageData(locale, slug);
+  const [pageData, locales] = await Promise.all([
+    getNewsDetailPageData(locale, slug),
+    getNewsAvailableLocales(slug),
+  ]);
 
   if (!pageData) {
     notFound();
@@ -38,6 +44,7 @@ export async function generateMetadata({
 
   return buildPageMetadata({
     locale,
+    locales,
     title: pageData.title,
     description,
     image: pageData.imageUrl ?? undefined,

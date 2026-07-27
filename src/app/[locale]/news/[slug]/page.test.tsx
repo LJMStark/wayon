@@ -2,6 +2,7 @@ import { Children, isValidElement } from "react";
 import { expect, test, vi } from "vitest";
 
 const getNewsDetailPageData = vi.fn();
+const getNewsAvailableLocales = vi.fn();
 
 vi.mock("@/i18n/routing", () => ({
   routing: {
@@ -11,6 +12,7 @@ vi.mock("@/i18n/routing", () => ({
 }));
 
 vi.mock("@/features/news/server/getNewsDetailPageData", () => ({
+  getNewsAvailableLocales,
   getNewsDetailPageData,
 }));
 
@@ -55,5 +57,28 @@ test("news article JSON-LD URL uses the active locale path", async () => {
 
   expect(JSON.parse(script.props.dangerouslySetInnerHTML.__html)).toMatchObject({
     url: "https://zylsinteredstone.com/en/news/silica-free-launch",
+  });
+});
+
+test("news metadata omits hreflang URLs for unavailable locales", async () => {
+  getNewsDetailPageData.mockResolvedValue({
+    title: "AI training series",
+    excerpt: "Training for international partners.",
+    body: null,
+    imageUrl: null,
+  });
+  getNewsAvailableLocales.mockResolvedValue(["en", "es", "ar"]);
+
+  const { generateMetadata } = await import("./page");
+  const metadata = await generateMetadata({
+    params: Promise.resolve({ locale: "en", slug: "ai-training-series" }),
+    searchParams: Promise.resolve({}),
+  });
+
+  expect(metadata.alternates?.languages).toEqual({
+    "x-default": "/en/news/ai-training-series",
+    en: "/en/news/ai-training-series",
+    es: "/es/news/ai-training-series",
+    ar: "/ar/news/ai-training-series",
   });
 });

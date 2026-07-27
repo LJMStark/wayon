@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/lib/env";
 import { routing } from "@/i18n/routing";
 import type { AppLocale } from "@/i18n/types";
+import { normalizeMetadataPath } from "@/lib/localePath";
+
+export { normalizeMetadataPath } from "@/lib/localePath";
 
 const METADATA_BASE = new URL(siteUrl);
 
@@ -37,6 +40,7 @@ const LOCALE_ICON_MAP: Record<
 
 type BuildPageMetadataOptions = {
   locale: AppLocale;
+  locales?: readonly AppLocale[];
   title: string;
   description: string;
   image?: string;
@@ -49,20 +53,9 @@ type BuildPageMetadataOptions = {
   type?: "website" | "article";
 };
 
-export function normalizeMetadataPath(locale: AppLocale, path: string): string {
-  if (locale === routing.defaultLocale) {
-    return path;
-  }
-
-  if (path === "/") {
-    return `/${locale}`;
-  }
-
-  return `/${locale}${path}`;
-}
-
 export function buildPageMetadata({
   locale,
+  locales = routing.locales,
   title,
   description,
   image = "/assets/brand/og-default.jpg",
@@ -73,16 +66,20 @@ export function buildPageMetadata({
 }: BuildPageMetadataOptions): Metadata {
   const canonical = normalizeMetadataPath(locale, path);
 
-  // Build hreflang languages map: each locale → its localized path
-  // x-default points to English — the primary language for international B2B traffic
-  const languages: Record<string, string> = { "x-default": normalizeMetadataPath("en", path) };
-  for (const loc of routing.locales) {
+  // Build hreflang only for language versions that actually exist. English is
+  // the international B2B fallback when available; otherwise use the active
+  // locale, which is guaranteed to resolve because this page is rendering.
+  const defaultLocale = locales.includes("en") ? "en" : locale;
+  const languages: Record<string, string> = {
+    "x-default": normalizeMetadataPath(defaultLocale, path),
+  };
+  for (const loc of locales) {
     languages[loc] = normalizeMetadataPath(loc, path);
   }
 
   const ogLocale = LOCALE_OG_MAP[locale];
   const localeIcon = LOCALE_ICON_MAP[locale];
-  const alternateLocales = routing.locales
+  const alternateLocales = locales
     .filter((loc) => loc !== locale)
     .map((loc) => LOCALE_OG_MAP[loc]);
 

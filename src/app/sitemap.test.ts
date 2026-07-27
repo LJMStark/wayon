@@ -68,15 +68,15 @@ describe("sitemap", () => {
 
     const entries = await sitemap();
     const aboutZh = entries.find(
-      (e) => e.url === "https://zylsinteredstone.com/about",
+      (e) => e.url === "https://zylsinteredstone.com/zh/about",
     );
     expect(aboutZh).toBeDefined();
     const langs = aboutZh!.alternates!.languages!;
     // x-default must point at the English fallback for international B2B traffic
     expect(langs["x-default"]).toBe("https://zylsinteredstone.com/en/about");
     expect(langs["en"]).toBe("https://zylsinteredstone.com/en/about");
-    // Default locale (zh) is unprefixed per normalizeMetadataPath
-    expect(langs["zh"]).toBe("https://zylsinteredstone.com/about");
+    // Every public locale is explicitly prefixed, including the default locale.
+    expect(langs["zh"]).toBe("https://zylsinteredstone.com/zh/about");
     expect(langs["es"]).toBe("https://zylsinteredstone.com/es/about");
     expect(langs["ar"]).toBe("https://zylsinteredstone.com/ar/about");
 
@@ -114,6 +114,9 @@ describe("sitemap", () => {
       );
       expect(langs["en"]).toBe(
         "https://zylsinteredstone.com/en/products/yi-da-li-hui-dong",
+      );
+      expect(langs["zh"]).toBe(
+        "https://zylsinteredstone.com/zh/products/yi-da-li-hui-dong",
       );
       expect(langs["ar"]).toBe(
         "https://zylsinteredstone.com/ar/products/yi-da-li-hui-dong",
@@ -168,7 +171,7 @@ describe("sitemap", () => {
     expect(
       newsEntries.some(
         (entry) =>
-          entry.url === "https://zylsinteredstone.com/news/ai-training-series",
+          entry.url === "https://zylsinteredstone.com/zh/news/ai-training-series",
       ),
     ).toBe(false);
 

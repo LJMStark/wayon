@@ -1,6 +1,10 @@
 import { cache } from "react";
 
-import { getNewsArticleBySlug, isNewsAvailableInLocale } from "@/data/news";
+import {
+  getAvailableNewsLocales,
+  getNewsArticleBySlug,
+  isNewsAvailableInLocale,
+} from "@/data/news";
 import { getCommonCopy } from "@/data/siteCopy";
 import type { AppLocale } from "@/i18n/types";
 
@@ -9,6 +13,13 @@ import type { NewsDetailPageData } from "../types";
 
 const getNewsArticleRecord = cache(async function getNewsArticleRecord(slug: string) {
   return getNewsArticleBySlug(slug);
+});
+
+export const getNewsAvailableLocales = cache(async function getNewsAvailableLocales(
+  slug: string,
+): Promise<AppLocale[]> {
+  const article = await getNewsArticleRecord(slug);
+  return article ? getAvailableNewsLocales(article) : [];
 });
 
 export const getNewsDetailPageData = cache(async function getNewsDetailPageData(

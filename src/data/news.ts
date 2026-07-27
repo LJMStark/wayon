@@ -236,7 +236,7 @@ export function isNewsAvailableInLocale(
   );
 }
 
-function getAvailableNewsLocales(article: NewsArticle): AppLocale[] {
+export function getAvailableNewsLocales(article: NewsArticle): AppLocale[] {
   const locales: AppLocale[] = ["zh", "en", "es", "ar"];
   return locales.filter((locale) => isNewsAvailableInLocale(article, locale));
 }

@@ -1,6 +1,7 @@
 import { siteUrl } from "@/lib/env";
 import type { AppLocale } from "@/i18n/types";
 import { SOCIAL_LINKS } from "@/data/socialLinks";
+import { normalizeMetadataPath } from "@/lib/localePath";
 
 const NAV_LABELS: Record<AppLocale, { home: string; products: string; news: string }> = {
   zh: { home: "首页", products: "产品", news: "新闻" },
@@ -47,16 +48,19 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
   };
 }
 
-function localizedListUrl(locale: AppLocale, path: "/products" | "/news"): string {
-  return `${siteUrl}${locale === "zh" ? path : `/${locale}${path}`}`;
+function localizedPageUrl(
+  locale: AppLocale,
+  path: "/" | "/products" | "/news",
+): string {
+  return `${siteUrl}${normalizeMetadataPath(locale, path)}`;
 }
 
 export function productsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unknown> {
   const labels = NAV_LABELS[locale];
   return breadcrumbJsonLd(
     [
-      { name: labels.home, url: siteUrl },
-      { name: labels.products, url: localizedListUrl(locale, "/products") },
+      { name: labels.home, url: localizedPageUrl(locale, "/") },
+      { name: labels.products, url: localizedPageUrl(locale, "/products") },
     ],
     locale,
   );
@@ -66,8 +70,8 @@ export function newsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unkn
   const labels = NAV_LABELS[locale];
   return breadcrumbJsonLd(
     [
-      { name: labels.home, url: siteUrl },
-      { name: labels.news, url: localizedListUrl(locale, "/news") },
+      { name: labels.home, url: localizedPageUrl(locale, "/") },
+      { name: labels.news, url: localizedPageUrl(locale, "/news") },
     ],
     locale,
   );
@@ -81,8 +85,8 @@ export function productBreadcrumbJsonLd(
   const labels = NAV_LABELS[locale];
   return breadcrumbJsonLd(
     [
-      { name: labels.home, url: siteUrl },
-      { name: labels.products, url: localizedListUrl(locale, "/products") },
+      { name: labels.home, url: localizedPageUrl(locale, "/") },
+      { name: labels.products, url: localizedPageUrl(locale, "/products") },
       { name: productName, url: absoluteUrl(productUrl) },
     ],
     locale,
@@ -97,8 +101,8 @@ export function newsBreadcrumbJsonLd(
   const labels = NAV_LABELS[locale];
   return breadcrumbJsonLd(
     [
-      { name: labels.home, url: siteUrl },
-      { name: labels.news, url: localizedListUrl(locale, "/news") },
+      { name: labels.home, url: localizedPageUrl(locale, "/") },
+      { name: labels.news, url: localizedPageUrl(locale, "/news") },
       { name: articleTitle, url: absoluteUrl(articleUrl) },
     ],
     locale,

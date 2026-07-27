@@ -1,6 +1,46 @@
 import { expect, test } from "vitest";
 
-import { articleJsonLd } from "./jsonLd";
+import {
+  articleJsonLd,
+  newsBreadcrumbJsonLd,
+  productsListBreadcrumbJsonLd,
+} from "./jsonLd";
+
+test("Chinese breadcrumb URLs keep the required /zh prefix", () => {
+  expect(productsListBreadcrumbJsonLd("zh")).toMatchObject({
+    itemListElement: [
+      {
+        position: 1,
+        item: "https://zylsinteredstone.com/zh",
+      },
+      {
+        position: 2,
+        item: "https://zylsinteredstone.com/zh/products",
+      },
+    ],
+  });
+});
+
+test("localized detail breadcrumbs use direct locale-prefixed URLs", () => {
+  expect(
+    newsBreadcrumbJsonLd("en", "Launch", "/en/news/launch"),
+  ).toMatchObject({
+    itemListElement: [
+      {
+        position: 1,
+        item: "https://zylsinteredstone.com/en",
+      },
+      {
+        position: 2,
+        item: "https://zylsinteredstone.com/en/news",
+      },
+      {
+        position: 3,
+        item: "https://zylsinteredstone.com/en/news/launch",
+      },
+    ],
+  });
+});
 
 test("articleJsonLd emits a complete Article with absolute image and page URLs", () => {
   const jsonLd = articleJsonLd({
