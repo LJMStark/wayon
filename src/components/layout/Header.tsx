@@ -6,6 +6,13 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  WHATSAPP_HREF,
+  WHATSAPP_NUMBER,
+} from "@/data/contactInfo";
 import {
   LANGUAGES,
   NAV_ITEMS,
@@ -15,15 +22,8 @@ import {
   type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
-import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  WHATSAPP_HREF,
-  WHATSAPP_NUMBER,
-} from "@/data/contactInfo";
-import { SocialIcon } from "@/components/ui/SocialIcon";
-import type { AppLocale } from "@/i18n/types";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
+import type { AppLocale } from "@/i18n/types";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 
 import { useDialogInteraction } from "./useDialogInteraction";
@@ -41,6 +41,7 @@ const BRAND_LOGO_SRC: Record<string, string> = {
   ar: "/assets/brand/logo-zylsinteredstone-white.png",
 };
 const HEADER_SOLID_SCROLL_THRESHOLD_PX = 24;
+const WHATSAPP_LABEL = `WhatsApp: ${WHATSAPP_NUMBER}`;
 
 function resolveBaseHref(href: string): string {
   return href.split(/[?#]/)[0] || "/";
@@ -72,6 +73,53 @@ function BrandLogo({
         preload={preload}
       />
     </div>
+  );
+}
+
+type ContactLinksProps = {
+  emailTextClassName: string;
+  iconClassName: string;
+  linkClassName: string;
+  showTitles?: boolean;
+};
+
+function ContactLinks({
+  emailTextClassName,
+  iconClassName,
+  linkClassName,
+  showTitles = false,
+}: ContactLinksProps): React.JSX.Element {
+  return (
+    <>
+      <a
+        href={CONTACT_EMAIL_HREF}
+        aria-label={`Email: ${CONTACT_EMAIL}`}
+        title={showTitles ? CONTACT_EMAIL : undefined}
+        className={linkClassName}
+      >
+        <Mail className={iconClassName} strokeWidth={1.8} aria-hidden="true" />
+        <span dir="ltr" className={emailTextClassName}>
+          {CONTACT_EMAIL}
+        </span>
+      </a>
+      <a
+        href={WHATSAPP_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={WHATSAPP_LABEL}
+        title={showTitles ? WHATSAPP_LABEL : undefined}
+        className={linkClassName}
+      >
+        <SocialIcon
+          platform="whatsapp"
+          className={iconClassName}
+          variant="default"
+        />
+        <span dir="ltr" className="whitespace-nowrap">
+          {WHATSAPP_NUMBER}
+        </span>
+      </a>
+    </>
   );
 }
 
@@ -603,34 +651,12 @@ export default function Header(): React.JSX.Element {
         aria-label={tNav("contactUs")}
         className="absolute inset-y-0 end-10 hidden w-[240px] flex-col justify-center gap-1 not-italic min-[1880px]:flex"
       >
-        <a
-          href={CONTACT_EMAIL_HREF}
-          aria-label={`Email: ${CONTACT_EMAIL}`}
-          title={CONTACT_EMAIL}
-          className="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
-        >
-          <Mail className="size-4 shrink-0" strokeWidth={1.8} aria-hidden="true" />
-          <span dir="ltr" className="whitespace-nowrap">
-            {CONTACT_EMAIL}
-          </span>
-        </a>
-        <a
-          href={WHATSAPP_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`WhatsApp: ${WHATSAPP_NUMBER}`}
-          title={`WhatsApp: ${WHATSAPP_NUMBER}`}
-          className="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
-        >
-          <SocialIcon
-            platform="whatsapp"
-            className="size-4 shrink-0"
-            variant="default"
-          />
-          <span dir="ltr" className="whitespace-nowrap">
-            {WHATSAPP_NUMBER}
-          </span>
-        </a>
+        <ContactLinks
+          emailTextClassName="whitespace-nowrap"
+          iconClassName="size-4 shrink-0"
+          linkClassName="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
+          showTitles
+        />
       </address>
 
       <AnimatePresence>
@@ -783,32 +809,11 @@ export default function Header(): React.JSX.Element {
                   {tNav("contactUs")}
                 </h3>
                 <div className="grid gap-2">
-                  <a
-                    href={CONTACT_EMAIL_HREF}
-                    aria-label={`Email: ${CONTACT_EMAIL}`}
-                    className="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                  >
-                    <Mail className="size-5 shrink-0" strokeWidth={1.8} aria-hidden="true" />
-                    <span dir="ltr" className="break-all">
-                      {CONTACT_EMAIL}
-                    </span>
-                  </a>
-                  <a
-                    href={WHATSAPP_HREF}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`WhatsApp: ${WHATSAPP_NUMBER}`}
-                    className="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                  >
-                    <SocialIcon
-                      platform="whatsapp"
-                      className="size-5 shrink-0"
-                      variant="default"
-                    />
-                    <span dir="ltr" className="whitespace-nowrap">
-                      {WHATSAPP_NUMBER}
-                    </span>
-                  </a>
+                  <ContactLinks
+                    emailTextClassName="break-all"
+                    iconClassName="size-5 shrink-0"
+                    linkClassName="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                  />
                 </div>
               </address>
 

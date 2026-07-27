@@ -57,24 +57,18 @@ function localizedPageUrl(
 
 export function productsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unknown> {
   const labels = NAV_LABELS[locale];
-  return breadcrumbJsonLd(
-    [
-      { name: labels.home, url: localizedPageUrl(locale, "/") },
-      { name: labels.products, url: localizedPageUrl(locale, "/products") },
-    ],
-    locale,
-  );
+  return breadcrumbJsonLd([
+    { name: labels.home, url: localizedPageUrl(locale, "/") },
+    { name: labels.products, url: localizedPageUrl(locale, "/products") },
+  ]);
 }
 
 export function newsListBreadcrumbJsonLd(locale: AppLocale): Record<string, unknown> {
   const labels = NAV_LABELS[locale];
-  return breadcrumbJsonLd(
-    [
-      { name: labels.home, url: localizedPageUrl(locale, "/") },
-      { name: labels.news, url: localizedPageUrl(locale, "/news") },
-    ],
-    locale,
-  );
+  return breadcrumbJsonLd([
+    { name: labels.home, url: localizedPageUrl(locale, "/") },
+    { name: labels.news, url: localizedPageUrl(locale, "/news") },
+  ]);
 }
 
 export function productBreadcrumbJsonLd(
@@ -83,14 +77,11 @@ export function productBreadcrumbJsonLd(
   productUrl: string,
 ): Record<string, unknown> {
   const labels = NAV_LABELS[locale];
-  return breadcrumbJsonLd(
-    [
-      { name: labels.home, url: localizedPageUrl(locale, "/") },
-      { name: labels.products, url: localizedPageUrl(locale, "/products") },
-      { name: productName, url: absoluteUrl(productUrl) },
-    ],
-    locale,
-  );
+  return breadcrumbJsonLd([
+    { name: labels.home, url: localizedPageUrl(locale, "/") },
+    { name: labels.products, url: localizedPageUrl(locale, "/products") },
+    { name: productName, url: absoluteUrl(productUrl) },
+  ]);
 }
 
 export function newsBreadcrumbJsonLd(
@@ -99,22 +90,16 @@ export function newsBreadcrumbJsonLd(
   articleUrl: string,
 ): Record<string, unknown> {
   const labels = NAV_LABELS[locale];
-  return breadcrumbJsonLd(
-    [
-      { name: labels.home, url: localizedPageUrl(locale, "/") },
-      { name: labels.news, url: localizedPageUrl(locale, "/news") },
-      { name: articleTitle, url: absoluteUrl(articleUrl) },
-    ],
-    locale,
-  );
+  return breadcrumbJsonLd([
+    { name: labels.home, url: localizedPageUrl(locale, "/") },
+    { name: labels.news, url: localizedPageUrl(locale, "/news") },
+    { name: articleTitle, url: absoluteUrl(articleUrl) },
+  ]);
 }
 
 export function breadcrumbJsonLd(
   items: ReadonlyArray<{ name: string; url: string }>,
-  locale: AppLocale,
 ): Record<string, unknown> {
-  void locale; // reserved for locale-specific formatting
-
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

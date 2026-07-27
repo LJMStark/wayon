@@ -13,10 +13,14 @@ beforeEach(() => {
   vi.resetModules();
 });
 
-test("legacy redirects are permanent for SEO migration", async () => {
-  const redirects = await (
+async function getRedirects(): Promise<Redirect[]> {
+  return (
     nextConfig as { redirects: () => Promise<Redirect[]> }
   ).redirects();
+}
+
+test("legacy redirects are permanent for SEO migration", async () => {
+  const redirects = await getRedirects();
 
   expect(redirects.length).toBeGreaterThan(0);
   expect(redirects).toContainEqual(
@@ -30,9 +34,7 @@ test("legacy redirects are permanent for SEO migration", async () => {
 });
 
 test("www requests permanently consolidate on the canonical apex host", async () => {
-  const redirects = await (
-    nextConfig as { redirects: () => Promise<Redirect[]> }
-  ).redirects();
+  const redirects = await getRedirects();
 
   expect(redirects).toContainEqual({
     source: "/:path*",

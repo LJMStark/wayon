@@ -6,10 +6,19 @@ import {
   getNewsAvailableLocales,
   getNewsDetailPageData,
 } from "@/features/news/server/getNewsDetailPageData";
+import type { NewsDetailPageData } from "@/features/news/types";
 import { getLocaleParams } from "@/features/shared/server/locale";
 import { articleJsonLd, newsBreadcrumbJsonLd } from "@/lib/jsonLd";
-import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
 import { lexicalToPlainText } from "@/lib/lexicalText";
+import { buildPageMetadata, normalizeMetadataPath } from "@/lib/metadata";
+
+function getNewsDescription(pageData: NewsDetailPageData): string {
+  return (
+    pageData.excerpt ||
+    (pageData.body ? lexicalToPlainText(pageData.body) : "") ||
+    pageData.title
+  );
+}
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   try {
@@ -37,16 +46,11 @@ export async function generateMetadata({
     notFound();
   }
 
-  const description =
-    pageData.excerpt ||
-    (pageData.body ? lexicalToPlainText(pageData.body) : "") ||
-    pageData.title;
-
   return buildPageMetadata({
     locale,
     locales,
     title: pageData.title,
-    description,
+    description: getNewsDescription(pageData),
     image: pageData.imageUrl ?? undefined,
     imageAlt: pageData.title,
     path: `/news/${slug}`,
@@ -65,13 +69,9 @@ export default async function NewsDetailPage({
   }
 
   const newsUrl = normalizeMetadataPath(locale, `/news/${slug}`);
-  const description =
-    pageData.excerpt ||
-    (pageData.body ? lexicalToPlainText(pageData.body) : "") ||
-    pageData.title;
   const jsonLd = articleJsonLd({
     headline: pageData.title,
-    description,
+    description: getNewsDescription(pageData),
     image: pageData.imageUrl ? [pageData.imageUrl] : [],
     datePublished: pageData.publishedAt,
     dateModified: pageData.updatedAt,

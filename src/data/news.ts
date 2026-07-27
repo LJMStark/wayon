@@ -38,6 +38,7 @@ type RawNews = {
 
 const NEWS_CACHE_SECONDS = 300;
 const NEWS_DETAIL_CACHE_SECONDS = 3600;
+const NEWS_LOCALES: readonly AppLocale[] = ["zh", "en", "es", "ar"];
 
 function mapNews(raw: RawNews): NewsArticle {
   return {
@@ -237,8 +238,9 @@ export function isNewsAvailableInLocale(
 }
 
 export function getAvailableNewsLocales(article: NewsArticle): AppLocale[] {
-  const locales: AppLocale[] = ["zh", "en", "es", "ar"];
-  return locales.filter((locale) => isNewsAvailableInLocale(article, locale));
+  return NEWS_LOCALES.filter((locale) =>
+    isNewsAvailableInLocale(article, locale)
+  );
 }
 
 export function formatNewsDate(
