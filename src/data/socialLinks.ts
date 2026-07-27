@@ -1,3 +1,5 @@
+import { WHATSAPP_HREF } from "./contactInfo";
+
 export type SocialPlatform =
   | "facebook"
   | "instagram"
@@ -46,7 +48,7 @@ export const SOCIAL_LINKS = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/8613202957096",
+    href: WHATSAPP_HREF,
     platform: "whatsapp",
   },
 ] as const satisfies ReadonlyArray<SocialLink>;

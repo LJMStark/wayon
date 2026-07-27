@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Globe, Menu, Search, Sparkles, X } from "lucide-react";
+import { ChevronDown, Globe, Mail, Menu, Search, Sparkles, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -15,6 +15,13 @@ import {
   type PreviewProduct,
   type SubItem,
 } from "@/data/navigation";
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  WHATSAPP_HREF,
+  WHATSAPP_NUMBER,
+} from "@/data/contactInfo";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 import type { AppLocale } from "@/i18n/types";
 import { formatCopy, getHeaderCopy } from "@/data/siteCopy";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
@@ -592,6 +599,40 @@ export default function Header(): React.JSX.Element {
         </div>
       </div>
 
+      <address
+        aria-label={tNav("contactUs")}
+        className="absolute inset-y-0 end-10 hidden w-[240px] flex-col justify-center gap-1 not-italic min-[1880px]:flex"
+      >
+        <a
+          href={CONTACT_EMAIL_HREF}
+          aria-label={`Email: ${CONTACT_EMAIL}`}
+          title={CONTACT_EMAIL}
+          className="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
+        >
+          <Mail className="size-4 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+          <span dir="ltr" className="whitespace-nowrap">
+            {CONTACT_EMAIL}
+          </span>
+        </a>
+        <a
+          href={WHATSAPP_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`WhatsApp: ${WHATSAPP_NUMBER}`}
+          title={`WhatsApp: ${WHATSAPP_NUMBER}`}
+          className="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
+        >
+          <SocialIcon
+            platform="whatsapp"
+            className="size-4 shrink-0"
+            variant="default"
+          />
+          <span dir="ltr" className="whitespace-nowrap">
+            {WHATSAPP_NUMBER}
+          </span>
+        </a>
+      </address>
+
       <AnimatePresence>
         {isMobileOpen ? (
           <>
@@ -736,6 +777,40 @@ export default function Header(): React.JSX.Element {
                   );
                 })}
               </ul>
+
+              <address className="mt-8 border-t border-white/10 pt-6 not-italic">
+                <h3 className="mb-3 text-[13px] uppercase tracking-[0.18em] text-white/50">
+                  {tNav("contactUs")}
+                </h3>
+                <div className="grid gap-2">
+                  <a
+                    href={CONTACT_EMAIL_HREF}
+                    aria-label={`Email: ${CONTACT_EMAIL}`}
+                    className="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                  >
+                    <Mail className="size-5 shrink-0" strokeWidth={1.8} aria-hidden="true" />
+                    <span dir="ltr" className="break-all">
+                      {CONTACT_EMAIL}
+                    </span>
+                  </a>
+                  <a
+                    href={WHATSAPP_HREF}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`WhatsApp: ${WHATSAPP_NUMBER}`}
+                    className="inline-flex min-h-11 items-center gap-3 text-[15px] font-medium text-white/80 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                  >
+                    <SocialIcon
+                      platform="whatsapp"
+                      className="size-5 shrink-0"
+                      variant="default"
+                    />
+                    <span dir="ltr" className="whitespace-nowrap">
+                      {WHATSAPP_NUMBER}
+                    </span>
+                  </a>
+                </div>
+              </address>
 
               <div className="mt-8 border-t border-white/10 pt-6">
                 <h3 className="mb-3 text-[13px] uppercase tracking-[0.18em] text-white/50">{tHeader("language")}</h3>

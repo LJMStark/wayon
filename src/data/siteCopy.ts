@@ -1,4 +1,5 @@
 import type { AppLocale } from "@/i18n/types";
+import { CONTACT_EMAIL, WHATSAPP_NUMBER } from "@/data/contactInfo";
 import { SOCIAL_LINKS } from "@/data/socialLinks";
 
 type LocalizedValue<T> = Record<AppLocale, T>;
@@ -1185,8 +1186,8 @@ const SITE_COPY = {
           es: "N.º 7-8, 10, 11-2 y 12, Bloque 3, Taobo 3rd Road, Huaxia Ceramic Expo City, Nanzhuang, Chancheng, Foshan, Guangdong, China",
           ar: "رقم 7-8 و10 و11-2 و12، المبنى 3، طريق تاوبو الثالث، مدينة هواشيا لمعرض السيراميك، نانتشوانغ، تشانتشنغ، فوشان، قوانغدونغ، الصين",
         },
-        tel: "+86 132 2924 6894",
-        email: "zyl.stone.slab@gmail.com",
+        tel: WHATSAPP_NUMBER,
+        email: CONTACT_EMAIL,
         businessHours: {
           en: "Mon-Sat 8:30-17:30",
           zh: "周一至周六 8:30-17:30",

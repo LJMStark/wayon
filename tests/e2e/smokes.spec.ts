@@ -169,6 +169,46 @@ test("desktop language selector opens on click and switches locale", async ({ pa
   await expect(page.getByRole("banner")).not.toContainText(/[\u3400-\u9fff]/);
 });
 
+test("header contact links are usable on ultra-wide desktop and mobile", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "Desktop Chrome",
+    "Responsive header contact behavior is covered once in Chromium"
+  );
+
+  await page.setViewportSize({ width: 1944, height: 910 });
+  await page.goto("/en");
+
+  const header = page.getByRole("banner");
+  const desktopEmail = header.locator(
+    'a[href="mailto:zyl.stone.slab@gmail.com"]'
+  );
+  const desktopWhatsapp = header.locator(
+    'a[href="https://wa.me/8613229246894"]'
+  );
+
+  await expect(desktopEmail).toBeVisible();
+  await expect(desktopEmail).toContainText("zyl.stone.slab@gmail.com");
+  await expect(desktopWhatsapp).toBeVisible();
+  await expect(desktopWhatsapp).toContainText("+86 132 2924 6894");
+  await expect(desktopWhatsapp).toHaveAttribute("target", "_blank");
+  await expect(desktopWhatsapp).toHaveAttribute("rel", "noopener noreferrer");
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await header.getByRole("button", { name: "Open navigation" }).click();
+
+  const mobileEmail = header
+    .locator('a[href="mailto:zyl.stone.slab@gmail.com"]')
+    .last();
+  const mobileWhatsapp = header
+    .locator('a[href="https://wa.me/8613229246894"]')
+    .last();
+
+  await expect(mobileEmail).toBeVisible();
+  await expect(mobileWhatsapp).toBeVisible();
+});
+
 test("payload admin UI is reachable without locale prefix", async ({ page }) => {
   test.skip(
     !hasPayloadBackedE2E,
