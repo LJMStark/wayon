@@ -6,6 +6,7 @@ type Redirect = {
   source: string;
   destination: string;
   permanent: boolean;
+  has?: Array<{ type: string; value: string }>;
 };
 
 beforeEach(() => {
@@ -21,11 +22,24 @@ test("legacy redirects are permanent for SEO migration", async () => {
   expect(redirects).toContainEqual(
     {
       source: "/products/quartz.html",
-      destination: "/products?series=texture-slab",
+      destination: "/zh/products?series=texture-slab",
       permanent: true,
     }
   );
   expect(redirects.every((redirect) => redirect.permanent)).toBe(true);
+});
+
+test("www requests permanently consolidate on the canonical apex host", async () => {
+  const redirects = await (
+    nextConfig as { redirects: () => Promise<Redirect[]> }
+  ).redirects();
+
+  expect(redirects).toContainEqual({
+    source: "/:path*",
+    has: [{ type: "host", value: "www.zylsinteredstone.com" }],
+    destination: "https://zylsinteredstone.com/:path*",
+    permanent: true,
+  });
 });
 
 test("public R2 hostname is allowed by media CSP and image config", async () => {

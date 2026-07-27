@@ -2229,13 +2229,13 @@ const SITE_COPY = {
     root: {
       title: {
         en: "ZYL Luxury Sintered Stone | Fireproof Slabs for Wall & Floor",
-        zh: "众岩联奢石 | 防火岩板 上墙下地建筑材料供应商",
+        zh: "众岩联岩板官网 | 防火岩板 上墙下地建筑材料供应商",
         es: "ZYL Sintered Stone | Piedra de lujo ignífuga para paredes y suelos",
         ar: "ZYL Sintered Stone | حجر فاخر مقاوم للحريق للجدران والأرضيات",
       },
       description: {
         en: "ZYL Sintered Stone supplies luxury sintered stone slabs with fireproof A1-rated performance, ready-stock catalog and project services for wall and floor applications across global building markets.",
-        zh: "众岩联奢石供应防火A级岩板，1:1还原大理石纹理，覆盖上墙下地全场景建筑材料需求，提供现货、加工与工程项目一站式服务。",
+        zh: "众岩联岩板官网提供防火A级岩板，1:1还原大理石纹理，覆盖上墙下地全场景建筑材料需求，并提供现货、加工与工程项目一站式服务。",
         es: "ZYL Sintered Stone suministra losas de piedra sinterizada de lujo con clasificación ignífuga A1, aptas para revestimiento de paredes y suelos en materiales de construcción de proyectos globales.",
         ar: "توفر ZYL Sintered Stone ألواح الحجر الملبد الفاخر بتصنيف A1 المقاوم للحريق، مناسبة لتطبيقات الجدران والأرضيات في مواد البناء للمشاريع العالمية.",
       },

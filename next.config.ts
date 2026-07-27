@@ -123,17 +123,28 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
+    // Keep one public host. Zeabur terminates TLS for both hostnames, then this
+    // permanent redirect consolidates backlinks and crawler signals on the
+    // canonical apex domain while preserving the requested path and query.
+    const canonicalHostRedirect = {
+      source: '/:path*',
+      has: [{ type: 'host' as const, value: 'www.zylsinteredstone.com' }],
+      destination: 'https://zylsinteredstone.com/:path*',
+      permanent: true,
+    };
+
     // Legacy CMS category paths now land directly on the stable ASCII
     // catalog identifiers. The products page also accepts old `category`
     // and Chinese `section`/`value` queries and permanently redirects them.
     return [
+      canonicalHostRedirect,
       ...buildLegacyProductCategoryRedirects().map(({ source, destination }) =>
-        redirect(source, destination)
+        redirect(source, `/zh${destination}`)
       ),
-      redirect('/page/about-us.html', '/about'),
-      redirect('/page/contact-us.html', '/contact'),
-      redirect('/solutions/engineering-case.html', '/solution'),
-      redirect('/products/all.html', '/products'),
+      redirect('/page/about-us.html', '/zh/about'),
+      redirect('/page/contact-us.html', '/zh/contact'),
+      redirect('/solutions/engineering-case.html', '/zh/solution'),
+      redirect('/products/all.html', '/zh/products'),
     ];
   },
   async headers() {
@@ -178,26 +189,9 @@ const nextConfig: NextConfig = {
       // instant publish later, add a Payload afterChange hook that POSTs
       // to Cloudflare's purge_cache API.
       //
-      // Allowlist by design. The obvious denylist
-      // `/((?!admin|api|_next|assets|downloads).*)` would also match the
-      // unprefixed root `/` and unprefixed default-locale paths like
-      // `/about`. With next-intl's default `localePrefix: 'as-needed'`
-      // (defaultLocale `zh` carries no prefix; en/es/ar do), the middleware
-      // content-negotiates those unprefixed paths via `Accept-Language` and
-      // may emit a 307 redirect to a locale-prefixed URL. Caching that 307
-      // at the CDN would lock the next 5 minutes of visitors into the first
-      // visitor's detected locale.
-      //
-      // Known side effect: the default-locale-without-prefix (zh) pages
-      // (`/about`, `/products`, `/news/...`) do NOT sit on the edge cache.
-      // The international B2B audience this site targets reaches us through
-      // en/es/ar — where TTFB matters most — and the en/es/ar surface IS
-      // covered below. Bringing zh under the same TTL would mean flipping
-      // next-intl to `localePrefix: 'always'`, a user-visible URL change
-      // intentionally out of scope for this PR.
-      //
-      // The `:path*` quantifier is zero-or-more, so this single rule covers
-      // bare `/zh`, `/en/about`, and `/ar/products/foo-bar` alike.
+      // All public languages use explicit URL prefixes, so this rule covers
+      // bare `/zh`, `/en/about`, and `/ar/products/foo-bar` alike without
+      // caching the unprefixed locale-selection redirect at `/`.
       {
         source: '/:locale(en|zh|es|ar)/:path*',
         headers: [
