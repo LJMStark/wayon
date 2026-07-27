@@ -1,7 +1,29 @@
 "use client";
 
 import { useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+// Hydration is a one-way environment transition, not an event source. React
+// compares these stable snapshots after hydration, so no subscription is needed.
+function subscribeToHydrationSnapshot(): () => void {
+  return () => {};
+}
+
+function getHydratedClientSnapshot(): boolean {
+  return true;
+}
+
+function getHydratedServerSnapshot(): boolean {
+  return false;
+}
+
+function useIsHydrated(): boolean {
+  return useSyncExternalStore(
+    subscribeToHydrationSnapshot,
+    getHydratedClientSnapshot,
+    getHydratedServerSnapshot
+  );
+}
 
 /**
  * Whether non-essential motion may run (scroll-linked parallax, autoplay
@@ -12,17 +34,13 @@ import { useEffect, useState } from "react";
  * from `matchMedia` only in the browser (`null` on the server), so branching
  * SSR markup on it causes hydration mismatches.
  *
- * After mount, returns false when the user prefers reduced motion.
+ * After hydration, returns true only when reduced motion is explicitly off.
  */
 export function useCanAnimate(): boolean {
+  const isHydrated = useIsHydrated();
   const prefersReduced = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted && prefersReduced !== true;
+  return isHydrated && prefersReduced === false;
 }
 
 /**

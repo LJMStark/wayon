@@ -4,6 +4,13 @@ const hasPayloadBackedE2E =
   process.env.PAYLOAD_E2E === "1" ||
   Boolean(process.env.DATABASE_URL && process.env.PAYLOAD_SECRET);
 
+const REACT_HYDRATION_ERROR =
+  /hydrat(?:ion|ed|ing)|server rendered html|did not match|minified react error #(?:418|419|42[1-4])\b/i;
+
+function isReactHydrationError(message: string): boolean {
+  return REACT_HYDRATION_ERROR.test(message);
+}
+
 test("root path redirects to a supported locale", async ({ page }) => {
   await page.goto("/");
   // next-intl picks the locale via Accept-Language; the test just
@@ -51,6 +58,28 @@ test("home startup stays within the CLS budget", async ({ page }, testInfo) => {
   );
 
   expect(cls).toBeLessThan(0.1);
+});
+
+test("home hydrates without React hydration errors", async ({ page }) => {
+  const hydrationErrors: string[] = [];
+
+  expect(isReactHydrationError("There was an error while hydrating")).toBe(true);
+  expect(isReactHydrationError("Minified React error #418")).toBe(true);
+
+  page.on("console", (message) => {
+    if (message.type() === "error" && isReactHydrationError(message.text())) {
+      hydrationErrors.push(message.text());
+    }
+  });
+  page.on("pageerror", (error) => {
+    if (isReactHydrationError(error.message)) {
+      hydrationErrors.push(error.message);
+    }
+  });
+
+  await page.goto("/en", { waitUntil: "networkidle" });
+
+  expect(hydrationErrors).toEqual([]);
 });
 
 test("desktop solution tabs reserve their scroll height before hydration", async ({

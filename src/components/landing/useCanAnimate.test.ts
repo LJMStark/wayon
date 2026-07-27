@@ -1,52 +1,121 @@
-import { describe, expect, it } from "vitest";
+// @vitest-environment happy-dom
 
-/**
- * Pure predicates mirrored from useCanAnimate / useMotionTransition — the
- * hooks need a DOM runtime; these lock the SSR-safe rules.
- */
-function canAnimate(mounted: boolean, prefersReduced: boolean | null): boolean {
-  return mounted && prefersReduced !== true;
-}
+import { act, createElement } from "react";
+import { hydrateRoot, type Root } from "react-dom/client";
+import { renderToString } from "react-dom/server";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
-function motionTransition(
-  prefersReduced: boolean | null,
-  full: Record<string, unknown>
-): Record<string, unknown> {
-  if (prefersReduced === true) {
-    return { duration: 0 };
+const motionPreference = vi.hoisted(() => ({
+  value: false as boolean | null,
+}));
+
+vi.mock("framer-motion", () => ({
+  useReducedMotion: () => motionPreference.value,
+}));
+
+import { useCanAnimate, useMotionTransition } from "./useCanAnimate";
+
+const reactTestEnvironment = globalThis as typeof globalThis & {
+  IS_REACT_ACT_ENVIRONMENT?: boolean;
+};
+
+let hydratedRoot: Root | undefined;
+
+beforeAll(() => {
+  reactTestEnvironment.IS_REACT_ACT_ENVIRONMENT = true;
+});
+
+afterEach(async () => {
+  if (hydratedRoot) {
+    await act(async () => hydratedRoot?.unmount());
+    hydratedRoot = undefined;
   }
-  return full;
+  document.body.replaceChildren();
+  motionPreference.value = false;
+  vi.restoreAllMocks();
+});
+
+async function renderAndHydrateCanAnimate(
+  prefersReduced: boolean | null
+): Promise<{ clientValue: string | null; renderValues: boolean[] }> {
+  motionPreference.value = prefersReduced;
+  const renderValues: boolean[] = [];
+
+  function Probe(): React.ReactElement {
+    const canAnimate = useCanAnimate();
+    renderValues.push(canAnimate);
+    return createElement("output", null, String(canAnimate));
+  }
+
+  const container = document.createElement("div");
+  container.innerHTML = renderToString(createElement(Probe));
+  document.body.append(container);
+
+  expect(container.textContent).toBe("false");
+
+  hydratedRoot = hydrateRoot(container, createElement(Probe));
+  await act(async () => {});
+
+  return {
+    clientValue: container.textContent,
+    renderValues,
+  };
 }
 
-describe("useCanAnimate rules", () => {
-  it("is false before mount so SSR and first client paint match", () => {
-    expect(canAnimate(false, null)).toBe(false);
-    expect(canAnimate(false, false)).toBe(false);
-    expect(canAnimate(false, true)).toBe(false);
+describe("useCanAnimate", () => {
+  it("keeps server and hydration output aligned, then enables allowed motion", async () => {
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const result = await renderAndHydrateCanAnimate(false);
+
+    expect(result.renderValues[0]).toBe(false);
+    expect(result.renderValues).toContain(false);
+    expect(result.clientValue).toBe("true");
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
-  it("is true after mount when reduced motion is not preferred", () => {
-    expect(canAnimate(true, false)).toBe(true);
-    expect(canAnimate(true, null)).toBe(true);
-  });
+  it.each([
+    { label: "reduced motion is preferred", preference: true },
+    { label: "the preference is still unknown", preference: null },
+  ])("stays disabled when $label", async ({ preference }) => {
+    const result = await renderAndHydrateCanAnimate(preference);
 
-  it("is false after mount when reduced motion is preferred", () => {
-    expect(canAnimate(true, true)).toBe(false);
+    expect(result.clientValue).toBe("false");
+    expect(result.renderValues.every((value) => value === false)).toBe(true);
   });
 });
 
-describe("useMotionTransition rules", () => {
+describe("useMotionTransition", () => {
   const full = { duration: 0.7, ease: [0.16, 1, 0.3, 1] };
 
-  it("keeps full transition on server (null) so markup matches client default", () => {
-    expect(motionTransition(null, full)).toEqual(full);
+  function renderTransition(
+    prefersReduced: boolean | null
+  ): Record<string, unknown> {
+    motionPreference.value = prefersReduced;
+
+    function Probe(): React.ReactElement {
+      const transition = useMotionTransition(full);
+      return createElement("output", null, JSON.stringify(transition));
+    }
+
+    const container = document.createElement("div");
+    container.innerHTML = renderToString(createElement(Probe));
+    const serializedTransition = container.textContent;
+    if (!serializedTransition) {
+      throw new Error("Transition probe did not render");
+    }
+    return JSON.parse(serializedTransition) as Record<string, unknown>;
+  }
+
+  it("keeps the full transition during SSR", () => {
+    expect(renderTransition(null)).toEqual(full);
   });
 
-  it("keeps full transition when reduced motion is off", () => {
-    expect(motionTransition(false, full)).toEqual(full);
+  it("keeps the full transition when reduced motion is off", () => {
+    expect(renderTransition(false)).toEqual(full);
   });
 
-  it("snaps to duration 0 when reduced motion is on", () => {
-    expect(motionTransition(true, full)).toEqual({ duration: 0 });
+  it("snaps to duration 0 when reduced motion is preferred", () => {
+    expect(renderTransition(true)).toEqual({ duration: 0 });
   });
 });
