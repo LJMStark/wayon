@@ -252,10 +252,6 @@ export function ProductDetailPageView({
   const heroMainImage = heroSpaceImage ?? heroImage;
   const heroProductLabel = heroProductCode || category;
 
-  const remainingElementImages = heroFromElement
-    ? elementImages.slice(1)
-    : elementImages;
-
   // Pill tabs for ≤8 variants; styled select for more
   const useTabPills = variants.length > 1 && variants.length <= 8;
 
@@ -442,10 +438,10 @@ export function ProductDetailPageView({
         {/* ─── MEDIA GALLERIES ──────────────────────────────────────── */}
         {selectedVariant ? (
           <div className="flex flex-col gap-24">
-            {remainingElementImages.length > 0 ? (
+            {elementImages.length > 0 ? (
               <section>
                 <SectionHeader label={labels.elementImages} />
-                <MediaImageGrid images={remainingElementImages} />
+                <MediaImageGrid images={elementImages} />
               </section>
             ) : null}
 
