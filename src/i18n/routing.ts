@@ -3,7 +3,7 @@ import { createNavigation } from "next-intl/navigation";
 
 export const routing = defineRouting({
   locales: ["en", "zh", "es", "ar"],
-  defaultLocale: "zh",
+  defaultLocale: "en",
   // Every public locale is encoded in the URL path (/zh, /en, /es, /ar).
   // Keep this explicit so metadata and sitemap URLs cannot drift from the
   // middleware's default prefix behavior during next-intl upgrades.

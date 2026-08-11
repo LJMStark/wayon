@@ -7,6 +7,10 @@ vi.mock("next-intl/navigation", () => ({
 import { routing } from "./routing";
 
 describe("localized routing", () => {
+  it("uses English as the fallback locale", () => {
+    expect(routing.defaultLocale).toBe("en");
+  });
+
   it("keeps every locale prefixed and leaves hreflang generation to metadata", () => {
     expect(routing.localePrefix).toBe("always");
     expect(routing.alternateLinks).toBe(false);
