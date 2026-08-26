@@ -43,6 +43,7 @@ docs.compressed/
 
 # scratch dir for one-shot media work
 /tmp/
+/.tmp/
 
 # local backups of original (pre-compression) /public assets
 /.image-backups/
