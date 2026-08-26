@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { Calendar, ChevronLeft, Tag } from "lucide-react";
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import {
+  RichText,
+  type JSXConvertersFunction,
+} from "@payloadcms/richtext-lexical/react";
 
 import { Link } from "@/i18n/routing";
 
@@ -9,6 +12,35 @@ import type {
   NewsArticleVisual,
   NewsDetailPageData,
 } from "../types";
+
+const articleRichTextConverters: JSXConvertersFunction = ({
+  defaultConverters,
+}) => ({
+  ...defaultConverters,
+  upload: (args) => {
+    const uploadDoc = args.node.value;
+    if (
+      uploadDoc &&
+      typeof uploadDoc === "object" &&
+      "mimeType" in uploadDoc &&
+      typeof uploadDoc.mimeType === "string" &&
+      uploadDoc.mimeType.startsWith("video") &&
+      "url" in uploadDoc &&
+      typeof uploadDoc.url === "string"
+    ) {
+      return (
+        <video
+          controls
+          playsInline
+          className="mx-auto my-8 block w-full max-w-3xl rounded-lg"
+          src={uploadDoc.url}
+        />
+      );
+    }
+    const fallback = defaultConverters.upload;
+    return typeof fallback === "function" ? fallback(args) : (fallback ?? null);
+  },
+});
 
 export function NewsDetailPageView({
   backToNewsLabel,
@@ -185,7 +217,7 @@ function ArticleProse({
     <div
       className={`${proseBase} ${compact ? "[&_p]:mb-0" : "mx-auto max-w-3xl [&_p]:mb-6"}`}
     >
-      <RichText data={body} />
+      <RichText data={body} converters={articleRichTextConverters} />
     </div>
   );
 }
