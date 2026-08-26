@@ -24,9 +24,11 @@
 //   --category industry           (default: industry; allowed: company/industry/exhibition/product)
 //   --model gemini-3.1-flash-lite (default; any Gemini model id from
 //                                  https://generativelanguage.googleapis.com/v1beta/models)
-//   --provider gemini|openai      (default: inferred from --model; gpt-*/o-* → openai).
+//   --provider gemini|openai      (default: inferred from --model; anything containing
+//                                  "gemini" → gemini, everything else → openai/OpenAI-wire).
 //                                  OpenAI-wire endpoints read WECHAT_OPENAI_API_KEY and
-//                                  WECHAT_OPENAI_BASE_URL (e.g. --model gpt-5.5).
+//                                  WECHAT_OPENAI_BASE_URL (default: OpenRouter,
+//                                  e.g. --model minimax/minimax-m3).
 
 import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -44,15 +46,15 @@ const RTL_LOCALES = new Set(["ar"]);
 const DEFAULT_MODEL = "gemini-3.1-flash-lite";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models";
 
-// OpenAI-compatible provider (e.g. an OpenAI-wire proxy). The default model is
-// only used when --provider openai is selected without an explicit --model.
-// Base URL is read from WECHAT_OPENAI_BASE_URL and the standard OpenAI host is
-// the fallback. The script appends `/v1/chat/completions`.
-const OPENAI_DEFAULT_MODEL = "gpt-5.5";
-const OPENAI_DEFAULT_BASE_URL = "https://api.openai.com";
-// Generous completion budget so reasoning models don't truncate the JSON body
-// of a long article's per-locale payload.
-const OPENAI_MAX_COMPLETION_TOKENS = 16_000;
+// OpenAI-wire-compatible provider. Default gateway is OpenRouter; the default
+// model is only used when --provider openai is selected without an explicit
+// --model. Base URL is read from WECHAT_OPENAI_BASE_URL. The script appends
+// `/v1/chat/completions`.
+const OPENAI_DEFAULT_MODEL = "minimax/minimax-m3";
+const OPENAI_DEFAULT_BASE_URL = "https://openrouter.ai/api";
+// Generous completion budget so long articles don't get their JSON body
+// truncated mid-response.
+const OPENAI_MAX_TOKENS = 16_000;
 const ALLOWED_PROVIDERS = ["gemini", "openai"];
 
 // Images smaller than this are almost always WeChat decorations (separator
@@ -519,14 +521,14 @@ async function uploadImageToPayload(payload, { buf, ext, mime }, { slug, index, 
 
 // --- 3. LLM rewriting (Gemini or OpenAI-compatible) ------------------------
 
-// Infer the provider from a model id. gpt-*/o<N>/chatgpt-* are OpenAI-wire;
-// provider-prefixed ids like "openai/gpt-4o-mini" are matched on the segment
-// after the last "/". Everything else (and the unset default) is Gemini.
+// Infer the provider from a model id. Only models that actually name Gemini
+// go to the Gemini (Google AI Studio) branch; everything else — including
+// OpenRouter-style "org/model:tag" ids like "z-ai/glm-5.2:free" — goes through
+// the OpenAI-wire branch, since OpenRouter is the default OpenAI-wire gateway.
 function inferProvider(model) {
-  if (!model) return "gemini";
-  const bare = String(model).split("/").pop();
-  if (/^(gpt[-.]?|o\d[-_.]?|chatgpt)/i.test(bare)) return "openai";
-  return "gemini";
+  if (!model) return "openai";
+  if (/gemini/i.test(String(model))) return "gemini";
+  return "openai";
 }
 
 function requireEnv(name) {
@@ -562,7 +564,7 @@ async function callOpenAI({ model, system, user, expectJson = true }) {
       { role: "system", content: system },
       { role: "user", content: user },
     ],
-    max_completion_tokens: OPENAI_MAX_COMPLETION_TOKENS,
+    max_tokens: OPENAI_MAX_TOKENS,
   };
   // Request strict JSON mode when we expect a JSON payload. (The prompts already
   // contain the word "JSON", which OpenAI's json_object mode requires.)
@@ -587,11 +589,15 @@ async function callOpenAI({ model, system, user, expectJson = true }) {
   }
   if (choice.finish_reason === "length") {
     throw new Error(
-      `OpenAI response was truncated (finish_reason=length). The model hit the ${OPENAI_MAX_COMPLETION_TOKENS}-token limit ` +
+      `OpenAI response was truncated (finish_reason=length). The model hit the ${OPENAI_MAX_TOKENS}-token limit ` +
         "before completing the JSON. Retry, or split the article into a shorter source.",
     );
   }
-  const text = (choice?.message?.content || "").trim();
+  // Some reasoning models (observed with minimax/minimax-m3 via OpenRouter) emit
+  // the final answer into message.reasoning and leave message.content empty,
+  // even though finish_reason is a normal "stop". Fall back to reasoning in
+  // that case before giving up.
+  const text = (choice?.message?.content || choice?.message?.reasoning || "").trim();
   if (!text) {
     throw new Error(
       `OpenAI returned empty content. finish_reason=${choice.finish_reason}. Full response: ${JSON.stringify(data).slice(0, 500)}`,
