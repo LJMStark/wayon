@@ -1,5 +1,24 @@
 import type { AppLocale, AppMessages } from "@/i18n/types";
 import { buildCatalogHref } from "@/features/products/model/catalogUrl";
+import { mediaAssetUrl } from "@/data/mediaBaseUrl";
+
+// Curated nav preview art, stored in the media bucket. Object keys keep their
+// percent-encoded CJK filenames; see ./mediaBaseUrl.ts for how the origin is
+// resolved (and why it must match on server and client).
+const NAV_PREVIEW_IMAGES = {
+  yaShiLanDai: mediaAssetUrl(
+    "ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg"
+  ),
+  siChouBai: mediaAssetUrl(
+    "ZL1224L936%E4%B8%9D%E7%BB%B8%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg"
+  ),
+  yiShaBeiErBai: mediaAssetUrl(
+    "ZL1632LS015%E4%BC%8A%E8%8E%8E%E8%B4%9D%E5%B0%94%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg"
+  ),
+  peiLaFenYu: mediaAssetUrl(
+    "ZL1632L982%E4%BD%A9%E6%8B%89%E7%B2%89%E7%8E%89%E5%85%83%E7%B4%A0%E5%9B%BE.jpg"
+  ),
+} as const;
 
 // Locally defined to keep this module — which is imported by the client
 // Header component — free of `pinyin-pro` (~200KB gzipped pulled in via
@@ -96,8 +115,7 @@ export const NAV_ITEMS: NavItem[] = [
         label: "catalogSpecialSeries",
         href: buildCatalogHref("series", "特惠系列"),
         description: "catalogSpecialSeriesDesc",
-        previewImage:
-          "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+        previewImage: NAV_PREVIEW_IMAGES.yaShiLanDai,
         previewProducts: [
           {
             // Non-zh strings inlined (matching getLocalizedProductTitleDisplay
@@ -110,8 +128,7 @@ export const NAV_ITEMS: NavItem[] = [
               ar: "YA SHI LAN DAI",
             },
             href: "/products/zyl1632l971",
-            imageSrc:
-              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZYL1632L971%E9%9B%85%E8%AF%97%E5%85%B0%E9%BB%9B%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+            imageSrc: NAV_PREVIEW_IMAGES.yaShiLanDai,
           },
           {
             title: {
@@ -121,8 +138,7 @@ export const NAV_ITEMS: NavItem[] = [
               ar: "SI CHOU BAI",
             },
             href: "/products/zl1224l936",
-            imageSrc:
-              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1224L936%E4%B8%9D%E7%BB%B8%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+            imageSrc: NAV_PREVIEW_IMAGES.siChouBai,
           },
           {
             title: {
@@ -132,8 +148,7 @@ export const NAV_ITEMS: NavItem[] = [
               ar: "YI SHA BEI ER BAI",
             },
             href: "/products/zl1632ls015",
-            imageSrc:
-              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632LS015%E4%BC%8A%E8%8E%8E%E8%B4%9D%E5%B0%94%E7%99%BD%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+            imageSrc: NAV_PREVIEW_IMAGES.yiShaBeiErBai,
           },
           {
             title: {
@@ -143,8 +158,7 @@ export const NAV_ITEMS: NavItem[] = [
               ar: "PEI LA FEN YU",
             },
             href: "/products/zl1632l982",
-            imageSrc:
-              "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev/ZL1632L982%E4%BD%A9%E6%8B%89%E7%B2%89%E7%8E%89%E5%85%83%E7%B4%A0%E5%9B%BE.jpg",
+            imageSrc: NAV_PREVIEW_IMAGES.peiLaFenYu,
           },
         ],
       },

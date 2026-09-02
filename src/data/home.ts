@@ -1,5 +1,6 @@
 import type { _Translator } from "use-intl";
 import { buildCatalogHref } from "@/features/products/model/catalogUrl";
+import { mediaAssetUrl } from "@/data/mediaBaseUrl";
 import type { AppMessages } from "@/i18n/types";
 
 export type HeroSlide = {
@@ -94,19 +95,12 @@ export type AboutIntroData = {
 type AppTranslator = _Translator<AppMessages>;
 type AppMessageKey = Parameters<AppTranslator>[0];
 
-const DEFAULT_R2_PUBLIC_URL =
-  "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev";
-const HOME_MEDIA_BASE_URL = (
-  process.env.NEXT_PUBLIC_R2_PUBLIC_URL ||
-  process.env.R2_PUBLIC_URL ||
-  DEFAULT_R2_PUBLIC_URL
-).replace(/\/+$/, "");
 const HOME_VIDEO_VERSION = "v20260508";
 const DESKTOP_VIDEO_MEDIA = "(min-width: 1024px)";
 const VIDEO_MP4_TYPE = "video/mp4";
 
 function homeVideoUrl(filename: string): string {
-  return `${HOME_MEDIA_BASE_URL}/${filename}`;
+  return mediaAssetUrl(filename);
 }
 
 function getHomeVideoSources(
