@@ -25,24 +25,6 @@ const R2_PUBLIC_URL =
 const R2_HOSTNAME = new URL(R2_PUBLIC_URL).hostname;
 const R2_ORIGIN = `https://${R2_HOSTNAME}`;
 
-// TRANSITIONAL — remove once the Payload URL backfill is done and verified.
-//
-// On 2026-09-02 the media bucket moved off R2's Public Development URL
-// (`pub-*.r2.dev`: rate-limited, uncacheable, and DNS-blocked by ISPs in
-// Turkey/South Korea/mainland China) onto the custom domain. Code and env vars
-// switch over immediately, but Postgres still stores absolute `pub-*.r2.dev`
-// URLs. Most are harmless: any row carrying a `media` relation has its URL
-// regenerated from the env var on read (s3Storage's generateFileURL), so it
-// already resolves to the new host. The exception is `products.cover_image_url`
-// — 74 of 1852 products hold a bare string with no relation and still render
-// the legacy origin. CSP must allow both or those covers are blocked outright.
-//
-// To retire: confirm `products.cover_image_url` holds no `pub-` URLs, then
-// delete this constant and inline R2_ORIGIN back into MEDIA_ORIGINS.
-const LEGACY_R2_ORIGIN = 'https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev';
-const MEDIA_ORIGINS =
-  R2_ORIGIN === LEGACY_R2_ORIGIN ? [R2_ORIGIN] : [R2_ORIGIN, LEGACY_R2_ORIGIN];
-
 // Site-wide Content Security Policy.
 // Notes:
 // - 'unsafe-inline' on script-src is required today for Next.js's inline hydration
@@ -77,7 +59,7 @@ function buildSiteCsp(dev: boolean): string {
     "'self'",
     "data:",
     "blob:",
-    ...MEDIA_ORIGINS,
+    R2_ORIGIN,
     "https://*.googleusercontent.com",
     "https://*.google.com",
     "https://*.gstatic.com",
@@ -94,7 +76,7 @@ function buildSiteCsp(dev: boolean): string {
     "font-src 'self' data: https://fonts.gstatic.com",
     "frame-src 'self' https://www.google.com",
     `connect-src ${connectSrc}`,
-    `media-src 'self' ${MEDIA_ORIGINS.join(' ')}`,
+    `media-src 'self' ${R2_ORIGIN}`,
     "worker-src 'self' blob:",
     "object-src 'none'",
     "base-uri 'self'",
@@ -136,13 +118,9 @@ const nextConfig: NextConfig = {
     // already web-sized (~200KB). Serve them directly from R2/Cloudflare instead.
     // (Matches the sibling jinxin project's self-hosted setup.)
     unoptimized: true,
-    // Inert while `unoptimized` is true, but kept in sync with MEDIA_ORIGINS so
-    // re-enabling the optimizer later does not silently reject legacy media.
-    remotePatterns: MEDIA_ORIGINS.map((origin) => ({
-      protocol: 'https' as const,
-      hostname: new URL(origin).hostname,
-      pathname: '/**',
-    })),
+    remotePatterns: [
+      { protocol: 'https', hostname: R2_HOSTNAME, pathname: '/**' },
+    ],
   },
   async redirects() {
     // Keep one public host. Zeabur terminates TLS for both hostnames, then this

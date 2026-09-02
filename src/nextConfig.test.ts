@@ -97,12 +97,11 @@ test("production CSP upgrades insecure requests", async () => {
   expect(csp).toContain("upgrade-insecure-requests");
 });
 
-// TRANSITIONAL — delete alongside LEGACY_R2_ORIGIN in next.config.ts once
-// `products.cover_image_url` no longer holds `pub-*.r2.dev` strings. Until then,
-// dropping the legacy origin from CSP blocks those 74 product covers outright.
-const LEGACY_R2_ORIGIN = "https://pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev";
-
-test("CSP still allows the legacy r2.dev origin while Payload rows hold it", async () => {
+// The media bucket moved off R2's Public Development URL on 2026-09-02
+// (`pub-*.r2.dev` is rate-limited, uncacheable, and DNS-blocked by ISPs in
+// several countries). CSP allowed both origins during the Postgres backfill;
+// that window is closed, so only the configured origin may appear.
+test("CSP exposes only the configured media origin, never the retired r2.dev host", async () => {
   vi.stubEnv("NEXT_PUBLIC_R2_PUBLIC_URL", "https://cdn.zylsinteredstone.com");
 
   const importedConfig = await import("../next.config");
@@ -110,36 +109,8 @@ test("CSP still allows the legacy r2.dev origin while Payload rows hold it", asy
   const csp = await getContentSecurityPolicy(config);
 
   expect(csp).toContain(
-    `img-src 'self' data: blob: https://cdn.zylsinteredstone.com ${LEGACY_R2_ORIGIN}`
+    "img-src 'self' data: blob: https://cdn.zylsinteredstone.com"
   );
-  expect(csp).toContain(
-    `media-src 'self' https://cdn.zylsinteredstone.com ${LEGACY_R2_ORIGIN}`
-  );
-});
-
-test("legacy origin is not duplicated when it is still the configured origin", async () => {
-  vi.stubEnv("NEXT_PUBLIC_R2_PUBLIC_URL", LEGACY_R2_ORIGIN);
-
-  const importedConfig = await import("../next.config");
-  const config = importedConfig.default as HeadersConfig;
-  const csp = await getContentSecurityPolicy(config);
-
-  if (!csp) throw new Error("Content-Security-Policy header is missing");
-
-  const occurrences = csp.split(LEGACY_R2_ORIGIN).length - 1;
-  expect(occurrences).toBe(2); // once in img-src, once in media-src
-});
-
-test("both media origins are mirrored into image remotePatterns", async () => {
-  vi.stubEnv("NEXT_PUBLIC_R2_PUBLIC_URL", "https://cdn.zylsinteredstone.com");
-
-  const importedConfig = await import("../next.config");
-  const config = importedConfig.default as {
-    images: { remotePatterns: Array<{ hostname: string }> };
-  };
-
-  expect(config.images.remotePatterns.map((p) => p.hostname)).toEqual([
-    "cdn.zylsinteredstone.com",
-    "pub-56e13f04b3fa43f6bf63a8e037e2e643.r2.dev",
-  ]);
+  expect(csp).toContain("media-src 'self' https://cdn.zylsinteredstone.com");
+  expect(csp).not.toContain("r2.dev");
 });
