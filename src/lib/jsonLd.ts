@@ -1,5 +1,6 @@
 import { siteUrl } from "@/lib/env";
 import type { AppLocale } from "@/i18n/types";
+import { WHATSAPP_NUMBER } from "@/data/contactInfo";
 import { SOCIAL_LINKS } from "@/data/socialLinks";
 import { normalizeMetadataPath } from "@/lib/localePath";
 
@@ -17,6 +18,11 @@ const FOSHAN_ADDRESS =
 function absoluteUrl(value: string): string {
   return value.startsWith("http") ? value : `${siteUrl}${value}`;
 }
+
+// Same number the site prints, in the hyphenated shape this schema has always
+// used. Derived so the number Google reads cannot drift from the one customers
+// see — this block ships on every page via [locale]/layout.tsx.
+const TELEPHONE = WHATSAPP_NUMBER.replaceAll(" ", "-");
 
 export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
   void locale; // parameter reserved for future locale-specific overrides
@@ -36,10 +42,10 @@ export function organizationJsonLd(locale: AppLocale): Record<string, unknown> {
       addressRegion: "Guangdong",
       addressCountry: "CN",
     },
-    telephone: "+86-132-2924-6894",
+    telephone: TELEPHONE,
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+86-132-2924-6894",
+      telephone: TELEPHONE,
       contactType: "sales",
       areaServed: "Worldwide",
       availableLanguage: ["Chinese", "English", "Spanish", "Arabic"],

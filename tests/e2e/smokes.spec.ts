@@ -258,7 +258,7 @@ test("header contacts and floating social links fit every supported viewport", a
         'a[href="mailto:zyl.stone.slab@gmail.com"]'
       );
       const desktopWhatsapp = header.locator(
-        'a[href="https://wa.me/8613229246894"]'
+        'a[href="https://wa.me/8613202957096"]'
       );
 
       await expect(floatingSocialLinks).toBeVisible();
@@ -279,7 +279,7 @@ test("header contacts and floating social links fit every supported viewport", a
         ).toBeVisible();
         await expect(
           header.getByRole("link", {
-            name: "WhatsApp: +86 132 2924 6894",
+            name: "WhatsApp: +86 132 0295 7096",
           })
         ).toBeVisible();
         return;
@@ -356,19 +356,19 @@ test("header contact accessible names follow the active locale", async ({
       locale: "zh",
       openNavigation: "打开导航菜单",
       email: "邮箱：zyl.stone.slab@gmail.com",
-      whatsapp: "WhatsApp：+86 132 2924 6894",
+      whatsapp: "WhatsApp：+86 132 0295 7096",
     },
     {
       locale: "es",
       openNavigation: "Abrir navegación",
       email: "Correo electrónico: zyl.stone.slab@gmail.com",
-      whatsapp: "WhatsApp: +86 132 2924 6894",
+      whatsapp: "WhatsApp: +86 132 0295 7096",
     },
     {
       locale: "ar",
       openNavigation: "فتح التنقل",
       email: "البريد الإلكتروني: zyl.stone.slab@gmail.com",
-      whatsapp: "واتساب: +86 132 2924 6894",
+      whatsapp: "واتساب: +86 132 0295 7096",
     },
   ] as const;
 

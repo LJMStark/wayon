@@ -51,7 +51,7 @@ const COPY: Record<AppLocale, TermsCopy> = {
     ],
     contactHeading: "联系方式",
     contactBody:
-      "关于本条款的任何问题，请通过 zyl.stone.slab@gmail.com 或 WhatsApp +86 132 2924 6894 与我们联系。",
+      "关于本条款的任何问题，请通过 zyl.stone.slab@gmail.com 或 WhatsApp +86 132 0295 7096 与我们联系。",
   },
   en: {
     title: "Terms of Service",
@@ -90,7 +90,7 @@ const COPY: Record<AppLocale, TermsCopy> = {
     ],
     contactHeading: "Contact",
     contactBody:
-      "For any question about these Terms, reach us at zyl.stone.slab@gmail.com or WhatsApp +86 132 2924 6894.",
+      "For any question about these Terms, reach us at zyl.stone.slab@gmail.com or WhatsApp +86 132 0295 7096.",
   },
   es: {
     title: "Términos de Servicio",
@@ -129,7 +129,7 @@ const COPY: Record<AppLocale, TermsCopy> = {
     ],
     contactHeading: "Contacto",
     contactBody:
-      "Para cualquier duda sobre estos Términos, contáctenos en zyl.stone.slab@gmail.com o WhatsApp +86 132 2924 6894.",
+      "Para cualquier duda sobre estos Términos, contáctenos en zyl.stone.slab@gmail.com o WhatsApp +86 132 0295 7096.",
   },
   ar: {
     title: "شروط الخدمة",
@@ -168,7 +168,7 @@ const COPY: Record<AppLocale, TermsCopy> = {
     ],
     contactHeading: "تواصل معنا",
     contactBody:
-      "لأي استفسار حول هذه الشروط، راسلنا على zyl.stone.slab@gmail.com أو واتساب +86 132 2924 6894.",
+      "لأي استفسار حول هذه الشروط، راسلنا على zyl.stone.slab@gmail.com أو واتساب \u2066+86 132 0295 7096\u2069.",
   },
 };
 

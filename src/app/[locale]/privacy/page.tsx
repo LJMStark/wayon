@@ -47,7 +47,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
     ],
     contactHeading: "联系方式",
     contactBody:
-      "关于本隐私政策的任何问题，请通过 zyl.stone.slab@gmail.com 或 WhatsApp +86 132 2924 6894 与我们联系。",
+      "关于本隐私政策的任何问题，请通过 zyl.stone.slab@gmail.com 或 WhatsApp +86 132 0295 7096 与我们联系。",
   },
   en: {
     title: "Privacy Policy",
@@ -82,7 +82,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
     ],
     contactHeading: "Contact",
     contactBody:
-      "For any question about this Privacy Policy, reach us at zyl.stone.slab@gmail.com or WhatsApp +86 132 2924 6894.",
+      "For any question about this Privacy Policy, reach us at zyl.stone.slab@gmail.com or WhatsApp +86 132 0295 7096.",
   },
   es: {
     title: "Política de Privacidad",
@@ -117,7 +117,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
     ],
     contactHeading: "Contacto",
     contactBody:
-      "Para cualquier consulta sobre esta Política de Privacidad, contáctenos en zyl.stone.slab@gmail.com o WhatsApp +86 132 2924 6894.",
+      "Para cualquier consulta sobre esta Política de Privacidad, contáctenos en zyl.stone.slab@gmail.com o WhatsApp +86 132 0295 7096.",
   },
   ar: {
     title: "سياسة الخصوصية",
@@ -152,7 +152,7 @@ const COPY: Record<AppLocale, PrivacyCopy> = {
     ],
     contactHeading: "تواصل معنا",
     contactBody:
-      "لأي سؤال عن سياسة الخصوصية، راسلنا على zyl.stone.slab@gmail.com أو واتساب +86 132 2924 6894.",
+      "لأي سؤال عن سياسة الخصوصية، راسلنا على zyl.stone.slab@gmail.com أو واتساب \u2066+86 132 0295 7096\u2069.",
   },
 };
 
