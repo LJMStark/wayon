@@ -287,7 +287,11 @@ test("header contacts and floating social links fit every supported viewport", a
 
       await expect(menuButton).toBeHidden();
 
-      if (viewport.width < 1880) {
+      // The contact block joins the desktop header row from 1400px up; below
+      // that the row cannot fit it without colliding with the nav. Compared
+      // against the requested viewport, which browsers that reserve a classic
+      // scrollbar report a little narrower in CSS pixels.
+      if (viewport.width < 1400) {
         await expect(desktopEmail).toBeHidden();
         await expect(desktopWhatsapp).toBeHidden();
         return;
@@ -301,6 +305,40 @@ test("header contacts and floating social links fit every supported viewport", a
       await expectNoOverlap(languageButton, desktopEmail);
       await expectInsideViewport(desktopEmail, viewport.width, viewport.height);
       await expectInsideViewport(desktopWhatsapp, viewport.width, viewport.height);
+    });
+  }
+});
+
+// Spanish has the widest nav labels of the four locales, so it is the locale
+// that decides whether the contact block still fits the desktop header row.
+// The row is capped at 1400px wide and runs with ~39px to spare there, which
+// is thin enough that a longer es translation could push the nav into the
+// contacts — this guards that edge specifically.
+test("widest-locale header keeps the nav clear of the contact block", async ({
+  page,
+}) => {
+  // 1440 rather than the 1400 threshold itself: browsers that reserve a
+  // classic scrollbar report a requested 1400 viewport as slightly narrower,
+  // which would hide the block. The row is already at its final 1304px width
+  // by 1400, so 1440 exercises the same tight geometry.
+  for (const width of [1440, 1920]) {
+    await test.step(`${width}px`, async () => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/es");
+
+      const header = page.getByRole("banner");
+      const navList = header.getByRole("navigation").locator("ul").first();
+      const contacts = header.locator("address");
+
+      await expect(contacts).toBeVisible();
+      await expectNoOverlap(navList, contacts);
+
+      const overflow = await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth -
+          document.documentElement.clientWidth
+      );
+      expect(overflow).toBeLessThanOrEqual(1);
     });
   }
 });

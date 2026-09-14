@@ -140,16 +140,39 @@ function getDesktopNavLinkClassName(
 ): string {
   // py-3 expands the click target to ≥44px tall while the absolute-positioned
   // underline span (anchored to the parent <li>'s bottom) stays in place.
+  //
+  // Label size stays at 15px above 2xl: the contact block shares this row from
+  // 1400px up and the row is width-capped, so a 16px nav no longer fits.
+  // See the row budget note above CONTACTS_VISIBLE_FROM.
   if (isCurrent) {
-    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors 2xl:text-[16px]";
+    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors";
   }
 
   if (isTransparent) {
-    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
+    return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white";
   }
 
-  return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white 2xl:text-[16px]";
+  return "inline-flex items-center px-1 py-3 text-[15px] font-semibold text-white transition-colors hover:text-white";
 }
+
+// The desktop header row is one flex line inside a container capped at
+// max-w-[1400px] with clamped padding, so its usable width tops out at 1304px
+// from 1400px viewport up and never grows again. Everything in the row has to
+// fit that 1304px, measured in Chromium at 1536px:
+//
+//   logo 121 + nav 734 (es, the widest locale) + search/lang 163
+//   + contacts 187 + 3 row gaps (20px) = 1265  →  39px spare
+//
+// That is why the row keeps its 1280px-breakpoint sizing above 2xl (no 16px
+// nav labels, no gap-8, no px-5 nav items) and why the contact block only
+// appears from 1400px — below that the container shrinks with the viewport and
+// the row runs out of room. The threshold sits at 1400 rather than 1440 so a
+// 1440px-wide window still qualifies in browsers that subtract a classic
+// scrollbar from the CSS viewport (WebKit, Firefox on Windows).
+//
+// Re-measure in a real browser before widening anything in this row or
+// lowering the threshold.
+const CONTACTS_VISIBLE_FROM = "min-[1400px]:flex";
 
 const UNDERLINE_BASE =
   "pointer-events-none absolute bottom-0 left-1/2 h-[2px] w-[42px] -translate-x-1/2 origin-center bg-white transition-transform duration-[450ms] ease-[cubic-bezier(0.16,1,0.3,1)]";
@@ -368,7 +391,7 @@ export default function Header(): React.JSX.Element {
       }`}
     >
       <div className="mx-auto w-full max-w-[1400px] px-[clamp(16px,_4vw,_48px)]">
-        <div className="flex h-[var(--header-height)] w-full items-center justify-between gap-4 min-[1120px]:gap-5 2xl:gap-8">
+        <div className="flex h-[var(--header-height)] w-full items-center justify-between gap-4 min-[1120px]:gap-5">
           <Link
             href="/"
             className="block shrink-0"
@@ -393,7 +416,7 @@ export default function Header(): React.JSX.Element {
                 return (
                   <li
                     key={translateNav(item.label)}
-                    className="group relative flex h-[var(--header-height)] items-center px-2 min-[1200px]:px-3 2xl:px-5"
+                    className="group relative flex h-[var(--header-height)] items-center px-2 min-[1200px]:px-3"
                     onMouseEnter={() => {
                       setActiveMenu(item.label);
                       if (item.mega && item.subItems?.length) {
@@ -531,7 +554,7 @@ export default function Header(): React.JSX.Element {
             </ul>
           </nav>
 
-          <div className="hidden h-[40px] shrink-0 items-center gap-4 min-[1120px]:flex 2xl:gap-8">
+          <div className="hidden h-[40px] shrink-0 items-center gap-4 min-[1120px]:flex">
             <div className="relative">
               <button
                 type="button"
@@ -637,7 +660,19 @@ export default function Header(): React.JSX.Element {
             </div>
           </div>
 
-          
+          <address
+            aria-label={tNav("contactUs")}
+            className={`hidden shrink-0 flex-col justify-center gap-1 not-italic ${CONTACTS_VISIBLE_FROM}`}
+          >
+            <ContactLinks
+              emailLabel={emailContactLabel}
+              emailTextClassName="whitespace-nowrap"
+              iconClassName="size-4 shrink-0"
+              linkClassName="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
+              showTitles
+              whatsappLabel={whatsappContactLabel}
+            />
+          </address>
 
           <button
             type="button"
@@ -655,20 +690,6 @@ export default function Header(): React.JSX.Element {
           </button>
         </div>
       </div>
-
-      <address
-        aria-label={tNav("contactUs")}
-        className="absolute inset-y-0 end-10 hidden w-[240px] flex-col justify-center gap-1 not-italic min-[1880px]:flex"
-      >
-        <ContactLinks
-          emailLabel={emailContactLabel}
-          emailTextClassName="whitespace-nowrap"
-          iconClassName="size-4 shrink-0"
-          linkClassName="group inline-flex min-h-9 items-center gap-2 text-[13px] font-medium leading-none text-white/85 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--primary)]"
-          showTitles
-          whatsappLabel={whatsappContactLabel}
-        />
-      </address>
 
       <AnimatePresence>
         {isMobileOpen ? (
